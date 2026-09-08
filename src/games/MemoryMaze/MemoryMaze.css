@@ -1,0 +1,449 @@
+/* src/games/MemoryMaze/MemoryMaze.css */
+
+.memory-maze-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Variant Selector Pills (Orange active matching user screenshot) */
+.mm-variant-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.mm-variant-pill {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  padding: 0.5rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mm-variant-pill:hover {
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+.mm-variant-pill.active {
+  background: #ea580c !important;
+  color: #ffffff !important;
+  border-color: #ea580c !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+}
+
+/* Subtle Toast Feedback */
+.mm-toast {
+  position: absolute;
+  top: -2.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 50;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+.mm-toast.wall {
+  border-color: #ef4444;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.mm-toast.key {
+  border-color: #f59e0b;
+  color: #fef08a;
+  background: rgba(245, 158, 11, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.mm-toast.door {
+  border-color: #38bdf8;
+  color: #bae6fd;
+  background: rgba(56, 189, 248, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Arena Card (Clean white rounded board matching Screenshot 1) */
+.mm-arena-card {
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 24px;
+  padding: 1.5rem;
+  width: 100%;
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid Board */
+.mm-grid-board {
+  display: grid;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  border: 2px solid #94a3b8;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  position: relative;
+}
+
+.mm-grid-board.blocked-shake {
+  animation: shakeGrid 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shakeGrid {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+/* Grid Cell */
+.mm-cell {
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #ffffff;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+/* Player Cell (Charcoal/Dark Grey matching Screenshot 1) */
+.mm-cell.player-cell {
+  background: #262626 !important;
+}
+
+/* Door Cell (Light greyish tan tint matching Screenshot 1) */
+.mm-cell.door-cell {
+  background: #f1f5f9;
+}
+
+/* Key Icon */
+.mm-key-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.4));
+  z-index: 5;
+  animation: keyFloat 2s ease-in-out infinite;
+}
+
+@keyframes keyFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Door Icon */
+.mm-door-icon {
+  font-size: 2.6rem;
+  opacity: 0.85;
+  z-index: 5;
+}
+
+.mm-door-icon.unlocked {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.6));
+}
+
+/* Player Avatar */
+.mm-avatar {
+  font-size: 2.2rem;
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* On-Cell Directional Navigation Buttons (Screenshot 1) */
+.mm-arrow-btn {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: #374151;
+  color: #ffffff;
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.mm-arrow-btn:hover {
+  background: #1f2937;
+  transform: scale(1.1);
+}
+
+.mm-arrow-btn:active {
+  transform: scale(0.95);
+  background: #111827;
+}
+
+/* Positioning on adjacent edges */
+.mm-arrow-btn.up {
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mm-arrow-btn.up:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.mm-arrow-btn.down {
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mm-arrow-btn.down:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.mm-arrow-btn.left {
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.mm-arrow-btn.left:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.mm-arrow-btn.right {
+  right: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.mm-arrow-btn.right:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Bottom Bar (Screenshot 1: Timer, Objective, Attempts) */
+.mm-bottom-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 460px;
+  margin-top: 1.5rem;
+  padding: 0.5rem 0;
+  color: #334155;
+}
+
+.mm-timer-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1e293b;
+  flex-shrink: 0;
+}
+
+.mm-objective-text {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mm-objective-text strong {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.mm-attempts-counter {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Instructions Modal */
+.mm-instructions-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  border-radius: 24px;
+  padding: 1.5rem;
+}
+
+.mm-instructions-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.2rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.mm-inst-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem 0;
+}
+
+.mm-inst-body {
+  color: #475569;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.mm-inst-body p {
+  margin: 0.4rem 0;
+}
+
+.mm-inst-sub {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.75rem !important;
+}
+
+.mm-start-btn {
+  background: #ea580c;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.4);
+  transition: all 0.2s ease;
+}
+
+.mm-start-btn:hover {
+  background: #c2410c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(234, 88, 12, 0.5);
+}
+
+/* Result Overlays */
+.mm-result-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  border-radius: 24px;
+  padding: 1.5rem;
+}
+
+.mm-result-box {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 18px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  color: #f8fafc;
+}
+
+.mm-result-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  color: #f8fafc;
+}
+
+.mm-stats-grid {
+  display: grid;
+  grid-templateColumns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.mm-stat-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+}
+
+.mm-stat-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mm-stat-lbl {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.mm-action-btn {
+  background: #ea580c;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.8rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mm-action-btn:hover {
+  background: #c2410c;
+}
