@@ -17,7 +17,7 @@ A browser-based coding platform designed to help developers prepare for **fronte
 
 <br>
 
-**[🌐 Live Demo](#)** &nbsp; • &nbsp; **[📂 GitHub Repository](#)**
+**[🌐 Live Demo](https://accentureready.vercel.app/)** &nbsp; • &nbsp;
 
 </div>
 
