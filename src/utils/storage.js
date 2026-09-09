@@ -41,10 +41,18 @@ export const storage = {
         if (typeof js === 'string' && js.trim().startsWith('<')) {
           js = defaultJS;
         }
+        let css = parsed.css;
+        if (!css || typeof css !== 'string' || css.trim() === '' || css.includes('Same as provided solution')) {
+          css = defaultCSS;
+        }
+        let html = parsed.html;
+        if (!html || typeof html !== 'string' || html.trim() === '') {
+          html = defaultHTML;
+        }
         return {
           js: js || defaultJS,
-          html: parsed.html || defaultHTML,
-          css: parsed.css || defaultCSS
+          html: html,
+          css: css
         };
       }
 

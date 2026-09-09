@@ -28,10 +28,7 @@ export const sqlQuestions = [
       "If there are no qualifying records (e.g. 1 employee, or all salaries identical), the output must be a single row with NULL, not an empty result set.",
       "Column names are case-insensitive in SQL, but must match 'SecondHighestSalary' in your SELECT clause alias."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    salary AS SecondHighestSalary
-FROM Employee;`,
+    starterCode: '',
     solution: `SELECT (
     SELECT DISTINCT salary 
     FROM Employee 
@@ -173,12 +170,7 @@ When a subquery returns 0 rows inside a SELECT clause, SQL evaluates the entire 
       "The result set must only contain the 'class' column.",
       "Classes with 4 or fewer students must NOT be included."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    class
-FROM Courses
--- Add grouping and filter condition
-;`,
+    starterCode: '',
     solution: `SELECT class
 FROM Courses
 GROUP BY class
@@ -317,25 +309,7 @@ HAVING COUNT(student) >= 5;`,
       "Ensure the exact category strings: 'Low Salary', 'Average Salary', 'High Salary'.",
       "When a category has no matching records, accounts_count must be 0, not NULL."
     ],
-    starterCode: `-- Write your SQL query below
--- Remember: All 3 categories ('Low Salary', 'Average Salary', 'High Salary') must be in the result!
-SELECT 
-    'Low Salary' AS category,
-    COUNT(*) AS accounts_count
-FROM Accounts 
-WHERE income < 20000
-UNION
-SELECT 
-    'Average Salary' AS category,
-    COUNT(*) AS accounts_count
-FROM Accounts 
-WHERE income >= 20000 AND income <= 50000
-UNION
-SELECT 
-    'High Salary' AS category,
-    COUNT(*) AS accounts_count
-FROM Accounts 
-WHERE income > 50000;`,
+    starterCode: '',
     solution: `SELECT 'Low Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE income < 20000
 UNION
 SELECT 'Average Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE income >= 20000 AND income <= 50000
@@ -483,15 +457,7 @@ SELECT 'High Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE
       "Use a LEFT JOIN from Person to Address on Person.personId = Address.personId.",
       "Ensure every person in the Person table is included in the output."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    p.firstName,
-    p.lastName,
-    a.city,
-    a.state
-FROM Person p
--- Join Address table
-;`,
+    starterCode: '',
     solution: `SELECT 
     p.firstName,
     p.lastName,
@@ -603,12 +569,7 @@ LEFT JOIN Address a ON p.personId = a.personId;`,
       "Perform a SELF JOIN on the Employee table: `Employee e JOIN Employee m ON e.managerId = m.id`.",
       "Filter with `WHERE e.salary > m.salary`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    e.name AS Employee
-FROM Employee e
--- Join manager
-;`,
+    starterCode: '',
     solution: `SELECT e.name AS Employee
 FROM Employee e
 JOIN Employee m ON e.managerId = m.id
@@ -698,12 +659,7 @@ WHERE e.salary > m.salary;`,
     notes: [
       "Use `GROUP BY email HAVING COUNT(email) > 1`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    email AS Email
-FROM Person
--- Add grouping condition
-;`,
+    starterCode: '',
     solution: `SELECT email AS Email
 FROM Person
 GROUP BY email
@@ -800,12 +756,7 @@ HAVING COUNT(email) > 1;`,
     notes: [
       "Use `LEFT JOIN Orders ON Customers.id = Orders.customerId WHERE Orders.customerId IS NULL` or `WHERE id NOT IN (SELECT customerId FROM Orders)`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    name AS Customers
-FROM Customers
--- Add filter for customers without orders
-;`,
+    starterCode: '',
     solution: `SELECT c.name AS Customers
 FROM Customers c
 LEFT JOIN Orders o ON c.id = o.customerId
@@ -913,12 +864,7 @@ WHERE o.customerId IS NULL;`,
       "Use `DENSE_RANK() OVER (ORDER BY score DESC)` as `rank`.",
       "The query must return `score` and `rank` ordered by score descending."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    score,
-    DENSE_RANK() OVER (ORDER BY score DESC) AS rank
-FROM Scores
-ORDER BY score DESC;`,
+    starterCode: '',
     solution: `SELECT 
     score,
     DENSE_RANK() OVER (ORDER BY score DESC) AS rank
@@ -1038,15 +984,7 @@ ORDER BY score DESC;`,
       "Find the max salary per departmentId using `(departmentId, salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId)`.",
       "Join with Department to obtain the department name."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    d.name AS Department,
-    e.name AS Employee,
-    e.salary AS Salary
-FROM Employee e
-JOIN Department d ON e.departmentId = d.id
--- Add filter for highest salary per department
-;`,
+    starterCode: '',
     solution: `SELECT 
     d.name AS Department,
     e.name AS Employee,
@@ -1153,12 +1091,7 @@ WHERE (e.departmentId, e.salary) IN (
       "Join Logs table with itself: `Logs l1 JOIN Logs l2 ON l1.id = l2.id - 1 JOIN Logs l3 ON l1.id = l3.id - 2`.",
       "Filter with `WHERE l1.num = l2.num AND l2.num = l3.num`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT DISTINCT
-    l1.num AS ConsecutiveNums
-FROM Logs l1
--- Join consecutive logs
-;`,
+    starterCode: '',
     solution: `SELECT DISTINCT l1.num AS ConsecutiveNums
 FROM Logs l1
 JOIN Logs l2 ON l1.id = l2.id - 1
@@ -1262,12 +1195,7 @@ WHERE l1.num = l2.num AND l2.num = l3.num;`,
       "In SQLite, use `julianday(w1.recordDate) - julianday(w2.recordDate) = 1` or `date(w1.recordDate, '-1 day') = w2.recordDate`.",
       "Filter for `w1.temperature > w2.temperature`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    w1.id
-FROM Weather w1
-JOIN Weather w2 ON date(w1.recordDate, '-1 day') = w2.recordDate
-WHERE w1.temperature > w2.temperature;`,
+    starterCode: '',
     solution: `SELECT w1.id
 FROM Weather w1
 JOIN Weather w2 ON date(w1.recordDate, '-1 day') = w2.recordDate
@@ -1350,12 +1278,7 @@ WHERE w1.temperature > w2.temperature;`,
     notes: [
       "Use `GROUP BY player_id` and `MIN(event_date) AS first_login`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    player_id,
-    MIN(event_date) AS first_login
-FROM Activity
-GROUP BY player_id;`,
+    starterCode: '',
     solution: `SELECT 
     player_id,
     MIN(event_date) AS first_login
@@ -1448,17 +1371,7 @@ GROUP BY player_id;`,
       "Find managerIds with `COUNT(*) >= 5` in `Employee` where `managerId IS NOT NULL`.",
       "Filter the manager's name using `id IN (SELECT managerId FROM Employee GROUP BY managerId HAVING COUNT(*) >= 5)`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    name
-FROM Employee
-WHERE id IN (
-    -- Subquery for managers with >= 5 reports
-    SELECT managerId
-    FROM Employee
-    GROUP BY managerId
-    HAVING COUNT(*) >= 5
-);`,
+    starterCode: '',
     solution: `SELECT name
 FROM Employee
 WHERE id IN (
@@ -1556,13 +1469,7 @@ WHERE id IN (
       "Use `LEFT JOIN Bonus ON Employee.empId = Bonus.empId`.",
       "Filter with `WHERE Bonus.bonus < 1000 OR Bonus.bonus IS NULL`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    e.name,
-    b.bonus
-FROM Employee e
-LEFT JOIN Bonus b ON e.empId = b.empId
-WHERE b.bonus < 1000 OR b.bonus IS NULL;`,
+    starterCode: '',
     solution: `SELECT 
     e.name,
     b.bonus
@@ -1661,11 +1568,7 @@ WHERE b.bonus < 1000 OR b.bonus IS NULL;`,
       "Remember that `referee_id != 2` alone will evaluate to UNKNOWN for NULL values.",
       "Always specify `WHERE referee_id != 2 OR referee_id IS NULL`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    name
-FROM Customer
-WHERE referee_id != 2 OR referee_id IS NULL;`,
+    starterCode: '',
     solution: `SELECT name
 FROM Customer
 WHERE referee_id != 2 OR referee_id IS NULL;`,
@@ -1754,13 +1657,7 @@ WHERE referee_id != 2 OR referee_id IS NULL;`,
     notes: [
       "Use `GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    customer_number
-FROM Orders
-GROUP BY customer_number
-ORDER BY COUNT(*) DESC
-LIMIT 1;`,
+    starterCode: '',
     solution: `SELECT customer_number
 FROM Orders
 GROUP BY customer_number
@@ -1843,13 +1740,7 @@ Write a SQL query to report the **name**, **population**, and **area** of the bi
     notes: [
       "Use `WHERE area >= 3000000 OR population >= 25000000`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    name,
-    population,
-    area
-FROM World
-WHERE area >= 3000000 OR population >= 25000000;`,
+    starterCode: '',
     solution: `SELECT 
     name,
     population,
@@ -1937,13 +1828,7 @@ WHERE area >= 3000000 OR population >= 25000000;`,
     notes: [
       "Use `CASE WHEN sex = 'm' THEN 'f' ELSE 'm' END AS sex`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    id,
-    name,
-    CASE WHEN sex = 'm' THEN 'f' ELSE 'm' END AS sex,
-    salary
-FROM Salary;`,
+    starterCode: '',
     solution: `SELECT 
     id,
     name,
@@ -2055,14 +1940,7 @@ FROM Salary;`,
       "Use `COALESCE(SUM(Orders.quantity * Products.price), 0) AS total_spent` and `COUNT(Orders.order_id) AS orders_count`.",
       "Group by `Customers.customer_id, Customers.name`."
     ],
-    starterCode: `-- Write your SQL query below (Merging Customers, Orders, Products)
-SELECT 
-    c.name AS customer_name,
-    COALESCE(SUM(o.quantity * p.price), 0) AS total_spent,
-    COUNT(o.order_id) AS orders_count
-FROM Customers c
--- Add LEFT JOINs and GROUP BY
-GROUP BY c.customer_id, c.name;`,
+    starterCode: '',
     solution: `SELECT 
     c.name AS customer_name,
     COALESCE(SUM(o.quantity * p.price), 0) AS total_spent,
@@ -2190,17 +2068,7 @@ GROUP BY c.customer_id, c.name;`,
       "Join `Orders` and `Company` where `Company.name = 'RED'` to find all `sales_id` that sold to RED.",
       "Select salespersons whose `sales_id NOT IN (...)`."
     ],
-    starterCode: `-- Write your SQL query below
-SELECT 
-    s.name
-FROM SalesPerson s
-WHERE s.sales_id NOT IN (
-    -- Subquery joining Orders and Company for 'RED'
-    SELECT o.sales_id
-    FROM Orders o
-    JOIN Company c ON o.com_id = c.com_id
-    WHERE c.name = 'RED'
-);`,
+    starterCode: '',
     solution: `SELECT s.name
 FROM SalesPerson s
 WHERE s.sales_id NOT IN (
@@ -2327,18 +2195,7 @@ WHERE s.sales_id NOT IN (
       "Join with Examinations: `LEFT JOIN Examinations e ON s.student_id = e.student_id AND sub.subject_name = e.subject_name`.",
       "Group by `s.student_id, s.student_name, sub.subject_name` and count `COUNT(e.student_id)`."
     ],
-    starterCode: `-- Write your SQL query below (Merging Students, Subjects, Examinations)
-SELECT 
-    s.student_id,
-    s.student_name,
-    sub.subject_name,
-    COUNT(e.student_id) AS attended_exams
-FROM Students s
-CROSS JOIN Subjects sub
-LEFT JOIN Examinations e 
-    ON s.student_id = e.student_id AND sub.subject_name = e.subject_name
-GROUP BY s.student_id, s.student_name, sub.subject_name
-ORDER BY s.student_id, sub.subject_name;`,
+    starterCode: '',
     solution: `SELECT 
     s.student_id,
     s.student_name,
@@ -2461,19 +2318,7 @@ Write a SQL query to find the employees who are high earners in each of the depa
       "Use `DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC)` in a CTE or subquery.",
       "Filter for `rnk <= 3`."
     ],
-    starterCode: `-- Write your SQL query below
-WITH RankedSalaries AS (
-    SELECT 
-        d.name AS Department,
-        e.name AS Employee,
-        e.salary AS Salary,
-        DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC) AS rnk
-    FROM Employee e
-    JOIN Department d ON e.departmentId = d.id
-)
-SELECT Department, Employee, Salary
-FROM RankedSalaries
-WHERE rnk <= 3;`,
+    starterCode: '',
     solution: `WITH RankedSalaries AS (
     SELECT 
         d.name AS Department,
@@ -2608,15 +2453,7 @@ WHERE rnk <= 3;`,
       "Use `ROUND(AVG(e.experience_years), 2) AS average_years`.",
       "Group by `p.project_id, d.department_id, d.department_name`."
     ],
-    starterCode: `-- Write your SQL query below (Merging Project, Employee, Department)
-SELECT 
-    p.project_id,
-    d.department_name,
-    ROUND(AVG(e.experience_years), 2) AS average_years
-FROM Project p
-JOIN Employee e ON p.employee_id = e.employee_id
-JOIN Department d ON e.department_id = d.department_id
-GROUP BY p.project_id, d.department_id, d.department_name;`,
+    starterCode: '',
     solution: `SELECT 
     p.project_id,
     d.department_name,
@@ -2750,14 +2587,7 @@ GROUP BY p.project_id, d.department_id, d.department_name;`,
       "Use `FROM Users u LEFT JOIN Orders o ON u.user_id = o.buyer_id AND strftime('%Y', o.order_date) = '2019'`.",
       "Group by `u.user_id, u.join_date` and count `COUNT(o.order_id) AS orders_in_2019`."
     ],
-    starterCode: `-- Write your SQL query below (Merging Users and Orders)
-SELECT 
-    u.user_id AS buyer_id,
-    u.join_date,
-    COUNT(o.order_id) AS orders_in_2019
-FROM Users u
-LEFT JOIN Orders o ON u.user_id = o.buyer_id AND strftime('%Y', o.order_date) = '2019'
-GROUP BY u.user_id, u.join_date;`,
+    starterCode: '',
     solution: `SELECT 
     u.user_id AS buyer_id,
     u.join_date,

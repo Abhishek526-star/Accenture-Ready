@@ -216,10 +216,14 @@ export default function Practice({ theme }) {
 
   // Load Reference Solution
   const handleApplySolution = () => {
+    const validCss = (currentQuestion.solutionCSS && !currentQuestion.solutionCSS.includes('Same as provided solution'))
+      ? currentQuestion.solutionCSS
+      : currentQuestion.css;
+
     const solutionBundle = {
       js: currentQuestion.solutionJS || currentQuestion.starterJS,
       html: currentQuestion.solutionHTML || currentQuestion.html,
-      css: currentQuestion.solutionCSS || currentQuestion.css
+      css: validCss
     };
     setCodeBundle(solutionBundle);
     storage.setCandidateCode(currentQuestion.id, solutionBundle);

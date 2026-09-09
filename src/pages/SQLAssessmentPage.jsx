@@ -37,9 +37,9 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentQuestion = sqlQuestions[currentIndex] || sqlQuestions[0];
 
-  // Editor Code State
+  // Editor Code State - initially empty until user types or solves
   const [code, setCode] = useState(() =>
-    sqlStorage.getDraft(currentQuestion.id, currentQuestion.starterCode)
+    sqlStorage.getDraft(currentQuestion.id, '')
   );
 
   // Active Bottom Tab: 'output' | 'tests'
@@ -77,15 +77,15 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
   // Scorecard Modal State
   const [showResultsModal, setShowResultsModal] = useState(false);
 
-  // When question changes, load draft & reset timer
+  // When question changes, load draft (or user typed solution) & reset timer
   useEffect(() => {
-    const savedCode = sqlStorage.getDraft(currentQuestion.id, currentQuestion.starterCode);
+    const savedCode = sqlStorage.getDraft(currentQuestion.id, '');
     setCode(savedCode);
     setQueryResult(null);
     setTestSuiteResult(null);
     setActiveTab('output');
     setTimeRemaining(currentQuestion.duration * 60);
-  }, [currentIndex, currentQuestion.id, currentQuestion.starterCode, currentQuestion.duration]);
+  }, [currentIndex, currentQuestion.id, currentQuestion.duration]);
 
   // Sync URL search param
   useEffect(() => {
@@ -147,8 +147,8 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   // 2. Reset Query Code
   const handleResetCode = () => {
-    if (window.confirm('Reset this question back to starter SQL? Your previous edits for this task will be cleared.')) {
-      setCode(currentQuestion.starterCode);
+    if (window.confirm('Clear your SQL query for this question?')) {
+      setCode('');
       sqlStorage.resetDraft(currentQuestion.id);
       setQueryResult(null);
       setTestSuiteResult(null);
@@ -178,7 +178,8 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
         };
 
         if (suiteRes.allPassed) {
-          sqlStorage.markQuestionCompleted(currentQuestion.id);
+          sqlStorage.markQuestionCompleted(currentQuestion.id, code);
+          sqlStorage.saveUserSolution(currentQuestion.id, code);
         }
 
         return updated;
@@ -226,7 +227,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
       return initial;
     });
     setCurrentIndex(0);
-    setCode(sqlQuestions[0].starterCode);
+    setCode('');
     setQueryResult(null);
     setTestSuiteResult(null);
     setTotalTimeUsed(0);
@@ -339,10 +340,10 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
               <button
                 onClick={handleResetCode}
                 className="btn btn-outline btn-sm"
-                title="Reset to starter query"
+                title="Clear SQL query"
               >
                 <RotateCcw size={13} />
-                <span>Reset</span>
+                <span>Clear</span>
               </button>
 
               <button

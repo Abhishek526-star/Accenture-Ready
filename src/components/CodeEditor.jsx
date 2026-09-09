@@ -14,9 +14,13 @@ export default function CodeEditor({
   const getEditorContent = () => {
     switch (activeTab) {
       case 'html':
-        return codeBundle.html ?? question.html;
+        return (codeBundle.html !== undefined && codeBundle.html !== null && codeBundle.html.trim() !== '')
+          ? codeBundle.html
+          : question.html;
       case 'css':
-        return codeBundle.css ?? question.css;
+        return (codeBundle.css !== undefined && codeBundle.css !== null && codeBundle.css.trim() !== '' && !codeBundle.css.includes('Same as provided solution'))
+          ? codeBundle.css
+          : question.css;
       case 'javascript':
       default:
         return codeBundle.js ?? question.starterJS;
