@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Code2, LayoutDashboard, Play, Brain, Database, Sun, Moon } from 'lucide-react';
+import { Code2, LayoutDashboard, Play, Brain, Database, Coffee, Sun, Moon } from 'lucide-react';
 
 export default function Navbar({ theme, onToggleTheme }) {
   const location = useLocation();
@@ -23,6 +23,12 @@ export default function Navbar({ theme, onToggleTheme }) {
           className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
         >
           Overview
+        </Link>
+        <Link
+          to="/java-learning"
+          className={`nav-item ${location.pathname.startsWith('/java') ? 'active' : ''}`}
+        >
+          <Coffee size={14} /> Java Prep
         </Link>
         <Link
           to="/practice"

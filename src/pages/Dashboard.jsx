@@ -13,17 +13,21 @@ import {
   Brain,
   Zap,
   Flame,
-  Database
+  Database,
+  Coffee
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { sqlQuestions } from '../data/sqlQuestions.js';
+import { javaTopics } from '../data/javaTopics.js';
 import { storage } from '../utils/storage.js';
 import { sqlStorage } from '../utils/sqlStorage.js';
+import { javaStorage } from '../utils/javaStorage.js';
 import { getCognitiveStats } from '../utils/cognitiveStorage.js';
 
 export default function Dashboard() {
   const [completedIds, setCompletedIds] = useState(() => storage.getCompletedQuestions());
   const [completedSQLIds, setCompletedSQLIds] = useState(() => sqlStorage.getCompletedQuestions());
+  const [completedJavaIds, setCompletedJavaIds] = useState(() => javaStorage.getCompletedTopics());
   const [cognitiveStats, setCognitiveStats] = useState(() => getCognitiveStats());
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -74,8 +78,10 @@ export default function Dashboard() {
       });
       storage.set('completed-questions', []);
       sqlStorage.resetAllSQLProgress(sqlQuestions);
+      javaStorage.resetAllProgress(javaTopics);
       setCompletedIds([]);
       setCompletedSQLIds([]);
+      setCompletedJavaIds([]);
       setRefreshKey((k) => k + 1);
     }
   };
@@ -168,6 +174,65 @@ export default function Dashboard() {
               <span className="metric-label">DOM Tests Passed</span>
               <h3 className="metric-value">{totalPassedTests}</h3>
               <span className="metric-subtext">Across attempted modules</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Java Learning & Preparation Card */}
+        <div style={{
+          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+          border: '1px solid rgba(249, 115, 22, 0.4)',
+          borderRadius: '16px',
+          padding: '1.5rem 1.75rem',
+          marginBottom: '1.5rem',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(249, 115, 22, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f97316' }}>
+                <Coffee size={22} />
+              </div>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', background: 'rgba(249, 115, 22, 0.15)', color: '#f97316', padding: '1px 8px', borderRadius: '12px', fontSize: '0.68rem', fontWeight: 700, marginBottom: '0.2rem' }}>
+                  NEW ADDITION
+                </div>
+                <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#f8fafc' }}>Java Learning & Assessment Preparation</h3>
+                <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Core Syntax • Arrays & Strings • Collections • OOP • Live Interactive Code Runner</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <Link to="/java-learning" className="btn btn-primary btn-sm" style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', border: 'none' }}>
+                <Coffee size={14} />
+                <span>{completedJavaIds.length > 0 ? 'Continue Java Prep' : 'Start Java Prep'}</span>
+              </Link>
+            </div>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: '1rem',
+            paddingTop: '1rem',
+            borderTop: '1px solid #334155'
+          }}>
+            <div>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase' }}>Available Topics</span>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f8fafc', fontFamily: 'JetBrains Mono' }}>
+                {javaTopics.length} Topics
+              </div>
+            </div>
+            <div>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase' }}>Completed Topics</span>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#4ade80', fontFamily: 'JetBrains Mono' }}>
+                {completedJavaIds.length} / {javaTopics.length}
+              </div>
+            </div>
+            <div>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase' }}>Readiness Score</span>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8', fontFamily: 'JetBrains Mono' }}>
+                {Math.round((completedJavaIds.length / javaTopics.length) * 100)}%
+              </div>
             </div>
           </div>
         </div>

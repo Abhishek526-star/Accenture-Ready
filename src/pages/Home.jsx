@@ -13,7 +13,8 @@ import {
   BookOpen,
   Brain,
   Grid,
-  Database
+  Database,
+  Coffee
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { storage } from '../utils/storage.js';
@@ -49,9 +50,13 @@ export default function Home() {
           </p>
 
           <div className="hero-actions">
-            <Link to="/sql-assessment" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #ea580c, #f97316)' }}>
+            <Link to="/java-learning" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', border: 'none' }}>
+              <Coffee size={18} />
+              <span>Java Prep Section</span>
+            </Link>
+            <Link to="/sql-assessment" className="btn btn-secondary btn-lg">
               <Database size={18} />
-              <span>SQL Assessment Round</span>
+              <span>SQL Round</span>
             </Link>
             <Link to="/cognitive" className="btn btn-secondary btn-lg">
               <Brain size={18} />
@@ -188,6 +193,39 @@ export default function Home() {
               </Link>
               <Link to="/cognitive" className="btn btn-secondary" style={{ flex: 1, justifyContent: 'center' }}>
                 <span>Practice Hub</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Track 4: Java Preparation */}
+          <div style={{
+            background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+            border: '1px solid #334155',
+            borderRadius: '20px',
+            padding: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '1.25rem',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+          }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.75rem', background: 'rgba(249, 115, 22, 0.15)', color: '#f97316', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+                <Coffee size={14} /> NEW: JAVA LEARNING & PREP
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>Assessment Java Handbook</h3>
+              <p style={{ margin: '0.5rem 0 0 0', color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                Interactive, code-focused preparation covering Arrays, Collections, Strings, StringBuilder, OOP, Exception Handling, and Core DSA patterns.
+              </p>
+              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span className="badge" style={{ background: 'rgba(249, 115, 22, 0.2)', color: '#fb923c' }}>18 Assessment Topics</span>
+                <span className="badge" style={{ background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>Interactive Code Runner</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <Link to="/java-learning" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', background: 'linear-gradient(135deg, #f97316, #ea580c)', border: 'none' }}>
+                <Coffee size={16} />
+                <span>Start Java Prep</span>
               </Link>
             </div>
           </div>

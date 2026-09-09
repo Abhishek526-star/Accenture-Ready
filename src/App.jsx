@@ -12,6 +12,7 @@ import MemoryMazePage from './pages/MemoryMazePage.jsx';
 import FullCognitiveMock from './pages/FullCognitiveMock.jsx';
 import CognitiveResults from './pages/CognitiveResults.jsx';
 import SQLAssessmentPage from './pages/SQLAssessmentPage.jsx';
+import JavaLearningPage from './pages/JavaLearningPage.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import { storage } from './utils/storage.js';
 
@@ -38,6 +39,8 @@ export default function App() {
               <Route path="/practice" element={<Practice theme={theme} />} />
               <Route path="/sql-assessment" element={<SQLAssessmentPage theme={theme} />} />
               <Route path="/assessment/sql" element={<SQLAssessmentPage theme={theme} />} />
+              <Route path="/java-learning" element={<JavaLearningPage theme={theme} />} />
+              <Route path="/java" element={<Navigate to="/java-learning" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/cognitive" element={<CognitiveDashboard />} />
               <Route path="/cognitive/full-mock" element={<FullCognitiveMock />} />
