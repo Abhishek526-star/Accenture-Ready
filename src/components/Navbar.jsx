@@ -28,7 +28,8 @@ import {
   Mic,
   Calendar,
   Zap,
-  FileText
+  FileText,
+  FileSpreadsheet
 } from 'lucide-react';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
@@ -253,6 +254,12 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               </Link>
               <Link to="/oop-assessment" className="dropdown-link" style={{ padding: '6px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.8rem', textDecoration: 'none' }}>
                 OOPs Assessment (35 Qs)
+              </Link>
+              <Link to="/devops-assessment" className="dropdown-link" style={{ padding: '6px 12px', borderRadius: '6px', color: '#fb923c', fontWeight: 600, fontSize: '0.8rem', textDecoration: 'none' }}>
+                DevOps Assessment (35 Qs)
+              </Link>
+              <Link to="/ms-office-assessment" className="dropdown-link" style={{ padding: '6px 12px', borderRadius: '6px', color: '#10b981', fontWeight: 600, fontSize: '0.8rem', textDecoration: 'none' }}>
+                MS Office Assessment (35 Qs)
               </Link>
             </div>
           )}

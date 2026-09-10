@@ -19,7 +19,9 @@ import {
   Network,
   ShieldAlert,
   Boxes,
-  Wifi
+  Wifi,
+  Server,
+  FileSpreadsheet
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { storage } from '../utils/storage.js';
@@ -36,12 +38,12 @@ export default function Home() {
       case 'hard':
         return <span className="badge badge-hard">Hard</span>;
       default:
-        return <span className="badge badge-easy">Easy</span>;
+        return null;
     }
   };
 
   return (
-    <div className="landing-page">
+    <div className="home-container">
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -51,13 +53,21 @@ export default function Home() {
           <h1 className="hero-title">Technical, SQL & Cognitive Assessment Practice</h1>
           <p className="hero-subtitle">
             Prepare for company technical recruitment screens with dedicated environments:
-            <strong> Cloud, Wi-Fi & Network Security</strong>, <strong>OOPs Concepts</strong>, <strong>Gamified Cognitive Round</strong>, <strong>Frontend Coding Round</strong>, and the new <strong>SQL Assessment & Compiler Round</strong> with real in-browser SQLite execution.
+            <strong> Cloud, Wi-Fi & Network Security</strong>, <strong>Enterprise DevOps</strong>, <strong>MS Office Suite</strong>, <strong>OOPs Concepts</strong>, <strong>Gamified Cognitive Round</strong>, <strong>Frontend Coding Round</strong>, and the new <strong>SQL Assessment & Compiler Round</strong> with real in-browser SQLite execution.
           </p>
 
           <div className="hero-actions">
             <Link to="/cloud-assessment" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #0284c7, #0369a1)', border: 'none' }}>
               <Cloud size={18} />
               <span>Cloud Computing (85 PYQs)</span>
+            </Link>
+            <Link to="/devops-assessment" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #ea580c, #c2410c)', border: 'none' }}>
+              <Server size={18} />
+              <span>DevOps (35 PYQs)</span>
+            </Link>
+            <Link to="/ms-office-assessment" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #059669, #047857)', border: 'none' }}>
+              <FileSpreadsheet size={18} />
+              <span>MS Office (35 PYQs)</span>
             </Link>
             <Link to="/cloud-security" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #059669, #047857)', border: 'none' }}>
               <ShieldCheck size={18} />
@@ -99,8 +109,18 @@ export default function Home() {
 
           <div className="hero-stats-row">
             <div className="stat-item">
-              <span className="stat-number">9</span>
+              <span className="stat-number">11</span>
               <span className="stat-label">Assessment Tracks</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-item">
+              <span className="stat-number">35</span>
+              <span className="stat-label">MS Office MCQs</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-item">
+              <span className="stat-number">35</span>
+              <span className="stat-label">DevOps MCQs</span>
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
@@ -199,7 +219,7 @@ export default function Home() {
               </div>
               <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>Object-Oriented Programming (OOP)</h3>
               <p style={{ margin: '0.5rem 0 0 0', color: '#f3e8ff', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                Master all <strong>35 solved MCQs</strong> across Tiers 1, 2 & 3: Four Pillars (EAIP), Overloading vs Overriding, Virtual Functions, Abstract Classes, Static & Dynamic Binding, `this` pointer, and the Diamond Problem.
+                Master all <strong>35 solved MCQs</strong> across Tiers 1, 2 & 3: Encapsulation, Abstraction, Inheritance, Polymorphism, Virtual Functions, Diamond Problem, Dynamic Binding, and Real-World Scenarios.
               </p>
               <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>35 MCQs</span>
@@ -211,6 +231,41 @@ export default function Home() {
               <Link to="/oop-assessment" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #7c3aed, #6d28d9)', border: 'none' }}>
                 <Boxes size={16} />
                 <span>Start OOP Assessment (35 MCQs)</span>
+              </Link>
+            </div>
+          </div>
+          {/* Track 0: DevOps Assessment */}
+          <div style={{
+            background: 'linear-gradient(135deg, #431407 0%, #9a3412 120%)',
+            border: '1px solid rgba(249, 115, 22, 0.4)',
+            borderRadius: '20px',
+            padding: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '1.25rem',
+            boxShadow: '0 10px 30px rgba(234, 88, 12, 0.25)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.75rem', background: 'rgba(249, 115, 22, 0.2)', color: '#fed7aa', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+                <Server size={14} /> DEDICATED TRACK: ENTERPRISE DEVOPS
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>DevOps Engineering & CI/CD</h3>
+              <p style={{ margin: '0.5rem 0 0 0', color: '#ffedd5', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                Master all <strong>35 solved MCQs</strong> across 5 Tiers: DevOps Culture, CI/CD Pipeline Architecture, Git Internals & Rebase, Docker Multi-Stage, Kubernetes Orchestration, and Linux Shell Scripting.
+              </p>
+              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>35 MCQs</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>5 Tiers</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>Master Handbook</span>
+              </div>
+            </div>
+            <div>
+              <Link to="/devops-assessment" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #ea580c, #c2410c)', border: 'none' }}>
+                <Server size={16} />
+                <span>Start DevOps Assessment (35 MCQs)</span>
               </Link>
             </div>
           </div>
@@ -353,6 +408,42 @@ export default function Home() {
               <Link to="/cloud-security" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none' }}>
                 <ShieldCheck size={16} />
                 <span>Start Cloud Security (45 MCQs)</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Dedicated Track: MS Office Suite */}
+          <div style={{
+            background: 'linear-gradient(135deg, #064e3b 0%, #065f46 120%)',
+            border: '1px solid rgba(16, 185, 129, 0.4)',
+            borderRadius: '20px',
+            padding: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '1.25rem',
+            boxShadow: '0 10px 30px rgba(5, 150, 105, 0.25)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.75rem', background: 'rgba(52, 211, 153, 0.2)', color: '#a7f3d0', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+                <FileSpreadsheet size={14} /> DEDICATED TRACK: MS OFFICE SUITE
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>MS Office Suite: Excel, Word & PowerPoint</h3>
+              <p style={{ margin: '0.5rem 0 0 0', color: '#d1fae5', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                Master all <strong>35 placement MCQs</strong> across 5 Tiers: Excel References (Relative/Absolute/Mixed), COUNT/COUNTA, VLOOKUP/XLOOKUP, PivotTables, Word Mail Merge & Section Breaks, PowerPoint Slide Master, Transitions vs Animations.
+              </p>
+              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>35 MCQs</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>Excel • Word • PPT</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>5-Tier Placement Handbook</span>
+              </div>
+            </div>
+            <div>
+              <Link to="/ms-office-assessment" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none' }}>
+                <FileSpreadsheet size={16} />
+                <span>Start MS Office Track (35 MCQs)</span>
               </Link>
             </div>
           </div>

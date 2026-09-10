@@ -10,13 +10,17 @@ import {
   Zap,
   FileText,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Server,
+  FileSpreadsheet
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { sqlQuestions } from '../data/sqlQuestions.js';
 import { javaTopics } from '../data/javaTopics.js';
 import { dsaPatterns } from '../data/dsaPatterns.js';
 import { cheatSheets } from '../data/cheatSheets.js';
+import { devopsQuestions } from '../data/devopsQuestions.js';
+import { msOfficeQuestions } from '../data/msOfficeQuestions.js';
 
 export default function GlobalSearchModal({ isOpen, onClose }) {
   const [query, setQuery] = useState('');
@@ -114,6 +118,32 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
           category: 'Cheat Sheets',
           icon: <FileText size={16} className="text-purple-400" />,
           route: `/learn/cheat-sheets`
+        });
+      }
+    });
+
+    // 6. DevOps Assessment Questions
+    devopsQuestions.forEach(devQ => {
+      if (devQ.question.toLowerCase().includes(q) || devQ.topic.toLowerCase().includes(q)) {
+        results.push({
+          id: `devops-${devQ.id}`,
+          title: devQ.question,
+          category: `DevOps Assessment (${devQ.tierName})`,
+          icon: <Server size={16} className="text-orange-400" />,
+          route: `/devops-assessment?tier=${devQ.tier}&topic=${encodeURIComponent(devQ.topic)}`
+        });
+      }
+    });
+
+    // 7. MS Office Assessment Questions
+    msOfficeQuestions.forEach(msQ => {
+      if (msQ.question.toLowerCase().includes(q) || msQ.topic.toLowerCase().includes(q)) {
+        results.push({
+          id: `msoffice-${msQ.id}`,
+          title: msQ.question,
+          category: `MS Office Assessment (${msQ.tierName})`,
+          icon: <FileSpreadsheet size={16} className="text-emerald-400" />,
+          route: `/ms-office-assessment?tier=${msQ.tier}&topic=${encodeURIComponent(msQ.topic)}`
         });
       }
     });

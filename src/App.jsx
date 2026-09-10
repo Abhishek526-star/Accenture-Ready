@@ -19,6 +19,8 @@ import NetworkAssessmentPage from './pages/NetworkAssessmentPage.jsx';
 import NetworkSecurityPage from './pages/NetworkSecurityPage.jsx';
 import OopAssessmentPage from './pages/OopAssessmentPage.jsx';
 import WifiSecurityPage from './pages/WifiSecurityPage.jsx';
+import DevOpsAssessmentPage from './pages/DevOpsAssessmentPage.jsx';
+import MsOfficeAssessmentPage from './pages/MsOfficeAssessmentPage.jsx';
 import LearningHubPage from './pages/LearningHubPage.jsx';
 import DsaPatternsPage from './pages/DsaPatternsPage.jsx';
 import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
@@ -114,6 +116,12 @@ export default function App() {
               <Route path="/oop-assessment" element={<OopAssessmentPage theme={theme} />} />
               <Route path="/oop" element={<Navigate to="/oop-assessment" replace />} />
               <Route path="/oops" element={<Navigate to="/oop-assessment" replace />} />
+              <Route path="/devops-assessment" element={<DevOpsAssessmentPage theme={theme} />} />
+              <Route path="/devops" element={<Navigate to="/devops-assessment" replace />} />
+              <Route path="/ms-office-assessment" element={<MsOfficeAssessmentPage theme={theme} />} />
+              <Route path="/msoffice" element={<Navigate to="/ms-office-assessment" replace />} />
+              <Route path="/ms-office" element={<Navigate to="/ms-office-assessment" replace />} />
+              <Route path="/excel" element={<Navigate to="/ms-office-assessment" replace />} />
 
               {/* Cognitive Assessment Games (NO Path Finder) */}
               <Route path="/cognitive" element={<CognitiveDashboard />} />
