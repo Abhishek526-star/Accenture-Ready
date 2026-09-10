@@ -12,6 +12,8 @@ import PreviewPanel from '../components/PreviewPanel.jsx';
 import TestResults from '../components/TestResults.jsx';
 import Navigation from '../components/Navigation.jsx';
 import ResetModal from '../components/ResetModal.jsx';
+import { gamificationService } from '../services/gamificationService.js';
+import { mistakesStorage } from '../services/mistakesStorage.js';
 
 import { BookOpen, Code, Eye, CheckCircle2 } from 'lucide-react';
 
@@ -107,11 +109,36 @@ export default function Practice({ theme }) {
           passedCount: data.passedCount,
           totalCount: data.totalCount
         });
+
+        if (data.allPassed) {
+          mistakesStorage.resolveMistake(currentQuestion.id, 'coding');
+          gamificationService.addXP(50, 'Solved Coding Question');
+        } else {
+          mistakesStorage.recordMistake({
+            id: currentQuestion.id,
+            type: 'coding',
+            title: currentQuestion.title,
+            category: currentQuestion.category,
+            difficulty: currentQuestion.difficulty,
+            route: `/practice?q=${currentQuestion.id}`,
+            errorSummary: `${data.passedCount || 0}/${data.totalCount || 0} DOM test cases passed`
+          });
+        }
       } else if (data.type === 'RUNTIME_ERROR' && data.questionId === currentQuestion.id) {
         if (watchdogRef.current) clearTimeout(watchdogRef.current);
         setIsRunning(false);
         setRuntimeError(data.error || 'A runtime error occurred in candidate code.');
         if (data.logs) setConsoleLogs(data.logs);
+
+        mistakesStorage.recordMistake({
+          id: currentQuestion.id,
+          type: 'coding',
+          title: currentQuestion.title,
+          category: currentQuestion.category,
+          difficulty: currentQuestion.difficulty,
+          route: `/practice?q=${currentQuestion.id}`,
+          errorSummary: data.error || 'JavaScript execution runtime error'
+        });
       } else if (data.type === 'PREVIEW_READY' && data.questionId === currentQuestion.id) {
         if (data.logs) setConsoleLogs(data.logs);
       }

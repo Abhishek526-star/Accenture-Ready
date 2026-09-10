@@ -23,6 +23,8 @@ import SQLEditor from '../components/sql/SQLEditor.jsx';
 import SQLResultPanel from '../components/sql/SQLResultPanel.jsx';
 import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SQLResultsModal from '../components/sql/SQLResultsModal.jsx';
+import { gamificationService } from '../services/gamificationService.js';
+import { mistakesStorage } from '../services/mistakesStorage.js';
 
 export default function SQLAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -180,6 +182,18 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
         if (suiteRes.allPassed) {
           sqlStorage.markQuestionCompleted(currentQuestion.id, code);
           sqlStorage.saveUserSolution(currentQuestion.id, code);
+          mistakesStorage.resolveMistake(currentQuestion.id, 'sql');
+          gamificationService.addXP(40, 'Solved SQL Challenge');
+        } else {
+          mistakesStorage.recordMistake({
+            id: currentQuestion.id,
+            type: 'sql',
+            title: currentQuestion.title,
+            category: currentQuestion.category,
+            difficulty: currentQuestion.difficulty,
+            route: `/sql-assessment?q=${currentQuestion.id}`,
+            errorSummary: `${suiteRes.passedCount || 0}/${suiteRes.totalCount || 0} test cases passed`
+          });
         }
 
         return updated;

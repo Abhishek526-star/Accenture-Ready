@@ -24,6 +24,7 @@ import JavaTopicSidebar from '../components/java/JavaTopicSidebar.jsx';
 import JavaCodeViewer from '../components/java/JavaCodeViewer.jsx';
 import JavaMethodTable from '../components/java/JavaMethodTable.jsx';
 import JavaTipCard from '../components/java/JavaTipCard.jsx';
+import { gamificationService } from '../services/gamificationService.js';
 
 export default function JavaLearningPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,8 +69,12 @@ export default function JavaLearningPage({ theme = 'dark' }) {
 
   // Toggle completion
   const handleToggleCompleted = () => {
+    const wasCompleted = completedTopicIds.includes(activeTopic.id);
     const updated = javaStorage.toggleTopicCompleted(activeTopic.id);
     setCompletedTopicIds(updated);
+    if (!wasCompleted) {
+      gamificationService.addXP(30, 'Completed Java Topic');
+    }
   };
 
   // Reset all progress
