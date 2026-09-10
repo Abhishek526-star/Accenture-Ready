@@ -1,6 +1,7 @@
 // src/components/sql/SQLExampleViewer.jsx
 import React from 'react';
 import { Table, CheckCircle2 } from 'lucide-react';
+import { formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
 
 export default function SQLExampleViewer({ examples }) {
   if (!examples || examples.length === 0) return null;
@@ -106,9 +107,12 @@ export default function SQLExampleViewer({ examples }) {
 
           {/* Explanation if present */}
           {example.explanation && (
-            <div className="example-explanation">
-              <strong>Explanation:</strong> {example.explanation}
-            </div>
+            <div
+              className="example-explanation"
+              dangerouslySetInnerHTML={{
+                __html: `<strong>Explanation:</strong> ${formatInlineMarkdown(example.explanation)}`
+              }}
+            />
           )}
         </div>
       ))}

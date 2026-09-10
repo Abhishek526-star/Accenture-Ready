@@ -2306,15 +2306,48 @@ a {
 }
 
 .solution-explanation-pane {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 13.5px;
+  line-height: 1.65;
   color: #cbd5e1;
+}
+
+.solution-expl-text {
+  margin-bottom: 12px;
+}
+
+.expl-para {
+  margin: 0 0 10px 0;
+  line-height: 1.65;
+  color: #e2e8f0;
+}
+
+.expl-para:last-child {
+  margin-bottom: 0;
+}
+
+.solution-explanation-pane .sql-strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.solution-explanation-pane .sql-token {
+  background: rgba(15, 23, 42, 0.8);
+  color: #38bdf8;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-family: var(--font-mono, monospace);
 }
 
 .expl-heading {
   color: #38bdf8;
   font-size: 14px;
-  margin: 12px 0 6px 0;
+  font-weight: 700;
+  margin: 14px 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .expl-heading:first-child {
@@ -2694,14 +2727,123 @@ a {
   margin-bottom: 0.4rem;
 }
 
-.problem-body code, .notes-list code {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-family: var(--font-mono);
+.problem-body code, .notes-list code, .sql-token {
+  background: rgba(15, 23, 42, 0.75);
+  padding: 0.15rem 0.45rem;
+  border-radius: 5px;
+  font-family: var(--font-mono, 'Fira Code', monospace);
   font-size: 0.82rem;
+  font-weight: 500;
   color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sql-strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+/* Beautified Important Requirements Card */
+.sql-requirements-card {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.07) 0%, rgba(99, 102, 241, 0.05) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 10px;
+  padding: 1.1rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.sql-requirements-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #38bdf8 0%, #6366f1 100%);
+  border-radius: 10px 0 0 10px;
+}
+
+.req-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.req-header-icon {
+  color: #38bdf8;
+}
+
+.req-count-badge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 2px 9px;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.sql-req-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sql-req-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.sql-req-item:hover {
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateX(2px);
+}
+
+.sql-req-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  margin-top: 1px;
+}
+
+.sql-req-check {
+  color: #38bdf8;
+}
+
+.sql-req-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  flex: 1;
 }
 
 .sql-notes-box {
@@ -2718,13 +2860,17 @@ a {
 .notes-list {
   padding-left: 1.25rem;
   margin: 0;
-  font-size: 0.84rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.6;
 }
 
 .notes-list li {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.notes-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* Schema Viewer */

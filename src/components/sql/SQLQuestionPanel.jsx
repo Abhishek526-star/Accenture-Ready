@@ -1,11 +1,16 @@
-import React from 'react';
-import { Clock, Tag, HelpCircle, FileText, Info } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { Clock, Tag, HelpCircle, FileText, Info, ListChecks, Check } from 'lucide-react';
 import SQLSchemaViewer from './SQLSchemaViewer.jsx';
 import SQLExampleViewer from './SQLExampleViewer.jsx';
 import SQLSolutionViewer from './SQLSolutionViewer.jsx';
+import { parseProblemStatement, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
 
 export default function SQLQuestionPanel({ question, onApplySolution }) {
   if (!question) return null;
+
+  const parsedProblem = useMemo(() => {
+    return parseProblemStatement(question.problem);
+  }, [question.problem]);
 
   const getDifficultyBadge = (diff) => {
     switch (diff?.toLowerCase()) {
@@ -72,26 +77,55 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
             <span>Problem Statement</span>
           </div>
           <div className="problem-body">
-            {question.problem.split('\n\n').map((para, idx) => {
-              if (para.startsWith('### ')) {
-                return <h4 key={idx} className="problem-subheading">{para.replace('### ', '')}</h4>;
-              }
-              if (para.startsWith('- ')) {
-                const items = para.split('\n- ');
+            {parsedProblem.descriptionBlocks.map((block, idx) => {
+              if (block.type === 'bullets') {
                 return (
                   <ul key={idx} className="problem-bullets">
-                    {items.map((item, iIdx) => (
-                      <li key={iIdx} dangerouslySetInnerHTML={{ __html: item.replace(/^- /, '').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') }} />
+                    {block.items.map((item, iIdx) => (
+                      <li
+                        key={iIdx}
+                        dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item) }}
+                      />
                     ))}
                   </ul>
                 );
               }
               return (
-                <p key={idx} dangerouslySetInnerHTML={{ __html: para.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') }} />
+                <p
+                  key={idx}
+                  dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(block.content) }}
+                />
               );
             })}
           </div>
         </div>
+
+        {/* Important Requirements Beautified Card */}
+        {parsedProblem.requirements && parsedProblem.requirements.items.length > 0 && (
+          <div className="sql-section sql-requirements-card">
+            <div className="section-label req-label">
+              <ListChecks size={16} className="req-header-icon" />
+              <span>{parsedProblem.requirements.title}</span>
+              <span className="req-count-badge">
+                {parsedProblem.requirements.items.length}{' '}
+                {parsedProblem.requirements.items.length === 1 ? 'Rule' : 'Rules'}
+              </span>
+            </div>
+            <ul className="sql-req-list">
+              {parsedProblem.requirements.items.map((item, idx) => (
+                <li key={idx} className="sql-req-item">
+                  <div className="sql-req-icon-box">
+                    <Check size={12} className="sql-req-check" />
+                  </div>
+                  <div
+                    className="sql-req-text"
+                    dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item) }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Notes & Requirements */}
         {question.notes && question.notes.length > 0 && (
@@ -102,7 +136,10 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
             </div>
             <ul className="notes-list">
               {question.notes.map((note, idx) => (
-                <li key={idx}>{note}</li>
+                <li
+                  key={idx}
+                  dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(note) }}
+                />
               ))}
             </ul>
           </div>

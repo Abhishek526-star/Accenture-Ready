@@ -11,6 +11,7 @@ import {
   BookOpen,
   FileCode
 } from 'lucide-react';
+import { formatExplanationHtml, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
 
 export default function SQLSolutionViewer({ question, onLoadSolution }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,15 +116,23 @@ export default function SQLSolutionViewer({ question, onLoadSolution }) {
             {activeTab === 'explanation' && (
               <div className="solution-explanation-pane">
                 <h4 className="expl-heading">Query Logic Breakdown</h4>
-                <p style={{ whiteSpace: 'pre-line', lineHeight: 1.6, fontSize: '13px', color: '#cbd5e1' }}>
-                  {question.explanation || 'Review the SQL syntax and table constraints below.'}
-                </p>
+                <div
+                  className="solution-expl-text"
+                  dangerouslySetInnerHTML={{
+                    __html: formatExplanationHtml(
+                      question.explanation || 'Review the SQL syntax and table constraints below.'
+                    )
+                  }}
+                />
                 {question.notes && question.notes.length > 0 && (
-                  <div style={{ marginTop: '12px' }}>
+                  <div style={{ marginTop: '14px' }}>
                     <h4 className="expl-heading">Key Considerations</h4>
                     <ul className="expl-list">
                       {question.notes.map((note, idx) => (
-                        <li key={idx}>{note}</li>
+                        <li
+                          key={idx}
+                          dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(note) }}
+                        />
                       ))}
                     </ul>
                   </div>
