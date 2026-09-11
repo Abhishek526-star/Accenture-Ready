@@ -23,6 +23,7 @@ import DevOpsAssessmentPage from './pages/DevOpsAssessmentPage.jsx';
 import MsOfficeAssessmentPage from './pages/MsOfficeAssessmentPage.jsx';
 import ImportantQuestionsPage from './pages/ImportantQuestionsPage.jsx';
 import ImportantQuestionsSet2Page from './pages/ImportantQuestionsSet2Page.jsx';
+import RecentQuestionsPage from './pages/RecentQuestionsPage.jsx';
 import LearningHubPage from './pages/LearningHubPage.jsx';
 import DsaPatternsPage from './pages/DsaPatternsPage.jsx';
 import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
@@ -137,6 +138,15 @@ export default function App() {
               <Route path="/important-questions-2" element={<Navigate to="/important-questions-set-2" replace />} />
               <Route path="/important-set-2" element={<Navigate to="/important-questions-set-2" replace />} />
               <Route path="/pyq-set-2" element={<Navigate to="/important-questions-set-2" replace />} />
+
+              {/* Recent Dated Coding Questions (DSA, SQL, Frontend) */}
+              <Route path="/recent-questions" element={<RecentQuestionsPage theme={theme} />} />
+              <Route path="/recent-coding" element={<Navigate to="/recent-questions" replace />} />
+              <Route path="/recent-coding-questions" element={<Navigate to="/recent-questions" replace />} />
+              <Route path="/recent-pyq" element={<Navigate to="/recent-questions" replace />} />
+              <Route path="/recent-dsa" element={<Navigate to="/recent-questions?track=dsa" replace />} />
+              <Route path="/recent-sql" element={<Navigate to="/recent-questions?track=sql" replace />} />
+              <Route path="/recent-frontend" element={<Navigate to="/recent-questions?track=frontend" replace />} />
 
               {/* Cognitive Assessment Games (NO Path Finder) */}
               <Route path="/cognitive" element={<CognitiveDashboard />} />

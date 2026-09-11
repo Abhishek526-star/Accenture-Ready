@@ -508,6 +508,14 @@ export default function Dashboard({ theme = 'dark' }) {
         </div>
 
         <div className="dashboard-modules-grid">
+          <Link to="/recent-questions" style={{ padding: '12px', background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(99, 102, 241, 0.14))', borderRadius: '10px', border: '1px solid rgba(56, 189, 248, 0.4)', textDecoration: 'none', color: '#f8fafc' }}>
+            <Sparkles size={20} className="text-sky-400" />
+            <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span>Recent Coding PYQs</span>
+              <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '4px', background: '#0284c7', color: '#fff', fontWeight: 800 }}>NEW</span>
+            </div>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>8th Sept Shift 1 & 2 (DSA • SQL • Frontend)</span>
+          </Link>
           <Link to="/practice" style={{ padding: '12px', background: '#0f172a', borderRadius: '10px', border: '1px solid #334155', textDecoration: 'none', color: '#f8fafc' }}>
             <Code2 size={20} className="text-sky-400" />
             <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem' }}>Frontend Coding</div>

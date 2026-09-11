@@ -33,7 +33,8 @@ import {
   Layers,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from 'lucide-react';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
@@ -67,7 +68,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
 
   const isLearnActive = location.pathname.startsWith('/learn') || location.pathname.startsWith('/java');
   const isPracticeActive = location.pathname === '/practice' || location.pathname === '/bookmarks' || location.pathname === '/mistakes' || location.pathname === '/daily-challenge';
-  const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security') || location.pathname.includes('important');
+  const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security') || location.pathname.includes('important') || location.pathname.includes('recent');
   const isCognitiveActive = location.pathname.startsWith('/cognitive');
 
   return (
@@ -232,6 +233,33 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               gap: '2px',
               zIndex: 1001
             }}>
+              {/* Recent Dated Coding Questions */}
+              <Link
+                to="/recent-questions"
+                className="dropdown-link"
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  color: '#38bdf8',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(99, 102, 241, 0.16))',
+                  border: '1px solid rgba(56, 189, 248, 0.35)'
+                }}
+              >
+                <Sparkles size={14} className="text-sky-400" />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>Recent Coding Questions</span>
+                    <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '4px', background: '#0284c7', color: '#fff', fontWeight: 800 }}>DATED PYQ</span>
+                  </div>
+                  <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 400 }}>DSA (8th Sept) • SQL • Frontend</span>
+                </div>
+              </Link>
               <Link to="/mock-test" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Target size={14} />
                 <span>Full 90-Min Mock Test</span>
@@ -498,6 +526,15 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <span>Assessments & PYQs</span>
                 </div>
                 <div className="mobile-group-items">
+                  <Link
+                    to="/recent-questions"
+                    className="mobile-sublink highlight-sky"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.35)', fontWeight: 700 }}
+                  >
+                    <Sparkles size={14} className="text-sky-400" />
+                    <span>Recent Coding Questions (Dated PYQs)</span>
+                  </Link>
                   <Link
                     to="/important-questions"
                     className="mobile-sublink highlight-amber"
