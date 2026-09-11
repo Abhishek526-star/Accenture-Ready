@@ -21,7 +21,8 @@ import {
   Boxes,
   Wifi,
   Server,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Flame
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { storage } from '../utils/storage.js';
@@ -408,6 +409,42 @@ export default function Home() {
               <Link to="/cloud-security" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none' }}>
                 <ShieldCheck size={16} />
                 <span>Start Cloud Security (45 MCQs)</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* High-Yield Track: Most Important PYQs */}
+          <div style={{
+            background: 'linear-gradient(135deg, #78350f 0%, #451a03 120%)',
+            border: '1px solid rgba(245, 158, 11, 0.45)',
+            borderRadius: '20px',
+            padding: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '1.25rem',
+            boxShadow: '0 10px 30px rgba(217, 119, 6, 0.25)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.75rem', background: 'rgba(251, 191, 36, 0.2)', color: '#fde68a', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+                <Flame size={14} /> SIGNATURE TRACK: MOST IMPORTANT PYQS
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>Top 61 Most Important Accenture Questions</h3>
+              <p style={{ margin: '0.5rem 0 0 0', color: '#fef3c7', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                Curated collection of 61 most frequently asked questions across 5 Tiers: OSI Architecture & Protocols, Cloud Computing Models, Network Security & Cyber Defense, IP Addressing & Subnetting, and Web Infrastructure. Every option features an in-depth breakdown.
+              </p>
+              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>61 PYQs</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>All 4 Options Explained</span>
+                <span className="badge" style={{ background: 'rgba(255, 255, 255, 0.18)', color: '#ffffff' }}>Exam Cheat Sheet</span>
+              </div>
+            </div>
+            <div>
+              <Link to="/important-questions" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #d97706, #b45309)', border: 'none' }}>
+                <Flame size={16} />
+                <span>Start Most Important PYQs (61 Qs)</span>
               </Link>
             </div>
           </div>

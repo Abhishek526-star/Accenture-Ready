@@ -21,6 +21,8 @@ import OopAssessmentPage from './pages/OopAssessmentPage.jsx';
 import WifiSecurityPage from './pages/WifiSecurityPage.jsx';
 import DevOpsAssessmentPage from './pages/DevOpsAssessmentPage.jsx';
 import MsOfficeAssessmentPage from './pages/MsOfficeAssessmentPage.jsx';
+import ImportantQuestionsPage from './pages/ImportantQuestionsPage.jsx';
+import ImportantQuestionsSet2Page from './pages/ImportantQuestionsSet2Page.jsx';
 import LearningHubPage from './pages/LearningHubPage.jsx';
 import DsaPatternsPage from './pages/DsaPatternsPage.jsx';
 import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
@@ -122,6 +124,19 @@ export default function App() {
               <Route path="/msoffice" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/ms-office" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/excel" element={<Navigate to="/ms-office-assessment" replace />} />
+
+              {/* High-Yield Most Important PYQs */}
+              <Route path="/important-questions" element={<ImportantQuestionsPage theme={theme} />} />
+              <Route path="/most-important-questions" element={<Navigate to="/important-questions" replace />} />
+              <Route path="/important" element={<Navigate to="/important-questions" replace />} />
+              <Route path="/pyq" element={<Navigate to="/important-questions" replace />} />
+              <Route path="/important-questions-set-1" element={<Navigate to="/important-questions" replace />} />
+
+              {/* High-Yield Most Important PYQs - Set 2 */}
+              <Route path="/important-questions-set-2" element={<ImportantQuestionsSet2Page theme={theme} />} />
+              <Route path="/important-questions-2" element={<Navigate to="/important-questions-set-2" replace />} />
+              <Route path="/important-set-2" element={<Navigate to="/important-questions-set-2" replace />} />
+              <Route path="/pyq-set-2" element={<Navigate to="/important-questions-set-2" replace />} />
 
               {/* Cognitive Assessment Games (NO Path Finder) */}
               <Route path="/cognitive" element={<CognitiveDashboard />} />

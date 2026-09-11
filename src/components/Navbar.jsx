@@ -29,7 +29,8 @@ import {
   Calendar,
   Zap,
   FileText,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Layers
 } from 'lucide-react';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
@@ -59,7 +60,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
 
   const isLearnActive = location.pathname.startsWith('/learn') || location.pathname.startsWith('/java');
   const isPracticeActive = location.pathname === '/practice' || location.pathname === '/bookmarks' || location.pathname === '/mistakes' || location.pathname === '/daily-challenge';
-  const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security');
+  const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security') || location.pathname.includes('important');
   const isCognitiveActive = location.pathname.startsWith('/cognitive');
 
   return (
@@ -235,6 +236,14 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               <Link to="/pseudocode" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#facc15', fontWeight: 600, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Zap size={14} />
                 <span>Pseudocode Assessment</span>
+              </Link>
+              <Link to="/important-questions" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#fbbf24', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(245, 158, 11, 0.12)', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                <Flame size={14} className="text-amber-400" />
+                <span>Most Important PYQs — Set 1 (61 Qs)</span>
+              </Link>
+              <Link to="/important-questions-set-2" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.3)' }}>
+                <Layers size={14} className="text-sky-400" />
+                <span>Most Important PYQs — Set 2 (61 Qs)</span>
               </Link>
               <div style={{ height: '1px', background: '#334155', margin: '4px 0' }} />
               <Link to="/cloud-assessment" className="dropdown-link" style={{ padding: '6px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.8rem', textDecoration: 'none' }}>

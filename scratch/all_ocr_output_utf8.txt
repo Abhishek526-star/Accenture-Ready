@@ -1,0 +1,212 @@
+
+================ SLIDE 1 ================
+[slide_1_image1.jpg] accenture
+
+================ SLIDE 2 ================
+[slide_2_image3.png] accenture 70±QUESTlONS NETWORK SECURITY MUST PREPARE! os ed Geeks for Geek'
+
+================ SLIDE 3 ================
+[slide_3_image4.png] 25th July which of the and receiver A) data Link C) Transport Which of the following layer of OSI model adds logical address of the sender layer Layer B) Network Layer D) Session Layer following is an example of a SAAS cloud service mdoel? A) Google Workspace B) DropBox C) Salesforce D) All of the above
+
+================ SLIDE 4 ================
+[slide_4_image7.png] Some examples of Software as a Service (SaaS) cloud service providers include: Google Workspace, Salesforce, Dropbox, Mailchimp, ZenDesk, DocuSign, Slack, and Hubspot. SaaS is a cloud service model that provides software over the internet via a third party. SaaS applications are used for a variety of business functions, including: Email • Sales management Customer relationship management (CRM) Financial management Human resource management (HRM) Billing Collaboration
+[slide_4_image6.png] The network layer, also known as Layer 3 , is responsible for logical addressing and routing in the OSI model: Routing The network layer determines the best path for data to travel from source to destination. It routes data via the shortest or fastest physical path, taking into account traffic controls, congestion, broken links, and service priority. Addressing The network layer handles addressing logic to distinguish between the source and destination networks. Packet forwarding The network layer divides data into packets to send and then reassembles them at their destination. Error handling The network layer detects and resends damaged data to ensure a complete packet transfer. The OSI model is made up of seven layers, each with specific tasks that work together to ensure reliable communication between devices and systems.
+
+================ SLIDE 5 ================
+[slide_5_image9.png] Assume that a company wants to miyate its On-premises infrztructwe to cloud md needs full Ccontrol over the system ard applicati?ns. Which cloud service mode/ should tt*y choose? correct answer frorn the give-I choices.
+
+================ SLIDE 6 ================
+[slide_6_image13.png] If a company wants to migrate its on-premises infrastructure to the cloud and needs full control over the operating system, storage, and deployed application, they should choose the Infrastructure as a Service (IaaS) model: Flexibility IaaS is the most flexible cloud computing model, allowing customers to customize their infrastructure and deploy servers, storage, networking, and processing power. Control IaaS gives customers more control over their infrastructure than PaaS or SaaS services. Cost IaaS customers typically pay on a per-user basis, which can be more cost-effective than buying, managing, and supporting physical infrastructure. Migration IaaS is a good choice for migrating applications from an on-premises data center to the cloud with minimal changes. Scalability IaaS allows customers to scale up or down computing resources as needed. Deployment IaaS is a quick and flexible way to build and take down development and testing environments.
+[slide_6_image12.png] The company needs full control over the operating system, storage, and deployed applications. The requirement for full control over the operating system, storage, and applications aligns with the Infrastructure as a Service (IaaS) model, which provides the highest level of control and flexibility. 9Aug2024
+
+================ SLIDE 7 ================
+[slide_7_image16.png] a) b) c) d) Attack in which a user creates a packet that appears to be something else is Smurfing Trojan E-mail bombing Spoofing
+[slide_7_image15.png] a) b) c) d) An attack in which the user receives an unwanted amount of emails is Smurfing Denial of Service E-mail bombing Ping storm
+[slide_7_image17.png] Which of the following software applications allows a A) B) C) D) user to view a webpage? Notepad Adobe Acrobat Google drive Internet Explorer
+
+================ SLIDE 8 ================
+[slide_8_image20.png] A web browser is a software application that allows users to view web pages: Function A browser acts as a gateway between a user and the internet, allowing users to search for and access websites, web pages, and online content. How it works When a user requests a web page, the browser retrieves the files from a web server and displays the page on the user's screen. Some common web browsers include Microsoft Internet Explorer, Google Chrome, Mozilla Firefox, and Apple Safari.
+[slide_8_image19.png] Smurfing, denial of service (DOS), email bombs, and ping storms are all types of cyber attacks: Smurf attack A type of DDoS attack that sends a large number of ICMP packets to a network with the victimis IP address spoofed. The network responds to the packets, which can flood the victimis computer with traffic and make it unusable. Email bomb A type of DoS attack that involves sending a large number of emails to a victim's inbox, which can fill it up and make it unusable. Ping flood A type of DoS attack that involves sending a large number of ICMP echo requests to a network, which can overload the network and make it unusable.
+
+================ SLIDE 9 ================
+[slide_9_image22.png] Smurfing, trojan, email bomb, and spoofing are all related to computer security and cyberattacks: Smurfing A type of distributed denial of service (DDoS) attack that uses a Trojan horse to flood a network with ICMP requests. The requests appear to come from the victim's network, causing every device on the network to respond with a reply. This flood of replies overwhelms the victim's device, potentially crashing it. (9 Trojan A type of malware that disguises itself as a standard program to mislead users of its true intent. The term comes from the ancient Greek story of the Trojan Horse that led to the fall of the city of Troy. Email bomb Also known as mail bomb or letter bomb attacks, this occurs when a botnet floods an email address or server with hundreds to thousands of email messages. Spoofing A technique used in Smurf attacks and other cyberattacks, where a hacker creates network packets that appear to come from a target's server. For example, in a spoofed caller ID attack, a caller forges their caller ID information to present a false name and number.
+
+================ SLIDE 10 ================
+[slide_10_image24.png] Which of the following a popular version control system used for changes in software development ? A) USB B)Git C)HTTP D)SSL TCP/IP Model In A) FT p B) ARP C) UDP D) DNS which of the following protocol is used on transport layer
+
+================ SLIDE 11 ================
+[slide_11_image28.png] The Transmission Control Protocol (TCP) and User Datagram Protocol (UDP) are the two protocols used on the transport layer of the TCP/IP model: TCP: Handles communication between hosts and provides flow control, multiplexing, and reliability. UDP: Sometimes used instead of TCP for special purposes. The transport layer is responsible for end-to-end communications across a network. It ensures that packets arrive in sequence and without error by swapping acknowledgments of data reception and retransmitting lost packets.
+[slide_11_image27.png] Git is the most popular version control system (VCS) in use today: • Popularity: As of 2022, nearly 95% of developers reported using Git as their primary vcs. Open source: Git is an open source, distributed system that's free to use. Use cases: Git is used for software projects of all sizes, including startups and enterprises. Synonyms: Git is also known as a source code management (SCM) tool. Other popular VCSs include SVN (Apache Subversion) and Mercurial.
+
+================ SLIDE 12 ================
+[slide_12_image31.jpg] Question A. ReVisit Latei' Your comparyhas decide" toishrft its traditional on-site da!a eÅnter to a clogd;uased infrastructure to improv•e scalability and, reduce costs. As a part Of the migration process, which of the given steps ShQ3uld be giveo priority to ensure minimal downtime and smooth transition? Select ' an optioyy•l.v 'C) Immediately shutting down on-premise dood migration O Transferring all the data to the cloud in a single C) > Carrying out the migration without informing the C) Creating a detailed migration plan that includes data testing
+[slide_12_image30.png] a) b) c) d) Your company has decided to shift its traditional on-site data center to a cloud-based infrastructure to improve scalability and reduce costs. As a part of the migration process, which of the given steps should be given priority to ensure minimal downtime and smooth transition? Immediately shutting down the on-premise servers after the cloud migration Transferring all the data to the cloud in a single attempt Carrying out the migration without informing the stakeholders Creating a detailed migration plan that includes data backup and testing
+[slide_12_image32.jpg] Solution Question Answer The image shows a question from a wireless network audit scenario. Here is the text from the image:
+
+================ SLIDE 13 ================
+[slide_13_image35.png] boputar web browser uses a enq•ne caged Google Chronu2 Fuelox Satan
+[slide_13_image34.png] Which Popular web browser uses a rendering engine called A) Google Chrome B) Mozilla Firefox C) Safari D) Microsoft Edge What does the http:// in a web URL stands for ? A) Hyperlink transfer protocol B) Hypertext Transmission Protocol C) Hyperlink transfer procedure D) Hypertext Transfer protocol " Blink"
+
+================ SLIDE 14 ================
+[slide_14_image37.jpg] Rendering Engines of Web Browsers? There are three primary rendering engines that power the majority of web browsers today: • Blink: Blink is an open-source rendering engine developed by Google and is the foundation for the Chrome browser. It is also used by several other browsers, including Opera, Brave, and Vivaldi. • Gecko: Gecko is another open-source rendering engine developed by Mozilla and is the engine that powers the Firefox browser. It is known for its adherence to web standards and strict compatibility with various web technologies. • WebKit: WebKit is an open-source rendering engine initially developed by Apple for its Safari browser. It is also used by the iOS version of the Chrome browser and serves as the basis for the Qt WebEngine framework. • EdgeHTML: EdgeHTML, a fork of Trident (Internet Explorer's engine), is Microsoft's rising star. It's known for its focus on interoperability and compatibility with older web technologies while embracing modern advancements. Think of it as a bridge builder, connecting the past and present of the web, ensuring smooth transitions for users and developers alike. • Other Engines: Beyond these giants, a constellation of niche engines exists, catering to specific needs and platforms. WebKit variations like Presto (Opera Mini) and Goanna (Vivaldi) offer unique mobile experiences. WebRender (Android WebView) prioritizes efficiency on low- powered devices. Each engine, like a specialist chef, brings its own flavor and expertise to the table, enriching the web's diversity and adaptability. Browser Google Chrome Mozilla Firefox Apple Safari Microsoft Edge Opera Brave Vivaldi Internet Explorer 11 Android WebView Samsung Internet Rendering Engine Blink Gecko WebKit Blink Blink Blink Goanna(Fork of WebKit) Trident WebRender WebKit
+
+================ SLIDE 15 ================
+[slide_15_image39.png] Which of this is not A) Switch B)PC What is the term for campus ? a network edge device? C)SmartPhones D)Servers the data communication system within a building or A) LAN B)MAN C)WAN D) PAN
+
+================ SLIDE 16 ================
+[slide_16_image41.jpg] 5:03 BRAINLY Search... 2.84 LTE KB's .111 Textbook SOIL For parents For teachers Honor code cxplanauon; • Computer networking refers to interconnected computing devices that can exchange data and share resources with each other. These networked devices use a system of rules, called communications protocols, to transmit information over physical or wireless technologies. • A network is a group of two or more computers or other electronic devices that are interconnected for the purpose of exchanging data and sharing resources. • PC require network for its working, without network it cannot run. • Smartphones also require network for its working, without network one can not call and receive calls, also internet will not work without network and hence, smartphones will not work. • Servers means network and it require network. • But switch do not require any kind of network it only need electricity for its working. Hence switch is not the network ed e SCAN & SOLVE IN-APP O
+
+================ SLIDE 17 ================
+[slide_17_image45.png] Application Presenation Session ranspo Data-Link Physical
+[slide_17_image44.png] Which of the follwing layer of OSI MOde1 makes sure that the entire message arrives without any error else it should be retransmitted?
+[slide_17_image46.png] What is the primary function of DNS to provide secure communication • To resolve domain names to IP adresses • • To transfer files To monitor network traffic •
+
+================ SLIDE 18 ================
+[slide_18_image49.png] The primary function of DNS (Domain Name System) is to translate human-readable domain names (like 'vuw.example.com') into IP addresses (like '192.168.1.1') that computers use to identify each other on the network. This process is crucial because while humans find it easier to remember domain names, computers need IP addresses to route data to the correct destination on the internet or a local network. Essentially, DNS acts as a directory that matches domain names with their corresponding IP addresses.
+[slide_18_image48.png] The Transport layer (Layer 4) of the OSI model is responsible for ensuring that the entire message arrives at its destination without errors. It does this by using error detection and correction mechanisms, such as checksums. If an error is detected, the Transport layer can request the retransmission of the affected data segments, ensuring reliable communication between the sender and receiver. In particular, protocols like TCP (Transmission Control Protocol) operate at this layer to provide this reliability.
+
+================ SLIDE 19 ================
+[slide_19_image51.png] Which one of the following is cloud platform by Amazon? A) Azure B)AWS C)C10udera D)AII of the mentioned Which one of the following can be considered as the example of the front-end ? A) Web Browser B)Goog1e Compute Engine C) Cisco Metapod D)AWS E)AII Which of the following is not a function of NetworK Layer ? A) Congestion Control B)Error Control C) Routing D) Inter Networking
+
+================ SLIDE 20 ================
+[slide_20_image45.png] Application Presenation Session ranspo Data-Link Physical
+[slide_20_image54.png] What is the main purpose of router • To connect multiple networks and route packets • To format documents • To store data To print documents •
+
+================ SLIDE 21 ================
+[slide_21_image57.png] A router helps you connect multiple devices to the Internet, and connect the devices to each other. Also, you can use routers to create local networks of devices. These local networks are useful if you want to share files among devices or allow employees to share software tools.
+[slide_21_image56.png] The transport layer (layer 4) is the "heart of OSI," handling all data communication between networks and systems. 11 Jun 2024
+
+================ SLIDE 22 ================
+[slide_22_image59.png] Which of the following protocols helps to get the network-layer address for a host? A) SMTP B)ARP C)DHCP D) ICMP Which of the following is an example of IAAS? A) Google compute engine C)Goog1e classroom B)Goog1e app engine D)AII
+
+================ SLIDE 23 ================
+[slide_23_image62.png] Google Classroom is a cloud-based tool that's part of Google's cloud computing infrastructure, Google Cloud. Google Cloud is a software as a service (SaaS) provider that delivers applications and the infrastructure needed to run them.
+[slide_23_image61.png] DHCP ICMP : ICMP stands for Internet Control Message Protocol. It is used to report some problem when routing a packet. DHCP: DHCP stands for Dynamic Host Configaration Protocol. It helps to get the network layer address for a host. IO Aug 2017
+[slide_23_image63.png] Google App Engine (GAE) is a platform-as-a-service (PaaS) product that enables web app developers and enterprises to build, deploy and host scalable, high-performance applications in Google's fully managed cloud environment without having to worry about infrastructure provisioning or management.
+
+================ SLIDE 24 ================
+[slide_24_image65.png] Match the following cloud service models with their Appropriate Examples Service Models: 1. SAAS Example : A)Microsoft 2. PASS 365 3-c 3-c 3-8 3-8 3. IAAS B)Magento Commerce Cloud C)Goog1e compute engine options : A) I-A, B) 1-8, C) I-A, D) l-c, 2 2 2 2 -B, -A, -C, -A,
+
+================ SLIDE 25 ================
+[slide_25_image67.png] Which of the follwing is the most important area of concern in cloud computing ? A) Scalability B) Storage C) Security D) All of the mentioned How many phase are there in cloud computing Planning?
+
+================ SLIDE 26 ================
+[slide_26_image69.png] There are mainly three phases involved in cloud computing planning which are as follows: Strategy Phase. Planning Phase. Deployment Phase. 26 Mar 2024
+
+================ SLIDE 27 ================
+[slide_27_image71.png] As per which of the following essentil characterstics of cloud, hosted application should be reachable via any network-based appliance ? A) On-Demand Self-service B) Broad network access C) Resource pooling D) Rapid elasticity the Which architectural layer is used as a backend in cloud computing ? A) Cloud B) Soft C)C1ient D)AII of the mentioned
+
+================ SLIDE 28 ================
+[slide_28_image73.png] Answer:- The architectural layer used as a backend in cloud computing is cloud. 7 Dec 2022 Brainly.in o https://brainly in Computer Science Secondary School The architectural layer used as a backend in cloud computing
+
+================ SLIDE 29 ================
+[slide_29_image76.png] What is the purpose of the OSI model in networking? A. To define the architecture for network protocols B. To establish a framework for software development C. To specify the physical network infrastructure D. To manage network security Correct Answer: A
+[slide_29_image75.png] What is the purpose of the OSI Model in networking A) To B) To C) To D) To Which define the physical layout of network cables provide a standarized framework for understanding configure network routers encrypt data for secure transmission OSI Model layer is responsible for routing packets between different networks ? A) B) C) D) Physical Layer Data Link Layer Network Layer Transport Layer
+
+================ SLIDE 30 ================
+[slide_30_image78.png] The network layer, or layer 3, in the Open Systems Interconnection (OSI) model is responsible for routing packets between different networks: Routing The network layer sets up routes for data packets to take. It also routes data via the shortest or fastest physical path, while working around traffic controls, congestion, broken links, and service priority. Addressing The network layer handles addressing logic to distinguish between the source and destination networks. Packet forwarding The network layer forwards packets, including routing through intermediate routers. Checking server status The network layer checks to see if a server in another network is up and running. Receiving IP packets The network layer addresses and receives IP packets from other networks. The network layer sits between the data link layer (layer 2) and the transport layer (layer 4).
+
+================ SLIDE 31 ================
+[slide_31_image81.png] • • • • What is a network A single computer A group of interconnected computers A standalone device A software application
+[slide_31_image80.png] Which OSI Model layer is responsible for routing packets between different networks? A) Physical Layer B) Data Link Layer C) Network Layer D) Transport Layer What IP address class does the address 225.101.0.205 belong to ? A) Class A B) Class B C) Class C D) Class D
+[slide_31_image82.png] Address Class c RANGE I.o.o.o to 126255255.255 128.0.O.O to 191255255.255 192.0.O.Oto 223255.255255 224.0.O.O to 239255255.255 240.0.O.Oto 254255.255255 Default Subnet Mask 255.0.o.o 255.255.0.0 255.255.255.0 Reserved for Multicasting Experimental Note: Class A addresses 127.0.O.O to 127.255.255.255 cannot be used and is reserved for loopback testing.
+
+================ SLIDE 32 ================
+[slide_32_image84.png] What is the purpose of subnetting in IP Addressing ? A) To create smaller, more manageable network segments B) To encrypt data transmissions C) To establish direct connections between devices D) To increase the speed of data transmission Which type of IP address is used to identify the network itself, rather than individual devices within the network ? A) B) C) D) Public IP Address Private IP Address Subnet Default gateway
+
+================ SLIDE 33 ================
+[slide_33_image87.png] Private IP addresses A private IP address, also called a local IP address, is the IP address used to identify each device within your local network. While your public IP address is visible to devices outside your network, your private IP address is only visible within your network. Each device within your network requires its own unique private IP address so your router can easily direct traffic to the correct device, since even a home network is likely to host multiple devices—laptops, smartphones, printers, speakers, tablets, etc.
+[slide_33_image86.png] IP subnetting, or subnetting, is the process of dividing a large network into smaller, more manageable subnetworks. It has several purposes, including: Improved network performance Subnetting can reduce network traffic and improve network performance by sorting and routing packets by subnet. Enhanced network security Subnetting can help limit network breaches by isolating compromised subnetworks. Simplified network management Subnetting can help prevent the wastage of IP addresses and make it easier to communicate between subnetworks. Accommodating network growth Subnetting can help accommodate network expansion and increase network scalability.
+
+================ SLIDE 34 ================
+[slide_34_image89.png] Which network topology connects all devices to a central hub or switch, with each device having its own dedicated connection to the central device? A) Star Topology B) Bus Topology C) Ring Topology D) Mesh Topology Which protocol is commonly used for secure remote login and file transfer over a network ? A) HTTP B) FTP C)SSH D)SMTP
+[slide_34_image90.png] sav
+
+================ SLIDE 35 ================
+[slide_35_image92.png] Secure File Transfer Protocol (SFTP) is a network protocol that's commonly used for secure remote login and file transfer over a network: Security SFTP uses Secure Shell (SSH) for authentication and encryption, which provides secure identification of the two parties involved in data transfer. File transfer SFTP uses a tunneling method to transfer files, which is more secure than the direct transfer method used by the less secure File Transfer Protocol (FT P). File management SFTP is designed for securely accessing, transferring, and managing large files and sensitive data. HTTPS (HTTP over SSL) is another secure protocol that's user-friendly and doesn't require client applications to be installed.
+[slide_35_image91.png] Network Topology Types Point to point Tree Bus Mesh Ring Hybrid Star
+
+================ SLIDE 36 ================
+[slide_36_image95.png] Which of the following statements is true about modems ? 1. 2. 3. 4. 5. Modems use the telephone lines Modem stands for modulator and demodulator Modem are no longer used in secure network Both 1 and 2 None of the above/ More than one of the above
+[slide_36_image94.png] Which device is responsible for forwarding data packets between different networks in network infrastructire A) Router B)Switch C)Hub D)Modem www. hubspot.com/commercial/..... ' commercial' is called A) Query B) Directory C)TLD D)Host
+
+================ SLIDE 37 ================
+[slide_37_image97.png] A router is a networking device that forwards data packets between computer networks. 29 2024
+
+================ SLIDE 38 ================
+[slide_38_image99.png] hides the tue network address and it is used to intercept all messages entering and leaving the network 1. 2. 3. 4. 5. Logic bomb Firewall Patches Proxy Server None of the above / more than one of the above which virus spreads in application software 1. 2. 3. 4. Macro Virus Boot Virus File Virus Antivirus
+
+================ SLIDE 39 ================
+[slide_39_image101.png] A proxy server firewall is a type of network firewall that hides the true network address of a computer and intercepts all messages entering and leaving a network. It acts as an intermediary between the internet and the end user.
+
+================ SLIDE 40 ================
+[slide_40_image103.png] in Computing is a network security system that monitors and controls incoming and outgoing network traffic based on predetermine security rules. 1. 2. 3. 4. Spyware Cookie Spam Firewall A Computer virus is a A) Hardware B)Software C) Bacteria D) Freeware
+
+================ SLIDE 41 ================
+[slide_41_image106.png] A computer virus is a type of software , or malware, that can damage a computer's software and data. Here are some things to know about computer viruses: How they work Computer viruses are designed to spread from one computer to another, replicate themselves, and attach to other files and programs. They can cause unexpected or damaging effects, such as corrupting data and harming system software. How to protect your computer To protect your computer from viruses, you can: Update your operating system, browser, and installed programs regularly. Allow your device to automatically update software programs and systems. How to detect and remove viruses Antivirus software scans computers for viruses, malware, and sppvare. These programs can help detect viruses and repair or delete them from computers.
+[slide_41_image105.png] A firewall is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. Contrast Security https://www.contrastsecurity.com glossary firewall What is a Firewall Network Security System?
+
+================ SLIDE 42 ================
+[slide_42_image107.png] Which of the following is a malicious software that, on execution, runs its own code and modifies other computer programs ? A) virus b)spam c) spyware d)adware e) none Dynamic packet filters firewall are that work at 1. Application Layer 5. Session layer 2. TCP fourth generation firewalls 4. TCP, UDP
+
+================ SLIDE 43 ================
+[slide_43_image109.png] Spam Unsolicited messages that are sent in bulk, usually via email, text message, social media, or phone call. Spam messages can be promotional, but they can also be fraudulent or malicious scams. Malware Short for malicious software, malware is any intrusive software that's designed to steal data, damage, or destroy computers. Examples of malware include viruses, spyware, adware, ransomware, and worms. Spyware A type of malware that's installed on a device without the user's knowledge. Spyware gathers data about the user and device, and sends it to third parties without the user's consent. Adware Short for "advertising-supported software", adware is a software application that displays advertisements, usually through pop-up or pop-under windows. Adware is considered grayware, which means it's not inherently malicious, but it can be invasive and annoying. Viruses A type of malware that infects devices and replicates itself across systems.
+
+================ SLIDE 44 ================
+[slide_44_image110.png] Fourth Generation Firewalls are also known as stateful firewalls. The most important upgrade from First Generation Firewalls is the ability to keep track of the TCP connection state. Greatly prevents hackers access, also these firewalls are able to determine if packets are a part of a new connection or existing connection, relying on a three-way handshake with TCP. Additional Information TCP (Transmission Control Protocol): TCP (Transmission control protocol) is a connection-oriented reliable transport protocol. It provides a process to process communications using port numbers. UDP (User datagram protocol): UDP (User datagram protocol) is called a connectionless, unreliable transport protocol. UDP protocol encapsulates and decapsulates messages in an IP datagram.
+
+================ SLIDE 45 ================
+[slide_45_image111.png] Unsolicited electronic called 1. Virus 2. unzip Which of the following messages sent for marketing purposes are 3. spam 4. URL is essential concept related to cloud ? A) Reliability B) Producivity C) Abstraction D) all of these
+
+================ SLIDE 46 ================
+[slide_46_image113.jpg] 8:05 LTE Cu Jal 1 'u, cuz 1 uy 01 IIUN ramucy o 440/0 KB/S pull Abstraction is the right answer to the question which of the following is an essential concept related to the Cloud. Therefore, the correct option is (A). Abstraction in technology terms is defined as the process of hiding the background details of essential features from the user or developer. It is one of the core principles on which Cloud Computing works. It is designed to simplify operations, by allowing better management of the underlying resources. Let me give you an explanation for abstraction in terms of cloud computing: Applications run on systems that you will not be aware of, your cloud data is stored in locations you may not know about, System administration is outsourced, which means all the resources upon which cloud computing works, will not be visible to you as a user or a developer.
+
+================ SLIDE 47 ================
+[slide_47_image114.png] Computing refers to applications and services that run on a distributed network using virtualized resources. A) distributed b)cloud c) soft d) parallel has many of the characterstics of what is now being called cloud computing. A) Internet C) Web Service B) Softwware D) All of the mentioned
+
+================ SLIDE 48 ================
+[slide_48_image116.png] Which of the A) Public C) Hybrid Which of the following B) D) following is the deployment model ? Private All of above cloud concept is related to pooling and sharing of resources? A) Polymorphism C) Virtualization B) Abstraction D) None
+
+================ SLIDE 49 ================
+[slide_49_image118.png] Virtualization is related to pooling and sharing in a cloud concept. Through this, the resources are shared. Through this type of computation, it is possible to run applications and services on a common distributed network. 22Aug2018
+
+================ SLIDE 50 ================
+[slide_50_image120.png] Cloud computing is a undirectional in nature A) stateless B) Stateful system and it is necessarily C) Reliable D)AII of above Which of the following is best known service model? A) SaaS C) IaaS B)PaaS D)AII of the mentioned
+
+================ SLIDE 51 ================
+[slide_51_image123.png] Containers-as-a-Service (CaaS) is a cloud service that helps manage and deploy apps using container-based abstraction. CaaS can be deployed on-premises or in a cloud. 22 Jan 2020
+[slide_51_image122.png] Which of the following is related to service provided by cloud ? A) Sourcing B)Ownership C) Reliability D) None Which of the following cloud concept is related to pooling and sharing of resources ? A) Polymorphism C) Virtualizartion Cass Stands for A) Compliance B)Abstraction D) None as service B)Computer C)Community D)Communication
+
+================ SLIDE 52 ================
+[slide_52_image125.png] Which of the following is cloud services? A) Public B)Private owned by an organization selling C)Community D)Hybrid Which of the following service provider provides the least amount of built in security ? A) SaaS C) IaaS B)PaaS D)AII of above Cloud Computing refers to ? A) accessing the hardware B) Configuring the hardware C) Manipulating the hardware D) All of the above
+
+================ SLIDE 53 ================
+[slide_53_image128.png] Cloud computing refers to all of the above: accessing, ma- nipulating, and configuring hardware and software re- sources remotely. Cloud Computing Cloud computing is a network service that delivers computing resources, such as servers, storage, databases, networking, software, analytics, and intelligence, over the internet. It allows users to pay for only the services they use, which can help lower operating costs and run infrastructure more efficiently.
+[slide_53_image127.png] Explanation: IaaS has the least levels of integrated functionality and the lowest levels of integrated security, and SaaS has the most. Sanfoundry https://www.sanfoundrycom cloud-computing-online__ Security Service Boundary - Cloud Computing Questions and
+
+================ SLIDE 54 ================
+[slide_54_image130.png] How many The types of allows cloud are there in deployment models? systems and services to be accessible by a group of organization A) Private cloud b)public cloud c)community cloud d) hybrid Which of the following is a step of deployment Phase ? A) Transformation Plan development B) IT Architecture development C) Business architecture development D) Selecting cloud computing
+
+================ SLIDE 55 ================
+[slide_55_image132.png] Which of the following A) Microsoft Azure C) IBM Deep Blue Which of the following in cloud computing ? is not a major cloud computing platform ? B)Amazon EC2 D)Goog1e 101 A) Client C) Soft B)C10ud D)AII of architectural layer is used as front end above
+
+================ SLIDE 56 ================
+[slide_56_image134.png] The ability referred to A) Thin to provide as B)Thick storage on demand from a storage pool is provisioning C)F1at D)Fu11 Cloud Computing shifts capital expenditures into expenditures A) Operating C) Local B)Service D) None Which of the following network device is used to transmit digital signal over the internet- A) Repeater C) Switch B) Modem D) Hub
+
+================ SLIDE 57 ================
+[slide_57_image137.png] Which of the following type of error occurs in both parallel and serial communication system? A) Burst error B) Multiple bit error C) Framing error D) Bit error MS Office 365 is an example of which of the following type of cloud service model ? B) C) D) IaaS Saas IDaas
+[slide_57_image136.png] Bridge can be used to join 1. 2. A) B) C) D) An unshielded twisted pair (UTP) cabling and fiber Token Ring and Ethernet Only 2 Neither 1 nor 2 Only 1 Both 1 and 2 optic cabling
+
+================ SLIDE 58 ================
+[slide_58_image140.png] Which of the following is used to establish a VPN connection A)Nginx B)HAProxy C) Zeus D) OpenSwan Which of the following industries have to use the private cloud deployment model ? A) Banking C) Logistics B)ECommerce D) All of the mentioned
+[slide_58_image139.png] in TCP/IP Model, which of the following protocol is used on internet layer? A) IGMP C)ARP B) FT p D) UDP Find the odd one out a) 07-Zip b) WinZip c) WinRAR D) Windows
+
+================ SLIDE 59 ================
+
+================ SLIDE 60 ================
+[slide_60_image143.png] Which of the following is an example of IaaS ? a) Mall Chimp B) AWS EC2 C) Salesforce d) wordpress Which of the following protocols is commonly used for accessing, browsing, and retrieving information from websites on the world wide web ? A) B) C) D) File transfer protocol Hypertext transfer protocol simple mail transfer protocol Domain name svstem
+
+================ SLIDE 61 ================
+[slide_61_image146.png] What does DNS stand for ? • • • Domain name system Data network service Digital network signal Domain network system
+[slide_61_image145.png] Which device is used to connect two different networks • • • • Switch Router Hub Repeater
+[slide_61_image147.png] Which protocol is used to send emails • FT p SMTP HTTp SNMP

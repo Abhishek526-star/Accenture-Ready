@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Sparkles,
   Server,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Flame
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { sqlQuestions } from '../data/sqlQuestions.js';
@@ -21,6 +22,7 @@ import { dsaPatterns } from '../data/dsaPatterns.js';
 import { cheatSheets } from '../data/cheatSheets.js';
 import { devopsQuestions } from '../data/devopsQuestions.js';
 import { msOfficeQuestions } from '../data/msOfficeQuestions.js';
+import { importantQuestions } from '../data/importantQuestions.js';
 
 export default function GlobalSearchModal({ isOpen, onClose }) {
   const [query, setQuery] = useState('');
@@ -144,6 +146,19 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
           category: `MS Office Assessment (${msQ.tierName})`,
           icon: <FileSpreadsheet size={16} className="text-emerald-400" />,
           route: `/ms-office-assessment?tier=${msQ.tier}&topic=${encodeURIComponent(msQ.topic)}`
+        });
+      }
+    });
+
+    // 8. Most Important PYQs (61 Qs)
+    importantQuestions.forEach(impQ => {
+      if (impQ.question.toLowerCase().includes(q) || impQ.topic.toLowerCase().includes(q)) {
+        results.push({
+          id: `pyq-${impQ.id}`,
+          title: impQ.question.slice(0, 100) + (impQ.question.length > 100 ? '...' : ''),
+          category: `Most Important PYQ (${impQ.tierName})`,
+          icon: <Flame size={16} className="text-amber-400" />,
+          route: `/important-questions?tier=${impQ.tier}&topic=${encodeURIComponent(impQ.topic)}`
         });
       }
     });
