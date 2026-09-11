@@ -1,5 +1,5 @@
 // src/pages/RecentQuestionsPage.jsx
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   Code2,
@@ -61,6 +61,25 @@ export default function RecentQuestionsPage({ theme }) {
 
   // Live Quote state for 10th Sept Frontend interactive widget
   const [currentQuote, setCurrentQuote] = useState('Click the button to show a quote!');
+
+  // Custom dropdown states
+  const [isDateOpen, setIsDateOpen] = useState(false);
+  const [isDiffOpen, setIsDiffOpen] = useState(false);
+  const dateDropdownRef = useRef(null);
+  const diffDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dateDropdownRef.current && !dateDropdownRef.current.contains(e.target)) {
+        setIsDateOpen(false);
+      }
+      if (diffDropdownRef.current && !diffDropdownRef.current.contains(e.target)) {
+        setIsDiffOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Interactive runner input state per question card
   const [runnerInputs, setRunnerInputs] = useState({
@@ -240,36 +259,91 @@ export default function RecentQuestionsPage({ theme }) {
         </div>
 
         <div className="filter-dropdowns">
-          {/* Date Selector */}
-          <div className="select-wrapper">
-            <Calendar size={14} />
-            <select
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              aria-label="Filter by exam date"
+          {/* Date Selector Custom Dropdown */}
+          <div className="custom-dropdown-container" ref={dateDropdownRef}>
+            <button
+              type="button"
+              className={`custom-dropdown-trigger ${isDateOpen ? 'open' : ''}`}
+              onClick={() => {
+                setIsDateOpen(!isDateOpen);
+                setIsDiffOpen(false);
+              }}
             >
-              <option value="all">All Dates & Shifts ({availableDates.length})</option>
-              {availableDates.map((date) => (
-                <option key={date} value={date}>
-                  {date}
-                </option>
-              ))}
-            </select>
+              <Calendar size={14} className="text-sky-400" />
+              <span className="dropdown-trigger-label">
+                {selectedDate === 'all' ? `All Dates & Shifts (${availableDates.length})` : selectedDate}
+              </span>
+              <ChevronDown size={14} className={`dropdown-chevron ${isDateOpen ? 'rotate' : ''}`} />
+            </button>
+
+            {isDateOpen && (
+              <div className="custom-dropdown-menu">
+                <button
+                  type="button"
+                  className={`custom-dropdown-item ${selectedDate === 'all' ? 'active' : ''}`}
+                  onClick={() => {
+                    setSelectedDate('all');
+                    setIsDateOpen(false);
+                  }}
+                >
+                  <span>All Dates & Shifts ({availableDates.length})</span>
+                  {selectedDate === 'all' && <Check size={14} className="text-sky-400" />}
+                </button>
+                {availableDates.map((date) => (
+                  <button
+                    key={date}
+                    type="button"
+                    className={`custom-dropdown-item ${selectedDate === date ? 'active' : ''}`}
+                    onClick={() => {
+                      setSelectedDate(date);
+                      setIsDateOpen(false);
+                    }}
+                  >
+                    <span>{date}</span>
+                    {selectedDate === date && <Check size={14} className="text-sky-400" />}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Difficulty Selector */}
-          <div className="select-wrapper">
-            <Filter size={14} />
-            <select
-              value={selectedDifficulty}
-              onChange={(e) => setSelectedDifficulty(e.target.value)}
-              aria-label="Filter by difficulty"
+          {/* Difficulty Selector Custom Dropdown */}
+          <div className="custom-dropdown-container" ref={diffDropdownRef}>
+            <button
+              type="button"
+              className={`custom-dropdown-trigger ${isDiffOpen ? 'open' : ''}`}
+              onClick={() => {
+                setIsDiffOpen(!isDiffOpen);
+                setIsDateOpen(false);
+              }}
             >
-              <option value="all">All Difficulties</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
+              <Filter size={14} className="text-amber-400" />
+              <span className="dropdown-trigger-label">
+                {selectedDifficulty === 'all'
+                  ? 'All Difficulties'
+                  : selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}
+              </span>
+              <ChevronDown size={14} className={`dropdown-chevron ${isDiffOpen ? 'rotate' : ''}`} />
+            </button>
+
+            {isDiffOpen && (
+              <div className="custom-dropdown-menu">
+                {['all', 'easy', 'medium', 'hard'].map((diff) => (
+                  <button
+                    key={diff}
+                    type="button"
+                    className={`custom-dropdown-item ${selectedDifficulty === diff ? 'active' : ''}`}
+                    onClick={() => {
+                      setSelectedDifficulty(diff);
+                      setIsDiffOpen(false);
+                    }}
+                  >
+                    <span>{diff === 'all' ? 'All Difficulties' : diff.charAt(0).toUpperCase() + diff.slice(1)}</span>
+                    {selectedDifficulty === diff && <Check size={14} className="text-sky-400" />}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
