@@ -115,6 +115,11 @@ export const storage = {
     return this.get('completed-questions', []);
   },
 
+  isQuestionCompleted(questionId) {
+    const completed = new Set(this.getCompletedQuestions());
+    return completed.has(Number(questionId));
+  },
+
   markQuestionCompleted(questionId) {
     const completed = new Set(this.getCompletedQuestions());
     completed.add(Number(questionId));

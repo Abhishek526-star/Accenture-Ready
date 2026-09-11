@@ -77,7 +77,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
   const progressPercent = Math.round((solvedCount / dsaPatterns.length) * 100);
 
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="dsa-page-container">
       {/* Back to Learn Breadcrumb */}
       <div style={{ marginBottom: '1.25rem' }}>
         <Link to="/learn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none' }}>
@@ -184,7 +184,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
       </div>
 
       {/* Main Two-Panel Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 420px) 1fr', gap: '1.5rem', alignItems: 'start' }}>
+      <div className="dsa-layout-grid">
         {/* Left Sidebar List */}
         <div>
           {/* Search Box */}

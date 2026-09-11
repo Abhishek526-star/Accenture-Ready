@@ -401,3 +401,35 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+
+/* Responsive Mobile Rules */
+@media (max-width: 640px) {
+  .cognitive-game-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .cgh-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cgh-title {
+    font-size: 1.1rem;
+  }
+
+  .cgh-right {
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cgh-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+

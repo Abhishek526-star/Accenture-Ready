@@ -74,23 +74,14 @@ export default function LearningHubPage({ theme = 'dark' }) {
   ];
 
   return (
-    <div className="learning-hub-page" style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <div className="learning-hub-page">
       {/* Top Banner */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%)',
-        border: '1px solid rgba(148, 163, 184, 0.15)',
-        borderRadius: '20px',
-        padding: '2.5rem 2rem',
-        marginBottom: '2.5rem',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <div className="learning-hub-hero">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.75rem' }}>
           <Sparkles size={14} />
           <span>ACCENTURE LEARNING ECOSYSTEM</span>
         </div>
-        <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.5rem 0', letterSpacing: '-0.02em' }}>
+        <h1 className="learning-hub-title">
           Placement Learning Hub
         </h1>
         <p style={{ fontSize: '1.05rem', color: '#94a3b8', maxWidth: '720px', margin: 0, lineHeight: 1.6 }}>
@@ -99,12 +90,7 @@ export default function LearningHubPage({ theme = 'dark' }) {
       </div>
 
       {/* Grid of Learning Tracks */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '1.75rem',
-        marginBottom: '3rem'
-      }}>
+      <div className="learning-hub-grid">
         {categories.map((cat) => (
           <div
             key={cat.id}

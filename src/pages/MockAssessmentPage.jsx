@@ -86,32 +86,19 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
 
   if (!session && !testResult) {
     return (
-      <div style={{ maxWidth: '900px', margin: '3rem auto', padding: '0 1.5rem' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
-          border: '1px solid rgba(56, 189, 248, 0.25)',
-          borderRadius: '20px',
-          padding: '3rem 2.5rem',
-          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
-          textAlign: 'center'
-        }}>
+      <div className="mock-page-container">
+        <div className="mock-intro-card">
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '1rem' }}>
             <Sparkles size={14} /> OFFICIAL SIMULATION
           </div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 1rem 0' }}>
+          <h1 className="mock-intro-title">
             Accenture Full Mock Assessment
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '650px', margin: '0 auto 2rem auto', lineHeight: 1.6 }}>
             Realistic 90-minute timed environment replicating the full Accenture recruitment test format: Frontend Coding, SQL, Technical Aptitude MCQs, and Cognitive Reasoning.
           </p>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: '1rem',
-            maxWidth: '680px',
-            margin: '0 auto 2.5rem auto'
-          }}>
+          <div className="mock-stats-summary-grid">
             <div style={{ background: '#0f172a', padding: '1rem', borderRadius: '10px', border: '1px solid #334155' }}>
               <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Duration</span>
               <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8' }}>90 Mins</div>
@@ -253,21 +240,10 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
   const totalSections = session.sections.length;
 
   return (
-    <div style={{ maxWidth: '1360px', margin: '0 auto', padding: '1.5rem' }}>
+    <div className="mock-page-container">
       {/* Top Test Navigation Bar */}
-      <div style={{
-        background: '#1e293b',
-        border: '1px solid #334155',
-        borderRadius: '12px',
-        padding: '1rem 1.5rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1rem',
-        marginBottom: '1.5rem'
-      }}>
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <div className="mock-top-nav">
+        <div className="mock-section-tabs">
           {session.sections.map((sec, idx) => (
             <button
               key={sec.id}
@@ -275,52 +251,22 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
                 setCurrentSectionIndex(idx);
                 setCurrentQuestionIndex(0);
               }}
-              style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                background: currentSectionIndex === idx ? '#0284c7' : '#0f172a',
-                color: '#ffffff',
-                border: currentSectionIndex === idx ? '1px solid #38bdf8' : '1px solid #334155',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                cursor: 'pointer'
-              }}
+              className={`mock-section-btn ${currentSectionIndex === idx ? 'active' : ''}`}
             >
               Section {idx + 1}: {sec.title} ({sec.count})
             </button>
           ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            padding: '6px 14px',
-            background: remainingSeconds < 300 ? '#7f1d1d' : '#0f172a',
-            border: remainingSeconds < 300 ? '1px solid #ef4444' : '1px solid #334155',
-            borderRadius: '8px',
-            color: remainingSeconds < 300 ? '#ef4444' : '#38bdf8',
-            fontWeight: 700,
-            fontFamily: 'JetBrains Mono',
-            fontSize: '1.1rem'
-          }}>
+        <div className="mock-top-actions">
+          <div className={`mock-timer-display ${remainingSeconds < 300 ? 'timer-critical' : ''}`}>
             <Clock size={16} />
             <span>{formatTimer(remainingSeconds)}</span>
           </div>
 
           <button
             onClick={handleManualSubmit}
-            style={{
-              padding: '8px 18px',
-              background: '#ef4444',
-              border: 'none',
-              borderRadius: '8px',
-              color: '#ffffff',
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              cursor: 'pointer'
-            }}
+            className="btn btn-danger mock-submit-btn"
           >
             Submit Assessment
           </button>
@@ -328,7 +274,7 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
       </div>
 
       {/* Section Content */}
-      <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '2rem' }}>
+      <div className="mock-content-card">
         {activeSection.id === 'mcq' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>

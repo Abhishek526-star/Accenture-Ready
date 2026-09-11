@@ -125,7 +125,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
   };
 
   return (
-    <div style={{ maxWidth: '1360px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="pseudocode-page-container">
       {/* Top Banner */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
@@ -258,7 +258,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
       )}
 
       {/* Main Two-Column Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr minmax(280px, 340px)', gap: '1.75rem' }}>
+      <div className="pseudocode-layout-grid">
         {/* Left: Code, Tracer, and Question card */}
         <div>
           {currentQuestion && (

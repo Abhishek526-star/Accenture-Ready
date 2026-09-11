@@ -64,48 +64,27 @@ export default function Dashboard({ theme = 'dark' }) {
   };
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1.5rem' }} key={refreshKey}>
+    <div className="dashboard-page-container" key={refreshKey}>
       {/* 1. Welcome Back Header Bar */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
-        border: '1px solid rgba(148, 163, 184, 0.15)',
-        borderRadius: '20px',
-        padding: '2.5rem 2rem',
-        marginBottom: '2rem',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1.5rem'
-      }}>
+      <div className="dashboard-hero-card">
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             <Sparkles size={14} /> CENTRAL PREPARATION COMMAND
           </div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: '#f8fafc', margin: '0 0 0.5rem 0', letterSpacing: '-0.02em' }}>
+          <h1 className="dashboard-hero-title">
             Welcome back, Abhishek 👋
           </h1>
-          <p style={{ color: '#94a3b8', margin: 0, fontSize: '1.05rem', maxWidth: '620px' }}>
+          <p className="dashboard-hero-subtitle">
             Continue your preparation. Your Accenture readiness score updates automatically with each problem solved, lesson completed, and mock test attempted.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div className="dashboard-hero-actions">
           <Link
             to="/daily-challenge"
-            className="btn btn-primary"
+            className="btn btn-primary dashboard-action-btn"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '12px 20px',
               background: 'linear-gradient(135deg, #f97316, #ea580c)',
-              border: 'none',
-              borderRadius: '10px',
-              color: '#ffffff',
-              fontWeight: 700,
-              textDecoration: 'none',
               boxShadow: '0 4px 16px rgba(249, 115, 22, 0.35)'
             }}
           >
@@ -114,18 +93,11 @@ export default function Dashboard({ theme = 'dark' }) {
           </Link>
           <Link
             to="/mock-test"
-            className="btn btn-outline"
+            className="btn btn-outline dashboard-action-btn"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '12px 20px',
               background: '#0f172a',
               color: '#38bdf8',
-              border: '1px solid #38bdf8',
-              borderRadius: '10px',
-              fontWeight: 700,
-              textDecoration: 'none'
+              border: '1px solid #38bdf8'
             }}
           >
             <Target size={16} />
@@ -135,14 +107,7 @@ export default function Dashboard({ theme = 'dark' }) {
       </div>
 
       {/* 2. Core Readiness Card (0 - 100 Gauge) */}
-      <div style={{
-        background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.3)',
-        borderRadius: '20px',
-        padding: '2.5rem',
-        marginBottom: '2rem',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)'
-      }}>
+      <div className="dashboard-readiness-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
           <div>
             <span style={{ fontSize: '0.85rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em' }}>
@@ -195,13 +160,7 @@ export default function Dashboard({ theme = 'dark' }) {
         </div>
 
         {/* 4 Area Breakdown Row */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: '1.25rem',
-          paddingTop: '1.5rem',
-          borderTop: '1px solid #334155'
-        }}>
+        <div className="dashboard-breakdown-row">
           <div>
             <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block', marginBottom: '0.2rem' }}>Coding (25%)</span>
             <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#38bdf8', fontFamily: 'JetBrains Mono' }}>
@@ -230,12 +189,7 @@ export default function Dashboard({ theme = 'dark' }) {
       </div>
 
       {/* 3. Gamification Badges Row */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '1.25rem',
-        marginBottom: '2rem'
-      }}>
+      <div className="dashboard-gamify-grid">
         {/* Streak */}
         <div style={{
           background: '#1e293b',
@@ -306,7 +260,7 @@ export default function Dashboard({ theme = 'dark' }) {
       </div>
 
       {/* 4. Continue Learning & 5. Weak Areas Side-by-Side */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 1fr) minmax(320px, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div className="dashboard-learning-weak-grid">
         {/* Continue Learning Card */}
         <div style={{
           background: '#1e293b',
@@ -452,7 +406,7 @@ export default function Dashboard({ theme = 'dark' }) {
           Targeted study loops constructed in real-time from your performance trends:
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem' }}>
+        <div className="dashboard-recommendations-grid">
           {recommendations.map((rec) => (
             <div
               key={rec.id}
@@ -553,7 +507,7 @@ export default function Dashboard({ theme = 'dark' }) {
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+        <div className="dashboard-modules-grid">
           <Link to="/practice" style={{ padding: '12px', background: '#0f172a', borderRadius: '10px', border: '1px solid #334155', textDecoration: 'none', color: '#f8fafc' }}>
             <Code2 size={20} className="text-sky-400" />
             <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem' }}>Frontend Coding</div>

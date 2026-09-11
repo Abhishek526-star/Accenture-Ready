@@ -46,7 +46,7 @@ export default function CheatSheetsPage({ theme = 'dark' }) {
   };
 
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="cheatsheets-page-container">
       {/* Breadcrumb */}
       <div style={{ marginBottom: '1.25rem' }}>
         <Link to="/learn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none' }}>
@@ -115,7 +115,7 @@ export default function CheatSheetsPage({ theme = 'dark' }) {
       </div>
 
       {/* Two Column Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 380px) 1fr', gap: '1.5rem', alignItems: 'start' }}>
+      <div className="cheatsheet-layout-grid">
         {/* Navigation Sidebar */}
         <div>
           <div style={{ position: 'relative', marginBottom: '1rem' }}>

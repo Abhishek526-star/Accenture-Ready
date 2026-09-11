@@ -142,7 +142,6 @@ export default function CodeEditor({
       </div>
 
       <div className="editor-footer-status">
-        <span>✏️ All files are editable (JavaScript, HTML, CSS)</span>
         <span className="editor-footer-tip">Autosaved to localStorage</span>
       </div>
     </div>

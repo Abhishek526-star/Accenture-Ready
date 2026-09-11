@@ -163,8 +163,8 @@ export default function Home() {
       </section>
 
       {/* Assessment Tracks Selection Grid */}
-      <section style={{ maxWidth: '1200px', margin: '-1rem auto 3rem auto', padding: '0 1.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+      <section className="home-tracks-section">
+        <div className="home-tracks-grid">
           {/* Track 0: Wi-Fi Security */}
           <div style={{
             background: 'linear-gradient(135deg, #083344 0%, #0e7490 120%)',

@@ -287,6 +287,7 @@ export default function Practice({ theme }) {
         question={currentQuestion}
         totalQuestions={questions.length}
         completedCount={completedQuestions.length}
+        completedQuestions={completedQuestions}
         onResetClick={() => setIsResetModalOpen(true)}
         onSelectQuestion={(id) => setCurrentId(id)}
         allQuestions={questions}

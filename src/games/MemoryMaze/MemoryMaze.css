@@ -447,3 +447,44 @@
 .mm-action-btn:hover {
   background: #c2410c;
 }
+
+/* Mobile Responsive Styling */
+@media (max-width: 640px) {
+  .memory-maze-container {
+    padding: 0 0.25rem;
+  }
+
+  .mm-arena-card {
+    padding: 0.85rem 0.5rem;
+    border-radius: 16px;
+  }
+
+  .mm-grid-board {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .mm-arrow-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .mm-arrow-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mm-key-icon, .mm-door-icon {
+    font-size: 1.8rem;
+  }
+
+  .mm-avatar {
+    font-size: 1.6rem;
+  }
+
+  .mm-variant-pill {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+  }
+}
+

@@ -1,73 +1,78 @@
 // src/components/Header.jsx
-import React from 'react';
-import { RotateCcw, CheckCircle2, ChevronDown } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
+import { RotateCcw, Code2 } from 'lucide-react';
 import Timer from './Timer.jsx';
+import { storage } from '../utils/storage.js';
 
 export default function Header({
   question,
   totalQuestions,
   completedCount,
+  completedQuestions = [],
   onResetClick,
   onSelectQuestion,
-  allQuestions
+  allQuestions = []
 }) {
-  const progressPercent = Math.round((completedCount / totalQuestions) * 100);
+  const activeDotRef = useRef(null);
+
+  // Auto-scroll active question dot into view in horizontal container
+  useEffect(() => {
+    if (activeDotRef.current) {
+      activeDotRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }, [question?.id]);
 
   return (
     <header className="practice-header">
-      <div className="header-left">
-        <div className="title-section">
-          <span className="platform-tag">Assessment Workspace</span>
-          <div className="question-selector-wrapper">
-            <select
-              className="question-dropdown"
-              value={question.id}
-              onChange={(e) => onSelectQuestion(Number(e.target.value))}
-              aria-label="Select Question"
-            >
-              <optgroup label="Assessment Set (1-10)">
-                {allQuestions.filter((q) => q.id <= 10).map((q) => (
-                  <option key={q.id} value={q.id}>
-                    {q.id}. {q.title} ({q.difficulty})
-                  </option>
-                ))}
-              </optgroup>
-              {allQuestions.some((q) => q.id > 10) && (
-                <optgroup label="Foundation Practice (11-20)">
-                  {allQuestions.filter((q) => q.id > 10).map((q) => (
-                    <option key={q.id} value={q.id}>
-                      {q.id}. {q.title} ({q.difficulty})
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
-            <ChevronDown size={14} className="dropdown-arrow" />
+      <div className="bar-left practice-bar-left">
+        <div className="round-identity practice-round-identity">
+          <div className="round-icon practice-round-icon">
+            <Code2 size={18} />
+          </div>
+          <div>
+            <span className="round-label">Assessment Round</span>
+            <h1 className="round-title">Frontend Coding</h1>
+          </div>
+        </div>
+
+        <div className="q-nav-selector">
+          <div className="q-progress-text">
+            <span className="q-progress-label">Question</span>
+            <span className="q-progress-count">
+              {question?.id || 1} of {totalQuestions}
+            </span>
+          </div>
+          <div className="q-nav-dots">
+            {allQuestions.map((q) => {
+              const isCurrent = q.id === question?.id;
+              const isSolved =
+                (completedQuestions && completedQuestions.includes(q.id)) ||
+                (typeof storage.isQuestionCompleted === 'function' && storage.isQuestionCompleted(q.id)) ||
+                storage.getQuestionResults?.(q.id)?.allPassed;
+
+              return (
+                <button
+                  key={q.id}
+                  ref={isCurrent ? activeDotRef : null}
+                  onClick={() => onSelectQuestion(q.id)}
+                  className={`nav-dot-btn ${isCurrent ? 'active' : ''} ${isSolved ? 'solved' : ''}`}
+                  title={`Question ${q.id}: ${q.title} (${isSolved ? 'Solved' : 'Pending'})`}
+                  aria-label={`Go to Question ${q.id}: ${q.title}`}
+                >
+                  {q.id}
+                  {isSolved && <span className="dot-check">✓</span>}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      <div className="header-center">
-        <div className="progress-container" title={`${completedCount} of ${totalQuestions} Questions Completed`}>
-          <div className="progress-labels">
-            <span className="question-badge">
-              Question {question.id} / {totalQuestions}
-            </span>
-            <span className="completion-rate">
-              <CheckCircle2 size={13} className="completion-icon" />
-              {completedCount}/{totalQuestions} Solved ({progressPercent}%)
-            </span>
-          </div>
-          <div className="progress-track" role="progressbar" aria-valuenow={progressPercent} aria-valuemin="0" aria-valuemax="100">
-            <div
-              className="progress-fill"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="header-right">
+      <div className="bar-right practice-bar-right">
         <Timer />
 
         <button
@@ -76,7 +81,7 @@ export default function Header({
           title="Reset your JavaScript to starter code"
         >
           <RotateCcw size={14} />
-          <span>Reset Code</span>
+          <span className="btn-label-desktop">Reset Code</span>
         </button>
       </div>
     </header>

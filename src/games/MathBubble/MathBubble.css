@@ -269,21 +269,40 @@
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .math-bubble-container {
-    min-height: 460px;
+    min-height: 420px;
   }
   .math-bubble {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
   .mb-expression {
-    font-size: 17px;
+    font-size: 16px;
   }
   .mb-header {
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
   .mb-instruction-banner {
     flex-direction: column;
     gap: 8px;
     align-items: flex-start;
+    padding: 10px 14px;
   }
 }
+
+@media (max-width: 480px) {
+  .math-bubble {
+    width: 95px;
+    height: 95px;
+  }
+  .mb-expression {
+    font-size: 14px;
+  }
+  .mb-order-pill {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    top: 6px;
+    right: 6px;
+  }
+}
+

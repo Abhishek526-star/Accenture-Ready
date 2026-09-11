@@ -98,15 +98,9 @@ export default function PreparationRoadmapPage({ theme = 'dark' }) {
   ];
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="roadmap-page-container">
       {/* Header */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.25)',
-        borderRadius: '20px',
-        padding: '2.5rem 2rem',
-        marginBottom: '2rem'
-      }}>
+      <div className="roadmap-hero-card">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
           <Calendar size={14} /> STRUCTURED PREPARATION PLAN
         </div>

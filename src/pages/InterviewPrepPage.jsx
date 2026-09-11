@@ -287,18 +287,9 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
   };
 
   return (
-    <div style={{ maxWidth: '1360px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="interview-page-container">
       {/* Header Banner */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
-        border: '1px solid rgba(168, 85, 247, 0.35)',
-        borderRadius: '20px',
-        padding: '2.5rem 2.25rem',
-        marginBottom: '2rem',
-        boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.5)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <div className="interview-hero-card">
         <div style={{ maxWidth: '820px' }}>
           <div style={{
             display: 'inline-flex',

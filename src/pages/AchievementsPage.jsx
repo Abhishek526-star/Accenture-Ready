@@ -29,20 +29,9 @@ export default function AchievementsPage({ theme = 'dark' }) {
   const percent = Math.round((unlockedCount / totalCount) * 100);
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="achievements-page-container">
       {/* Banner */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
-        border: '1px solid rgba(234, 179, 8, 0.3)',
-        borderRadius: '20px',
-        padding: '2.5rem 2rem',
-        marginBottom: '2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1.5rem'
-      }}>
+      <div className="achievements-hero-card">
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(234, 179, 8, 0.15)', color: '#facc15', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             <Award size={14} /> CANDIDATE BADGES & RECOGNITION

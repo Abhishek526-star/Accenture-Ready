@@ -32,19 +32,9 @@ export default function CognitiveDashboard() {
   }, []);
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '2rem auto', padding: '0 1.25rem 3.5rem 1.25rem' }}>
+    <div className="cognitive-dashboard-container">
       {/* Hero Section */}
-      <div style={{
-        background: 'radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, 0.15), rgba(15, 23, 42, 0.95) 70%)',
-        border: '1px solid #334155',
-        borderRadius: '24px',
-        padding: '2.5rem 2rem',
-        boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.6)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.25rem',
-        marginBottom: '2rem'
-      }}>
+      <div className="cognitive-hero-card">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.85rem', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '20px', width: 'fit-content' }}>
           <Brain size={16} className="text-sky-400" />
           <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>

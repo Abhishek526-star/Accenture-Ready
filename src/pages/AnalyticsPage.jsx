@@ -36,7 +36,7 @@ export default function AnalyticsPage({ theme = 'dark' }) {
   const overallAccuracy = totalAttempted > 0 ? Math.round((totalSolved / totalAttempted) * 100) : 0;
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="analytics-page-container">
       {/* Top Banner */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
@@ -129,7 +129,7 @@ export default function AnalyticsPage({ theme = 'dark' }) {
       </div>
 
       {/* Main Readiness Gauge + Section Breakdown */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 400px) 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div className="analytics-readiness-grid">
         {/* Overall Readiness Circle Card */}
         <div style={{
           background: '#1e293b',
