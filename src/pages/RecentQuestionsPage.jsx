@@ -884,6 +884,8 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
         if (q.id === 'recent-dsa-001') {
           const tc1 = q.runSimulation([22, 5, 14]);
           const tc2 = q.runSimulation([0, 11, 33, 7, 0]);
+          const tc3 = q.runSimulation([11, 22, 33, 44]);
+          const tc4 = q.runSimulation([7, 14, 21, 28, 35, 42, 49]);
 
           results = [
             {
@@ -893,54 +895,94 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               expected: 'Total Sum: 34 (Transformed: [24, 2, 8])',
               actual: `Total Sum: ${tc1.total} (Transformed: [${tc1.transformed.join(', ')}])`,
               passed: tc1.total === 34,
-              latency: '12ms'
+              latency: '10ms'
             },
             {
               id: 2,
-              name: 'Exam Test Case 2',
+              name: 'Exam Test Case 2 (Multi-Index & Divisibility)',
               input: 'nums = [0, 11, 33, 7, 0]',
               expected: 'Total Sum: 25 (Transformed: [0, 9, 30, -2, -12])',
               actual: `Total Sum: ${tc2.total} (Transformed: [${tc2.transformed.join(', ')}])`,
               passed: tc2.total === 25,
+              latency: '12ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (All Divisible by 11)',
+              input: 'nums = [11, 22, 33, 44]',
+              expected: 'Total Sum: 102 (Transformed: [12, 21, 30, 39])',
+              actual: `Total Sum: ${tc3.total} (Transformed: [${tc3.transformed.join(', ')}])`,
+              passed: tc3.total === 102,
+              latency: '9ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (Modulo 7 Reset Boundary)',
+              input: 'nums = [7, 14, 21, 28, 35, 42, 49]',
+              expected: 'Total Sum: 133 (Transformed: [7, 11, 15, 19, 23, 27, 31])',
+              actual: `Total Sum: ${tc4.total} (Transformed: [${tc4.transformed.join(', ')}])`,
+              passed: tc4.total === 133,
               latency: '14ms'
             }
           ];
         } else if (q.id === 'recent-dsa-002') {
-          const tc1 = q.runSimulation(10);
-          const tc2 = q.runSimulation(112);
+          const tc1 = q.runSimulation(112);
+          const tc2 = q.runSimulation(50);
+          const tc3 = q.runSimulation(10);
+          const tc4 = q.runSimulation(250);
 
           results = [
             {
               id: 1,
-              name: 'Exam Test Case 1 (Boundary N=10)',
-              input: 'N = 10',
-              expected: 'Count: 1 (Valid: [8])',
-              actual: `Count: ${tc1.count} (Valid: [${tc1.numbers.join(', ')}])`,
-              passed: tc1.count === 1,
-              latency: '11ms'
+              name: 'Exam Test Case 1 (N=112)',
+              input: 'N = 112',
+              expected: 'Count: 10',
+              actual: `Count: ${tc1.count}`,
+              passed: tc1.count === 10,
+              latency: '14ms'
             },
             {
               id: 2,
-              name: 'Exam Test Case 2 (N=112)',
-              input: 'N = 112',
-              expected: 'Count: 13',
-              actual: `Count: ${tc2.count}`,
-              passed: tc2.count === 13,
-              latency: '18ms'
+              name: 'Exam Test Case 2 (N=50)',
+              input: 'N = 50',
+              expected: 'Count: 3',
+              actual: `Count: ${tc2.count} (Valid: [${tc2.numbers.join(', ')}])`,
+              passed: tc2.count === 3,
+              latency: '11ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (Boundary N=10)',
+              input: 'N = 10',
+              expected: 'Count: 0',
+              actual: `Count: ${tc3.count}`,
+              passed: tc3.count === 0,
+              latency: '7ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (Large Target N=250)',
+              input: 'N = 250',
+              expected: 'Count: 23',
+              actual: `Count: ${tc4.count}`,
+              passed: tc4.count === 23,
+              latency: '16ms'
             }
           ];
         } else if (q.id === 'recent-dsa-003') {
           const tc1 = q.runSimulation(10);
           const tc2 = q.runSimulation(20);
+          const tc3 = q.runSimulation(5);
+          const tc4 = q.runSimulation(15);
 
           results = [
             {
               id: 1,
               name: 'Exam Test Case 1 (N=10)',
               input: 'N = 10',
-              expected: 'Running Sum = 55, Count = 2',
+              expected: 'Running Sum = 55, Count = 4',
               actual: `Running Sum = ${tc1.runningSum}, Count = ${tc1.count}`,
-              passed: tc1.runningSum === 55 && tc1.count === 2,
+              passed: tc1.runningSum === 55 && tc1.count === 4,
               latency: '9ms'
             },
             {
@@ -951,16 +993,36 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               actual: `Running Sum = ${tc2.runningSum}, Count = ${tc2.count}`,
               passed: tc2.runningSum === 210 && tc2.count === 8,
               latency: '12ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (Boundary N=5)',
+              input: 'N = 5',
+              expected: 'Running Sum = 15, Count = 2',
+              actual: `Running Sum = ${tc3.runningSum}, Count = ${tc3.count}`,
+              passed: tc3.runningSum === 15 && tc3.count === 2,
+              latency: '7ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (N=15)',
+              input: 'N = 15',
+              expected: 'Running Sum = 120, Count = 6',
+              actual: `Running Sum = ${tc4.runningSum}, Count = ${tc4.count}`,
+              passed: tc4.runningSum === 120 && tc4.count === 6,
+              latency: '11ms'
             }
           ];
         } else if (q.id === 'recent-dsa-004') {
           const tc1 = q.runSimulation(2, 5);
           const tc2 = q.runSimulation(3, 4);
+          const tc3 = q.runSimulation(5, 0);
+          const tc4 = q.runSimulation(10, 3);
 
           results = [
             {
               id: 1,
-              name: 'Exam Test Case 1',
+              name: 'Exam Test Case 1 (2^5)',
               input: 'N = 2, P = 5',
               expected: '32',
               actual: `${tc1}`,
@@ -969,17 +1031,37 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             },
             {
               id: 2,
-              name: 'Exam Test Case 2',
+              name: 'Exam Test Case 2 (3^4)',
               input: 'N = 3, P = 4',
               expected: '81',
               actual: `${tc2}`,
               passed: tc2 === 81,
               latency: '10ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (Zero Exponent 5^0)',
+              input: 'N = 5, P = 0',
+              expected: '1',
+              actual: `${tc3}`,
+              passed: tc3 === 1,
+              latency: '6ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (Base 10 Exponent 10^3)',
+              input: 'N = 10, P = 3',
+              expected: '1000',
+              actual: `${tc4}`,
+              passed: tc4 === 1000,
+              latency: '9ms'
             }
           ];
         } else if (q.id === 'recent-dsa-005') {
           const tc1 = q.runSimulation('String-Compare');
           const tc2 = q.runSimulation('Move-Hyphens-To-Front');
+          const tc3 = q.runSimulation('a-b-c-d');
+          const tc4 = q.runSimulation('AccentureExam');
 
           results = [
             {
@@ -993,17 +1075,37 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             },
             {
               id: 2,
-              name: 'Exam Test Case 2',
+              name: 'Exam Test Case 2 (Multiple Hyphens)',
               input: 'str = "Move-Hyphens-To-Front", n = 21',
               expected: '"---MoveHyphensToFront"',
               actual: `"${tc2}"`,
               passed: tc2 === '---MoveHyphensToFront',
               latency: '14ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (Interleaved Single Letters)',
+              input: 'str = "a-b-c-d", n = 7',
+              expected: '"---abcd"',
+              actual: `"${tc3}"`,
+              passed: tc3 === '---abcd',
+              latency: '9ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (Zero Hyphens Boundary)',
+              input: 'str = "AccentureExam", n = 13',
+              expected: '"AccentureExam"',
+              actual: `"${tc4}"`,
+              passed: tc4 === 'AccentureExam',
+              latency: '8ms'
             }
           ];
         } else if (q.id === 'recent-dsa-006') {
           const tc1 = q.runSimulation([2, 1, 4, 3, 6, 5]);
           const tc2 = q.runSimulation([1, 2, 3, 4, 5]);
+          const tc3 = q.runSimulation([10, 11, 12, 13]);
+          const tc4 = q.runSimulation([2, 4, 6, 8]);
 
           results = [
             {
@@ -1023,11 +1125,31 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               actual: `Count: ${tc2}`,
               passed: tc2 === 0,
               latency: '12ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (All Matching Consecutive Pairs)',
+              input: 'nums = [10, 11, 12, 13]',
+              expected: 'Count: 4',
+              actual: `Count: ${tc3}`,
+              passed: tc3 === 4,
+              latency: '8ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (All Even Elements)',
+              input: 'nums = [2, 4, 6, 8]',
+              expected: 'Count: 2',
+              actual: `Count: ${tc4}`,
+              passed: tc4 === 2,
+              latency: '10ms'
             }
           ];
         } else if (q.id === 'recent-dsa-007') {
           const tc1 = q.runSimulation(12345);
           const tc2 = q.runSimulation(98760);
+          const tc3 = q.runSimulation(7);
+          const tc4 = q.runSimulation(1000);
 
           results = [
             {
@@ -1041,30 +1163,69 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             },
             {
               id: 2,
-              name: 'Exam Test Case 2 (Trailing zero check)',
+              name: 'Exam Test Case 2 (Trailing Zero Truncation)',
               input: 'N = 98760',
               expected: '6789',
               actual: `${tc2}`,
               passed: tc2 === 6789,
               latency: '11ms'
+            },
+            {
+              id: 3,
+              name: 'Exam Test Case 3 (Single Digit Boundary)',
+              input: 'N = 7',
+              expected: '7',
+              actual: `${tc3}`,
+              passed: tc3 === 7,
+              latency: '6ms'
+            },
+            {
+              id: 4,
+              name: 'Exam Test Case 4 (Multiple Trailing Zeros)',
+              input: 'N = 1000',
+              expected: '1',
+              actual: `${tc4}`,
+              passed: tc4 === 1,
+              latency: '8ms'
             }
           ];
         }
 
+        const allPassed = results.length > 0 && results.every(r => r.passed);
+
         setTestResults({
-          allPassed: true,
+          allPassed,
           results
         });
 
-        if (!solvedSet.includes(q.id)) {
-          toggleSolved(q.id);
-          gamificationService.addXP(50, `Solved ${q.title}`);
+        if (allPassed) {
+          if (!solvedSet.includes(q.id)) {
+            toggleSolved(q.id);
+            gamificationService.addXP(50, `Solved ${q.title}`);
+          }
+        } else {
+          setSolvedSet(prev => {
+            if (prev.includes(q.id)) {
+              const updated = prev.filter(id => id !== q.id);
+              localStorage.setItem('recent-solved', JSON.stringify(updated));
+              return updated;
+            }
+            return prev;
+          });
         }
       } catch (err) {
         setTestResults({
           allPassed: false,
           error: err.message || 'Execution error',
           results: []
+        });
+        setSolvedSet(prev => {
+          if (prev.includes(activeDsaQuestion.id)) {
+            const updated = prev.filter(id => id !== activeDsaQuestion.id);
+            localStorage.setItem('recent-solved', JSON.stringify(updated));
+            return updated;
+          }
+          return prev;
         });
       } finally {
         setIsRunning(false);
@@ -2235,53 +2396,104 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               {testResults && (
                 <div style={{
                   background: '#1e293b',
-                  border: testResults.allPassed ? '1px solid #22c55e' : '1px solid #ef4444',
+                  border: testResults.allPassed
+                    ? '1px solid #22c55e'
+                    : testResults.error
+                    ? '1px solid #ef4444'
+                    : '1px solid #f59e0b',
                   borderRadius: '14px',
                   padding: '1.25rem',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <CheckCircle2 size={20} className="text-emerald-400" />
-                      <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#4ade80' }}>
-                        All Exam Test Cases Passed! +50 XP Awarded
+                      {testResults.allPassed ? (
+                        <CheckCircle2 size={20} className="text-emerald-400" />
+                      ) : testResults.error ? (
+                        <X size={20} className="text-rose-400" />
+                      ) : (
+                        <Sparkles size={20} className="text-amber-400" />
+                      )}
+                      <h4 style={{
+                        margin: 0,
+                        fontSize: '1rem',
+                        fontWeight: 700,
+                        color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15'
+                      }}>
+                        {testResults.allPassed
+                          ? 'All Exam Test Cases Passed! +50 XP Awarded'
+                          : testResults.error
+                          ? 'Test Execution Error'
+                          : `Tests Incomplete (${testResults.results.filter(r => r.passed).length} / ${testResults.results.length} Passed)`}
                       </h4>
                     </div>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                      {testResults.results.length} / {testResults.results.length} Passed
+                    <span style={{
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15',
+                      background: testResults.allPassed
+                        ? 'rgba(34, 197, 94, 0.12)'
+                        : testResults.error
+                        ? 'rgba(239, 68, 68, 0.12)'
+                        : 'rgba(245, 158, 11, 0.12)',
+                      padding: '3px 8px',
+                      borderRadius: '6px'
+                    }}>
+                      {testResults.results.filter(r => r.passed).length} / {testResults.results.length} Passed
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {testResults.results.map((tc) => (
-                      <div key={tc.id} style={{
-                        background: '#0f172a',
-                        border: '1px solid #334155',
-                        borderRadius: '8px',
-                        padding: '10px 14px',
-                        fontSize: '0.85rem'
-                      }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                          <span style={{ fontWeight: 700, color: '#38bdf8' }}>{tc.name}</span>
-                          <span style={{
-                            color: '#4ade80',
-                            fontSize: '0.75rem',
-                            background: 'rgba(34, 197, 94, 0.1)',
-                            padding: '1px 6px',
-                            borderRadius: '4px'
-                          }}>
-                            Passed ({tc.latency})
-                          </span>
+                  {testResults.error && (
+                    <div style={{
+                      background: 'rgba(239, 68, 68, 0.12)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      borderRadius: '8px',
+                      padding: '10px 14px',
+                      color: '#fca5a5',
+                      fontSize: '0.85rem',
+                      lineHeight: 1.5,
+                      marginBottom: testResults.results.length > 0 ? '0.75rem' : 0
+                    }}>
+                      {testResults.error}
+                    </div>
+                  )}
+
+                  {testResults.results.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      {testResults.results.map((tc) => (
+                        <div key={tc.id} style={{
+                          background: '#0f172a',
+                          border: tc.passed ? '1px solid #334155' : '1px solid rgba(239, 68, 68, 0.4)',
+                          borderRadius: '8px',
+                          padding: '10px 14px',
+                          fontSize: '0.85rem'
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                            <span style={{ fontWeight: 700, color: '#38bdf8' }}>{tc.name}</span>
+                            <span style={{
+                              color: tc.passed ? '#4ade80' : '#f87171',
+                              fontSize: '0.75rem',
+                              background: tc.passed ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                              padding: '1px 6px',
+                              borderRadius: '4px',
+                              fontWeight: 700
+                            }}>
+                              {tc.passed ? `Passed (${tc.latency})` : 'Failed'}
+                            </span>
+                          </div>
+                          <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                            Input: <span style={{ color: '#cbd5e1' }}>{tc.input}</span>
+                          </div>
+                          <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                            Expected: <span style={{ color: '#94a3b8' }}>{tc.expected}</span>
+                          </div>
+                          <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                            Output: <span style={{ color: tc.passed ? '#4ade80' : '#f87171' }}>{tc.actual}</span>
+                          </div>
                         </div>
-                        <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
-                          Input: <span style={{ color: '#cbd5e1' }}>{tc.input}</span>
-                        </div>
-                        <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
-                          Output: <span style={{ color: '#4ade80' }}>{tc.actual}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

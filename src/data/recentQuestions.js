@@ -70,6 +70,36 @@ Return the total sum of all elements in the array after applying these transform
 • Index 4: nums[4] = 0 -> 0 - 12 + 0 = -12
 • Final Transformed Array: [0, 9, 30, -2, -12]
 • Total Sum: 0 + 9 + 30 - 2 - 12 = 25`
+      },
+      {
+        id: 'tc-3',
+        input: 'nums = [11, 22, 33, 44]',
+        inputRaw: [11, 22, 33, 44],
+        expectedOutput: '102',
+        transformedArray: '[12, 21, 30, 39]',
+        explanation: `• Index 0: 11 - 0 + 1 = 12
+• Index 1: 22 - 3 + 2 = 21
+• Index 2: 33 - 6 + 3 = 30
+• Index 3: 44 - 9 + 4 = 39
+• Final Transformed Array: [12, 21, 30, 39]
+• Total Sum: 12 + 21 + 30 + 39 = 102`
+      },
+      {
+        id: 'tc-4',
+        input: 'nums = [7, 14, 21, 28, 35, 42, 49]',
+        inputRaw: [7, 14, 21, 28, 35, 42, 49],
+        expectedOutput: '133',
+        transformedArray: '[7, 11, 15, 19, 23, 27, 31]',
+        explanation: `• Elements transformed:
+  i=0: 7 - 0 = 7
+  i=1: 14 - 3 = 11
+  i=2: 21 - 6 = 15
+  i=3: 28 - 9 = 19
+  i=4: 35 - 12 = 23
+  i=5: 42 - 15 = 27
+  i=6: 49 - 18 = 31
+• Final Transformed Array: [7, 11, 15, 19, 23, 27, 31]
+• Total Sum of all transformed elements: 133`
       }
     ],
     solutions: {
@@ -249,14 +279,34 @@ EqSum(112) = 1 + 11 + 112 = 124
         id: 'tc-2',
         input: 'N = 50',
         inputRaw: 50,
-        expectedOutput: 'Total Count: 4',
-        validNumbers: [46, 47, 48, 49],
-        explanation: `• The maximum possible EqSum for a 2-digit number X < 50 is when X = 49:
+        expectedOutput: 'Total Count: 3',
+        validNumbers: [47, 48, 49],
+        explanation: `• For 2-digit numbers X < 50:
+  EqSum(46) = 4 + 46 = 50 (50 > 50 is false) Invalid
+  EqSum(47) = 4 + 47 = 51 (51 > 50) Valid
+  EqSum(48) = 4 + 48 = 52 (52 > 50) Valid
   EqSum(49) = 4 + 49 = 53 (53 > 50) Valid
-• For X = 45:
-  EqSum(45) = 4 + 45 = 49 (49 <= 50) Invalid
-• Valid Numbers (X < 50): 46, 47, 48, 49
-• Total Count: 4`
+• Valid Numbers (X < 50): 47, 48, 49
+• Total Count: 3`
+      },
+      {
+        id: 'tc-3',
+        input: 'N = 10',
+        inputRaw: 10,
+        expectedOutput: 'Total Count: 0',
+        validNumbers: [],
+        explanation: `• For single digit numbers X < 10, EqSum(X) = X <= 9.
+• None of the integers X < 10 satisfy EqSum(X) > 10.
+• Total Count: 0 valid integers.`
+      },
+      {
+        id: 'tc-4',
+        input: 'N = 250',
+        inputRaw: 250,
+        expectedOutput: 'Total Count: 23',
+        explanation: `• Evaluates 3-digit prefix sums from 1 to 249.
+• Checks X < 250 with EqSum(X) > 250.
+• Total Count: 23 valid integers.`
       }
     ],
     solutions: {
@@ -277,7 +327,7 @@ def find_valid_numbers(N: int) -> list[int]:
 
 # Test Cases
 print("N=112:", len(find_valid_numbers(112)), find_valid_numbers(112)) # 10 valid
-print("N=50:", len(find_valid_numbers(50)), find_valid_numbers(50))   # 4 valid`,
+print("N=50:", len(find_valid_numbers(50)), find_valid_numbers(50))   # 3 valid`,
 
       java: `import java.util.ArrayList;
 import java.util.List;
@@ -314,7 +364,7 @@ public class Solution {
         System.out.println("Numbers: " + res1);
         
         List<Integer> res2 = findValidNumbers(50);
-        System.out.println("N=50 count: " + res2.size());  // Output: 4
+        System.out.println("N=50 count: " + res2.size());  // Output: 3
         System.out.println("Numbers: " + res2);
     }
 }`,
@@ -346,7 +396,7 @@ int main() {
     auto res1 = findValidNumbers(112);
     std::cout << "N=112 count: " << res1.size() << std::endl; // 10
     auto res2 = findValidNumbers(50);
-    std::cout << "N=50 count: " << res2.size() << std::endl;   // 4
+    std::cout << "N=50 count: " << res2.size() << std::endl;   // 3
     return 0;
 }`,
 
@@ -377,7 +427,7 @@ public class Solution {
         List<int> res1 = FindValidNumbers(112);
         Console.WriteLine("N=112 count: " + res1.Count); // Output: 10
         List<int> res2 = FindValidNumbers(50);
-        Console.WriteLine("N=50 count: " + res2.Count);  // Output: 4
+        Console.WriteLine("N=50 count: " + res2.Count);  // Output: 3
     }
 }`,
 
@@ -401,7 +451,7 @@ function findValidNumbers(N) {
 }
 
 console.log("N=112 count:", findValidNumbers(112).length); // 10
-console.log("N=50 count:", findValidNumbers(50).length);   // 4`
+console.log("N=50 count:", findValidNumbers(50).length);   // 3`
     },
     runSimulation: (N) => {
       const calculateEqSum = (x) => {
@@ -477,6 +527,25 @@ console.log("N=50 count:", findValidNumbers(50).length);   // 4`
 • i = 4: sum = 10 -> (10 mod 5 == 0) -> Count = 1
 • i = 5: sum = 15 -> (15 mod 5 == 0) -> Count = 2
 • Final Output: Running Sum = 15, Count = 2`
+      },
+      {
+        id: 'tc-3',
+        input: 'N = 20',
+        inputRaw: 20,
+        expectedOutput: 'Running Sum = 210, Count = 8',
+        explanation: `• Running sum from 1 to 20 equals 210.
+• Multiple totals at i=4, 5, 9, 10, 14, 15, 19, 20 are divisible by 5.
+• Final Output: Running Sum = 210, Count = 8`
+      },
+      {
+        id: 'tc-4',
+        input: 'N = 15',
+        inputRaw: 15,
+        expectedOutput: 'Running Sum = 120, Count = 6',
+        explanation: `• Running sum from 1 to 15 equals 120.
+• Totals divisible by 5 occur at i = 4 (sum 10), i = 5 (sum 15), i = 9 (sum 45), i = 10 (sum 55), i = 14 (sum 105), and i = 15 (sum 120).
+• Total divisible occurrences: 6.
+• Final Output: Running Sum = 120, Count = 6`
       }
     ],
     solutions: {
@@ -651,6 +720,13 @@ Multiply N by itself P times to compute the exponentiation result.`,
         inputRaw: { N: 5, P: 0 },
         expectedOutput: '1',
         explanation: `Any non-zero number raised to the power 0 is 1: 5^0 = 1.`
+      },
+      {
+        id: 'tc-4',
+        input: 'N = 10, P = 3',
+        inputRaw: { N: 10, P: 3 },
+        expectedOutput: '1000',
+        explanation: `10^3 = 10 * 10 * 10 = 1000.`
       }
     ],
     solutions: {
@@ -963,6 +1039,17 @@ Return the total count of such special elements.
         explanation: `• Even pairs: nums[0]=10, nums[2]=12 (2 elements)
 • Odd pairs: nums[1]=11, nums[3]=13 (2 elements)
 • Total count: 4`
+      },
+      {
+        id: 'tc-4',
+        input: 'nums = [2, 4, 6, 8]',
+        inputRaw: [2, 4, 6, 8],
+        expectedOutput: '2',
+        explanation: `• Index 0 (even) and value 2 (even) -> Matches.
+• Index 1 (odd) and value 4 (even) -> No match.
+• Index 2 (even) and value 6 (even) -> Matches.
+• Index 3 (odd) and value 8 (even) -> No match.
+• Total matching special elements: 2.`
       }
     ],
     solutions: {
@@ -1108,6 +1195,13 @@ Extract the digits from right to left using modulo 10 arithmetic to construct th
         inputRaw: 7,
         expectedOutput: '7',
         explanation: `A single digit number reversed is itself: 7.`
+      },
+      {
+        id: 'tc-4',
+        input: 'N = 1000',
+        inputRaw: 1000,
+        expectedOutput: '1',
+        explanation: `Trailing zeros are dropped during integer reversal: 1000 reversed as an integer is 1.`
       }
     ],
     solutions: {
