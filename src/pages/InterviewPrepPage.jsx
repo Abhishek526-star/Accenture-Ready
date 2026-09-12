@@ -43,6 +43,30 @@ function FormattedAnswer({ text }) {
         const trimmed = p.trim();
         if (!trimmed) return null;
 
+        // Check if paragraph is a code block ```
+        if (trimmed.startsWith('```')) {
+          const cleanCode = trimmed.replace(/^```[a-zA-Z]*\n?/, '').replace(/```$/, '').trim();
+          return (
+            <div
+              key={pIdx}
+              style={{
+                background: '#070b14',
+                border: '1px solid rgba(56, 189, 248, 0.28)',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                fontFamily: "'JetBrains Mono', Consolas, monospace",
+                fontSize: '0.86rem',
+                color: '#38bdf8',
+                lineHeight: 1.6,
+                overflowX: 'auto',
+                whiteSpace: 'pre'
+              }}
+            >
+              {cleanCode}
+            </div>
+          );
+        }
+
         // Check if paragraph is a bullet list
         if (trimmed.includes('\n- ') || trimmed.startsWith('- ')) {
           const items = trimmed.split('\n- ').map(item => item.replace(/^- /, ''));
