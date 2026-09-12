@@ -132,6 +132,29 @@ int main() {
     return 0;
 }`,
 
+      csharp: `using System;
+
+public class Solution {
+    public static long TransformAndSum(int[] nums) {
+        long totalSum = 0;
+        for (int i = 0; i < nums.Length; i++) {
+            long val = nums[i] - ((i % 7) * 3);
+            if (nums[i] % 11 == 0) {
+                val += nums[i] / 11;
+            }
+            totalSum += val;
+        }
+        return totalSum;
+    }
+
+    public static void Main() {
+        int[] test1 = {22, 5, 14};
+        int[] test2 = {0, 11, 33, 7, 0};
+        Console.WriteLine("Test 1 Result: " + TransformAndSum(test1)); // Output: 34
+        Console.WriteLine("Test 2 Result: " + TransformAndSum(test2)); // Output: 25
+    }
+}`,
+
       javascript: `function transformAndSum(nums) {
   let totalSum = 0;
   for (let i = 0; i < nums.length; i++) {
@@ -325,6 +348,37 @@ int main() {
     auto res2 = findValidNumbers(50);
     std::cout << "N=50 count: " << res2.size() << std::endl;   // 4
     return 0;
+}`,
+
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static long CalculateEqSum(int x) {
+        string s = x.ToString();
+        long totalEqSum = 0;
+        for (int i = 1; i <= s.Length; i++) {
+            totalEqSum += long.Parse(s.Substring(0, i));
+        }
+        return totalEqSum;
+    }
+
+    public static List<int> FindValidNumbers(int N) {
+        List<int> validNumbers = new List<int>();
+        for (int x = 1; x < N; x++) {
+            if (CalculateEqSum(x) > N) {
+                validNumbers.Add(x);
+            }
+        }
+        return validNumbers;
+    }
+
+    public static void Main() {
+        List<int> res1 = FindValidNumbers(112);
+        Console.WriteLine("N=112 count: " + res1.Count); // Output: 10
+        List<int> res2 = FindValidNumbers(50);
+        Console.WriteLine("N=50 count: " + res2.Count);  // Output: 4
+    }
 }`,
 
       javascript: `function calculateEqSum(x) {

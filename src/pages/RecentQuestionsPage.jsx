@@ -42,6 +42,178 @@ const DSA_LANGUAGES = [
   { id: 'javascript', label: 'JavaScript', monacoLang: 'javascript', icon: '⚡' }
 ];
 
+export function getRecentDsaStarters(question) {
+  if (!question) return {};
+
+  if (question.id === 'recent-dsa-001') {
+    return {
+      python: `def transform_and_sum(nums):
+    # TODO: Implement transformation on each element based on 0-based index i:
+    # 1. Subtract (i % 7) * 3 from the element.
+    # 2. If original nums[i] % 11 == 0, add nums[i] // 11 to the modified value.
+    # Return total sum of all modified elements.
+    pass
+
+# Test
+if __name__ == "__main__":
+    print(transform_and_sum([22, 5, 14])) # Expected: 34
+`,
+      java: `public class Solution {
+    public static long transformAndSum(int[] nums) {
+        // TODO: Implement transformation & modulo logic:
+        // 1. Subtract (i % 7) * 3 from nums[i]
+        // 2. If nums[i] is divisible by 11, add nums[i] / 11
+        // Return total sum of transformed values.
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+long long transformAndSum(const std::vector<int>& nums) {
+    // TODO: Implement transformation & divisibility sum
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static long TransformAndSum(int[] nums) {
+        // TODO: Implement transformation & divisibility sum
+        return 0;
+    }
+}
+`,
+      javascript: `function transformAndSum(nums) {
+  // TODO: Implement transformation on each element:
+  // 1. Subtract (i % 7) * 3
+  // 2. If original element % 11 === 0, add element / 11
+  // Return total sum
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-002') {
+    return {
+      python: `def calculate_eqsum(x):
+    # Helper to calculate EqSum(X) = sum of all prefix sub-numbers of X
+    pass
+
+def find_valid_numbers(N):
+    # TODO: Find all positive integers X < N where EqSum(X) > N
+    pass
+
+if __name__ == "__main__":
+    print(find_valid_numbers(112)) # Expected count: 10
+`,
+      java: `import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    // Helper: calculate EqSum for a given number X
+    public static long calculateEqSum(int x) {
+        // TODO: sum of all prefix sub-numbers
+        return 0;
+    }
+    
+    // Find all X < N where EqSum(X) > N
+    public static List<Integer> findValidNumbers(int N) {
+        // TODO: return list of valid numbers
+        return new ArrayList<>();
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+
+long long calculateEqSum(int x) {
+    // TODO: sum of prefix numbers
+    return 0;
+}
+
+std::vector<int> findValidNumbers(int N) {
+    // TODO: return valid numbers X < N where EqSum(X) > N
+    return {};
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static List<int> FindValidNumbers(int N) {
+        // TODO: Find all X < N where EqSum(X) > N
+        return new List<int>();
+    }
+}
+`,
+      javascript: `function calculateEqSum(x) {
+  // TODO: Return sum of all prefix sub-numbers of x
+  return 0;
+}
+
+function findValidNumbers(N) {
+  // TODO: Return array of all numbers X < N where EqSum(X) > N
+  return [];
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-003') {
+    return {
+      python: `def calculate_running_sum_and_divisibility(n):
+    # TODO: Calculate running sum from 1 to N
+    # Increment counter whenever running sum is divisible by 5
+    # Return (running_sum, count)
+    pass
+
+if __name__ == "__main__":
+    calculate_running_sum_and_divisibility(10)
+`,
+      java: `public class RunningSumDivisibility {
+    public static void calculateRunningSumAndDivisibility(int n) {
+        // TODO: Calculate running sum from 1 to n
+        // Increment count every time running sum % 5 == 0
+        // Output running sum and count
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+void calculateRunningSumAndDivisibility(int n) {
+    // TODO: Running sum from 1 to N and divisibility by 5 count
+}
+`,
+      csharp: `using System;
+
+public class RunningSumDivisibility {
+    public static void CalculateRunningSumAndDivisibility(int n) {
+        // TODO: Running sum from 1 to N and count
+    }
+}
+`,
+      javascript: `function calculateRunningSumAndDivisibility(n) {
+  // TODO: Calculate running sum from 1 to n
+  // Increment count every time running sum % 5 === 0
+  // Return or log running sum and count
+}
+`
+    };
+  }
+
+  return {
+    python: `# ${question.title}\ndef solve():\n    pass\n`,
+    java: `public class Solution {\n    public static void solve() {}\n}\n`,
+    cpp: `void solve() {}\n`,
+    csharp: `public class Solution {\n    public void Solve() {}\n}\n`,
+    javascript: `function solve() {}\n`
+  };
+}
+
 export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -77,20 +249,24 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedSolution, setCopiedSolution] = useState(false);
 
-  // Per-question and per-language code map for DSA
+  // Per-question and per-language code map for DSA with starter templates
   const [codeMap, setCodeMap] = useState(() => {
     const initialMap = {};
     dsaQuestions.forEach(q => {
-      initialMap[q.id] = {
-        python: q.solutions?.python || '',
-        java: q.solutions?.java || '',
-        cpp: q.solutions?.cpp || '',
-        csharp: q.solutions?.csharp || q.solutions?.cpp || '',
-        javascript: q.solutions?.javascript || ''
-      };
+      initialMap[q.id] = getRecentDsaStarters(q);
     });
     return initialMap;
   });
+
+  // Direct ref to DSA Monaco Editor instance
+  const dsaEditorRef = useRef(null);
+  const [isDsaResetDone, setIsDsaResetDone] = useState(false);
+  const selectedDsaLangRef = useRef(selectedLang);
+  const isDsaProgrammaticUpdate = useRef(false);
+
+  useEffect(() => {
+    selectedDsaLangRef.current = selectedLang;
+  }, [selectedLang]);
 
   // Runner & Test Results State for DSA
   const [isRunning, setIsRunning] = useState(false);
@@ -170,26 +346,74 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const currentCode = codeMap[activeDsaQuestion.id]?.[selectedLang] || activeDsaQuestion.solutions?.[selectedLang] || '';
 
   const handleCodeChange = (newVal) => {
+    if (isDsaProgrammaticUpdate.current) return;
+    const activeLang = selectedDsaLangRef.current;
     setCodeMap(prev => ({
       ...prev,
       [activeDsaQuestion.id]: {
         ...prev[activeDsaQuestion.id],
-        [selectedLang]: newVal || ''
+        [activeLang]: newVal || ''
       }
     }));
   };
 
-  const handleResetCode = () => {
-    if (window.confirm(`Reset ${DSA_LANGUAGES.find(l => l.id === selectedLang)?.label} code to verified solution?`)) {
-      setCodeMap(prev => ({
-        ...prev,
-        [activeDsaQuestion.id]: {
-          ...prev[activeDsaQuestion.id],
-          [selectedLang]: activeDsaQuestion.solutions?.[selectedLang] || ''
-        }
-      }));
-      setTestResults(null);
+  const handleSelectDsaLanguage = (langId) => {
+    selectedDsaLangRef.current = langId;
+    setSelectedLang(langId);
+
+    const starters = getRecentDsaStarters(activeDsaQuestion);
+    const targetCode = codeMap[activeDsaQuestion.id]?.[langId] !== undefined
+      ? codeMap[activeDsaQuestion.id][langId]
+      : (starters[langId] || activeDsaQuestion.solutions?.[langId] || '');
+
+    isDsaProgrammaticUpdate.current = true;
+    if (dsaEditorRef.current) {
+      dsaEditorRef.current.setValue(targetCode);
     }
+    isDsaProgrammaticUpdate.current = false;
+  };
+
+  // Re-sync editor when switching recent DSA questions
+  useEffect(() => {
+    const starters = getRecentDsaStarters(activeDsaQuestion);
+    const activeLang = selectedDsaLangRef.current;
+    const currentCode = codeMap[activeDsaQuestion.id]?.[activeLang] || starters[activeLang] || '';
+    isDsaProgrammaticUpdate.current = true;
+    if (dsaEditorRef.current) {
+      dsaEditorRef.current.setValue(currentCode);
+    }
+    isDsaProgrammaticUpdate.current = false;
+    setTestResults(null);
+    setIsRunning(false);
+  }, [activeDsaId]);
+
+  const handleResetCode = () => {
+    const starters = getRecentDsaStarters(activeDsaQuestion);
+    const activeLang = selectedDsaLangRef.current;
+    const starter = starters[activeLang] || activeDsaQuestion.solutions?.[activeLang] || '';
+    
+    // 1. Update React state
+    setCodeMap(prev => ({
+      ...prev,
+      [activeDsaQuestion.id]: {
+        ...prev[activeDsaQuestion.id],
+        [activeLang]: starter
+      }
+    }));
+
+    // 2. Direct Monaco model update with protection flag
+    isDsaProgrammaticUpdate.current = true;
+    if (dsaEditorRef.current) {
+      dsaEditorRef.current.setValue(starter);
+    }
+    isDsaProgrammaticUpdate.current = false;
+
+    // 3. Clear simulated test results
+    setTestResults(null);
+
+    // 4. Visual feedback on the button
+    setIsDsaResetDone(true);
+    setTimeout(() => setIsDsaResetDone(false), 2000);
   };
 
   const handleCopyCode = () => {
@@ -205,15 +429,27 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   };
 
   const handleLoadSolutionToEditor = () => {
-    const sol = activeDsaQuestion.solutions?.[selectedLang];
+    // Use the language tab actively viewed in the Solution Modal
+    const targetLang = solutionTabLang || selectedDsaLangRef.current || 'python';
+    const sol = activeDsaQuestion.solutions?.[targetLang] || '';
+
+    // Switch the active language in editor to match the loaded solution
+    setSelectedLang(targetLang);
+    selectedDsaLangRef.current = targetLang;
+
     if (sol) {
       setCodeMap(prev => ({
         ...prev,
         [activeDsaQuestion.id]: {
           ...prev[activeDsaQuestion.id],
-          [selectedLang]: sol
+          [targetLang]: sol
         }
       }));
+      isDsaProgrammaticUpdate.current = true;
+      if (dsaEditorRef.current) {
+        dsaEditorRef.current.setValue(sol);
+      }
+      isDsaProgrammaticUpdate.current = false;
       setShowSolutionModal(false);
     }
   };
@@ -949,7 +1185,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       return (
                         <button
                           key={lang.id}
-                          onClick={() => setSelectedLang(lang.id)}
+                          onClick={() => handleSelectDsaLanguage(lang.id)}
                           style={{
                             padding: '5px 12px',
                             borderRadius: '8px',
@@ -1005,17 +1241,18 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         alignItems: 'center',
                         gap: '4px',
                         padding: '6px 10px',
-                        background: '#1e293b',
-                        border: '1px solid #334155',
+                        background: isDsaResetDone ? 'rgba(34, 197, 94, 0.18)' : '#1e293b',
+                        border: isDsaResetDone ? '1px solid #22c55e' : '1px solid #334155',
                         borderRadius: '8px',
-                        color: '#cbd5e1',
+                        color: isDsaResetDone ? '#4ade80' : '#cbd5e1',
                         fontSize: '0.75rem',
                         fontWeight: 600,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
                       }}
                     >
-                      <RotateCcw size={14} />
-                      <span>Reset</span>
+                      {isDsaResetDone ? <Check size={14} color="#4ade80" /> : <RotateCcw size={14} />}
+                      <span>{isDsaResetDone ? 'Reset!' : 'Reset'}</span>
                     </button>
 
                     <button
@@ -1103,11 +1340,39 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
                 {/* Monaco Editor */}
                 <div style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
+                  {isDsaResetDone && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '24px',
+                      zIndex: 20,
+                      background: 'rgba(15, 23, 42, 0.92)',
+                      border: '1px solid #22c55e',
+                      color: '#4ade80',
+                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
+                      backdropFilter: 'blur(8px)',
+                      pointerEvents: 'none'
+                    }}>
+                      <Check size={14} />
+                      <span>Code reset to starter template!</span>
+                    </div>
+                  )}
                   <Editor
                     height="100%"
+                    path={`${activeDsaQuestion.id}_${selectedLang}`}
                     language={DSA_LANGUAGES.find(l => l.id === selectedLang)?.monacoLang || 'python'}
                     theme="vs-dark"
                     value={currentCode}
+                    onMount={(editor) => {
+                      dsaEditorRef.current = editor;
+                    }}
                     onChange={handleCodeChange}
                     options={{
                       fontSize: 14,

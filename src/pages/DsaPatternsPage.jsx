@@ -1,5 +1,5 @@
 // src/pages/DsaPatternsPage.jsx
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import {
@@ -68,6 +68,16 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
 
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedSolution, setCopiedSolution] = useState(false);
+  const [isResetDone, setIsResetDone] = useState(false);
+
+  // Direct ref to Monaco Editor instance
+  const editorRef = useRef(null);
+  const selectedLangRef = useRef(selectedLang);
+  const isProgrammaticUpdate = useRef(false);
+
+  useEffect(() => {
+    selectedLangRef.current = selectedLang;
+  }, [selectedLang]);
 
   // Code storage per question and language
   const [codeMap, setCodeMap] = useState(() => {
@@ -80,6 +90,11 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
     setCodeMap(templates);
     setTestResults(null);
     setIsRunning(false);
+    isProgrammaticUpdate.current = true;
+    if (editorRef.current) {
+      editorRef.current.setValue(templates[selectedLangRef.current] || '');
+    }
+    isProgrammaticUpdate.current = false;
   }, [activeQuestion.id]);
 
   // Solved state tracking in localStorage
@@ -127,21 +142,53 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
   const currentCode = codeMap[selectedLang] || '';
 
   const handleCodeChange = (newVal) => {
+    if (isProgrammaticUpdate.current) return;
+    const activeLang = selectedLangRef.current;
     setCodeMap(prev => ({
       ...prev,
-      [selectedLang]: newVal || ''
+      [activeLang]: newVal || ''
     }));
+  };
+
+  const handleSelectLanguage = (langId) => {
+    selectedLangRef.current = langId;
+    setSelectedLang(langId);
+
+    const targetCode = codeMap[langId] !== undefined
+      ? codeMap[langId]
+      : (getQuestionStarterTemplates(activeQuestion)[langId] || '');
+
+    isProgrammaticUpdate.current = true;
+    if (editorRef.current) {
+      editorRef.current.setValue(targetCode);
+    }
+    isProgrammaticUpdate.current = false;
   };
 
   const handleResetCode = () => {
     const defaultTemplates = getQuestionStarterTemplates(activeQuestion);
-    if (window.confirm(`Reset ${DSA_LANGUAGES.find(l => l.id === selectedLang)?.label} code to the original starter template?`)) {
-      setCodeMap(prev => ({
-        ...prev,
-        [selectedLang]: defaultTemplates[selectedLang] || ''
-      }));
-      setTestResults(null);
+    const activeLang = selectedLangRef.current;
+    const starter = defaultTemplates[activeLang] || '';
+    
+    // 1. Update React state
+    setCodeMap(prev => ({
+      ...prev,
+      [activeLang]: starter
+    }));
+
+    // 2. Direct Monaco model update with protection flag
+    isProgrammaticUpdate.current = true;
+    if (editorRef.current) {
+      editorRef.current.setValue(starter);
     }
+    isProgrammaticUpdate.current = false;
+
+    // 3. Clear simulated test results
+    setTestResults(null);
+
+    // 4. Visual feedback on the button
+    setIsResetDone(true);
+    setTimeout(() => setIsResetDone(false), 2000);
   };
 
   const handleCopyCode = () => {
@@ -158,12 +205,24 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
 
   const handleLoadSolutionToEditor = () => {
     const solutions = getQuestionSolutions(activeQuestion);
-    const sol = solutions[selectedLang];
+    // Use the language tab actively viewed in the Solution Modal
+    const targetLang = solutionTabLang || selectedLangRef.current || 'python';
+    const sol = solutions[targetLang] || solutions.javascript || solutions.python || '';
+
+    // Switch the active language in editor to match the loaded solution
+    setSelectedLang(targetLang);
+    selectedLangRef.current = targetLang;
+
     if (sol) {
       setCodeMap(prev => ({
         ...prev,
-        [selectedLang]: sol
+        [targetLang]: sol
       }));
+      isProgrammaticUpdate.current = true;
+      if (editorRef.current) {
+        editorRef.current.setValue(sol);
+      }
+      isProgrammaticUpdate.current = false;
       setShowSolutionModal(false);
     }
   };
@@ -612,7 +671,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
                   return (
                     <button
                       key={lang.id}
-                      onClick={() => setSelectedLang(lang.id)}
+                      onClick={() => handleSelectLanguage(lang.id)}
                       style={{
                         padding: '5px 12px',
                         borderRadius: '8px',
@@ -671,17 +730,18 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
                     alignItems: 'center',
                     gap: '4px',
                     padding: '6px 10px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
+                    background: isResetDone ? 'rgba(34, 197, 94, 0.18)' : '#1e293b',
+                    border: isResetDone ? '1px solid #22c55e' : '1px solid #334155',
                     borderRadius: '8px',
-                    color: '#cbd5e1',
+                    color: isResetDone ? '#4ade80' : '#cbd5e1',
                     fontSize: '0.75rem',
                     fontWeight: 600,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  <RotateCcw size={14} />
-                  <span>Reset</span>
+                  {isResetDone ? <Check size={14} color="#4ade80" /> : <RotateCcw size={14} />}
+                  <span>{isResetDone ? 'Reset!' : 'Reset'}</span>
                 </button>
 
                 {/* Copy Code */}
@@ -772,11 +832,39 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
 
             {/* Monaco Editor */}
             <div style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
+              {isResetDone && (
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '24px',
+                  zIndex: 20,
+                  background: 'rgba(15, 23, 42, 0.92)',
+                  border: '1px solid #22c55e',
+                  color: '#4ade80',
+                  borderRadius: '8px',
+                  padding: '6px 14px',
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
+                  backdropFilter: 'blur(8px)',
+                  pointerEvents: 'none'
+                }}>
+                  <Check size={14} />
+                  <span>Code reset to starter template!</span>
+                </div>
+              )}
               <Editor
                 height="100%"
+                path={`${activeQuestion.id}_${selectedLang}`}
                 language={DSA_LANGUAGES.find(l => l.id === selectedLang)?.monacoLang || 'python'}
                 theme="vs-dark"
                 value={currentCode}
+                onMount={(editor) => {
+                  editorRef.current = editor;
+                }}
                 onChange={handleCodeChange}
                 options={{
                   fontSize: 14,
