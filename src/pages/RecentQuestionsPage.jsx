@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { recentQuestions, RECENT_TRACKS } from '../data/recentQuestions.js';
 import { gamificationService } from '../services/gamificationService.js';
+import { executeDsaOnJudge0 } from '../services/judge0Service.js';
 
 const DSA_LANGUAGES = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
@@ -1004,380 +1005,490 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     };
   };
 
-  // Run Test Cases against actual exam inputs for DSA
-  const handleRunTests = () => {
+  // Run Test Cases against actual exam inputs for DSA (Judge0 CE Online Compiler + Local Fallback)
+  const handleRunTests = async () => {
     setIsRunning(true);
     setTestResults(null);
 
-    setTimeout(() => {
+    const q = activeDsaQuestion;
+
+    try {
+      // 1. Attempt real remote execution on Judge0 CE
+      let judge0Res = null;
       try {
-        const q = activeDsaQuestion;
-        const sub = evaluateDsaSubmission(q, currentCode, selectedLang);
-        let results = [];
+        judge0Res = await executeDsaOnJudge0(q, currentCode, selectedLang);
+      } catch (jErr) {
+        console.warn('Judge0 execution attempt failed, falling back:', jErr);
+      }
 
-        if (q.id === 'recent-dsa-001') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1', nums: [22, 5, 14], exp: 34, expStr: 'Total Sum: 34 (Transformed: [24, 2, 8])', latency: '10ms' },
-            { id: 2, name: 'Exam Test Case 2 (Multi-Index & Divisibility)', nums: [0, 11, 33, 7, 0], exp: 25, expStr: 'Total Sum: 25 (Transformed: [0, 9, 30, -2, -12])', latency: '12ms' },
-            { id: 3, name: 'Exam Test Case 3 (All Divisible by 11)', nums: [11, 22, 33, 44], exp: 102, expStr: 'Total Sum: 102 (Transformed: [12, 21, 30, 39])', latency: '9ms' },
-            { id: 4, name: 'Exam Test Case 4 (Modulo 7 Reset Boundary)', nums: [7, 14, 21, 28, 35, 42, 49], exp: 133, expStr: 'Total Sum: 133 (Transformed: [7, 11, 15, 19, 23, 27, 31])', latency: '14ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.nums]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                actualStr = `Total Sum: ${u.ret}`;
-                passed = Number(u.ret) === t.exp;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
-              actualStr = `Total Sum: ${val}`;
-              passed = val === t.exp;
-            } else if (sub.mode === 'flawed') {
-              const flawSum = t.nums.map((n, i) => n - ((i % 7) * 3)).reduce((a, b) => a + b, 0);
-              actualStr = `Total Sum: ${flawSum} (Flawed Logic: missing divisibility by 11)`;
-              passed = false;
-            } else {
-              const sim = q.runSimulation(t.nums);
-              actualStr = `Total Sum: ${sim.total} (Transformed: [${sim.transformed.join(', ')}])`;
-              passed = sim.total === t.exp;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `nums = [${t.nums.join(', ')}]`,
-              expected: t.expStr,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-002') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1 (N=112)', N: 112, expCount: 10, latency: '14ms' },
-            { id: 2, name: 'Exam Test Case 2 (N=50)', N: 50, expCount: 3, latency: '11ms' },
-            { id: 3, name: 'Exam Test Case 3 (Boundary N=10)', N: 10, expCount: 0, latency: '7ms' },
-            { id: 4, name: 'Exam Test Case 4 (Large Target N=250)', N: 250, expCount: 23, latency: '16ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.N]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                const cnt = Array.isArray(u.ret) ? u.ret.length : (typeof u.ret === 'number' ? u.ret : 0);
-                actualStr = `Count: ${cnt}`;
-                passed = cnt === t.expCount;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              const cnt = Array.isArray(sub.returnValue) ? sub.returnValue.length : (typeof sub.returnValue === 'number' ? sub.returnValue : 0);
-              actualStr = `Count: ${cnt}`;
-              passed = cnt === t.expCount;
-            } else if (sub.mode === 'flawed') {
-              actualStr = `Count: 0 (Missing EqSum prefix calculation)`;
-              passed = t.expCount === 0;
-            } else {
-              const sim = q.runSimulation(t.N);
-              actualStr = `Count: ${sim.count}` + (t.id === 2 ? ` (Valid: [${sim.numbers.join(', ')}])` : '');
-              passed = sim.count === t.expCount;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `N = ${t.N}`,
-              expected: `Count: ${t.expCount}`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-003') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1 (N=10)', n: 10, expSum: 55, expCount: 4, latency: '9ms' },
-            { id: 2, name: 'Exam Test Case 2 (N=20)', n: 20, expSum: 210, expCount: 8, latency: '12ms' },
-            { id: 3, name: 'Exam Test Case 3 (Boundary N=5)', n: 5, expSum: 15, expCount: 2, latency: '7ms' },
-            { id: 4, name: 'Exam Test Case 4 (N=15)', n: 15, expSum: 120, expCount: 6, latency: '11ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.n]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                let rSum = u.ret?.runningSum ?? (Array.isArray(u.ret) ? u.ret[0] : null);
-                let rCnt = u.ret?.count ?? (Array.isArray(u.ret) ? u.ret[1] : null);
-                if (rSum === null || rCnt === null) {
-                  const logStr = (u.logs || []).join(' ');
-                  const mSum = logStr.match(/Running Sum\s*=\s*(\d+)/i);
-                  const mCnt = logStr.match(/Count\s*=\s*(\d+)/i);
-                  rSum = mSum ? Number(mSum[1]) : (typeof u.ret === 'number' ? u.ret : 0);
-                  rCnt = mCnt ? Number(mCnt[1]) : 0;
-                }
-                actualStr = `Running Sum = ${rSum}, Count = ${rCnt}`;
-                passed = rSum === t.expSum && rCnt === t.expCount;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              actualStr = `Running Sum = 0, Count = 0`;
-              passed = false;
-            } else if (sub.mode === 'flawed') {
-              if (sub.flaw === 'missing_mod5') {
-                const sim = q.runSimulation(t.n);
-                actualStr = `Running Sum = ${sim.runningSum}, Count = 0 (Missing % 5 divisibility counter)`;
-                passed = false;
-              } else {
-                actualStr = `Running Sum = 0, Count = 0`;
-                passed = false;
-              }
-            } else {
-              const sim = q.runSimulation(t.n);
-              actualStr = `Running Sum = ${sim.runningSum}, Count = ${sim.count}`;
-              passed = sim.runningSum === t.expSum && sim.count === t.expCount;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `N = ${t.n}`,
-              expected: `Running Sum = ${t.expSum}, Count = ${t.expCount}`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-004') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1 (2^5)', n: 2, p: 5, exp: 32, latency: '8ms' },
-            { id: 2, name: 'Exam Test Case 2 (3^4)', n: 3, p: 4, exp: 81, latency: '10ms' },
-            { id: 3, name: 'Exam Test Case 3 (Zero Exponent 5^0)', n: 5, p: 0, exp: 1, latency: '6ms' },
-            { id: 4, name: 'Exam Test Case 4 (Base 10 Exponent 10^3)', n: 10, p: 3, exp: 1000, latency: '9ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.n, t.p]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                actualStr = String(u.ret);
-                passed = Number(u.ret) === t.exp;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              actualStr = String(sub.returnValue ?? 0);
-              passed = Number(sub.returnValue) === t.exp;
-            } else if (sub.mode === 'flawed') {
-              actualStr = String(t.n * t.p) + ' (Incorrect: multiplied instead of power)';
-              passed = false;
-            } else {
-              const sim = q.runSimulation(t.n, t.p);
-              actualStr = String(sim);
-              passed = sim === t.exp;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `N = ${t.n}, P = ${t.p}`,
-              expected: `${t.exp}`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-005') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1', str: 'String-Compare', n: 14, exp: '-StringCompare', latency: '11ms' },
-            { id: 2, name: 'Exam Test Case 2 (Multiple Hyphens)', str: 'Move-Hyphens-To-Front', n: 21, exp: '---MoveHyphensToFront', latency: '14ms' },
-            { id: 3, name: 'Exam Test Case 3 (Interleaved Single Letters)', str: 'a-b-c-d', n: 7, exp: '---abcd', latency: '9ms' },
-            { id: 4, name: 'Exam Test Case 4 (Zero Hyphens Boundary)', str: 'AccentureExam', n: 13, exp: 'AccentureExam', latency: '8ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.str, t.n]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                actualStr = `"${u.ret}"`;
-                passed = u.ret === t.exp;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              actualStr = `"${sub.returnValue || ''}"`;
-              passed = sub.returnValue === t.exp;
-            } else if (sub.mode === 'flawed') {
-              actualStr = `"${t.str}" (Hyphens not separated)`;
-              passed = t.str === t.exp;
-            } else {
-              const sim = q.runSimulation(t.str);
-              actualStr = `"${sim}"`;
-              passed = sim === t.exp;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `str = "${t.str}", n = ${t.n}`,
-              expected: `"${t.exp}"`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-006') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1 (Alternating Evens & Odds)', nums: [2, 1, 4, 3, 6, 5], exp: 6, latency: '9ms' },
-            { id: 2, name: 'Exam Test Case 2 (Inverted Parities)', nums: [1, 2, 3, 4, 5], exp: 0, latency: '12ms' },
-            { id: 3, name: 'Exam Test Case 3 (All Matching Consecutive Pairs)', nums: [10, 11, 12, 13], exp: 4, latency: '8ms' },
-            { id: 4, name: 'Exam Test Case 4 (All Even Elements)', nums: [2, 4, 6, 8], exp: 2, latency: '10ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.nums]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                actualStr = `Count: ${u.ret}`;
-                passed = Number(u.ret) === t.exp;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
-              actualStr = `Count: ${val}`;
-              passed = val === t.exp;
-            } else if (sub.mode === 'flawed') {
-              actualStr = `Count: 0 (Missing index & value parity check)`;
-              passed = t.exp === 0;
-            } else {
-              const sim = q.runSimulation(t.nums);
-              actualStr = `Count: ${sim}`;
-              passed = sim === t.exp;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `nums = [${t.nums.join(', ')}]`,
-              expected: `Count: ${t.exp}`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        } else if (q.id === 'recent-dsa-007') {
-          const testInputs = [
-            { id: 1, name: 'Exam Test Case 1', n: 12345, exp: 54321, latency: '7ms' },
-            { id: 2, name: 'Exam Test Case 2 (Trailing Zero Truncation)', n: 98760, exp: 6789, latency: '11ms' },
-            { id: 3, name: 'Exam Test Case 3 (Single Digit Boundary)', n: 7, exp: 7, latency: '6ms' },
-            { id: 4, name: 'Exam Test Case 4 (Multiple Trailing Zeros)', n: 1000, exp: 1, latency: '8ms' }
-          ];
-
-          results = testInputs.map(t => {
-            let actualStr = '';
-            let passed = false;
-
-            if (sub.mode === 'executed') {
-              const u = sub.runTest([t.n]);
-              if (u.error) {
-                actualStr = `Error: ${u.error}`;
-                passed = false;
-              } else {
-                actualStr = String(u.ret);
-                passed = Number(u.ret) === t.exp;
-              }
-            } else if (sub.mode === 'dummy_return') {
-              actualStr = String(sub.returnValue ?? 0);
-              passed = Number(sub.returnValue) === t.exp;
-            } else if (sub.mode === 'flawed') {
-              actualStr = String(t.n) + ' (Digits not reversed)';
-              passed = false;
-            } else {
-              const sim = q.runSimulation(t.n);
-              actualStr = String(sim);
-              passed = sim === t.exp;
-            }
-
-            return {
-              id: t.id,
-              name: t.name,
-              input: `N = ${t.n}`,
-              expected: `${t.exp}`,
-              actual: actualStr,
-              passed,
-              latency: t.latency
-            };
-          });
-        }
-
-        const allPassed = results.length > 0 && results.every(r => r.passed);
-
-        setTestResults({
-          allPassed,
-          results
-        });
-
-        if (allPassed) {
-          if (!solvedSet.includes(q.id)) {
-            toggleSolved(q.id);
-            gamificationService.addXP(50, `Solved ${q.title}`);
-          }
-        } else {
-          setSolvedSet(prev => {
-            if (prev.includes(q.id)) {
-              const updated = prev.filter(id => id !== q.id);
-              localStorage.setItem('recent-solved', JSON.stringify(updated));
-              return updated;
-            }
-            return prev;
-          });
-        }
-      } catch (err) {
+      // Handle Judge0 Compiler Error or Runtime Error directly with diagnostic output
+      if (judge0Res && !judge0Res.success && judge0Res.errorType) {
         setTestResults({
           allPassed: false,
-          error: err.message || 'Execution error',
+          isJudge0: true,
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          error: `${judge0Res.errorType}:\n${judge0Res.errorMessage}`,
           results: []
         });
         setSolvedSet(prev => {
-          if (prev.includes(activeDsaQuestion.id)) {
-            const updated = prev.filter(id => id !== activeDsaQuestion.id);
+          if (prev.includes(q.id)) {
+            const updated = prev.filter(id => id !== q.id);
             localStorage.setItem('recent-solved', JSON.stringify(updated));
             return updated;
           }
           return prev;
         });
-      } finally {
         setIsRunning(false);
+        return;
       }
-    }, 500);
+
+      let results = [];
+      const isJudge0Success = judge0Res && judge0Res.success && Array.isArray(judge0Res.testOutputs) && judge0Res.testOutputs.length >= 4;
+
+      // Fallback submission evaluation if Judge0 was not successful
+      const sub = !isJudge0Success ? evaluateDsaSubmission(q, currentCode, selectedLang) : null;
+      const jOutputs = isJudge0Success ? judge0Res.testOutputs : null;
+      const jTimeStr = judge0Res?.time ? `${(judge0Res.time * 1000).toFixed(0)}ms` : null;
+
+      if (q.id === 'recent-dsa-001') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1', nums: [22, 5, 14], exp: 34, expStr: 'Total Sum: 34 (Transformed: [24, 2, 8])', latency: '10ms' },
+          { id: 2, name: 'Exam Test Case 2 (Multi-Index & Divisibility)', nums: [0, 11, 33, 7, 0], exp: 25, expStr: 'Total Sum: 25 (Transformed: [0, 9, 30, -2, -12])', latency: '12ms' },
+          { id: 3, name: 'Exam Test Case 3 (All Divisible by 11)', nums: [11, 22, 33, 44], exp: 102, expStr: 'Total Sum: 102 (Transformed: [12, 21, 30, 39])', latency: '9ms' },
+          { id: 4, name: 'Exam Test Case 4 (Modulo 7 Reset Boundary)', nums: [7, 14, 21, 28, 35, 42, 49], exp: 133, expStr: 'Total Sum: 133 (Transformed: [7, 11, 15, 19, 23, 27, 31])', latency: '14ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Total Sum: ${isNaN(val) ? (out ?? 'undefined') : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.nums]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Total Sum: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Total Sum: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            const flawSum = t.nums.map((n, i) => n - ((i % 7) * 3)).reduce((a, b) => a + b, 0);
+            actualStr = `Total Sum: ${flawSum} (Flawed Logic: missing divisibility by 11)`;
+            passed = false;
+          } else {
+            const sim = q.runSimulation(t.nums);
+            actualStr = `Total Sum: ${sim.total} (Transformed: [${sim.transformed.join(', ')}])`;
+            passed = sim.total === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `nums = [${t.nums.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-002') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (N=112)', N: 112, expCount: 10, latency: '14ms' },
+          { id: 2, name: 'Exam Test Case 2 (N=50)', N: 50, expCount: 3, latency: '11ms' },
+          { id: 3, name: 'Exam Test Case 3 (Boundary N=10)', N: 10, expCount: 0, latency: '7ms' },
+          { id: 4, name: 'Exam Test Case 4 (Large Target N=250)', N: 250, expCount: 23, latency: '16ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const cnt = typeof out === 'number' ? out : (Array.isArray(out) ? out.length : Number(out));
+              actualStr = `Count: ${isNaN(cnt) ? (out ?? 0) : cnt}`;
+              passed = !isNaN(cnt) && cnt === t.expCount;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.N]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              const cnt = Array.isArray(u.ret) ? u.ret.length : (typeof u.ret === 'number' ? u.ret : 0);
+              actualStr = `Count: ${cnt}`;
+              passed = cnt === t.expCount;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const cnt = Array.isArray(sub.returnValue) ? sub.returnValue.length : (typeof sub.returnValue === 'number' ? sub.returnValue : 0);
+            actualStr = `Count: ${cnt}`;
+            passed = cnt === t.expCount;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Count: 0 (Missing EqSum prefix calculation)`;
+            passed = t.expCount === 0;
+          } else {
+            const sim = q.runSimulation(t.N);
+            actualStr = `Count: ${sim.count}` + (t.id === 2 ? ` (Valid: [${sim.numbers.join(', ')}])` : '');
+            passed = sim.count === t.expCount;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.N}`,
+            expected: `Count: ${t.expCount}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-003') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (N=10)', n: 10, expSum: 55, expCount: 4, latency: '9ms' },
+          { id: 2, name: 'Exam Test Case 2 (N=20)', n: 20, expSum: 210, expCount: 8, latency: '12ms' },
+          { id: 3, name: 'Exam Test Case 3 (Boundary N=5)', n: 5, expSum: 15, expCount: 2, latency: '7ms' },
+          { id: 4, name: 'Exam Test Case 4 (N=15)', n: 15, expSum: 120, expCount: 6, latency: '11ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const str = String(out ?? '');
+              const mSum = str.match(/Running Sum\s*=\s*(\d+)/i);
+              const mCnt = str.match(/Count\s*=\s*(\d+)/i);
+              const rSum = mSum ? Number(mSum[1]) : 0;
+              const rCnt = mCnt ? Number(mCnt[1]) : 0;
+              actualStr = `Running Sum = ${rSum}, Count = ${rCnt}`;
+              passed = rSum === t.expSum && rCnt === t.expCount;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.n]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              let rSum = u.ret?.runningSum ?? (Array.isArray(u.ret) ? u.ret[0] : null);
+              let rCnt = u.ret?.count ?? (Array.isArray(u.ret) ? u.ret[1] : null);
+              if (rSum === null || rCnt === null) {
+                const logStr = (u.logs || []).join(' ');
+                const mSum = logStr.match(/Running Sum\s*=\s*(\d+)/i);
+                const mCnt = logStr.match(/Count\s*=\s*(\d+)/i);
+                rSum = mSum ? Number(mSum[1]) : (typeof u.ret === 'number' ? u.ret : 0);
+                rCnt = mCnt ? Number(mCnt[1]) : 0;
+              }
+              actualStr = `Running Sum = ${rSum}, Count = ${rCnt}`;
+              passed = rSum === t.expSum && rCnt === t.expCount;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            actualStr = `Running Sum = 0, Count = 0`;
+            passed = false;
+          } else if (sub.mode === 'flawed') {
+            if (sub.flaw === 'missing_mod5') {
+              const sim = q.runSimulation(t.n);
+              actualStr = `Running Sum = ${sim.runningSum}, Count = 0 (Missing % 5 divisibility counter)`;
+              passed = false;
+            } else {
+              actualStr = `Running Sum = 0, Count = 0`;
+              passed = false;
+            }
+          } else {
+            const sim = q.runSimulation(t.n);
+            actualStr = `Running Sum = ${sim.runningSum}, Count = ${sim.count}`;
+            passed = sim.runningSum === t.expSum && sim.count === t.expCount;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.n}`,
+            expected: `Running Sum = ${t.expSum}, Count = ${t.expCount}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-004') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (2^5)', n: 2, p: 5, exp: 32, latency: '8ms' },
+          { id: 2, name: 'Exam Test Case 2 (3^4)', n: 3, p: 4, exp: 81, latency: '10ms' },
+          { id: 3, name: 'Exam Test Case 3 (Zero Exponent 5^0)', n: 5, p: 0, exp: 1, latency: '6ms' },
+          { id: 4, name: 'Exam Test Case 4 (Base 10 Exponent 10^3)', n: 10, p: 3, exp: 1000, latency: '9ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = isNaN(val) ? String(out ?? '') : String(val);
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.n, t.p]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = String(u.ret);
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            actualStr = String(sub.returnValue ?? 0);
+            passed = Number(sub.returnValue) === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = String(t.n * t.p) + ' (Incorrect: multiplied instead of power)';
+            passed = false;
+          } else {
+            const sim = q.runSimulation(t.n, t.p);
+            actualStr = String(sim);
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.n}, P = ${t.p}`,
+            expected: `${t.exp}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-005') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1', str: 'String-Compare', n: 14, exp: '-StringCompare', latency: '11ms' },
+          { id: 2, name: 'Exam Test Case 2 (Multiple Hyphens)', str: 'Move-Hyphens-To-Front', n: 21, exp: '---MoveHyphensToFront', latency: '14ms' },
+          { id: 3, name: 'Exam Test Case 3 (Interleaved Single Letters)', str: 'a-b-c-d', n: 7, exp: '---abcd', latency: '9ms' },
+          { id: 4, name: 'Exam Test Case 4 (Zero Hyphens Boundary)', str: 'AccentureExam', n: 13, exp: 'AccentureExam', latency: '8ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const str = typeof out === 'string' ? out.trim() : String(out ?? '').trim();
+              actualStr = `"${str}"`;
+              passed = str === t.exp.trim();
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.str, t.n]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `"${u.ret}"`;
+              passed = u.ret === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            actualStr = `"${sub.returnValue || ''}"`;
+            passed = sub.returnValue === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `"${t.str}" (Hyphens not separated)`;
+            passed = t.str === t.exp;
+          } else {
+            const sim = q.runSimulation(t.str);
+            actualStr = `"${sim}"`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `str = "${t.str}", n = ${t.n}`,
+            expected: `"${t.exp}"`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-006') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Alternating Evens & Odds)', nums: [2, 1, 4, 3, 6, 5], exp: 6, latency: '9ms' },
+          { id: 2, name: 'Exam Test Case 2 (Inverted Parities)', nums: [1, 2, 3, 4, 5], exp: 0, latency: '12ms' },
+          { id: 3, name: 'Exam Test Case 3 (All Matching Consecutive Pairs)', nums: [10, 11, 12, 13], exp: 4, latency: '8ms' },
+          { id: 4, name: 'Exam Test Case 4 (All Even Elements)', nums: [2, 4, 6, 8], exp: 2, latency: '10ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Count: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.nums]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Count: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Count: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Count: 0 (Missing index & value parity check)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.nums);
+            actualStr = `Count: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `nums = [${t.nums.join(', ')}]`,
+            expected: `Count: ${t.exp}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-007') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1', n: 12345, exp: 54321, latency: '7ms' },
+          { id: 2, name: 'Exam Test Case 2 (Trailing Zero Truncation)', n: 98760, exp: 6789, latency: '11ms' },
+          { id: 3, name: 'Exam Test Case 3 (Single Digit Boundary)', n: 7, exp: 7, latency: '6ms' },
+          { id: 4, name: 'Exam Test Case 4 (Multiple Trailing Zeros)', n: 1000, exp: 1, latency: '8ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = isNaN(val) ? String(out ?? '') : String(val);
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.n]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = String(u.ret);
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            actualStr = String(sub.returnValue ?? 0);
+            passed = Number(sub.returnValue) === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = String(t.n) + ' (Digits not reversed)';
+            passed = false;
+          } else {
+            const sim = q.runSimulation(t.n);
+            actualStr = String(sim);
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.n}`,
+            expected: `${t.exp}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      }
+
+      const allPassed = results.length > 0 && results.every(r => r.passed);
+
+      setTestResults({
+        allPassed,
+        isJudge0: isJudge0Success,
+        executionEngine: isJudge0Success ? 'Judge0 CE ⭐ (Remote Compiler)' : 'Local Sandbox (Judge0 Fallback)',
+        execTime: jTimeStr,
+        results
+      });
+
+      if (allPassed) {
+        if (!solvedSet.includes(q.id)) {
+          toggleSolved(q.id);
+          gamificationService.addXP(50, `Solved ${q.title}`);
+        }
+      } else {
+        setSolvedSet(prev => {
+          if (prev.includes(q.id)) {
+            const updated = prev.filter(id => id !== q.id);
+            localStorage.setItem('recent-solved', JSON.stringify(updated));
+            return updated;
+          }
+          return prev;
+        });
+      }
+    } catch (err) {
+      setTestResults({
+        allPassed: false,
+        error: err.message || 'Execution error',
+        results: []
+      });
+      setSolvedSet(prev => {
+        if (prev.includes(activeDsaQuestion.id)) {
+          const updated = prev.filter(id => id !== activeDsaQuestion.id);
+          localStorage.setItem('recent-solved', JSON.stringify(updated));
+          return updated;
+        }
+        return prev;
+      });
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   // =========================================================================
@@ -2466,26 +2577,62 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       }}
                     >
                       <Play size={14} fill="#ffffff" />
-                      <span>{isRunning ? 'Running...' : 'Run Tests'}</span>
+                      <span>{isRunning ? 'Compiling on Judge0...' : 'Run on Judge0 ⭐'}</span>
                     </button>
                   </div>
                 </div>
 
-                {/* Instruction note */}
+                {/* Instruction note + Monaco & Judge0 Badges */}
                 <div style={{
                   background: '#0b1329',
                   borderBottom: '1px solid #1e293b',
-                  padding: '6px 16px',
+                  padding: '7px 16px',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'space-between',
                   gap: '8px',
                   fontSize: '0.75rem',
-                  color: '#94a3b8'
+                  color: '#94a3b8',
+                  flexWrap: 'wrap'
                 }}>
-                  <Code2 size={14} className="text-amber-400" />
-                  <span>
-                    <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Code2 size={14} className="text-amber-400" />
+                    <span>
+                      <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      background: 'rgba(99, 102, 241, 0.14)',
+                      border: '1px solid rgba(99, 102, 241, 0.32)',
+                      color: '#a5b4fc',
+                      padding: '2px 8px',
+                      borderRadius: '6px',
+                      fontWeight: 600,
+                      fontSize: '0.72rem'
+                    }}>
+                      <Sparkles size={12} className="text-indigo-400" />
+                      Monaco Editor ⭐
+                    </span>
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      background: 'rgba(16, 185, 129, 0.14)',
+                      border: '1px solid rgba(16, 185, 129, 0.32)',
+                      color: '#6ee7b7',
+                      padding: '2px 8px',
+                      borderRadius: '6px',
+                      fontWeight: 600,
+                      fontSize: '0.72rem'
+                    }}>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+                      Judge0 ⭐ Remote Compiler
+                    </span>
+                  </div>
                 </div>
 
                 {/* Monaco Editor */}
@@ -2574,33 +2721,61 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           : `Tests Incomplete (${testResults.results.filter(r => r.passed).length} / ${testResults.results.length} Passed)`}
                       </h4>
                     </div>
-                    <span style={{
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15',
-                      background: testResults.allPassed
-                        ? 'rgba(34, 197, 94, 0.12)'
-                        : testResults.error
-                        ? 'rgba(239, 68, 68, 0.12)'
-                        : 'rgba(245, 158, 11, 0.12)',
-                      padding: '3px 8px',
-                      borderRadius: '6px'
-                    }}>
-                      {testResults.results.filter(r => r.passed).length} / {testResults.results.length} Passed
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      {testResults.executionEngine && (
+                        <span style={{
+                          fontSize: '0.74rem',
+                          fontWeight: 700,
+                          color: testResults.isJudge0 ? '#38bdf8' : '#cbd5e1',
+                          background: testResults.isJudge0 ? 'rgba(56, 189, 248, 0.12)' : 'rgba(100, 116, 139, 0.16)',
+                          border: testResults.isJudge0 ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid rgba(100, 116, 139, 0.3)',
+                          padding: '3px 8px',
+                          borderRadius: '6px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <span>⚡</span>
+                          <span>{testResults.executionEngine}</span>
+                          {testResults.execTime && <span style={{ opacity: 0.85 }}>({testResults.execTime})</span>}
+                        </span>
+                      )}
+                      <span style={{
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15',
+                        background: testResults.allPassed
+                          ? 'rgba(34, 197, 94, 0.12)'
+                          : testResults.error
+                          ? 'rgba(239, 68, 68, 0.12)'
+                          : 'rgba(245, 158, 11, 0.12)',
+                        padding: '3px 8px',
+                        borderRadius: '6px'
+                      }}>
+                        {testResults.results.filter(r => r.passed).length} / {testResults.results.length} Passed
+                      </span>
+                    </div>
                   </div>
 
                   {testResults.error && (
                     <div style={{
-                      background: 'rgba(239, 68, 68, 0.12)',
-                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      background: 'rgba(239, 68, 68, 0.08)',
+                      border: '1px solid rgba(239, 68, 68, 0.35)',
                       borderRadius: '8px',
-                      padding: '10px 14px',
+                      padding: '12px 14px',
                       color: '#fca5a5',
-                      fontSize: '0.85rem',
-                      lineHeight: 1.5,
-                      marginBottom: testResults.results.length > 0 ? '0.75rem' : 0
+                      fontSize: '0.82rem',
+                      fontFamily: "'JetBrains Mono', Consolas, monospace",
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: 1.6,
+                      marginBottom: testResults.results.length > 0 ? '0.75rem' : 0,
+                      maxHeight: '220px',
+                      overflowY: 'auto'
                     }}>
+                      <div style={{ fontWeight: 700, color: '#f87171', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <X size={14} />
+                        <span>Compiler / Diagnostic Output</span>
+                      </div>
                       {testResults.error}
                     </div>
                   )}
