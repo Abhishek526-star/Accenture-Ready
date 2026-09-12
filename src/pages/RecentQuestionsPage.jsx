@@ -15,6 +15,8 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Play,
   ArrowRight,
   Bookmark,
@@ -41,6 +43,211 @@ const DSA_LANGUAGES = [
   { id: 'csharp', label: 'C#', monacoLang: 'csharp', icon: '🔷' },
   { id: 'javascript', label: 'JavaScript', monacoLang: 'javascript', icon: '⚡' }
 ];
+
+// =========================================================================
+// BEAUTIFIED PROBLEM STATEMENT PARSER (Inline Code, Badges, Step Cards)
+// =========================================================================
+export function renderInlineFormatted(str) {
+  if (!str) return null;
+  const tokenRegex = /(`[^`]+`|\*\*[^*]+\*\*)/g;
+  const segments = str.split(tokenRegex);
+
+  return segments.map((seg, i) => {
+    if (seg.startsWith('`') && seg.endsWith('`') && seg.length >= 2) {
+      const codeContent = seg.slice(1, -1);
+      return (
+        <code
+          key={i}
+          style={{
+            fontFamily: "'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace",
+            fontSize: '0.86em',
+            padding: '2px 7px',
+            borderRadius: '5px',
+            background: 'rgba(56, 189, 248, 0.12)',
+            color: '#38bdf8',
+            border: '1px solid rgba(56, 189, 248, 0.32)',
+            fontWeight: 600,
+            letterSpacing: '0.2px',
+            display: 'inline-block',
+            margin: '0 2px'
+          }}
+        >
+          {codeContent}
+        </code>
+      );
+    }
+    if (seg.startsWith('**') && seg.endsWith('**') && seg.length >= 4) {
+      return (
+        <strong key={i} style={{ color: '#f8fafc', fontWeight: 700 }}>
+          {seg.slice(2, -2)}
+        </strong>
+      );
+    }
+    return <span key={i}>{seg}</span>;
+  });
+}
+
+export function renderFormattedContent(rawText) {
+  if (!rawText) return null;
+
+  // Split code blocks (``` ... ```)
+  const codeBlockRegex = /```([\s\S]*?)```/g;
+  const blocks = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = codeBlockRegex.exec(rawText)) !== null) {
+    if (match.index > lastIndex) {
+      blocks.push({ type: 'text', content: rawText.slice(lastIndex, match.index) });
+    }
+    blocks.push({ type: 'code', content: match[1].trim() });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < rawText.length) {
+    blocks.push({ type: 'text', content: rawText.slice(lastIndex) });
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+      {blocks.map((block, blockIdx) => {
+        if (block.type === 'code') {
+          return (
+            <div
+              key={blockIdx}
+              style={{
+                background: '#070b14',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '10px',
+                padding: '0.85rem 1.1rem',
+                fontFamily: "'JetBrains Mono', Consolas, monospace",
+                fontSize: '0.86rem',
+                color: '#38bdf8',
+                boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.5)',
+                lineHeight: 1.6,
+                overflowX: 'auto',
+                whiteSpace: 'pre'
+              }}
+            >
+              {block.content}
+            </div>
+          );
+        }
+
+        const lines = block.content.split('\n');
+        const elements = [];
+        let currentNumberedList = [];
+
+        const flushNumberedList = () => {
+          if (currentNumberedList.length > 0) {
+            elements.push(
+              <div
+                key={`num-list-${elements.length}`}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.65rem',
+                  margin: '0.4rem 0',
+                  padding: '0.85rem 1rem',
+                  background: 'rgba(15, 23, 42, 0.75)',
+                  border: '1px solid rgba(56, 189, 248, 0.18)',
+                  borderRadius: '10px'
+                }}
+              >
+                {currentNumberedList.map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                    <span
+                      style={{
+                        minWidth: '22px',
+                        height: '22px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                        color: '#ffffff',
+                        fontSize: '0.74rem',
+                        fontWeight: 800,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        marginTop: '2px',
+                        boxShadow: '0 2px 6px rgba(2, 132, 199, 0.35)'
+                      }}
+                    >
+                      {item.num}
+                    </span>
+                    <span style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                      {renderInlineFormatted(item.text)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            );
+            currentNumberedList = [];
+          }
+        };
+
+        lines.forEach((line, lineIdx) => {
+          const trimmed = line.trim();
+          if (!trimmed) {
+            flushNumberedList();
+            return;
+          }
+
+          const numMatch = trimmed.match(/^(\d+)[\.\)]\s+(.*)$/);
+          if (numMatch) {
+            currentNumberedList.push({ num: numMatch[1], text: numMatch[2] });
+            return;
+          }
+
+          flushNumberedList();
+
+          if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+            const bulletText = trimmed.replace(/^[-•]\s*/, '');
+            elements.push(
+              <div
+                key={`bullet-${lineIdx}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.65rem',
+                  margin: '0.2rem 0 0.2rem 0.5rem',
+                  fontSize: '0.9rem',
+                  color: '#cbd5e1'
+                }}
+              >
+                <span style={{ color: '#38bdf8', fontSize: '1rem', lineHeight: 1.4 }}>•</span>
+                <span style={{ lineHeight: 1.6 }}>{renderInlineFormatted(bulletText)}</span>
+              </div>
+            );
+            return;
+          }
+
+          const isHighlightLine = trimmed.toLowerCase().startsWith('return ') || trimmed.toLowerCase().startsWith('**goal');
+          elements.push(
+            <p
+              key={`p-${lineIdx}`}
+              style={{
+                margin: 0,
+                fontSize: '0.92rem',
+                lineHeight: 1.7,
+                color: isHighlightLine ? '#f1f5f9' : '#cbd5e1',
+                padding: isHighlightLine ? '0.65rem 0.9rem' : '0',
+                background: isHighlightLine ? 'rgba(56, 189, 248, 0.08)' : 'transparent',
+                borderLeft: isHighlightLine ? '3px solid #38bdf8' : 'none',
+                borderRadius: isHighlightLine ? '6px' : '0'
+              }}
+            >
+              {renderInlineFormatted(trimmed)}
+            </p>
+          );
+        });
+
+        flushNumberedList();
+
+        return <React.Fragment key={blockIdx}>{elements}</React.Fragment>;
+      })}
+    </div>
+  );
+}
 
 export function getRecentDsaStarters(question) {
   if (!question) return {};
@@ -399,8 +606,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   // Custom Dropdown Open States
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [isDiffOpen, setIsDiffOpen] = useState(false);
+  const [isQuestionDropdownOpen, setIsQuestionDropdownOpen] = useState(false);
   const dateDropdownRef = useRef(null);
   const diffDropdownRef = useRef(null);
+  const questionDropdownRef = useRef(null);
 
   // Active DSA Question when track === 'dsa'
   const dsaQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'dsa'), []);
@@ -409,6 +618,24 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const activeDsaQuestion = useMemo(() => {
     return dsaQuestions.find(q => q.id === activeDsaId) || dsaQuestions[0];
   }, [activeDsaId, dsaQuestions]);
+
+  const currentQuestionIndex = useMemo(() => {
+    return dsaQuestions.findIndex(q => q.id === activeDsaQuestion.id);
+  }, [dsaQuestions, activeDsaQuestion.id]);
+
+  const handlePrevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setActiveDsaId(dsaQuestions[currentQuestionIndex - 1].id);
+      setTestResults(null);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < dsaQuestions.length - 1) {
+      setActiveDsaId(dsaQuestions[currentQuestionIndex + 1].id);
+      setTestResults(null);
+    }
+  };
 
   // Code Editor state for active DSA question
   const [selectedLang, setSelectedLang] = useState('python');
@@ -490,6 +717,9 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       }
       if (diffDropdownRef.current && !diffDropdownRef.current.contains(e.target)) {
         setIsDiffOpen(false);
+      }
+      if (questionDropdownRef.current && !questionDropdownRef.current.contains(e.target)) {
+        setIsQuestionDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -861,6 +1091,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     setFeTestResults(null);
     setIsFeResetDone(true);
     setTimeout(() => setIsFeResetDone(false), 2000);
+
+    // Unmark solved state when resetting to starter code
+    setSolvedSet(prev => {
+      const updated = prev.filter(id => id !== 'recent-fe-001');
+      localStorage.setItem('recent-solved', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const handleCopyFeCode = () => {
@@ -937,6 +1174,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           .replace(/\/\/.*/g, '')
           .trim();
 
+        const starterJsTrimmed = (feQuestion.starterJS || '')
+          .replace(/\/\*[\s\S]*?\*\//g, '')
+          .replace(/\/\/.*/g, '')
+          .trim();
+
         // 1. HTML Verification using DOMParser
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
@@ -971,9 +1213,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                                  codeWithoutComments.includes('textContent') ||
                                  codeWithoutComments.includes('innerHTML');
 
-        if (!fnBody || fnBody.length === 0) {
+        const isStarterUntouched = codeWithoutComments === starterJsTrimmed || !codeWithoutComments.includes('generateQuote');
+
+        if (isStarterUntouched || !fnBody || fnBody.length === 0) {
           jsPassed = false;
-          jsMessage = 'function generateQuote() is empty! Complete the TODO items to generate a random quote and update #quoteDisplay.';
+          jsMessage = 'function generateQuote() is incomplete or empty! Complete the logic to select a random quote and update #quoteDisplay.';
         } else if (!hasMathRandom) {
           jsPassed = false;
           jsMessage = 'Missing Math.random() in generateQuote(). Use Math.floor(Math.random() * quotes.length) for random selection.';
@@ -1064,9 +1308,21 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           results
         });
 
-        if (allPassed && !solvedSet.includes('recent-fe-001')) {
-          toggleSolved('recent-fe-001');
-          gamificationService.addXP(50, 'Solved Random Quote Generator');
+        if (allPassed) {
+          if (!solvedSet.includes('recent-fe-001')) {
+            toggleSolved('recent-fe-001');
+            gamificationService.addXP(50, 'Solved Random Quote Generator');
+          }
+        } else {
+          // Revoke solved status if any test case fails
+          setSolvedSet(prev => {
+            if (prev.includes('recent-fe-001')) {
+              const updated = prev.filter(id => id !== 'recent-fe-001');
+              localStorage.setItem('recent-solved', JSON.stringify(updated));
+              return updated;
+            }
+            return prev;
+          });
         }
       } catch (err) {
         setFeTestResults({
@@ -1089,7 +1345,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   }, []);
 
   return (
-    <div className="recent-questions-page" style={{ maxWidth: '1600px', margin: '0 auto', padding: '1rem 1.5rem 3rem 1.5rem' }}>
+    <div className="recent-questions-page" style={{ maxWidth: '1600px', width: '100%', margin: '0 auto', padding: '1rem 1.5rem 3rem 1.5rem', boxSizing: 'border-box', overflowX: 'hidden' }}>
       {/* Hero Header */}
       <header className="recent-hero-section" style={{ marginBottom: '1.5rem' }}>
         <div className="recent-hero-badge">
@@ -1131,57 +1387,267 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       {/* ========================================================================= */}
       {activeTrack === 'dsa' && (
         <div>
-          {/* Question Selector Tabs for Verified DSA Exam Papers */}
+          {/* Question Selector Bar with Dropdown & Quick Navigation */}
           <div style={{
             display: 'flex',
-            gap: '0.5rem',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
             marginBottom: '1.25rem',
-            overflowX: 'auto',
-            paddingBottom: '4px'
+            flexWrap: 'wrap',
+            background: 'linear-gradient(135deg, #131e33, #0f172a)',
+            border: '1px solid #334155',
+            borderRadius: '14px',
+            padding: '0.75rem 1rem',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
+            boxSizing: 'border-box',
+            width: '100%'
           }}>
-            {dsaQuestions.map((q, idx) => {
-              const isSelected = q.id === activeDsaQuestion.id;
-              const isSolved = solvedSet.includes(q.id);
-
-              return (
-                <button
-                  key={q.id}
-                  onClick={() => {
-                    setActiveDsaId(q.id);
-                    setTestResults(null);
-                  }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '8px 16px',
-                    borderRadius: '10px',
-                    border: isSelected ? '1px solid #38bdf8' : '1px solid #334155',
-                    background: isSelected ? 'rgba(56, 189, 248, 0.15)' : '#1e293b',
-                    color: isSelected ? '#38bdf8' : '#cbd5e1',
-                    fontSize: '0.85rem',
-                    fontWeight: isSelected ? 700 : 500,
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.15s'
-                  }}
-                >
+            {/* Left: Rich Question Dropdown */}
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
+              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Question:
+              </span>
+              
+              <button
+                type="button"
+                onClick={() => setIsQuestionDropdownOpen(prev => !prev)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem',
+                  padding: '8px 14px',
+                  background: '#0f172a',
+                  border: isQuestionDropdownOpen ? '1px solid #38bdf8' : '1px solid #334155',
+                  borderRadius: '10px',
+                  color: '#f8fafc',
+                  fontSize: '0.88rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  width: '100%',
+                  maxWidth: '460px',
+                  boxShadow: isQuestionDropdownOpen ? '0 0 0 2px rgba(56, 189, 248, 0.25)' : 'none',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   <span style={{
-                    fontSize: '0.75rem',
-                    background: isSelected ? '#0284c7' : '#0f172a',
+                    background: '#0284c7',
                     color: '#ffffff',
-                    padding: '1px 6px',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    padding: '2px 7px',
                     borderRadius: '6px',
-                    fontWeight: 700
+                    flexShrink: 0
                   }}>
-                    Q{idx + 1}
+                    Q{currentQuestionIndex + 1}
                   </span>
-                  <span>{q.title}</span>
-                  <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>({q.dateTag})</span>
-                  {isSolved && <Check size={14} className="text-emerald-400" />}
-                </button>
-              );
-            })}
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {activeDsaQuestion.title}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    color: '#94a3b8',
+                    background: 'rgba(148, 163, 184, 0.1)',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    {activeDsaQuestion.dateTag.split('•')[0].trim()}
+                  </span>
+                  {solvedSet.includes(activeDsaQuestion.id) && (
+                    <CheckCircle2 size={15} color="#4ade80" />
+                  )}
+                  {isQuestionDropdownOpen ? <ChevronUp size={16} color="#38bdf8" /> : <ChevronDown size={16} color="#94a3b8" />}
+                </div>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isQuestionDropdownOpen && (
+                <div style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  left: 0,
+                  zIndex: 99,
+                  width: '100%',
+                  maxWidth: '520px',
+                  background: '#0f172a',
+                  border: '1px solid rgba(56, 189, 248, 0.35)',
+                  borderRadius: '12px',
+                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.7)',
+                  padding: '6px',
+                  maxHeight: '360px',
+                  overflowY: 'auto'
+                }}>
+                  <div style={{ padding: '6px 10px', fontSize: '0.72rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', borderBottom: '1px solid #1e293b' }}>
+                    Select Recent Accenture Exam Question ({dsaQuestions.length})
+                  </div>
+                  {dsaQuestions.map((q, idx) => {
+                    const isSelected = q.id === activeDsaQuestion.id;
+                    const isSolved = solvedSet.includes(q.id);
+
+                    return (
+                      <button
+                        key={q.id}
+                        type="button"
+                        onClick={() => {
+                          setActiveDsaId(q.id);
+                          setTestResults(null);
+                          setIsQuestionDropdownOpen(false);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '0.75rem',
+                          width: '100%',
+                          padding: '10px 12px',
+                          margin: '2px 0',
+                          borderRadius: '8px',
+                          border: isSelected ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
+                          background: isSelected ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
+                          color: isSelected ? '#38bdf8' : '#e2e8f0',
+                          fontSize: '0.85rem',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.currentTarget.style.background = '#1e293b';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.currentTarget.style.background = 'transparent';
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
+                          <span style={{
+                            background: isSelected ? '#0284c7' : '#1e293b',
+                            color: isSelected ? '#ffffff' : '#94a3b8',
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            padding: '2px 6px',
+                            borderRadius: '5px',
+                            flexShrink: 0
+                          }}>
+                            Q{idx + 1}
+                          </span>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontWeight: isSelected ? 700 : 500, color: isSelected ? '#f8fafc' : '#cbd5e1' }}>
+                              {q.title}
+                            </span>
+                            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>
+                              {q.dateTag} • {q.category}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                          <span style={{
+                            fontSize: '0.7rem',
+                            padding: '1px 6px',
+                            borderRadius: '4px',
+                            background: q.difficulty === 'Easy' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
+                            color: q.difficulty === 'Easy' ? '#4ade80' : '#facc15',
+                            fontWeight: 700
+                          }}>
+                            {q.difficulty}
+                          </span>
+                          {isSolved ? (
+                            <CheckCircle2 size={16} color="#4ade80" />
+                          ) : (
+                            <div style={{ width: '16px' }} />
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Right: Quick-Pill Badges & Prev/Next Arrows */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={handlePrevQuestion}
+                disabled={currentQuestionIndex === 0}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  border: '1px solid #334155',
+                  background: currentQuestionIndex === 0 ? '#0f172a' : '#1e293b',
+                  color: currentQuestionIndex === 0 ? '#475569' : '#cbd5e1',
+                  cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer'
+                }}
+                title="Previous Question"
+              >
+                <ChevronLeft size={16} />
+              </button>
+
+              {/* Compact Q1 - Q7 Pills */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                {dsaQuestions.map((q, idx) => {
+                  const isSelected = q.id === activeDsaQuestion.id;
+                  const isSolved = solvedSet.includes(q.id);
+
+                  return (
+                    <button
+                      key={q.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveDsaId(q.id);
+                        setTestResults(null);
+                      }}
+                      style={{
+                        padding: '5px 11px',
+                        borderRadius: '8px',
+                        border: isSelected ? '1px solid #38bdf8' : '1px solid #334155',
+                        background: isSelected ? '#0284c7' : '#0f172a',
+                        color: isSelected ? '#ffffff' : '#94a3b8',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        transition: 'all 0.15s'
+                      }}
+                      title={`${q.title} (${q.dateTag})`}
+                    >
+                      <span>Q{idx + 1}</span>
+                      {isSolved && <span style={{ color: isSelected ? '#a7f3d0' : '#4ade80', fontSize: '0.75rem' }}>✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleNextQuestion}
+                disabled={currentQuestionIndex === dsaQuestions.length - 1}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  border: '1px solid #334155',
+                  background: currentQuestionIndex === dsaQuestions.length - 1 ? '#0f172a' : '#1e293b',
+                  color: currentQuestionIndex === dsaQuestions.length - 1 ? '#475569' : '#cbd5e1',
+                  cursor: currentQuestionIndex === dsaQuestions.length - 1 ? 'not-allowed' : 'pointer'
+                }}
+                title="Next Question"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
 
           {/* Top Curated Hero Card for Active DSA Question */}
@@ -1322,16 +1788,18 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             </div>
           </div>
 
-          {/* Two Column Area (Problem & Editor) */}
+          {/* Two Column Area (Problem & Editor) - 50% / 50% Split */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: isEditorExpanded ? '1fr' : 'minmax(340px, 480px) 1fr',
+            gridTemplateColumns: isEditorExpanded ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr)',
             gap: '1.5rem',
-            alignItems: 'start'
+            alignItems: 'start',
+            width: '100%',
+            boxSizing: 'border-box'
           }}>
             {/* Left Column: Problem Details & Examples */}
             {!isEditorExpanded && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {/* Beautified DSA Problem Statement Card */}
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))',
@@ -1364,45 +1832,45 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     </span>
                   </div>
 
-                  {/* Overview Prompt Callout Box */}
+                  {/* Beautified Overview Prompt Callout Box */}
                   <div style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
+                    background: 'rgba(15, 23, 42, 0.85)',
+                    border: '1px solid rgba(56, 189, 248, 0.25)',
                     borderLeft: '4px solid #38bdf8',
-                    borderRadius: '10px',
-                    padding: '1rem 1.25rem',
-                    marginBottom: '1.25rem'
+                    borderRadius: '12px',
+                    padding: '1.2rem 1.35rem',
+                    marginBottom: '1.25rem',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                   }}>
-                    <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: 0, whiteSpace: 'pre-line' }}>
-                      {activeDsaQuestion.description}
-                    </p>
+                    {renderFormattedContent(activeDsaQuestion.description)}
                   </div>
 
                   {/* Transformation Rules / Logic */}
                   {activeDsaQuestion.rules && (
                     <div style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '12px', padding: '1.15rem', marginBottom: '1.25rem' }}>
                       <h4 style={{ fontSize: '0.85rem', color: '#38bdf8', margin: '0 0 0.75rem 0', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <Code2 size={16} /> Transformation Logic & Modulo Arithmetic
+                        <Code2 size={16} /> Transformation Rules & Guidelines
                       </h4>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                         {activeDsaQuestion.rules.map((rule, idx) => (
-                          <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.85rem', color: '#cbd5e1' }}>
+                          <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
                             <span style={{
-                              minWidth: '20px',
-                              height: '20px',
+                              minWidth: '22px',
+                              height: '22px',
                               borderRadius: '50%',
-                              background: 'rgba(56, 189, 248, 0.2)',
-                              color: '#38bdf8',
-                              fontSize: '0.72rem',
+                              background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                              color: '#ffffff',
+                              fontSize: '0.74rem',
                               fontWeight: 800,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              marginTop: '2px'
+                              marginTop: '2px',
+                              flexShrink: 0
                             }}>
                               {idx + 1}
                             </span>
-                            <span style={{ lineHeight: 1.5 }}>{rule}</span>
+                            <div style={{ lineHeight: 1.6 }}>{renderInlineFormatted(rule.replace(/^\d+[\.\)]\s*/, ''))}</div>
                           </div>
                         ))}
                       </div>
@@ -1519,10 +1987,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                             padding: '4px 10px',
                             borderRadius: '6px',
                             color: '#cbd5e1',
-                            fontSize: '0.8rem',
+                            fontSize: '0.82rem',
                             fontFamily: 'JetBrains Mono'
                           }}>
-                            {c}
+                            {renderInlineFormatted(c)}
                           </span>
                         ))}
                       </div>
@@ -1533,7 +2001,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             )}
 
             {/* Right Column: Code Editor & Execution */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{
                 background: '#1e293b',
                 border: '1px solid #334155',
@@ -2133,16 +2601,18 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             </div>
           </div>
 
-          {/* Two Column Split Workspace */}
+          {/* Two Column Split Workspace - 50% / 50% Split */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: isFeEditorExpanded ? '1fr' : 'minmax(340px, 480px) 1fr',
+            gridTemplateColumns: isFeEditorExpanded ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr)',
             gap: '1.5rem',
-            alignItems: 'start'
+            alignItems: 'start',
+            width: '100%',
+            boxSizing: 'border-box'
           }}>
             {/* Left Column: Problem Details & Checklists */}
             {!isFeEditorExpanded && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {/* Beautified Frontend Problem Statement Card */}
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))',
@@ -2340,7 +2810,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             )}
 
             {/* Right Column: Code Editor & Live Preview */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{
                 background: '#1e293b',
                 border: '1px solid #334155',
