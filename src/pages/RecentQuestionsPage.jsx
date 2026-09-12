@@ -294,6 +294,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [isFeEditorExpanded, setIsFeEditorExpanded] = useState(false);
   const [feTestResults, setFeTestResults] = useState(null);
   const [isFeRunning, setIsFeRunning] = useState(false);
+  const [isFeResetDone, setIsFeResetDone] = useState(false);
 
   // Bookmarks & Solved state (persisted locally)
   const [bookmarks, setBookmarks] = useState(() => {
@@ -462,6 +463,23 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     setTimeout(() => {
       try {
         const q = activeDsaQuestion;
+        const starters = getRecentDsaStarters(q);
+        const starterForLang = (starters[selectedLang] || '').trim();
+        const codeTrimmed = currentCode.trim();
+
+        const isUntouched =
+          codeTrimmed === starterForLang ||
+          (codeTrimmed.includes('pass') && !codeTrimmed.includes('return ') && !codeTrimmed.includes('print(')) ||
+          codeTrimmed.includes('// TODO: Implement') ||
+          (codeTrimmed.includes('return 0;') && codeTrimmed.includes('// TODO')) ||
+          (codeTrimmed.includes('return new ArrayList<>();') && codeTrimmed.includes('// TODO')) ||
+          (codeTrimmed.includes('return {};') && codeTrimmed.includes('// TODO')) ||
+          (codeTrimmed.includes('return [];') && codeTrimmed.includes('// TODO'));
+
+        if (isUntouched) {
+          throw new Error(`Your ${selectedLang.toUpperCase()} solution is not implemented yet. Complete the function logic before running test cases.`);
+        }
+
         let results = [];
 
         if (q.id === 'recent-dsa-001') {
@@ -570,14 +588,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   };
 
   const handleResetFeCode = () => {
-    if (window.confirm('Reset HTML, CSS, and JavaScript back to the starter code with TODOs?')) {
-      setFeCode({
-        html: feQuestion.starterHTML || '',
-        css: feQuestion.starterCSS || '',
-        js: feQuestion.starterJS || ''
-      });
-      setFeTestResults(null);
-    }
+    setFeCode({
+      html: feQuestion.starterHTML || '',
+      css: feQuestion.starterCSS || '',
+      js: feQuestion.starterJS || ''
+    });
+    setFeTestResults(null);
+    setIsFeResetDone(true);
+    setTimeout(() => setIsFeResetDone(false), 2000);
   };
 
   const handleCopyFeCode = () => {
@@ -592,6 +610,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       css: feQuestion.solutionCSS || '',
       js: feQuestion.solutionJS || ''
     });
+    setFeTestResults(null);
     setShowFeSolutionModal(false);
   };
 
@@ -643,18 +662,102 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
     setTimeout(() => {
       try {
-        const html = feCode.html;
-        const css = feCode.css;
-        const js = feCode.js;
+        const html = feCode.html || '';
+        const css = feCode.css || '';
+        const js = feCode.js || '';
 
-        const hasQuoteDisplay = html.includes('id="quoteDisplay"') || html.includes("id='quoteDisplay'");
-        const hasQuoteBtn = html.includes('id="quoteBtn"') || html.includes("id='quoteBtn'");
-        const hasCssContainer = css.includes('.quote-container') && css.includes('border-left');
-        const hasJsRandom = js.includes('Math.random') && js.includes('quotes');
-        const isUntouched = js.includes('// TODO: 1.') && !js.includes('randomIndex') && !js.includes('innerText');
+        // Strip comments to inspect actual active executable JS code
+        const codeWithoutComments = js
+          .replace(/\/\*[\s\S]*?\*\//g, '')
+          .replace(/\/\/.*/g, '')
+          .trim();
 
-        if (isUntouched) {
-          throw new Error('Please complete the TODOs in JavaScript before running automated tests.');
+        // 1. HTML Verification using DOMParser
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const quoteDisplay = doc.getElementById('quoteDisplay');
+        const quoteBtn = doc.getElementById('quoteBtn');
+
+        const hasQuoteDisplay = !!quoteDisplay && quoteDisplay.classList.contains('quote-text');
+
+        // Check if button is configured to trigger generateQuote
+        const btnOnclick = quoteBtn ? (quoteBtn.getAttribute('onclick') || '') : '';
+        const hasQuoteBtn = !!quoteBtn && (
+          btnOnclick.includes('generateQuote') ||
+          codeWithoutComments.includes('addEventListener') ||
+          codeWithoutComments.includes('.onclick')
+        );
+
+        // 2. CSS Verification
+        const hasCssContainer = (css.includes('.quote-container') || css.includes('.quote-box') || css.includes('.card')) &&
+          (css.includes('border-left') || css.includes('border:'));
+
+        // 3. JavaScript Implementation & Execution Verification
+        let jsPassed = false;
+        let jsMessage = '';
+
+        // Check if function body is present and not empty
+        const fnMatch = codeWithoutComments.match(/function\s+generateQuote\s*\([^)]*\)\s*\{([\s\S]*?)\}/) ||
+                        codeWithoutComments.match(/(?:const|let|var)\s+generateQuote\s*=\s*(?:\([^)]*\)|[a-zA-Z0-9_$]+)\s*=>\s*\{?([\s\S]*?)\}?/);
+        const fnBody = fnMatch ? fnMatch[1].trim() : '';
+
+        const hasMathRandom = codeWithoutComments.includes('Math.random');
+        const hasDomAssignment = codeWithoutComments.includes('innerText') ||
+                                 codeWithoutComments.includes('textContent') ||
+                                 codeWithoutComments.includes('innerHTML');
+
+        if (!fnBody || fnBody.length === 0) {
+          jsPassed = false;
+          jsMessage = 'function generateQuote() is empty! Complete the TODO items to generate a random quote and update #quoteDisplay.';
+        } else if (!hasMathRandom) {
+          jsPassed = false;
+          jsMessage = 'Missing Math.random() in generateQuote(). Use Math.floor(Math.random() * quotes.length) for random selection.';
+        } else if (!hasDomAssignment) {
+          jsPassed = false;
+          jsMessage = 'Missing DOM update. Assign the chosen quote to #quoteDisplay via innerText or textContent.';
+        } else {
+          // Dynamic execution test in a sandbox DOM
+          try {
+            const sandboxDiv = document.createElement('div');
+            sandboxDiv.innerHTML = html;
+            const targetEl = sandboxDiv.querySelector('#quoteDisplay') || sandboxDiv.querySelector('.quote-text');
+
+            if (!targetEl) {
+              jsPassed = false;
+              jsMessage = 'Missing #quoteDisplay element in HTML markup to update.';
+            } else {
+              const initialText = (targetEl.innerText || targetEl.textContent || '').trim();
+
+              const runFn = new Function('document', 'window', `
+                ${js}
+                if (typeof generateQuote === 'function') {
+                  generateQuote();
+                }
+              `);
+
+              const mockDoc = {
+                getElementById: (id) => sandboxDiv.querySelector('#' + id),
+                querySelector: (sel) => sandboxDiv.querySelector(sel),
+                querySelectorAll: (sel) => sandboxDiv.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              runFn(mockDoc, window);
+
+              const updatedText = (targetEl.innerText || targetEl.textContent || '').trim();
+
+              if (!updatedText || updatedText === initialText) {
+                jsPassed = false;
+                jsMessage = 'generateQuote() ran, but #quoteDisplay text did not change. Ensure you assign quotes[randomIndex] to the element.';
+              } else {
+                jsPassed = true;
+                jsMessage = `Verified! Dynamically updated quote: "${updatedText.replace(/^["']|["']$/g, '').substring(0, 32)}..."`;
+              }
+            }
+          } catch (runtimeErr) {
+            jsPassed = false;
+            jsMessage = `Runtime error in generateQuote(): ${runtimeErr.message}`;
+          }
         }
 
         const results = [
@@ -662,25 +765,31 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             id: 1,
             name: 'HTML: Paragraph #quoteDisplay exists with .quote-text',
             passed: hasQuoteDisplay,
-            message: hasQuoteDisplay ? 'Paragraph element verified in markup' : 'Missing <p id="quoteDisplay" class="quote-text">'
+            message: hasQuoteDisplay
+              ? 'Paragraph element verified in markup'
+              : 'Missing <p id="quoteDisplay" class="quote-text">'
           },
           {
             id: 2,
             name: 'HTML: Button #quoteBtn triggers generateQuote()',
             passed: hasQuoteBtn,
-            message: hasQuoteBtn ? 'Interactive button verified' : 'Missing <button id="quoteBtn">'
+            message: hasQuoteBtn
+              ? 'Interactive button & click binding verified'
+              : 'Missing <button id="quoteBtn"> with onclick="generateQuote()"'
           },
           {
             id: 3,
             name: 'CSS: .quote-container with border-left accent',
             passed: hasCssContainer,
-            message: hasCssContainer ? 'Accenture accent style verified' : 'Missing border-left styling on .quote-container'
+            message: hasCssContainer
+              ? 'Accenture accent border style verified'
+              : 'Missing border-left styling on .quote-container'
           },
           {
             id: 4,
-            name: 'JavaScript: generateQuote() with Math.random() & quotes pool',
-            passed: hasJsRandom,
-            message: hasJsRandom ? 'Random calculation and DOM update logic verified' : 'Missing Math.random() or quotes array lookup'
+            name: 'JavaScript: generateQuote() with Math.random() & DOM update',
+            passed: jsPassed,
+            message: jsMessage
           }
         ];
 
@@ -697,7 +806,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       } catch (err) {
         setFeTestResults({
           allPassed: false,
-          error: err.message,
+          error: err.message || 'Execution error',
           results: []
         });
       } finally {
@@ -2076,23 +2185,24 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
                     <button
                       onClick={handleResetFeCode}
-                      title="Reset code to TODO starter templates"
+                      title="Reset code to starter templates"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '4px',
                         padding: '6px 10px',
-                        background: '#1e293b',
-                        border: '1px solid #334155',
+                        background: isFeResetDone ? 'rgba(34, 197, 94, 0.18)' : '#1e293b',
+                        border: isFeResetDone ? '1px solid #22c55e' : '1px solid #334155',
                         borderRadius: '8px',
-                        color: '#cbd5e1',
+                        color: isFeResetDone ? '#4ade80' : '#cbd5e1',
                         fontSize: '0.75rem',
                         fontWeight: 600,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
                       }}
                     >
-                      <RotateCcw size={14} />
-                      <span>Reset</span>
+                      {isFeResetDone ? <Check size={14} color="#4ade80" /> : <RotateCcw size={14} />}
+                      <span>{isFeResetDone ? 'Reset!' : 'Reset'}</span>
                     </button>
 
                     <button
@@ -2180,6 +2290,30 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
                 {/* Monaco Editor */}
                 <div style={{ height: '360px', position: 'relative' }}>
+                  {isFeResetDone && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '24px',
+                      zIndex: 20,
+                      background: 'rgba(15, 23, 42, 0.92)',
+                      border: '1px solid #22c55e',
+                      color: '#4ade80',
+                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
+                      backdropFilter: 'blur(8px)',
+                      pointerEvents: 'none'
+                    }}>
+                      <Check size={14} />
+                      <span>Code reset to starter template!</span>
+                    </div>
+                  )}
                   <Editor
                     height="100%"
                     language={activeFeEditorTab === 'js' ? 'javascript' : activeFeEditorTab}
@@ -2265,9 +2399,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         fontWeight: 700,
                         color: feTestResults.allPassed ? '#4ade80' : '#f87171'
                       }}>
-                        {feTestResults.allPassed ? 'All Frontend Tests Passed! +50 XP Awarded' : 'Automated Verification Note'}
+                        {feTestResults.allPassed
+                          ? 'All Frontend Tests Passed! +50 XP Awarded'
+                          : `Tests Incomplete (${feTestResults.results?.filter(r => r.passed).length || 0}/${feTestResults.results?.length || 4} Passed)`}
                       </h4>
                     </div>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: feTestResults.allPassed ? '#4ade80' : '#94a3b8' }}>
+                      {feTestResults.results?.filter(r => r.passed).length || 0} / {feTestResults.results?.length || 4} Passed
+                    </span>
                   </div>
 
                   {feTestResults.error ? (
