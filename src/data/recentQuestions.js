@@ -567,17 +567,19 @@ calculateRunningSumAndDivisibility(10);`
       'CSS: Styled quote box with border-left accent #2563eb, italic typography, and rounded button.',
       'JavaScript: Quotes array with at least 4 quotes. On click, calculate random index Math.floor(Math.random() * quotes.length) and update #quoteDisplay.innerText with quotation marks.'
     ],
-    htmlCode: `<!-- HTML Markup -->
-<div class="quote-container">
+    starterHTML: `<div class="quote-container">
+    <!-- TODO: Add a paragraph with id="quoteDisplay" and class="quote-text" -->
     <p id="quoteDisplay" class="quote-text">Click the button to show a quote!</p>
+    
+    <!-- TODO: Add a button with id="quoteBtn" that triggers generateQuote() on click -->
     <button id="quoteBtn" onclick="generateQuote()">Show Random Quote</button>
 </div>`,
-    cssCode: `/* CSS Styling */
+    starterCSS: `/* CSS Styling */
 .quote-container {
     background-color: #f8fafc;
     border-left: 4px solid #2563eb;
-    padding: 20px;
-    border-radius: 6px;
+    padding: 24px;
+    border-radius: 8px;
     text-align: center;
 }
 
@@ -595,8 +597,9 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: 600;
 }`,
-    jsSolution: `// JavaScript Implementation
+    starterJS: `// Available quotes pool
 const quotes = [
     "Believe in yourself.",
     "Success comes with consistency.",
@@ -605,12 +608,75 @@ const quotes = [
 ];
 
 function generateQuote() {
-    // Generate a random integer index from 0 to quotes.length - 1
+    // TODO: 1. Generate a random integer index from 0 to quotes.length - 1
+    // const randomIndex = Math.floor(Math.random() * quotes.length);
+    
+    // TODO: 2. Update the text content of #quoteDisplay with the selected quote wrapped in quotation marks
+    
+}`,
+    solutionHTML: `<div class="quote-container">
+    <p id="quoteDisplay" class="quote-text">Click the button to show a quote!</p>
+    <button id="quoteBtn" onclick="generateQuote()">Show Random Quote</button>
+</div>`,
+    solutionCSS: `/* CSS Styling */
+.quote-container {
+    background-color: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.quote-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #334155;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}`,
+    solutionJS: `const quotes = [
+    "Believe in yourself.",
+    "Success comes with consistency.",
+    "Never stop learning.",
+    "Hard work beats talent."
+];
+
+function generateQuote() {
+    // 1. Calculate random integer index
     const randomIndex = Math.floor(Math.random() * quotes.length);
     
-    // Display selected quote
-    document.getElementById("quoteDisplay").innerText = \`"\${quotes[randomIndex]}"\`;
+    // 2. Update the DOM element
+    const quoteEl = document.getElementById("quoteDisplay");
+    if (quoteEl) {
+        quoteEl.innerText = \`"\${quotes[randomIndex]}"\`;
+    }
 }`,
+    solutionExplanation: `### Solution Breakdown: Random Quote Generator (Accenture 10th Sept Shift 1)
+
+1. **HTML Architecture**:
+   - Create a wrapping container \`<div class="quote-container">\`.
+   - Add \`<p id="quoteDisplay" class="quote-text">\` to display the active quote.
+   - Add \`<button id="quoteBtn" onclick="generateQuote()">\` to trigger random quote selection.
+
+2. **CSS Styling**:
+   - Style \`.quote-container\` with a light slate background and a vivid left border accent: \`border-left: 4px solid #2563eb\`.
+   - Set \`.quote-text\` to \`font-style: italic\` and deep slate color \`#334155\` with generous spacing.
+   - Style the button with accent blue background, white text, and rounded border.
+
+3. **JavaScript DOM & Math Logic**:
+   - \`Math.random()\` yields a floating point number in the range \`[0, 1)\`.
+   - Multiplying by \`quotes.length\` scales this to \`[0, 4)\`.
+   - \`Math.floor()\` rounds down to the nearest integer (\`0, 1, 2, 3\`), giving a valid array index.
+   - Update \`#quoteDisplay.innerText\` with template literals: \`"\${quotes[randomIndex]}"\`.`,
     liveSandbox: true
   }
 ];
