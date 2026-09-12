@@ -745,6 +745,92 @@ public class Solution {
     };
   }
 
+  if (question.id === 'recent-dsa-012') {
+    return {
+      python: `def find_most_frequent(s):
+    # TODO: Return list of most-frequent first-last character combinations preserving first-appearance order
+    pass
+
+if __name__ == "__main__":
+    print(find_most_frequent("apple angle ball bottle axe")) # Expected: ['ae']
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static List<String> findMostFrequent(String s) {
+        // TODO: Return list of most-frequent first-last character combinations preserving first-appearance order
+        return new ArrayList<>();
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+
+std::vector<std::string> findMostFrequent(const std::string& s) {
+    // TODO: Return list of most-frequent first-last character combinations preserving first-appearance order
+    return {};
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static List<string> FindMostFrequent(string s) {
+        // TODO: Return list of most-frequent first-last character combinations preserving first-appearance order
+        return new List<string>();
+    }
+}
+`,
+      javascript: `function findMostFrequent(s) {
+  // TODO: Return list of most-frequent first-last character combinations preserving first-appearance order
+  return [];
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-013') {
+    return {
+      python: `def count_uniform(s):
+    # TODO: Return total number of uniform rows and uniform columns
+    pass
+
+if __name__ == "__main__":
+    print(count_uniform("aaabbbccc")) # Expected: 3
+`,
+      java: `public class Solution {
+    public static int countUniform(String s) {
+        // TODO: Return total number of uniform rows and uniform columns
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+int countUniform(const std::string& s) {
+    // TODO: Return total number of uniform rows and uniform columns
+    return 0;
+}
+`,
+      csharp: `using System;
+
+class Solution {
+    public static int CountUniform(string s) {
+        // TODO: Return total number of uniform rows and uniform columns
+        return 0;
+    }
+}
+`,
+      javascript: `function countUniform(s) {
+  // TODO: Return total number of uniform rows and uniform columns
+  return 0;
+}
+`
+    };
+  }
+
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
     java: `public class Solution {\n    public static void solve() {}\n}\n`,
@@ -1061,7 +1147,9 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             typeof countValidBlocks === 'function' ? countValidBlocks : null,
             typeof calculatePrimeSum === 'function' ? calculatePrimeSum : (typeof calculate_prime_sum === 'function' ? calculate_prime_sum : null),
             typeof calculateDifference === 'function' ? calculateDifference : (typeof calculate_difference === 'function' ? calculate_difference : null),
-            typeof minimumHouses === 'function' ? minimumHouses : (typeof minimum_houses === 'function' ? minimum_houses : null)
+            typeof minimumHouses === 'function' ? minimumHouses : (typeof minimum_houses === 'function' ? minimum_houses : null),
+            typeof findMostFrequent === 'function' ? findMostFrequent : (typeof find_most_frequent === 'function' ? find_most_frequent : null),
+            typeof countUniform === 'function' ? countUniform : (typeof count_uniform === 'function' ? count_uniform : null)
           ].filter(Boolean);
 
           if (candidates.length === 0) throw new Error('Algorithm function declaration not found in code.');
@@ -1191,6 +1279,20 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasMult || !hasNullCheck) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_rat_null_check';
+      }
+    } else if (question.id === 'recent-dsa-012') {
+      const hasIndex = code.includes('[0]') || code.includes('front()') || code.includes('charAt(0)') || code.includes('.front()');
+      const hasMapOrSplit = code.includes('split') || code.includes('stringstream') || code.includes('Map') || code.includes('dict') || code.includes('freq');
+      if (!hasIndex || !hasMapOrSplit) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_first_last_extraction';
+      }
+    } else if (question.id === 'recent-dsa-013') {
+      const hasSqrt = code.includes('sqrt') || code.includes('isqrt') || code.includes('**0.5') || code.includes('Math.sqrt');
+      const hasIndex = code.includes('* n') || code.includes('*n') || code.includes('charAt') || code.includes('[');
+      if (!hasSqrt || !hasIndex) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_grid_mapping';
       }
     }
 
@@ -1852,6 +1954,139 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             id: t.id,
             name: t.name,
             input: `r = ${t.r}, unit = ${t.unit}, n = ${t.n}, arr = [${t.arr.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-012') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Standard 5 Words)', s: 'apple angle ball bottle axe', exp: ['ae'], latency: '6ms' },
+          { id: 2, name: 'Exam Test Case 2 (Multiple Consecutive Spaces)', s: 'apple    angle   ball     axe', exp: ['ae'], latency: '5ms' },
+          { id: 3, name: 'Exam Test Case 3 (All Combos Frequency 1 - Tie Order)', s: 'cat dog bus pen', exp: ['ct', 'dg', 'bs', 'pn'], latency: '7ms' },
+          { id: 4, name: 'Exam Test Case 4 (apple axe angle ball bat)', s: 'apple axe angle ball bat', exp: ['ae'], latency: '6ms' },
+          { id: 5, name: 'Exam Test Case 5 (Single Word hello)', s: 'hello', exp: ['ho'], latency: '4ms' },
+          { id: 6, name: 'Exam Test Case 6 (Repeated Same Word)', s: 'apple apple apple ball ball', exp: ['ae'], latency: '5ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          const normalizeArr = (res) => {
+            if (!res) return [];
+            if (Array.isArray(res)) return res;
+            if (typeof res === 'string') {
+              try {
+                const parsed = JSON.parse(res);
+                if (Array.isArray(parsed)) return parsed;
+              } catch {
+                return res.split(/\s+/).filter(Boolean);
+              }
+            }
+            return [String(res)];
+          };
+
+          const arraysEqual = (a, b) => {
+            if (!Array.isArray(a) || !Array.isArray(b)) return false;
+            if (a.length !== b.length) return false;
+            return a.every((val, i) => String(val).trim() === String(b[i]).trim());
+          };
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const parsed = normalizeArr(out);
+              actualStr = JSON.stringify(parsed);
+              passed = arraysEqual(parsed, t.exp);
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.s]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              const parsed = normalizeArr(u.ret);
+              actualStr = JSON.stringify(parsed);
+              passed = arraysEqual(parsed, t.exp);
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = normalizeArr(sub.returnValue);
+            actualStr = JSON.stringify(val);
+            passed = arraysEqual(val, t.exp);
+          } else if (sub.mode === 'flawed') {
+            actualStr = `[] (Flawed logic)`;
+            passed = false;
+          } else {
+            const sim = q.runSimulation(t.s);
+            actualStr = JSON.stringify(sim);
+            passed = arraysEqual(sim, t.exp);
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `s = "${t.s}"`,
+            expected: JSON.stringify(t.exp),
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-013') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (3 Uniform Rows, 0 Cols)', s: 'aaabbbccc', exp: 3, expStr: 'Uniform: 3 (Rows: 3, Cols: 0)', latency: '5ms' },
+          { id: 2, name: 'Exam Test Case 2 (All Uniform 3x3 Grid)', s: 'aaaaaaaaa', exp: 6, expStr: 'Uniform: 6 (Rows: 3, Cols: 3)', latency: '6ms' },
+          { id: 3, name: 'Exam Test Case 3 (Zero Uniform Lines)', s: 'abcdefghi', exp: 0, expStr: 'Uniform: 0 (No Uniform Lines)', latency: '4ms' },
+          { id: 4, name: 'Exam Test Case 4 (0 Rows, 3 Uniform Cols)', s: 'abcabcabc', exp: 3, expStr: 'Uniform: 3 (Rows: 0, Cols: 3)', latency: '5ms' },
+          { id: 5, name: 'Exam Test Case 5 (Mixed Case - 1 Uniform Col)', s: 'aababbaba', exp: 1, expStr: 'Uniform: 1 (Rows: 0, Cols: 1)', latency: '5ms' },
+          { id: 6, name: 'Exam Test Case 6 (Single Character 1x1 Grid)', s: 'a', exp: 2, expStr: 'Uniform: 2 (Row: 1, Col: 1)', latency: '3ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Uniform: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.s]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Uniform: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Uniform: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Uniform: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.s);
+            actualStr = `Uniform: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `S = "${t.s}"`,
             expected: t.expStr,
             actual: actualStr,
             passed,

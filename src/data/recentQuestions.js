@@ -2242,6 +2242,660 @@ console.log(minimumHouses(4, 3, 5, [2, 4, 6, 8, 10]));          // 3`
   },
 
   // =========================================================================
+  // VERIFIED: 11th Oct 2025 (First–Last Character Frequency)
+  // =========================================================================
+  {
+    id: 'recent-dsa-012',
+    track: 'dsa',
+    dateTag: '11th Oct 2025 • Shift 1',
+    examDate: '2025-10-11',
+    shift: 'Shift 1',
+    title: 'First–Last Character Frequency',
+    difficulty: 'Easy',
+    category: 'Strings / Hash Table & Order Preservation',
+    source: 'Accenture Assessment 11th Oct 2025 (PYQ Series)',
+    isVerified: true,
+    description: `Given a string \`s\` containing multiple words separated by spaces, form a 2-character string for each word by combining its **first character** and **last character**.
+
+If multiple spaces occur between words, they should be treated as a single separator.
+
+Count the frequency of every first-last character combination and return all combinations having the **highest frequency**, strictly preserving the order in which they first appeared in the string.
+
+**Example**:
+\`s = "apple angle ball bottle axe"\`
+- \`apple\`  → \`ae\`
+- \`angle\`  → \`ae\`
+- \`ball\`   → \`bl\`
+- \`bottle\` → \`be\`
+- \`axe\`    → \`ae\`
+
+Frequencies:
+- \`ae\` → 3 (highest)
+- \`bl\` → 1
+- \`be\` → 1
+
+Output: \`["ae"]\`
+
+⚠️ **Order Preservation on Ties**:
+If multiple combinations share the highest frequency (for example, in \`"cat dog bus pen"\`, all combinations occur once), return all tied combinations in order of their first appearance:
+\`["ct", "dg", "bs", "pn"]\`.`,
+    rules: [
+      '1. Split string by whitespace, ignoring redundant consecutive spaces.',
+      '2. For each non-empty word, extract word[0] + word[word.length - 1].',
+      '3. Maintain the order of unique combinations as they are first encountered.',
+      '4. Count the occurrence frequency of each combination.',
+      '5. Determine the maximum frequency across all combinations.',
+      '6. Return an array of all combinations matching the maximum frequency, in order of first appearance.'
+    ],
+    constraints: [
+      '1 <= s.length <= 10^5',
+      'Words consist of English letters (lowercase/uppercase)',
+      'Time Complexity: O(total characters in string)',
+      'Space Complexity: O(U) where U <= 676 unique pairs'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 's = "apple angle ball bottle axe"',
+        inputRaw: "apple angle ball bottle axe",
+        expectedOutput: '["ae"]',
+        explanation: 'Combinations: ae (3), bl (1), be (1). Max frequency = 3 -> ["ae"].'
+      },
+      {
+        id: 'tc-2',
+        input: 's = "apple    angle   ball     axe"',
+        inputRaw: "apple    angle   ball     axe",
+        expectedOutput: '["ae"]',
+        explanation: 'Multiple spaces treated as single separator. Frequencies: ae (3), bl (1) -> ["ae"].'
+      },
+      {
+        id: 'tc-3',
+        input: 's = "cat dog bus pen"',
+        inputRaw: "cat dog bus pen",
+        expectedOutput: '["ct", "dg", "bs", "pn"]',
+        explanation: 'All combinations (ct, dg, bs, pn) have frequency 1. Order of first appearance preserved.'
+      },
+      {
+        id: 'tc-4',
+        input: 's = "apple axe angle ball bat"',
+        inputRaw: "apple axe angle ball bat",
+        expectedOutput: '["ae"]',
+        explanation: 'ae appears 3 times (apple, axe, angle). bl and bt appear 1 time each -> ["ae"].'
+      },
+      {
+        id: 'tc-5',
+        input: 's = "hello"',
+        inputRaw: "hello",
+        expectedOutput: '["ho"]',
+        explanation: 'Single word: first = h, last = o -> ["ho"].'
+      },
+      {
+        id: 'tc-6',
+        input: 's = "apple apple apple ball ball"',
+        inputRaw: "apple apple apple ball ball",
+        expectedOutput: '["ae"]',
+        explanation: 'ae appears 3 times, bl appears 2 times. Max = 3 -> ["ae"].'
+      }
+    ],
+    solutions: {
+      python: `def find_most_frequent(s):
+    words = s.split()
+    freq = {}
+    order = []
+
+    for w in words:
+        if not w:
+            continue
+        combo = w[0] + w[-1]
+        if combo not in freq:
+            order.append(combo)
+            freq[combo] = 0
+        freq[combo] += 1
+
+    if not freq:
+        return []
+
+    max_freq = max(freq.values())
+    return [c for c in order if freq[c] == max_freq]
+
+# Test Cases
+print(find_most_frequent("apple angle ball bottle axe")) # ['ae']
+print(find_most_frequent("cat dog bus pen"))              # ['ct', 'dg', 'bs', 'pn']
+print(find_most_frequent("hello"))                        # ['ho']`,
+
+      java: `import java.util.*;
+
+public class Solution {
+
+    public static List<String> findMostFrequent(String s) {
+
+        String[] words = s.trim().split("\\\\s+");
+
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        // Count frequency
+        for (String word : words) {
+            String combo = "" + word.charAt(0)
+                             + word.charAt(word.length() - 1);
+
+            if (map.containsKey(combo)) {
+                map.put(combo, map.get(combo) + 1);
+            } else {
+                map.put(combo, 1);
+            }
+        }
+
+        // Find maximum frequency
+        int max = 0;
+
+        for (int freq : map.values()) {
+            max = Math.max(max, freq);
+        }
+
+        // Store result
+        List<String> result = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                result.add(entry.getKey());
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(
+            findMostFrequent("apple angle ball bottle axe")
+        );
+
+        System.out.println(
+            findMostFrequent("cat dog bus pen")
+        );
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <sstream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+std::vector<std::string> findMostFrequent(const std::string& s) {
+    std::stringstream ss(s);
+    std::string word;
+
+    std::unordered_map<std::string, int> freq;
+    std::vector<std::string> order;
+
+    while (ss >> word) {
+        if (word.empty()) continue;
+        std::string combo;
+        combo += word.front();
+        combo += word.back();
+
+        if (freq.find(combo) == freq.end()) {
+            order.push_back(combo);
+            freq[combo] = 0;
+        }
+        freq[combo]++;
+    }
+
+    int maxFreq = 0;
+    for (const auto& p : freq) {
+        maxFreq = std::max(maxFreq, p.second);
+    }
+
+    std::vector<std::string> answer;
+    for (const auto& c : order) {
+        if (freq[c] == maxFreq) {
+            answer.push_back(c);
+        }
+    }
+    return answer;
+}
+
+int main() {
+    auto res = findMostFrequent("apple angle ball bottle axe");
+    for (const auto& w : res) std::cout << w << " ";
+    std::cout << std::endl;
+    return 0;
+}`,
+
+      csharp: `using System;
+using System.Collections.Generic;
+
+class Solution
+{
+    public static List<string> FindMostFrequent(string s)
+    {
+        string[] words = s.Trim().Split(
+            ' ',
+            StringSplitOptions.RemoveEmptyEntries
+        );
+
+        Dictionary<string, int> map = new Dictionary<string, int>();
+
+        // Count frequency
+        foreach (string word in words)
+        {
+            string combo = "" + word[0] + word[word.Length - 1];
+
+            if (map.ContainsKey(combo))
+                map[combo]++;
+            else
+                map[combo] = 1;
+        }
+
+        // Find maximum frequency
+        int max = 0;
+
+        foreach (int freq in map.Values)
+        {
+            if (freq > max)
+                max = freq;
+        }
+
+        // Find combinations with maximum frequency
+        List<string> result = new List<string>();
+
+        foreach (var entry in map)
+        {
+            if (entry.Value == max)
+                result.Add(entry.Key);
+        }
+
+        return result;
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(
+            string.Join(", ", FindMostFrequent("apple angle ball bottle axe"))
+        );
+
+        Console.WriteLine(
+            string.Join(", ", FindMostFrequent("cat dog bus pen"))
+        );
+    }
+}`,
+
+      javascript: `function findMostFrequent(s) {
+  const words = s.trim().split(/\\s+/);
+  const freq = new Map();
+  const order = [];
+
+  for (const w of words) {
+    if (!w) continue;
+    const combo = w[0] + w[w.length - 1];
+    if (!freq.has(combo)) {
+      order.push(combo);
+      freq.set(combo, 0);
+    }
+    freq.set(combo, freq.get(combo) + 1);
+  }
+
+  let maxFreq = 0;
+  for (const count of freq.values()) {
+    if (count > maxFreq) maxFreq = count;
+  }
+
+  return order.filter(combo => freq.get(combo) === maxFreq);
+}
+
+console.log(findMostFrequent("apple angle ball bottle axe")); // ["ae"]
+console.log(findMostFrequent("cat dog bus pen"));              // ["ct", "dg", "bs", "pn"]
+console.log(findMostFrequent("hello"));                        // ["ho"]`
+    },
+    runSimulation: (s) => {
+      const words = s.trim().split(/\s+/);
+      const freq = new Map();
+      const order = [];
+
+      for (const w of words) {
+        if (!w) continue;
+        const combo = w[0] + w[w.length - 1];
+        if (!freq.has(combo)) {
+          order.push(combo);
+          freq.set(combo, 0);
+        }
+        freq.set(combo, freq.get(combo) + 1);
+      }
+
+      let maxFreq = 0;
+      for (const count of freq.values()) {
+        if (count > maxFreq) maxFreq = count;
+      }
+
+      return order.filter(combo => freq.get(combo) === maxFreq);
+    }
+  },
+
+  // =========================================================================
+  // VERIFIED: 20th Oct 2025 (Uniform Rows and Columns)
+  // =========================================================================
+  {
+    id: 'recent-dsa-013',
+    track: 'dsa',
+    dateTag: '20th Oct 2025 • Shift 1',
+    examDate: '2025-10-20',
+    shift: 'Shift 1',
+    title: 'Uniform Rows and Columns',
+    difficulty: 'Easy',
+    category: 'Strings / 2D Matrix Mapping',
+    source: 'Accenture Assessment 20th Oct 2025 (PYQ Series)',
+    isVerified: true,
+    description: `You are given a string \`S\` whose length is a perfect square.
+
+Let \`n\` be the square root of the length of \`S\` (\`n = sqrt(S.length)\`).
+
+Construct an \`n × n\` grid by placing the characters of \`S\` in **row-major order**:
+- Fill the grid from left to right, then move down to the next row.
+- In row-major representation, element at row \`i\` and column \`j\` is given by \`S[i * n + j]\`.
+
+A row or column is called **uniform** if all its elements contain the exact same character.
+
+Return the **total number of uniform rows and uniform columns**.
+
+**Example**:
+\`S = "aaabbbccc"\`
+Length = 9, \`n = sqrt(9) = 3\`.
+Grid:
+\`\`\`
+a a a   -> Row 0: Uniform ('a') ✅
+b b b   -> Row 1: Uniform ('b') ✅
+c c c   -> Row 2: Uniform ('c') ✅
+\`\`\`
+Columns:
+- Col 0: \`a, b, c\` ❌
+- Col 1: \`a, b, c\` ❌
+- Col 2: \`a, b, c\` ❌
+
+Total = 3 rows + 0 columns = 3.`,
+    rules: [
+      '1. Calculate n = Math.sqrt(S.length).',
+      '2. Check each row i from 0 to n-1: if every character in row i matches S[i * n], increment count.',
+      '3. Check each column j from 0 to n-1: if every character in column j matches S[j], increment count.',
+      '4. Return total uniform rows + uniform columns count.'
+    ],
+    constraints: [
+      '1 <= S.length <= 10^5',
+      'S.length is guaranteed to be a perfect square',
+      'S consists of lowercase/uppercase English letters',
+      'Time Complexity: O(N) where N = S.length',
+      'Space Complexity: O(1) in-place 1D-to-2D index formula'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'S = "aaabbbccc"',
+        inputRaw: "aaabbbccc",
+        expectedOutput: '3',
+        explanation: '3 uniform rows (aaa, bbb, ccc) + 0 uniform columns = 3.'
+      },
+      {
+        id: 'tc-2',
+        input: 'S = "aaaaaaaaa"',
+        inputRaw: "aaaaaaaaa",
+        expectedOutput: '6',
+        explanation: '3 uniform rows + 3 uniform columns = 6.'
+      },
+      {
+        id: 'tc-3',
+        input: 'S = "abcdefghi"',
+        inputRaw: "abcdefghi",
+        expectedOutput: '0',
+        explanation: 'No rows or columns have all identical characters -> 0.'
+      },
+      {
+        id: 'tc-4',
+        input: 'S = "abcabcabc"',
+        inputRaw: "abcabcabc",
+        expectedOutput: '3',
+        explanation: '0 uniform rows + 3 uniform columns (aaa, bbb, ccc) = 3.'
+      },
+      {
+        id: 'tc-5',
+        input: 'S = "aababbaba"',
+        inputRaw: "aababbaba",
+        expectedOutput: '1',
+        explanation: '0 uniform rows + 1 uniform column (col 0: aaa) = 1.'
+      },
+      {
+        id: 'tc-6',
+        input: 'S = "a"',
+        inputRaw: "a",
+        expectedOutput: '2',
+        explanation: '1x1 grid: row 0 is uniform (1) and col 0 is uniform (1) -> 2.'
+      }
+    ],
+    solutions: {
+      python: `import math
+
+def count_uniform(s):
+    n = int(math.isqrt(len(s)))
+    count = 0
+
+    # Check rows
+    for i in range(n):
+        first = s[i * n]
+        if all(s[i * n + j] == first for j in range(1, n)):
+            count += 1
+
+    # Check columns
+    for j in range(n):
+        first = s[j]
+        if all(s[i * n + j] == first for i in range(1, n)):
+            count += 1
+
+    return count
+
+# Test Cases
+print(count_uniform("aaabbbccc")) # 3
+print(count_uniform("aaaaaaaaa")) # 6
+print(count_uniform("abcdefghi")) # 0
+print(count_uniform("abcabcabc")) # 3`,
+
+      java: `public class Solution {
+    public static int countUniform(String s) {
+        int n = (int) Math.sqrt(s.length());
+        int count = 0;
+
+        // Check rows
+        for (int i = 0; i < n; i++) {
+            boolean uniform = true;
+            char first = s.charAt(i * n);
+            for (int j = 1; j < n; j++) {
+                if (s.charAt(i * n + j) != first) {
+                    uniform = false;
+                    break;
+                }
+            }
+            if (uniform) count++;
+        }
+
+        // Check columns
+        for (int j = 0; j < n; j++) {
+            boolean uniform = true;
+            char first = s.charAt(j);
+            for (int i = 1; i < n; i++) {
+                if (s.charAt(i * n + j) != first) {
+                    uniform = false;
+                    break;
+                }
+            }
+            if (uniform) count++;
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(countUniform("aaabbbccc")); // 3
+        System.out.println(countUniform("aaaaaaaaa")); // 6
+        System.out.println(countUniform("abcdefghi")); // 0
+        System.out.println(countUniform("abcabcabc")); // 3
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <string>
+#include <cmath>
+
+int countUniform(const std::string& s) {
+    int n = std::sqrt(s.length());
+    int count = 0;
+
+    // Check rows
+    for (int i = 0; i < n; i++) {
+        bool uniform = true;
+        char first = s[i * n];
+        for (int j = 1; j < n; j++) {
+            if (s[i * n + j] != first) {
+                uniform = false;
+                break;
+            }
+        }
+        if (uniform) count++;
+    }
+
+    // Check columns
+    for (int j = 0; j < n; j++) {
+        bool uniform = true;
+        char first = s[j];
+        for (int i = 1; i < n; i++) {
+            if (s[i * n + j] != first) {
+                uniform = false;
+                break;
+            }
+        }
+        if (uniform) count++;
+    }
+
+    return count;
+}
+
+int main() {
+    std::cout << countUniform("aaabbbccc") << std::endl; // 3
+    std::cout << countUniform("aaaaaaaaa") << std::endl; // 6
+    std::cout << countUniform("abcdefghi") << std::endl; // 0
+    std::cout << countUniform("abcabcabc") << std::endl; // 3
+    return 0;
+}`,
+
+      csharp: `using System;
+
+class Solution {
+    public static int CountUniform(string s) {
+        int n = (int)Math.Sqrt(s.Length);
+        int count = 0;
+
+        // Check rows
+        for (int i = 0; i < n; i++) {
+            bool uniform = true;
+            char first = s[i * n];
+            for (int j = 1; j < n; j++) {
+                if (s[i * n + j] != first) {
+                    uniform = false;
+                    break;
+                }
+            }
+            if (uniform) count++;
+        }
+
+        // Check columns
+        for (int j = 0; j < n; j++) {
+            bool uniform = true;
+            char first = s[j];
+            for (int i = 1; i < n; i++) {
+                if (s[i * n + j] != first) {
+                    uniform = false;
+                    break;
+                }
+            }
+            if (uniform) count++;
+        }
+
+        return count;
+    }
+
+    static void Main() {
+        Console.WriteLine(CountUniform("aaabbbccc")); // 3
+        Console.WriteLine(CountUniform("aaaaaaaaa")); // 6
+        Console.WriteLine(CountUniform("abcdefghi")); // 0
+        Console.WriteLine(CountUniform("abcabcabc")); // 3
+    }
+}`,
+
+      javascript: `function countUniform(s) {
+  const n = Math.floor(Math.sqrt(s.length));
+  let count = 0;
+
+  // Check rows
+  for (let i = 0; i < n; i++) {
+    let uniform = true;
+    const first = s[i * n];
+    for (let j = 1; j < n; j++) {
+      if (s[i * n + j] !== first) {
+        uniform = false;
+        break;
+      }
+    }
+    if (uniform) count++;
+  }
+
+  // Check columns
+  for (let j = 0; j < n; j++) {
+    let uniform = true;
+    const first = s[j];
+    for (let i = 1; i < n; i++) {
+      if (s[i * n + j] !== first) {
+        uniform = false;
+        break;
+      }
+    }
+    if (uniform) count++;
+  }
+
+  return count;
+}
+
+console.log(countUniform("aaabbbccc")); // 3
+console.log(countUniform("aaaaaaaaa")); // 6
+console.log(countUniform("abcdefghi")); // 0
+console.log(countUniform("abcabcabc")); // 3`
+    },
+    runSimulation: (s) => {
+      const n = Math.floor(Math.sqrt(s.length));
+      let count = 0;
+      for (let i = 0; i < n; i++) {
+        let uniform = true;
+        const first = s[i * n];
+        for (let j = 1; j < n; j++) {
+          if (s[i * n + j] !== first) {
+            uniform = false;
+            break;
+          }
+        }
+        if (uniform) count++;
+      }
+      for (let j = 0; j < n; j++) {
+        let uniform = true;
+        const first = s[j];
+        for (let i = 1; i < n; i++) {
+          if (s[i * n + j] !== first) {
+            uniform = false;
+            break;
+          }
+        }
+        if (uniform) count++;
+      }
+      return count;
+    }
+  },
+
+  // =========================================================================
   // VERIFIED: 10th Sept Shift 1 (Frontend from authentic exam paper)
   // =========================================================================
   {

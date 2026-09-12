@@ -183,6 +183,45 @@ for _r, _u, _n, _arr in _tests:
         print("TEST_ERR:" + str(_e))
 `;
     }
+
+    if (questionId === 'recent-dsa-012') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    "apple angle ball bottle axe",
+    "apple    angle   ball     axe",
+    "cat dog bus pen",
+    "apple axe angle ball bat",
+    "hello",
+    "apple apple apple ball ball"
+]
+for _s in _tests:
+    try:
+        print("TEST_RES:" + json.dumps(find_most_frequent(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-013') {
+      return `${cleanUserCode}
+
+_tests = [
+    "aaabbbccc",
+    "aaaaaaaaa",
+    "abcdefghi",
+    "abcabcabc",
+    "aababbaba",
+    "a"
+]
+for _s in _tests:
+    try:
+        print("TEST_RES:" + str(count_uniform(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
   }
 
   if (lang === 'java') {
@@ -409,6 +448,62 @@ for _r, _u, _n, _arr in _tests:
 }
 `;
     }
+
+    if (questionId === 'recent-dsa-012') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {
+            "apple angle ball bottle axe",
+            "apple    angle   ball     axe",
+            "cat dog bus pen",
+            "apple axe angle ball bat",
+            "hello",
+            "apple apple apple ball ball"
+        };
+        for (String s : tests) {
+            try {
+                List<String> res = findMostFrequent(s);
+                StringBuilder sb = new StringBuilder();
+                sb.append('[');
+                for (int i = 0; i < res.size(); i++) {
+                    sb.append('"').append(res.get(i)).append('"');
+                    if (i < res.size() - 1) sb.append(',');
+                }
+                sb.append(']');
+                System.out.println("TEST_RES:" + sb.toString());
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-013') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {
+            "aaabbbccc",
+            "aaaaaaaaa",
+            "abcdefghi",
+            "abcabcabc",
+            "aababbaba",
+            "a"
+        };
+        for (String s : tests) {
+            try {
+                System.out.println("TEST_RES:" + countUniform(s));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
   }
 
   if (lang === 'cpp') {
@@ -557,6 +652,45 @@ int main() {
     std::cout << "TEST_RES:" << minimumHouses(10, 5, 4, {2, 3, 4, 5}) << std::endl;
     std::cout << "TEST_RES:" << minimumHouses(5, 2, 0, {}) << std::endl;
     std::cout << "TEST_RES:" << minimumHouses(4, 3, 5, {2, 4, 6, 8, 10}) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-012') {
+      return `${cleanUserCode}
+
+void printVec(const std::vector<std::string>& v) {
+    std::cout << "TEST_RES:[";
+    for (size_t i = 0; i < v.size(); i++) {
+        std::cout << '"' << v[i] << '"';
+        if (i + 1 < v.size()) std::cout << ",";
+    }
+    std::cout << "]" << std::endl;
+}
+
+int main() {
+    printVec(findMostFrequent("apple angle ball bottle axe"));
+    printVec(findMostFrequent("apple    angle   ball     axe"));
+    printVec(findMostFrequent("cat dog bus pen"));
+    printVec(findMostFrequent("apple axe angle ball bat"));
+    printVec(findMostFrequent("hello"));
+    printVec(findMostFrequent("apple apple apple ball ball"));
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-013') {
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << countUniform("aaabbbccc") << std::endl;
+    std::cout << "TEST_RES:" << countUniform("aaaaaaaaa") << std::endl;
+    std::cout << "TEST_RES:" << countUniform("abcdefghi") << std::endl;
+    std::cout << "TEST_RES:" << countUniform("abcabcabc") << std::endl;
+    std::cout << "TEST_RES:" << countUniform("aababbaba") << std::endl;
+    std::cout << "TEST_RES:" << countUniform("a") << std::endl;
     return 0;
 }
 `;
@@ -718,6 +852,51 @@ int main() {
         Console.WriteLine("TEST_RES:" + MinimumHouses(10, 5, 4, new int[] {2, 3, 4, 5}));
         Console.WriteLine("TEST_RES:" + MinimumHouses(5, 2, 0, new int[] {}));
         Console.WriteLine("TEST_RES:" + MinimumHouses(4, 3, 5, new int[] {2, 4, 6, 8, 10}));
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-012') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {
+            "apple angle ball bottle axe",
+            "apple    angle   ball     axe",
+            "cat dog bus pen",
+            "apple axe angle ball bat",
+            "hello",
+            "apple apple apple ball ball"
+        };
+        foreach (var s in tests) {
+            var res = FindMostFrequent(s);
+            var quoted = new List<string>();
+            foreach (var item in res) {
+                quoted.Add('"' + item + '"');
+            }
+            Console.WriteLine("TEST_RES:[" + string.Join(",", quoted) + "]");
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-013') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {
+            "aaabbbccc",
+            "aaaaaaaaa",
+            "abcdefghi",
+            "abcabcabc",
+            "aababbaba",
+            "a"
+        };
+        foreach (var s in tests) {
+            Console.WriteLine("TEST_RES:" + CountUniform(s));
+        }
     }
 }
 `;
@@ -904,6 +1083,48 @@ const _tests = [
 for (const [_r, _u, _n, _arr] of _tests) {
     try {
         console.log("TEST_RES:" + JSON.stringify(minimumHouses(_r, _u, _n, _arr)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-012') {
+    return `${cleanUserCode}
+
+const _tests = [
+  "apple angle ball bottle axe",
+  "apple    angle   ball     axe",
+  "cat dog bus pen",
+  "apple axe angle ball bat",
+  "hello",
+  "apple apple apple ball ball"
+];
+for (const _s of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(findMostFrequent(_s)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-013') {
+    return `${cleanUserCode}
+
+const _tests = [
+  "aaabbbccc",
+  "aaaaaaaaa",
+  "abcdefghi",
+  "abcabcabc",
+  "aababbaba",
+  "a"
+];
+for (const _s of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(countUniform(_s)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }
