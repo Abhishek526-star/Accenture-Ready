@@ -1291,6 +1291,957 @@ console.log(reverseNumber(98760)); // Output: 6789`
   },
 
   // =========================================================================
+  // VERIFIED: 10th Dec 2025 (Count Valid Blocks)
+  // =========================================================================
+  {
+    id: 'recent-dsa-008',
+    track: 'dsa',
+    dateTag: '10th Dec 2025 • Shift 1',
+    examDate: '2025-12-10',
+    shift: 'Shift 1',
+    title: 'Count Valid Blocks',
+    difficulty: 'Easy',
+    category: 'Arrays / Consecutive Elements (Run-Length)',
+    source: 'Accenture Assessment 10th Dec 2025 (PYQ Series)',
+    isVerified: true,
+    description: `You are given an integer \`N\` and an array \`A\` of \`N\` integers.
+
+The array is divided into blocks, where a **block** is a group of consecutive elements having the exact same value.
+
+A block is called a **Valid Block** if:
+\`\`\`
+Length of the block == value of its elements
+\`\`\`
+
+Your task is to count and return the total number of valid blocks in the array.
+
+**Important**:
+Only consecutive occurrences form a block. For example, \`[2, 2, 1, 2, 2]\` contains two separate blocks of 2, each of length 2 (both valid). The two groups cannot be combined because 1 separates them.`,
+    rules: [
+      '1. Scan the array from left to right.',
+      '2. For every consecutive block of equal elements, count its length: blockLength.',
+      '3. If blockLength == currentValue, increment the total valid block count by 1.',
+      '4. Continue until the entire array is processed, and return count.'
+    ],
+    constraints: [
+      '1 <= N <= 10^5',
+      '1 <= A[i] <= 10^5',
+      'Time Complexity: O(N) (Single Pass)',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'N = 7, A = [1, 2, 2, 3, 3, 3, 4]',
+        inputRaw: { n: 7, a: [1, 2, 2, 3, 3, 3, 4] },
+        expectedOutput: '3',
+        explanation: `Blocks:
+• [1] → length = 1, value = 1 → Valid ✅
+• [2, 2] → length = 2, value = 2 → Valid ✅
+• [3, 3, 3] → length = 3, value = 3 → Valid ✅
+• [4] → length = 1, value = 4 → Invalid ❌
+Total Valid Blocks = 3.`
+      },
+      {
+        id: 'tc-2',
+        input: 'N = 6, A = [1, 2, 2, 3, 3, 3]',
+        inputRaw: { n: 6, a: [1, 2, 2, 3, 3, 3] },
+        expectedOutput: '3',
+        explanation: `Blocks:
+• [1] → length 1 == value 1 ✅
+• [2, 2] → length 2 == value 2 ✅
+• [3, 3, 3] → length 3 == value 3 ✅
+Total Valid Blocks = 3.`
+      },
+      {
+        id: 'tc-3',
+        input: 'N = 5, A = [2, 2, 2, 4, 4]',
+        inputRaw: { n: 5, a: [2, 2, 2, 4, 4] },
+        expectedOutput: '0',
+        explanation: `Blocks:
+• [2, 2, 2] → length = 3, value = 2 → Invalid ❌
+• [4, 4] → length = 2, value = 4 → Invalid ❌
+Total Valid Blocks = 0.`
+      },
+      {
+        id: 'tc-4',
+        input: 'N = 8, A = [2, 2, 1, 2, 2, 3, 3, 3]',
+        inputRaw: { n: 8, a: [2, 2, 1, 2, 2, 3, 3, 3] },
+        expectedOutput: '4',
+        explanation: `Blocks:
+• [2, 2] → length = 2, value = 2 → Valid ✅
+• [1] → length = 1, value = 1 → Valid ✅
+• [2, 2] → length = 2, value = 2 → Valid ✅
+• [3, 3, 3] → length = 3, value = 3 → Valid ✅
+Total Valid Blocks = 4.`
+      }
+    ],
+    solutions: {
+      python: `def count_valid_blocks(n, a):
+    count = 0
+    i = 0
+    while i < n:
+        current_value = a[i]
+        block_length = 0
+        while i < n and a[i] == current_value:
+            block_length += 1
+            i += 1
+        if block_length == current_value:
+            count += 1
+    return count
+
+# Test Cases
+print(count_valid_blocks(7, [1, 2, 2, 3, 3, 3, 4])) # Output: 3
+print(count_valid_blocks(8, [2, 2, 1, 2, 2, 3, 3, 3])) # Output: 4`,
+
+      java: `public class Solution {
+    public static int countValidBlocks(int n, int[] a) {
+        int count = 0;
+        int i = 0;
+        while (i < n) {
+            int currentValue = a[i];
+            int blockLength = 0;
+            while (i < n && a[i] == currentValue) {
+                blockLength++;
+                i++;
+            }
+            if (blockLength == currentValue) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(countValidBlocks(7, new int[]{1, 2, 2, 3, 3, 3, 4})); // Output: 3
+        System.out.println(countValidBlocks(8, new int[]{2, 2, 1, 2, 2, 3, 3, 3})); // Output: 4
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <vector>
+
+int countValidBlocks(int n, const std::vector<int>& a) {
+    int count = 0;
+    int i = 0;
+    while (i < n) {
+        int currentValue = a[i];
+        int blockLength = 0;
+        while (i < n && a[i] == currentValue) {
+            blockLength++;
+            i++;
+        }
+        if (blockLength == currentValue) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    std::cout << countValidBlocks(7, {1, 2, 2, 3, 3, 3, 4}) << std::endl; // Output: 3
+    std::cout << countValidBlocks(8, {2, 2, 1, 2, 2, 3, 3, 3}) << std::endl; // Output: 4
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static int CountValidBlocks(int n, int[] a) {
+        int count = 0;
+        int i = 0;
+        while (i < n) {
+            int currentValue = a[i];
+            int blockLength = 0;
+            while (i < n && a[i] == currentValue) {
+                blockLength++;
+                i++;
+            }
+            if (blockLength == currentValue) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void Main() {
+        Console.WriteLine(CountValidBlocks(7, new int[] {1, 2, 2, 3, 3, 3, 4})); // Output: 3
+        Console.WriteLine(CountValidBlocks(8, new int[] {2, 2, 1, 2, 2, 3, 3, 3})); // Output: 4
+    }
+}`,
+
+      javascript: `function countValidBlocks(n, a) {
+  let count = 0;
+  let i = 0;
+  while (i < n) {
+    const currentValue = a[i];
+    let blockLength = 0;
+    while (i < n && a[i] === currentValue) {
+      blockLength++;
+      i++;
+    }
+    if (blockLength === currentValue) {
+      count++;
+    }
+  }
+  return count;
+}
+
+console.log(countValidBlocks(7, [1, 2, 2, 3, 3, 3, 4])); // Output: 3
+console.log(countValidBlocks(8, [2, 2, 1, 2, 2, 3, 3, 3])); // Output: 4`
+    },
+    runSimulation: (n, a) => {
+      let count = 0;
+      let i = 0;
+      while (i < n) {
+        const val = a[i];
+        let len = 0;
+        while (i < n && a[i] === val) {
+          len++;
+          i++;
+        }
+        if (len === val) {
+          count++;
+        }
+      }
+      return count;
+    }
+  },
+
+  // =========================================================================
+  // VERIFIED: 15th Nov 2025 Shift 2 (Sum of Prime Numbers in a Range)
+  // =========================================================================
+  {
+    id: 'recent-dsa-009',
+    track: 'dsa',
+    dateTag: '15th Nov 2025 • Shift 2',
+    examDate: '2025-11-15',
+    shift: 'Shift 2',
+    title: 'Sum of Prime Numbers in a Range',
+    difficulty: 'Easy',
+    category: 'Math & Prime Numbers / Loops & Range Traversal',
+    source: 'Accenture Assessment 15th Nov 2025 (Shift 2 PYQ Series)',
+    isVerified: true,
+    description: `Given two integers \`M\` and \`N\`, find the sum of all prime numbers between \`M\` and \`N\` (inclusive).
+
+A **prime number** is a number greater than 1 that has exactly two factors: 1 and itself.
+Negative numbers, 0, and 1 are **not** prime numbers.
+
+**Example**:
+\`M = 10\`, \`N = 20\`
+Prime numbers between 10 and 20 are:
+\`11, 13, 17, 19\`
+Total Sum:
+\`11 + 13 + 17 + 19 = 60\``,
+    rules: [
+      '1. Loop through every integer from M to N (inclusive).',
+      '2. For each number, check if it is prime (greater than 1 and not divisible by any integer from 2 up to sqrt(num)).',
+      '3. If prime, add it to the running total sum.',
+      '4. Return the final sum.'
+    ],
+    constraints: [
+      '-100 <= M <= N <= 10^5',
+      'Time Complexity: O((N - M + 1) * sqrt(N))',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'M = 10, N = 20',
+        inputRaw: { m: 10, n: 20 },
+        expectedOutput: '60',
+        explanation: `Prime numbers: 11, 13, 17, 19.
+Sum = 11 + 13 + 17 + 19 = 60.`
+      },
+      {
+        id: 'tc-2',
+        input: 'M = 1, N = 10',
+        inputRaw: { m: 1, n: 10 },
+        expectedOutput: '17',
+        explanation: `Prime numbers: 2, 3, 5, 7 (1 is not prime).
+Sum = 2 + 3 + 5 + 7 = 17.`
+      },
+      {
+        id: 'tc-3',
+        input: 'M = 14, N = 16',
+        inputRaw: { m: 14, n: 16 },
+        expectedOutput: '0',
+        explanation: `Numbers in range: 14, 15, 16. None of these are prime numbers.
+Sum = 0.`
+      },
+      {
+        id: 'tc-4',
+        input: 'M = -5, N = 5',
+        inputRaw: { m: -5, n: 5 },
+        expectedOutput: '10',
+        explanation: `Negative numbers, 0, and 1 are not prime.
+The primes in range are 2, 3, 5.
+Sum = 2 + 3 + 5 = 10.`
+      }
+    ],
+    solutions: {
+      python: `def is_prime(num):
+    if num <= 1:
+        return False
+    i = 2
+    while i * i <= num:
+        if num % i == 0:
+            return False
+        i += 1
+    return True
+
+def calculate_prime_sum(m, n):
+    total_sum = 0
+    for i in range(m, n + 1):
+        if is_prime(i):
+            total_sum += i
+    return total_sum
+
+# Test Cases
+print(calculate_prime_sum(10, 20)) # Output: 60
+print(calculate_prime_sum(1, 10))  # Output: 17
+print(calculate_prime_sum(-5, 5))  # Output: 10`,
+
+      java: `public class Solution {
+    public static boolean isPrime(int num) {
+        if (num <= 1) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
+    public static long calculatePrimeSum(int m, int n) {
+        long sum = 0;
+        for (int i = m; i <= n; i++) {
+            if (isPrime(i)) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calculatePrimeSum(10, 20)); // Output: 60
+        System.out.println(calculatePrimeSum(1, 10));  // Output: 17
+        System.out.println(calculatePrimeSum(-5, 5));  // Output: 10
+    }
+}`,
+
+      cpp: `#include <iostream>
+
+bool is_prime(int num) {
+    if (num <= 1) return false;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+
+long long calculate_prime_sum(int m, int n) {
+    long long sum = 0;
+    for (int i = m; i <= n; i++) {
+        if (is_prime(i)) {
+            sum += i;
+        }
+    }
+    return sum;
+}
+
+int main() {
+    std::cout << calculate_prime_sum(10, 20) << std::endl; // Output: 60
+    std::cout << calculate_prime_sum(1, 10) << std::endl;  // Output: 17
+    std::cout << calculate_prime_sum(-5, 5) << std::endl;  // Output: 10
+    return 0;
+}
+`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static bool IsPrime(int num) {
+        if (num <= 1) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
+    public static long CalculatePrimeSum(int m, int n) {
+        long sum = 0;
+        for (int i = m; i <= n; i++) {
+            if (IsPrime(i)) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+
+    public static void Main() {
+        Console.WriteLine(CalculatePrimeSum(10, 20)); // Output: 60
+        Console.WriteLine(CalculatePrimeSum(1, 10));  // Output: 17
+        Console.WriteLine(CalculatePrimeSum(-5, 5));  // Output: 10
+    }
+}`,
+
+      javascript: `function isPrime(num) {
+  if (num <= 1) return false;
+  for (let i = 2; i * i <= num; i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+
+function calculatePrimeSum(m, n) {
+  let sum = 0;
+  for (let i = m; i <= n; i++) {
+    if (isPrime(i)) {
+      sum += i;
+    }
+  }
+  return sum;
+}
+
+console.log(calculatePrimeSum(10, 20)); // Output: 60
+console.log(calculatePrimeSum(1, 10));  // Output: 17
+console.log(calculatePrimeSum(-5, 5));  // Output: 10`
+    },
+    runSimulation: (m, n) => {
+      let sum = 0;
+      const checkPrime = (x) => {
+        if (x <= 1) return false;
+        for (let i = 2; i * i <= x; i++) {
+          if (x % i === 0) return false;
+        }
+        return true;
+      };
+      for (let i = m; i <= n; i++) {
+        if (checkPrime(i)) {
+          sum += i;
+        }
+      }
+      return sum;
+    }
+  },
+
+  // =========================================================================
+  // VERIFIED: 20th Nov 2025 (Difference Between Digit Sums)
+  // =========================================================================
+  {
+    id: 'recent-dsa-010',
+    track: 'dsa',
+    dateTag: '20th Nov 2025 • Shift 1',
+    examDate: '2025-11-20',
+    shift: 'Shift 1',
+    title: 'Difference Between Digit Sums',
+    difficulty: 'Easy',
+    category: 'Mathematical Problems / Number Theory & Digit Manipulation',
+    source: 'Accenture Assessment 20th Nov 2025 (PYQ Series)',
+    isVerified: true,
+    description: `Given two integers \`M\` and \`N\`, calculate and return the absolute difference between:
+
+1. The sum of digits of all numbers divisible by 4 between \`M\` and \`N\` (inclusive).
+2. The sum of digits of all numbers divisible by 7 between \`M\` and \`N\` (inclusive).
+
+⚠️ **Important Edge Case**:
+A number can be divisible by both 4 and 7 (such as 28, 56, 84...).
+When a number is divisible by both 4 and 7, its digit sum **must be added to both** \`sum4\` and \`sum7\`. Use separate \`if\` conditions rather than \`else if\`.`,
+    rules: [
+      '1. Loop through each number i from M to N (inclusive).',
+      '2. If i % 4 == 0, calculate its digit sum and add it to sum4.',
+      '3. If i % 7 == 0, calculate its digit sum and add it to sum7.',
+      '4. Numbers divisible by both 4 and 7 must contribute to both sum4 and sum7.',
+      '5. Return the absolute difference: abs(sum4 - sum7).'
+    ],
+    constraints: [
+      '1 <= M <= N <= 10^5',
+      'Time Complexity: O((N - M + 1) * log10(N))',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'M = 1, N = 20',
+        inputRaw: { m: 1, n: 20 },
+        expectedOutput: '12',
+        explanation: `• Numbers divisible by 4: 4, 8, 12, 16, 20
+  Digit sums: 4 + 8 + (1+2) + (1+6) + (2+0) = 4 + 8 + 3 + 7 + 2 = 24
+• Numbers divisible by 7: 7, 14
+  Digit sums: 7 + (1+4) = 7 + 5 = 12
+• Absolute Difference: |24 - 12| = 12.`
+      },
+      {
+        id: 'tc-2',
+        input: 'M = 1, N = 10',
+        inputRaw: { m: 1, n: 10 },
+        expectedOutput: '5',
+        explanation: `• Divisible by 4: 4 (digit sum 4), 8 (digit sum 8) -> sum4 = 12
+• Divisible by 7: 7 (digit sum 7) -> sum7 = 7
+• Absolute Difference: |12 - 7| = 5.`
+      },
+      {
+        id: 'tc-3',
+        input: 'M = 28, N = 28',
+        inputRaw: { m: 28, n: 28 },
+        expectedOutput: '0',
+        explanation: `• 28 is divisible by both 4 and 7!
+• Digit sum: 2 + 8 = 10
+• Added to sum4: 10, and added to sum7: 10
+• Absolute Difference: |10 - 10| = 0.`
+      },
+      {
+        id: 'tc-4',
+        input: 'M = 40, N = 50',
+        inputRaw: { m: 40, n: 50 },
+        expectedOutput: '5',
+        explanation: `• Multiples of 4: 40 (4), 44 (8), 48 (12) -> sum4 = 24
+• Multiples of 7: 42 (6), 49 (13) -> sum7 = 19
+• Absolute Difference: |24 - 19| = 5.`
+      }
+    ],
+    solutions: {
+      python: `def calculate_difference(m, n):
+    def digit_sum(num):
+        s = 0
+        while num > 0:
+            s += num % 10
+            num //= 10
+        return s
+
+    sum4 = 0
+    sum7 = 0
+    for i in range(m, n + 1):
+        d_sum = digit_sum(i)
+        if i % 4 == 0:
+            sum4 += d_sum
+        if i % 7 == 0:
+            sum7 += d_sum
+            
+    return abs(sum4 - sum7)
+
+# Test Cases
+print(calculate_difference(1, 20))  # Output: 12
+print(calculate_difference(1, 10))  # Output: 5
+print(calculate_difference(28, 28)) # Output: 0
+print(calculate_difference(40, 50)) # Output: 5`,
+
+      java: `public class Solution {
+    public static int digitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public static int calculateDifference(int m, int n) {
+        int sum4 = 0;
+        int sum7 = 0;
+
+        for (int i = m; i <= n; i++) {
+            int d = digitSum(i);
+            if (i % 4 == 0) {
+                sum4 += d;
+            }
+            if (i % 7 == 0) {
+                sum7 += d;
+            }
+        }
+
+        return Math.abs(sum4 - sum7);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calculateDifference(1, 20));  // Output: 12
+        System.out.println(calculateDifference(1, 10));  // Output: 5
+        System.out.println(calculateDifference(28, 28)); // Output: 0
+        System.out.println(calculateDifference(40, 50)); // Output: 5
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <cstdlib>
+
+int digitSum(int num) {
+    int sum = 0;
+    while (num > 0) {
+        sum += num % 10;
+        num /= 10;
+    }
+    return sum;
+}
+
+int calculateDifference(int m, int n) {
+    int sum4 = 0;
+    int sum7 = 0;
+
+    for (int i = m; i <= n; i++) {
+        int d = digitSum(i);
+        if (i % 4 == 0) {
+            sum4 += d;
+        }
+        if (i % 7 == 0) {
+            sum7 += d;
+        }
+    }
+
+    return std::abs(sum4 - sum7);
+}
+
+int main() {
+    std::cout << calculateDifference(1, 20) << std::endl;  // Output: 12
+    std::cout << calculateDifference(1, 10) << std::endl;  // Output: 5
+    std::cout << calculateDifference(28, 28) << std::endl; // Output: 0
+    std::cout << calculateDifference(40, 50) << std::endl; // Output: 5
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static int DigitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public static int CalculateDifference(int m, int n) {
+        int sum4 = 0;
+        int sum7 = 0;
+
+        for (int i = m; i <= n; i++) {
+            int d = DigitSum(i);
+            if (i % 4 == 0) {
+                sum4 += d;
+            }
+            if (i % 7 == 0) {
+                sum7 += d;
+            }
+        }
+
+        return Math.Abs(sum4 - sum7);
+    }
+
+    public static void Main() {
+        Console.WriteLine(CalculateDifference(1, 20));  // Output: 12
+        Console.WriteLine(CalculateDifference(1, 10));  // Output: 5
+        Console.WriteLine(CalculateDifference(28, 28)); // Output: 0
+        Console.WriteLine(CalculateDifference(40, 50)); // Output: 5
+    }
+}`,
+
+      javascript: `function digitSum(num) {
+  let sum = 0;
+  while (num > 0) {
+    sum += num % 10;
+    num = Math.floor(num / 10);
+  }
+  return sum;
+}
+
+function calculateDifference(m, n) {
+  let sum4 = 0;
+  let sum7 = 0;
+
+  for (let i = m; i <= n; i++) {
+    const d = digitSum(i);
+    if (i % 4 === 0) {
+      sum4 += d;
+    }
+    if (i % 7 === 0) {
+      sum7 += d;
+    }
+  }
+
+  return Math.abs(sum4 - sum7);
+}
+
+console.log(calculateDifference(1, 20));  // Output: 12
+console.log(calculateDifference(1, 10));  // Output: 5
+console.log(calculateDifference(28, 28)); // Output: 0
+console.log(calculateDifference(40, 50)); // Output: 5`
+    },
+    runSimulation: (m, n) => {
+      const getDigitSum = (num) => {
+        let sum = 0;
+        while (num > 0) {
+          sum += num % 10;
+          num = Math.floor(num / 10);
+        }
+        return sum;
+      };
+
+      let sum4 = 0;
+      let sum7 = 0;
+      for (let i = m; i <= n; i++) {
+        const d = getDigitSum(i);
+        if (i % 4 === 0) sum4 += d;
+        if (i % 7 === 0) sum7 += d;
+      }
+      return Math.abs(sum4 - sum7);
+    }
+  },
+
+  // =========================================================================
+  // VERIFIED: 31st Dec 2025 (Rat Food Consumption)
+  // =========================================================================
+  {
+    id: 'recent-dsa-011',
+    track: 'dsa',
+    dateTag: '31st Dec 2025 • Shift 1',
+    examDate: '2025-12-31',
+    shift: 'Shift 1',
+    title: 'Rat Food Consumption',
+    difficulty: 'Easy',
+    category: 'Arrays / Greedy & Prefix Sum',
+    source: 'Accenture Assessment 31st Dec 2025 (PYQ Series)',
+    isVerified: true,
+    description: `The function accepts:
+- \`r\`: number of rats in the area
+- \`unit\`: amount of food required by each rat
+- \`n\`: number of houses
+- \`arr[]\`: amount of food available in each house
+
+Return the **minimum number of houses** required from the start of the array to collect enough food to satisfy all the rats.
+
+**Formula**:
+\`\`\`
+Total Food Required = r * unit
+\`\`\`
+
+Start from the first house and accumulate food sequentially until \`accumulatedFood >= requiredFood\`.
+When fulfilled, return the number of houses used (\`i + 1\`).
+
+⚠️ **Special Conditions**:
+1. **Array is NULL or Empty**: Return \`-1\`.
+2. **Total food in all houses is insufficient** (< Total Food Required): Return \`0\`.`,
+    rules: [
+      '1. Check if the array is null or n <= 0. If so, return -1 immediately.',
+      '2. Calculate requiredFood = r * unit.',
+      '3. Iterate through arr from index 0 to n - 1, keeping a running sum of collected food.',
+      '4. If collected food becomes >= requiredFood at index i, return i + 1.',
+      '5. If the entire array is traversed and collected food is still < requiredFood, return 0.'
+    ],
+    constraints: [
+      '0 <= n <= 10^5',
+      '0 <= arr[i] <= 10^4',
+      '1 <= r, unit <= 10^4',
+      'Time Complexity: O(N) (Single Pass)',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'r = 7, unit = 2, n = 8, arr = [2, 8, 3, 5, 7, 4, 1, 2]',
+        inputRaw: { r: 7, unit: 2, n: 8, arr: [2, 8, 3, 5, 7, 4, 1, 2] },
+        expectedOutput: '4',
+        explanation: `• Total food required: 7 * 2 = 14
+• House 1: 2 (sum = 2)
+• House 2: 8 (sum = 10)
+• House 3: 3 (sum = 13)
+• House 4: 5 (sum = 18 >= 14)
+First 4 houses provide sufficient food.`
+      },
+      {
+        id: 'tc-2',
+        input: 'r = 5, unit = 2, n = 5, arr = [15, 2, 3, 4, 5]',
+        inputRaw: { r: 5, unit: 2, n: 5, arr: [15, 2, 3, 4, 5] },
+        expectedOutput: '1',
+        explanation: `• Total required = 5 * 2 = 10
+• House 1: 15 >= 10. Only 1 house needed.`
+      },
+      {
+        id: 'tc-3',
+        input: 'r = 10, unit = 2, n = 5, arr = [2, 3, 4, 5, 6]',
+        inputRaw: { r: 10, unit: 2, n: 5, arr: [2, 3, 4, 5, 6] },
+        expectedOutput: '5',
+        explanation: `• Total required = 10 * 2 = 20
+• Sum of all 5 houses = 2 + 3 + 4 + 5 + 6 = 20 >= 20. Exactly 5 houses required.`
+      },
+      {
+        id: 'tc-4',
+        input: 'r = 10, unit = 5, n = 4, arr = [2, 3, 4, 5]',
+        inputRaw: { r: 10, unit: 5, n: 4, arr: [2, 3, 4, 5] },
+        expectedOutput: '0',
+        explanation: `• Required = 10 * 5 = 50
+• Total food available = 2 + 3 + 4 + 5 = 14 < 50.
+• Food is insufficient across all houses -> return 0.`
+      },
+      {
+        id: 'tc-5',
+        input: 'r = 5, unit = 2, n = 0, arr = []',
+        inputRaw: { r: 5, unit: 2, n: 0, arr: [] },
+        expectedOutput: '-1',
+        explanation: `• Array is empty / NULL -> return -1.`
+      },
+      {
+        id: 'tc-6',
+        input: 'r = 4, unit = 3, n = 5, arr = [2, 4, 6, 8, 10]',
+        inputRaw: { r: 4, unit: 3, n: 5, arr: [2, 4, 6, 8, 10] },
+        expectedOutput: '3',
+        explanation: `• Required = 4 * 3 = 12
+• House 1: 2 (sum = 2)
+• House 2: 4 (sum = 6)
+• House 3: 6 (sum = 12 >= 12).
+Exactly 3 houses needed.`
+      }
+    ],
+    solutions: {
+      python: `def minimum_houses(r, unit, n, arr):
+    if arr is None or n == 0 or len(arr) == 0:
+        return -1
+
+    required_food = r * unit
+    food = 0
+
+    for i in range(min(n, len(arr))):
+        food += arr[i]
+        if food >= required_food:
+            return i + 1
+
+    return 0
+
+# Test Cases
+print(minimum_houses(7, 2, 8, [2, 8, 3, 5, 7, 4, 1, 2])) # Output: 4
+print(minimum_houses(5, 2, 5, [15, 2, 3, 4, 5]))          # Output: 1
+print(minimum_houses(10, 2, 5, [2, 3, 4, 5, 6]))          # Output: 5
+print(minimum_houses(10, 5, 4, [2, 3, 4, 5]))             # Output: 0
+print(minimum_houses(5, 2, 0, []))                        # Output: -1
+print(minimum_houses(4, 3, 5, [2, 4, 6, 8, 10]))          # Output: 3`,
+
+      java: `public class Solution {
+    public static int minimumHouses(int r, int unit, int n, int[] arr) {
+        if (arr == null || n == 0 || arr.length == 0) {
+            return -1;
+        }
+
+        int requiredFood = r * unit;
+        int food = 0;
+
+        for (int i = 0; i < Math.min(n, arr.length); i++) {
+            food += arr[i];
+            if (food >= requiredFood) {
+                return i + 1;
+            }
+        }
+
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(minimumHouses(7, 2, 8, new int[]{2, 8, 3, 5, 7, 4, 1, 2})); // 4
+        System.out.println(minimumHouses(5, 2, 5, new int[]{15, 2, 3, 4, 5}));          // 1
+        System.out.println(minimumHouses(10, 2, 5, new int[]{2, 3, 4, 5, 6}));          // 5
+        System.out.println(minimumHouses(10, 5, 4, new int[]{2, 3, 4, 5}));             // 0
+        System.out.println(minimumHouses(5, 2, 0, new int[]{}));                         // -1
+        System.out.println(minimumHouses(4, 3, 5, new int[]{2, 4, 6, 8, 10}));          // 3
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <vector>
+
+int minimumHouses(int r, int unit, int n, const std::vector<int>& arr) {
+    if (arr.empty() || n == 0) {
+        return -1;
+    }
+
+    int requiredFood = r * unit;
+    int food = 0;
+
+    for (int i = 0; i < n && i < (int)arr.size(); i++) {
+        food += arr[i];
+        if (food >= requiredFood) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}
+
+int main() {
+    std::cout << minimumHouses(7, 2, 8, {2, 8, 3, 5, 7, 4, 1, 2}) << std::endl; // 4
+    std::cout << minimumHouses(5, 2, 5, {15, 2, 3, 4, 5}) << std::endl;          // 1
+    std::cout << minimumHouses(10, 2, 5, {2, 3, 4, 5, 6}) << std::endl;          // 5
+    std::cout << minimumHouses(10, 5, 4, {2, 3, 4, 5}) << std::endl;             // 0
+    std::cout << minimumHouses(5, 2, 0, {}) << std::endl;                         // -1
+    std::cout << minimumHouses(4, 3, 5, {2, 4, 6, 8, 10}) << std::endl;          // 3
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static int MinimumHouses(int r, int unit, int n, int[] arr) {
+        if (arr == null || n == 0 || arr.Length == 0) {
+            return -1;
+        }
+
+        int requiredFood = r * unit;
+        int food = 0;
+
+        for (int i = 0; i < Math.Min(n, arr.Length); i++) {
+            food += arr[i];
+            if (food >= requiredFood) {
+                return i + 1;
+            }
+        }
+
+        return 0;
+    }
+
+    public static void Main() {
+        Console.WriteLine(MinimumHouses(7, 2, 8, new int[] {2, 8, 3, 5, 7, 4, 1, 2})); // 4
+        Console.WriteLine(MinimumHouses(5, 2, 5, new int[] {15, 2, 3, 4, 5}));          // 1
+        Console.WriteLine(MinimumHouses(10, 2, 5, new int[] {2, 3, 4, 5, 6}));          // 5
+        Console.WriteLine(MinimumHouses(10, 5, 4, new int[] {2, 3, 4, 5}));             // 0
+        Console.WriteLine(MinimumHouses(5, 2, 0, new int[] {}));                         // -1
+        Console.WriteLine(MinimumHouses(4, 3, 5, new int[] {2, 4, 6, 8, 10}));          // 3
+    }
+}`,
+
+      javascript: `function minimumHouses(r, unit, n, arr) {
+  if (!arr || n === 0 || arr.length === 0) {
+    return -1;
+  }
+
+  const requiredFood = r * unit;
+  let food = 0;
+
+  for (let i = 0; i < Math.min(n, arr.length); i++) {
+    food += arr[i];
+    if (food >= requiredFood) {
+      return i + 1;
+    }
+  }
+
+  return 0;
+}
+
+console.log(minimumHouses(7, 2, 8, [2, 8, 3, 5, 7, 4, 1, 2])); // 4
+console.log(minimumHouses(5, 2, 5, [15, 2, 3, 4, 5]));          // 1
+console.log(minimumHouses(10, 2, 5, [2, 3, 4, 5, 6]));          // 5
+console.log(minimumHouses(10, 5, 4, [2, 3, 4, 5]));             // 0
+console.log(minimumHouses(5, 2, 0, []));                        // -1
+console.log(minimumHouses(4, 3, 5, [2, 4, 6, 8, 10]));          // 3`
+    },
+    runSimulation: (r, unit, n, arr) => {
+      if (!arr || n === 0 || arr.length === 0) return -1;
+      const required = r * unit;
+      let food = 0;
+      for (let i = 0; i < Math.min(n, arr.length); i++) {
+        food += arr[i];
+        if (food >= required) return i + 1;
+      }
+      return 0;
+    }
+  },
+
+  // =========================================================================
   // VERIFIED: 10th Sept Shift 1 (Frontend from authentic exam paper)
   // =========================================================================
   {

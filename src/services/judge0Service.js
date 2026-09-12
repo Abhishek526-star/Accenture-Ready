@@ -119,6 +119,70 @@ for _n in _tests:
         print("TEST_ERR:" + str(_e))
 `;
     }
+
+    if (questionId === 'recent-dsa-008') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    (7, [1, 2, 2, 3, 3, 3, 4]),
+    (6, [1, 2, 2, 3, 3, 3]),
+    (5, [2, 2, 2, 4, 4]),
+    (8, [2, 2, 1, 2, 2, 3, 3, 3])
+]
+for _n, _a in _tests:
+    try:
+        print("TEST_RES:" + json.dumps(count_valid_blocks(_n, _a)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-009') {
+      return `${cleanUserCode}
+
+import json
+_tests = [(10, 20), (1, 10), (14, 16), (-5, 5)]
+for _m, _n in _tests:
+    try:
+        print("TEST_RES:" + json.dumps(calculate_prime_sum(_m, _n)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-010') {
+      return `${cleanUserCode}
+
+import json
+_tests = [(1, 20), (1, 10), (28, 28), (40, 50)]
+for _m, _n in _tests:
+    try:
+        print("TEST_RES:" + json.dumps(calculate_difference(_m, _n)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-011') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    (7, 2, 8, [2, 8, 3, 5, 7, 4, 1, 2]),
+    (5, 2, 5, [15, 2, 3, 4, 5]),
+    (10, 2, 5, [2, 3, 4, 5, 6]),
+    (10, 5, 4, [2, 3, 4, 5]),
+    (5, 2, 0, []),
+    (4, 3, 5, [2, 4, 6, 8, 10])
+]
+for _r, _u, _n, _arr in _tests:
+    try:
+        print("TEST_RES:" + json.dumps(minimum_houses(_r, _u, _n, _arr)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
   }
 
   if (lang === 'java') {
@@ -256,6 +320,95 @@ for _n in _tests:
 }
 `;
     }
+
+    if (questionId === 'recent-dsa-008') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] arrs = {
+            {1, 2, 2, 3, 3, 3, 4},
+            {1, 2, 2, 3, 3, 3},
+            {2, 2, 2, 4, 4},
+            {2, 2, 1, 2, 2, 3, 3, 3}
+        };
+        int[] ns = {7, 6, 5, 8};
+        for (int i = 0; i < ns.length; i++) {
+            try {
+                System.out.println("TEST_RES:" + countValidBlocks(ns[i], arrs[i]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-009') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {{10, 20}, {1, 10}, {14, 16}, {-5, 5}};
+        for (int[] t : tests) {
+            try {
+                System.out.println("TEST_RES:" + calculatePrimeSum(t[0], t[1]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-010') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {{1, 20}, {1, 10}, {28, 28}, {40, 50}};
+        for (int[] t : tests) {
+            try {
+                System.out.println("TEST_RES:" + calculateDifference(t[0], t[1]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-011') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] params = {
+            {7, 2, 8},
+            {5, 2, 5},
+            {10, 2, 5},
+            {10, 5, 4},
+            {5, 2, 0},
+            {4, 3, 5}
+        };
+        int[][] arrays = {
+            {2, 8, 3, 5, 7, 4, 1, 2},
+            {15, 2, 3, 4, 5},
+            {2, 3, 4, 5, 6},
+            {2, 3, 4, 5},
+            {},
+            {2, 4, 6, 8, 10}
+        };
+        for (int i = 0; i < params.length; i++) {
+            try {
+                System.out.println("TEST_RES:" + minimumHouses(params[i][0], params[i][1], params[i][2], arrays[i]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
   }
 
   if (lang === 'cpp') {
@@ -350,6 +503,60 @@ int main() {
     std::cout << "TEST_RES:" << reverseNumber(98760) << std::endl;
     std::cout << "TEST_RES:" << reverseNumber(7) << std::endl;
     std::cout << "TEST_RES:" << reverseNumber(1000) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-008') {
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << countValidBlocks(7, {1, 2, 2, 3, 3, 3, 4}) << std::endl;
+    std::cout << "TEST_RES:" << countValidBlocks(6, {1, 2, 2, 3, 3, 3}) << std::endl;
+    std::cout << "TEST_RES:" << countValidBlocks(5, {2, 2, 2, 4, 4}) << std::endl;
+    std::cout << "TEST_RES:" << countValidBlocks(8, {2, 2, 1, 2, 2, 3, 3, 3}) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-009') {
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << calculate_prime_sum(10, 20) << std::endl;
+    std::cout << "TEST_RES:" << calculate_prime_sum(1, 10) << std::endl;
+    std::cout << "TEST_RES:" << calculate_prime_sum(14, 16) << std::endl;
+    std::cout << "TEST_RES:" << calculate_prime_sum(-5, 5) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-010') {
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << calculateDifference(1, 20) << std::endl;
+    std::cout << "TEST_RES:" << calculateDifference(1, 10) << std::endl;
+    std::cout << "TEST_RES:" << calculateDifference(28, 28) << std::endl;
+    std::cout << "TEST_RES:" << calculateDifference(40, 50) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-011') {
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << minimumHouses(7, 2, 8, {2, 8, 3, 5, 7, 4, 1, 2}) << std::endl;
+    std::cout << "TEST_RES:" << minimumHouses(5, 2, 5, {15, 2, 3, 4, 5}) << std::endl;
+    std::cout << "TEST_RES:" << minimumHouses(10, 2, 5, {2, 3, 4, 5, 6}) << std::endl;
+    std::cout << "TEST_RES:" << minimumHouses(10, 5, 4, {2, 3, 4, 5}) << std::endl;
+    std::cout << "TEST_RES:" << minimumHouses(5, 2, 0, {}) << std::endl;
+    std::cout << "TEST_RES:" << minimumHouses(4, 3, 5, {2, 4, 6, 8, 10}) << std::endl;
     return 0;
 }
 `;
@@ -461,6 +668,60 @@ int main() {
 }
 `;
     }
+
+    if (questionId === 'recent-dsa-008') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Console.WriteLine("TEST_RES:" + CountValidBlocks(7, new int[] {1, 2, 2, 3, 3, 3, 4}));
+        Console.WriteLine("TEST_RES:" + CountValidBlocks(6, new int[] {1, 2, 2, 3, 3, 3}));
+        Console.WriteLine("TEST_RES:" + CountValidBlocks(5, new int[] {2, 2, 2, 4, 4}));
+        Console.WriteLine("TEST_RES:" + CountValidBlocks(8, new int[] {2, 2, 1, 2, 2, 3, 3, 3}));
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-009') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Console.WriteLine("TEST_RES:" + CalculatePrimeSum(10, 20));
+        Console.WriteLine("TEST_RES:" + CalculatePrimeSum(1, 10));
+        Console.WriteLine("TEST_RES:" + CalculatePrimeSum(14, 16));
+        Console.WriteLine("TEST_RES:" + CalculatePrimeSum(-5, 5));
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-010') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Console.WriteLine("TEST_RES:" + CalculateDifference(1, 20));
+        Console.WriteLine("TEST_RES:" + CalculateDifference(1, 10));
+        Console.WriteLine("TEST_RES:" + CalculateDifference(28, 28));
+        Console.WriteLine("TEST_RES:" + CalculateDifference(40, 50));
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-011') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Console.WriteLine("TEST_RES:" + MinimumHouses(7, 2, 8, new int[] {2, 8, 3, 5, 7, 4, 1, 2}));
+        Console.WriteLine("TEST_RES:" + MinimumHouses(5, 2, 5, new int[] {15, 2, 3, 4, 5}));
+        Console.WriteLine("TEST_RES:" + MinimumHouses(10, 2, 5, new int[] {2, 3, 4, 5, 6}));
+        Console.WriteLine("TEST_RES:" + MinimumHouses(10, 5, 4, new int[] {2, 3, 4, 5}));
+        Console.WriteLine("TEST_RES:" + MinimumHouses(5, 2, 0, new int[] {}));
+        Console.WriteLine("TEST_RES:" + MinimumHouses(4, 3, 5, new int[] {2, 4, 6, 8, 10}));
+    }
+}
+`;
+    }
   }
 
   // JavaScript Node.js harness
@@ -565,6 +826,84 @@ const _tests = [12345, 98760, 7, 1000];
 for (const _n of _tests) {
     try {
         console.log("TEST_RES:" + JSON.stringify(reverseNumber(_n)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-008') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [7, [1, 2, 2, 3, 3, 3, 4]],
+  [6, [1, 2, 2, 3, 3, 3]],
+  [5, [2, 2, 2, 4, 4]],
+  [8, [2, 2, 1, 2, 2, 3, 3, 3]]
+];
+for (const [_n, _a] of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(countValidBlocks(_n, _a)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-009') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [10, 20],
+  [1, 10],
+  [14, 16],
+  [-5, 5]
+];
+for (const [_m, _n] of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(calculatePrimeSum(_m, _n)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-010') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [1, 20],
+  [1, 10],
+  [28, 28],
+  [40, 50]
+];
+for (const [_m, _n] of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(calculateDifference(_m, _n)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-011') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [7, 2, 8, [2, 8, 3, 5, 7, 4, 1, 2]],
+  [5, 2, 5, [15, 2, 3, 4, 5]],
+  [10, 2, 5, [2, 3, 4, 5, 6]],
+  [10, 5, 4, [2, 3, 4, 5]],
+  [5, 2, 0, []],
+  [4, 3, 5, [2, 4, 6, 8, 10]]
+];
+for (const [_r, _u, _n, _arr] of _tests) {
+    try {
+        console.log("TEST_RES:" + JSON.stringify(minimumHouses(_r, _u, _n, _arr)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

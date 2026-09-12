@@ -582,6 +582,169 @@ public class Solution {
     };
   }
 
+  if (question.id === 'recent-dsa-008') {
+    return {
+      python: `def count_valid_blocks(n, a):
+    # TODO: Count blocks where consecutive block length == element value
+    pass
+
+if __name__ == "__main__":
+    print(count_valid_blocks(7, [1, 2, 2, 3, 3, 3, 4])) # Expected: 3
+`,
+      java: `public class Solution {
+    public static int countValidBlocks(int n, int[] a) {
+        // TODO: Count blocks where consecutive block length == element value
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int countValidBlocks(int n, const std::vector<int>& a) {
+    // TODO: Count blocks where consecutive block length == element value
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int CountValidBlocks(int n, int[] a) {
+        // TODO: Count blocks where consecutive block length == element value
+        return 0;
+    }
+}
+`,
+      javascript: `function countValidBlocks(n, a) {
+  // TODO: Count blocks where consecutive block length == element value
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-009') {
+    return {
+      python: `def calculate_prime_sum(m, n):
+    # TODO: Return sum of all prime numbers between M and N (inclusive)
+    pass
+
+if __name__ == "__main__":
+    print(calculate_prime_sum(10, 20)) # Expected: 60
+`,
+      java: `public class Solution {
+    public static long calculatePrimeSum(int m, int n) {
+        // TODO: Return sum of all prime numbers between M and N (inclusive)
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+long long calculate_prime_sum(int m, int n) {
+    // TODO: Return sum of all prime numbers between M and N (inclusive)
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static long CalculatePrimeSum(int m, int n) {
+        // TODO: Return sum of all prime numbers between M and N (inclusive)
+        return 0;
+    }
+}
+`,
+      javascript: `function calculatePrimeSum(m, n) {
+  // TODO: Return sum of all prime numbers between M and N (inclusive)
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-010') {
+    return {
+      python: `def calculate_difference(m, n):
+    # TODO: Calculate absolute difference between digit sum of multiples of 4 and 7
+    pass
+
+if __name__ == "__main__":
+    print(calculate_difference(1, 20)) # Expected: 12
+`,
+      java: `public class Solution {
+    public static int calculateDifference(int m, int n) {
+        // TODO: Calculate absolute difference between digit sum of multiples of 4 and 7
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <cstdlib>
+
+int calculateDifference(int m, int n) {
+    // TODO: Calculate absolute difference between digit sum of multiples of 4 and 7
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int CalculateDifference(int m, int n) {
+        // TODO: Calculate absolute difference between digit sum of multiples of 4 and 7
+        return 0;
+    }
+}
+`,
+      javascript: `function calculateDifference(m, n) {
+  // TODO: Calculate absolute difference between digit sum of multiples of 4 and 7
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-011') {
+    return {
+      python: `def minimum_houses(r, unit, n, arr):
+    # TODO: Return minimum number of houses required, or 0 if insufficient, -1 if null/empty
+    pass
+
+if __name__ == "__main__":
+    print(minimum_houses(7, 2, 8, [2, 8, 3, 5, 7, 4, 1, 2])) # Expected: 4
+`,
+      java: `public class Solution {
+    public static int minimumHouses(int r, int unit, int n, int[] arr) {
+        // TODO: Return minimum number of houses required, or 0 if insufficient, -1 if null/empty
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int minimumHouses(int r, int unit, int n, const std::vector<int>& arr) {
+    // TODO: Return minimum number of houses required, or 0 if insufficient, -1 if null/empty
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int MinimumHouses(int r, int unit, int n, int[] arr) {
+        // TODO: Return minimum number of houses required, or 0 if insufficient, -1 if null/empty
+        return 0;
+    }
+}
+`,
+      javascript: `function minimumHouses(r, unit, n, arr) {
+  // TODO: Return minimum number of houses required, or 0 if insufficient, -1 if null/empty
+  return 0;
+}
+`
+    };
+  }
+
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
     java: `public class Solution {\n    public static void solve() {}\n}\n`,
@@ -894,7 +1057,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             typeof calculatePower === 'function' ? calculatePower : null,
             typeof moveHyphen === 'function' ? moveHyphen : null,
             typeof countSpecialElements === 'function' ? countSpecialElements : null,
-            typeof reverseNumber === 'function' ? reverseNumber : null
+            typeof reverseNumber === 'function' ? reverseNumber : null,
+            typeof countValidBlocks === 'function' ? countValidBlocks : null,
+            typeof calculatePrimeSum === 'function' ? calculatePrimeSum : (typeof calculate_prime_sum === 'function' ? calculate_prime_sum : null),
+            typeof calculateDifference === 'function' ? calculateDifference : (typeof calculate_difference === 'function' ? calculate_difference : null),
+            typeof minimumHouses === 'function' ? minimumHouses : (typeof minimum_houses === 'function' ? minimum_houses : null)
           ].filter(Boolean);
 
           if (candidates.length === 0) throw new Error('Algorithm function declaration not found in code.');
@@ -996,6 +1163,34 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasMod10 || !hasDiv10) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_mod10';
+      }
+    } else if (question.id === 'recent-dsa-008') {
+      const hasEqualCheck = code.includes('==') || code.includes('===');
+      if (!hasEqualCheck) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_equality';
+      }
+    } else if (question.id === 'recent-dsa-009') {
+      const hasPrimeMod = code.includes('%') || code.includes('mod');
+      const hasPrimeLoop = code.includes('for') || code.includes('while');
+      if (!hasPrimeMod || !hasPrimeLoop) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_prime_check';
+      }
+    } else if (question.id === 'recent-dsa-010') {
+      const hasMod4 = code.includes('% 4') || code.includes('%4');
+      const hasMod7 = code.includes('% 7') || code.includes('%7');
+      const hasDiv10 = code.includes('/ 10') || code.includes('// 10') || code.includes('/10');
+      if (!hasMod4 || !hasMod7 || !hasDiv10) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_divisibility_or_digitsum';
+      }
+    } else if (question.id === 'recent-dsa-011') {
+      const hasMult = code.includes('*') || code.includes('r * unit') || code.includes('r*unit');
+      const hasNullCheck = code.includes('-1') || code.includes('null') || code.includes('None') || code.includes('empty');
+      if (!hasMult || !hasNullCheck) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_rat_null_check';
       }
     }
 
@@ -1440,6 +1635,224 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             name: t.name,
             input: `N = ${t.n}`,
             expected: `${t.exp}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-008') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1', n: 7, a: [1, 2, 2, 3, 3, 3, 4], exp: 3, latency: '8ms' },
+          { id: 2, name: 'Exam Test Case 2 (All Blocks Valid)', n: 6, a: [1, 2, 2, 3, 3, 3], exp: 3, latency: '7ms' },
+          { id: 3, name: 'Exam Test Case 3 (Zero Valid Blocks)', n: 5, a: [2, 2, 2, 4, 4], exp: 0, latency: '6ms' },
+          { id: 4, name: 'Exam Test Case 4 (Separate Identical Blocks)', n: 8, a: [2, 2, 1, 2, 2, 3, 3, 3], exp: 4, latency: '10ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Valid Blocks: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.n, t.a]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Valid Blocks: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Valid Blocks: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Valid Blocks: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.n, t.a);
+            actualStr = `Valid Blocks: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.n}, A = [${t.a.join(', ')}]`,
+            expected: `Valid Blocks: ${t.exp}`,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-009') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (10 to 20)', m: 10, n: 20, exp: 60, expStr: 'Sum: 60 (Primes: 11, 13, 17, 19)', latency: '8ms' },
+          { id: 2, name: 'Exam Test Case 2 (1 to 10)', m: 1, n: 10, exp: 17, expStr: 'Sum: 17 (Primes: 2, 3, 5, 7)', latency: '6ms' },
+          { id: 3, name: 'Exam Test Case 3 (No Primes in Range)', m: 14, n: 16, exp: 0, expStr: 'Sum: 0 (No Primes)', latency: '5ms' },
+          { id: 4, name: 'Exam Test Case 4 (Negative to Positive)', m: -5, n: 5, exp: 10, expStr: 'Sum: 10 (Primes: 2, 3, 5)', latency: '7ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Prime Sum: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.m, t.n]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Prime Sum: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Prime Sum: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Prime Sum: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.m, t.n);
+            actualStr = `Prime Sum: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `M = ${t.m}, N = ${t.n}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-010') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (1 to 20)', m: 1, n: 20, exp: 12, expStr: 'Diff: 12 (|24 - 12|)', latency: '7ms' },
+          { id: 2, name: 'Exam Test Case 2 (1 to 10)', m: 1, n: 10, exp: 5, expStr: 'Diff: 5 (|12 - 7|)', latency: '6ms' },
+          { id: 3, name: 'Exam Test Case 3 (Divisible by Both 4 & 7)', m: 28, n: 28, exp: 0, expStr: 'Diff: 0 (Both multi: 10 - 10)', latency: '5ms' },
+          { id: 4, name: 'Exam Test Case 4 (Multi-digit Range 40 to 50)', m: 40, n: 50, exp: 5, expStr: 'Diff: 5 (|24 - 19|)', latency: '8ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Difference: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.m, t.n]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Difference: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Difference: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Difference: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.m, t.n);
+            actualStr = `Difference: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `M = ${t.m}, N = ${t.n}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-011') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Standard 8 Houses)', r: 7, unit: 2, n: 8, arr: [2, 8, 3, 5, 7, 4, 1, 2], exp: 4, expStr: 'Houses: 4 (Food: 18 >= 14)', latency: '7ms' },
+          { id: 2, name: 'Exam Test Case 2 (First House Satisfies)', r: 5, unit: 2, n: 5, arr: [15, 2, 3, 4, 5], exp: 1, expStr: 'Houses: 1 (Food: 15 >= 10)', latency: '5ms' },
+          { id: 3, name: 'Exam Test Case 3 (All Houses Needed Exactly)', r: 10, unit: 2, n: 5, arr: [2, 3, 4, 5, 6], exp: 5, expStr: 'Houses: 5 (Food: 20 >= 20)', latency: '6ms' },
+          { id: 4, name: 'Exam Test Case 4 (Insufficient Food in All Houses)', r: 10, unit: 5, n: 4, arr: [2, 3, 4, 5], exp: 0, expStr: 'Houses: 0 (Insufficient: 14 < 50)', latency: '6ms' },
+          { id: 5, name: 'Exam Test Case 5 (Empty / NULL Array)', r: 5, unit: 2, n: 0, arr: [], exp: -1, expStr: 'Houses: -1 (Null/Empty)', latency: '4ms' },
+          { id: 6, name: 'Exam Test Case 6 (Exact Sum Match 4x3=12)', r: 4, unit: 3, n: 5, arr: [2, 4, 6, 8, 10], exp: 3, expStr: 'Houses: 3 (Food: 12 >= 12)', latency: '6ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Houses: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.r, t.unit, t.n, t.arr]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Houses: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Houses: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Houses: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.r, t.unit, t.n, t.arr);
+            actualStr = `Houses: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `r = ${t.r}, unit = ${t.unit}, n = ${t.n}, arr = [${t.arr.join(', ')}]`,
+            expected: t.expStr,
             actual: actualStr,
             passed,
             latency: jTimeStr || t.latency
