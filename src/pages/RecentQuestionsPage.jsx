@@ -36,6 +36,22 @@ import {
 import { recentQuestions, RECENT_TRACKS } from '../data/recentQuestions.js';
 import { gamificationService } from '../services/gamificationService.js';
 import { executeDsaOnJudge0 } from '../services/judge0Service.js';
+import { runQueryOnDataset, runAssessmentTests } from '../utils/sqlEngine.js';
+import SQLResultPanel from '../components/sql/SQLResultPanel.jsx';
+import SQLTestResults from '../components/sql/SQLTestResults.jsx';
+import SqlRichText from '../components/sql/SqlRichText.jsx';
+
+// Normalizes PostgreSQL / dialect-specific date differences & type casts for the in-memory SQLite engine
+function normalizeSqlQuery(query) {
+  if (!query) return '';
+  let q = query;
+  q = q.replace(/::float\b/gi, ' * 1.0');
+  q = q.replace(/::numeric\b/gi, ' * 1.0');
+  q = q.replace(/::text\b/gi, '');
+  q = q.replace(/EXTRACT\s*\(\s*DAY\s+FROM\s+\(\s*([a-zA-Z0-9_.]+)(?:::timestamp)?\s*-\s*([a-zA-Z0-9_.]+)(?:::timestamp)?\s*\)\s*\)/gi, '(julianday($1) - julianday($2))');
+  q = q.replace(/::timestamp\b/gi, '');
+  return q;
+}
 
 const DSA_LANGUAGES = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
@@ -942,6 +958,142 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [isFeRunning, setIsFeRunning] = useState(false);
   const [isFeResetDone, setIsFeResetDone] = useState(false);
 
+  // =========================================================================
+  // SQL TRACK STATES & REFS
+  // =========================================================================
+  const sqlQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'sql'), []);
+  const [activeSqlId, setActiveSqlId] = useState(sqlQuestions[0]?.id || 'recent-sql-001');
+
+  const activeSqlQuestion = useMemo(() => {
+    return sqlQuestions.find(q => q.id === activeSqlId) || sqlQuestions[0];
+  }, [activeSqlId, sqlQuestions]);
+
+  const currentSqlIndex = useMemo(() => {
+    return sqlQuestions.findIndex(q => q.id === activeSqlQuestion?.id);
+  }, [sqlQuestions, activeSqlQuestion?.id]);
+
+  const [isSqlQuestionDropdownOpen, setIsSqlQuestionDropdownOpen] = useState(false);
+  const sqlQuestionDropdownRef = useRef(null);
+
+  const handlePrevSqlQuestion = () => {
+    if (currentSqlIndex > 0) {
+      setActiveSqlId(sqlQuestions[currentSqlIndex - 1].id);
+      setSqlQueryResult(null);
+      setSqlTestResults(null);
+    }
+  };
+
+  const handleNextSqlQuestion = () => {
+    if (currentSqlIndex < sqlQuestions.length - 1) {
+      setActiveSqlId(sqlQuestions[currentSqlIndex + 1].id);
+      setSqlQueryResult(null);
+      setSqlTestResults(null);
+    }
+  };
+
+  const [sqlCodeMap, setSqlCodeMap] = useState(() => {
+    const map = {};
+    sqlQuestions.forEach(q => {
+      map[q.id] = q.starterCode || '';
+    });
+    return map;
+  });
+
+  const activeSqlCode = activeSqlQuestion ? (sqlCodeMap[activeSqlQuestion.id] ?? activeSqlQuestion.starterCode ?? '') : '';
+
+  const handleSqlCodeChange = (newCode) => {
+    if (!activeSqlQuestion) return;
+    setSqlCodeMap(prev => ({
+      ...prev,
+      [activeSqlQuestion.id]: newCode || ''
+    }));
+  };
+
+  const [isSqlResetDone, setIsSqlResetDone] = useState(false);
+  const [showSqlSolutionModal, setShowSqlSolutionModal] = useState(false);
+  const [copiedSqlSolution, setCopiedSqlSolution] = useState(false);
+  const [isSqlEditorExpanded, setIsSqlEditorExpanded] = useState(false);
+
+  const [sqlActiveTab, setSqlActiveTab] = useState('output'); // 'output' | 'tests'
+  const [isSqlRunning, setIsSqlRunning] = useState(false);
+  const [sqlQueryResult, setSqlQueryResult] = useState(null);
+  const [sqlTestResults, setSqlTestResults] = useState(null);
+
+  const handleResetSqlCode = () => {
+    if (!activeSqlQuestion) return;
+    handleSqlCodeChange(activeSqlQuestion.starterCode || '');
+    setSqlQueryResult(null);
+    setSqlTestResults(null);
+    setIsSqlResetDone(true);
+    setTimeout(() => setIsSqlResetDone(false), 2000);
+  };
+
+  const handleRunSqlQuery = async () => {
+    if (!activeSqlQuestion) return;
+    setIsSqlRunning(true);
+    setSqlActiveTab('output');
+    try {
+      const dataset = activeSqlQuestion.testCases?.[0]?.data || activeSqlQuestion.examples?.[0]?.input || {};
+      const res = await runQueryOnDataset(activeSqlQuestion, normalizeSqlQuery(activeSqlCode), dataset);
+      setSqlQueryResult(res);
+    } catch (err) {
+      setSqlQueryResult({
+        success: false,
+        columns: [],
+        rows: [],
+        rawValues: [],
+        rowCount: 0,
+        error: err.message,
+        executionTimeMs: 0
+      });
+    } finally {
+      setIsSqlRunning(false);
+    }
+  };
+
+  const handleRunSqlTests = async () => {
+    if (!activeSqlQuestion) return;
+    setIsSqlRunning(true);
+    setSqlActiveTab('tests');
+    try {
+      const res = await runAssessmentTests(activeSqlQuestion, normalizeSqlQuery(activeSqlCode));
+      setSqlTestResults(res);
+      if (res.allPassed) {
+        if (!solvedSet.includes(activeSqlQuestion.id)) {
+          toggleSolved(activeSqlQuestion.id);
+          gamificationService.addXP(50, `Solved ${activeSqlQuestion.title}`);
+        }
+      }
+    } catch (err) {
+      setSqlTestResults({
+        allPassed: false,
+        passedCount: 0,
+        totalCount: activeSqlQuestion.testCases?.length || 0,
+        testResults: [
+          {
+            name: 'Execution Error',
+            passed: false,
+            message: err.message || 'Error running test suite'
+          }
+        ]
+      });
+    } finally {
+      setIsSqlRunning(false);
+    }
+  };
+
+  const handleInsertSqlSolution = () => {
+    if (!activeSqlQuestion?.solution) return;
+    handleSqlCodeChange(activeSqlQuestion.solution);
+    setShowSqlSolutionModal(false);
+  };
+
+  const handleCopySqlSolution = (solText) => {
+    navigator.clipboard.writeText(solText);
+    setCopiedSqlSolution(true);
+    setTimeout(() => setCopiedSqlSolution(false), 2000);
+  };
+
   // Bookmarks & Solved state (persisted locally)
   const [bookmarks, setBookmarks] = useState(() => {
     try {
@@ -970,6 +1122,9 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       }
       if (questionDropdownRef.current && !questionDropdownRef.current.contains(e.target)) {
         setIsQuestionDropdownOpen(false);
+      }
+      if (sqlQuestionDropdownRef.current && !sqlQuestionDropdownRef.current.contains(e.target)) {
+        setIsSqlQuestionDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -4742,20 +4897,950 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       )}
 
       {/* ========================================================================= */}
-      {/* SQL TRACK: CLEAN ARCHIVE PLACEHOLDER */}
+      {/* SQL TRACK: INTERACTIVE MONACO SQL WORKSPACE */}
       {/* ========================================================================= */}
-      {activeTrack === 'sql' && (
-        <div className="empty-state-card" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', background: '#0f172a', border: '1px solid #334155', borderRadius: '16px' }}>
-          <Database size={48} className="text-muted" style={{ marginBottom: '1rem', opacity: 0.7 }} />
-          <h3 style={{ fontSize: '1.25rem', color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-            No Verified SQL Exam Questions Added Yet
-          </h3>
-          <p style={{ color: '#94a3b8', maxWidth: '480px', margin: '0 auto 1.5rem auto', fontSize: '0.9rem', lineHeight: 1.6 }}>
-            Only 100% verified authentic exam questions are kept in this archive. Upload your recent SQL exam paper (PDF or screenshot) to populate this track.
-          </p>
-          <button onClick={() => setActiveTrack('dsa')} className="btn btn-primary btn-sm">
-            View Verified DSA Questions
-          </button>
+      {activeTrack === 'sql' && activeSqlQuestion && (
+        <div>
+          {/* Top Question Selector Bar with Dropdown & Quick Navigation */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            marginBottom: '1.25rem',
+            flexWrap: 'wrap',
+            background: 'linear-gradient(135deg, #131e33, #0f172a)',
+            border: '1px solid #334155',
+            borderRadius: '14px',
+            padding: '0.75rem 1rem',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
+            boxSizing: 'border-box',
+            width: '100%'
+          }}>
+            {/* Left: Question Dropdown */}
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={sqlQuestionDropdownRef}>
+              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Question:
+              </span>
+              
+              <button
+                type="button"
+                onClick={() => setIsSqlQuestionDropdownOpen(prev => !prev)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem',
+                  padding: '8px 14px',
+                  background: '#0f172a',
+                  border: isSqlQuestionDropdownOpen ? '1px solid #f97316' : '1px solid #334155',
+                  borderRadius: '10px',
+                  color: '#f8fafc',
+                  fontSize: '0.88rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  width: '100%',
+                  maxWidth: '480px',
+                  boxShadow: isSqlQuestionDropdownOpen ? '0 0 0 2px rgba(249, 115, 22, 0.25)' : 'none',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <span style={{
+                    background: '#ea580c',
+                    color: '#ffffff',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    padding: '2px 7px',
+                    borderRadius: '6px',
+                    flexShrink: 0
+                  }}>
+                    Q{currentSqlIndex + 1}
+                  </span>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {activeSqlQuestion.title}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    color: '#94a3b8',
+                    background: 'rgba(148, 163, 184, 0.1)',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    {activeSqlQuestion.dateTag.split('•')[0].trim()}
+                  </span>
+                  {solvedSet.includes(activeSqlQuestion.id) && (
+                    <CheckCircle2 size={15} color="#4ade80" />
+                  )}
+                  {isSqlQuestionDropdownOpen ? <ChevronUp size={16} color="#f97316" /> : <ChevronDown size={16} color="#94a3b8" />}
+                </div>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isSqlQuestionDropdownOpen && (
+                <div style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  left: 0,
+                  zIndex: 99,
+                  width: '100%',
+                  maxWidth: '520px',
+                  background: '#0f172a',
+                  border: '1px solid rgba(249, 115, 22, 0.35)',
+                  borderRadius: '12px',
+                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.7)',
+                  padding: '6px',
+                  maxHeight: '360px',
+                  overflowY: 'auto'
+                }}>
+                  {sqlQuestions.map((q, idx) => {
+                    const isSelected = q.id === activeSqlQuestion.id;
+                    const isSolved = solvedSet.includes(q.id);
+                    return (
+                      <div
+                        key={q.id}
+                        onClick={() => {
+                          setActiveSqlId(q.id);
+                          setSqlQueryResult(null);
+                          setSqlTestResults(null);
+                          setIsSqlQuestionDropdownOpen(false);
+                        }}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          background: isSelected ? 'rgba(249, 115, 22, 0.15)' : 'transparent',
+                          color: isSelected ? '#fb923c' : '#cbd5e1',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          marginBottom: '2px',
+                          transition: 'all 0.15s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.currentTarget.style.background = 'transparent';
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
+                          <span style={{
+                            background: isSelected ? '#ea580c' : '#334155',
+                            color: '#ffffff',
+                            fontSize: '0.7rem',
+                            fontWeight: 800,
+                            padding: '1px 6px',
+                            borderRadius: '4px'
+                          }}>
+                            Q{idx + 1}
+                          </span>
+                          <span style={{ fontSize: '0.84rem', fontWeight: isSelected ? 700 : 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {q.title}
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                          <span style={{
+                            fontSize: '0.7rem',
+                            color: q.difficulty === 'Easy' ? '#4ade80' : '#facc15',
+                            background: q.difficulty === 'Easy' ? 'rgba(74, 222, 128, 0.1)' : 'rgba(250, 204, 21, 0.1)',
+                            padding: '1px 6px',
+                            borderRadius: '4px',
+                            fontWeight: 600
+                          }}>
+                            {q.difficulty}
+                          </span>
+                          {isSolved && <CheckCircle2 size={14} color="#4ade80" />}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Middle: Prev / Next buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button
+                type="button"
+                onClick={handlePrevSqlQuestion}
+                disabled={currentSqlIndex === 0}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '7px 12px',
+                  background: '#0f172a',
+                  border: '1px solid #334155',
+                  borderRadius: '8px',
+                  color: currentSqlIndex === 0 ? '#475569' : '#cbd5e1',
+                  cursor: currentSqlIndex === 0 ? 'not-allowed' : 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: 600
+                }}
+              >
+                <ChevronLeft size={14} />
+                <span>Prev</span>
+              </button>
+
+              <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
+                {currentSqlIndex + 1} / {sqlQuestions.length}
+              </span>
+
+              <button
+                type="button"
+                onClick={handleNextSqlQuestion}
+                disabled={currentSqlIndex === sqlQuestions.length - 1}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '7px 12px',
+                  background: '#0f172a',
+                  border: '1px solid #334155',
+                  borderRadius: '8px',
+                  color: currentSqlIndex === sqlQuestions.length - 1 ? '#475569' : '#cbd5e1',
+                  cursor: currentSqlIndex === sqlQuestions.length - 1 ? 'not-allowed' : 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: 600
+                }}
+              >
+                <span>Next</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+
+            {/* Right: Solution & Solved Actions */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <button
+                onClick={() => setShowSqlSolutionModal(true)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '7px 14px',
+                  background: 'rgba(249, 115, 22, 0.12)',
+                  border: '1px solid rgba(249, 115, 22, 0.4)',
+                  borderRadius: '8px',
+                  color: '#fb923c',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                <Lightbulb size={15} />
+                <span>View Solution</span>
+              </button>
+
+              <button
+                onClick={() => toggleSolved(activeSqlQuestion.id)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '7px 14px',
+                  background: solvedSet.includes(activeSqlQuestion.id) ? 'rgba(74, 222, 128, 0.15)' : '#0f172a',
+                  border: solvedSet.includes(activeSqlQuestion.id) ? '1px solid #4ade80' : '1px solid #334155',
+                  borderRadius: '8px',
+                  color: solvedSet.includes(activeSqlQuestion.id) ? '#4ade80' : '#cbd5e1',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                <CheckCircle2 size={15} />
+                <span>{solvedSet.includes(activeSqlQuestion.id) ? 'Solved' : 'Mark Solved'}</span>
+              </button>
+
+              <button
+                onClick={() => toggleBookmark(activeSqlQuestion.id)}
+                style={{
+                  padding: '7px 10px',
+                  background: '#0f172a',
+                  border: '1px solid #334155',
+                  borderRadius: '8px',
+                  color: bookmarks.includes(activeSqlQuestion.id) ? '#f97316' : '#94a3b8',
+                  cursor: 'pointer'
+                }}
+                title="Bookmark Question"
+              >
+                {bookmarks.includes(activeSqlQuestion.id) ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Two-Column Split Workspace */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isSqlEditorExpanded ? '1fr' : 'minmax(0, 1.05fr) minmax(0, 1fr)',
+            gap: '1.5rem',
+            alignItems: 'start',
+            width: '100%',
+            boxSizing: 'border-box'
+          }}>
+            {/* Left Column: Problem Details, Schema & Sample Tables */}
+            {!isSqlEditorExpanded && (
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {/* Hero Card */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))',
+                  border: '1px solid #334155',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.4)'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: '#f97316',
+                    fontSize: '0.75rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.8px',
+                    textTransform: 'uppercase',
+                    marginBottom: '0.4rem'
+                  }}>
+                    <Calendar size={14} />
+                    <span>ACCENTURE RECENT EXAM ARCHIVE • {activeSqlQuestion.dateTag}</span>
+                  </div>
+
+                  <h2 style={{
+                    fontSize: '1.75rem',
+                    fontWeight: 800,
+                    color: '#f8fafc',
+                    margin: '0 0 0.6rem 0',
+                    letterSpacing: '-0.5px'
+                  }}>
+                    {activeSqlQuestion.title}
+                  </h2>
+
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    fontSize: '0.85rem',
+                    color: '#94a3b8',
+                    flexWrap: 'wrap'
+                  }}>
+                    <span style={{
+                      background: activeSqlQuestion.difficulty === 'Easy' ? 'rgba(74, 222, 128, 0.15)' : 'rgba(250, 204, 21, 0.15)',
+                      color: activeSqlQuestion.difficulty === 'Easy' ? '#4ade80' : '#facc15',
+                      padding: '2px 10px',
+                      borderRadius: '6px',
+                      fontWeight: 700,
+                      fontSize: '0.75rem'
+                    }}>
+                      {activeSqlQuestion.difficulty}
+                    </span>
+                    <span>•</span>
+                    <span style={{ color: '#f97316', fontWeight: 600 }}>
+                      Track: SQL Queries
+                    </span>
+                    <span>•</span>
+                    <span style={{ color: '#38bdf8', fontWeight: 600 }}>
+                      {activeSqlQuestion.category}
+                    </span>
+                    <span>•</span>
+                    <span style={{ color: '#4ade80', fontWeight: 600 }}>
+                      Reward: +50 XP
+                    </span>
+                    <span>•</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Clock size={14} /> Target: 15 Mins
+                    </span>
+                  </div>
+                </div>
+
+                {/* Problem Statement Card */}
+                <div style={{
+                  background: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid #334155', paddingBottom: '0.75rem' }}>
+                    <BookOpen size={18} className="text-amber-400" />
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc', margin: 0 }}>
+                      Problem Statement
+                    </h3>
+                  </div>
+
+                  <div style={{ color: '#cbd5e1', fontSize: '0.92rem', lineHeight: 1.7 }}>
+                    <SqlRichText text={activeSqlQuestion.description} />
+                  </div>
+                </div>
+
+                {/* Schema & Table Definitions Card */}
+                {activeSqlQuestion.tableSchema && activeSqlQuestion.tableSchema.length > 0 && (
+                  <div style={{
+                    background: '#1e293b',
+                    border: '1px solid #334155',
+                    borderRadius: '16px',
+                    padding: '1.5rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1.25rem'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid #334155', paddingBottom: '0.75rem' }}>
+                      <Database size={18} className="text-sky-400" />
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc', margin: 0 }}>
+                        Database Schema & Tables
+                      </h3>
+                    </div>
+
+                    {activeSqlQuestion.tableSchema.map((t, tidx) => (
+                      <div key={tidx} style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '10px', overflow: 'hidden' }}>
+                        <div style={{ padding: '8px 14px', background: 'rgba(56, 189, 248, 0.1)', borderBottom: '1px solid #334155', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem' }}>
+                          Table: <code style={{ color: '#f8fafc', background: '#1e293b', padding: '2px 6px', borderRadius: '4px' }}>{t.name}</code>
+                        </div>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', textAlign: 'left' }}>
+                          <thead>
+                            <tr style={{ background: '#131e33', color: '#94a3b8', borderBottom: '1px solid #334155' }}>
+                              <th style={{ padding: '8px 14px' }}>Column Name</th>
+                              <th style={{ padding: '8px 14px' }}>Data Type</th>
+                              <th style={{ padding: '8px 14px' }}>Attributes</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {t.columns.map((col, cidx) => (
+                              <tr key={cidx} style={{ borderBottom: cidx < t.columns.length - 1 ? '1px solid rgba(51, 65, 85, 0.5)' : 'none', color: '#e2e8f0' }}>
+                                <td style={{ padding: '8px 14px', fontFamily: 'JetBrains Mono', fontWeight: 600, color: '#fb923c' }}>
+                                  {col.name}
+                                </td>
+                                <td style={{ padding: '8px 14px', color: '#94a3b8' }}>
+                                  {col.type}
+                                </td>
+                                <td style={{ padding: '8px 14px' }}>
+                                  {col.primaryKey ? (
+                                    <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(245, 158, 11, 0.2)', color: '#fbbf24', fontWeight: 700 }}>
+                                      PRIMARY KEY
+                                    </span>
+                                  ) : (
+                                    <span style={{ color: '#64748b' }}>-</span>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Example Input & Output Tables */}
+                {activeSqlQuestion.examples && activeSqlQuestion.examples.length > 0 && (
+                  <div style={{
+                    background: '#1e293b',
+                    border: '1px solid #334155',
+                    borderRadius: '16px',
+                    padding: '1.5rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1.25rem'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid #334155', paddingBottom: '0.75rem' }}>
+                      <FileCode2 size={18} className="text-emerald-400" />
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc', margin: 0 }}>
+                        Sample Data & Expected Output
+                      </h3>
+                    </div>
+
+                    {activeSqlQuestion.examples.map((ex, exIdx) => (
+                      <div key={exIdx} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {/* Sample Input Tables */}
+                        {ex.input && Object.entries(ex.input).map(([tblName, rows], ridx) => (
+                          <div key={ridx} style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '10px', overflow: 'hidden' }}>
+                            <div style={{ padding: '7px 12px', background: '#131e33', borderBottom: '1px solid #334155', fontSize: '0.8rem', color: '#94a3b8', fontWeight: 700 }}>
+                              Sample Input Table: <span style={{ color: '#38bdf8' }}>{tblName}</span>
+                            </div>
+                            <div style={{ overflowX: 'auto' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                                <thead>
+                                  <tr style={{ background: '#0a0f1d', color: '#94a3b8', borderBottom: '1px solid #334155' }}>
+                                    {rows.length > 0 && Object.keys(rows[0]).map((colKey, kIdx) => (
+                                      <th key={kIdx} style={{ padding: '6px 12px' }}>{colKey}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {rows.map((row, rIdx) => (
+                                    <tr key={rIdx} style={{ borderBottom: rIdx < rows.length - 1 ? '1px solid rgba(51, 65, 85, 0.4)' : 'none', color: '#cbd5e1' }}>
+                                      {Object.values(row).map((val, vIdx) => (
+                                        <td key={vIdx} style={{ padding: '6px 12px', fontFamily: 'JetBrains Mono' }}>
+                                          {val === null ? <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>NULL</span> : String(val)}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* Sample Output Table */}
+                        {ex.output && Array.isArray(ex.output) && ex.output.length > 0 && (
+                          <div style={{ background: '#0f172a', border: '1px solid rgba(74, 222, 128, 0.3)', borderRadius: '10px', overflow: 'hidden' }}>
+                            <div style={{ padding: '7px 12px', background: 'rgba(74, 222, 128, 0.1)', borderBottom: '1px solid rgba(74, 222, 128, 0.3)', fontSize: '0.8rem', color: '#4ade80', fontWeight: 700 }}>
+                              Sample Output
+                            </div>
+                            <div style={{ overflowX: 'auto' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                                <thead>
+                                  <tr style={{ background: '#0a0f1d', color: '#94a3b8', borderBottom: '1px solid #334155' }}>
+                                    {Object.keys(ex.output[0]).map((colKey, kIdx) => (
+                                      <th key={kIdx} style={{ padding: '6px 12px' }}>{colKey}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {ex.output.map((row, rIdx) => (
+                                    <tr key={rIdx} style={{ borderBottom: rIdx < ex.output.length - 1 ? '1px solid rgba(51, 65, 85, 0.4)' : 'none', color: '#4ade80', fontWeight: 600 }}>
+                                      {Object.values(row).map((val, vIdx) => (
+                                        <td key={vIdx} style={{ padding: '6px 12px', fontFamily: 'JetBrains Mono' }}>
+                                          {val === null ? <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>NULL</span> : String(val)}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Explanation */}
+                        {ex.explanation && (
+                          <div style={{
+                            padding: '10px 14px',
+                            background: 'rgba(245, 158, 11, 0.08)',
+                            borderLeft: '3px solid #f59e0b',
+                            borderRadius: '6px',
+                            fontSize: '0.82rem',
+                            color: '#e2e8f0',
+                            lineHeight: 1.5
+                          }}>
+                            <strong style={{ color: '#fbbf24' }}>Explanation: </strong>
+                            {ex.explanation}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Right Column: Interactive Monaco SQL Editor & Live SQL Result Panel */}
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Monaco SQL Editor Card */}
+              <div style={{
+                background: '#1e293b',
+                border: '1px solid #334155',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.4)',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {/* Editor Header */}
+                <div style={{
+                  padding: '0.75rem 1.25rem',
+                  background: '#0f172a',
+                  borderBottom: '1px solid #334155',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Database size={16} className="text-orange-400" />
+                    <span style={{ fontSize: '0.84rem', fontWeight: 700, color: '#f8fafc' }}>
+                      SQL Editor
+                    </span>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      background: 'rgba(249, 115, 22, 0.15)',
+                      color: '#fb923c',
+                      padding: '2px 8px',
+                      borderRadius: '4px',
+                      fontWeight: 600
+                    }}>
+                      In-Memory SQLite Engine
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <button
+                      onClick={handleResetSqlCode}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '5px 10px',
+                        background: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '6px',
+                        color: isSqlResetDone ? '#4ade80' : '#cbd5e1',
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                      title="Reset Query to Starter Code"
+                    >
+                      <RotateCcw size={12} />
+                      <span>{isSqlResetDone ? 'Reset!' : 'Reset'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setIsSqlEditorExpanded(prev => !prev)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '5px 10px',
+                        background: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '6px',
+                        color: '#cbd5e1',
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                      title={isSqlEditorExpanded ? 'Exit Full Width' : 'Expand Editor to Full Width'}
+                    >
+                      {isSqlEditorExpanded ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+                      <span>{isSqlEditorExpanded ? 'Collapse' : 'Expand'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Monaco Editor Container */}
+                <div style={{ height: isSqlEditorExpanded ? '460px' : '380px', width: '100%', background: '#0a0f1d' }}>
+                  <Editor
+                    height="100%"
+                    language="sql"
+                    theme="vs-dark"
+                    value={activeSqlCode}
+                    onChange={handleSqlCodeChange}
+                    options={{
+                      fontSize: 14,
+                      fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",
+                      minimap: { enabled: false },
+                      automaticLayout: true,
+                      lineNumbers: 'on',
+                      scrollBeyondLastLine: false,
+                      padding: { top: 12 },
+                      tabSize: 2,
+                      suggestOnTriggerCharacters: true
+                    }}
+                  />
+                </div>
+
+                {/* Bottom Action Bar */}
+                <div style={{
+                  padding: '0.75rem 1.25rem',
+                  background: '#0f172a',
+                  borderTop: '1px solid #334155',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem'
+                }}>
+                  {/* Left: View Tabs */}
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    <button
+                      onClick={() => setSqlActiveTab('output')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        border: sqlActiveTab === 'output' ? '1px solid #38bdf8' : '1px solid #334155',
+                        background: sqlActiveTab === 'output' ? 'rgba(56, 189, 248, 0.15)' : '#1e293b',
+                        color: sqlActiveTab === 'output' ? '#38bdf8' : '#94a3b8',
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Database size={13} />
+                      <span>Table Output</span>
+                    </button>
+
+                    <button
+                      onClick={() => setSqlActiveTab('tests')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        border: sqlActiveTab === 'tests' ? '1px solid #4ade80' : '1px solid #334155',
+                        background: sqlActiveTab === 'tests' ? 'rgba(74, 222, 128, 0.15)' : '#1e293b',
+                        color: sqlActiveTab === 'tests' ? '#4ade80' : '#94a3b8',
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <CheckCircle2 size={13} />
+                      <span>
+                        Test Cases {sqlTestResults ? `(${sqlTestResults.passedCount}/${sqlTestResults.totalCount})` : `(${activeSqlQuestion.testCases?.length || 1})`}
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* Right: Execute Buttons */}
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <button
+                      onClick={handleRunSqlQuery}
+                      disabled={isSqlRunning}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '8px 16px',
+                        background: '#0284c7',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        cursor: isSqlRunning ? 'not-allowed' : 'pointer',
+                        opacity: isSqlRunning ? 0.7 : 1,
+                        boxShadow: '0 2px 8px rgba(2, 132, 199, 0.35)'
+                      }}
+                    >
+                      <Play size={14} />
+                      <span>{isSqlRunning ? 'Running...' : 'Run Query'}</span>
+                    </button>
+
+                    <button
+                      onClick={handleRunSqlTests}
+                      disabled={isSqlRunning}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '8px 18px',
+                        background: '#16a34a',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        cursor: isSqlRunning ? 'not-allowed' : 'pointer',
+                        opacity: isSqlRunning ? 0.7 : 1,
+                        boxShadow: '0 2px 8px rgba(22, 163, 74, 0.35)'
+                      }}
+                    >
+                      <CheckCircle2 size={14} />
+                      <span>{isSqlRunning ? 'Evaluating...' : 'Run Tests (+50 XP)'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Output & Test Results Card matching Practice Section */}
+              <div style={{
+                background: '#1e293b',
+                border: '1px solid #334155',
+                borderRadius: '16px',
+                padding: '1.25rem',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.4)',
+                minHeight: '220px'
+              }}>
+                {sqlActiveTab === 'output' ? (
+                  <SQLResultPanel result={sqlQueryResult} isLoading={isSqlRunning && sqlActiveTab === 'output'} />
+                ) : (
+                  <SQLTestResults testSuiteResult={sqlTestResults} isRunning={isSqlRunning && sqlActiveTab === 'tests'} />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* SQL Solution Modal */}
+          {showSqlSolutionModal && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(6px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999,
+              padding: '1.5rem'
+            }}>
+              <div style={{
+                background: '#1e293b',
+                border: '1px solid #f97316',
+                borderRadius: '16px',
+                width: '100%',
+                maxWidth: '860px',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {/* Modal Header */}
+                <div style={{
+                  padding: '1.25rem 1.5rem',
+                  borderBottom: '1px solid #334155',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  background: '#0f172a',
+                  borderTopLeftRadius: '16px',
+                  borderTopRightRadius: '16px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Lightbulb size={22} className="text-amber-400" />
+                    <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+                      Official Solution: {activeSqlQuestion.title} ({activeSqlQuestion.dateTag})
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => setShowSqlSolutionModal(false)}
+                    style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '1.5rem', cursor: 'pointer' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {/* Explanation Card */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))',
+                    border: '1px solid rgba(249, 115, 22, 0.3)',
+                    borderRadius: '16px',
+                    padding: '1.25rem',
+                    color: '#cbd5e1',
+                    fontSize: '0.88rem',
+                    lineHeight: 1.6
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fb923c', fontWeight: 700, marginBottom: '0.75rem' }}>
+                      <BookOpen size={16} />
+                      <span>Approach & Clause Breakdown</span>
+                    </div>
+                    <div>
+                      <SqlRichText text={activeSqlQuestion.explanation} variant="explanation" />
+                    </div>
+                  </div>
+
+                  {/* Code Card */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+                        SQL Query
+                      </span>
+
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button
+                          onClick={() => handleCopySqlSolution(activeSqlQuestion.solution || '')}
+                          style={{
+                            padding: '4px 10px',
+                            background: '#0f172a',
+                            border: '1px solid #334155',
+                            borderRadius: '6px',
+                            color: copiedSqlSolution ? '#4ade80' : '#cbd5e1',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          {copiedSqlSolution ? <Check size={12} /> : <Copy size={12} />}
+                          <span>{copiedSqlSolution ? 'Copied' : 'Copy'}</span>
+                        </button>
+
+                        <button
+                          onClick={handleInsertSqlSolution}
+                          style={{
+                            padding: '4px 12px',
+                            background: '#ea580c',
+                            border: 'none',
+                            borderRadius: '6px',
+                            color: '#ffffff',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <ArrowRight size={12} />
+                          <span>Insert Solution into Editor</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <pre style={{
+                      background: '#0a0f1d',
+                      border: '1px solid #334155',
+                      borderRadius: '10px',
+                      padding: '1.25rem',
+                      color: '#e2e8f0',
+                      fontFamily: "'JetBrains Mono', Consolas, monospace",
+                      fontSize: '0.88rem',
+                      lineHeight: 1.5,
+                      overflowX: 'auto',
+                      margin: 0
+                    }}>
+                      <code>
+                        {activeSqlQuestion.solution}
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Modal Footer */}
+                <div style={{
+                  padding: '1rem 1.5rem',
+                  borderTop: '1px solid #334155',
+                  background: '#0f172a',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  borderBottomLeftRadius: '16px',
+                  borderBottomRightRadius: '16px'
+                }}>
+                  <button
+                    onClick={() => setShowSqlSolutionModal(false)}
+                    style={{
+                      padding: '8px 18px',
+                      background: '#334155',
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: '#f8fafc',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

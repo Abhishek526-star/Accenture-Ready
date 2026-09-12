@@ -3026,5 +3026,1082 @@ function generateQuote() {
    - \`Math.floor()\` rounds down to the nearest integer (\`0, 1, 2, 3\`), giving a valid array index.
    - Update \`#quoteDisplay.innerText\` with template literals: \`"\${quotes[randomIndex]}"\`.`,
     liveSandbox: true
+  },
+
+  // =========================================================================
+  // VERIFIED: 15th Jan 2025 (SQL: Subject Matter Experts)
+  // =========================================================================
+  {
+    id: 'recent-sql-001',
+    track: 'sql',
+    dateTag: '15th Jan 2025 • Shift 1',
+    examDate: '2025-01-15',
+    shift: 'Shift 1',
+    title: 'Subject Matter Experts',
+    difficulty: 'Easy',
+    category: 'Aggregation / GROUP BY & HAVING',
+    source: 'Accenture Assessment 15th Jan 2025 (PYQ Series)',
+    isVerified: true,
+    description: `You are tasked with identifying **Subject Matter Experts (SMEs)** at Accenture based on their work experience in specific domains. An employee qualifies as an SME if they meet **either** of the following criteria:
+
+1. They have **8 or more years** of work experience in a **single domain**.
+2. They have **12 or more years** of work experience across **two different domains**.
+
+Write a query to return the employee IDs of all the subject matter experts at Accenture.`,
+    rules: [
+      'Group records by employee_id.',
+      'Criteria 1: SUM(years_of_experience) >= 8 AND COUNT(DISTINCT domain) = 1.',
+      'Criteria 2: SUM(years_of_experience) >= 12 AND COUNT(DISTINCT domain) = 2.',
+      'Use HAVING clause with logical OR between the two criteria.'
+    ],
+    tableSchema: [
+      {
+        name: 'employee_expertise',
+        columns: [
+          { name: 'employee_id', type: 'INTEGER', primaryKey: false },
+          { name: 'domain', type: 'TEXT', primaryKey: false },
+          { name: 'years_of_experience', type: 'INTEGER', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1 (Authentic Exam Input)',
+        input: {
+          employee_expertise: [
+            { employee_id: 101, domain: 'Digital Transformation', years_of_experience: 9 },
+            { employee_id: 102, domain: 'Supply Chain', years_of_experience: 6 },
+            { employee_id: 102, domain: 'IoT', years_of_experience: 7 },
+            { employee_id: 103, domain: 'Change Management', years_of_experience: 4 },
+            { employee_id: 104, domain: 'DevOps', years_of_experience: 5 },
+            { employee_id: 104, domain: 'Cloud Migration', years_of_experience: 5 },
+            { employee_id: 104, domain: 'Agile Transformation', years_of_experience: 5 }
+          ]
+        },
+        output: [
+          { employee_id: 101 },
+          { employee_id: 102 }
+        ],
+        explanation: 'Employee 101 has 9 years in 1 domain (>= 8). Employee 102 has 13 years across 2 domains (>= 12). Employee 103 has only 4 years. Employee 104 has 15 years but across 3 domains (fails two-domain rule).'
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `SELECT employee_id
+FROM employee_expertise
+GROUP BY employee_id
+HAVING (SUM(years_of_experience) >= 8 AND COUNT(DISTINCT domain) = 1) 
+    OR (SUM(years_of_experience) >= 12 AND COUNT(DISTINCT domain) = 2);`,
+    explanation: `We group by \`employee_id\` and use the \`HAVING\` clause with \`SUM(years_of_experience)\` and \`COUNT(DISTINCT domain)\`:
+- For single-domain experts: \`SUM(years_of_experience) >= 8 AND COUNT(DISTINCT domain) = 1\`
+- For multi-domain experts: \`SUM(years_of_experience) >= 12 AND COUNT(DISTINCT domain) = 2\`
+Combining them with \`OR\` filters only employees meeting either condition.`,
+    expectedColumns: ['employee_id'],
+    orderSensitive: false,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Multi-Employee Experience Portfolio',
+        isHidden: false,
+        data: {
+          employee_expertise: [
+            { employee_id: 101, domain: 'Digital Transformation', years_of_experience: 9 },
+            { employee_id: 102, domain: 'Supply Chain', years_of_experience: 6 },
+            { employee_id: 102, domain: 'IoT', years_of_experience: 7 },
+            { employee_id: 103, domain: 'Change Management', years_of_experience: 4 },
+            { employee_id: 104, domain: 'DevOps', years_of_experience: 5 },
+            { employee_id: 104, domain: 'Cloud Migration', years_of_experience: 5 },
+            { employee_id: 104, domain: 'Agile Transformation', years_of_experience: 5 }
+          ]
+        },
+        expected: [
+          { employee_id: 101 },
+          { employee_id: 102 }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Boundary Experience Thresholds',
+        isHidden: false,
+        data: {
+          employee_expertise: [
+            { employee_id: 201, domain: 'AI Architecture', years_of_experience: 8 },
+            { employee_id: 202, domain: 'Cybersecurity', years_of_experience: 6 },
+            { employee_id: 202, domain: 'Data Governance', years_of_experience: 6 },
+            { employee_id: 203, domain: 'DevSecOps', years_of_experience: 7 },
+            { employee_id: 204, domain: 'AI', years_of_experience: 6 },
+            { employee_id: 204, domain: 'ML', years_of_experience: 5 }
+          ]
+        },
+        expected: [
+          { employee_id: 201 },
+          { employee_id: 202 }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — Disqualifying 3+ Domains Portfolio',
+        isHidden: false,
+        data: {
+          employee_expertise: [
+            { employee_id: 301, domain: 'DevOps', years_of_experience: 6 },
+            { employee_id: 301, domain: 'Cloud', years_of_experience: 4 },
+            { employee_id: 301, domain: 'Security', years_of_experience: 4 },
+            { employee_id: 302, domain: 'Blockchain', years_of_experience: 12 },
+            { employee_id: 303, domain: 'Big Data', years_of_experience: 7 },
+            { employee_id: 303, domain: 'Analytics', years_of_experience: 4 }
+          ]
+        },
+        expected: [
+          { employee_id: 302 }
+        ]
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Multiple Single-Domain Specialists',
+        isHidden: false,
+        data: {
+          employee_expertise: [
+            { employee_id: 401, domain: 'Frontend Engineering', years_of_experience: 10 },
+            { employee_id: 402, domain: 'Backend Engineering', years_of_experience: 15 },
+            { employee_id: 403, domain: 'QA Automation', years_of_experience: 2 },
+            { employee_id: 404, domain: 'UI/UX Design', years_of_experience: 8 }
+          ]
+        },
+        expected: [
+          { employee_id: 401 },
+          { employee_id: 402 },
+          { employee_id: 404 }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — Non-Qualifying Generalist Employee Set',
+        isHidden: true,
+        data: {
+          employee_expertise: [
+            { employee_id: 501, domain: 'Testing', years_of_experience: 5 },
+            { employee_id: 502, domain: 'Design', years_of_experience: 3 },
+            { employee_id: 502, domain: 'Product', years_of_experience: 4 },
+            { employee_id: 503, domain: 'D1', years_of_experience: 2 },
+            { employee_id: 503, domain: 'D2', years_of_experience: 2 },
+            { employee_id: 503, domain: 'D3', years_of_experience: 2 },
+            { employee_id: 503, domain: 'D4', years_of_experience: 2 }
+          ]
+        },
+        expected: []
+      }
+    ]
+  },
+
+  // =========================================================================
+  // VERIFIED: 20th Feb 2025 (SQL: Fill Missing Client Data)
+  // =========================================================================
+  {
+    id: 'recent-sql-002',
+    track: 'sql',
+    dateTag: '20th Feb 2025 • Shift 1',
+    examDate: '2025-02-20',
+    shift: 'Shift 1',
+    title: 'Fill Missing Client Data',
+    difficulty: 'Medium',
+    category: 'Window Functions / Forward Fill & COALESCE',
+    source: 'Accenture Assessment 20th Feb 2025 (PYQ Series)',
+    isVerified: true,
+    description: `When accessing Accenture's retailer client's database, you observe that the \`category\` column in the \`products\` table contains null values.
+
+Write a query that returns the updated product table with all the category values filled in, taking into consideration the assumption that the first product in each category will always have a defined category value.`,
+    rules: [
+      'Use a Common Table Expression (CTE) or subquery with COUNT(category) OVER (ORDER BY product_id).',
+      'The running COUNT creates a constant partition ID for each block of rows belonging to the same category.',
+      'Use MAX(category) OVER (PARTITION BY numbered_category) or COALESCE to forward-fill missing values.',
+      'Preserve product_id, category, and name columns in the output.'
+    ],
+    tableSchema: [
+      {
+        name: 'products',
+        columns: [
+          { name: 'product_id', type: 'INTEGER', primaryKey: true },
+          { name: 'category', type: 'TEXT', primaryKey: false },
+          { name: 'name', type: 'TEXT', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1 (Retailer Catalog)',
+        input: {
+          products: [
+            { product_id: 1, category: 'Shoes', name: 'Sperry Boat Shoe' },
+            { product_id: 2, category: null, name: 'Adidas Stan Smith' },
+            { product_id: 3, category: null, name: 'Vans Authentic' },
+            { product_id: 4, category: 'Jeans', name: 'Levi 511' },
+            { product_id: 5, category: null, name: 'Wrangler Straight Fit' },
+            { product_id: 6, category: 'Shirts', name: 'Lacoste Classic Polo' },
+            { product_id: 7, category: null, name: 'Nautica Linen Shirt' }
+          ]
+        },
+        output: [
+          { product_id: 1, category: 'Shoes', name: 'Sperry Boat Shoe' },
+          { product_id: 2, category: 'Shoes', name: 'Adidas Stan Smith' },
+          { product_id: 3, category: 'Shoes', name: 'Vans Authentic' },
+          { product_id: 4, category: 'Jeans', name: 'Levi 511' },
+          { product_id: 5, category: 'Jeans', name: 'Wrangler Straight Fit' },
+          { product_id: 6, category: 'Shirts', name: 'Lacoste Classic Polo' },
+          { product_id: 7, category: 'Shirts', name: 'Nautica Linen Shirt' }
+        ],
+        explanation: 'The running count of non-null categories partitions the products into groups: group 1 for Shoes (ids 1-3), group 2 for Jeans (ids 4-5), and group 3 for Shirts (ids 6-7).'
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `WITH filled_category AS (
+  SELECT
+    product_id,
+    category,
+    name,
+    COUNT(category) OVER (
+      ORDER BY product_id
+    ) AS numbered_category
+  FROM products
+)
+SELECT
+  product_id,
+  COALESCE(
+    category, 
+    MAX(category) OVER (PARTITION BY numbered_category)
+  ) AS category,
+  name
+FROM filled_category;`,
+    explanation: `1. **Running Count Technique**: \`COUNT(category) OVER (ORDER BY product_id)\` counts non-null categories up to the current row. Because nulls are ignored, all rows following a valid category receive the same count number.
+2. **Partitioned Forward Fill**: In the outer query, \`MAX(category) OVER (PARTITION BY numbered_category)\` pulls the single non-null category name across the group, cleanly filling the null rows.`,
+    expectedColumns: ['product_id', 'category', 'name'],
+    orderSensitive: true,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Multi-Category Catalog Forward Fill',
+        isHidden: false,
+        data: {
+          products: [
+            { product_id: 1, category: 'Shoes', name: 'Sperry Boat Shoe' },
+            { product_id: 2, category: null, name: 'Adidas Stan Smith' },
+            { product_id: 3, category: null, name: 'Vans Authentic' },
+            { product_id: 4, category: 'Jeans', name: 'Levi 511' },
+            { product_id: 5, category: null, name: 'Wrangler Straight Fit' },
+            { product_id: 6, category: 'Shirts', name: 'Lacoste Classic Polo' },
+            { product_id: 7, category: null, name: 'Nautica Linen Shirt' }
+          ]
+        },
+        expected: [
+          { product_id: 1, category: 'Shoes', name: 'Sperry Boat Shoe' },
+          { product_id: 2, category: 'Shoes', name: 'Adidas Stan Smith' },
+          { product_id: 3, category: 'Shoes', name: 'Vans Authentic' },
+          { product_id: 4, category: 'Jeans', name: 'Levi 511' },
+          { product_id: 5, category: 'Jeans', name: 'Wrangler Straight Fit' },
+          { product_id: 6, category: 'Shirts', name: 'Lacoste Classic Polo' },
+          { product_id: 7, category: 'Shirts', name: 'Nautica Linen Shirt' }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Single Category with Subsequent Nulls',
+        isHidden: false,
+        data: {
+          products: [
+            { product_id: 101, category: 'Electronics', name: 'MacBook Pro' },
+            { product_id: 102, category: null, name: 'Magic Mouse' },
+            { product_id: 103, category: null, name: 'Magic Keyboard' },
+            { product_id: 104, category: null, name: 'Studio Display' }
+          ]
+        },
+        expected: [
+          { product_id: 101, category: 'Electronics', name: 'MacBook Pro' },
+          { product_id: 102, category: 'Electronics', name: 'Magic Mouse' },
+          { product_id: 103, category: 'Electronics', name: 'Magic Keyboard' },
+          { product_id: 104, category: 'Electronics', name: 'Studio Display' }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — Alternating Pairs with Single Nulls',
+        isHidden: false,
+        data: {
+          products: [
+            { product_id: 201, category: 'Audio', name: 'Sony WH-1000XM5' },
+            { product_id: 202, category: null, name: 'Sony WF-1000XM5' },
+            { product_id: 203, category: 'Cameras', name: 'Canon EOS R5' },
+            { product_id: 204, category: null, name: 'Canon RF 24-70mm' }
+          ]
+        },
+        expected: [
+          { product_id: 201, category: 'Audio', name: 'Sony WH-1000XM5' },
+          { product_id: 202, category: 'Audio', name: 'Sony WF-1000XM5' },
+          { product_id: 203, category: 'Cameras', name: 'Canon EOS R5' },
+          { product_id: 204, category: 'Cameras', name: 'Canon RF 24-70mm' }
+        ]
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Fully Populated Catalog Without Nulls',
+        isHidden: false,
+        data: {
+          products: [
+            { product_id: 301, category: 'Books', name: 'Clean Architecture' },
+            { product_id: 302, category: 'Toys', name: 'Lego Millennium Falcon' },
+            { product_id: 303, category: 'Games', name: 'Catan Board Game' }
+          ]
+        },
+        expected: [
+          { product_id: 301, category: 'Books', name: 'Clean Architecture' },
+          { product_id: 302, category: 'Toys', name: 'Lego Millennium Falcon' },
+          { product_id: 303, category: 'Games', name: 'Catan Board Game' }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — Extended Warehouse Multi-Tier Catalog',
+        isHidden: true,
+        data: {
+          products: [
+            { product_id: 401, category: 'Hardware', name: 'Claw Hammer' },
+            { product_id: 402, category: null, name: 'Box of Nails' },
+            { product_id: 403, category: null, name: 'Wood Screws' },
+            { product_id: 404, category: 'Garden', name: 'Steel Shovel' },
+            { product_id: 405, category: null, name: 'Garden Hose' },
+            { product_id: 406, category: 'Paint', name: 'Wall Primer' },
+            { product_id: 407, category: null, name: 'Nylon Brush' },
+            { product_id: 408, category: null, name: 'Paint Roller' }
+          ]
+        },
+        expected: [
+          { product_id: 401, category: 'Hardware', name: 'Claw Hammer' },
+          { product_id: 402, category: 'Hardware', name: 'Box of Nails' },
+          { product_id: 403, category: 'Hardware', name: 'Wood Screws' },
+          { product_id: 404, category: 'Garden', name: 'Steel Shovel' },
+          { product_id: 405, category: 'Garden', name: 'Garden Hose' },
+          { product_id: 406, category: 'Paint', name: 'Wall Primer' },
+          { product_id: 407, category: 'Paint', name: 'Nylon Brush' },
+          { product_id: 408, category: 'Paint', name: 'Paint Roller' }
+        ]
+      }
+    ]
+  },
+
+  // =========================================================================
+  // VERIFIED: 10th Mar 2025 (SQL: Marketing Campaigns UNIQUE Constraint & Audit)
+  // =========================================================================
+  {
+    id: 'recent-sql-003',
+    track: 'sql',
+    dateTag: '10th Mar 2025 • Shift 2',
+    examDate: '2025-03-10',
+    shift: 'Shift 2',
+    title: 'Marketing Campaigns UNIQUE Constraint & Duplicate Audit',
+    difficulty: 'Easy',
+    category: 'DDL Constraints & Data Integrity',
+    source: 'Accenture Assessment 10th Mar 2025 (PYQ Series)',
+    isVerified: true,
+    description: `The **UNIQUE** constraint ensures that all values in a column are distinct. It is frequently combined with **NOT NULL** to enforce strict entity uniqueness.
+
+For example, on the marketing team at Accenture, campaigns are created with:
+\`\`\`sql
+CREATE TABLE accenture_campaigns (
+    campaign_id INTEGER PRIMARY KEY,
+    campaign_name VARCHAR(255) NOT NULL UNIQUE,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    budget DECIMAL(10,2) NOT NULL
+);
+\`\`\`
+
+Write a SQL query to audit the marketing database and return any duplicate campaign names that would violate the \`UNIQUE\` constraint along with the number of times they appear, ordered alphabetically by \`campaign_name\`.`,
+    rules: [
+      'Group by campaign_name.',
+      'Filter with HAVING COUNT(*) > 1 to identify duplicate entries.',
+      'Return campaign_name and duplicate_count columns.',
+      'Order results by campaign_name ASC.'
+    ],
+    tableSchema: [
+      {
+        name: 'accenture_campaigns',
+        columns: [
+          { name: 'campaign_id', type: 'INTEGER', primaryKey: true },
+          { name: 'campaign_name', type: 'TEXT', primaryKey: false },
+          { name: 'start_date', type: 'TEXT', primaryKey: false },
+          { name: 'end_date', type: 'TEXT', primaryKey: false },
+          { name: 'budget', type: 'REAL', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1',
+        input: {
+          accenture_campaigns: [
+            { campaign_id: 1, campaign_name: 'Spring Tech Fest', start_date: '2025-01-01', end_date: '2025-02-01', budget: 15000 },
+            { campaign_id: 2, campaign_name: 'Spring Tech Fest', start_date: '2025-02-15', end_date: '2025-03-15', budget: 18000 },
+            { campaign_id: 3, campaign_name: 'AI Summit', start_date: '2025-04-01', end_date: '2025-05-01', budget: 30000 },
+            { campaign_id: 4, campaign_name: 'Cloud Horizons', start_date: '2025-05-01', end_date: '2025-06-01', budget: 25000 },
+            { campaign_id: 5, campaign_name: 'AI Summit', start_date: '2025-06-10', end_date: '2025-07-10', budget: 22000 }
+          ]
+        },
+        output: [
+          { campaign_name: 'AI Summit', duplicate_count: 2 },
+          { campaign_name: 'Spring Tech Fest', duplicate_count: 2 }
+        ],
+        explanation: "'AI Summit' appears 2 times and 'Spring Tech Fest' appears 2 times. 'Cloud Horizons' appears once so it is unique."
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `SELECT campaign_name, COUNT(*) AS duplicate_count
+FROM accenture_campaigns
+GROUP BY campaign_name
+HAVING COUNT(*) > 1
+ORDER BY campaign_name;`,
+    explanation: `To detect records violating a UNIQUE constraint, we group rows by \`campaign_name\` and use \`HAVING COUNT(*) > 1\`.
+In relational databases, creating a \`UNIQUE\` constraint automatically adds a unique index to forbid future duplicate inserts.`,
+    expectedColumns: ['campaign_name', 'duplicate_count'],
+    orderSensitive: true,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Duplicates Audit',
+        isHidden: false,
+        data: {
+          accenture_campaigns: [
+            { campaign_id: 1, campaign_name: 'Spring Tech Fest', start_date: '2025-01-01', end_date: '2025-02-01', budget: 15000 },
+            { campaign_id: 2, campaign_name: 'Spring Tech Fest', start_date: '2025-02-15', end_date: '2025-03-15', budget: 18000 },
+            { campaign_id: 3, campaign_name: 'AI Summit', start_date: '2025-04-01', end_date: '2025-05-01', budget: 30000 },
+            { campaign_id: 4, campaign_name: 'Cloud Horizons', start_date: '2025-05-01', end_date: '2025-06-01', budget: 25000 },
+            { campaign_id: 5, campaign_name: 'AI Summit', start_date: '2025-06-10', end_date: '2025-07-10', budget: 22000 }
+          ]
+        },
+        expected: [
+          { campaign_name: 'AI Summit', duplicate_count: 2 },
+          { campaign_name: 'Spring Tech Fest', duplicate_count: 2 }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Triplicate Single Campaign Name',
+        isHidden: false,
+        data: {
+          accenture_campaigns: [
+            { campaign_id: 101, campaign_name: 'Cyber Week', start_date: '2025-01-01', end_date: '2025-01-07', budget: 10000 },
+            { campaign_id: 102, campaign_name: 'Cyber Week', start_date: '2025-02-01', end_date: '2025-02-07', budget: 12000 },
+            { campaign_id: 103, campaign_name: 'Autumn Launch', start_date: '2025-09-01', end_date: '2025-09-15', budget: 8000 },
+            { campaign_id: 104, campaign_name: 'Cyber Week', start_date: '2025-11-20', end_date: '2025-11-27', budget: 20000 }
+          ]
+        },
+        expected: [
+          { campaign_name: 'Cyber Week', duplicate_count: 3 }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — Strictly Unique Campaign Table',
+        isHidden: false,
+        data: {
+          accenture_campaigns: [
+            { campaign_id: 201, campaign_name: 'Alpha Project', start_date: '2025-01-01', end_date: '2025-02-01', budget: 5000 },
+            { campaign_id: 202, campaign_name: 'Beta Project', start_date: '2025-03-01', end_date: '2025-04-01', budget: 6000 },
+            { campaign_id: 203, campaign_name: 'Gamma Project', start_date: '2025-05-01', end_date: '2025-06-01', budget: 7000 }
+          ]
+        },
+        expected: []
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Multiple Duplicate Clusters',
+        isHidden: false,
+        data: {
+          accenture_campaigns: [
+            { campaign_id: 301, campaign_name: 'Brand Boost', start_date: '2025-01-01', end_date: '2025-02-01', budget: 10000 },
+            { campaign_id: 302, campaign_name: 'Brand Boost', start_date: '2025-03-01', end_date: '2025-04-01', budget: 10000 },
+            { campaign_id: 303, campaign_name: 'Brand Boost', start_date: '2025-05-01', end_date: '2025-06-01', budget: 10000 },
+            { campaign_id: 304, campaign_name: 'Brand Boost', start_date: '2025-07-01', end_date: '2025-08-01', budget: 10000 },
+            { campaign_id: 305, campaign_name: 'HR Connect', start_date: '2025-02-01', end_date: '2025-03-01', budget: 5000 },
+            { campaign_id: 306, campaign_name: 'HR Connect', start_date: '2025-04-01', end_date: '2025-05-01', budget: 5000 },
+            { campaign_id: 307, campaign_name: 'Talent Day', start_date: '2025-06-01', end_date: '2025-07-01', budget: 3000 }
+          ]
+        },
+        expected: [
+          { campaign_name: 'Brand Boost', duplicate_count: 4 },
+          { campaign_name: 'HR Connect', duplicate_count: 2 }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — Large Scale Campaign Registry Audit',
+        isHidden: true,
+        data: {
+          accenture_campaigns: [
+            { campaign_id: 401, campaign_name: 'InnoFest', start_date: '2025-01-01', end_date: '2025-02-01', budget: 1000 },
+            { campaign_id: 402, campaign_name: 'TechTalk', start_date: '2025-01-01', end_date: '2025-02-01', budget: 1000 },
+            { campaign_id: 403, campaign_name: 'DevDay', start_date: '2025-01-01', end_date: '2025-02-01', budget: 1000 },
+            { campaign_id: 404, campaign_name: 'CloudCon', start_date: '2025-01-01', end_date: '2025-02-01', budget: 1000 },
+            { campaign_id: 405, campaign_name: 'Global Hackathon', start_date: '2025-01-01', end_date: '2025-02-01', budget: 1000 },
+            { campaign_id: 406, campaign_name: 'Global Hackathon', start_date: '2025-03-01', end_date: '2025-04-01', budget: 1000 }
+          ]
+        },
+        expected: [
+          { campaign_name: 'Global Hackathon', duplicate_count: 2 }
+        ]
+      }
+    ]
+  },
+
+  // =========================================================================
+  // VERIFIED: 18th Apr 2025 (SQL: Average Project Duration)
+  // =========================================================================
+  {
+    id: 'recent-sql-004',
+    track: 'sql',
+    dateTag: '18th Apr 2025 • Shift 1',
+    examDate: '2025-04-18',
+    shift: 'Shift 1',
+    title: 'Average Project Duration',
+    difficulty: 'Easy',
+    category: 'Date & Time Analytics / AVG',
+    source: 'Accenture Assessment 18th Apr 2025 (PYQ Series)',
+    isVerified: true,
+    description: `At Accenture, you've been appointed as a data analyst. You're handed a dataset of all the company's projects within the last year, including their start and end dates.
+
+Your task is to find the **average duration (in days)** of all completed projects.
+
+Assume all projects have a valid end date and format is ISO standard date \`YYYY-MM-DD\`.`,
+    rules: [
+      'Calculate duration in days between end_date and start_date.',
+      'Compute the average across all completed projects.',
+      'Round the average to 1 decimal place (or standard precision).',
+      'Alias the output column as avg_project_duration_days.'
+    ],
+    tableSchema: [
+      {
+        name: 'projects',
+        columns: [
+          { name: 'project_id', type: 'INTEGER', primaryKey: true },
+          { name: 'start_date', type: 'TEXT', primaryKey: false },
+          { name: 'end_date', type: 'TEXT', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1',
+        input: {
+          projects: [
+            { project_id: 101, start_date: '2022-01-01', end_date: '2022-04-01' },
+            { project_id: 102, start_date: '2022-02-15', end_date: '2022-05-15' },
+            { project_id: 103, start_date: '2022-04-01', end_date: '2022-07-30' },
+            { project_id: 104, start_date: '2022-05-10', end_date: '2022-07-10' },
+            { project_id: 105, start_date: '2022-09-15', end_date: '2022-12-01' }
+          ]
+        },
+        output: [
+          { avg_project_duration_days: 87.4 }
+        ],
+        explanation: 'Individual durations: 90, 89, 120, 61, 77 days. Total days = 437. Average = 437 / 5 = 87.4 days.'
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `SELECT 
+    ROUND(AVG(julianday(end_date) - julianday(start_date)), 1) AS avg_project_duration_days
+FROM 
+    projects;
+
+-- In PostgreSQL dialect:
+-- SELECT AVG(EXTRACT(DAY FROM (end_date::timestamp - start_date::timestamp))) AS avg_project_duration_days FROM projects;`,
+    explanation: `Date differences calculate the total elapsed days for each completed project:
+- In SQLite / standard SQL: \`julianday(end_date) - julianday(start_date)\` converts date strings into continuous Julian day numbers.
+- In PostgreSQL: \`EXTRACT(DAY FROM (end_date::timestamp - start_date::timestamp))\`.
+Taking \`AVG(...)\` yields 87.4 days.`,
+    expectedColumns: ['avg_project_duration_days'],
+    orderSensitive: false,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Multi-Month Completed Projects',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 101, start_date: '2022-01-01', end_date: '2022-04-01' },
+            { project_id: 102, start_date: '2022-02-15', end_date: '2022-05-15' },
+            { project_id: 103, start_date: '2022-04-01', end_date: '2022-07-30' },
+            { project_id: 104, start_date: '2022-05-10', end_date: '2022-07-10' },
+            { project_id: 105, start_date: '2022-09-15', end_date: '2022-12-01' }
+          ]
+        },
+        expected: [
+          { avg_project_duration_days: 87.4 }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Round 10, 20, 30 Day Projects',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 201, start_date: '2023-01-01', end_date: '2023-01-11' },
+            { project_id: 202, start_date: '2023-02-01', end_date: '2023-02-21' },
+            { project_id: 203, start_date: '2023-03-01', end_date: '2023-03-31' }
+          ]
+        },
+        expected: [
+          { avg_project_duration_days: 20 }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — Fast Sprint 1-Day Completed Tasks',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 301, start_date: '2023-05-01', end_date: '2023-05-02' },
+            { project_id: 302, start_date: '2023-06-10', end_date: '2023-06-11' }
+          ]
+        },
+        expected: [
+          { avg_project_duration_days: 1 }
+        ]
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Leap Year Span Duration',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 401, start_date: '2024-02-01', end_date: '2024-03-01' },
+            { project_id: 402, start_date: '2024-01-01', end_date: '2024-02-01' }
+          ]
+        },
+        expected: [
+          { avg_project_duration_days: 30 }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — Annual Enterprise Milestone Initiatives',
+        isHidden: true,
+        data: {
+          projects: [
+            { project_id: 501, start_date: '2023-01-01', end_date: '2023-07-01' },
+            { project_id: 502, start_date: '2023-01-01', end_date: '2023-10-01' },
+            { project_id: 503, start_date: '2023-01-01', end_date: '2024-01-01' }
+          ]
+        },
+        expected: [
+          { avg_project_duration_days: 273 }
+        ]
+      }
+    ]
+  },
+
+  // =========================================================================
+  // VERIFIED: 25th May 2025 (SQL: Click Through Conversion Rate)
+  // =========================================================================
+  {
+    id: 'recent-sql-005',
+    track: 'sql',
+    dateTag: '25th May 2025 • Shift 2',
+    examDate: '2025-05-25',
+    shift: 'Shift 2',
+    title: 'Calculate Click Through Conversion Rate',
+    difficulty: 'Medium',
+    category: 'Conversion Funnel / CTE & LEFT JOIN',
+    source: 'Accenture Assessment 25th May 2025 (PYQ Series)',
+    isVerified: true,
+    description: `As a data analyst at Accenture, you are tasked to analyze the effectiveness of digital marketing campaigns.
+
+Specifically, Accenture is interested in knowing the **click-through conversion rate**, which is defined as the percentage of users who viewed a product and later added it to their cart:
+$$\\text{Conversion Rate} = \\left(\\frac{\\text{Cart Count}}{\\text{View Count}}\\right) \\times 100$$
+
+Using the provided tables \`user_product_view\` and \`user_product_cart\`, calculate the click-through conversion rate for each product. Order results by \`product_id\`.`,
+    rules: [
+      'Aggregate view count per product_id from user_product_view.',
+      'Aggregate cart count per product_id from user_product_cart.',
+      'Join views and carts on product_id using LEFT JOIN.',
+      'Calculate (cart_count / view_count) * 100 and round to 2 decimal places.',
+      'Order by product_id ASC.'
+    ],
+    tableSchema: [
+      {
+        name: 'user_product_view',
+        columns: [
+          { name: 'view_id', type: 'INTEGER', primaryKey: true },
+          { name: 'user_id', type: 'INTEGER', primaryKey: false },
+          { name: 'view_date', type: 'TEXT', primaryKey: false },
+          { name: 'product_id', type: 'INTEGER', primaryKey: false }
+        ]
+      },
+      {
+        name: 'user_product_cart',
+        columns: [
+          { name: 'cart_id', type: 'INTEGER', primaryKey: true },
+          { name: 'user_id', type: 'INTEGER', primaryKey: false },
+          { name: 'add_to_cart_date', type: 'TEXT', primaryKey: false },
+          { name: 'product_id', type: 'INTEGER', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1',
+        input: {
+          user_product_view: [
+            { view_id: 1001, user_id: 123, view_date: '2022-06-08 00:00:00', product_id: 20001 },
+            { view_id: 2015, user_id: 265, view_date: '2022-06-10 00:00:00', product_id: 22552 },
+            { view_id: 3036, user_id: 362, view_date: '2022-06-18 00:00:00', product_id: 20001 },
+            { view_id: 4879, user_id: 265, view_date: '2022-07-26 00:00:00', product_id: 22552 },
+            { view_id: 5623, user_id: 981, view_date: '2022-07-05 00:00:00', product_id: 22552 }
+          ],
+          user_product_cart: [
+            { cart_id: 2123, user_id: 123, add_to_cart_date: '2022-06-08 00:00:00', product_id: 20001 },
+            { cart_id: 3856, user_id: 362, add_to_cart_date: '2022-06-21 00:00:00', product_id: 20001 },
+            { cart_id: 4987, user_id: 265, add_to_cart_date: '2022-07-30 00:00:00', product_id: 22552 }
+          ]
+        },
+        output: [
+          { product_id: 20001, view_count: 2, cart_count: 2, conversion_rate: 100 },
+          { product_id: 22552, view_count: 3, cart_count: 1, conversion_rate: 33.33 }
+        ],
+        explanation: 'Product 20001: 2 views, 2 carts -> (2/2) * 100 = 100%. Product 22552: 3 views, 1 cart -> (1/3) * 100 = 33.33%.'
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `WITH views AS (
+  SELECT product_id, COUNT(*) AS view_count
+  FROM user_product_view
+  GROUP BY product_id
+),
+carts AS (
+  SELECT product_id, COUNT(*) AS cart_count
+  FROM user_product_cart
+  GROUP BY product_id
+)
+SELECT 
+  v.product_id, 
+  v.view_count, 
+  c.cart_count, 
+  ROUND((c.cart_count * 1.0 / v.view_count) * 100, 2) AS conversion_rate
+FROM views v
+LEFT JOIN carts c
+  ON v.product_id = c.product_id
+ORDER BY v.product_id;`,
+    explanation: `1. **Views CTE**: Groups \`user_product_view\` by \`product_id\` to obtain total views per product.
+2. **Carts CTE**: Groups \`user_product_cart\` by \`product_id\` to obtain total cart additions per product.
+3. **LEFT JOIN & Conversion Calculation**: Connects views with carts and calculates \`(c.cart_count * 1.0 / v.view_count) * 100\`. Casting to float/multiplying by 1.0 prevents integer division truncation.`,
+    expectedColumns: ['product_id', 'view_count', 'cart_count', 'conversion_rate'],
+    orderSensitive: true,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Funnel Performance',
+        isHidden: false,
+        data: {
+          user_product_view: [
+            { view_id: 1001, user_id: 123, view_date: '2022-06-08 00:00:00', product_id: 20001 },
+            { view_id: 2015, user_id: 265, view_date: '2022-06-10 00:00:00', product_id: 22552 },
+            { view_id: 3036, user_id: 362, view_date: '2022-06-18 00:00:00', product_id: 20001 },
+            { view_id: 4879, user_id: 265, view_date: '2022-07-26 00:00:00', product_id: 22552 },
+            { view_id: 5623, user_id: 981, view_date: '2022-07-05 00:00:00', product_id: 22552 }
+          ],
+          user_product_cart: [
+            { cart_id: 2123, user_id: 123, add_to_cart_date: '2022-06-08 00:00:00', product_id: 20001 },
+            { cart_id: 3856, user_id: 362, add_to_cart_date: '2022-06-21 00:00:00', product_id: 20001 },
+            { cart_id: 4987, user_id: 265, add_to_cart_date: '2022-07-30 00:00:00', product_id: 22552 }
+          ]
+        },
+        expected: [
+          { product_id: 20001, view_count: 2, cart_count: 2, conversion_rate: 100 },
+          { product_id: 22552, view_count: 3, cart_count: 1, conversion_rate: 33.33 }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Balanced 50% and 25% Rates',
+        isHidden: false,
+        data: {
+          user_product_view: [
+            { view_id: 1, user_id: 1, view_date: '2023-01-01', product_id: 30001 },
+            { view_id: 2, user_id: 2, view_date: '2023-01-02', product_id: 30001 },
+            { view_id: 3, user_id: 3, view_date: '2023-01-03', product_id: 30001 },
+            { view_id: 4, user_id: 4, view_date: '2023-01-04', product_id: 30001 },
+            { view_id: 5, user_id: 1, view_date: '2023-01-01', product_id: 30002 },
+            { view_id: 6, user_id: 2, view_date: '2023-01-02', product_id: 30002 },
+            { view_id: 7, user_id: 3, view_date: '2023-01-03', product_id: 30002 },
+            { view_id: 8, user_id: 4, view_date: '2023-01-04', product_id: 30002 }
+          ],
+          user_product_cart: [
+            { cart_id: 1, user_id: 1, add_to_cart_date: '2023-01-01', product_id: 30001 },
+            { cart_id: 2, user_id: 2, add_to_cart_date: '2023-01-02', product_id: 30001 },
+            { cart_id: 3, user_id: 1, add_to_cart_date: '2023-01-01', product_id: 30002 }
+          ]
+        },
+        expected: [
+          { product_id: 30001, view_count: 4, cart_count: 2, conversion_rate: 50 },
+          { product_id: 30002, view_count: 4, cart_count: 1, conversion_rate: 25 }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — High Conversion (75% and 66.67%)',
+        isHidden: false,
+        data: {
+          user_product_view: [
+            { view_id: 11, user_id: 1, view_date: '2023-02-01', product_id: 40001 },
+            { view_id: 12, user_id: 2, view_date: '2023-02-01', product_id: 40001 },
+            { view_id: 13, user_id: 3, view_date: '2023-02-01', product_id: 40001 },
+            { view_id: 14, user_id: 4, view_date: '2023-02-01', product_id: 40001 },
+            { view_id: 15, user_id: 1, view_date: '2023-02-02', product_id: 40002 },
+            { view_id: 16, user_id: 2, view_date: '2023-02-02', product_id: 40002 },
+            { view_id: 17, user_id: 3, view_date: '2023-02-02', product_id: 40002 }
+          ],
+          user_product_cart: [
+            { cart_id: 11, user_id: 1, add_to_cart_date: '2023-02-01', product_id: 40001 },
+            { cart_id: 12, user_id: 2, add_to_cart_date: '2023-02-01', product_id: 40001 },
+            { cart_id: 13, user_id: 3, add_to_cart_date: '2023-02-01', product_id: 40001 },
+            { cart_id: 14, user_id: 1, add_to_cart_date: '2023-02-02', product_id: 40002 },
+            { cart_id: 15, user_id: 2, add_to_cart_date: '2023-02-02', product_id: 40002 }
+          ]
+        },
+        expected: [
+          { product_id: 40001, view_count: 4, cart_count: 3, conversion_rate: 75 },
+          { product_id: 40002, view_count: 3, cart_count: 2, conversion_rate: 66.67 }
+        ]
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Single Item 1:1 Conversion (100%)',
+        isHidden: false,
+        data: {
+          user_product_view: [
+            { view_id: 21, user_id: 10, view_date: '2023-03-01', product_id: 50001 }
+          ],
+          user_product_cart: [
+            { cart_id: 21, user_id: 10, add_to_cart_date: '2023-03-01', product_id: 50001 }
+          ]
+        },
+        expected: [
+          { product_id: 50001, view_count: 1, cart_count: 1, conversion_rate: 100 }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — High Scale Multi-Product Conversion',
+        isHidden: true,
+        data: {
+          user_product_view: [
+            { view_id: 31, user_id: 1, view_date: '2023-04-01', product_id: 60001 },
+            { view_id: 32, user_id: 2, view_date: '2023-04-01', product_id: 60001 },
+            { view_id: 33, user_id: 3, view_date: '2023-04-01', product_id: 60001 },
+            { view_id: 34, user_id: 4, view_date: '2023-04-01', product_id: 60001 },
+            { view_id: 35, user_id: 5, view_date: '2023-04-01', product_id: 60001 },
+            { view_id: 36, user_id: 1, view_date: '2023-04-02', product_id: 60002 },
+            { view_id: 37, user_id: 2, view_date: '2023-04-02', product_id: 60002 },
+            { view_id: 38, user_id: 3, view_date: '2023-04-02', product_id: 60002 },
+            { view_id: 39, user_id: 4, view_date: '2023-04-02', product_id: 60002 },
+            { view_id: 40, user_id: 5, view_date: '2023-04-02', product_id: 60002 },
+            { view_id: 41, user_id: 1, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 42, user_id: 2, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 43, user_id: 3, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 44, user_id: 4, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 45, user_id: 5, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 46, user_id: 6, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 47, user_id: 7, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 48, user_id: 8, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 49, user_id: 9, view_date: '2023-04-03', product_id: 60003 },
+            { view_id: 50, user_id: 10, view_date: '2023-04-03', product_id: 60003 }
+          ],
+          user_product_cart: [
+            { cart_id: 31, user_id: 1, add_to_cart_date: '2023-04-01', product_id: 60001 },
+            { cart_id: 32, user_id: 1, add_to_cart_date: '2023-04-02', product_id: 60002 },
+            { cart_id: 33, user_id: 2, add_to_cart_date: '2023-04-02', product_id: 60002 },
+            { cart_id: 34, user_id: 3, add_to_cart_date: '2023-04-02', product_id: 60002 },
+            { cart_id: 35, user_id: 4, add_to_cart_date: '2023-04-02', product_id: 60002 },
+            { cart_id: 36, user_id: 1, add_to_cart_date: '2023-04-03', product_id: 60003 },
+            { cart_id: 37, user_id: 2, add_to_cart_date: '2023-04-03', product_id: 60003 },
+            { cart_id: 38, user_id: 3, add_to_cart_date: '2023-04-03', product_id: 60003 },
+            { cart_id: 39, user_id: 4, add_to_cart_date: '2023-04-03', product_id: 60003 },
+            { cart_id: 40, user_id: 5, add_to_cart_date: '2023-04-03', product_id: 60003 }
+          ]
+        },
+        expected: [
+          { product_id: 60001, view_count: 5, cart_count: 1, conversion_rate: 20 },
+          { product_id: 60002, view_count: 5, cart_count: 4, conversion_rate: 80 },
+          { product_id: 60003, view_count: 10, cart_count: 5, conversion_rate: 50 }
+        ]
+      }
+    ]
+  },
+
+  // =========================================================================
+  // VERIFIED: 14th Jun 2025 (SQL: Average Project Cost Per Year)
+  // =========================================================================
+  {
+    id: 'recent-sql-006',
+    track: 'sql',
+    dateTag: '14th Jun 2025 • Shift 1',
+    examDate: '2025-06-14',
+    shift: 'Shift 1',
+    title: 'Average Project Cost Per Year',
+    difficulty: 'Easy',
+    category: 'Aggregation / GROUP BY & AVG',
+    source: 'Accenture Assessment 14th Jun 2025 (PYQ Series)',
+    isVerified: true,
+    description: `As a part of Accenture, a global professional services company, you are required to keep track of various projects carried out throughout the year and their respective costs.
+
+Write a SQL query to find out the **average project cost per year**, rounded to two decimal places. Order the results by \`year\` ascending.`,
+    rules: [
+      'Group projects by year.',
+      'Compute the average cost using AVG(cost).',
+      'Round the average cost to 2 decimal places: ROUND(AVG(cost), 2).',
+      'Alias the column as avg_cost and order by year ASC.'
+    ],
+    tableSchema: [
+      {
+        name: 'projects',
+        columns: [
+          { name: 'project_id', type: 'INTEGER', primaryKey: true },
+          { name: 'year', type: 'INTEGER', primaryKey: false },
+          { name: 'project_name', type: 'TEXT', primaryKey: false },
+          { name: 'cost', type: 'REAL', primaryKey: false }
+        ]
+      }
+    ],
+    examples: [
+      {
+        title: 'Example 1',
+        input: {
+          projects: [
+            { project_id: 101, year: 2021, project_name: 'Project Alpha', cost: 30000 },
+            { project_id: 102, year: 2021, project_name: 'Project Beta', cost: 50000 },
+            { project_id: 103, year: 2021, project_name: 'Project Gamma', cost: 15000 },
+            { project_id: 104, year: 2022, project_name: 'Project Delta', cost: 45000 },
+            { project_id: 105, year: 2022, project_name: 'Project Epsilon', cost: 35000 },
+            { project_id: 106, year: 2022, project_name: 'Project Zeta', cost: 27000 }
+          ]
+        },
+        output: [
+          { year: 2021, avg_cost: 31666.67 },
+          { year: 2022, avg_cost: 35666.67 }
+        ],
+        explanation: '2021 average: (30000 + 50000 + 15000) / 3 = 31666.67. 2022 average: (45000 + 35000 + 27000) / 3 = 35666.67.'
+      }
+    ],
+    starterCode: `-- Write your SQL query below
+`,
+    solution: `SELECT 
+    year, 
+    ROUND(AVG(cost), 2) AS avg_cost 
+FROM 
+    projects 
+GROUP BY 
+    year
+ORDER BY 
+    year;`,
+    explanation: `We group the rows by \`year\` and calculate \`ROUND(AVG(cost), 2)\`.
+Ordering by \`year ASC\` produces a clear, chronological breakdown of annual project expenditures.`,
+    expectedColumns: ['year', 'avg_cost'],
+    orderSensitive: true,
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Visible Test Case 1 — Multi-Year Budgets',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 101, year: 2021, project_name: 'Project Alpha', cost: 30000 },
+            { project_id: 102, year: 2021, project_name: 'Project Beta', cost: 50000 },
+            { project_id: 103, year: 2021, project_name: 'Project Gamma', cost: 15000 },
+            { project_id: 104, year: 2022, project_name: 'Project Delta', cost: 45000 },
+            { project_id: 105, year: 2022, project_name: 'Project Epsilon', cost: 35000 },
+            { project_id: 106, year: 2022, project_name: 'Project Zeta', cost: 27000 }
+          ]
+        },
+        expected: [
+          { year: 2021, avg_cost: 31666.67 },
+          { year: 2022, avg_cost: 35666.67 }
+        ]
+      },
+      {
+        id: 'tc-2',
+        name: 'Visible Test Case 2 — Single Year Round Average',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 201, year: 2023, project_name: 'Project Alpha', cost: 10000 },
+            { project_id: 202, year: 2023, project_name: 'Project Beta', cost: 20000 },
+            { project_id: 203, year: 2023, project_name: 'Project Gamma', cost: 30000 }
+          ]
+        },
+        expected: [
+          { year: 2023, avg_cost: 20000 }
+        ]
+      },
+      {
+        id: 'tc-3',
+        name: 'Visible Test Case 3 — Three Successive Financial Years',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 301, year: 2022, project_name: 'P1', cost: 40000 },
+            { project_id: 302, year: 2022, project_name: 'P2', cost: 60000 },
+            { project_id: 303, year: 2023, project_name: 'P3', cost: 75000 },
+            { project_id: 304, year: 2023, project_name: 'P4', cost: 85000 },
+            { project_id: 305, year: 2024, project_name: 'P5', cost: 90000 },
+            { project_id: 306, year: 2024, project_name: 'P6', cost: 110000 }
+          ]
+        },
+        expected: [
+          { year: 2022, avg_cost: 50000 },
+          { year: 2023, avg_cost: 80000 },
+          { year: 2024, avg_cost: 100000 }
+        ]
+      },
+      {
+        id: 'tc-4',
+        name: 'Visible Test Case 4 — Rounding Decimal Precision (.33)',
+        isHidden: false,
+        data: {
+          projects: [
+            { project_id: 401, year: 2024, project_name: 'Micro-A', cost: 1000 },
+            { project_id: 402, year: 2024, project_name: 'Micro-B', cost: 1000 },
+            { project_id: 403, year: 2024, project_name: 'Micro-C', cost: 2000 }
+          ]
+        },
+        expected: [
+          { year: 2024, avg_cost: 1333.33 }
+        ]
+      },
+      {
+        id: 'tc-5',
+        name: 'Hidden Test Case 5 — Multi-Department Enterprise Portfolio',
+        isHidden: true,
+        data: {
+          projects: [
+            { project_id: 501, year: 2020, project_name: 'D1', cost: 25000 },
+            { project_id: 502, year: 2020, project_name: 'D2', cost: 35000 },
+            { project_id: 503, year: 2021, project_name: 'D3', cost: 45000 },
+            { project_id: 504, year: 2021, project_name: 'D4', cost: 55000 },
+            { project_id: 505, year: 2022, project_name: 'D5', cost: 70000 },
+            { project_id: 506, year: 2022, project_name: 'D6', cost: 80000 },
+            { project_id: 507, year: 2023, project_name: 'D7', cost: 120000 },
+            { project_id: 508, year: 2023, project_name: 'D8', cost: 140000 }
+          ]
+        },
+        expected: [
+          { year: 2020, avg_cost: 30000 },
+          { year: 2021, avg_cost: 50000 },
+          { year: 2022, avg_cost: 75000 },
+          { year: 2023, avg_cost: 130000 }
+        ]
+      }
+    ]
   }
 ];
+
