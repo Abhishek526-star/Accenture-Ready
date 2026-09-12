@@ -205,6 +205,175 @@ public class RunningSumDivisibility {
     };
   }
 
+  if (question.id === 'recent-dsa-004') {
+    return {
+      python: `def calculate_power(n, p):
+    # TODO: Calculate N raised to the power P
+    pass
+
+if __name__ == "__main__":
+    print(calculate_power(2, 5)) # Expected: 32
+`,
+      java: `public class Solution {
+    public static long calculatePower(int n, int p) {
+        // TODO: Calculate N raised to the power P
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+long long calculatePower(int n, int p) {
+    // TODO: Calculate N raised to the power P
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static long CalculatePower(int n, int p) {
+        // TODO: Calculate N raised to the power P
+        return 0;
+    }
+}
+`,
+      javascript: `function calculatePower(n, p) {
+  // TODO: Calculate N raised to the power P
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-005') {
+    return {
+      python: `def move_hyphen(s, n):
+    # TODO: Move all hyphens (-) in 's' to the front
+    # Return null/None if s is None
+    pass
+
+if __name__ == "__main__":
+    print(move_hyphen("String-Compare", 14)) # Expected: "-StringCompare"
+`,
+      java: `public class Solution {
+    public static String moveHyphen(String str, int n) {
+        // TODO: Move all hyphens (-) to the front of str
+        // Return null if str is null
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string moveHyphen(const std::string& str, int n) {
+    // TODO: Move all hyphens to front
+    return "";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string MoveHyphen(string str, int n) {
+        // TODO: Move all hyphens to front
+        return "";
+    }
+}
+`,
+      javascript: `function moveHyphen(str, n) {
+  // TODO: Move all hyphens (-) to the front of str
+  // Return null if str is null
+  return "";
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-006') {
+    return {
+      python: `def count_special_elements(nums):
+    # TODO: Count elements with:
+    # 1. odd index and odd value (0-based indexing)
+    # 2. even index and even value
+    pass
+
+if __name__ == "__main__":
+    print(count_special_elements([2, 1, 4, 3, 6, 5])) # Expected: 6
+`,
+      java: `public class Solution {
+    public static int countSpecialElements(int[] nums) {
+        // TODO: Count elements with odd index & odd value + even index & even value
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int countSpecialElements(const std::vector<int>& nums) {
+    // TODO: Count odd index & odd value + even index & even value
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int CountSpecialElements(int[] nums) {
+        // TODO: Count odd index & odd value + even index & even value
+        return 0;
+    }
+}
+`,
+      javascript: `function countSpecialElements(nums) {
+  // TODO: Count elements with:
+  // 1. odd index & odd value (0-based indexing)
+  // 2. even index & even value
+  return 0;
+}
+`
+    };
+  }
+
+  if (question.id === 'recent-dsa-007') {
+    return {
+      python: `def reverse_number(n):
+    # TODO: Return the integer obtained after reversing the digits of N
+    pass
+
+if __name__ == "__main__":
+    print(reverse_number(12345)) # Expected: 54321
+`,
+      java: `public class Solution {
+    public static long reverseNumber(long n) {
+        // TODO: Return integer after reversing digits of N
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+long long reverseNumber(long long n) {
+    // TODO: Return integer after reversing digits of N
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static long ReverseNumber(long n) {
+        // TODO: Return integer after reversing digits of N
+        return 0;
+    }
+}
+`,
+      javascript: `function reverseNumber(n) {
+  // TODO: Return integer after reversing digits of N
+  return 0;
+}
+`
+    };
+  }
+
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
     java: `public class Solution {\n    public static void solve() {}\n}\n`,
@@ -552,6 +721,102 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               actual: `Running Sum = ${tc2.runningSum}, Count = ${tc2.count}`,
               passed: tc2.runningSum === 210 && tc2.count === 8,
               latency: '12ms'
+            }
+          ];
+        } else if (q.id === 'recent-dsa-004') {
+          const tc1 = q.runSimulation(2, 5);
+          const tc2 = q.runSimulation(3, 4);
+
+          results = [
+            {
+              id: 1,
+              name: 'Exam Test Case 1',
+              input: 'N = 2, P = 5',
+              expected: '32',
+              actual: `${tc1}`,
+              passed: tc1 === 32,
+              latency: '8ms'
+            },
+            {
+              id: 2,
+              name: 'Exam Test Case 2',
+              input: 'N = 3, P = 4',
+              expected: '81',
+              actual: `${tc2}`,
+              passed: tc2 === 81,
+              latency: '10ms'
+            }
+          ];
+        } else if (q.id === 'recent-dsa-005') {
+          const tc1 = q.runSimulation('String-Compare');
+          const tc2 = q.runSimulation('Move-Hyphens-To-Front');
+
+          results = [
+            {
+              id: 1,
+              name: 'Exam Test Case 1',
+              input: 'str = "String-Compare", n = 14',
+              expected: '"-StringCompare"',
+              actual: `"${tc1}"`,
+              passed: tc1 === '-StringCompare',
+              latency: '11ms'
+            },
+            {
+              id: 2,
+              name: 'Exam Test Case 2',
+              input: 'str = "Move-Hyphens-To-Front", n = 21',
+              expected: '"---MoveHyphensToFront"',
+              actual: `"${tc2}"`,
+              passed: tc2 === '---MoveHyphensToFront',
+              latency: '14ms'
+            }
+          ];
+        } else if (q.id === 'recent-dsa-006') {
+          const tc1 = q.runSimulation([2, 1, 4, 3, 6, 5]);
+          const tc2 = q.runSimulation([1, 2, 3, 4, 5]);
+
+          results = [
+            {
+              id: 1,
+              name: 'Exam Test Case 1 (Alternating Evens & Odds)',
+              input: 'nums = [2, 1, 4, 3, 6, 5]',
+              expected: 'Count: 6',
+              actual: `Count: ${tc1}`,
+              passed: tc1 === 6,
+              latency: '9ms'
+            },
+            {
+              id: 2,
+              name: 'Exam Test Case 2 (Inverted Parities)',
+              input: 'nums = [1, 2, 3, 4, 5]',
+              expected: 'Count: 0',
+              actual: `Count: ${tc2}`,
+              passed: tc2 === 0,
+              latency: '12ms'
+            }
+          ];
+        } else if (q.id === 'recent-dsa-007') {
+          const tc1 = q.runSimulation(12345);
+          const tc2 = q.runSimulation(98760);
+
+          results = [
+            {
+              id: 1,
+              name: 'Exam Test Case 1',
+              input: 'N = 12345',
+              expected: '54321',
+              actual: `${tc1}`,
+              passed: tc1 === 54321,
+              latency: '7ms'
+            },
+            {
+              id: 2,
+              name: 'Exam Test Case 2 (Trailing zero check)',
+              input: 'N = 98760',
+              expected: '6789',
+              actual: `${tc2}`,
+              passed: tc2 === 6789,
+              latency: '11ms'
             }
           ];
         }

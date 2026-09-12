@@ -602,6 +602,601 @@ calculateRunningSumAndDivisibility(10);`
   },
 
   // =========================================================================
+  // 14th Dec 2025 Shift 1 (DSA: Power of a Number)
+  // =========================================================================
+  {
+    id: 'recent-dsa-004',
+    track: 'dsa',
+    dateTag: '14th Dec 2025 • Shift 1',
+    examDate: '2025-12-14',
+    shift: 'Shift 1',
+    title: 'Power of a Number',
+    difficulty: 'Easy',
+    category: 'Math & Exponentiation',
+    source: 'Accenture Assessment 14th Dec 2025 (2025 PYQ Series)',
+    isVerified: true,
+    description: `Given two integers \`N\` and \`P\`, calculate \`N\` raised to the power \`P\` (i.e. N^P).
+
+Multiply N by itself P times to compute the exponentiation result.`,
+    rules: [
+      '1. Given base integer N and exponent integer P.',
+      '2. Calculate N multiplied by itself P times.',
+      '3. For any non-zero N, N^0 equals 1.',
+      '4. Return the calculated power value.'
+    ],
+    constraints: [
+      '0 <= N <= 20',
+      '0 <= P <= 30',
+      'Time Complexity: O(P) or O(log P)',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'N = 2, P = 5',
+        inputRaw: { N: 2, P: 5 },
+        expectedOutput: '32',
+        explanation: `2^5 = 2 * 2 * 2 * 2 * 2 = 32.`
+      },
+      {
+        id: 'tc-2',
+        input: 'N = 3, P = 4',
+        inputRaw: { N: 3, P: 4 },
+        expectedOutput: '81',
+        explanation: `3^4 = 3 * 3 * 3 * 3 = 81.`
+      },
+      {
+        id: 'tc-3',
+        input: 'N = 5, P = 0',
+        inputRaw: { N: 5, P: 0 },
+        expectedOutput: '1',
+        explanation: `Any non-zero number raised to the power 0 is 1: 5^0 = 1.`
+      }
+    ],
+    solutions: {
+      python: `def calculate_power(n, p):
+    # Method 1: Exponentiation
+    return n ** p
+
+# Test Case
+if __name__ == "__main__":
+    print(calculate_power(2, 5)) # Output: 32
+    print(calculate_power(3, 4)) # Output: 81`,
+
+      java: `public class Solution {
+    public static long calculatePower(int n, int p) {
+        long result = 1;
+        for (int i = 0; i < p; i++) {
+            result *= n;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calculatePower(2, 5)); // Output: 32
+        System.out.println(calculatePower(3, 4)); // Output: 81
+    }
+}`,
+
+      cpp: `#include <iostream>
+
+long long calculatePower(int n, int p) {
+    long long result = 1;
+    for (int i = 0; i < p; ++i) {
+        result *= n;
+    }
+    return result;
+}
+
+int main() {
+    std::cout << calculatePower(2, 5) << std::endl; // Output: 32
+    std::cout << calculatePower(3, 4) << std::endl; // Output: 81
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static long CalculatePower(int n, int p) {
+        long result = 1;
+        for (int i = 0; i < p; i++) {
+            result *= n;
+        }
+        return result;
+    }
+
+    public static void Main() {
+        Console.WriteLine(CalculatePower(2, 5)); // Output: 32
+        Console.WriteLine(CalculatePower(3, 4)); // Output: 81
+    }
+}`,
+
+      javascript: `function calculatePower(n, p) {
+  return Math.pow(n, p);
+}
+
+console.log(calculatePower(2, 5)); // Output: 32
+console.log(calculatePower(3, 4)); // Output: 81`
+    },
+    runSimulation: (N, P) => Math.pow(N, P)
+  },
+
+  // =========================================================================
+  // 1st Aug 2021 Slot 1 (DSA: Move Hyphens to Front)
+  // =========================================================================
+  {
+    id: 'recent-dsa-005',
+    track: 'dsa',
+    dateTag: '1st Aug 2021 • Slot 1',
+    examDate: '2021-08-01',
+    shift: 'Slot 1',
+    title: 'Move Hyphens to Front',
+    difficulty: 'Medium',
+    category: 'String Manipulation',
+    source: 'Accenture Offcampus 1st Aug 2021 Slot 1 (Actual Question 09)',
+    isVerified: true,
+    description: `Implement the following function:
+\`\`\`c
+char* MoveHyphen(char str[], int n);
+\`\`\`
+The function accepts a string \`str\` of length \`n\`, containing alphabets and hyphens (-). Implement the function to move all hyphens (-) in the string to the front of the given string.
+
+**NOTE:** Return \`null\` if \`str\` is null.`,
+    rules: [
+      '1. Return null if input string str is null.',
+      '2. Move all hyphen characters (-) to the beginning of the string.',
+      '3. Maintain the original relative order of all alphabet characters.',
+      '4. Return the resulting string.'
+    ],
+    constraints: [
+      '1 <= n <= 10^5',
+      'str contains English alphabets and hyphens (-).',
+      'Time Complexity: O(N)',
+      'Space Complexity: O(N)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'str = "String-Compare", n = 14',
+        inputRaw: 'String-Compare',
+        expectedOutput: '"-StringCompare"',
+        explanation: `All hyphens are moved to the beginning of the string while preserving the order of the remaining characters:
+• Total hyphens: 1 ('-')
+• Remaining letters: "StringCompare"
+• Final Output: "-StringCompare"`
+      },
+      {
+        id: 'tc-2',
+        input: 'str = "Move-Hyphens-To-Front", n = 21',
+        inputRaw: 'Move-Hyphens-To-Front',
+        expectedOutput: '"---MoveHyphensToFront"',
+        explanation: `• Total hyphens: 3 ('---')
+• Remaining letters: "MoveHyphensToFront"
+• Final Output: "---MoveHyphensToFront"`
+      },
+      {
+        id: 'tc-3',
+        input: 'str = "NoHyphensHere", n = 13',
+        inputRaw: 'NoHyphensHere',
+        expectedOutput: '"NoHyphensHere"',
+        explanation: `No hyphens found; the string remains unchanged.`
+      }
+    ],
+    solutions: {
+      python: `def move_hyphen(s, n):
+    if s is None:
+        return None
+    
+    hyphens = []
+    letters = []
+    
+    for ch in s:
+        if ch == '-':
+            hyphens.append(ch)
+        else:
+            letters.append(ch)
+            
+    return ''.join(hyphens) + ''.join(letters)
+
+# Test Cases
+print(move_hyphen("String-Compare", 14))        # "-StringCompare"
+print(move_hyphen("Move-Hyphens-To-Front", 21)) # "---MoveHyphensToFront"`,
+
+      java: `public class Solution {
+    public static String moveHyphen(String str, int n) {
+        if (str == null) return null;
+        
+        StringBuilder hyphens = new StringBuilder();
+        StringBuilder letters = new StringBuilder();
+        
+        for (int i = 0; i < n; i++) {
+            char ch = str.charAt(i);
+            if (ch == '-') {
+                hyphens.append(ch);
+            } else {
+                letters.append(ch);
+            }
+        }
+        
+        return hyphens.toString() + letters.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(moveHyphen("String-Compare", 14)); // -StringCompare
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <string>
+
+std::string moveHyphen(const std::string& str, int n) {
+    std::string hyphens = "";
+    std::string letters = "";
+    
+    for (int i = 0; i < n; ++i) {
+        if (str[i] == '-') {
+            hyphens += '-';
+        } else {
+            letters += str[i];
+        }
+    }
+    
+    return hyphens + letters;
+}
+
+int main() {
+    std::cout << moveHyphen("String-Compare", 14) << std::endl; // -StringCompare
+    return 0;
+}`,
+
+      csharp: `using System;
+using System.Text;
+
+public class Solution {
+    public static string MoveHyphen(string str, int n) {
+        if (str == null) return null;
+        
+        StringBuilder hyphens = new StringBuilder();
+        StringBuilder letters = new StringBuilder();
+        
+        for (int i = 0; i < n; i++) {
+            if (str[i] == '-') {
+                hyphens.Append('-');
+            } else {
+                letters.Append(str[i]);
+            }
+        }
+        
+        return hyphens.ToString() + letters.ToString();
+    }
+
+    public static void Main() {
+        Console.WriteLine(MoveHyphen("String-Compare", 14)); // -StringCompare
+    }
+}`,
+
+      javascript: `function moveHyphen(str, n) {
+  if (str === null) return null;
+  
+  let hyphens = '';
+  let letters = '';
+  
+  for (let i = 0; i < n; i++) {
+    if (str[i] === '-') {
+      hyphens += '-';
+    } else {
+      letters += str[i];
+    }
+  }
+  
+  return hyphens + letters;
+}
+
+console.log(moveHyphen("String-Compare", 14)); // -StringCompare`
+    },
+    runSimulation: (str) => {
+      if (str === null) return null;
+      let hyphens = '';
+      let letters = '';
+      for (let ch of str) {
+        if (ch === '-') hyphens += '-';
+        else letters += ch;
+      }
+      return hyphens + letters;
+    }
+  },
+
+  // =========================================================================
+  // 18th Dec 2025 Shift 2 (DSA: Count Special Elements)
+  // =========================================================================
+  {
+    id: 'recent-dsa-006',
+    track: 'dsa',
+    dateTag: '18th Dec 2025 • Shift 2',
+    examDate: '2025-12-18',
+    shift: 'Shift 2',
+    title: 'Count Special Elements',
+    difficulty: 'Easy',
+    category: 'Array / Parity & Index Matching',
+    source: 'Accenture Assessment 18th Dec 2025 (Q6 Special Elements)',
+    isVerified: true,
+    description: `Given an array of integers \`nums\`, count the elements with **odd index and odd value**, and the elements with **even index and even value**.
+
+Return the total count of such special elements.
+**Note:** Use 0-based indexing.`,
+    rules: [
+      '1. Iterate through the array using 0-based indexing (i = 0 to nums.length - 1).',
+      '2. If (i % 2 == 0 && nums[i] % 2 == 0): Count as even index & even value.',
+      '3. If (i % 2 != 0 && nums[i] % 2 != 0): Count as odd index & odd value.',
+      '4. Return the total count of matched elements.'
+    ],
+    constraints: [
+      '1 <= nums.length <= 10^5',
+      '1 <= nums[i] <= 10^9',
+      'Time Complexity: O(N)',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'nums = [2, 1, 4, 3, 6, 5]',
+        inputRaw: [2, 1, 4, 3, 6, 5],
+        expectedOutput: '6',
+        explanation: `• Even index & even value: 3 -> (nums[0]=2, nums[2]=4, nums[4]=6)
+• Odd index & odd value: 3 -> (nums[1]=1, nums[3]=3, nums[5]=5)
+• Total matching count: 3 + 3 = 6`
+      },
+      {
+        id: 'tc-2',
+        input: 'nums = [1, 2, 3, 4, 5]',
+        inputRaw: [1, 2, 3, 4, 5],
+        expectedOutput: '0',
+        explanation: `• Even indices (0, 2, 4) contain odd numbers (1, 3, 5).
+• Odd indices (1, 3) contain even numbers (2, 4).
+• Total matching count = 0.`
+      },
+      {
+        id: 'tc-3',
+        input: 'nums = [10, 11, 12, 13]',
+        inputRaw: [10, 11, 12, 13],
+        expectedOutput: '4',
+        explanation: `• Even pairs: nums[0]=10, nums[2]=12 (2 elements)
+• Odd pairs: nums[1]=11, nums[3]=13 (2 elements)
+• Total count: 4`
+      }
+    ],
+    solutions: {
+      python: `def count_special_elements(nums):
+    count = 0
+    for i, val in enumerate(nums):
+        if (i % 2 == 0 and val % 2 == 0) or (i % 2 != 0 and val % 2 != 0):
+            count += 1
+    return count
+
+# Test Case
+print(count_special_elements([2, 1, 4, 3, 6, 5])) # Output: 6
+print(count_special_elements([1, 2, 3, 4, 5]))    # Output: 0`,
+
+      java: `public class Solution {
+    public static int countSpecialElements(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if ((i % 2 == 0 && nums[i] % 2 == 0) || (i % 2 != 0 && nums[i] % 2 != 0)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 1, 4, 3, 6, 5};
+        System.out.println(countSpecialElements(arr)); // Output: 6
+    }
+}`,
+
+      cpp: `#include <iostream>
+#include <vector>
+
+int countSpecialElements(const std::vector<int>& nums) {
+    int count = 0;
+    for (int i = 0; i < (int)nums.size(); ++i) {
+        if ((i % 2 == 0 && nums[i] % 2 == 0) || (i % 2 != 0 && nums[i] % 2 != 0)) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    std::cout << countSpecialElements({2, 1, 4, 3, 6, 5}) << std::endl; // Output: 6
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static int CountSpecialElements(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.Length; i++) {
+            if ((i % 2 == 0 && nums[i] % 2 == 0) || (i % 2 != 0 && nums[i] % 2 != 0)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void Main() {
+        int[] arr = {2, 1, 4, 3, 6, 5};
+        Console.WriteLine(CountSpecialElements(arr)); // Output: 6
+    }
+}`,
+
+      javascript: `function countSpecialElements(nums) {
+  let count = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if ((i % 2 === 0 && nums[i] % 2 === 0) || (i % 2 !== 0 && nums[i] % 2 !== 0)) {
+      count++;
+    }
+  }
+  return count;
+}
+
+console.log(countSpecialElements([2, 1, 4, 3, 6, 5])); // Output: 6`
+    },
+    runSimulation: (nums) => {
+      let count = 0;
+      for (let i = 0; i < nums.length; i++) {
+        if ((i % 2 === 0 && nums[i] % 2 === 0) || (i % 2 !== 0 && nums[i] % 2 !== 0)) {
+          count++;
+        }
+      }
+      return count;
+    }
+  },
+
+  // =========================================================================
+  // 22nd Dec 2025 Shift 1 (DSA: Reverse a Number)
+  // =========================================================================
+  {
+    id: 'recent-dsa-007',
+    track: 'dsa',
+    dateTag: '22nd Dec 2025 • Shift 1',
+    examDate: '2025-12-22',
+    shift: 'Shift 1',
+    title: 'Reverse a Number',
+    difficulty: 'Easy',
+    category: 'Math & Digits / Modulo Arithmetic',
+    source: 'Accenture Assessment 22nd Dec 2025 (2025 PYQ Series)',
+    isVerified: true,
+    description: `Given an integer \`N\`, return the integer obtained after reversing the digits of \`N\`.
+
+Extract the digits from right to left using modulo 10 arithmetic to construct the reversed integer.`,
+    rules: [
+      '1. Initialize rev = 0.',
+      '2. In a loop while N > 0: extract digit = N % 10, rev = rev * 10 + digit, N = N // 10.',
+      '3. Return the reversed integer rev.'
+    ],
+    constraints: [
+      '1 <= N <= 10^9',
+      'N does not have leading zeros.',
+      'Time Complexity: O(log10(N))',
+      'Space Complexity: O(1)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'N = 12345',
+        inputRaw: 12345,
+        expectedOutput: '54321',
+        explanation: `Reversing the digits of 12345 gives 54321:
+• 12345 % 10 = 5 -> rev = 5
+• 1234 % 10 = 4 -> rev = 54
+• 123 % 10 = 3 -> rev = 543
+• 12 % 10 = 2 -> rev = 5432
+• 1 % 10 = 1 -> rev = 54321`
+      },
+      {
+        id: 'tc-2',
+        input: 'N = 98760',
+        inputRaw: 98760,
+        expectedOutput: '6789',
+        explanation: `Reversing 98760 removes the trailing zero when converted to an integer: 6789.`
+      },
+      {
+        id: 'tc-3',
+        input: 'N = 7',
+        inputRaw: 7,
+        expectedOutput: '7',
+        explanation: `A single digit number reversed is itself: 7.`
+      }
+    ],
+    solutions: {
+      python: `def reverse_number(n):
+    rev = 0
+    while n > 0:
+        rev = (rev * 10) + (n % 10)
+        n //= 10
+    return rev
+
+# Test Cases
+print(reverse_number(12345)) # Output: 54321
+print(reverse_number(98760)) # Output: 6789`,
+
+      java: `public class Solution {
+    public static long reverseNumber(long n) {
+        long rev = 0;
+        while (n > 0) {
+            rev = (rev * 10) + (n % 10);
+            n /= 10;
+        }
+        return rev;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(reverseNumber(12345)); // Output: 54321
+        System.out.println(reverseNumber(98760)); // Output: 6789
+    }
+}`,
+
+      cpp: `#include <iostream>
+
+long long reverseNumber(long long n) {
+    long long rev = 0;
+    while (n > 0) {
+        rev = (rev * 10) + (n % 10);
+        n /= 10;
+    }
+    return rev;
+}
+
+int main() {
+    std::cout << reverseNumber(12345) << std::endl; // Output: 54321
+    std::cout << reverseNumber(98760) << std::endl; // Output: 6789
+    return 0;
+}`,
+
+      csharp: `using System;
+
+public class Solution {
+    public static long ReverseNumber(long n) {
+        long rev = 0;
+        while (n > 0) {
+            rev = (rev * 10) + (n % 10);
+            n /= 10;
+        }
+        return rev;
+    }
+
+    public static void Main() {
+        Console.WriteLine(ReverseNumber(12345)); // Output: 54321
+        Console.WriteLine(ReverseNumber(98760)); // Output: 6789
+    }
+}`,
+
+      javascript: `function reverseNumber(n) {
+  let rev = 0;
+  while (n > 0) {
+    rev = (rev * 10) + (n % 10);
+    n = Math.floor(n / 10);
+  }
+  return rev;
+}
+
+console.log(reverseNumber(12345)); // Output: 54321
+console.log(reverseNumber(98760)); // Output: 6789`
+    },
+    runSimulation: (N) => {
+      let rev = 0;
+      let temp = N;
+      while (temp > 0) {
+        rev = rev * 10 + (temp % 10);
+        temp = Math.floor(temp / 10);
+      }
+      return rev;
+    }
+  },
+
+  // =========================================================================
   // VERIFIED: 10th Sept Shift 1 (Frontend from authentic exam paper)
   // =========================================================================
   {
