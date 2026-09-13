@@ -1,5 +1,7 @@
 // src/utils/dsaCodeTemplates.js
 // Multi-language code templates, test cases, and evaluation helpers for Accenture DSA Pattern questions
+import { getDsaQuestionTestCases } from '../data/dsaTestCases.js';
+import { DSA_OPTIMAL_SOLUTIONS } from '../data/dsaOptimalSolutions.js';
 
 export const DSA_LANGUAGES = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
@@ -302,6 +304,17 @@ function translateJavaToPython(javaCode, title, concept) {
  * Returns multi-language solutions for a question.
  */
 export function getQuestionSolutions(question) {
+  if (question && question.id && DSA_OPTIMAL_SOLUTIONS[question.id]) {
+    const opt = DSA_OPTIMAL_SOLUTIONS[question.id];
+    return {
+      python: opt.python,
+      java: opt.java,
+      cpp: opt.cpp,
+      csharp: opt.csharp || translateJavaToCsharp(question.template, question.title),
+      javascript: opt.javascript
+    };
+  }
+
   const javaCode = question.template
     ? `import java.util.*;\n\npublic class Solution {\n    ${question.template.replace(/\n/g, '\n    ')}\n}`
     : `// ${question.title}\npublic class Solution {\n    public static void solve() {}\n}`;
@@ -321,6 +334,11 @@ export function getQuestionSolutions(question) {
 export function getQuestionTestCases(question) {
   if (question.testCases && question.testCases.length > 0) {
     return question.testCases;
+  }
+
+  const dsaTc = getDsaQuestionTestCases(question.id);
+  if (dsaTc && dsaTc.length > 0) {
+    return dsaTc;
   }
 
   // Parse example if available

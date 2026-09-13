@@ -23,16 +23,77 @@ import {
   Clock,
   Database,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  X
 } from 'lucide-react';
 import { getTodaysChallenge, markTodayChallengeComplete } from '../data/dailyChallenges.js';
 import { gamificationService } from '../services/gamificationService.js';
+import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+
+const DC_CPP_STARTERS = {
+  'dc-01': `#include <iostream>
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        // TODO: Complete this function
+        // Find the first non-repeating character in s and return its index
+        // Return -1 if no unique character exists
+        return -1;
+    }
+};
+`,
+  'dc-02': `#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        // TODO: Complete this function
+        // Clean string to lowercase alphanumeric and return true if it's a palindrome
+        return false;
+    }
+};
+`,
+  'dc-03': `#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // TODO: Complete this function
+        // Return indices of the two numbers such that they add up to target
+        return {};
+    }
+};
+`,
+  'dc-04': `#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        // TODO: Complete this function
+        // Move all 0's to the end while maintaining relative order of non-zero elements
+    }
+};
+`
+};
 
 const LANGUAGE_CONFIG = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
   { id: 'java', label: 'Java', monacoLang: 'java', icon: '☕' },
+  { id: 'cpp', label: 'C++', monacoLang: 'cpp', icon: '⚙️' },
   { id: 'csharp', label: 'C#', monacoLang: 'csharp', icon: '🔷' },
   { id: 'javascript', label: 'JavaScript', monacoLang: 'javascript', icon: '⚡' }
 ];
@@ -47,6 +108,7 @@ export default function DailyChallengePage({ theme = 'dark' }) {
     return {
       python: templates.python || '',
       java: templates.java || '',
+      cpp: templates.cpp || DC_CPP_STARTERS[challenge.id] || '',
       csharp: templates.csharp || '',
       javascript: templates.javascript || ''
     };
@@ -55,6 +117,7 @@ export default function DailyChallengePage({ theme = 'dark' }) {
   const [revealedHints, setRevealedHints] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [testResults, setTestResults] = useState(null);
+  const [executionEngine, setExecutionEngine] = useState('Judge0 CE');
   const [isPassed, setIsPassed] = useState(challenge.isCompletedToday);
   const [gamify, setGamify] = useState(() => gamificationService.getState());
   
@@ -114,37 +177,95 @@ export default function DailyChallengePage({ theme = 'dark' }) {
     }
   };
 
-  // Run Test Cases with multi-language evaluation
-  const handleRunCode = () => {
+  // Run Test Cases with Judge0 CE remote compiler
+  const handleRunCode = async () => {
     setIsRunning(true);
     setTestResults(null);
 
-    setTimeout(() => {
-      try {
-        const codeToTest = currentCode.trim();
+    const codeToTest = currentCode.trim();
+    if (!codeToTest) {
+      setTestResults({
+        allPassed: false,
+        error: 'Please enter your solution code before running test cases.',
+        results: [],
+        executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+        isJudge0: true
+      });
+      setIsRunning(false);
+      return;
+    }
 
-        // 1. Check if user hasn't modified starter function or left placeholder
-        const isUntouched =
-          codeToTest === (challenge.starterTemplates[selectedLang] || '').trim() ||
-          (selectedLang === 'python' && codeToTest.includes('pass') && !codeToTest.includes('return ')) ||
-          (selectedLang === 'java' && codeToTest.includes('return -1;') && challenge.id !== 'dc-01');
+    try {
+      // 1. Submit to Judge0 CE
+      const j0Res = await executeDsaOnJudge0(challenge, currentCode, selectedLang);
 
-        if (isUntouched) {
-          throw new Error('Please complete the function logic before running test cases. The function body is currently incomplete.');
-        }
-
-        let results = [];
-
-        if (selectedLang === 'javascript') {
-          // Safe JS function execution
-          // eslint-disable-next-line no-new-func
-          const userFn = new Function(`${codeToTest}; return firstUniqChar || isPalindrome || twoSum || moveZeroes;`)();
-
-          if (typeof userFn !== 'function') {
-            throw new Error('Solution function not found. Please ensure the function name matches the starter code.');
+      if (j0Res.isJudge0 && j0Res.success) {
+        const latencyStr = j0Res.time ? `${Math.round(parseFloat(j0Res.time) * 1000)}ms` : '71ms';
+        const results = challenge.testCases.map((tc, idx) => {
+          const actual = j0Res.testOutputs[idx] !== undefined ? j0Res.testOutputs[idx] : 'No output';
+          let passed = false;
+          if (typeof tc.expected === 'boolean') {
+            passed = String(actual).trim().toLowerCase() === String(tc.expected).toLowerCase();
+          } else if (typeof tc.expected === 'number') {
+            passed = Number(actual) === tc.expected;
+          } else if (Array.isArray(tc.expected)) {
+            passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
+          } else {
+            passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
           }
 
-          results = challenge.testCases.map((tc, idx) => {
+          return {
+            id: idx + 1,
+            name: `Exam Test Case ${idx + 1}`,
+            input: typeof tc.input === 'object' ? JSON.stringify(tc.input) : String(tc.input),
+            expected: typeof tc.expected === 'object' ? JSON.stringify(tc.expected) : String(tc.expected),
+            actual: typeof actual === 'object' ? JSON.stringify(actual) : String(actual),
+            passed,
+            latency: latencyStr
+          };
+        });
+
+        const allPassed = results.length > 0 && results.every(r => r.passed);
+        setTestResults({
+          allPassed,
+          results,
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          execTime: latencyStr,
+          isJudge0: true
+        });
+
+        if (allPassed && !isPassed) {
+          setIsPassed(true);
+          markTodayChallengeComplete();
+          gamificationService.addXP(challenge.xpReward, 'Solved Daily Challenge');
+          setGamify(gamificationService.getState());
+        }
+        setIsRunning(false);
+        return;
+      } else if (!j0Res.isFallback && !j0Res.success) {
+        // Compiler error / runtime error on Judge0
+        setTestResults({
+          allPassed: false,
+          error: `${j0Res.errorType || 'Remote Execution Error'}: ${j0Res.errorMessage || 'Execution error on Judge0'}`,
+          results: [],
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          isJudge0: true
+        });
+        setIsRunning(false);
+        return;
+      }
+
+      // 2. Fallback only if offline or network connection to Judge0 timed out
+      if (selectedLang === 'javascript') {
+        try {
+          // eslint-disable-next-line no-new-func
+          const userFn = new Function(`${codeToTest}; return typeof firstUniqChar === 'function' ? firstUniqChar : (typeof isPalindrome === 'function' ? isPalindrome : (typeof twoSum === 'function' ? twoSum : (typeof moveZeroes === 'function' ? moveZeroes : null)));`)();
+
+          if (typeof userFn !== 'function') {
+            throw new Error('Solution function not found. Please ensure function name matches the starter code.');
+          }
+
+          const results = challenge.testCases.map((tc, idx) => {
             try {
               let actual;
               if (typeof tc.input === 'object' && tc.input.nums && tc.input.target !== undefined) {
@@ -155,18 +276,30 @@ export default function DailyChallengePage({ theme = 'dark' }) {
                 actual = userFn(tc.input);
               }
 
-              const passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
+              let passed = false;
+              if (typeof tc.expected === 'boolean') {
+                passed = String(actual).toLowerCase() === String(tc.expected).toLowerCase();
+              } else if (typeof tc.expected === 'number') {
+                passed = Number(actual) === tc.expected;
+              } else if (Array.isArray(tc.expected)) {
+                passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
+              } else {
+                passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
+              }
+
               return {
                 id: idx + 1,
-                input: JSON.stringify(tc.input),
-                expected: JSON.stringify(tc.expected),
-                actual: JSON.stringify(actual),
+                name: `Exam Test Case ${idx + 1}`,
+                input: typeof tc.input === 'object' ? JSON.stringify(tc.input) : String(tc.input),
+                expected: typeof tc.expected === 'object' ? JSON.stringify(tc.expected) : String(tc.expected),
+                actual: typeof actual === 'object' ? JSON.stringify(actual) : String(actual),
                 passed,
-                latency: `${Math.floor(Math.random() * 8) + 8}ms`
+                latency: '16ms'
               };
             } catch (err) {
               return {
                 id: idx + 1,
+                name: `Exam Test Case ${idx + 1}`,
                 input: JSON.stringify(tc.input),
                 expected: JSON.stringify(tc.expected),
                 actual: `Runtime Error: ${err.message}`,
@@ -175,80 +308,51 @@ export default function DailyChallengePage({ theme = 'dark' }) {
               };
             }
           });
-        } else {
-          // Multi-language Evaluator for Python, Java, C#
-          // Validate syntax structure & algorithmic correctness indicators
-          const lowerCode = codeToTest.toLowerCase();
-          let logicValid = false;
 
-          if (challenge.id === 'dc-01') {
-            // First Non-Repeating Character
-            // Needs frequency count (dict/counter/map/count) and traversal (enumerate/for/indexOf)
-            logicValid =
-              (lowerCode.includes('count') || lowerCode.includes('freq') || lowerCode.includes('map') || lowerCode.includes('charat') || lowerCode.includes('indexof')) &&
-              (lowerCode.includes('for ') || lowerCode.includes('foreach') || lowerCode.includes('enumerate'));
-          } else if (challenge.id === 'dc-02') {
-            // Valid Palindrome
-            // Needs filtering/reverse/pointers (isalnum/replace/left/right/[::-1]/length)
-            logicValid =
-              (lowerCode.includes('replace') || lowerCode.includes('isalnum') || lowerCode.includes('regex') || lowerCode.includes('tolower')) &&
-              (lowerCode.includes('==') || lowerCode.includes('left < right') || lowerCode.includes('charat') || lowerCode.includes('[::-1]'));
-          } else if (challenge.id === 'dc-03') {
-            // Two Sum
-            // Needs diff / complement or hash map / dictionary / index lookup
-            logicValid =
-              (lowerCode.includes('diff') || lowerCode.includes('complement') || lowerCode.includes('target -') || lowerCode.includes('map') || lowerCode.includes('dict') || lowerCode.includes('seen')) &&
-              (lowerCode.includes('return') && !lowerCode.includes('return -1'));
-          } else if (challenge.id === 'dc-04') {
-            // Move Zeroes
-            // Needs insert position or in-place shift
-            logicValid =
-              (lowerCode.includes('insert') || lowerCode.includes('pos') || lowerCode.includes('!= 0') || lowerCode.includes('!== 0')) &&
-              (lowerCode.includes('for ') || lowerCode.includes('while'));
+          const allPassed = results.length > 0 && results.every(r => r.passed);
+          setTestResults({
+            allPassed,
+            results,
+            executionEngine: 'Local Sandbox (Judge0 Offline)',
+            execTime: '16ms',
+            isJudge0: false
+          });
+
+          if (allPassed && !isPassed) {
+            setIsPassed(true);
+            markTodayChallengeComplete();
+            gamificationService.addXP(challenge.xpReward, 'Solved Daily Challenge');
+            setGamify(gamificationService.getState());
           }
-
-          // If valid logic, all test cases pass
-          results = challenge.testCases.map((tc, idx) => {
-            const passed = logicValid;
-            const actual = passed
-              ? tc.expected
-              : (challenge.id === 'dc-01' ? -1 : (challenge.id === 'dc-02' ? false : (challenge.id === 'dc-03' ? [] : tc.input)));
-
-            return {
-              id: idx + 1,
-              input: JSON.stringify(tc.input),
-              expected: JSON.stringify(tc.expected),
-              actual: JSON.stringify(actual),
-              passed,
-              latency: `${Math.floor(Math.random() * 12) + 12}ms`
-            };
+        } catch (err) {
+          setTestResults({
+            allPassed: false,
+            error: `Execution Error: ${err.message}`,
+            results: [],
+            executionEngine: 'Local Sandbox (Judge0 Offline)',
+            isJudge0: false
           });
         }
-
-        const allPassed = results.every(r => r.passed);
-        setTestResults(results);
-
-        if (allPassed && !isPassed) {
-          setIsPassed(true);
-          markTodayChallengeComplete();
-          gamificationService.addXP(challenge.xpReward, 'Solved Daily Challenge');
-          setGamify(gamificationService.getState());
-        }
-      } catch (e) {
-        setTestResults([
-          {
-            id: 1,
-            input: 'Compilation / Verification',
-            expected: 'Successful execution',
-            actual: e.message,
-            passed: false,
-            latency: '0ms'
-          }
-        ]);
-      } finally {
-        setIsRunning(false);
+      } else {
+        setTestResults({
+          allPassed: false,
+          error: `Remote execution failed: ${j0Res?.error || 'Unable to connect to Judge0 CE (Remote Compiler). Please check your internet connection or try again.'}`,
+          results: [],
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          isJudge0: true
+        });
       }
-    }, 450);
+    } catch (e) {
+      setTestResults({
+        allPassed: false,
+        error: e.message,
+        results: [],
+        executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+        isJudge0: true
+      });
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   return (
@@ -671,26 +775,62 @@ export default function DailyChallengePage({ theme = 'dark' }) {
                   }}
                 >
                   <Play size={14} fill="#ffffff" />
-                  <span>{isRunning ? 'Running...' : 'Run Tests'}</span>
+                  <span>{isRunning ? 'Compiling on Judge0...' : 'Run on Judge0 ⭐'}</span>
                 </button>
               </div>
             </div>
 
-            {/* Note: Function Completion instruction */}
+            {/* Instruction note + Monaco & Judge0 Badges */}
             <div style={{
               background: '#0b1329',
               borderBottom: '1px solid #1e293b',
-              padding: '6px 16px',
+              padding: '7px 16px',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
               gap: '8px',
               fontSize: '0.75rem',
-              color: '#94a3b8'
+              color: '#94a3b8',
+              flexWrap: 'wrap'
             }}>
-              <Code2 size={14} className="text-amber-400" />
-              <span>
-                <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Code2 size={14} className="text-amber-400" />
+                <span>
+                  <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  background: 'rgba(99, 102, 241, 0.14)',
+                  border: '1px solid rgba(99, 102, 241, 0.32)',
+                  color: '#a5b4fc',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '0.72rem'
+                }}>
+                  <Sparkles size={12} className="text-indigo-400" />
+                  Monaco Editor ⭐
+                </span>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  background: 'rgba(16, 185, 129, 0.14)',
+                  border: '1px solid rgba(16, 185, 129, 0.32)',
+                  color: '#6ee7b7',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '0.72rem'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+                  Judge0 ⭐ Remote Compiler
+                </span>
+              </div>
             </div>
 
             {/* Monaco Editor Component */}
@@ -725,71 +865,129 @@ export default function DailyChallengePage({ theme = 'dark' }) {
           {testResults && (
             <div style={{
               background: '#1e293b',
-              border: '1px solid #334155',
+              border: testResults.allPassed ? '1px solid #22c55e' : '1px solid #ef4444',
               borderRadius: '14px',
               padding: '1.25rem',
               boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <h3 style={{ fontSize: '1rem', color: '#f8fafc', margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>Test Case Evaluation</span>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 500 }}>
-                    ({LANGUAGE_CONFIG.find(l => l.id === selectedLang)?.label} Engine)
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {testResults.allPassed ? (
+                    <CheckCircle2 size={20} className="text-emerald-400" />
+                  ) : testResults.error ? (
+                    <X size={20} className="text-rose-400" />
+                  ) : (
+                    <Sparkles size={20} className="text-amber-400" />
+                  )}
+                  <h4 style={{
+                    margin: 0,
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15'
+                  }}>
+                    {testResults.allPassed
+                      ? 'All Exam Test Cases Passed! +50 XP Awarded'
+                      : testResults.error
+                      ? 'Test Execution Error'
+                      : `Tests Incomplete (${testResults.results.filter(r => r.passed).length} / ${testResults.results.length} Passed)`}
+                  </h4>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{
+                    fontSize: '0.74rem',
+                    fontWeight: 700,
+                    color: testResults.isJudge0 !== false ? '#38bdf8' : '#cbd5e1',
+                    background: testResults.isJudge0 !== false ? 'rgba(56, 189, 248, 0.12)' : 'rgba(100, 116, 139, 0.16)',
+                    border: testResults.isJudge0 !== false ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid rgba(100, 116, 139, 0.3)',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <span>⚡</span>
+                    <span>{testResults.executionEngine || 'Judge0 CE ⭐ (Remote Compiler)'}</span>
+                    {testResults.execTime && <span style={{ opacity: 0.85 }}>({testResults.execTime})</span>}
                   </span>
-                </h3>
-                <span style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  padding: '2px 8px',
-                  borderRadius: '6px',
-                  background: testResults.every(r => r.passed) ? 'rgba(74, 222, 128, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                  color: testResults.every(r => r.passed) ? '#4ade80' : '#ef4444'
-                }}>
-                  {testResults.filter(r => r.passed).length}/{testResults.length} Passed
-                </span>
+                  <span style={{
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15',
+                    background: testResults.allPassed
+                      ? 'rgba(34, 197, 94, 0.12)'
+                      : testResults.error
+                      ? 'rgba(239, 68, 68, 0.12)'
+                      : 'rgba(245, 158, 11, 0.12)',
+                    padding: '3px 8px',
+                    borderRadius: '6px'
+                  }}>
+                    {testResults.results.filter(r => r.passed).length} / {testResults.results.length} Passed
+                  </span>
+                </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                {testResults.map((tr) => (
-                  <div
-                    key={tr.id}
-                    style={{
-                      background: '#0f172a',
-                      border: tr.passed ? '1px solid rgba(74, 222, 128, 0.3)' : '1px solid rgba(239, 68, 68, 0.4)',
-                      borderRadius: '8px',
-                      padding: '10px 14px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: '0.5rem'
-                    }}
-                  >
-                    <div>
-                      <span style={{
-                        color: tr.passed ? '#4ade80' : '#ef4444',
-                        fontWeight: 700,
-                        marginRight: '10px',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.85rem'
-                      }}>
-                        {tr.passed ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
-                        <span>Case {tr.id} {tr.passed ? 'Passed' : 'Failed'}</span>
-                      </span>
-                      <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'JetBrains Mono' }}>
-                        Input: {tr.input}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#cbd5e1', fontFamily: 'JetBrains Mono', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <span>Expected: <strong style={{ color: '#4ade80' }}>{tr.expected}</strong></span>
-                      <span>Output: <strong style={{ color: tr.passed ? '#4ade80' : '#ef4444' }}>{tr.actual}</strong></span>
-                      {tr.latency && <span style={{ color: '#64748b', fontSize: '0.75rem' }}>{tr.latency}</span>}
-                    </div>
+              {testResults.error && (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  color: '#fca5a5',
+                  fontSize: '0.82rem',
+                  fontFamily: "'JetBrains Mono', Consolas, monospace",
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.6,
+                  marginBottom: testResults.results.length > 0 ? '0.75rem' : 0,
+                  maxHeight: '220px',
+                  overflowY: 'auto'
+                }}>
+                  <div style={{ fontWeight: 700, color: '#f87171', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <X size={14} />
+                    <span>Compiler / Diagnostic Output</span>
                   </div>
-                ))}
-              </div>
+                  {testResults.error}
+                </div>
+              )}
+
+              {testResults.results.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {testResults.results.map((tr) => (
+                    <div
+                      key={tr.id}
+                      style={{
+                        background: '#0f172a',
+                        border: tr.passed ? '1px solid #334155' : '1px solid rgba(239, 68, 68, 0.4)',
+                        borderRadius: '8px',
+                        padding: '10px 14px',
+                        fontSize: '0.85rem'
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                        <span style={{ fontWeight: 700, color: '#38bdf8' }}>Exam Test Case {tr.id}</span>
+                        <span style={{
+                          color: tr.passed ? '#4ade80' : '#f87171',
+                          fontSize: '0.75rem',
+                          background: tr.passed ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                          padding: '1px 6px',
+                          borderRadius: '4px',
+                          fontWeight: 700
+                        }}>
+                          {tr.passed ? `Passed (${tr.latency})` : 'Failed'}
+                        </span>
+                      </div>
+                      <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                        Input: <span style={{ color: '#cbd5e1' }}>{tr.input}</span>
+                      </div>
+                      <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                        Expected: <span style={{ color: '#94a3b8' }}>{tr.expected}</span>
+                      </div>
+                      <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                        Output: <span style={{ color: tr.passed ? '#4ade80' : '#f87171' }}>{tr.actual}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {isPassed && (
                 <div style={{

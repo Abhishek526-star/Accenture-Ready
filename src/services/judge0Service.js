@@ -1,5 +1,6 @@
 // src/services/judge0Service.js
 // Judge0 Community Edition (CE) Online Code Execution Service
+import { DSA_TEST_CASES } from '../data/dsaTestCases.js';
 
 export const JUDGE0_LANGUAGE_IDS = {
   python: 71,    // Python (3.8.1)
@@ -10,6 +11,21 @@ export const JUDGE0_LANGUAGE_IDS = {
 };
 
 const JUDGE0_BASE_URL = 'https://ce.judge0.com';
+
+/**
+ * Normalizes stdout/expected strings for robust comparison
+ */
+export function normalizeOutput(output) {
+  if (output === null || output === undefined) return '';
+  if (typeof output === 'object') output = JSON.stringify(output);
+  return String(output)
+    .trim()
+    .replace(/\r\n/g, '\n')
+    .replace(/\s*,\s*/g, ',')
+    .split(/\s+/)
+    .join(' ')
+    .toLowerCase();
+}
 
 /**
  * Builds test harness code for Judge0 execution
@@ -241,6 +257,106 @@ for _n1, _n2 in _tests:
         print("TEST_RES:" + str(fn(_n1, _n2)))
     except Exception as _e:
         print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'dc-01') {
+      return `${cleanUserCode}
+
+import json
+_tests = ["accenture", "loveleetcode", "aabb", "z", "swiss"]
+_sol = Solution() if 'Solution' in dir() else None
+for _s in _tests:
+    try:
+        fn = _sol.firstUniqChar if (_sol and hasattr(_sol, 'firstUniqChar')) else (firstUniqChar if 'firstUniqChar' in dir() else first_uniq_char)
+        print("TEST_RES:" + json.dumps(fn(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'dc-02') {
+      return `${cleanUserCode}
+
+import json
+_tests = ["A man, a plan, a canal: Panama", "race a car", " ", "Was it a car or a cat I saw?", "0P"]
+_sol = Solution() if 'Solution' in dir() else None
+for _s in _tests:
+    try:
+        fn = _sol.isPalindrome if (_sol and hasattr(_sol, 'isPalindrome')) else (isPalindrome if 'isPalindrome' in dir() else is_palindrome)
+        print("TEST_RES:" + json.dumps(fn(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'dc-03') {
+      return `${cleanUserCode}
+
+import json
+_tests = [([2, 7, 11, 15], 9), ([3, 2, 4], 6), ([3, 3], 6), ([1, 3, 7, 15], 10), ([-3, 4, 3, 90], 0)]
+_sol = Solution() if 'Solution' in dir() else None
+for _nums, _t in _tests:
+    try:
+        fn = _sol.twoSum if (_sol and hasattr(_sol, 'twoSum')) else (twoSum if 'twoSum' in dir() else two_sum)
+        print("TEST_RES:" + json.dumps(fn(_nums, _t)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'dc-04') {
+      return `${cleanUserCode}
+
+import json
+_tests = [[0, 1, 0, 3, 12], [0], [1, 2, 3], [0, 0, 1], [4, 0, 5, 0, 0, 6]]
+_sol = Solution() if 'Solution' in dir() else None
+for _nums in _tests:
+    try:
+        fn = _sol.moveZeroes if (_sol and hasattr(_sol, 'moveZeroes')) else (moveZeroes if 'moveZeroes' in dir() else move_zeroes)
+        _arr = list(_nums)
+        _res = fn(_arr)
+        print("TEST_RES:" + json.dumps(_res if _res is not None else _arr))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId.startsWith('dsa-')) {
+      const dsaTc = DSA_TEST_CASES[questionId];
+      if (dsaTc && dsaTc.length > 0) {
+        const calls = dsaTc.map(tc => {
+          return tc.pythonCall.split('\n').map(l => '    ' + l).join('\n');
+        }).join('\n');
+        return `${cleanUserCode}
+
+try:
+    sol = Solution() if 'Solution' in dir() else None
+${calls}
+except Exception as _e:
+    print("TEST_ERR:" + str(_e))
+`;
+      }
+      return `${cleanUserCode}
+
+try:
+    if 'Solution' in dir():
+        _s = Solution()
+        _methods = [m for m in dir(_s) if not m.startswith('_') and callable(getattr(_s, m))]
+        if _methods:
+            _fn = getattr(_s, _methods[0])
+            import inspect
+            _pCount = len(inspect.signature(_fn).parameters)
+            if _pCount == 0:
+                _r = _fn()
+            elif _pCount == 1:
+                _r = _fn(4)
+            else:
+                _r = _fn(*[4]*_pCount)
+            if _r is not None:
+                print("TEST_RES:" + str(_r))
+except Exception as _e:
+    print("TEST_ERR:" + str(_e))
 `;
     }
   }
@@ -554,6 +670,130 @@ for _n1, _n2 in _tests:
 }
 `;
     }
+
+    if (questionId === 'dc-01') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {"accenture", "loveleetcode", "aabb", "z", "swiss"};
+        Main sol = new Main();
+        for (String s : tests) {
+            try {
+                System.out.println("TEST_RES:" + sol.firstUniqChar(s));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-02') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {"A man, a plan, a canal: Panama", "race a car", " ", "Was it a car or a cat I saw?", "0P"};
+        Main sol = new Main();
+        for (String s : tests) {
+            try {
+                System.out.println("TEST_RES:" + sol.isPalindrome(s));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-03') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        Main sol = new Main();
+        int[][] numTests = {{2, 7, 11, 15}, {3, 2, 4}, {3, 3}, {1, 3, 7, 15}, {-3, 4, 3, 90}};
+        int[] targetTests = {9, 6, 6, 10, 0};
+        for (int i = 0; i < numTests.length; i++) {
+            try {
+                int[] res = sol.twoSum(numTests[i], targetTests[i]);
+                System.out.println("TEST_RES:" + java.util.Arrays.toString(res));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-04') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        Main sol = new Main();
+        int[][] tests = {{0, 1, 0, 3, 12}, {0}, {1, 2, 3}, {0, 0, 1}, {4, 0, 5, 0, 0, 6}};
+        for (int[] t : tests) {
+            try {
+                int[] res = sol.moveZeroes(t);
+                System.out.println("TEST_RES:" + java.util.Arrays.toString(res != null ? res : t));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId.startsWith('dsa-')) {
+      const dsaTc = DSA_TEST_CASES[questionId];
+      if (dsaTc && dsaTc.length > 0) {
+        const calls = dsaTc.map(tc => tc.javaCall).join('\n        ');
+        return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        try {
+            Main sol = new Main();
+            ${calls}
+        } catch (Exception e) {
+            System.out.println("TEST_ERR:" + e.getMessage());
+        }
+    }
+}
+`;
+      }
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        try {
+            java.lang.reflect.Method[] methods = Main.class.getDeclaredMethods();
+            for (java.lang.reflect.Method m : methods) {
+                if (m.getName().equals("main")) continue;
+                m.setAccessible(true);
+                Class<?>[] pTypes = m.getParameterTypes();
+                Object[] argsList = new Object[pTypes.length];
+                for (int i = 0; i < pTypes.length; i++) {
+                    if (pTypes[i] == int.class || pTypes[i] == Integer.class) argsList[i] = 4;
+                    else if (pTypes[i] == int[].class) argsList[i] = new int[]{2, 5, 1, 3, 0};
+                    else if (pTypes[i] == String.class) argsList[i] = "accenture";
+                    else argsList[i] = null;
+                }
+                Object res = java.lang.reflect.Modifier.isStatic(m.getModifiers())
+                    ? m.invoke(null, argsList)
+                    : m.invoke(new Main(), argsList);
+                if (res != null) {
+                    System.out.println("TEST_RES:" + res);
+                }
+                break;
+            }
+        } catch (Exception e) {
+            System.out.println("TEST_ERR:" + e.getMessage());
+        }
+    }
+}
+`;
+    }
   }
 
   if (lang === 'cpp') {
@@ -761,6 +1001,100 @@ int main() {
     std::cout << "TEST_RES:" << ${fnCall}(999, 1) << std::endl;
     std::cout << "TEST_RES:" << ${fnCall}(123, 0) << std::endl;
     std::cout << "TEST_RES:" << ${fnCall}(0, 0) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'dc-01') {
+      return `${cleanUserCode}
+
+int main() {
+    Solution sol;
+    std::vector<std::string> tests = {"accenture", "loveleetcode", "aabb", "z", "swiss"};
+    for (const auto& s : tests) {
+        std::cout << "TEST_RES:" << sol.firstUniqChar(s) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'dc-02') {
+      return `${cleanUserCode}
+
+int main() {
+    Solution sol;
+    std::vector<std::string> tests = {"A man, a plan, a canal: Panama", "race a car", " ", "Was it a car or a cat I saw?", "0P"};
+    for (const auto& s : tests) {
+        std::cout << "TEST_RES:" << (sol.isPalindrome(s) ? "true" : "false") << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'dc-03') {
+      return `${cleanUserCode}
+
+int main() {
+    Solution sol;
+    std::vector<std::pair<std::vector<int>, int>> tests = {
+        {{2, 7, 11, 15}, 9},
+        {{3, 2, 4}, 6},
+        {{3, 3}, 6},
+        {{1, 3, 7, 15}, 10},
+        {{-3, 4, 3, 90}, 0}
+    };
+    for (auto& t : tests) {
+        auto res = sol.twoSum(t.first, t.second);
+        std::cout << "TEST_RES:[";
+        for (size_t i = 0; i < res.size(); i++) {
+            std::cout << res[i] << (i + 1 < res.size() ? "," : "");
+        }
+        std::cout << "]" << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'dc-04') {
+      return `${cleanUserCode}
+
+int main() {
+    Solution sol;
+    std::vector<std::vector<int>> tests = {{0, 1, 0, 3, 12}, {0}, {1, 2, 3}, {0, 0, 1}, {4, 0, 5, 0, 0, 6}};
+    for (auto& t : tests) {
+        sol.moveZeroes(t);
+        std::cout << "TEST_RES:[";
+        for (size_t i = 0; i < t.size(); i++) {
+            std::cout << t[i] << (i + 1 < t.size() ? "," : "");
+        }
+        std::cout << "]" << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId.startsWith('dsa-')) {
+      const dsaTc = DSA_TEST_CASES[questionId];
+      if (dsaTc && dsaTc.length > 0) {
+        const calls = dsaTc.map(tc => tc.cppCall).join('\n    ');
+        return `${cleanUserCode}
+
+int main() {
+    Solution sol;
+    ${calls}
+    return 0;
+}
+`;
+      }
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:Success" << std::endl;
     return 0;
 }
 `;
@@ -992,6 +1326,91 @@ int main() {
         foreach (var t in tests) {
             Console.WriteLine("TEST_RES:" + ${fnCall}(t[0], t[1]));
         }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-01') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {"accenture", "loveleetcode", "aabb", "z", "swiss"};
+        Solution sol = new Solution();
+        foreach (string s in tests) {
+            try {
+                Console.WriteLine("TEST_RES:" + sol.FirstUniqChar(s));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-02') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {"A man, a plan, a canal: Panama", "race a car", " ", "Was it a car or a cat I saw?", "0P"};
+        Solution sol = new Solution();
+        foreach (string s in tests) {
+            try {
+                Console.WriteLine("TEST_RES:" + sol.IsPalindrome(s).ToString().ToLower());
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-03') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Solution sol = new Solution();
+        int[][] numTests = new int[][] { new int[] {2, 7, 11, 15}, new int[] {3, 2, 4}, new int[] {3, 3}, new int[] {1, 3, 7, 15}, new int[] {-3, 4, 3, 90} };
+        int[] targetTests = new int[] {9, 6, 6, 10, 0};
+        for (int i = 0; i < numTests.Length; i++) {
+            try {
+                var res = sol.TwoSum(numTests[i], targetTests[i]);
+                Console.WriteLine("TEST_RES:[" + string.Join(",", res) + "]");
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'dc-04') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Solution sol = new Solution();
+        int[][] tests = new int[][] { new int[] {0, 1, 0, 3, 12}, new int[] {0}, new int[] {1, 2, 3}, new int[] {0, 0, 1}, new int[] {4, 0, 5, 0, 0, 6} };
+        foreach (var t in tests) {
+            try {
+                sol.MoveZeroes(t);
+                Console.WriteLine("TEST_RES:[" + string.Join(",", t) + "]");
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId.startsWith('dsa-')) {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        Console.WriteLine("TEST_RES:Success");
     }
 }
 `;
@@ -1250,6 +1669,91 @@ for (const [_n1, _n2] of _tests) {
 `;
   }
 
+  if (questionId === 'dc-01') {
+    return `${cleanUserCode}
+
+const _tests = ["accenture", "loveleetcode", "aabb", "z", "swiss"];
+for (const _s of _tests) {
+    try {
+        const fn = typeof firstUniqChar === 'function' ? firstUniqChar : (typeof Solution === 'function' && new Solution().firstUniqChar ? new Solution().firstUniqChar.bind(new Solution()) : null);
+        console.log("TEST_RES:" + JSON.stringify(fn ? fn(_s) : -1));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'dc-02') {
+    return `${cleanUserCode}
+
+const _tests = ["A man, a plan, a canal: Panama", "race a car", " ", "Was it a car or a cat I saw?", "0P"];
+for (const _s of _tests) {
+    try {
+        const fn = typeof isPalindrome === 'function' ? isPalindrome : (typeof Solution === 'function' && new Solution().isPalindrome ? new Solution().isPalindrome.bind(new Solution()) : null);
+        console.log("TEST_RES:" + JSON.stringify(fn ? fn(_s) : false));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'dc-03') {
+    return `${cleanUserCode}
+
+const _tests = [[[2, 7, 11, 15], 9], [[3, 2, 4], 6], [[3, 3], 6], [[1, 3, 7, 15], 10], [[-3, 4, 3, 90], 0]];
+for (const [_nums, _t] of _tests) {
+    try {
+        const fn = typeof twoSum === 'function' ? twoSum : (typeof Solution === 'function' && new Solution().twoSum ? new Solution().twoSum.bind(new Solution()) : null);
+        console.log("TEST_RES:" + JSON.stringify(fn ? fn(_nums, _t) : []));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'dc-04') {
+    return `${cleanUserCode}
+
+const _tests = [[0, 1, 0, 3, 12], [0], [1, 2, 3], [0, 0, 1], [4, 0, 5, 0, 0, 6]];
+for (const _nums of _tests) {
+    try {
+        const fn = typeof moveZeroes === 'function' ? moveZeroes : (typeof Solution === 'function' && new Solution().moveZeroes ? new Solution().moveZeroes.bind(new Solution()) : null);
+        const _arr = [..._nums];
+        const _res = fn ? fn(_arr) : null;
+        console.log("TEST_RES:" + JSON.stringify(_res !== undefined ? _res : _arr));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId.startsWith('dsa-')) {
+    const dsaTc = DSA_TEST_CASES[questionId];
+    if (dsaTc && dsaTc.length > 0) {
+      const calls = dsaTc.map(tc => tc.jsCall).join('\n');
+      return `${cleanUserCode}
+
+try {
+${calls}
+} catch(e) {
+    console.log("TEST_ERR:" + e.message);
+}
+`;
+    }
+    return `${cleanUserCode}
+
+try {
+    console.log("TEST_RES:Success");
+} catch(e) {
+    console.log("TEST_ERR:" + e.message);
+}
+`;
+  }
+
   return cleanUserCode;
 }
 
@@ -1264,25 +1768,53 @@ export async function executeDsaOnJudge0(question, userCode, lang) {
 
   const harnessSource = buildJudge0Harness(question.id, userCode, lang);
 
-  // 6 second timeout for Judge0 execution
+  // 25 second timeout for Judge0 execution
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 6000);
+  const timeoutId = setTimeout(() => controller.abort(), 25000);
+
+  const endpoints = typeof window !== 'undefined'
+    ? ['/api/judge/submissions?base64_encoded=false&wait=true', 'https://ce.judge0.com/submissions?base64_encoded=false&wait=true']
+    : ['https://ce.judge0.com/submissions?base64_encoded=false&wait=true'];
+
+  let response = null;
+  let lastFetchErr = null;
 
   try {
-    const response = await fetch(`${JUDGE0_BASE_URL}/submissions?base64_encoded=false&wait=true`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        language_id: langId,
-        source_code: harnessSource
-      }),
-      signal: controller.signal
-    });
+    for (const endpoint of endpoints) {
+      try {
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            language_id: langId,
+            source_code: harnessSource
+          }),
+          signal: controller.signal
+        });
+        if (response.ok) {
+          break;
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          clearTimeout(timeoutId);
+          return {
+            success: false,
+            isFallback: true,
+            error: 'Judge0 execution timed out (remote compiler is busy, please retry).'
+          };
+        }
+        lastFetchErr = err;
+      }
+    }
 
     clearTimeout(timeoutId);
 
-    if (!response.ok) {
-      throw new Error(`Judge0 API error (${response.status})`);
+    if (!response || !response.ok) {
+      return {
+        success: false,
+        isFallback: true,
+        error: lastFetchErr ? lastFetchErr.message : `Judge0 API error (${response ? response.status : 'offline'})`
+      };
     }
 
     const result = await response.json();
@@ -1325,7 +1857,13 @@ export async function executeDsaOnJudge0(question, userCode, lang) {
     const stdout = (result.stdout || '').trim();
     const testOutputs = [];
 
-    if (question.id === 'recent-dsa-003') {
+    if (stdout.includes('---START_TC---')) {
+      const chunks = stdout.split(/---START_TC---/g).slice(1);
+      for (const chunk of chunks) {
+        const clean = chunk.split(/---END_TC---/)[0].trim();
+        testOutputs.push(clean);
+      }
+    } else if (stdout.includes('START_TC')) {
       // Split by START_TC / END_TC
       const chunks = stdout.split(/START_TC/g).slice(1);
       for (const chunk of chunks) {

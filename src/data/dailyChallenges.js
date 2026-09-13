@@ -12,7 +12,7 @@ export const CHALLENGE_BANK = [
     prompt: `Given a string s, find the first non-repeating character in it and return its 0-based index. If every character repeats or no unique character exists, return -1.`,
     examples: [
       { input: 's = "accenture"', output: '0', explanation: "'a' appears only once and is at index 0." },
-      { input: 's = "loveaccenture"', output: '2', explanation: "'v' is the first unique character at index 2." },
+      { input: 's = "loveleetcode"', output: '2', explanation: "'v' is the first unique character at index 2." },
       { input: 's = "aabb"', output: '-1', explanation: 'All characters repeat.' }
     ],
     constraints: [
@@ -148,8 +148,10 @@ public class Solution {
     ],
     testCases: [
       { input: 'accenture', expected: 0 },
-      { input: 'loveaccenture', expected: 2 },
-      { input: 'aabb', expected: -1 }
+      { input: 'loveleetcode', expected: 2 },
+      { input: 'aabb', expected: -1 },
+      { input: 'z', expected: 0 },
+      { input: 'swiss', expected: 1 }
     ]
   },
   {
@@ -280,7 +282,9 @@ public class Solution {
     testCases: [
       { input: 'A man, a plan, a canal: Panama', expected: true },
       { input: 'race a car', expected: false },
-      { input: ' ', expected: true }
+      { input: ' ', expected: true },
+      { input: 'Was it a car or a cat I saw?', expected: true },
+      { input: '0P', expected: false }
     ]
   },
   {
@@ -411,7 +415,10 @@ public class Solution {
     ],
     testCases: [
       { input: { nums: [2, 7, 11, 15], target: 9 }, expected: [0, 1] },
-      { input: { nums: [3, 2, 4], target: 6 }, expected: [1, 2] }
+      { input: { nums: [3, 2, 4], target: 6 }, expected: [1, 2] },
+      { input: { nums: [3, 3], target: 6 }, expected: [0, 1] },
+      { input: { nums: [1, 3, 7, 15], target: 10 }, expected: [1, 2] },
+      { input: { nums: [-3, 4, 3, 90], target: 0 }, expected: [0, 2] }
     ]
   },
   {
@@ -546,7 +553,10 @@ public class Solution {
     ],
     testCases: [
       { input: [0, 1, 0, 3, 12], expected: [1, 3, 12, 0, 0] },
-      { input: [0], expected: [0] }
+      { input: [0], expected: [0] },
+      { input: [1, 2, 3], expected: [1, 2, 3] },
+      { input: [0, 0, 1], expected: [1, 0, 0] },
+      { input: [4, 0, 5, 0, 0, 6], expected: [4, 5, 6, 0, 0, 0] }
     ]
   }
 ];

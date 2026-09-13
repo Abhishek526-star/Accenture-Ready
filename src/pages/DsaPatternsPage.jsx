@@ -38,6 +38,7 @@ import {
   getQuestionTestCases
 } from '../utils/dsaCodeTemplates.js';
 import { gamificationService } from '../services/gamificationService.js';
+import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 
@@ -229,57 +230,108 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
     }
   };
 
-  // Run Test Cases Simulation
-  const handleRunCode = () => {
+  // Run Test Cases with Judge0 CE Remote Compiler
+  const handleRunCode = async () => {
     setIsRunning(true);
     setTestResults(null);
 
     const testCases = getQuestionTestCases(activeQuestion);
+    const codeTrimmed = currentCode.trim();
+    if (!codeTrimmed) {
+      setTestResults({
+        allPassed: false,
+        error: 'Please enter your solution code before running test cases.',
+        results: [],
+        executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+        isJudge0: true
+      });
+      setIsRunning(false);
+      return;
+    }
 
-    setTimeout(() => {
-      try {
-        const codeTrimmed = currentCode.trim();
-        const isUntouched =
-          codeTrimmed.includes('pass') &&
-          !codeTrimmed.includes('return ') &&
-          !codeTrimmed.includes('print(');
+    try {
+      // 1. Submit to Judge0 CE
+      const j0Res = await executeDsaOnJudge0(activeQuestion, currentCode, selectedLang);
 
-        if (isUntouched && selectedLang === 'python') {
-          throw new Error('Function body currently contains pass. Write your algorithmic logic before running test cases.');
-        }
-
+      if (j0Res.isJudge0 && j0Res.success) {
+        const latencyStr = j0Res.time ? `${Math.round(parseFloat(j0Res.time) * 1000)}ms` : '71ms';
         const results = testCases.map((tc, idx) => {
+          let actual = 'No output';
+          if (j0Res.testOutputs && j0Res.testOutputs[idx] !== undefined) {
+            actual = typeof j0Res.testOutputs[idx] === 'object' ? JSON.stringify(j0Res.testOutputs[idx]) : String(j0Res.testOutputs[idx]);
+          } else if (j0Res.rawOutput && testCases.length === 1) {
+            actual = j0Res.rawOutput.trim();
+          }
+
+          let passed = false;
+          const normActual = normalizeOutput(actual);
+          const normExpected = normalizeOutput(tc.expected);
+
+          if (normActual && normExpected) {
+            passed = (normActual === normExpected);
+          }
+
           return {
             id: idx + 1,
-            name: tc.name || `Test Case ${idx + 1}`,
+            name: tc.name || `Exam Test Case ${idx + 1}`,
             input: tc.input,
             expected: tc.expected,
-            actual: tc.expected, // Successful simulation
-            passed: true,
-            latency: `${Math.floor(Math.random() * 9) + 12}ms`
+            actual,
+            passed,
+            latency: latencyStr
           };
         });
 
+        const allPassed = results.length > 0 && results.every(r => r.passed);
+
         setTestResults({
-          allPassed: true,
-          results
+          allPassed,
+          results,
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          execTime: latencyStr,
+          isJudge0: true,
+          rawOutput: j0Res.rawOutput
         });
 
         // Mark question as solved if not already
-        if (!solvedIds.includes(activeQuestion.id)) {
+        if (allPassed && !solvedIds.includes(activeQuestion.id)) {
           toggleSolved(activeQuestion.id);
           gamificationService.addXP(50, `Solved DSA #${activeQuestion.qno}`);
         }
-      } catch (err) {
+        setIsRunning(false);
+        return;
+      } else if (!j0Res.isFallback && !j0Res.success) {
+        // Compiler error / runtime error reported from Judge0
         setTestResults({
           allPassed: false,
-          error: err.message,
-          results: []
+          error: `${j0Res.errorType || 'Remote Execution Error'}:\n${j0Res.errorMessage || 'Failed on Judge0'}`,
+          results: [],
+          executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+          isJudge0: true
         });
-      } finally {
         setIsRunning(false);
+        return;
       }
-    }, 600);
+
+      // 2. Offline / Timeout Error
+      setTestResults({
+        allPassed: false,
+        error: `Remote execution failed: ${j0Res.error || 'Unable to connect to Judge0 CE (Remote Compiler). Please check your internet connection or try again.'}`,
+        results: [],
+        executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+        isJudge0: true
+      });
+    } catch (err) {
+      setTestResults({
+        allPassed: false,
+        error: err.message,
+        results: [],
+        executionEngine: 'Judge0 CE ⭐ (Remote Compiler)',
+        isJudge0: true
+      });
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   const filteredQuestions = dsaPatterns.filter(q => {
@@ -811,26 +863,62 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
                   }}
                 >
                   <Play size={14} fill="#ffffff" />
-                  <span>{isRunning ? 'Running...' : 'Run Tests'}</span>
+                  <span>{isRunning ? 'Compiling on Judge0...' : 'Run on Judge0 ⭐'}</span>
                 </button>
               </div>
             </div>
 
-            {/* Note: Function Completion instruction */}
+            {/* Instruction note + Monaco & Judge0 Badges */}
             <div style={{
               background: '#0b1329',
               borderBottom: '1px solid #1e293b',
-              padding: '6px 16px',
+              padding: '7px 16px',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
               gap: '8px',
               fontSize: '0.75rem',
-              color: '#94a3b8'
+              color: '#94a3b8',
+              flexWrap: 'wrap'
             }}>
-              <Code2 size={14} className="text-amber-400" />
-              <span>
-                <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Code2 size={14} className="text-amber-400" />
+                <span>
+                  <strong>Accenture Coding Pattern:</strong> The surrounding class/function structure is pre-written. Complete only the inner function logic.
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  background: 'rgba(99, 102, 241, 0.14)',
+                  border: '1px solid rgba(99, 102, 241, 0.32)',
+                  color: '#a5b4fc',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '0.72rem'
+                }}>
+                  <Sparkles size={12} className="text-indigo-400" />
+                  Monaco Editor ⭐
+                </span>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  background: 'rgba(16, 185, 129, 0.14)',
+                  border: '1px solid rgba(16, 185, 129, 0.32)',
+                  color: '#6ee7b7',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '0.72rem'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+                  Judge0 ⭐ Remote Compiler
+                </span>
+              </div>
             </div>
 
             {/* Monaco Editor */}
@@ -894,37 +982,91 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
               padding: '1.25rem',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {testResults.allPassed ? (
                     <CheckCircle2 size={20} className="text-emerald-400" />
+                  ) : testResults.error ? (
+                    <X size={20} className="text-rose-400" />
                   ) : (
-                    <Sparkles size={20} className="text-rose-400" />
+                    <Sparkles size={20} className="text-amber-400" />
                   )}
                   <h4 style={{
                     margin: 0,
                     fontSize: '1rem',
                     fontWeight: 700,
-                    color: testResults.allPassed ? '#4ade80' : '#f87171'
+                    color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15'
                   }}>
-                    {testResults.allPassed ? 'All Test Cases Passed! +50 XP' : 'Test Execution Note'}
+                    {testResults.allPassed
+                      ? 'All Exam Test Cases Passed! +50 XP Awarded'
+                      : testResults.error
+                      ? 'Test Execution Error'
+                      : `Tests Incomplete (${testResults.results.filter(r => r.passed).length} / ${testResults.results.length} Passed)`}
                   </h4>
                 </div>
-                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                  Execution complete
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{
+                    fontSize: '0.74rem',
+                    fontWeight: 700,
+                    color: testResults.isJudge0 !== false ? '#38bdf8' : '#cbd5e1',
+                    background: testResults.isJudge0 !== false ? 'rgba(56, 189, 248, 0.12)' : 'rgba(100, 116, 139, 0.16)',
+                    border: testResults.isJudge0 !== false ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid rgba(100, 116, 139, 0.3)',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <span>⚡</span>
+                    <span>{testResults.executionEngine || 'Judge0 CE ⭐ (Remote Compiler)'}</span>
+                    {testResults.execTime && <span style={{ opacity: 0.85 }}>({testResults.execTime})</span>}
+                  </span>
+                  <span style={{
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    color: testResults.allPassed ? '#4ade80' : testResults.error ? '#f87171' : '#facc15',
+                    background: testResults.allPassed
+                      ? 'rgba(34, 197, 94, 0.12)'
+                      : testResults.error
+                      ? 'rgba(239, 68, 68, 0.12)'
+                      : 'rgba(245, 158, 11, 0.12)',
+                    padding: '3px 8px',
+                    borderRadius: '6px'
+                  }}>
+                    {testResults.results.filter(r => r.passed).length} / {testResults.results.length} Passed
+                  </span>
+                </div>
               </div>
 
-              {testResults.error ? (
-                <div style={{ background: '#0f172a', border: '1px solid #ef4444', borderRadius: '8px', padding: '10px 14px', color: '#fca5a5', fontSize: '0.85rem' }}>
+              {testResults.error && (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  color: '#fca5a5',
+                  fontSize: '0.82rem',
+                  fontFamily: "'JetBrains Mono', Consolas, monospace",
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.6,
+                  marginBottom: testResults.results.length > 0 ? '0.75rem' : 0,
+                  maxHeight: '220px',
+                  overflowY: 'auto'
+                }}>
+                  <div style={{ fontWeight: 700, color: '#f87171', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <X size={14} />
+                    <span>Compiler / Diagnostic Output</span>
+                  </div>
                   {testResults.error}
                 </div>
-              ) : (
+              )}
+
+              {testResults.results.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {testResults.results.map((tc, idx) => (
                     <div key={idx} style={{
                       background: '#0f172a',
-                      border: '1px solid #334155',
+                      border: tc.passed ? '1px solid #334155' : '1px solid rgba(239, 68, 68, 0.4)',
                       borderRadius: '8px',
                       padding: '10px 14px',
                       fontSize: '0.85rem'
@@ -932,20 +1074,24 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                         <span style={{ fontWeight: 700, color: '#38bdf8' }}>{tc.name}</span>
                         <span style={{
-                          color: '#4ade80',
+                          color: tc.passed ? '#4ade80' : '#f87171',
                           fontSize: '0.75rem',
-                          background: 'rgba(34, 197, 94, 0.1)',
+                          background: tc.passed ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                           padding: '1px 6px',
-                          borderRadius: '4px'
+                          borderRadius: '4px',
+                          fontWeight: 700
                         }}>
-                          Passed ({tc.latency})
+                          {tc.passed ? `Passed (${tc.latency})` : 'Failed'}
                         </span>
                       </div>
                       <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
                         Input: <span style={{ color: '#cbd5e1' }}>{tc.input}</span>
                       </div>
                       <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
-                        Output: <span style={{ color: '#4ade80' }}>{tc.expected}</span>
+                        Expected: <span style={{ color: '#94a3b8' }}>{tc.expected}</span>
+                      </div>
+                      <div style={{ color: '#94a3b8', fontFamily: 'JetBrains Mono', fontSize: '0.8rem' }}>
+                        Output: <span style={{ color: tc.passed ? '#4ade80' : '#f87171' }}>{tc.actual}</span>
                       </div>
                     </div>
                   ))}
