@@ -16,6 +16,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function WifiSecurityPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -268,6 +270,7 @@ export default function WifiSecurityPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page">
+      <SEO {...seoConfig.wifiSecurity} />
       <div className="cloud-assessment-container">
         {/* Universal Cloud-Style Header */}
         <CloudQuizHeader
@@ -285,7 +288,7 @@ export default function WifiSecurityPage({ theme = 'dark' }) {
           bookmarkedCount={bookmarkedCount}
           onOpenStudyNotes={() => setShowNotesModal(true)}
           onResetQuiz={handleResetQuiz}
-          title="Wi-Fi Security Assessment & Question Bank"
+          title="Wi-Fi Security Assessment – Networking & Security Practice"
           trackBadge="Wi-Fi Security Track"
           countBadge="25 High-Yield Questions"
           icon={Wifi}

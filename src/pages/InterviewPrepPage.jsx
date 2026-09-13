@@ -29,6 +29,8 @@ import {
   ThumbsUp
 } from 'lucide-react';
 import { interviewQuestions } from '../data/interviewQuestions.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 // Helper component to render markdown-formatted answer beautifully
 function FormattedAnswer({ text }) {
@@ -312,6 +314,7 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
 
   return (
     <div className="interview-page-container">
+      <SEO {...seoConfig.interview} />
       {/* Header Banner */}
       <div className="interview-hero-card">
         <div style={{ maxWidth: '820px' }}>
@@ -331,7 +334,7 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
             <Mic size={14} /> ACCENTURE TECHNICAL & HR INTERVIEW PORTAL
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-            Interview Preparation Studio
+            Accenture Interview Preparation – Technical & HR Questions
           </h1>
           <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', lineHeight: 1.6 }}>
             Practice real Accenture technical, Java, SQL, and HR questions with beautifully formatted, natural model responses. Listen aloud to delivery pacing, review interviewer evaluation checklists, and avoid common traps.

@@ -4,7 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import GameHeader from '../components/cognitive/GameHeader';
 import GameInstructions from '../components/cognitive/GameInstructions';
 import MemoryMaze from '../games/MemoryMaze/MemoryMaze';
-import { saveSessionResult } from '../utils/cognitiveStorage';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 import '../components/cognitive/cognitive.css';
 
 export default function MemoryMazePage() {
@@ -34,9 +35,10 @@ export default function MemoryMazePage() {
 
   return (
     <div style={{ maxWidth: '920px', margin: '1.5rem auto', padding: '0 1rem 3.5rem 1rem' }}>
+      <SEO {...seoConfig.memoryMaze} />
       <GameHeader
-        title="Memory Maze"
-        subtitle="Accenture-Style Cognitive Round • Spatial Memory & Navigation"
+        title="Memory Assessment Game – Cognitive Practice"
+        subtitle="Accenture-Style Cognitive Round • Memory Maze Game"
         score={score}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled((prev) => !prev)}

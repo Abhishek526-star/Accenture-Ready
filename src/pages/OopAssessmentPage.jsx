@@ -16,6 +16,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function OopAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -269,6 +271,7 @@ export default function OopAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page">
+      <SEO {...seoConfig.oopAssessment} />
       <div className="cloud-assessment-container">
         {/* Universal Cloud-Style Header */}
         <CloudQuizHeader
@@ -286,7 +289,7 @@ export default function OopAssessmentPage({ theme = 'dark' }) {
           bookmarkedCount={bookmarkedCount}
           onOpenStudyNotes={() => setShowNotesModal(true)}
           onResetQuiz={handleResetQuiz}
-          title="Object-Oriented Programming (OOP) Assessment"
+          title="Accenture OOP Assessment – Object-Oriented Programming Questions"
           trackBadge="OOPs Track"
           countBadge="35 High-Yield Questions"
           icon={Boxes}

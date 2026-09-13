@@ -16,6 +16,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function NetworkAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -233,6 +235,7 @@ export default function NetworkAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.networkAssessment} />
       <div className="cloud-page-container">
         {/* Main Quiz Header */}
         <CloudQuizHeader
@@ -250,7 +253,7 @@ export default function NetworkAssessmentPage({ theme = 'dark' }) {
           bookmarkedCount={bookmarkedCount}
           onOpenStudyNotes={() => setShowNotesModal(true)}
           onResetQuiz={handleResetQuiz}
-          title="Computer Networking Assessment & MCQ Bank"
+          title="Accenture Networking Assessment – Computer Networks Practice"
           trackBadge="Computer Networking Track"
           countBadge="90 High-Yield Questions"
           icon={Network}

@@ -27,6 +27,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function MsOfficeAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -252,6 +254,7 @@ export default function MsOfficeAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page">
+      <SEO {...seoConfig.msOfficeAssessment} />
       <div className="cloud-assessment-container">
         {/* Universal Header with MS Office branding and cross-assessment tabs */}
         <CloudQuizHeader
@@ -269,7 +272,7 @@ export default function MsOfficeAssessmentPage({ theme = 'dark' }) {
           bookmarkedCount={bookmarkedCount}
           onOpenStudyNotes={() => setShowNotesModal(true)}
           onResetQuiz={handleResetQuiz}
-          title="Accenture MS Office Assessment & Complete Notes"
+          title="Accenture MS Office Assessment – Excel & Office Practice"
           trackBadge="MS Office Track"
           countBadge="35 High-Yield Questions"
           icon={FileSpreadsheet}

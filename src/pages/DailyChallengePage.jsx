@@ -27,6 +27,8 @@ import {
 } from 'lucide-react';
 import { getTodaysChallenge, markTodayChallengeComplete } from '../data/dailyChallenges.js';
 import { gamificationService } from '../services/gamificationService.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 const LANGUAGE_CONFIG = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
@@ -251,6 +253,7 @@ export default function DailyChallengePage({ theme = 'dark' }) {
 
   return (
     <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '1.5rem 1.25rem' }}>
+      <SEO {...seoConfig.dailyChallenge} />
       {/* Top Banner with Streak & Date */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
@@ -282,7 +285,7 @@ export default function DailyChallengePage({ theme = 'dark' }) {
             <Calendar size={14} /> TODAY'S CURATED ACCENTURE CHALLENGE • {challenge.dateString}
           </div>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.4rem 0' }}>
-            {challenge.title}
+            Accenture Daily Coding Challenge: {challenge.title}
           </h1>
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', color: '#94a3b8', fontSize: '0.875rem', flexWrap: 'wrap' }}>
             <span style={{

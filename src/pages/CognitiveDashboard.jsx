@@ -19,6 +19,8 @@ import {
 import DailyChallengeCard from '../components/cognitive/DailyChallengeCard';
 import { getCognitiveStats } from '../utils/cognitiveStorage';
 import { ACHIEVEMENTS_LIST, getUnlockedAchievements } from '../utils/achievements';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 import '../components/cognitive/cognitive.css';
 
 export default function CognitiveDashboard() {
@@ -33,6 +35,7 @@ export default function CognitiveDashboard() {
 
   return (
     <div className="cognitive-dashboard-container">
+      <SEO {...seoConfig.cognitive} />
       {/* Hero Section */}
       <div className="cognitive-hero-card">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.85rem', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '20px', width: 'fit-content' }}>
@@ -45,7 +48,7 @@ export default function CognitiveDashboard() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem' }}>
           <div style={{ maxWidth: '620px' }}>
             <h1 style={{ margin: 0, fontSize: '2.2rem', fontWeight: 800, color: '#f8fafc', lineHeight: 1.2 }}>
-              Gamified Cognitive Assessment
+              Accenture Cognitive Assessment Practice – Games & Mock Tests
             </h1>
             <p style={{ margin: '0.75rem 0 0 0', color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.5 }}>
               Train your mental agility, rapid sequential arithmetic, and spatial navigation with realistic

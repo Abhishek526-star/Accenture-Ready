@@ -25,6 +25,9 @@ import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SQLResultsModal from '../components/sql/SQLResultsModal.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
+import { BookOpen, Sparkles, HelpCircle, Code2 } from 'lucide-react';
 
 export default function SQLAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -252,6 +255,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="sql-assessment-page">
+      <SEO {...seoConfig.sqlAssessment} />
       {/* Top Assessment Control Bar */}
       <header className="sql-top-bar">
         <div className="bar-left">
@@ -261,7 +265,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
             </div>
             <div>
               <span className="round-label">Assessment Round</span>
-              <h1 className="round-title">SQL Coding & Querying</h1>
+              <h1 className="round-title">Accenture SQL Assessment Practice</h1>
             </div>
           </div>
 
@@ -432,6 +436,92 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
           </div>
         </div>
       </main>
+
+      {/* Visible SEO & Candidate SQL Preparation Guide */}
+      <section className="sql-seo-guide" style={{
+        maxWidth: '1440px',
+        margin: '2rem auto 3rem auto',
+        padding: '2rem 1.5rem',
+        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85))',
+        border: '1px solid #334155',
+        borderRadius: '16px',
+        color: '#cbd5e1'
+      }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            padding: '4px 10px',
+            background: 'rgba(56, 189, 248, 0.12)',
+            color: '#38bdf8',
+            borderRadius: '10px',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            marginBottom: '0.5rem'
+          }}>
+            <Sparkles size={14} /> Comprehensive Assessment Guide
+          </div>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
+            What is an Accenture SQL Assessment?
+          </h2>
+          <p style={{ lineHeight: 1.7, color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>
+            The Accenture SQL assessment evaluates technical aptitude, logical reasoning, and practical relational database querying. Candidates are presented with database schemas containing multiple interrelated tables and are tasked with writing clean, performant SQL statements that extract, transform, aggregate, and report insights under time constraints.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
+          <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.25rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#38bdf8', margin: '0 0 0.4rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Code2 size={16} /> SQL Topics to Prepare
+            </h3>
+            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
+              Focus on multi-table joins, conditional aggregations, grouping semantics, nested subqueries, date manipulations, and ranking window functions commonly encountered in technical placement tests.
+            </p>
+          </div>
+
+          <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.25rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fb923c', margin: '0 0 0.4rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Database size={16} /> JOIN Questions
+            </h3>
+            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
+              Master <code style={{ color: '#fb923c' }}>INNER JOIN</code> for intersecting rows, <code style={{ color: '#fb923c' }}>LEFT JOIN</code> to preserve records with null foreign keys, and self-joins for hierarchical reporting structures.
+            </p>
+          </div>
+
+          <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.25rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', margin: '0 0 0.4rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <BookOpen size={16} /> GROUP BY & Aggregate Functions
+            </h3>
+            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
+              Synthesize metrics using <code style={{ color: '#4ade80' }}>COUNT</code>, <code style={{ color: '#4ade80' }}>SUM</code>, <code style={{ color: '#4ade80' }}>AVG</code>, <code style={{ color: '#4ade80' }}>MIN</code>, and <code style={{ color: '#4ade80' }}>MAX</code>. Always filter grouped aggregations using <code style={{ color: '#4ade80' }}>HAVING</code> rather than <code style={{ color: '#4ade80' }}>WHERE</code>.
+            </p>
+          </div>
+
+          <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.25rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#c084fc', margin: '0 0 0.4rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Terminal size={16} /> Subqueries & Window Functions
+            </h3>
+            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
+              Utilize correlated subqueries and CTEs for modular logic. Deploy analytical window functions like <code style={{ color: '#c084fc' }}>ROW_NUMBER()</code>, <code style={{ color: '#c084fc' }}>RANK()</code>, and <code style={{ color: '#c084fc' }}>DENSE_RANK() OVER (PARTITION BY ... ORDER BY ...)</code>.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ background: '#090d16', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '12px', padding: '1.25rem 1.5rem' }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f87171', margin: '0 0 0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <AlertTriangle size={17} /> Common SQL Assessment Mistakes to Avoid
+          </h3>
+          <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.88rem', lineHeight: 1.7, color: '#cbd5e1' }}>
+            <li><strong>Filtering aggregates in WHERE:</strong> Use <code style={{ color: '#f87171' }}>HAVING</code> for aggregate conditions (e.g., <code style={{ color: '#f87171' }}>HAVING COUNT(*) &gt; 1</code>), not WHERE.</li>
+            <li><strong>NULL handling in calculations:</strong> Remember that arithmetic with NULL yields NULL. Wrap nullable fields in <code style={{ color: '#f87171' }}>COALESCE()</code> or <code style={{ color: '#f87171' }}>IFNULL()</code>.</li>
+            <li><strong>COUNT(*) vs COUNT(column):</strong> <code style={{ color: '#f87171' }}>COUNT(*)</code> counts all rows including NULLs, while <code style={{ color: '#f87171' }}>COUNT(column)</code> counts only non-null values.</li>
+            <li><strong>Integer division truncations:</strong> When computing percentages or conversion rates, cast integer values to float/decimal to prevent integer division truncating to zero.</li>
+          </ul>
+        </div>
+      </section>
 
       {/* Assessment Final Completion Scorecard Modal */}
       <SQLResultsModal

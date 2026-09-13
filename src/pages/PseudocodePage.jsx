@@ -28,6 +28,8 @@ import { pseudocodeStorage } from '../utils/pseudocodeStorage.js';
 import PseudocodeTracer from '../components/pseudocode/PseudocodeTracer.jsx';
 import PseudocodeHandbookModal from '../components/pseudocode/PseudocodeHandbookModal.jsx';
 import PseudocodeScratchpad from '../components/pseudocode/PseudocodeScratchpad.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function PseudocodePage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -126,6 +128,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
 
   return (
     <div className="pseudocode-page-container">
+      <SEO {...seoConfig.pseudocode} />
       {/* Top Banner */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
@@ -141,10 +144,10 @@ export default function PseudocodePage({ theme = 'dark' }) {
       }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(234, 179, 8, 0.15)', color: '#facc15', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-            <Zap size={14} /> OFFICIAL TECHNICAL ROUND COMPONENT
+            <Zap size={14} /> TECHNICAL ROUND COMPONENT
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 900, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-            Accenture Pseudocode Round
+            Accenture Pseudocode Questions & Practice
           </h1>
           <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '650px' }}>
             Master bitwise logic (`^`, `&`, `|`), tree recursion call stacks, while-loop step mutations, and array pointers with our step-by-step execution tracer.

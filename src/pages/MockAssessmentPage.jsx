@@ -18,6 +18,8 @@ import {
   Zap
 } from 'lucide-react';
 import { mockTestService, initializeMockSession } from '../services/mockTestService.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function MockAssessmentPage({ theme = 'dark' }) {
   const navigate = useNavigate();
@@ -87,12 +89,13 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
   if (!session && !testResult) {
     return (
       <div className="mock-page-container">
+        <SEO {...seoConfig.mockTest} />
         <div className="mock-intro-card">
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '1rem' }}>
-            <Sparkles size={14} /> OFFICIAL SIMULATION
+            <Sparkles size={14} /> FULL ASSESSMENT SIMULATION
           </div>
           <h1 className="mock-intro-title">
-            Accenture Full Mock Assessment
+            Accenture Mock Assessment
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '650px', margin: '0 auto 2rem auto', lineHeight: 1.6 }}>
             Realistic 90-minute timed environment replicating the full Accenture recruitment test format: Frontend Coding, SQL, Technical Aptitude MCQs, and Cognitive Reasoning.
@@ -143,6 +146,7 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
   if (testResult) {
     return (
       <div style={{ maxWidth: '960px', margin: '2.5rem auto', padding: '0 1.5rem' }}>
+        <SEO {...seoConfig.mockTest} />
         <div style={{
           background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
           border: '1px solid rgba(56, 189, 248, 0.3)',
@@ -241,6 +245,7 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="mock-page-container">
+      <SEO {...seoConfig.mockTest} />
       {/* Top Test Navigation Bar */}
       <div className="mock-top-nav">
         <div className="mock-section-tabs">

@@ -16,6 +16,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function NetworkSecurityPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -233,6 +235,7 @@ export default function NetworkSecurityPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.networkSecurity} />
       <div className="cloud-page-container">
         {/* Main Quiz Header (Exact same style as Cloud) */}
         <CloudQuizHeader
@@ -250,7 +253,7 @@ export default function NetworkSecurityPage({ theme = 'dark' }) {
           bookmarkedCount={bookmarkedCount}
           onOpenStudyNotes={() => setShowNotesModal(true)}
           onResetQuiz={handleResetQuiz}
-          title="Network Security Assessment & Question Bank"
+          title="Accenture Network Security Assessment – Practice Questions"
           trackBadge="Network Security Track"
           countBadge="100 High-Yield Questions"
           icon={ShieldAlert}

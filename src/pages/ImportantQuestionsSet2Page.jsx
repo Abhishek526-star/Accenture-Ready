@@ -39,6 +39,8 @@ import {
 } from '../data/importantQuestionsSet2.js';
 import { importantQuestionsSet2Storage } from '../utils/importantQuestionsSet2Storage.js';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function ImportantQuestionsSet2Page({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -212,6 +214,7 @@ export default function ImportantQuestionsSet2Page({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.importantQuestionsSet2} />
       <div className="cloud-page-container">
         {/* Header with Sky/Cyan Theme */}
         <header className="cloud-quiz-header" style={{ borderColor: 'rgba(14, 165, 233, 0.35)' }}>
@@ -280,7 +283,7 @@ export default function ImportantQuestionsSet2Page({ theme = 'dark' }) {
                     <ShieldCheck size={13} /> Cloud Security &rarr;
                   </Link>
                 </div>
-                <h1 className="cloud-title">Most Important Assessment Questions — Set 2 (Accenture PYQs)</h1>
+                <h1 className="cloud-title">Accenture Coding Questions – Important Practice Set 2</h1>
               </div>
             </div>
 

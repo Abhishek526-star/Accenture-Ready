@@ -36,6 +36,8 @@ import {
 } from '../data/cloudSecurityQuestions.js';
 import { cloudSecurityStorage } from '../utils/cloudSecurityStorage.js';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function CloudSecurityPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -189,6 +191,7 @@ export default function CloudSecurityPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.cloudSecurity} />
       <div className="cloud-page-container">
         {/* Security Quiz Header */}
         <header className="cloud-quiz-header" style={{ borderColor: 'rgba(16, 185, 129, 0.3)' }}>
@@ -255,7 +258,7 @@ export default function CloudSecurityPage({ theme = 'dark' }) {
                     <Network size={13} /> Networking (90) &rarr;
                   </Link>
                 </div>
-                <h1 className="cloud-title">Cloud Security Assessment & PYQ Hub</h1>
+                <h1 className="cloud-title">Accenture Cloud Security Assessment – Practice Questions</h1>
               </div>
             </div>
 

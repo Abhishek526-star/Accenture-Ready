@@ -40,6 +40,8 @@ import { runQueryOnDataset, runAssessmentTests } from '../utils/sqlEngine.js';
 import SQLResultPanel from '../components/sql/SQLResultPanel.jsx';
 import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SqlRichText from '../components/sql/SqlRichText.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 // Normalizes PostgreSQL / dialect-specific date differences & type casts for the in-memory SQLite engine
 function normalizeSqlQuery(query) {
@@ -2568,13 +2570,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
   return (
     <div className="recent-questions-page" style={{ maxWidth: '1600px', width: '100%', margin: '0 auto', padding: '1rem 1.5rem 3rem 1.5rem', boxSizing: 'border-box', overflowX: 'hidden' }}>
+      <SEO {...seoConfig.recentQuestions} />
       {/* Hero Header */}
       <header className="recent-hero-section" style={{ marginBottom: '1.5rem' }}>
         <div className="recent-hero-badge">
           <Sparkles size={14} className="text-amber-400" />
           <span>Real Exam Archives & Shift Analysis</span>
         </div>
-        <h1 className="recent-hero-title">Recent Coding Questions</h1>
+        <h1 className="recent-hero-title">Accenture Recent Coding Questions – DSA, SQL & Frontend</h1>
         <p className="recent-hero-subtitle">
           Actual Accenture assessment problems categorized by track (DSA, SQL, Frontend) and tagged with exam dates, step-by-step calculations, formula breakdowns, and interactive multi-language Monaco IDE workspaces.
         </p>

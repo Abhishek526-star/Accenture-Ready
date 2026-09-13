@@ -14,6 +14,8 @@ import {
   Code2
 } from 'lucide-react';
 import { cheatSheets } from '../data/cheatSheets.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function CheatSheetsPage({ theme = 'dark' }) {
   const [activeSheetId, setActiveSheetId] = useState(cheatSheets[0].id);
@@ -47,6 +49,7 @@ export default function CheatSheetsPage({ theme = 'dark' }) {
 
   return (
     <div className="cheatsheets-page-container">
+      <SEO {...seoConfig.cheatSheets} />
       {/* Breadcrumb */}
       <div style={{ marginBottom: '1.25rem' }}>
         <Link to="/learn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none' }}>
@@ -67,7 +70,7 @@ export default function CheatSheetsPage({ theme = 'dark' }) {
           <Sparkles size={14} /> HIGH-YIELD ASSESSMENT REVISION
         </div>
         <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-          Accenture Technical Cheat Sheets
+          Java & DSA Cheat Sheets for Accenture Assessment
         </h1>
         <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '820px', lineHeight: 1.6 }}>
           Quick-revision guides for Java DSA (C++ to Java transition), Collections, Arrays, Strings, SQL execution hierarchy, decision tables, and asymptotic Big-O complexities.

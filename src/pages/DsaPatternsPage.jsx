@@ -38,6 +38,8 @@ import {
   getQuestionTestCases
 } from '../utils/dsaCodeTemplates.js';
 import { gamificationService } from '../services/gamificationService.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function DsaPatternsPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -299,6 +301,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
 
   return (
     <div className="dsa-page-container" style={{ maxWidth: '1600px', margin: '0 auto', padding: '1.25rem 1.5rem 3rem 1.5rem' }}>
+      <SEO {...seoConfig.dsa} />
       {/* Top Navigation & Breadcrumb */}
       <div style={{
         display: 'flex',
@@ -437,7 +440,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
             margin: '0 0 0.6rem 0',
             letterSpacing: '-0.5px'
           }}>
-            {activeQuestion.title}
+            Accenture DSA Preparation: {activeQuestion.title}
           </h1>
 
           <div style={{

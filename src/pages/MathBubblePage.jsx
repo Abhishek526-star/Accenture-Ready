@@ -19,6 +19,8 @@ import {
   ChevronRight,
   Layers
 } from 'lucide-react';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 import '../components/cognitive/cognitive.css';
 
 const TOTAL_SET_QUESTIONS = 15;
@@ -122,9 +124,10 @@ export default function MathBubblePage() {
 
   return (
     <div style={{ maxWidth: '920px', margin: '1.5rem auto', padding: '0 1rem 3.5rem 1rem' }}>
+      <SEO {...seoConfig.quickFireMath} />
       <GameHeader
-        title="Math Bubble"
-        subtitle={`Accenture-Style Cognitive Round • Set ${activeSetNumber} of ${TOTAL_SETS}`}
+        title="Quick Math Assessment Game – Speed & Accuracy Practice"
+        subtitle={`Accenture-Style Cognitive Round • Quick-Fire Math • Set ${activeSetNumber} of ${TOTAL_SETS}`}
         score={isSetComplete ? totalScore : 0}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled((prev) => !prev)}

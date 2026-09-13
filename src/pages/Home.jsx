@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { storage } from '../utils/storage.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function Home() {
   const completedIds = storage.getCompletedQuestions();
@@ -45,13 +47,14 @@ export default function Home() {
 
   return (
     <div className="home-container">
+      <SEO {...seoConfig.home} />
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
           <div className="hero-badge">
             <Sparkles size={14} /> Comprehensive Technical Assessment Simulator
           </div>
-          <h1 className="hero-title">Technical, SQL & Cognitive Assessment Practice</h1>
+          <h1 className="hero-title">Accenture Assessment & Placement Preparation</h1>
           <p className="hero-subtitle">
             Prepare for company technical recruitment screens with dedicated environments:
             <strong> Cloud, Wi-Fi & Network Security</strong>, <strong>Enterprise DevOps</strong>, <strong>MS Office Suite</strong>, <strong>OOPs Concepts</strong>, <strong>Gamified Cognitive Round</strong>, <strong>Frontend Coding Round</strong>, and the new <strong>SQL Assessment & Compiler Round</strong> with real in-browser SQLite execution.

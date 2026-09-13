@@ -12,6 +12,8 @@ import {
   RotateCcw,
   Zap
 } from 'lucide-react';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 import '../components/cognitive/cognitive.css';
 
 export default function FullCognitiveMock() {
@@ -66,6 +68,7 @@ export default function FullCognitiveMock() {
 
   return (
     <div style={{ maxWidth: '960px', margin: '2rem auto', padding: '0 1.25rem 4rem 1.25rem' }}>
+      <SEO {...seoConfig.fullCognitiveMock} />
 
       {/* 1. INTRO SCREEN */}
       {stage === 'intro' && (
@@ -96,7 +99,7 @@ export default function FullCognitiveMock() {
           </div>
 
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 1rem 0' }}>
-            Full Cognitive Assessment Mock
+            Accenture Cognitive Assessment Mock Test – Full Practice
           </h1>
           <p style={{ fontSize: '1.05rem', color: '#94a3b8', maxWidth: '600px', margin: '0 auto 2.5rem auto', lineHeight: 1.6 }}>
             Experience the complete, back-to-back cognitive round testing spatial recall and numerical agility.

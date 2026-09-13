@@ -38,6 +38,8 @@ import {
 } from '../data/importantQuestions.js';
 import { importantQuestionsStorage } from '../utils/importantQuestionsStorage.js';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function ImportantQuestionsPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -223,6 +225,7 @@ export default function ImportantQuestionsPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.importantQuestions} />
       <div className="cloud-page-container">
         {/* Header with Amber Theme */}
         <header className="cloud-quiz-header" style={{ borderColor: 'rgba(245, 158, 11, 0.35)' }}>
@@ -289,7 +292,7 @@ export default function ImportantQuestionsPage({ theme = 'dark' }) {
                     <Code2 size={13} /> Pseudocode Round &rarr;
                   </Link>
                 </div>
-                <h1 className="cloud-title">Most Important Assessment Questions (Accenture PYQs)</h1>
+                <h1 className="cloud-title">Accenture Important Questions – Coding, SQL & Technical PYQs</h1>
               </div>
             </div>
 

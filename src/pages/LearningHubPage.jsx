@@ -18,6 +18,8 @@ import { dsaPatterns } from '../data/dsaPatterns.js';
 import { cheatSheets } from '../data/cheatSheets.js';
 import { sqlQuestions } from '../data/sqlQuestions.js';
 import { javaStorage } from '../utils/javaStorage.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function LearningHubPage({ theme = 'dark' }) {
   const completedJava = javaStorage.getCompletedTopics().length;
@@ -74,15 +76,16 @@ export default function LearningHubPage({ theme = 'dark' }) {
   ];
 
   return (
-    <div className="learning-hub-page">
-      {/* Top Banner */}
-      <div className="learning-hub-hero">
+    <div className="learning-hub-container" style={{ padding: '2rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <SEO {...seoConfig.learn} />
+      {/* Header Banner */}
+      <div style={{ marginBottom: '2.5rem' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 12px', borderRadius: '16px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.75rem' }}>
           <Sparkles size={14} />
           <span>ACCENTURE LEARNING ECOSYSTEM</span>
         </div>
         <h1 className="learning-hub-title">
-          Placement Learning Hub
+          Accenture Preparation Learning Hub
         </h1>
         <p style={{ fontSize: '1.05rem', color: '#94a3b8', maxWidth: '720px', margin: 0, lineHeight: 1.6 }}>
           Master core technical competencies tested in Accenture written and coding assessments. Choose a dedicated learning track below.

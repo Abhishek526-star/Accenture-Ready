@@ -17,6 +17,8 @@ import {
 import { storage } from '../utils/storage.js';
 import { sqlStorage } from '../utils/sqlStorage.js';
 import { javaStorage } from '../utils/javaStorage.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function PreparationRoadmapPage({ theme = 'dark' }) {
   const completedCoding = storage.getCompletedQuestions();
@@ -99,13 +101,14 @@ export default function PreparationRoadmapPage({ theme = 'dark' }) {
 
   return (
     <div className="roadmap-page-container">
+      <SEO {...seoConfig.roadmap} />
       {/* Header */}
       <div className="roadmap-hero-card">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
           <Calendar size={14} /> STRUCTURED PREPARATION PLAN
         </div>
         <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-          7-Day Accenture Crack Roadmap
+          Accenture Preparation Roadmap – Step-by-Step Study Plan
         </h1>
         <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '650px' }}>
           Follow this calibrated daily schedule to prepare across every single assessment round. Tasks automatically reflect your real completion status.

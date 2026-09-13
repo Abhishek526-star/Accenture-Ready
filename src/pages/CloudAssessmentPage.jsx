@@ -12,6 +12,8 @@ import CloudQuestionCard from '../components/cloud/CloudQuestionCard.jsx';
 import CloudQuestionPalette from '../components/cloud/CloudQuestionPalette.jsx';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function CloudAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -226,9 +228,11 @@ export default function CloudAssessmentPage({ theme = 'dark' }) {
 
   return (
     <div className="cloud-assessment-page" data-theme={theme}>
+      <SEO {...seoConfig.cloudAssessment} />
       <div className="cloud-page-container">
         {/* Main Quiz Header */}
         <CloudQuizHeader
+          title="Accenture Cloud Assessment – Cloud Computing Practice"
           activeTier={activeTier}
           onSelectTier={setActiveTier}
           activeTopic={activeTopic}

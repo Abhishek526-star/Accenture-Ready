@@ -35,7 +35,7 @@ export default function Header({
           </div>
           <div>
             <span className="round-label">Assessment Round</span>
-            <h1 className="round-title">Frontend Coding</h1>
+            <h1 className="round-title">Accenture Coding Practice</h1>
           </div>
         </div>
 

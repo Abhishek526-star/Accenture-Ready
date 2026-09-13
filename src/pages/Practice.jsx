@@ -16,6 +16,8 @@ import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
 
 import { BookOpen, Code, Eye, CheckCircle2 } from 'lucide-react';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function Practice({ theme }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -282,6 +284,7 @@ export default function Practice({ theme }) {
 
   return (
     <div className="practice-layout">
+      <SEO {...seoConfig.practice} />
       {/* Assessment Header */}
       <Header
         question={currentQuestion}

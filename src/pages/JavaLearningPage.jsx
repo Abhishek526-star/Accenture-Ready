@@ -25,6 +25,8 @@ import JavaCodeViewer from '../components/java/JavaCodeViewer.jsx';
 import JavaMethodTable from '../components/java/JavaMethodTable.jsx';
 import JavaTipCard from '../components/java/JavaTipCard.jsx';
 import { gamificationService } from '../services/gamificationService.js';
+import SEO from '../components/SEO.jsx';
+import { seoConfig } from '../config/seo.js';
 
 export default function JavaLearningPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -102,6 +104,7 @@ export default function JavaLearningPage({ theme = 'dark' }) {
 
   return (
     <div className="java-learning-page">
+      <SEO {...seoConfig.java} />
       {/* Top Banner Control Bar */}
       <header className="java-top-bar">
         <div className="bar-left">
@@ -120,7 +123,7 @@ export default function JavaLearningPage({ theme = 'dark' }) {
             </div>
             <div>
               <span className="page-tag">Candidate Learning & Preparation</span>
-              <h1 className="page-title">Assessment Java Handbook</h1>
+              <h1 className="page-title">Java Preparation for Accenture Assessment</h1>
             </div>
           </div>
         </div>
