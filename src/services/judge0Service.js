@@ -222,6 +222,27 @@ for _s in _tests:
         print("TEST_ERR:" + str(_e))
 `;
     }
+
+    if (questionId === 'recent-dsa-014') {
+      return `${cleanUserCode}
+
+_tests = [
+    (451, 349),
+    (123, 456),
+    (999, 111),
+    (95, 17),
+    (999, 1),
+    (123, 0),
+    (0, 0)
+]
+for _n1, _n2 in _tests:
+    try:
+        fn = numberOfCarries if 'numberOfCarries' in dir() else (number_of_carries if 'number_of_carries' in dir() else NumberOfCarries)
+        print("TEST_RES:" + str(fn(_n1, _n2)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
   }
 
   if (lang === 'java') {
@@ -504,6 +525,35 @@ for _s in _tests:
 }
 `;
     }
+
+    if (questionId === 'recent-dsa-014') {
+      const fnCall = cleanUserCode.includes('NumberOfCarries') && !cleanUserCode.includes('numberOfCarries')
+        ? 'NumberOfCarries'
+        : 'numberOfCarries';
+
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {
+            {451, 349},
+            {123, 456},
+            {999, 111},
+            {95, 17},
+            {999, 1},
+            {123, 0},
+            {0, 0}
+        };
+        for (int[] t : tests) {
+            try {
+                System.out.println("TEST_RES:" + ${fnCall}(t[0], t[1]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
   }
 
   if (lang === 'cpp') {
@@ -691,6 +741,26 @@ int main() {
     std::cout << "TEST_RES:" << countUniform("abcabcabc") << std::endl;
     std::cout << "TEST_RES:" << countUniform("aababbaba") << std::endl;
     std::cout << "TEST_RES:" << countUniform("a") << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-014') {
+      const fnCall = cleanUserCode.includes('NumberOfCarries') && !cleanUserCode.includes('numberOfCarries')
+        ? 'NumberOfCarries'
+        : 'numberOfCarries';
+
+      return `${cleanUserCode}
+
+int main() {
+    std::cout << "TEST_RES:" << ${fnCall}(451, 349) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(123, 456) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(999, 111) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(95, 17) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(999, 1) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(123, 0) << std::endl;
+    std::cout << "TEST_RES:" << ${fnCall}(0, 0) << std::endl;
     return 0;
 }
 `;
@@ -896,6 +966,31 @@ int main() {
         };
         foreach (var s in tests) {
             Console.WriteLine("TEST_RES:" + CountUniform(s));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-014') {
+      const fnCall = cleanUserCode.includes('numberOfCarries') && !cleanUserCode.includes('NumberOfCarries')
+        ? 'numberOfCarries'
+        : 'NumberOfCarries';
+
+      return `${cleanUserCode}
+
+    public static void Main() {
+        int[][] tests = new int[][] {
+            new int[] {451, 349},
+            new int[] {123, 456},
+            new int[] {999, 111},
+            new int[] {95, 17},
+            new int[] {999, 1},
+            new int[] {123, 0},
+            new int[] {0, 0}
+        };
+        foreach (var t in tests) {
+            Console.WriteLine("TEST_RES:" + ${fnCall}(t[0], t[1]));
         }
     }
 }
@@ -1125,6 +1220,29 @@ const _tests = [
 for (const _s of _tests) {
     try {
         console.log("TEST_RES:" + JSON.stringify(countUniform(_s)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-014') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [451, 349],
+  [123, 456],
+  [999, 111],
+  [95, 17],
+  [999, 1],
+  [123, 0],
+  [0, 0]
+];
+for (const [_n1, _n2] of _tests) {
+    try {
+        const fn = typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_n1, _n2)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

@@ -2896,6 +2896,345 @@ console.log(countUniform("abcabcabc")); // 3`
   },
 
   // =========================================================================
+  // VERIFIED: 15th Sept Shift 1 (DSA from authentic exam paper)
+  // =========================================================================
+  {
+    id: 'recent-dsa-014',
+    track: 'dsa',
+    dateTag: '15th Sept 2025 • Shift 1',
+    examDate: '2025-09-15',
+    shift: 'Shift 1',
+    title: 'Number of Carries',
+    difficulty: 'Medium',
+    category: 'Mathematical Problems / Number Manipulation & Digit Operations',
+    source: 'Accenture Assessment 15th Sept 2025 (PYQ Series)',
+    isVerified: true,
+    description: `Given two non-negative integers \`num1\` and \`num2\`, add them digit by digit from right to left (least significant to most significant).
+
+A **carry** is generated whenever the sum of two corresponding digits, along with any carry from the previous position, is **greater than 9**.
+
+Return the **total number of carries** generated while adding \`num1\` and \`num2\`.
+
+---
+
+### 📝 Function Signature & Specifications:
+\`\`\`cpp
+int NumberOfCarries(int num1, int num2)
+\`\`\`
+- **Assumptions**: \`num1 >= 0\`, \`num2 >= 0\`
+- **Input Parameters**: Non-negative integers \`num1\` and \`num2\`
+- **Return Value**: Integer count representing total carries produced
+
+---
+
+### 📌 Step-by-Step Addition Walkthrough:
+**Given Input**: \`num1 = 451\`, \`num2 = 349\`
+
+Perform addition from right to left (least significant to most significant digit):
+\`\`\`
+Carry In:       1   1       ← (Carries brought forward)
+num1:           4   5   1
+num2:       +   3   4   9
+            -------------
+Sum:            8   0   0
+            -------------
+Carry Out:      0   1   1   ← (Carries generated)
+               ❌   ✅   ✅
+\`\`\`
+
+1. **Step 1 — Ones Place (10⁰)**:
+   - Digits: \`1 + 9\` + incoming \`carry(0)\` = \`10\`
+   - Since \`10 > 9\`, a carry is generated: **Carry = 1** ✅ *(Carry Count = 1)*
+
+2. **Step 2 — Tens Place (10¹)**:
+   - Digits: \`5 + 4\` + incoming \`carry(1)\` = \`10\`
+   - Since \`10 > 9\`, another carry is generated: **Carry = 1** ✅ *(Carry Count = 2)*
+
+3. **Step 3 — Hundreds Place (10²)**:
+   - Digits: \`4 + 3\` + incoming \`carry(1)\` = \`8\`
+   - Since \`8 <= 9\`, no carry is generated: **Carry = 0** ❌ *(Carry Count = 2)*
+
+Return total carries: **2**
+
+---
+
+### 🔍 Dry Run Matrix (num1 = 451, num2 = 349):
+| Place Value | num1 digit | num2 digit | Carry In | Sum Calculation | Carry Out | Total Carries |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Ones (10⁰)** | 1 | 9 | 0 | \`1 + 9 + 0 = 10\` | **1** ✅ | 1 |
+| **Tens (10¹)** | 5 | 4 | 1 | \`5 + 4 + 1 = 10\` | **1** ✅ | 2 |
+| **Hundreds (10²)** | 4 | 3 | 1 | \`4 + 3 + 1 = 8\` | **0** ❌ | 2 |
+
+---
+
+### ⚠️ Critical Rule: Incoming Carry Must Be Included
+Always compute:
+\`sum = digit1 + digit2 + carry\`
+Forgetting to add incoming \`carry\` breaks propagation cases such as \`95 + 17 = 112\`, where the tens place receives a carry from \`5 + 7 = 12\` to produce \`9 + 1 + 1 = 11\`.
+
+---
+
+### 🧠 Why while (num1 > 0 || num2 > 0)?
+The two operands often differ in length (e.g. \`num1 = 999\`, \`num2 = 1\`).
+Using \`||\` ensures that all remaining digits of the longer number are processed along with any propagating carries.
+
+---
+
+### ⚡ Complexity Analysis:
+- **Time Complexity**: \`O(D)\`, where \`D = max(digits(num1), digits(num2))\`. Each digit position is visited once.
+- **Space Complexity**: \`O(1)\`, only primitive scalar variables (\`carry\`, \`count\`, \`digit1\`, \`digit2\`, \`sum\`) are used.`,
+    rules: [
+      '1. Initialize variables carry = 0 and count = 0 before entering the loop.',
+      '2. In each iteration, extract digit1 = num1 % 10 and digit2 = num2 % 10.',
+      '3. Calculate sum = digit1 + digit2 + carry.',
+      '4. If sum > 9: set carry = 1 and increment count by 1. Otherwise: set carry = 0.',
+      '5. Shift digits by integer division: num1 /= 10 and num2 /= 10.',
+      '6. Continue the loop while (num1 > 0 || num2 > 0) to process operands of differing lengths.',
+      '7. Return the final accumulated carry count.'
+    ],
+    constraints: [
+      '0 <= num1, num2 <= 10^9',
+      'Time Complexity: O(D) where D is the number of digits in max(num1, num2)',
+      'Space Complexity: O(1) auxiliary memory'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        input: 'num1 = 451, num2 = 349',
+        inputRaw: { num1: 451, num2: 349 },
+        expectedOutput: '2',
+        explanation: '1 + 9 = 10 (Carry 1, count = 1) -> 5 + 4 + 1 = 10 (Carry 1, count = 2) -> 4 + 3 + 1 = 8 (No carry) -> Total carries = 2.'
+      },
+      {
+        id: 'tc-2',
+        input: 'num1 = 123, num2 = 456',
+        inputRaw: { num1: 123, num2: 456 },
+        expectedOutput: '0',
+        explanation: '3 + 6 = 9 (No carry) -> 2 + 5 = 7 (No carry) -> 1 + 4 = 5 (No carry) -> Total carries = 0.'
+      },
+      {
+        id: 'tc-3',
+        input: 'num1 = 999, num2 = 111',
+        inputRaw: { num1: 999, num2: 111 },
+        expectedOutput: '3',
+        explanation: '9 + 1 = 10 (carry 1), 9 + 1 + 1 = 11 (carry 1), 9 + 1 + 1 = 11 (carry 1) -> Total carries = 3.'
+      },
+      {
+        id: 'tc-4',
+        input: 'num1 = 95, num2 = 17',
+        inputRaw: { num1: 95, num2: 17 },
+        expectedOutput: '2',
+        explanation: '5 + 7 = 12 (carry 1), 9 + 1 + 1 = 11 (carry 1) -> Total carries = 2.'
+      },
+      {
+        id: 'tc-5',
+        input: 'num1 = 999, num2 = 1',
+        inputRaw: { num1: 999, num2: 1 },
+        expectedOutput: '3',
+        explanation: '9 + 1 = 10 (carry 1), 9 + 0 + 1 = 10 (carry 1), 9 + 0 + 1 = 10 (carry 1) -> Total carries = 3.'
+      },
+      {
+        id: 'tc-6',
+        input: 'num1 = 123, num2 = 0',
+        inputRaw: { num1: 123, num2: 0 },
+        expectedOutput: '0',
+        explanation: '123 + 000 -> No digit sum exceeds 9 -> Total carries = 0.'
+      },
+      {
+        id: 'tc-7',
+        input: 'num1 = 0, num2 = 0',
+        inputRaw: { num1: 0, num2: 0 },
+        expectedOutput: '0',
+        explanation: 'Both inputs are 0 -> No addition operations exceed 9 -> Total carries = 0.'
+      }
+    ],
+    solutions: {
+      python: `def number_of_carries(num1: int, num2: int) -> int:
+    carry = 0
+    count = 0
+
+    while num1 > 0 or num2 > 0:
+        digit1 = num1 % 10
+        digit2 = num2 % 10
+
+        total_sum = digit1 + digit2 + carry
+
+        if total_sum > 9:
+            carry = 1
+            count += 1
+        else:
+            carry = 0
+
+        num1 //= 10
+        num2 //= 10
+
+    return count
+
+# Test Cases
+print(number_of_carries(451, 349)) # 2
+print(number_of_carries(123, 456)) # 0
+print(number_of_carries(999, 111)) # 3
+print(number_of_carries(95, 17))   # 2
+print(number_of_carries(999, 1))   # 3`,
+
+      java: `public class Solution {
+    public static int numberOfCarries(int num1, int num2) {
+        int carry = 0;
+        int count = 0;
+
+        while (num1 > 0 || num2 > 0) {
+            int digit1 = num1 % 10;
+            int digit2 = num2 % 10;
+
+            int sum = digit1 + digit2 + carry;
+
+            if (sum > 9) {
+                carry = 1;
+                count++;
+            } else {
+                carry = 0;
+            }
+
+            num1 /= 10;
+            num2 /= 10;
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(numberOfCarries(451, 349)); // 2
+        System.out.println(numberOfCarries(123, 456)); // 0
+        System.out.println(numberOfCarries(999, 111)); // 3
+        System.out.println(numberOfCarries(95, 17));   // 2
+        System.out.println(numberOfCarries(999, 1));   // 3
+    }
+}`,
+
+      cpp: `#include <iostream>
+
+int numberOfCarries(int num1, int num2) {
+    int carry = 0;
+    int count = 0;
+
+    while (num1 > 0 || num2 > 0) {
+        int digit1 = num1 % 10;
+        int digit2 = num2 % 10;
+
+        int sum = digit1 + digit2 + carry;
+
+        if (sum > 9) {
+            carry = 1;
+            count++;
+        } else {
+            carry = 0;
+        }
+
+        num1 /= 10;
+        num2 /= 10;
+    }
+
+    return count;
+}
+
+int main() {
+    std::cout << numberOfCarries(451, 349) << std::endl; // 2
+    std::cout << numberOfCarries(123, 456) << std::endl; // 0
+    std::cout << numberOfCarries(999, 111) << std::endl; // 3
+    std::cout << numberOfCarries(95, 17) << std::endl;   // 2
+    std::cout << numberOfCarries(999, 1) << std::endl;   // 3
+    return 0;
+}`,
+
+      csharp: `using System;
+
+class Solution {
+    public static int NumberOfCarries(int num1, int num2) {
+        int carry = 0;
+        int count = 0;
+
+        while (num1 > 0 || num2 > 0) {
+            int digit1 = num1 % 10;
+            int digit2 = num2 % 10;
+
+            int sum = digit1 + digit2 + carry;
+
+            if (sum > 9) {
+                carry = 1;
+                count++;
+            } else {
+                carry = 0;
+            }
+
+            num1 /= 10;
+            num2 /= 10;
+        }
+
+        return count;
+    }
+
+    static void Main() {
+        Console.WriteLine(NumberOfCarries(451, 349)); // 2
+        Console.WriteLine(NumberOfCarries(123, 456)); // 0
+        Console.WriteLine(NumberOfCarries(999, 111)); // 3
+        Console.WriteLine(NumberOfCarries(95, 17));   // 2
+        Console.WriteLine(NumberOfCarries(999, 1));   // 3
+    }
+}`,
+
+      javascript: `function numberOfCarries(num1, num2) {
+  let carry = 0;
+  let count = 0;
+
+  while (num1 > 0 || num2 > 0) {
+    const digit1 = num1 % 10;
+    const digit2 = num2 % 10;
+
+    const sum = digit1 + digit2 + carry;
+
+    if (sum > 9) {
+      carry = 1;
+      count++;
+    } else {
+      carry = 0;
+    }
+
+    num1 = Math.floor(num1 / 10);
+    num2 = Math.floor(num2 / 10);
+  }
+
+  return count;
+}
+
+console.log(numberOfCarries(451, 349)); // 2
+console.log(numberOfCarries(123, 456)); // 0
+console.log(numberOfCarries(999, 111)); // 3
+console.log(numberOfCarries(95, 17));   // 2
+console.log(numberOfCarries(999, 1));   // 3`
+    },
+    runSimulation: (num1, num2) => {
+      let carry = 0;
+      let count = 0;
+      let n1 = num1;
+      let n2 = num2;
+      while (n1 > 0 || n2 > 0) {
+        const digit1 = n1 % 10;
+        const digit2 = n2 % 10;
+        const sum = digit1 + digit2 + carry;
+        if (sum > 9) {
+          carry = 1;
+          count++;
+        } else {
+          carry = 0;
+        }
+        n1 = Math.floor(n1 / 10);
+        n2 = Math.floor(n2 / 10);
+      }
+      return count;
+    }
+  },
+
+  // =========================================================================
   // VERIFIED: 10th Sept Shift 1 (Frontend from authentic exam paper)
   // =========================================================================
   {

@@ -155,6 +155,7 @@ export function renderFormattedContent(rawText) {
         const lines = block.content.split('\n');
         const elements = [];
         let currentNumberedList = [];
+        let currentTable = [];
 
         const flushNumberedList = () => {
           if (currentNumberedList.length > 0) {
@@ -204,13 +205,86 @@ export function renderFormattedContent(rawText) {
           }
         };
 
+        const flushTable = () => {
+          if (currentTable.length >= 2) {
+            const rawHeader = currentTable[0];
+            const headers = rawHeader.split('|').map(s => s.trim()).filter((s, idx, arr) => idx > 0 && idx < arr.length - 1);
+            // check if line 1 is separator line (e.g. :---: or ---)
+            const hasSeparator = currentTable[1].includes('---');
+            const dataRows = hasSeparator ? currentTable.slice(2) : currentTable.slice(1);
+
+            elements.push(
+              <div
+                key={`tbl-${elements.length}`}
+                style={{
+                  overflowX: 'auto',
+                  margin: '0.85rem 0',
+                  borderRadius: '10px',
+                  border: '1px solid #334155',
+                  background: '#0a101f',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
+                }}
+              >
+                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ background: '#1e293b', borderBottom: '1px solid #334155', color: '#38bdf8' }}>
+                      {headers.map((h, hIdx) => (
+                        <th key={hIdx} style={{ padding: '9px 12px', fontWeight: 700, letterSpacing: '0.3px' }}>
+                          {renderInlineFormatted(h)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataRows.map((rLine, rIdx) => {
+                      const cells = rLine.split('|').map(s => s.trim()).filter((s, idx, arr) => idx > 0 && idx < arr.length - 1);
+                      return (
+                        <tr
+                          key={rIdx}
+                          style={{
+                            borderBottom: '1px solid #1e293b',
+                            background: rIdx % 2 === 0 ? 'rgba(15, 23, 42, 0.6)' : 'rgba(30, 41, 59, 0.3)'
+                          }}
+                        >
+                          {cells.map((c, cIdx) => (
+                            <td key={cIdx} style={{ padding: '8px 12px', color: '#cbd5e1', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.84rem' }}>
+                              {renderInlineFormatted(c)}
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            );
+            currentTable = [];
+          } else if (currentTable.length > 0) {
+            currentTable.forEach((tl, tlIdx) => {
+              elements.push(<p key={`tbl-raw-${elements.length}-${tlIdx}`} style={{ color: '#cbd5e1', margin: '0.2rem 0' }}>{renderInlineFormatted(tl)}</p>);
+            });
+            currentTable = [];
+          }
+        };
+
         lines.forEach((line, lineIdx) => {
           const trimmed = line.trim();
           if (!trimmed) {
             flushNumberedList();
+            flushTable();
             return;
           }
 
+          // Markdown Table detection (| col1 | col2 |)
+          if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+            flushNumberedList();
+            currentTable.push(trimmed);
+            return;
+          }
+
+          flushTable();
+
+          // Numbered list item (1. item)
           const numMatch = trimmed.match(/^(\d+)[\.\)]\s+(.*)$/);
           if (numMatch) {
             currentNumberedList.push({ num: numMatch[1], text: numMatch[2] });
@@ -219,6 +293,71 @@ export function renderFormattedContent(rawText) {
 
           flushNumberedList();
 
+          // Horizontal divider (--- or ***)
+          if (trimmed === '---' || trimmed === '***') {
+            elements.push(
+              <div
+                key={`hr-${lineIdx}`}
+                style={{
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.35), transparent)',
+                  margin: '0.9rem 0'
+                }}
+              />
+            );
+            return;
+          }
+
+          // Markdown Headings (### Header, ## Header, # Header)
+          const headingMatch = trimmed.match(/^(#{1,4})\s+(.*)$/);
+          if (headingMatch) {
+            const level = headingMatch[1].length;
+            const text = headingMatch[2];
+            elements.push(
+              <div
+                key={`h-${lineIdx}`}
+                style={{
+                  margin: level <= 2 ? '0.95rem 0 0.35rem 0' : '0.75rem 0 0.25rem 0',
+                  fontSize: level === 1 ? '1.18rem' : level === 2 ? '1.05rem' : '0.94rem',
+                  color: '#38bdf8',
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                {renderInlineFormatted(text)}
+              </div>
+            );
+            return;
+          }
+
+          // Callout blocks (⚠️, 💡, 📌, 🧠, ⚡, > )
+          if (trimmed.startsWith('⚠️') || trimmed.startsWith('💡') || trimmed.startsWith('📌') || trimmed.startsWith('🧠') || trimmed.startsWith('⚡') || trimmed.startsWith('> ')) {
+            const isWarning = trimmed.startsWith('⚠️');
+            const isLightbulb = trimmed.startsWith('💡');
+            const textContent = trimmed.replace(/^>\s*/, '');
+            elements.push(
+              <div
+                key={`callout-${lineIdx}`}
+                style={{
+                  padding: '0.75rem 1rem',
+                  borderRadius: '10px',
+                  background: isWarning ? 'rgba(245, 158, 11, 0.08)' : (isLightbulb ? 'rgba(56, 189, 248, 0.08)' : 'rgba(99, 102, 241, 0.08)'),
+                  border: `1px solid ${isWarning ? 'rgba(245, 158, 11, 0.35)' : (isLightbulb ? 'rgba(56, 189, 248, 0.3)' : 'rgba(99, 102, 241, 0.3)')}`,
+                  color: isWarning ? '#fde68a' : (isLightbulb ? '#e0f2fe' : '#e0e7ff'),
+                  fontSize: '0.88rem',
+                  lineHeight: 1.65,
+                  margin: '0.45rem 0'
+                }}
+              >
+                {renderInlineFormatted(textContent)}
+              </div>
+            );
+            return;
+          }
+
+          // Bullet points (- or •)
           if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
             const bulletText = trimmed.replace(/^[-•]\s*/, '');
             elements.push(
@@ -261,6 +400,7 @@ export function renderFormattedContent(rawText) {
         });
 
         flushNumberedList();
+        flushTable();
 
         return <React.Fragment key={blockIdx}>{elements}</React.Fragment>;
       })}
@@ -849,6 +989,46 @@ class Solution {
     };
   }
 
+  if (question.id === 'recent-dsa-014') {
+    return {
+      python: `def number_of_carries(num1: int, num2: int) -> int:
+    # TODO: Return total number of carries generated while adding num1 and num2
+    return 0
+
+if __name__ == "__main__":
+    print(number_of_carries(451, 349)) # Expected: 2
+`,
+      java: `public class Solution {
+    public static int numberOfCarries(int num1, int num2) {
+        // TODO: Return total number of carries generated while adding num1 and num2
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+int numberOfCarries(int num1, int num2) {
+    // TODO: Return total number of carries generated while adding num1 and num2
+    return 0;
+}
+`,
+      csharp: `using System;
+
+class Solution {
+    public static int NumberOfCarries(int num1, int num2) {
+        // TODO: Return total number of carries generated while adding num1 and num2
+        return 0;
+    }
+}
+`,
+      javascript: `function numberOfCarries(num1, num2) {
+  // TODO: Return total number of carries generated while adding num1 and num2
+  return 0;
+}
+`
+    };
+  }
+
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
     java: `public class Solution {\n    public static void solve() {}\n}\n`,
@@ -1306,7 +1486,8 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             typeof calculateDifference === 'function' ? calculateDifference : (typeof calculate_difference === 'function' ? calculate_difference : null),
             typeof minimumHouses === 'function' ? minimumHouses : (typeof minimum_houses === 'function' ? minimum_houses : null),
             typeof findMostFrequent === 'function' ? findMostFrequent : (typeof find_most_frequent === 'function' ? find_most_frequent : null),
-            typeof countUniform === 'function' ? countUniform : (typeof count_uniform === 'function' ? count_uniform : null)
+            typeof countUniform === 'function' ? countUniform : (typeof count_uniform === 'function' ? count_uniform : null),
+            typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null))
           ].filter(Boolean);
 
           if (candidates.length === 0) throw new Error('Algorithm function declaration not found in code.');
@@ -1450,6 +1631,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasSqrt || !hasIndex) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_grid_mapping';
+      }
+    } else if (question.id === 'recent-dsa-014') {
+      const hasModulo = code.includes('% 10') || code.includes('%10');
+      const hasDivision = code.includes('/ 10') || code.includes('/= 10') || code.includes('/=10') || code.includes('// 10') || code.includes('/10');
+      if (!hasModulo || !hasDivision) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_digit_extraction';
       }
     }
 
@@ -2244,6 +2432,63 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             id: t.id,
             name: t.name,
             input: `S = "${t.s}"`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-014') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: 451 + 349)', num1: 451, num2: 349, exp: 2, expStr: 'Carries: 2 (1s & 10s place)', latency: '4ms' },
+          { id: 2, name: 'Exam Test Case 2 (No Carries: 123 + 456)', num1: 123, num2: 456, exp: 0, expStr: 'Carries: 0 (No carries generated)', latency: '3ms' },
+          { id: 3, name: 'Exam Test Case 3 (Carry in Every Position: 999 + 111)', num1: 999, num2: 111, exp: 3, expStr: 'Carries: 3 (1s, 10s & 100s place)', latency: '4ms' },
+          { id: 4, name: 'Exam Test Case 4 (Carry Propagation: 95 + 17)', num1: 95, num2: 17, exp: 2, expStr: 'Carries: 2 (Carry propagates)', latency: '3ms' },
+          { id: 5, name: 'Exam Test Case 5 (Different Digit Counts: 999 + 1)', num1: 999, num2: 1, exp: 3, expStr: 'Carries: 3 (Propagates through 999)', latency: '4ms' },
+          { id: 6, name: 'Exam Test Case 6 (One Number Is Zero: 123 + 0)', num1: 123, num2: 0, exp: 0, expStr: 'Carries: 0 (No carries generated)', latency: '3ms' },
+          { id: 7, name: 'Exam Test Case 7 (Both Numbers Are Zero: 0 + 0)', num1: 0, num2: 0, exp: 0, expStr: 'Carries: 0 (Both zero)', latency: '2ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Carries: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.num1, t.num2]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Carries: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Carries: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Carries: 0 (Flawed logic)`;
+            passed = t.exp === 0;
+          } else {
+            const sim = q.runSimulation(t.num1, t.num2);
+            actualStr = `Carries: ${sim}`;
+            passed = sim === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `num1 = ${t.num1}, num2 = ${t.num2}`,
             expected: t.expStr,
             actual: actualStr,
             passed,
