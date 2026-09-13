@@ -49,6 +49,24 @@ export const MEMORY_MAZE_VARIANTS = {
     difficulty: 'Expert',
     timeLimit: 260, // 4:20
     description: 'Collect both Key 1 and Key 2 before the door unlocks.'
+  },
+  '5x5-grid': {
+    id: '5x5-grid',
+    name: '5×5 Grid',
+    gridSize: 5,
+    numberOfKeys: 1,
+    difficulty: 'Master',
+    timeLimit: 280, // 4:40
+    description: 'A larger 5x5 invisible maze requiring keen spatial memory. Find the key and unlock the exit door.'
+  },
+  '5x5-two-keys': {
+    id: '5x5-two-keys',
+    name: '5×5 Two Keys',
+    gridSize: 5,
+    numberOfKeys: 2,
+    difficulty: 'Grandmaster',
+    timeLimit: 300, // 5:00
+    description: 'A challenging 5x5 maze with 2 hidden keys. Collect Key 1 and Key 2 before reaching the door.'
   }
 };
 
@@ -131,6 +149,91 @@ function isReachable(cells, size, start, target) {
 }
 
 /**
+ * BFS to find the shortest path between two points avoiding walls
+ */
+function bfsShortestPath(cells, size, fromPt, toPt) {
+  const queue = [[fromPt.r, fromPt.c]];
+  const visited = Array.from({ length: size }, () => Array(size).fill(false));
+  const parent = Array.from({ length: size }, () => Array(size).fill(null));
+  visited[fromPt.r][fromPt.c] = true;
+
+  while (queue.length > 0) {
+    const [r, c] = queue.shift();
+    if (r === toPt.r && c === toPt.c) {
+      const path = [];
+      let curr = [r, c];
+      while (curr) {
+        path.push({ r: curr[0], c: curr[1] });
+        curr = parent[curr[0]][curr[1]];
+      }
+      return path.reverse();
+    }
+
+    const currentCell = cells[r][c];
+
+    // UP
+    if (r > 0 && !currentCell.walls.top && !visited[r - 1][c]) {
+      visited[r - 1][c] = true;
+      parent[r - 1][c] = [r, c];
+      queue.push([r - 1, c]);
+    }
+    // DOWN
+    if (r < size - 1 && !currentCell.walls.bottom && !visited[r + 1][c]) {
+      visited[r + 1][c] = true;
+      parent[r + 1][c] = [r, c];
+      queue.push([r + 1, c]);
+    }
+    // LEFT
+    if (c > 0 && !currentCell.walls.left && !visited[r][c - 1]) {
+      visited[r][c - 1] = true;
+      parent[r][c - 1] = [r, c];
+      queue.push([r, c - 1]);
+    }
+    // RIGHT
+    if (c < size - 1 && !currentCell.walls.right && !visited[r][c + 1]) {
+      visited[r][c + 1] = true;
+      parent[r][c + 1] = [r, c];
+      queue.push([r, c + 1]);
+    }
+  }
+
+  return [];
+}
+
+/**
+ * Computes the optimal step-by-step path from Start to Key(s) to Door
+ */
+export function computeOptimalSolution(cells, size, start, keys, door) {
+  function getPathForOrder(keyOrder) {
+    let fullPath = [];
+    let current = start;
+    for (const k of keyOrder) {
+      const segment = bfsShortestPath(cells, size, current, k);
+      if (segment.length === 0) return null;
+      fullPath = fullPath.length > 0 ? fullPath.concat(segment.slice(1)) : segment;
+      current = k;
+    }
+    const finalSegment = bfsShortestPath(cells, size, current, door);
+    if (finalSegment.length === 0) return null;
+    return fullPath.length > 0 ? fullPath.concat(finalSegment.slice(1)) : finalSegment;
+  }
+
+  if (!keys || keys.length === 0) {
+    return bfsShortestPath(cells, size, start, door);
+  }
+
+  let best = getPathForOrder(keys);
+  if (keys.length === 2) {
+    const alt = getPathForOrder([keys[1], keys[0]]);
+    if (!best || (alt && alt.length < best.length)) {
+      best = alt;
+    }
+  }
+
+  return best || [];
+}
+
+/**
  * Generate a validated, 100% solvable Memory Maze for a given variant
  */
 export function generateMemoryMaze(variantKey = 'find-the-key') {
@@ -182,7 +285,7 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     addWall(cells, 1, 1, 2, 1);
     addWall(cells, 2, 2, 2, 3);
     addWall(cells, 2, 3, 3, 3);
-  } else {
+  } else if (variantKey === '4x4-two-keys') {
     // 4x4 Two Keys
     start = { r: 0, c: 0 };
     keys = [
@@ -196,6 +299,45 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     addWall(cells, 2, 0, 2, 1);
     addWall(cells, 2, 2, 3, 2);
     addWall(cells, 2, 3, 3, 3);
+  } else if (variantKey === '5x5-grid') {
+    // 5x5 Grid with 1 Key
+    start = { r: 0, c: 0 };
+    keys = [{ r: 3, c: 1, id: 'k1', label: 'Key 1' }];
+    door = { r: 4, c: 4 };
+
+    // Solvable path: (0,0)->(0,1)->(0,2)->(1,2)->(1,1)->(2,1)->(3,1)[KEY]->(3,0)->(4,0)->(4,1)->(4,2)->(3,2)->(2,2)->(2,3)->(3,3)->(3,4)->(4,4)[DOOR]
+    addWall(cells, 0, 0, 1, 0);
+    addWall(cells, 0, 2, 0, 3);
+    addWall(cells, 1, 1, 1, 2);
+    addWall(cells, 1, 3, 2, 3);
+    addWall(cells, 2, 0, 3, 0);
+    addWall(cells, 2, 1, 2, 2);
+    addWall(cells, 2, 4, 3, 4);
+    addWall(cells, 3, 1, 4, 1);
+    addWall(cells, 3, 2, 3, 3);
+    addWall(cells, 4, 2, 4, 3);
+    addWall(cells, 4, 3, 4, 4);
+  } else {
+    // 5x5 Two Keys
+    start = { r: 0, c: 0 };
+    keys = [
+      { r: 0, c: 4, id: 'k1', label: 'Key 1' },
+      { r: 4, c: 0, id: 'k2', label: 'Key 2' }
+    ];
+    door = { r: 4, c: 4 };
+
+    // Solvable path: Start -> (0,4) [Key 1] -> backtrack/explore -> (4,0) [Key 2] -> (4,4) [Door]
+    addWall(cells, 0, 1, 1, 1);
+    addWall(cells, 0, 3, 1, 3);
+    addWall(cells, 1, 0, 1, 1);
+    addWall(cells, 1, 2, 1, 3);
+    addWall(cells, 1, 4, 2, 4);
+    addWall(cells, 2, 1, 2, 2);
+    addWall(cells, 2, 2, 3, 2);
+    addWall(cells, 2, 3, 3, 3);
+    addWall(cells, 3, 0, 3, 1);
+    addWall(cells, 3, 3, 3, 4);
+    addWall(cells, 4, 1, 4, 2);
   }
 
   // Verify solvability
@@ -218,15 +360,19 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     const cleanCells = Array.from({ length: size }, (_, r) =>
       Array.from({ length: size }, (_, c) => createCell(r, c))
     );
+    const fallbackPath = computeOptimalSolution(cleanCells, size, start, keys, door);
     return {
       variant: config,
       size,
       cells: cleanCells,
       start,
       keys,
-      door
+      door,
+      solutionPath: fallbackPath
     };
   }
+
+  const solutionPath = computeOptimalSolution(cells, size, start, keys, door);
 
   return {
     variant: config,
@@ -234,6 +380,7 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     cells,
     start,
     keys,
-    door
+    door,
+    solutionPath
   };
 }

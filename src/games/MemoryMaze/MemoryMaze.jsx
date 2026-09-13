@@ -1,7 +1,7 @@
 // src/games/MemoryMaze/MemoryMaze.jsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { generateMemoryMaze, MEMORY_MAZE_VARIANTS } from './mazeGenerator';
-import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Trophy, HelpCircle, AlertCircle } from 'lucide-react';
+import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Trophy, HelpCircle, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
 import './MemoryMaze.css';
 
 export default function MemoryMaze({
@@ -22,6 +22,9 @@ export default function MemoryMaze({
   const [collectedKeys, setCollectedKeys] = useState([]);
   const [attempts, setAttempts] = useState(0);
 
+  // Show Solution state
+  const [showSolution, setShowSolution] = useState(false);
+
   // Toast / feedback message
   const [feedback, setFeedback] = useState(null);
   const [isShaking, setIsShaking] = useState(false);
@@ -37,6 +40,7 @@ export default function MemoryMaze({
     setPlayerPos(next.start);
     setCollectedKeys([]);
     setAttempts(0);
+    setShowSolution(false);
     setPhase('INSTRUCTIONS');
     setTimeLeft(next.variant.timeLimit || 233);
     setFeedback(null);
@@ -168,7 +172,12 @@ export default function MemoryMaze({
         // Door is locked!
         setIsShaking(true);
         setTimeout(() => setIsShaking(false), 300);
-        showFeedback('Door locked. Collect the key first.', 'door');
+        showFeedback(
+          mazeData.keys.length > 1
+            ? `Door locked! Collect all ${mazeData.keys.length} keys first (${nextCollected.length}/${mazeData.keys.length}).`
+            : 'Door locked. Collect the key first.',
+          'door'
+        );
         return;
       }
     }
@@ -282,8 +291,27 @@ export default function MemoryMaze({
 
       {/* Main Maze Arena Card (Screenshot 1 Visual Architecture) */}
       <div className="mm-arena-card">
+        {/* Solution Active Informational Banner */}
+        {showSolution && (
+          <div className="mm-solution-banner">
+            <div className="mm-solution-banner-text">
+              <Sparkles size={16} className="mm-sparkle-icon" />
+              <span>
+                <strong>Solution Mode:</strong> Red borders show hidden walls • Green badges show optimal path ({mazeData.solutionPath?.length || 0} steps).
+              </span>
+            </div>
+            <button
+              type="button"
+              className="mm-solution-close-btn"
+              onClick={() => setShowSolution(false)}
+            >
+              Hide
+            </button>
+          </div>
+        )}
+
         <div
-          className={`mm-grid-board ${isShaking ? 'blocked-shake' : ''}`}
+          className={`mm-grid-board size-${mazeData.size} ${isShaking ? 'blocked-shake' : ''}`}
           style={{
             gridTemplateColumns: `repeat(${mazeData.size}, 1fr)`,
             gridTemplateRows: `repeat(${mazeData.size}, 1fr)`
@@ -296,11 +324,43 @@ export default function MemoryMaze({
               const keyObj = mazeData.keys.find((k) => k.r === r && k.c === c);
               const isKeyHere = keyObj && !collectedKeys.includes(keyObj.id);
 
+              const currentCell = mazeData.cells[r][c];
+              const hasWallTop = currentCell.walls.top;
+              const hasWallBottom = currentCell.walls.bottom;
+              const hasWallLeft = currentCell.walls.left;
+              const hasWallRight = currentCell.walls.right;
+
+              // Step index in optimal solution path
+              const stepIndices = mazeData.solutionPath
+                ? mazeData.solutionPath
+                    .map((pt, idx) => (pt.r === r && pt.c === c ? idx + 1 : null))
+                    .filter(Boolean)
+                : [];
+              const isOnPath = stepIndices.length > 0;
+
+              const cellClasses = [
+                'mm-cell',
+                isPlayer ? 'player-cell' : '',
+                isDoor ? 'door-cell' : '',
+                showSolution && hasWallTop ? 'wall-top' : '',
+                showSolution && hasWallBottom ? 'wall-bottom' : '',
+                showSolution && hasWallLeft ? 'wall-left' : '',
+                showSolution && hasWallRight ? 'wall-right' : '',
+                showSolution && isOnPath ? 'solution-path' : ''
+              ].filter(Boolean).join(' ');
+
               return (
                 <div
                   key={`${r}-${c}`}
-                  className={`mm-cell ${isPlayer ? 'player-cell' : ''} ${isDoor ? 'door-cell' : ''}`}
+                  className={cellClasses}
                 >
+                  {/* Solution Step Badge */}
+                  {showSolution && isOnPath && !isPlayer && (
+                    <span className="mm-solution-step" title={`Step ${stepIndices.join(', ')}`}>
+                      {stepIndices[0]}
+                    </span>
+                  )}
+
                   {/* Key Icon (Visible on grid) */}
                   {isKeyHere && (
                     <span className="mm-key-icon" role="img" aria-label="Key">
@@ -369,7 +429,7 @@ export default function MemoryMaze({
           )}
         </div>
 
-        {/* Bottom Bar: Timer, Objective, and Attempts (Screenshot 1) */}
+        {/* Bottom Bar: Timer, Objective, Attempts & Show Solution Toggle */}
         <div className="mm-bottom-bar">
           <div className="mm-timer-circle">
             {formatTime(timeLeft)}
@@ -381,6 +441,16 @@ export default function MemoryMaze({
             </span>
             <span className="mm-attempts-counter">Attempts: {attempts}</span>
           </div>
+
+          <button
+            type="button"
+            className={`mm-solution-toggle-btn ${showSolution ? 'active' : ''}`}
+            onClick={() => setShowSolution((prev) => !prev)}
+            title="Toggle optimal solution path and hidden wall visibility"
+          >
+            {showSolution ? <EyeOff size={15} /> : <Eye size={15} />}
+            <span>{showSolution ? 'Hide Solution' : 'Show Solution'}</span>
+          </button>
         </div>
 
         {/* Completion Modal */}
@@ -412,13 +482,26 @@ export default function MemoryMaze({
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="mm-action-btn"
-                onClick={() => loadMaze(activeVariant)}
-              >
-                Play Again
-              </button>
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  className="mm-action-btn"
+                  onClick={() => loadMaze(activeVariant)}
+                >
+                  Play Again
+                </button>
+                <button
+                  type="button"
+                  className="mm-secondary-btn"
+                  onClick={() => {
+                    setShowSolution(true);
+                    setPhase('PLAYING');
+                  }}
+                >
+                  <Eye size={15} />
+                  <span>Review Solution</span>
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -431,13 +514,26 @@ export default function MemoryMaze({
               <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '0 0 16px 0' }}>
                 The maximum time limit was reached for this maze.
               </p>
-              <button
-                type="button"
-                className="mm-action-btn"
-                onClick={() => loadMaze(activeVariant)}
-              >
-                Try Again
-              </button>
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  className="mm-action-btn"
+                  onClick={() => loadMaze(activeVariant)}
+                >
+                  Try Again
+                </button>
+                <button
+                  type="button"
+                  className="mm-secondary-btn"
+                  onClick={() => {
+                    setShowSolution(true);
+                    setPhase('PLAYING');
+                  }}
+                >
+                  <Eye size={15} />
+                  <span>Show Solution</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

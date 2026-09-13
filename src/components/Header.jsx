@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { RotateCcw, Code2 } from 'lucide-react';
 import Timer from './Timer.jsx';
 import { storage } from '../utils/storage.js';
+import QuestionDropdown from './QuestionDropdown.jsx';
 
 export default function Header({
   question,
@@ -40,12 +41,17 @@ export default function Header({
         </div>
 
         <div className="q-nav-selector">
-          <div className="q-progress-text">
-            <span className="q-progress-label">Question</span>
-            <span className="q-progress-count">
-              {question?.id || 1} of {totalQuestions}
-            </span>
-          </div>
+          <QuestionDropdown
+            questions={allQuestions}
+            currentIndex={Math.max(0, allQuestions.findIndex((q) => q.id === (question?.id || 1)))}
+            onSelectQuestion={(idx) => onSelectQuestion(allQuestions[idx]?.id || idx + 1)}
+            isSolvedFn={(q) =>
+              (completedQuestions && completedQuestions.includes(q.id)) ||
+              (typeof storage.isQuestionCompleted === 'function' && storage.isQuestionCompleted(q.id)) ||
+              storage.getQuestionResults?.(q.id)?.allPassed
+            }
+            menuTitle="SELECT ACCENTURE CODING QUESTION"
+          />
           <div className="q-nav-dots">
             {allQuestions.map((q) => {
               const isCurrent = q.id === question?.id;

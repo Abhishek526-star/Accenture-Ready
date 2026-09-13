@@ -255,6 +255,46 @@
   transform: translateY(-50%) scale(1.1);
 }
 
+/* 5x5 Grid Specific Proportions */
+.mm-grid-board.size-5 .mm-key-icon {
+  font-size: 1.85rem;
+}
+
+.mm-grid-board.size-5 .mm-door-icon {
+  font-size: 1.95rem;
+}
+
+.mm-grid-board.size-5 .mm-avatar {
+  font-size: 1.7rem;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn.up {
+  top: -13px;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn.down {
+  bottom: -13px;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn.left {
+  left: -13px;
+}
+
+.mm-grid-board.size-5 .mm-arrow-btn.right {
+  right: -13px;
+}
+
 /* Bottom Bar (Screenshot 1: Timer, Objective, Attempts) */
 .mm-bottom-bar {
   display: flex;
@@ -448,6 +488,157 @@
   background: #c2410c;
 }
 
+/* Secondary Action Button (Review / Show Solution in Modals) */
+.mm-secondary-btn {
+  background: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid #475569;
+  padding: 0.75rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.mm-secondary-btn:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #64748b;
+}
+
+/* Solution Active Informational Banner */
+.mm-solution-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  color: #065f46;
+  border-radius: 12px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.82rem;
+  margin-bottom: 0.85rem;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+.mm-solution-banner-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.35;
+}
+
+.mm-sparkle-icon {
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.mm-solution-close-btn {
+  background: #059669;
+  color: #ffffff;
+  border: none;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.mm-solution-close-btn:hover {
+  background: #047857;
+}
+
+/* Solution Toggle Button in Bottom Bar */
+.mm-solution-toggle-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #0f172a;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.mm-solution-toggle-btn:hover {
+  color: #f8fafc;
+  border-color: #64748b;
+  background: #1e293b;
+}
+
+.mm-solution-toggle-btn.active {
+  background: #065f46;
+  color: #a7f3d0;
+  border-color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Revealed Hidden Walls */
+.mm-cell.wall-top {
+  border-top: 3.5px solid #ef4444 !important;
+}
+
+.mm-cell.wall-bottom {
+  border-bottom: 3.5px solid #ef4444 !important;
+}
+
+.mm-cell.wall-left {
+  border-left: 3.5px solid #ef4444 !important;
+}
+
+.mm-cell.wall-right {
+  border-right: 3.5px solid #ef4444 !important;
+}
+
+/* Solution Path Cell Tint */
+.mm-cell.solution-path {
+  background: rgba(16, 185, 129, 0.12) !important;
+}
+
+/* Solution Step Badge */
+.mm-solution-step {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 3px;
+  border-radius: 10px;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(16, 185, 129, 0.4);
+  z-index: 8;
+  pointer-events: none;
+}
+
+.mm-grid-board.size-5 .mm-solution-step {
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.58rem;
+}
+
 /* Mobile Responsive Styling */
 @media (max-width: 640px) {
   .memory-maze-container {
@@ -485,6 +676,63 @@
   .mm-variant-pill {
     padding: 0.35rem 0.75rem;
     font-size: 0.78rem;
+  }
+
+  .mm-grid-board.size-5 .mm-key-icon,
+  .mm-grid-board.size-5 .mm-door-icon {
+    font-size: 1.45rem;
+  }
+
+  .mm-grid-board.size-5 .mm-avatar {
+    font-size: 1.35rem;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn.up {
+    top: -11px;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn.down {
+    bottom: -11px;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn.left {
+    left: -11px;
+  }
+
+  .mm-grid-board.size-5 .mm-arrow-btn.right {
+    right: -11px;
+  }
+
+  .mm-bottom-bar {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .mm-solution-toggle-btn {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+    padding: 0.55rem 1rem;
+  }
+
+  .mm-solution-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .mm-solution-close-btn {
+    align-self: flex-end;
   }
 }
 

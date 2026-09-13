@@ -149,7 +149,7 @@ export default function CognitiveDashboard() {
                 <Brain size={22} />
               </div>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.6rem', background: '#0f172a', borderRadius: '12px', color: '#fb923c' }}>
-                4 VARIANTS
+                6 VARIANTS
               </span>
             </div>
 
@@ -167,7 +167,9 @@ export default function CognitiveDashboard() {
                   { id: 'find-the-key', label: 'Find the Key' },
                   { id: 'practice-2', label: 'Practice 2' },
                   { id: '4x4-grid', label: '4×4 Grid' },
-                  { id: '4x4-two-keys', label: '4×4 Two Keys' }
+                  { id: '4x4-two-keys', label: '4×4 Two Keys' },
+                  { id: '5x5-grid', label: '5×5 Grid (1 Key)' },
+                  { id: '5x5-two-keys', label: '5×5 Grid (2 Keys)' }
                 ].map((v) => (
                   <Link
                     key={v.id}
