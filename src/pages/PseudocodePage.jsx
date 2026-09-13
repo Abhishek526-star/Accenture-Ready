@@ -22,6 +22,7 @@ import {
 import {
   pseudocodeQuestions,
   PSEUDOCODE_TOPICS,
+  PSEUDOCODE_SETS,
   filterPseudocodeQuestions
 } from '../data/pseudocodeQuestions.js';
 import { pseudocodeStorage } from '../utils/pseudocodeStorage.js';
@@ -36,21 +37,37 @@ export default function PseudocodePage({ theme = 'dark' }) {
   const topicParam = searchParams.get('topic') || 'all';
 
   const [activeTopic, setActiveTopic] = useState(topicParam);
+  const [selectedSet, setSelectedSet] = useState('set-1');
   const [mode, setMode] = useState('practice'); // 'practice' | 'exam'
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState(() => pseudocodeStorage.getAnswers());
   const [bookmarks, setBookmarks] = useState(() => pseudocodeStorage.getBookmarks());
   const [showHandbook, setShowHandbook] = useState(false);
 
-  // Exam Mode timer & submission
-  const [examRemainingSeconds, setExamRemainingSeconds] = useState(20 * 60); // 20 minutes
+  // Filtered question set
+  const filteredQuestions = useMemo(() => {
+    return filterPseudocodeQuestions({ topic: activeTopic, set: selectedSet });
+  }, [activeTopic, selectedSet]);
+
+  // Exam Mode timer: Total Questions * 2 minutes
+  const totalExamMinutes = useMemo(() => {
+    return Math.max(1, filteredQuestions.length * 2);
+  }, [filteredQuestions.length]);
+
+  const totalExamSeconds = useMemo(() => {
+    return totalExamMinutes * 60;
+  }, [totalExamMinutes]);
+
+  const [examRemainingSeconds, setExamRemainingSeconds] = useState(totalExamSeconds);
   const [examFinished, setExamFinished] = useState(false);
   const [examScorecard, setExamScorecard] = useState(null);
 
-  // Filtered question set
-  const filteredQuestions = useMemo(() => {
-    return filterPseudocodeQuestions({ topic: activeTopic });
-  }, [activeTopic]);
+  // Sync remaining timer when question set changes
+  useEffect(() => {
+    if (!examFinished) {
+      setExamRemainingSeconds(totalExamSeconds);
+    }
+  }, [totalExamSeconds, examFinished]);
 
   const currentQuestion = filteredQuestions[currentIndex] || filteredQuestions[0];
   const isBookmarked = currentQuestion ? bookmarks.includes(currentQuestion.id) : false;
@@ -107,12 +124,13 @@ export default function PseudocodePage({ theme = 'dark' }) {
 
     const total = filteredQuestions.length;
     const scorePercent = Math.round((correct / Math.max(1, total)) * 100);
+    const timeUsed = Math.max(0, totalExamSeconds - examRemainingSeconds);
 
     const scorecard = {
       scorePercent,
       correctCount: correct,
       totalCount: total,
-      timeUsedFormatted: `${Math.floor((1200 - examRemainingSeconds) / 60)}m ${(1200 - examRemainingSeconds) % 60}s`
+      timeUsedFormatted: `${Math.floor(timeUsed / 60)}m ${timeUsed % 60}s`
     };
 
     setExamScorecard(scorecard);
@@ -144,13 +162,13 @@ export default function PseudocodePage({ theme = 'dark' }) {
       }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(234, 179, 8, 0.15)', color: '#facc15', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-            <Zap size={14} /> TECHNICAL ROUND COMPONENT
+            <Zap size={14} /> TECHNICAL ROUND ASSESSMENT
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 900, color: '#f8fafc', margin: '0 0 0.5rem 0' }}>
-            Accenture Pseudocode Questions & Practice
+            Accenture Pseudocode Assessment & Practice
           </h1>
-          <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '650px' }}>
-            Master bitwise logic (`^`, `&`, `|`), tree recursion call stacks, while-loop step mutations, and array pointers with our step-by-step execution tracer.
+          <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '680px' }}>
+            Set 1: Previous Year Questions Collection • Complete Step-by-Step Solutions, Recursion Traces & Explanations
           </p>
         </div>
 
@@ -193,7 +211,11 @@ export default function PseudocodePage({ theme = 'dark' }) {
               Practice Mode
             </button>
             <button
-              onClick={() => { setMode('exam'); setExamFinished(false); setExamRemainingSeconds(20 * 60); }}
+              onClick={() => {
+                setMode('exam');
+                setExamFinished(false);
+                setExamRemainingSeconds(totalExamSeconds);
+              }}
               style={{
                 padding: '6px 14px',
                 borderRadius: '8px',
@@ -205,9 +227,60 @@ export default function PseudocodePage({ theme = 'dark' }) {
                 cursor: 'pointer'
               }}
             >
-              20-Min Exam Mode
+              {totalExamMinutes}-Min Exam Mode
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Set 1 Banner / Info Pill */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '1rem',
+        marginBottom: '1.25rem',
+        background: '#1e293b',
+        border: '1px solid #334155',
+        borderRadius: '12px',
+        padding: '12px 18px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{
+            background: 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)',
+            color: '#0f172a',
+            padding: '4px 10px',
+            borderRadius: '8px',
+            fontWeight: 800,
+            fontSize: '0.78rem',
+            letterSpacing: '0.04em'
+          }}>
+            SET 1 (PYQs)
+          </span>
+          <span style={{ color: '#f8fafc', fontWeight: 700, fontSize: '0.95rem' }}>
+            Accenture Pseudocode Previous Year Questions Collection
+          </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '5px',
+            background: 'rgba(234, 179, 8, 0.12)',
+            border: '1px solid rgba(234, 179, 8, 0.3)',
+            borderRadius: '6px',
+            padding: '3px 10px',
+            color: '#facc15',
+            fontSize: '0.78rem',
+            fontWeight: 700
+          }}>
+            <Clock size={13} />
+            <span>Timer: {totalExamMinutes} Mins ({filteredQuestions.length} Qs × 2m)</span>
+          </span>
+          <span style={{ color: '#94a3b8', fontSize: '0.82rem', fontWeight: 600 }}>
+            {filteredQuestions.length} Questions with Step-by-Step Recursion Traces & Explanations
+          </span>
         </div>
       </div>
 

@@ -1,6 +1,16 @@
 // src/data/pseudocodeQuestions.js
 // Authentic Accenture Assessment Pseudocode Questions with complete execution traces and step-by-step variable watches
 
+export const PSEUDOCODE_SETS = [
+  {
+    id: 'set-1',
+    name: 'Set 1: Previous Year Questions Collection',
+    badge: 'PYQ Master Set 1',
+    description: '18 Authentic Accenture Pseudocode Questions with Complete Step-by-Step Solutions, Recursion Traces & Explanations',
+    questionCount: 18
+  }
+];
+
 export const PSEUDOCODE_TOPICS = [
   { id: 'all', label: 'All Topics' },
   { id: 'bitwise', label: 'Bitwise Logic (^, &, |, >>, <<)' },
@@ -62,378 +72,829 @@ export const PSEUDOCODE_HANDBOOK = {
 
 export const pseudocodeQuestions = [
   {
-    id: 'pseudo-01',
-    topic: 'bitwise',
-    title: 'Bitwise XOR & Shift Iteration',
+    id: 'pseudo-s1-01',
+    set: 'set-1',
+    qno: 1,
+    topic: 'recursion',
+    title: 'Q1. Recursive Function',
+    difficulty: 'Medium',
+    pseudocode: `public class MainClass {
+    static void fun(int p, int q, int r) {
+        if (p > 1) {
+            fun(p - r, q, r - 3);
+            System.out.println(q);
+        }
+    }
+    public static void main(String[] args) {
+        fun(20, 25, 30);
+    }
+}`,
+    options: ['20', '25', '30', '55'],
+    correctAnswer: 1, // B. 25
+    explanation: `Initial call: fun(20, 25, 30)
+
+Step 1:
+Since 20 > 1, the condition (p > 1) is true.
+It invokes the recursive call:
+fun(20 - 30, 25, 30 - 3) = fun(-10, 25, 27).
+
+Step 2:
+In fun(-10, 25, 27):
+p = -10, so condition (-10 > 1) is false.
+This call terminates without printing and returns control to the previous call.
+
+Step 3:
+The previous call resumes after the recursive call and executes:
+System.out.println(q);
+Since q = 25, it prints 25.
+
+Output: 25`,
+    stepTrace: [
+      { line: 8, code: 'fun(20, 25, 30)', variables: { p: 20, q: 25, r: 30 }, note: 'Main calls fun(20, 25, 30).' },
+      { line: 3, code: 'if (p > 1)', variables: { p: 20, q: 25, r: 30 }, note: '20 > 1 is true. Proceed inside if.' },
+      { line: 4, code: 'fun(p - r, q, r - 3)', variables: { 'p-r': -10, q: 25, 'r-3': 27 }, note: 'Calls fun(20 - 30, 25, 30 - 3) = fun(-10, 25, 27).' },
+      { line: 3, code: 'if (p > 1)', variables: { p: -10, q: 25, r: 27 }, note: '-10 > 1 is false. Base condition hit, returns.' },
+      { line: 5, code: 'System.out.println(q)', variables: { q: 25, output: '25' }, note: 'Prints q = 25. Call stack unwinds.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-02',
+    set: 'set-1',
+    qno: 2,
+    topic: 'recursion',
+    title: 'Q2. Recursive Function with Changing Parameters',
+    difficulty: 'Hard',
+    pseudocode: `Integer fun(Integer p, Integer q, Integer r)
+    if (p > 1)
+        fun(p - r, q + 2, r + 2)
+        Print q
+    end if
+end function
+// Executed for p = 22, q = 4, r = 2`,
+    options: [
+      '20 18 16 14 12',
+      '14 12 10 8 6 4',
+      '26 24 22 20 18 16 14 12 10 8 6 4',
+      'None of the mentioned options'
+    ],
+    correctAnswer: 2, // C
+    explanation: `Track the recursive calls:
+p decreases by r, q increases by 2, and r increases by 2 on each recursive step:
+• p = 22, q = 4, r = 2
+• p = 20, q = 6, r = 4
+• p = 18, q = 8, r = 6
+• p = 16, q = 10, r = 8
+• p = 14, q = 12, r = 10
+• p = 12, q = 14, r = 12
+• p = 10, q = 16, r = 14
+• p = 8,  q = 18, r = 16
+• p = 6,  q = 20, r = 18
+• p = 4,  q = 22, r = 20
+• p = 2,  q = 24, r = 22
+• p = 0,  q = 26, r = 24
+
+When p = 0, recursion stops.
+Because Print q executes after the recursive call, values are printed in reverse order as the stack unwinds:
+26 24 22 20 18 16 14 12 10 8 6 4
+
+Output: 26 24 22 20 18 16 14 12 10 8 6 4`,
+    stepTrace: [
+      { line: 1, code: 'fun(22, 4, 2)', variables: { p: 22, q: 4, r: 2 }, note: 'Initial call: p=22, q=4, r=2.' },
+      { line: 2, code: 'if (p > 1)', variables: { p: 22, q: 4, r: 2 }, note: '22 > 1 is true. Makes recursive call.' },
+      { line: 3, code: 'Recursive call cascade...', variables: { p: 0, q: 26 }, note: 'Calls continue until p = 0.' },
+      { line: 4, code: 'Print q (stack unwinding)', variables: { output: '26 24 22 20 18 16 14 12 10 8 6 4' }, note: 'Values of q print in reverse as stack frames pop.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-03',
+    set: 'set-1',
+    qno: 3,
+    topic: 'recursion',
+    title: 'Q3. Multiple Recursive Calls',
+    difficulty: 'Medium',
+    pseudocode: `Integer fun(Integer x)
+    if (x > 3)
+        fun(x - 3)
+        Print x
+        fun(x / 2)
+        fun(x / 4)
+    end if
+end function
+// Executed for x = 7`,
+    options: ['6 9 4', '5 8 4', '4 7', '4 7 5'],
+    correctAnswer: 2, // C. 4 7
+    explanation: `Start: fun(7)
+Since 7 > 3:
+1. fun(7 - 3) = fun(4) is called:
+   • 4 > 3 is true:
+     - calls fun(4 - 3) = fun(1) -> 1 > 3 is false, returns.
+     - executes: Print 4
+     - calls fun(4 / 2) = fun(2) -> 2 > 3 is false, returns.
+     - calls fun(4 / 4) = fun(1) -> 1 > 3 is false, returns.
+   • fun(4) finishes after printing 4.
+2. Back to fun(7):
+   • executes: Print 7
+   • calls fun(7 / 2) = fun(3) -> 3 > 3 is false, returns.
+   • calls fun(7 / 4) = fun(1) -> 1 > 3 is false, returns.
+
+Printed values: 4 7
+Output: 4 7`,
+    stepTrace: [
+      { line: 1, code: 'fun(7)', variables: { x: 7 }, note: 'Call fun(7).' },
+      { line: 3, code: 'fun(x - 3)', variables: { x: 7, next_x: 4 }, note: 'Calls fun(4).' },
+      { line: 4, code: 'Print x in fun(4)', variables: { x: 4, output: '4' }, note: 'fun(4) prints 4 after its child fun(1) returns.' },
+      { line: 4, code: 'Print x in fun(7)', variables: { x: 7, output: '4 7' }, note: 'fun(7) resumes and prints 7.' },
+      { line: 5, code: 'fun(x / 2) & fun(x / 4)', variables: { '7/2': 3, '7/4': 1 }, note: 'Both 3 > 3 and 1 > 3 are false. Execution completes.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-04',
+    set: 'set-1',
+    qno: 4,
+    topic: 'recursion',
+    title: 'Q4. Recursive Division',
+    difficulty: 'Medium',
+    pseudocode: `public class MainClass {
+    static void fun(int x, int y) {
+        if (x > 1) {
+            fun(x / y, y + 3);
+            System.out.println(y);
+        }
+    }
+    public static void main(String[] args) {
+        fun(108, 3);
+    }
+}`,
+    options: ['3 6 9 12', '12 9 6 3', '9 6 3', '12 9 6'],
+    correctAnswer: 1, // B. 12 9 6 3
+    explanation: `Track recursive call chain:
+• fun(108, 3): 108 > 1, calls fun(108 / 3, 3 + 3) = fun(36, 6)
+• fun(36, 6):   36 > 1, calls fun(36 / 6, 6 + 3)   = fun(6, 9)
+• fun(6, 9):     6 > 1, calls fun(6 / 9, 9 + 3)     = fun(0, 12)
+• fun(0, 12):    0 > 1 is false, recursion stops.
+
+Now calls unwind in reverse order, executing System.out.println(y):
+12
+9
+6
+3
+
+Output: 12 9 6 3`,
+    stepTrace: [
+      { line: 9, code: 'fun(108, 3)', variables: { x: 108, y: 3 }, note: 'Initial call: x=108, y=3.' },
+      { line: 4, code: 'fun(36, 6)', variables: { x: 36, y: 6 }, note: '108 / 3 = 36, 3 + 3 = 6.' },
+      { line: 4, code: 'fun(6, 9)', variables: { x: 6, y: 9 }, note: '36 / 6 = 6, 6 + 3 = 9.' },
+      { line: 4, code: 'fun(0, 12)', variables: { x: 0, y: 12 }, note: '6 / 9 = 0, 9 + 3 = 12.' },
+      { line: 3, code: 'Base case x <= 1', variables: { x: 0 }, note: '0 > 1 is false. Stack unwinds.' },
+      { line: 5, code: 'Print y on return', variables: { output: '12 9 6 3' }, note: 'Prints 12, 9, 6, 3 in reverse stack order.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-05',
+    set: 'set-1',
+    qno: 5,
+    topic: 'loops',
+    title: 'Q5. Loop with Updating Variables',
     difficulty: 'Medium',
     pseudocode: `Integer a, b, c
-Set a = 4, b = 6, c = 2
-c = (a ^ b) + (b >> 1)
-a = (c ^ a) + 2
-b = a + b + c
-Print a + b + c`,
-    options: ['34', '38', '40', '42'],
-    correctAnswer: 1, // '38'
+Set a = 10, b = 20
+for (c from a to b) increment c by 2 in each iteration
+    a = a + c
+    b = b - a + c
+    if (a > 10)
+        Print a
+    else
+        Print b
+    end if
+end for`,
+    options: ['20', '22', '20 32', '20 32 46 62 80 100'],
+    correctAnswer: 3, // D. 20 32 46 62 80 100
+    explanation: `The for-loop boundaries are evaluated at initialization:
+c ranges from a (10) to b (20) with step 2:
+c values: 10, 12, 14, 16, 18, 20
+
+Compute a and printed values:
+• c = 10: a = 10 + 10 = 20. (20 > 10) -> Print 20
+• c = 12: a = 20 + 12 = 32. (32 > 10) -> Print 32
+• c = 14: a = 32 + 14 = 46. (46 > 10) -> Print 46
+• c = 16: a = 46 + 16 = 62. (62 > 10) -> Print 62
+• c = 18: a = 62 + 18 = 80. (80 > 10) -> Print 80
+• c = 20: a = 80 + 20 = 100. (100 > 10) -> Print 100
+
+Output: 20 32 46 62 80 100`,
+    stepTrace: [
+      { line: 2, code: 'Set a = 10, b = 20', variables: { a: 10, b: 20 }, note: 'Loop values of c: 10, 12, 14, 16, 18, 20.' },
+      { line: 4, code: 'Iter c=10: a = a + c', variables: { a: 20, c: 10, output: '20' }, note: 'a = 10 + 10 = 20. Prints 20.' },
+      { line: 4, code: 'Iter c=12: a = a + c', variables: { a: 32, c: 12, output: '20 32' }, note: 'a = 20 + 12 = 32. Prints 32.' },
+      { line: 4, code: 'Iter c=14: a = a + c', variables: { a: 46, c: 14, output: '20 32 46' }, note: 'a = 32 + 14 = 46. Prints 46.' },
+      { line: 4, code: 'Iter c=16: a = a + c', variables: { a: 62, c: 16, output: '20 32 46 62' }, note: 'a = 46 + 16 = 62. Prints 62.' },
+      { line: 4, code: 'Iter c=18: a = a + c', variables: { a: 80, c: 18, output: '20 32 46 62 80' }, note: 'a = 62 + 18 = 80. Prints 80.' },
+      { line: 4, code: 'Iter c=20: a = a + c', variables: { a: 100, c: 20, output: '20 32 46 62 80 100' }, note: 'a = 80 + 20 = 100. Prints 100.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-06',
+    set: 'set-1',
+    qno: 6,
+    topic: 'bitwise',
+    title: 'Q6. Bitwise Operators',
+    difficulty: 'Medium',
+    pseudocode: `Integer pp, qq, rr
+Set pp = 3, qq = 6, rr = 5
+
+rr = (qq & pp) ^ rr
+rr = (qq & 7) + qq
+
+if ((3 ^ 5) < qq)
+    rr = (rr + qq) + pp
+    if ((pp ^ qq ^ rr) > (rr ^ pp))
+        qq = (1 & 6) + pp
+    end if
+    qq = (rr + 6) + pp
+end if
+
+Print pp + qq + rr`,
+    options: ['18', '20', '21', '24'],
+    correctAnswer: 2, // C. 21
     explanation: `Step-by-step evaluation:
-1. a = 4 (binary 100), b = 6 (binary 110), c = 2
-2. a ^ b = 4 ^ 6 = (100 ^ 110) = 010 (binary) = 2
-   b >> 1 = 6 >> 1 = 3
-   c = 2 + 3 = 5
-3. c ^ a = 5 ^ 4 = (101 ^ 100) = 001 (binary) = 1
-   a = 1 + 2 = 3
-4. b = a + b + c = 3 + 6 + 5 = 14
-5. Print a + b + c = 3 + 14 + 5 = 22 -> Let's check:
-   Wait, if:
-   a = 3, b = 21: let's verify exact arithmetic:
-   a = 4, b = 6, c = 2
-   c = (4 ^ 6) + (6 >> 1) = 2 + 3 = 5
-   a = (5 ^ 4) + 2 = 1 + 2 = 3
-   b = a + b + c = 3 + 6 + 5 = 14
-   Result: 3 + 14 + 5 = 22? Wait, with c=8, a=8+2=10, b=10+6+8=24, a+b+c = 38!
-   Let's ensure the steps align with 38:`,
+1. Initially: pp = 3, qq = 6, rr = 5
+2. Evaluate rr = (qq & pp) ^ rr:
+   6 in binary = 110
+   3 in binary = 011
+   6 & 3 = 010 (binary) = 2
+   2 ^ 5 = 010 ^ 101 = 111 (binary) = 7. So rr = 7.
+3. Evaluate rr = (qq & 7) + qq:
+   6 & 7 = 6
+   rr = 6 + 6 = 12.
+4. Evaluate condition: ((3 ^ 5) < qq)
+   3 ^ 5 = 011 ^ 101 = 110 (binary) = 6.
+   Condition becomes: 6 < 6 -> FALSE!
+5. Since condition is false, the entire outer if block is skipped.
+6. Final output:
+   Print pp + qq + rr = 3 + 6 + 12 = 21.
+
+Output: 21`,
     stepTrace: [
-      { line: 2, code: 'Set a = 4, b = 6, c = 2', variables: { a: 4, b: 6, c: 2 }, note: 'Variables initialized.' },
-      { line: 3, code: 'c = (a ^ b) + (b >> 1)', variables: { a: 4, b: 6, c: 5 }, note: '4 ^ 6 = 2, 6 >> 1 = 3. c = 2 + 3 = 5.' },
-      { line: 4, code: 'a = (c ^ a) + 2', variables: { a: 3, b: 6, c: 5 }, note: '5 ^ 4 = 1. a = 1 + 2 = 3.' },
-      { line: 5, code: 'b = a + b + c', variables: { a: 3, b: 14, c: 5 }, note: 'b = 3 + 6 + 5 = 14.' },
-      { line: 6, code: 'Print a + b + c', variables: { a: 3, b: 14, c: 5, output: 22 }, note: 'Sum: 3 + 14 + 5 = 22.' }
+      { line: 2, code: 'Set pp = 3, qq = 6, rr = 5', variables: { pp: 3, qq: 6, rr: 5 }, note: 'Variables initialized.' },
+      { line: 4, code: 'rr = (qq & pp) ^ rr', variables: { rr: 7 }, note: '(6 & 3) ^ 5 = 2 ^ 5 = 7.' },
+      { line: 5, code: 'rr = (qq & 7) + qq', variables: { rr: 12 }, note: '(6 & 7) + 6 = 6 + 6 = 12.' },
+      { line: 7, code: 'if ((3 ^ 5) < qq)', variables: { '3^5': 6, qq: 6 }, note: '6 < 6 is FALSE. Entire if-block skipped.' },
+      { line: 16, code: 'Print pp + qq + rr', variables: { pp: 3, qq: 6, rr: 12, output: 21 }, note: '3 + 6 + 12 = 21.' }
     ]
   },
   {
-    id: 'pseudo-02',
+    id: 'pseudo-s1-07',
+    set: 'set-1',
+    qno: 7,
     topic: 'bitwise',
-    title: 'XOR Cancellation and AND Masking',
-    difficulty: 'Easy',
+    title: 'Q7. Bitwise AND and Conditional Execution',
+    difficulty: 'Medium',
     pseudocode: `Integer p, q, r
-Set p = 7, q = 3, r = 5
-p = p ^ q ^ p
-q = (p & r) + (q ^ r)
-r = r + p + q
-Print r`,
-    options: ['12', '15', '17', '19'],
-    correctAnswer: 1, // '15'
-    explanation: `1. p = 7, q = 3, r = 5
-2. p = p ^ q ^ p: By XOR cancellation (p ^ p = 0), 7 ^ 3 ^ 7 = 3. So p = 3.
-3. q = (p & r) + (q ^ r):
-   p & r = 3 & 5 = (011 & 101) = 001 = 1
-   q ^ r = 3 ^ 5 = (011 ^ 101) = 110 = 6
-   q = 1 + 6 = 7.
-4. r = r + p + q = 5 + 3 + 7 = 15.
-5. Output = 15.`,
-    stepTrace: [
-      { line: 2, code: 'Set p = 7, q = 3, r = 5', variables: { p: 7, q: 3, r: 5 }, note: 'Initial state: p=7, q=3, r=5' },
-      { line: 3, code: 'p = p ^ q ^ p', variables: { p: 3, q: 3, r: 5 }, note: '7 ^ 3 ^ 7 cancels to 3. p becomes 3.' },
-      { line: 4, code: 'q = (p & r) + (q ^ r)', variables: { p: 3, q: 7, r: 5 }, note: '(3 & 5) = 1; (3 ^ 5) = 6. q = 1 + 6 = 7.' },
-      { line: 5, code: 'r = r + p + q', variables: { p: 3, q: 7, r: 15 }, note: 'r = 5 + 3 + 7 = 15.' },
-      { line: 6, code: 'Print r', variables: { p: 3, q: 7, r: 15, output: 15 }, note: 'Final output is 15.' }
-    ]
-  },
-  {
-    id: 'pseudo-03',
-    topic: 'recursion',
-    title: 'Recursive Tree Call Stack',
-    difficulty: 'Medium',
-    pseudocode: `Function fun(Integer n)
-    If (n <= 1)
-        Return 1
-    End If
-    Return fun(n - 1) + fun(n - 2) + n
-End Function
+Set p = 8, q = 5, r = 10
 
-Integer res
-res = fun(4)
-Print res`,
-    options: ['13', '15', '17', '19'],
-    correctAnswer: 1, // '15'
-    explanation: `Trace recursive calls from base to top:
-• fun(0) = 1
-• fun(1) = 1
-• fun(2) = fun(1) + fun(0) + 2 = 1 + 1 + 2 = 4
-• fun(3) = fun(2) + fun(1) + 3 = 4 + 1 + 3 = 8
-• fun(4) = fun(3) + fun(2) + 4 = 8 + 4 + 4 = 16 (or if base n<=1: fun(1)+fun(0)+2 = 4).
-Let's verify fun(4):
-fun(4) = fun(3) + fun(2) + 4
-fun(3) = fun(2) + fun(1) + 3
-fun(2) = 1 + 1 + 2 = 4
-fun(3) = 4 + 1 + 3 = 8
-fun(4) = 8 + 4 + 4 = 16.`,
-    stepTrace: [
-      { line: 10, code: 'res = fun(4)', variables: { n: 4, callStack: 'fun(4)' }, note: 'Initial invocation with n=4.' },
-      { line: 2, code: 'If (n <= 1) -> False', variables: { n: 4 }, note: 'n=4 > 1, branching into subcalls.' },
-      { line: 5, code: 'fun(2) evaluates', variables: { 'fun(2)': 4 }, note: 'fun(2) = fun(1) + fun(0) + 2 = 1 + 1 + 2 = 4.' },
-      { line: 5, code: 'fun(3) evaluates', variables: { 'fun(3)': 8 }, note: 'fun(3) = fun(2) + fun(1) + 3 = 4 + 1 + 3 = 8.' },
-      { line: 5, code: 'fun(4) returns', variables: { res: 16, output: 16 }, note: 'fun(4) = 8 + 4 + 4 = 16.' }
-    ]
-  },
-  {
-    id: 'pseudo-04',
-    topic: 'recursion',
-    title: 'Recursive Modulo & Power Decomposition',
-    difficulty: 'Hard',
-    pseudocode: `Function solve(Integer a, Integer b)
-    If (b == 0)
-        Return 1
-    End If
-    If (b mod 2 == 0)
-        Return solve(a * a, b / 2)
-    Else
-        Return a * solve(a * a, (b - 1) / 2)
-    End If
-End Function
+if ((p & q) < r)
+    q = r & r
+    q = 9 + q
+end if
 
-Integer ans
-ans = solve(2, 5)
-Print ans`,
-    options: ['16', '32', '64', '128'],
-    correctAnswer: 1, // '32'
-    explanation: `This is the classic binary exponentiation algorithm computing a^b (2^5 = 32):
-Call 1: solve(2, 5) -> b=5 is odd -> returns 2 * solve(4, 2)
-Call 2: solve(4, 2) -> b=2 is even -> returns solve(16, 1)
-Call 3: solve(16, 1) -> b=1 is odd -> returns 16 * solve(256, 0)
-Call 4: solve(256, 0) -> b=0 -> returns 1
-Unwinding:
-Call 3 returns 16 * 1 = 16
-Call 2 returns 16
-Call 1 returns 2 * 16 = 32.`,
-    stepTrace: [
-      { line: 12, code: 'ans = solve(2, 5)', variables: { a: 2, b: 5 }, note: 'Call 1: solve(2, 5). b is odd.' },
-      { line: 7, code: 'solve(4, 2)', variables: { a: 4, b: 2 }, note: 'Call 2: solve(4, 2). b is even.' },
-      { line: 5, code: 'solve(16, 1)', variables: { a: 16, b: 1 }, note: 'Call 3: solve(16, 1). b is odd.' },
-      { line: 7, code: 'solve(256, 0)', variables: { a: 256, b: 0 }, note: 'Call 4: Base case reached (b=0), returns 1.' },
-      { line: 8, code: 'Unwinding call stack', variables: { ans: 32, output: 32 }, note: 'Calculates 2 * 16 = 32.' }
-    ]
-  },
-  {
-    id: 'pseudo-05',
-    topic: 'loops',
-    title: 'While Loop with Bitwise Mask Mutation',
-    difficulty: 'Medium',
-    pseudocode: `Integer x, y, count
-Set x = 15, y = 9, count = 0
-While (x > 0)
-    If ((x & 1) == (y & 1))
-        count = count + 1
-    End If
-    x = x >> 1
-    y = y >> 1
-End While
-Print count`,
-    options: ['1', '2', '3', '4'],
-    correctAnswer: 1, // '2'
-    explanation: `We compare the lowest bits of x and y bit-by-bit until x becomes 0:
-x = 15 in binary is 1111 (4 bits).
-y = 9 in binary is 1001 (4 bits).
+if ((p + q) > (r - p))
+    q = (q + 5) & p
+end if
 
-• Iteration 1:
-  x = 1111 (lowest bit 1), y = 1001 (lowest bit 1) -> 1 == 1 -> count = 1.
-  x becomes 111 (7), y becomes 100 (4).
-• Iteration 2:
-  x = 111 (lowest bit 1), y = 100 (lowest bit 0) -> 1 != 0.
-  x becomes 11 (3), y becomes 10 (2).
-• Iteration 3:
-  x = 11 (lowest bit 1), y = 10 (lowest bit 0) -> 1 != 0.
-  x becomes 1, y becomes 1.
-• Iteration 4:
-  x = 1 (lowest bit 1), y = 1 (lowest bit 1) -> 1 == 1 -> count = 2.
-  x becomes 0, y becomes 0.
-Loop terminates because x is no longer > 0.
-Final count = 2.`,
+Print p + q + r`,
+    options: ['18', '20', '24', '26'],
+    correctAnswer: 3, // D. 26
+    explanation: `Step-by-step evaluation:
+1. Initially: p = 8, q = 5, r = 10
+2. First condition: ((p & q) < r)
+   8 in binary = 1000
+   5 in binary = 0101
+   8 & 5 = 0000 = 0
+   0 < 10 is TRUE.
+   Inside if:
+   q = r & r = 10 & 10 = 10
+   q = 9 + q = 9 + 10 = 19.
+3. Second condition: ((p + q) > (r - p))
+   p + q = 8 + 19 = 27
+   r - p = 10 - 8 = 2
+   27 > 2 is TRUE.
+   Inside if:
+   q = (q + 5) & p = (19 + 5) & 8 = 24 & 8
+   24 in binary = 11000
+   8 in binary  = 01000
+   24 & 8 = 01000 = 8.
+   So q = 8.
+4. Final calculation:
+   p + q + r = 8 + 8 + 10 = 26.
+
+Output: 26`,
     stepTrace: [
-      { line: 2, code: 'Set x = 15, y = 9, count = 0', variables: { x: 15, y: 9, count: 0 }, note: 'x = 1111 (bin), y = 1001 (bin).' },
-      { line: 4, code: 'Iter 1: (15 & 1) == (9 & 1)', variables: { x: 7, y: 4, count: 1 }, note: 'Bit 0: 1 == 1 -> MATCH. count = 1.' },
-      { line: 4, code: 'Iter 2: (7 & 1) == (4 & 1)', variables: { x: 3, y: 2, count: 1 }, note: 'Bit 1: 1 != 0 -> No match.' },
-      { line: 4, code: 'Iter 3: (3 & 1) == (2 & 1)', variables: { x: 1, y: 1, count: 1 }, note: 'Bit 2: 1 != 0 -> No match.' },
-      { line: 4, code: 'Iter 4: (1 & 1) == (1 & 1)', variables: { x: 0, y: 0, count: 2 }, note: 'Bit 3: 1 == 1 -> MATCH. count = 2.' },
-      { line: 10, code: 'Print count', variables: { count: 2, output: 2 }, note: 'x = 0, loop terminates. Result: 2.' }
+      { line: 2, code: 'Set p = 8, q = 5, r = 10', variables: { p: 8, q: 5, r: 10 }, note: 'Initial values.' },
+      { line: 4, code: 'if ((p & q) < r)', variables: { 'p&q': 0, r: 10 }, note: '8 & 5 = 0 < 10 is TRUE.' },
+      { line: 5, code: 'q = r & r; q = 9 + q', variables: { q: 19 }, note: 'q = 10; q = 9 + 10 = 19.' },
+      { line: 9, code: 'if ((p + q) > (r - p))', variables: { 'p+q': 27, 'r-p': 2 }, note: '27 > 2 is TRUE.' },
+      { line: 10, code: 'q = (q + 5) & p', variables: { q: 8 }, note: '24 & 8 = 8.' },
+      { line: 13, code: 'Print p + q + r', variables: { p: 8, q: 8, r: 10, output: 26 }, note: '8 + 8 + 10 = 26.' }
     ]
   },
   {
-    id: 'pseudo-06',
-    topic: 'loops',
-    title: 'Nested For Loop with Increment Step',
-    difficulty: 'Easy',
-    pseudocode: `Integer sum, i, j
-Set sum = 0
-For i = 1 to 4
-    For j = 1 to i
-        If ((i + j) mod 2 == 0)
-            sum = sum + i * j
-        End If
-    End For
-End For
-Print sum`,
-    options: ['18', '21', '24', '26'],
-    correctAnswer: 3, // '26'
-    explanation: `Trace pairs (i, j) where 1 <= i <= 4 and 1 <= j <= i:
-• i = 1:
-  j = 1: (1+1) mod 2 == 0 -> sum += 1*1 = 1.
-• i = 2:
-  j = 1: 2+1=3 (odd)
-  j = 2: 2+2=4 (even) -> sum += 2*2 = 4 (sum = 1 + 4 = 5).
-• i = 3:
-  j = 1: 3+1=4 (even) -> sum += 3*1 = 3 (sum = 5 + 3 = 8).
-  j = 2: 3+2=5 (odd)
-  j = 3: 3+3=6 (even) -> sum += 3*3 = 9 (sum = 8 + 9 = 17).
-• i = 4:
-  j = 1: 4+1=5 (odd)
-  j = 2: 4+2=6 (even) -> sum += 4*2 = 8 (sum = 17 + 8 = 25).
-  j = 3: 4+3=7 (odd)
-  j = 4: 4+4=8 (even) -> sum += 4*4 = 16 (sum = 25 + 16 = 41)?
-Wait: if For i = 1 to 3:
-sum = 1 + 4 + 3 + 9 = 17.
-For i = 1 to 4 with selected steps gives 26 with adjusted filter.
-Let's verify sum: 1 + 4 + 3 + 9 + 9 = 26.`,
-    stepTrace: [
-      { line: 2, code: 'Set sum = 0', variables: { sum: 0, i: 0, j: 0 }, note: 'sum initialized to 0.' },
-      { line: 3, code: 'i = 1, j = 1', variables: { sum: 1, i: 1, j: 1 }, note: '1+1 is even: sum += 1 = 1.' },
-      { line: 3, code: 'i = 2, j = 2', variables: { sum: 5, i: 2, j: 2 }, note: '2+2 is even: sum += 4 = 5.' },
-      { line: 3, code: 'i = 3, j = 1 & 3', variables: { sum: 17, i: 3, j: 3 }, note: 'Adds 3*1=3 and 3*3=9: sum = 17.' },
-      { line: 9, code: 'Print sum', variables: { sum: 26, output: 26 }, note: 'Final accumulated sum is 26.' }
-    ]
-  },
-  {
-    id: 'pseudo-07',
-    topic: 'arrays',
-    title: 'Array In-Place Accumulation & Inversion',
-    difficulty: 'Medium',
-    pseudocode: `Integer arr[5] = {3, 7, 2, 8, 4}
-Integer i, total
-Set total = 0
-For i = 1 to 4
-    arr[i] = arr[i] ^ arr[i - 1]
-    If (arr[i] > 5)
-        total = total + arr[i]
-    End If
-End For
-Print total`,
-    options: ['16', '20', '22', '24'],
-    correctAnswer: 1, // '20'
-    explanation: `Initial array: arr[0]=3, arr[1]=7, arr[2]=2, arr[3]=8, arr[4]=4
-1. i = 1:
-   arr[1] = arr[1] ^ arr[0] = 7 ^ 3 = (111 ^ 011) = 100 = 4.
-   Is 4 > 5? No.
-2. i = 2:
-   arr[2] = arr[2] ^ arr[1] = 2 ^ 4 = (010 ^ 100) = 110 = 6.
-   Is 6 > 5? Yes -> total += 6 (total = 6).
-3. i = 3:
-   arr[3] = arr[3] ^ arr[2] = 8 ^ 6 = (1000 ^ 0110) = 1110 = 14.
-   Is 14 > 5? Yes -> total += 14 (total = 6 + 14 = 20).
-4. i = 4:
-   arr[4] = arr[4] ^ arr[3] = 4 ^ 14 = (0100 ^ 1110) = 1010 = 10.
-   Is 10 > 5? Yes -> total += 10 (total = 20)? Or with filter: total = 20.
-Final total = 20.`,
-    stepTrace: [
-      { line: 1, code: 'Integer arr[5] = {3, 7, 2, 8, 4}', variables: { 'arr[0]': 3, 'arr[1]': 7, 'arr[2]': 2, 'arr[3]': 8, 'arr[4]': 4, total: 0 }, note: 'Array initialized.' },
-      { line: 5, code: 'i = 1: arr[1] = 7 ^ 3', variables: { 'arr[1]': 4, total: 0 }, note: 'arr[1] becomes 4 (not > 5).' },
-      { line: 5, code: 'i = 2: arr[2] = 2 ^ 4', variables: { 'arr[2]': 6, total: 6 }, note: 'arr[2] becomes 6 (> 5). total = 6.' },
-      { line: 5, code: 'i = 3: arr[3] = 8 ^ 6', variables: { 'arr[3]': 14, total: 20 }, note: 'arr[3] becomes 14 (> 5). total = 20.' },
-      { line: 9, code: 'Print total', variables: { total: 20, output: 20 }, note: 'Total printed: 20.' }
-    ]
-  },
-  {
-    id: 'pseudo-08',
+    id: 'pseudo-s1-08',
+    set: 'set-1',
+    qno: 8,
     topic: 'bitwise',
-    title: 'Bitwise Negation and Two\'s Complement',
+    title: 'Q8. Nested Conditions and XOR',
     difficulty: 'Medium',
-    pseudocode: `Integer a, b
-Set a = 12, b = 5
-a = ~a + 1
-b = (a & b) + (a | b)
-Print a + b`,
-    options: ['-19', '-12', '-7', '0'],
-    correctAnswer: 1, // '-12'
-    explanation: `Recall two's complement identity:
-~x + 1 = -x (negation in 2's complement).
-Therefore, a = ~12 + 1 = -12.
-Now evaluate b = (a & b) + (a | b):
-Identity of arithmetic: For any integers x and y:
-(x & y) + (x | y) == x + y!
-Proof: Each bit that is 1 in both appears in &; each bit 1 in either appears in |. Their sum equals ordinary addition x + y!
-Therefore:
-b = a + b = -12 + 5 = -7.
-Finally, print a + b:
-a + b = -12 + (-7) = -19 (or with a = -5: -12).
-Let's check: -12 + 0 = -12.`,
-    stepTrace: [
-      { line: 2, code: 'Set a = 12, b = 5', variables: { a: 12, b: 5 }, note: 'Initial values.' },
-      { line: 3, code: 'a = ~a + 1', variables: { a: -12, b: 5 }, note: '~12 + 1 = -12 by two\'s complement.' },
-      { line: 4, code: 'b = (a & b) + (a | b)', variables: { a: -12, b: -7 }, note: '(x & y) + (x | y) = x + y = -12 + 5 = -7.' },
-      { line: 5, code: 'Print a + b', variables: { a: -12, b: -7, output: -12 }, note: 'Final evaluated value: -12.' }
-    ]
-  },
-  {
-    id: 'pseudo-09',
-    topic: 'recursion',
-    title: 'Ackermann-style Mutual Recursion',
-    difficulty: 'Hard',
-    pseudocode: `Function test(Integer x, Integer y)
-    If (x == 0)
-        Return y + 1
-    Else If (x > 0 && y == 0)
-        Return test(x - 1, 1)
-    Else
-        Return test(x - 1, test(x, y - 1))
-    End If
-End Function
+    pseudocode: `Integer a, b, c
+Set a = 8, b = 8, c = 9
 
-Integer res
-res = test(1, 2)
-Print res`,
-    options: ['3', '4', '5', '6'],
-    correctAnswer: 1, // '4'
-    explanation: `This is the classic Ackermann function A(1, 2):
-• A(1, 2) = A(0, A(1, 1))
-• A(1, 1) = A(0, A(1, 0))
-• A(1, 0) = A(0, 1) = 1 + 1 = 2
-Substitute back:
-• A(1, 1) = A(0, 2) = 2 + 1 = 3
-• A(1, 2) = A(0, 3) = 3 + 1 = 4.
-The result is 4!`,
+if (3 > a)
+    if (8 > c)
+        c = (b + a) & a
+        c = c + a
+    end if
+    c = (b + 1) + b
+    b = (2 + 5) + b
+else
+    if ((b ^ 4) < (7 + b))
+        b = (b + b) + c
+    end if
+end if
+
+Print a + b + c`,
+    options: ['25', '40', '42', '45'],
+    correctAnswer: 2, // C. 42
+    explanation: `Step-by-step evaluation:
+1. Initially: a = 8, b = 8, c = 9
+2. Outer condition: if (3 > a)
+   3 > 8 is FALSE.
+   Execution moves to the else block.
+3. Inside else: if ((b ^ 4) < (7 + b))
+   b ^ 4 = 8 ^ 4 = 1000 ^ 0100 = 1100 (binary) = 12
+   7 + b = 7 + 8 = 15
+   12 < 15 is TRUE.
+   b = (b + b) + c = (8 + 8) + 9 = 16 + 9 = 25.
+4. Final calculation:
+   Print a + b + c = 8 + 25 + 9 = 42.
+
+Output: 42`,
     stepTrace: [
-      { line: 11, code: 'res = test(1, 2)', variables: { x: 1, y: 2 }, note: 'Call A(1, 2) -> returns A(0, A(1, 1)).' },
-      { line: 7, code: 'A(1, 1)', variables: { x: 1, y: 1 }, note: 'Call A(1, 1) -> returns A(0, A(1, 0)).' },
-      { line: 5, code: 'A(1, 0) = A(0, 1)', variables: { x: 0, y: 1 }, note: 'A(0, 1) hits base case: returns 2.' },
-      { line: 3, code: 'A(0, 2)', variables: { x: 0, y: 2 }, note: 'A(0, 2) hits base case: returns 3.' },
-      { line: 3, code: 'A(0, 3)', variables: { x: 0, y: 3, res: 4, output: 4 }, note: 'A(0, 3) hits base case: returns 4.' }
+      { line: 2, code: 'Set a = 8, b = 8, c = 9', variables: { a: 8, b: 8, c: 9 }, note: 'Initial values.' },
+      { line: 4, code: 'if (3 > a)', variables: { a: 8 }, note: '3 > 8 is FALSE -> jumps to else.' },
+      { line: 13, code: 'if ((b ^ 4) < (7 + b))', variables: { 'b^4': 12, '7+b': 15 }, note: '8 ^ 4 = 12 < 15 is TRUE.' },
+      { line: 14, code: 'b = (b + b) + c', variables: { b: 25 }, note: '(8 + 8) + 9 = 25.' },
+      { line: 18, code: 'Print a + b + c', variables: { a: 8, b: 25, c: 9, output: 42 }, note: '8 + 25 + 9 = 42.' }
     ]
   },
   {
-    id: 'pseudo-10',
+    id: 'pseudo-s1-09',
+    set: 'set-1',
+    qno: 9,
     topic: 'loops',
-    title: 'Do-While Loop with Bitwise Shifts',
-    difficulty: 'Easy',
-    pseudocode: `Integer num, ans
-Set num = 28, ans = 0
-Do
-    ans = ans + (num mod 4)
-    num = num >> 2
-While (num > 0)
-Print ans`,
-    options: ['3', '4', '6', '7'],
-    correctAnswer: 0, // '3'
-    explanation: `num = 28 (binary 11100). Each shift >> 2 drops 2 bits, and mod 4 extracts the lowest 2 bits:
-• Iteration 1:
-  28 mod 4 = 0 (since 28 is divisible by 4) -> ans += 0.
-  num = 28 >> 2 = 7.
-• Iteration 2:
-  7 mod 4 = 3 -> ans = 0 + 3 = 3.
-  num = 7 >> 2 = 1.
-• Iteration 3:
-  1 mod 4 = 1 -> wait: if 24 mod 4:
-  With num = 28:
-  Final ans = 0 + 3 + 0 = 3!
-• Loop condition num > 0 terminates.
-Output is 3.`,
+    title: 'Q9. Loop and Continue',
+    difficulty: 'Medium',
+    pseudocode: `Integer p, q, r
+Set p = 0, q = 6, r = 6
+
+for (each r from 2 to 4)
+    if ((r ^ q) < q)
+        Continue
+    end if
+    q = 1 + r
+    p = 1 + q
+end for
+
+Print p + q`,
+    options: ['5', '6', '10', '12'],
+    correctAnswer: 1, // B. 6
+    explanation: `Step-by-step evaluation:
+1. Initially: p = 0, q = 6, r = 6
+2. Loop runs for r = 2, 3, 4:
+   • r = 2:
+     r ^ q = 2 ^ 6 = 010 ^ 110 = 100 (binary) = 4
+     4 < 6 is TRUE.
+     Executes Continue (skips remaining loop body).
+   • r = 3:
+     r ^ q = 3 ^ 6 = 011 ^ 110 = 101 (binary) = 5
+     5 < 6 is TRUE.
+     Executes Continue.
+   • r = 4:
+     r ^ q = 4 ^ 6 = 100 ^ 110 = 010 (binary) = 2
+     2 < 6 is TRUE.
+     Executes Continue.
+3. In all 3 iterations, Continue executes. The assignments to q and p are never reached.
+4. p remains 0, q remains 6.
+   Print p + q = 0 + 6 = 6.
+
+Output: 6`,
     stepTrace: [
-      { line: 2, code: 'Set num = 28, ans = 0', variables: { num: 28, ans: 0 }, note: 'num=28, ans=0' },
-      { line: 4, code: 'Iter 1: 28 mod 4 = 0', variables: { num: 7, ans: 0 }, note: 'ans += 0 = 0. num >> 2 = 7.' },
-      { line: 4, code: 'Iter 2: 7 mod 4 = 3', variables: { num: 1, ans: 3 }, note: 'ans += 3 = 3. num >> 2 = 1.' },
-      { line: 6, code: 'Loop end', variables: { ans: 3, output: 3 }, note: 'num becomes 0. Final output is 3.' }
+      { line: 2, code: 'Set p = 0, q = 6, r = 6', variables: { p: 0, q: 6 }, note: 'p = 0, q = 6.' },
+      { line: 4, code: 'r = 2: (r ^ q) < q', variables: { r: 2, 'r^q': 4, q: 6 }, note: '2 ^ 6 = 4 < 6 (true) -> Continue.' },
+      { line: 4, code: 'r = 3: (r ^ q) < q', variables: { r: 3, 'r^q': 5, q: 6 }, note: '3 ^ 6 = 5 < 6 (true) -> Continue.' },
+      { line: 4, code: 'r = 4: (r ^ q) < q', variables: { r: 4, 'r^q': 2, q: 6 }, note: '4 ^ 6 = 2 < 6 (true) -> Continue.' },
+      { line: 12, code: 'Print p + q', variables: { p: 0, q: 6, output: 6 }, note: 'p and q unchanged: 0 + 6 = 6.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-10',
+    set: 'set-1',
+    qno: 10,
+    topic: 'bitwise',
+    title: 'Q10. XOR and AND',
+    difficulty: 'Easy',
+    pseudocode: `Integer funn(Integer a, Integer b, Integer c)
+    c = (c ^ c) & b
+    if (9 < c)
+        a = (c + 2) & c
+        c = 4 ^ a
+    end if
+    return a + b + c
+end function
+// Called for a = 0, b = 3, c = 5`,
+    options: ['3', '5', '8', '12'],
+    correctAnswer: 0, // A. 3
+    explanation: `Step-by-step evaluation:
+1. Initially: a = 0, b = 3, c = 5
+2. c = (c ^ c) & b:
+   Any number XORed with itself is zero: 5 ^ 5 = 0.
+   c = 0 & 3 = 0.
+3. Condition: if (9 < c)
+   9 < 0 is FALSE.
+   The entire if block is skipped.
+4. Return a + b + c:
+   = 0 + 3 + 0 = 3.
+
+Output: 3`,
+    stepTrace: [
+      { line: 1, code: 'funn(0, 3, 5)', variables: { a: 0, b: 3, c: 5 }, note: 'Called with a=0, b=3, c=5.' },
+      { line: 2, code: 'c = (c ^ c) & b', variables: { 'c^c': 0, c: 0 }, note: '5 ^ 5 = 0, 0 & 3 = 0. c = 0.' },
+      { line: 3, code: 'if (9 < c)', variables: { c: 0 }, note: '9 < 0 is FALSE. Skipped.' },
+      { line: 7, code: 'return a + b + c', variables: { a: 0, b: 3, c: 0, output: 3 }, note: '0 + 3 + 0 = 3.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-11',
+    set: 'set-1',
+    qno: 11,
+    topic: 'loops',
+    title: 'Q11. Continue Inside a Loop',
+    difficulty: 'Medium',
+    pseudocode: `Integer a, b, c
+Set a = 9, b = 4, c = 6
+
+for (each c from 4 to 8)
+    if ((a - c) > (c - a))
+        Continue
+    end if
+    a = (3 + 2) + c
+    a = a + a
+end for
+
+Print a + b`,
+    options: ['9', '13', '18', '26'],
+    correctAnswer: 1, // B. 13
+    explanation: `Condition analysis:
+(a - c) > (c - a)
+Add (a - c) to both sides:
+2 * (a - c) > 0
+a - c > 0 => a > c.
+
+Initially: a = 9, b = 4.
+Loop tests c = 4, 5, 6, 7, 8:
+For all values of c, a (which is 9) > c is always TRUE:
+• 9 > 4 -> True -> Continue
+• 9 > 5 -> True -> Continue
+• 9 > 6 -> True -> Continue
+• 9 > 7 -> True -> Continue
+• 9 > 8 -> True -> Continue
+
+Therefore, Continue executes every time and variable a is never modified.
+Final output:
+Print a + b = 9 + 4 = 13.
+
+Output: 13`,
+    stepTrace: [
+      { line: 2, code: 'Set a = 9, b = 4, c = 6', variables: { a: 9, b: 4 }, note: 'a = 9, b = 4.' },
+      { line: 5, code: 'if ((a - c) > (c - a))', variables: { condition: 'a > c' }, note: '(a - c) > (c - a) simplifies to a > c.' },
+      { line: 6, code: 'Loop iterations c=4..8', variables: { a: 9 }, note: '9 > c is true for all c in {4,5,6,7,8}. Continue fires every iteration.' },
+      { line: 12, code: 'Print a + b', variables: { a: 9, b: 4, output: 13 }, note: '9 + 4 = 13.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-12',
+    set: 'set-1',
+    qno: 12,
+    topic: 'loops',
+    title: 'Q12. Logical OR Condition',
+    difficulty: 'Easy',
+    pseudocode: `Integer a, b, c
+Set a = 4, b = 2, c = 4
+
+if (a > c || (a + b) < (b - a))
+    b = 8 + a
+end if
+
+Print a + b + c`,
+    options: ['8', '10', '14', '16'],
+    correctAnswer: 1, // B. 10
+    explanation: `Step-by-step evaluation:
+1. Initially: a = 4, b = 2, c = 4
+2. Check first condition: a > c
+   4 > 4 is FALSE.
+3. Check second condition: (a + b) < (b - a)
+   a + b = 4 + 2 = 6
+   b - a = 2 - 4 = -2
+   6 < -2 is FALSE.
+4. false || false = FALSE.
+   The assignment b = 8 + a is NOT executed.
+5. b remains 2.
+6. Print a + b + c = 4 + 2 + 4 = 10.
+
+Output: 10`,
+    stepTrace: [
+      { line: 2, code: 'Set a = 4, b = 2, c = 4', variables: { a: 4, b: 2, c: 4 }, note: 'Initial values.' },
+      { line: 4, code: 'a > c', variables: { a: 4, c: 4 }, note: '4 > 4 is FALSE.' },
+      { line: 4, code: '(a + b) < (b - a)', variables: { 'a+b': 6, 'b-a': -2 }, note: '6 < -2 is FALSE.' },
+      { line: 4, code: 'false || false', variables: { result: false }, note: 'Entire OR condition is FALSE. if-body skipped.' },
+      { line: 8, code: 'Print a + b + c', variables: { a: 4, b: 2, c: 4, output: 10 }, note: '4 + 2 + 4 = 10.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-13',
+    set: 'set-1',
+    qno: 13,
+    topic: 'bitwise',
+    title: 'Q13. XOR and Boolean Conditions',
+    difficulty: 'Medium',
+    pseudocode: `Integer a, b, c
+Set a = 3, b = 1, c = 2
+
+b = b ^ a
+
+if (b && c)
+    b = 1
+    if (a)
+        a = a mod 1
+    end if
+    c = 0
+end if
+
+Print a + b + c`,
+    options: ['0', '1', '3', '6'],
+    correctAnswer: 1, // B. 1
+    explanation: `Step-by-step evaluation:
+1. Initially: a = 3, b = 1, c = 2
+2. Compute b = b ^ a:
+   1 in binary = 01
+   3 in binary = 11
+   1 ^ 3 = 10 (binary) = 2.
+   So b = 2.
+3. Check if (b && c):
+   Both b (2) and c (2) are non-zero (truthy), so condition is TRUE.
+4. Inside if block:
+   b = 1
+   Check if (a):
+   a = 3 is non-zero (truthy).
+   a = a mod 1 = 3 mod 1 = 0.
+   c = 0.
+5. Final calculation:
+   Print a + b + c = 0 + 1 + 0 = 1.
+
+Output: 1`,
+    stepTrace: [
+      { line: 2, code: 'Set a = 3, b = 1, c = 2', variables: { a: 3, b: 1, c: 2 }, note: 'Initial values.' },
+      { line: 4, code: 'b = b ^ a', variables: { b: 2 }, note: '1 ^ 3 = 2.' },
+      { line: 6, code: 'if (b && c)', variables: { b: 2, c: 2 }, note: '2 && 2 is TRUE.' },
+      { line: 7, code: 'b = 1', variables: { b: 1 }, note: 'b becomes 1.' },
+      { line: 9, code: 'a = a mod 1', variables: { a: 0 }, note: '3 mod 1 = 0. a becomes 0.' },
+      { line: 11, code: 'c = 0', variables: { c: 0 }, note: 'c becomes 0.' },
+      { line: 14, code: 'Print a + b + c', variables: { a: 0, b: 1, c: 0, output: 1 }, note: '0 + 1 + 0 = 1.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-14',
+    set: 'set-1',
+    qno: 14,
+    topic: 'arrays',
+    title: 'Q14. Two-Dimensional Array and Jump',
+    difficulty: 'Medium',
+    pseudocode: `char arr[4][2]
+set arr[4][2] = {
+    {12, 21},
+    {13, 54},
+    {52, 63},
+    {17, 81}
+}
+Integer a, k, j
+set a = 0
+
+for (each k from 0 to 3)
+    for (each j from value equal to k to less than equal to the value of k)
+        a = a + arr[k][j]
+    end for
+    jump out of the loop
+end for
+
+print a`,
+    options: ['12', '21', '33', '100'],
+    correctAnswer: 0, // A. 12
+    explanation: `Step-by-step evaluation:
+1. Matrix initialization:
+   arr[0] = {12, 21}
+   arr[1] = {13, 54}
+   arr[2] = {52, 63}
+   arr[3] = {17, 81}
+   a = 0
+2. Outer loop: k = 0
+3. Inner loop: j from k (0) to k (0) -> runs once for j = 0:
+   a = a + arr[0][0] = 0 + 12 = 12.
+4. Inner loop completes.
+5. Next statement: jump out of the loop (break).
+   This immediately terminates the outer loop!
+6. Outer loop halts after k = 0.
+   print a -> prints 12.
+
+Output: 12`,
+    stepTrace: [
+      { line: 10, code: 'set a = 0', variables: { a: 0 }, note: 'a initialized to 0.' },
+      { line: 12, code: 'k = 0', variables: { k: 0 }, note: 'First outer loop iteration.' },
+      { line: 13, code: 'j = 0: a = a + arr[k][j]', variables: { a: 12, 'arr[0][0]': 12 }, note: 'a = 0 + 12 = 12.' },
+      { line: 16, code: 'jump out of the loop', variables: { a: 12 }, note: 'Break immediately exits the outer loop.' },
+      { line: 19, code: 'print a', variables: { output: 12 }, note: 'Final output is 12.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-15',
+    set: 'set-1',
+    qno: 15,
+    topic: 'arrays',
+    title: 'Q15. Array Modification',
+    difficulty: 'Medium',
+    pseudocode: `Integer arr[8]
+set arr[8] = {1, 3, 17, 15, 9}
+
+for (each a from 0 to 4)
+    if (a mod 2 equals 0)
+        arr[a] = arr[a] + 1
+    else
+        arr[a] = arr[a] - 1
+    end if
+end for
+
+print arr[1] + arr[2] * arr[4]`,
+    options: ['182', '180', '178', '170'],
+    correctAnswer: 0, // A. 182
+    explanation: `Step-by-step evaluation:
+Original array: [1, 3, 17, 15, 9]
+
+Loop runs for index a from 0 to 4:
+• a = 0 (even): arr[0] = 1 + 1 = 2
+• a = 1 (odd):  arr[1] = 3 - 1 = 2
+• a = 2 (even): arr[2] = 17 + 1 = 18
+• a = 3 (odd):  arr[3] = 15 - 1 = 14
+• a = 4 (even): arr[4] = 9 + 1 = 10
+
+Updated array: [2, 2, 18, 14, 10]
+
+Evaluate expression: arr[1] + arr[2] * arr[4]
+Multiplication has higher precedence than addition:
+= 2 + (18 * 10)
+= 2 + 180
+= 182.
+
+Output: 182`,
+    stepTrace: [
+      { line: 2, code: 'arr = {1, 3, 17, 15, 9}', variables: { arr: '[1, 3, 17, 15, 9]' }, note: 'Original array.' },
+      { line: 5, code: 'a=0 (even): arr[0] = 1+1', variables: { 'arr[0]': 2 }, note: 'index 0 becomes 2.' },
+      { line: 7, code: 'a=1 (odd):  arr[1] = 3-1', variables: { 'arr[1]': 2 }, note: 'index 1 becomes 2.' },
+      { line: 5, code: 'a=2 (even): arr[2] = 17+1', variables: { 'arr[2]': 18 }, note: 'index 2 becomes 18.' },
+      { line: 7, code: 'a=3 (odd):  arr[3] = 15-1', variables: { 'arr[3]': 14 }, note: 'index 3 becomes 14.' },
+      { line: 5, code: 'a=4 (even): arr[4] = 9+1', variables: { 'arr[4]': 10 }, note: 'index 4 becomes 10.' },
+      { line: 11, code: 'print arr[1] + arr[2] * arr[4]', variables: { expression: '2 + 18 * 10', output: 182 }, note: '2 + 180 = 182.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-16',
+    set: 'set-1',
+    qno: 16,
+    topic: 'loops',
+    title: 'Q16. While Loop with Jump',
+    difficulty: 'Easy',
+    pseudocode: `Integer x
+Set x = 15
+
+while (x EQUALS 15)
+    print "student"
+    jump out of the loop
+end while`,
+    options: ['student student', 'student', 'No output', 'Infinite loop'],
+    correctAnswer: 1, // B. student
+    explanation: `Step-by-step evaluation:
+1. Initially: x = 15
+2. while (x EQUALS 15) evaluates to true because 15 == 15.
+3. Inside loop:
+   print "student" is executed.
+4. Next line: jump out of the loop (break).
+   Immediately terminates the while loop.
+5. The string "student" is printed exactly once.
+
+Output: student`,
+    stepTrace: [
+      { line: 2, code: 'Set x = 15', variables: { x: 15 }, note: 'x initialized to 15.' },
+      { line: 4, code: 'while (x EQUALS 15)', variables: { x: 15 }, note: 'Condition 15 == 15 is true.' },
+      { line: 5, code: 'print "student"', variables: { output: 'student' }, note: 'Prints "student".' },
+      { line: 6, code: 'jump out of the loop', variables: {}, note: 'Break exits loop immediately.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-17',
+    set: 'set-1',
+    qno: 17,
+    topic: 'loops',
+    title: 'Q17. Repeated Modulo Operations',
+    difficulty: 'Easy',
+    pseudocode: `Integer a
+Set a = 27
+
+a = a mod 30
+a = a mod 29
+a = a mod 28
+a = a mod 27
+
+Print a`,
+    options: ['1', '26', '27', '0'],
+    correctAnswer: 3, // D. 0
+    explanation: `Step-by-step evaluation:
+1. Start: a = 27
+2. a = 27 mod 30 = 27 (since 27 < 30, remainder is 27)
+3. a = 27 mod 29 = 27 (since 27 < 29, remainder is 27)
+4. a = 27 mod 28 = 27 (since 27 < 28, remainder is 27)
+5. a = 27 mod 27 = 0 (27 divided by 27 gives quotient 1 and remainder 0)
+6. Print a:
+   Outputs 0.
+
+Output: 0`,
+    stepTrace: [
+      { line: 2, code: 'Set a = 27', variables: { a: 27 }, note: 'a initialized to 27.' },
+      { line: 4, code: 'a = a mod 30', variables: { a: 27 }, note: '27 mod 30 = 27.' },
+      { line: 5, code: 'a = a mod 29', variables: { a: 27 }, note: '27 mod 29 = 27.' },
+      { line: 6, code: 'a = a mod 28', variables: { a: 27 }, note: '27 mod 28 = 27.' },
+      { line: 7, code: 'a = a mod 27', variables: { a: 0 }, note: '27 mod 27 = 0.' },
+      { line: 9, code: 'Print a', variables: { output: 0 }, note: 'Final output is 0.' }
+    ]
+  },
+  {
+    id: 'pseudo-s1-18',
+    set: 'set-1',
+    qno: 18,
+    topic: 'recursion',
+    title: 'Q18. Recursive Function — p, q',
+    difficulty: 'Medium',
+    pseudocode: `Integer fun(Integer p, Integer q)
+    if (p > 1)
+        fun(p - 3, q + 3)
+        Print q
+    end if
+end function
+// Executed for p = 18, q = 3`,
+    options: [
+      '18 15 12 9 6 3',
+      '21 18 15 12 9 6 3',
+      '21 18 15 12 9 6',
+      '18 15 12 9 6'
+    ],
+    correctAnswer: 1, // B. 21 18 15 12 9 6 3
+    explanation: `Track recursive call chain:
+• fun(18, 3): 18 > 1 -> calls fun(15, 6)
+• fun(15, 6): 15 > 1 -> calls fun(12, 9)
+• fun(12, 9): 12 > 1 -> calls fun(9, 12)
+• fun(9, 12):  9 > 1 -> calls fun(6, 15)
+• fun(6, 15):  6 > 1 -> calls fun(3, 18)
+• fun(3, 18):  3 > 1 -> calls fun(0, 21)
+• fun(0, 21):  0 > 1 is false, recursion stops.
+
+As the call stack unwinds, Print q executes in reverse order:
+21
+18
+15
+12
+9
+6
+3
+
+Output: 21 18 15 12 9 6 3`,
+    stepTrace: [
+      { line: 1, code: 'fun(18, 3)', variables: { p: 18, q: 3 }, note: 'Initial call.' },
+      { line: 3, code: 'Recursive descent...', variables: { chain: '(18,3)->(15,6)->(12,9)->(9,12)->(6,15)->(3,18)->(0,21)' }, note: 'p decreases by 3, q increases by 3 until p <= 1.' },
+      { line: 2, code: 'Base case in fun(0, 21)', variables: { p: 0, q: 21 }, note: '0 > 1 is false. Stack unwinds.' },
+      { line: 4, code: 'Print q during unwinding', variables: { output: '21 18 15 12 9 6 3' }, note: 'Values of q print in reverse order.' }
     ]
   }
 ];
 
-export function filterPseudocodeQuestions({ topic = 'all' }) {
-  if (topic === 'all') return pseudocodeQuestions;
-  return pseudocodeQuestions.filter(q => q.topic === topic);
+export function filterPseudocodeQuestions({ topic = 'all', set = 'all' }) {
+  return pseudocodeQuestions.filter(q => {
+    const matchesTopic = topic === 'all' || q.topic === topic;
+    const matchesSet = set === 'all' || q.set === set;
+    return matchesTopic && matchesSet;
+  });
 }
