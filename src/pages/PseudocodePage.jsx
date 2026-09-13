@@ -37,7 +37,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
   const topicParam = searchParams.get('topic') || 'all';
 
   const [activeTopic, setActiveTopic] = useState(topicParam);
-  const [selectedSet, setSelectedSet] = useState('set-1');
+  const [selectedSet, setSelectedSet] = useState('set-2');
   const [mode, setMode] = useState('practice'); // 'practice' | 'exam'
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState(() => pseudocodeStorage.getAnswers());
@@ -48,6 +48,10 @@ export default function PseudocodePage({ theme = 'dark' }) {
   const filteredQuestions = useMemo(() => {
     return filterPseudocodeQuestions({ topic: activeTopic, set: selectedSet });
   }, [activeTopic, selectedSet]);
+
+  const currentSetMeta = useMemo(() => {
+    return PSEUDOCODE_SETS.find(s => s.id === selectedSet) || PSEUDOCODE_SETS[0];
+  }, [selectedSet]);
 
   // Exam Mode timer: Total Questions * 2 minutes
   const totalExamMinutes = useMemo(() => {
@@ -168,7 +172,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
             Accenture Pseudocode Assessment & Practice
           </h1>
           <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem', maxWidth: '680px' }}>
-            Set 1: Previous Year Questions Collection • Complete Step-by-Step Solutions, Recursion Traces & Explanations
+            {currentSetMeta.description}
           </p>
         </div>
 
@@ -233,7 +237,61 @@ export default function PseudocodePage({ theme = 'dark' }) {
         </div>
       </div>
 
-      {/* Set 1 Banner / Info Pill */}
+      {/* Set Selector Tabs */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        marginBottom: '1.25rem',
+        flexWrap: 'wrap'
+      }}>
+        <span style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Select PYQ Set:
+        </span>
+        {PSEUDOCODE_SETS.map((s) => {
+          const isSelected = selectedSet === s.id;
+          return (
+            <button
+              key={s.id}
+              onClick={() => {
+                setSelectedSet(s.id);
+                setCurrentIndex(0);
+                setExamFinished(false);
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 18px',
+                borderRadius: '10px',
+                background: isSelected ? 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)' : '#1e293b',
+                color: isSelected ? '#0f172a' : '#cbd5e1',
+                border: isSelected ? '1px solid #eab308' : '1px solid #334155',
+                fontWeight: 700,
+                fontSize: '0.88rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: isSelected ? '0 4px 12px rgba(234, 179, 8, 0.25)' : 'none'
+              }}
+            >
+              <Sparkles size={15} style={{ color: isSelected ? '#0f172a' : '#eab308' }} />
+              <span>{s.id === 'set-1' ? 'Set 1' : 'Set 2'}</span>
+              <span style={{
+                padding: '2px 8px',
+                borderRadius: '10px',
+                background: isSelected ? 'rgba(15, 23, 42, 0.25)' : '#0f172a',
+                color: isSelected ? '#0f172a' : '#94a3b8',
+                fontSize: '0.75rem',
+                fontWeight: 800
+              }}>
+                {s.questionCount} Questions
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Set Banner / Info Pill */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -256,10 +314,10 @@ export default function PseudocodePage({ theme = 'dark' }) {
             fontSize: '0.78rem',
             letterSpacing: '0.04em'
           }}>
-            SET 1 (PYQs)
+            {currentSetMeta.id === 'set-1' ? 'SET 1 (PYQs)' : 'SET 2 (PYQs)'}
           </span>
           <span style={{ color: '#f8fafc', fontWeight: 700, fontSize: '0.95rem' }}>
-            Accenture Pseudocode Previous Year Questions Collection
+            {currentSetMeta.name}
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -279,7 +337,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
             <span>Timer: {totalExamMinutes} Mins ({filteredQuestions.length} Qs × 2m)</span>
           </span>
           <span style={{ color: '#94a3b8', fontSize: '0.82rem', fontWeight: 600 }}>
-            {filteredQuestions.length} Questions with Step-by-Step Recursion Traces & Explanations
+            {filteredQuestions.length} Questions with Step-by-Step Logic Traces & Explanations
           </span>
         </div>
       </div>

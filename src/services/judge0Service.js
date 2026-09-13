@@ -1,6 +1,7 @@
 // src/services/judge0Service.js
 // Judge0 Community Edition (CE) Online Code Execution Service
 import { DSA_TEST_CASES } from '../data/dsaTestCases.js';
+import { buildDsaPracticeHarness } from './dsaPracticeHarness.js';
 
 export const JUDGE0_LANGUAGE_IDS = {
   python: 71,    // Python (3.8.1)
@@ -31,6 +32,10 @@ export function normalizeOutput(output) {
  * Builds test harness code for Judge0 execution
  */
 export function buildJudge0Harness(questionId, userCode, lang) {
+  if (questionId && questionId.startsWith('dsa-p-')) {
+    return buildDsaPracticeHarness(questionId, userCode, lang);
+  }
+
   const code = (userCode || '').trim();
 
   // Strip existing test calls or main if present in user code

@@ -24,6 +24,7 @@ import MsOfficeAssessmentPage from './pages/MsOfficeAssessmentPage.jsx';
 import ImportantQuestionsPage from './pages/ImportantQuestionsPage.jsx';
 import ImportantQuestionsSet2Page from './pages/ImportantQuestionsSet2Page.jsx';
 import RecentQuestionsPage from './pages/RecentQuestionsPage.jsx';
+import DsaPracticePage from './pages/DsaPracticePage.jsx';
 import LearningHubPage from './pages/LearningHubPage.jsx';
 import DsaPatternsPage from './pages/DsaPatternsPage.jsx';
 import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
@@ -80,6 +81,9 @@ export default function App() {
 
               {/* Practice Hub & Revisions */}
               <Route path="/practice" element={<Practice theme={theme} />} />
+              <Route path="/dsa-practice" element={<DsaPracticePage theme={theme} />} />
+              <Route path="/practice/dsa" element={<Navigate to="/dsa-practice" replace />} />
+              <Route path="/practice-dsa" element={<Navigate to="/dsa-practice" replace />} />
               <Route path="/coding" element={<Navigate to="/practice" replace />} />
               <Route path="/bookmarks" element={<BookmarksPage theme={theme} />} />
               <Route path="/mistakes" element={<MistakesPage theme={theme} />} />

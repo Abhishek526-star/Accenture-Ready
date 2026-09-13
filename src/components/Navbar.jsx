@@ -34,7 +34,8 @@ import {
   Menu,
   X,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Terminal
 } from 'lucide-react';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
@@ -166,7 +167,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               position: 'absolute',
               top: '100%',
               left: 0,
-              minWidth: '220px',
+              minWidth: '240px',
               background: '#0f172a',
               border: '1px solid #334155',
               borderRadius: '10px',
@@ -177,6 +178,10 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               gap: '2px',
               zIndex: 1001
             }}>
+              <Link to="/dsa-practice" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(56, 189, 248, 0.08)' }}>
+                <Terminal size={14} className="text-emerald-400" />
+                <span style={{ fontWeight: 700, color: '#38bdf8' }}>DSA Practice (10 PYQs)</span>
+              </Link>
               <Link to="/practice" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Code2 size={14} className="text-sky-400" />
                 <span>Frontend Coding (20 Qs)</span>
@@ -498,6 +503,9 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <span>Practice & Coding</span>
                 </div>
                 <div className="mobile-group-items">
+                  <Link to="/dsa-practice" className="mobile-sublink highlight-sky" onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', fontWeight: 700 }}>
+                    <span style={{ color: '#38bdf8' }}>DSA Practice (10 PYQs)</span>
+                  </Link>
                   <Link to="/practice" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Frontend Coding (20 Qs)</span>
                   </Link>
