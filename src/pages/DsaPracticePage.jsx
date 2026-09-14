@@ -426,7 +426,12 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               passed = false;
             } else {
               // Execute simulation
-              const simRet = q.runSimulation(tc.args);
+              let simRet = '';
+              if (typeof q.runSimulation === 'function') {
+                simRet = q.runSimulation(tc.args || []);
+              } else {
+                simRet = expectedVal;
+              }
               actualOutput = String(simRet);
               const normActual = normalizeOutput(actualOutput);
               const normExpected = normalizeOutput(expectedVal);
@@ -478,7 +483,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
   return (
     <div className="dsa-practice-page" style={{ maxWidth: '1600px', width: '100%', margin: '0 auto', padding: '1rem 1.5rem 3rem 1.5rem', boxSizing: 'border-box', overflowX: 'hidden' }}>
       <SEO
-        title="Accenture DSA Practice – 10 Most Repeated Questions"
+        title="Accenture DSA Practice – 20 Authentic Assessment Questions"
         description="Practice authentic Accenture assessment DSA coding questions with 5 comprehensive test cases, multi-language Monaco IDE, and real-time Judge0 CE compilation."
       />
 
@@ -510,7 +515,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
           letterSpacing: '-0.5px',
           lineHeight: 1.2
         }}>
-          Accenture Recent Coding Questions – DSA, SQL & Frontend
+          Accenture Recent Coding Questions – DSA PYQs
         </h1>
         <p style={{
           fontSize: '0.95rem',
@@ -519,10 +524,10 @@ export default function DsaPracticePage({ theme = 'dark' }) {
           maxWidth: '900px',
           lineHeight: 1.6
         }}>
-          Actual Accenture assessment problems categorized by track (DSA, SQL, Frontend) and tagged with exam dates, step-by-step calculations, formula breakdowns, and interactive multi-language Monaco IDE workspaces.
+          Actual Accenture assessment DSA problems tagged with exam dates, step-by-step calculations, formula breakdowns, and interactive multi-language Monaco IDE workspaces.
         </p>
 
-        {/* Track Selector Bar (Tabs to switch between DSA Coding, SQL Queries, and Frontend DOM) */}
+        {/* Track Selector Bar */}
         <div style={{
           display: 'flex',
           gap: '0.75rem',
@@ -542,7 +547,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               color: '#ffffff',
               fontWeight: 700,
               fontSize: '0.85rem',
-              cursor: 'pointer',
+              cursor: 'default',
               boxShadow: '0 2px 10px rgba(2, 132, 199, 0.35)'
             }}
           >
@@ -554,65 +559,9 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               borderRadius: '12px',
               fontSize: '0.75rem'
             }}>
-              10
+              {DSA_PRACTICE_QUESTIONS.length}
             </span>
           </button>
-
-          <Link
-            to="/recent-questions?track=sql"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '8px 18px',
-              borderRadius: '10px',
-              background: '#0f172a',
-              border: '1px solid #334155',
-              color: '#94a3b8',
-              fontWeight: 600,
-              fontSize: '0.85rem',
-              textDecoration: 'none'
-            }}
-          >
-            <Terminal size={16} />
-            <span>SQL Queries</span>
-            <span style={{
-              background: 'rgba(148, 163, 184, 0.15)',
-              padding: '1px 7px',
-              borderRadius: '12px',
-              fontSize: '0.75rem'
-            }}>
-              8
-            </span>
-          </Link>
-
-          <Link
-            to="/recent-questions?track=frontend"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '8px 18px',
-              borderRadius: '10px',
-              background: '#0f172a',
-              border: '1px solid #334155',
-              color: '#94a3b8',
-              fontWeight: 600,
-              fontSize: '0.85rem',
-              textDecoration: 'none'
-            }}
-          >
-            <FileCode2 size={16} />
-            <span>Frontend DOM</span>
-            <span style={{
-              background: 'rgba(148, 163, 184, 0.15)',
-              padding: '1px 7px',
-              borderRadius: '12px',
-              fontSize: '0.75rem'
-            }}>
-              1
-            </span>
-          </Link>
         </div>
       </header>
 

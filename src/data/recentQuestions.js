@@ -118,7 +118,9 @@ Return the total sum of all elements in the array after applying these transform
 print(transform_and_sum([22, 5, 14]))       # Output: 34
 print(transform_and_sum([0, 11, 33, 7, 0])) # Output: 25`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static long transformAndSum(int[] nums) {
         long totalSum = 0;
         
@@ -329,7 +331,8 @@ def find_valid_numbers(N: int) -> list[int]:
 print("N=112:", len(find_valid_numbers(112)), find_valid_numbers(112)) # 10 valid
 print("N=50:", len(find_valid_numbers(50)), find_valid_numbers(50))   # 3 valid`,
 
-      java: `import java.util.ArrayList;
+      java: `import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Solution {
@@ -568,7 +571,9 @@ if __name__ == "__main__":
     print(f"Input: {n}")
     calculate_running_sum_and_divisibility(n)`,
 
-      java: `public class RunningSumDivisibility {
+      java: `import java.util.*;
+
+public class RunningSumDivisibility {
     public static void calculateRunningSumAndDivisibility(int n) {
         int runningSum = 0;
         int count = 0;
@@ -739,7 +744,9 @@ if __name__ == "__main__":
     print(calculate_power(2, 5)) # Output: 32
     print(calculate_power(3, 4)) # Output: 81`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static long calculatePower(int n, int p) {
         long result = 1;
         for (int i = 0; i < p; i++) {
@@ -878,7 +885,9 @@ The function accepts a string \`str\` of length \`n\`, containing alphabets and 
 print(move_hyphen("String-Compare", 14))        # "-StringCompare"
 print(move_hyphen("Move-Hyphens-To-Front", 21)) # "---MoveHyphensToFront"`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static String moveHyphen(String str, int n) {
         if (str == null) return null;
         
@@ -1064,7 +1073,9 @@ Return the total count of such special elements.
 print(count_special_elements([2, 1, 4, 3, 6, 5])) # Output: 6
 print(count_special_elements([1, 2, 3, 4, 5]))    # Output: 0`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int countSpecialElements(int[] nums) {
         int count = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -1216,7 +1227,9 @@ Extract the digits from right to left using modulo 10 arithmetic to construct th
 print(reverse_number(12345)) # Output: 54321
 print(reverse_number(98760)) # Output: 6789`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static long reverseNumber(long n) {
         long rev = 0;
         while (n > 0) {
@@ -1394,7 +1407,9 @@ Total Valid Blocks = 4.`
 print(count_valid_blocks(7, [1, 2, 2, 3, 3, 3, 4])) # Output: 3
 print(count_valid_blocks(8, [2, 2, 1, 2, 2, 3, 3, 3])) # Output: 4`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int countValidBlocks(int n, int[] a) {
         int count = 0;
         int i = 0;
@@ -1602,7 +1617,9 @@ print(calculate_prime_sum(10, 20)) # Output: 60
 print(calculate_prime_sum(1, 10))  # Output: 17
 print(calculate_prime_sum(-5, 5))  # Output: 10`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static boolean isPrime(int num) {
         if (num <= 1) return false;
         for (int i = 2; i * i <= num; i++) {
@@ -1825,7 +1842,9 @@ print(calculate_difference(1, 10))  # Output: 5
 print(calculate_difference(28, 28)) # Output: 0
 print(calculate_difference(40, 50)) # Output: 5`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int digitSum(int num) {
         int sum = 0;
         while (num > 0) {
@@ -2113,7 +2132,9 @@ print(minimum_houses(10, 5, 4, [2, 3, 4, 5]))             # Output: 0
 print(minimum_houses(5, 2, 0, []))                        # Output: -1
 print(minimum_houses(4, 3, 5, [2, 4, 6, 8, 10]))          # Output: 3`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int minimumHouses(int r, int unit, int n, int[] arr) {
         if (arr == null || n == 0 || arr.length == 0) {
             return -1;
@@ -2697,7 +2718,9 @@ print(count_uniform("aaaaaaaaa")) # 6
 print(count_uniform("abcdefghi")) # 0
 print(count_uniform("abcabcabc")) # 3`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int countUniform(String s) {
         int n = (int) Math.sqrt(s.length());
         int count = 0;
@@ -3077,7 +3100,9 @@ print(number_of_carries(999, 111)) # 3
 print(number_of_carries(95, 17))   # 2
 print(number_of_carries(999, 1))   # 3`,
 
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int numberOfCarries(int num1, int num2) {
         int carry = 0;
         int count = 0;

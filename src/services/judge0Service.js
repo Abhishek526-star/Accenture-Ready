@@ -375,6 +375,9 @@ except Exception as _e:
     if (lastBrace !== -1) {
       cleanUserCode = cleanUserCode.substring(0, lastBrace);
     }
+    if (!cleanUserCode.includes('import java.util.*;')) {
+      cleanUserCode = 'import java.util.*;\n' + cleanUserCode;
+    }
 
     if (questionId === 'recent-dsa-001') {
       return `${cleanUserCode}

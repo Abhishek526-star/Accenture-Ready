@@ -99,7 +99,9 @@ If there is no element in \`arr\` whose absolute difference with \`num\` is less
 if __name__ == "__main__":
     print(find_count([12, 3, 14, 56, 77, 13], 6, 13, 2)) # Expected: 3
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int findCount(int[] arr, int length, int num, int diff) {
         // TODO: Return count of elements where Math.abs(arr[i] - num) <= diff
         // If no elements qualify, return -1
@@ -140,7 +142,9 @@ public class Solution {
             count += 1
     return count if count > 0 else -1
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int findCount(int[] arr, int length, int num, int diff) {
         int count = 0;
         for (int i = 0; i < length; i++) {
@@ -283,7 +287,9 @@ Return:
 if __name__ == "__main__":
     print(is_anagram("listen", "silent")) # Expected: True
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static boolean isAnagram(String s, String t) {
         // TODO: Return true if t is an anagram of s, else false
         return false;
@@ -325,7 +331,9 @@ public class Solution {
         freq[ch] -= 1
     return True
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
         int[] freq = new int[256];
@@ -482,7 +490,9 @@ If the string is \`None\` or empty, return \`0\`.`,
 if __name__ == "__main__":
     print(find_auto_count("1210")) # Expected: 3
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int findAutoCount(String n) {
         // TODO: Return distinct digits if autobiographical, else 0
         return 0;
@@ -525,7 +535,9 @@ public class Solution {
     distinct = sum(1 for f in freq if f > 0)
     return distinct
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int findAutoCount(String n) {
         if (n == null || n.isEmpty() || n.equals("None")) return 0;
         int[] freq = new int[10];
@@ -701,7 +713,9 @@ If the string is NULL or empty, return \`-1\`.`,
 if __name__ == "__main__":
     print(operations_binary_string("1C0C1C1A0B1")) # Expected: 1
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int operationsBinaryString(String str) {
         // TODO: A=AND, B=OR, C=XOR left-to-right
         return 0;
@@ -746,7 +760,9 @@ public class Solution {
             res = res ^ nxt
     return res
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int operationsBinaryString(String str) {
         if (str == null || str.isEmpty() || str.equals("None")) return -1;
         int res = str.charAt(0) - '0';
@@ -892,7 +908,9 @@ Each step left in binary represents multiplying the existing value by 2.`,
 if __name__ == "__main__":
     print(binary_to_decimal("1010")) # Expected: 10
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int binaryToDecimal(String binary) {
         // TODO: Convert binary to decimal
         return 0;
@@ -928,7 +946,9 @@ public class Solution {
         res = res * 2 + int(c)
     return res
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int binaryToDecimal(String binary) {
         int res = 0;
         for (int i = 0; i < binary.length(); i++) {
@@ -1058,7 +1078,7 @@ Greedy choice: once we reach bulb i, all earlier switches have determined its st
 if __name__ == "__main__":
     print(bulb_switch([0, 1, 0, 1])) # Expected: 4
 `,
-      java: `import java.util.List;
+      java: `import java.util.*;
 
 public class Solution {
     public static int bulbSwitch(int[] bulbs) {
@@ -1103,7 +1123,9 @@ public class Solution {
             flips += 1
     return count
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int bulbSwitch(int[] bulbs) {
         int flips = 0;
         int count = 0;
@@ -1264,7 +1286,7 @@ The task is to distribute the packets such that:
 if __name__ == "__main__":
     print(chocolate_distribution([7, 3, 2, 4, 9, 12, 56], 3)) # Expected: 2
 `,
-      java: `import java.util.Arrays;
+      java: `import java.util.*;
 
 public class Solution {
     public static int chocolateDistribution(int[] arr, int m) {
@@ -1309,7 +1331,7 @@ public class Solution {
             min_diff = diff
     return min_diff
 `,
-      java: `import java.util.Arrays;
+      java: `import java.util.*;
 
 public class Solution {
     public static int chocolateDistribution(int[] arr, int m) {
@@ -1454,7 +1476,9 @@ Always carry forward 1 if sum > 9.`,
 if __name__ == "__main__":
     print(number_of_carries(451, 349)) # Expected: 2
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int numberOfCarries(int num1, int num2) {
         // TODO: Return total carries
         return 0;
@@ -1499,7 +1523,9 @@ public class Solution {
         num2 //= 10
     return count
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static int numberOfCarries(int num1, int num2) {
         int carry = 0;
         int count = 0;
@@ -1668,7 +1694,9 @@ The remainders collected from least significant bit to most significant bit must
 if __name__ == "__main__":
     print(decimal_to_binary(10)) # Expected: 1010
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static String decimalToBinary(int n) {
         // TODO: Convert decimal to binary string
         return "";
@@ -1707,7 +1735,9 @@ public class Solution {
         n //= 2
     return "".join(reversed(res))
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static String decimalToBinary(int n) {
         if (n == 0) return "0";
         StringBuilder sb = new StringBuilder();
@@ -1850,7 +1880,9 @@ Return the qualifying palindrome numbers as a comma-separated string (e.g. "11, 
 if __name__ == "__main__":
     print(print_palindromes(10, 80)) # Expected: 11, 22, 33, 44, 55, 66, 77
 `,
-      java: `public class Solution {
+      java: `import java.util.*;
+
+public class Solution {
     public static String printPalindromes(int lower, int upper) {
         // TODO: Return comma-separated string of palindromes
         return "";
@@ -1994,4 +2026,1959 @@ function printPalindromes(lower, upper) {
 `
     }
   }
+,
+  // =========================================================================
+  // Q11. Sum of Distance Between Three Points
+  // =========================================================================
+  {
+    id: 'dsa-p-11',
+    qno: 11,
+    title: 'Sum of Distance Between Three Points',
+    difficulty: 'Easy',
+    category: 'Mathematics',
+    topic: 'Coordinate Geometry',
+    company: 'Accenture',
+    pattern: 'Euclidean Distance',
+    timeComplexity: 'O(1)',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `The program is supposed to calculate the sum of distance between three points from each other.
+
+The points are given by:
+(x1, y1), (x2, y2), and (x3, y3).
+
+The distance between any two points is calculated using the standard Euclidean distance formula:
+d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
+
+Calculate and return the sum of pairwise distances:
+Total = D(P1, P2) + D(P2, P3) + D(P1, P3)
+formatted to 2 decimal places.`,
+    rules: [
+      'Calculate d12 = sqrt((x2 - x1)^2 + (y2 - y1)^2).',
+      'Calculate d23 = sqrt((x3 - x2)^2 + (y3 - y2)^2).',
+      'Calculate d13 = sqrt((x3 - x1)^2 + (y3 - y1)^2).',
+      'Return total distance (d12 + d23 + d13) rounded to 2 decimal places as a string.'
+    ],
+    coreLogic: `Calculate all three pairwise distances between P1, P2, and P3 using the Pythagorean Euclidean distance formula, then sum the three distances and round to 2 decimal places.`,
+    dryRun: [
+      { pair: 'P1(1,1) to P2(2,4)', formula: 'sqrt((2-1)^2 + (4-1)^2) = sqrt(10)', dist: '3.16' },
+      { pair: 'P2(2,4) to P3(3,6)', formula: 'sqrt((3-2)^2 + (6-4)^2) = sqrt(5)', dist: '2.24' },
+      { pair: 'P1(1,1) to P3(3,6)', formula: 'sqrt((3-1)^2 + (6-1)^2) = sqrt(29)', dist: '5.39' },
+      { pair: 'Total Distance', formula: '3.162 + 2.236 + 5.385', dist: '10.78' }
+    ],
+    constraints: [
+      '-10^4 <= x1, y1, x2, y2, x3, y3 <= 10^4',
+      'Return string with exactly 2 decimal places (e.g. 10.78, 12.00)'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'x1=1, y1=1, x2=2, y2=4, x3=3, y3=6',
+        args: [1, 1, 2, 4, 3, 6],
+        expectedOutput: '10.78',
+        explanation: 'sqrt(10) + sqrt(5) + sqrt(29) = 3.162 + 2.236 + 5.385 = 10.78'
+      },
+      {
+        id: 'tc-2',
+        name: 'Right Triangle (3-4-5)',
+        input: 'x1=0, y1=0, x2=3, y2=0, x3=0, y3=4',
+        args: [0, 0, 3, 0, 0, 4],
+        expectedOutput: '12.00',
+        explanation: 'd12 = 3.0, d23 = 5.0, d13 = 4.0. Total = 3 + 4 + 5 = 12.00'
+      },
+      {
+        id: 'tc-3',
+        name: 'Coincident Points (Origin)',
+        input: 'x1=0, y1=0, x2=0, y2=0, x3=0, y3=0',
+        args: [0, 0, 0, 0, 0, 0],
+        expectedOutput: '0.00',
+        explanation: 'All three points overlap; sum of distances is 0.00.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Equilateral Shift',
+        input: 'x1=1, y1=1, x2=4, y2=5, x3=1, y3=5',
+        args: [1, 1, 4, 5, 1, 5],
+        expectedOutput: '12.00',
+        explanation: 'd12 = 5, d23 = 3, d13 = 4. Total = 12.00'
+      },
+      {
+        id: 'tc-5',
+        name: 'Negative Coordinates',
+        input: 'x1=-2, y1=-1, x2=1, y2=3, x3=1, y3=-1',
+        args: [-2, -1, 1, 3, 1, -1],
+        expectedOutput: '12.00',
+        explanation: 'd12 = 5, d23 = 4, d13 = 3. Total = 12.00'
+      }
+    ],
+    starterCode: {
+      python: `import math
+
+def sum_of_distances(x1, y1, x2, y2, x3, y3):
+    # TODO: Calculate sum of distances rounded to 2 decimal places as string
+    pass
+
+if __name__ == "__main__":
+    print(sum_of_distances(1, 1, 2, 4, 3, 6)) # Expected: 10.78
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String sumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+        // TODO: Return sum of distances formatted to 2 decimal places
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <sstream>
+
+std::string sumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+    // TODO: Return sum of distances formatted to 2 decimal places
+    return "";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string SumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+        return "";
+    }
+}
+`,
+      javascript: `function sumOfDistances(x1, y1, x2, y2, x3, y3) {
+  // TODO: Return sum of distances formatted to 2 decimal places
+  return "";
+}
+`
+    },
+    solutions: {
+      python: `import math
+
+def sum_of_distances(x1, y1, x2, y2, x3, y3):
+    d12 = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    d23 = math.sqrt((x3 - x2)**2 + (y3 - y2)**2)
+    d13 = math.sqrt((x3 - x1)**2 + (y3 - y1)**2)
+    return f"{d12 + d23 + d13:.2f}"
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String sumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double d12 = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        double d23 = Math.sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
+        double d13 = Math.sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
+        return String.format(Locale.US, "%.2f", d12 + d23 + d13);
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <sstream>
+
+std::string sumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+    double d12 = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    double d23 = std::sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
+    double d13 = std::sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2) << (d12 + d23 + d13);
+    return oss.str();
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string SumOfDistances(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double d12 = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        double d23 = Math.Sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
+        double d13 = Math.Sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
+        return (d12 + d23 + d13).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+    }
+}
+`,
+      javascript: `function sumOfDistances(x1, y1, x2, y2, x3, y3) {
+  const d12 = Math.hypot(x2 - x1, y2 - y1);
+  const d23 = Math.hypot(x3 - x2, y3 - y2);
+  const d13 = Math.hypot(x3 - x1, y3 - y1);
+  return (d12 + d23 + d13).toFixed(2);
+}
+`
+    },
+    runSimulation: (args) => {
+      const [x1, y1, x2, y2, x3, y3] = args;
+      const d12 = Math.hypot(x2 - x1, y2 - y1);
+      const d23 = Math.hypot(x3 - x2, y3 - y2);
+      const d13 = Math.hypot(x3 - x1, y3 - y1);
+      return (d12 + d23 + d13).toFixed(2);
+    }
+  },
+
+  // =========================================================================
+  // Q12. Count Occurrences of Each Element
+  // =========================================================================
+  {
+    id: 'dsa-p-12',
+    qno: 12,
+    title: 'Count Occurrences of Each Element',
+    difficulty: 'Easy',
+    category: 'Arrays / Hashing',
+    topic: 'Frequency Counting',
+    company: 'Accenture',
+    pattern: 'HashMap / Frequency Map',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(K)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given an array of integers, find the number of occurrences of each element in the array.
+
+Output each distinct element and its count in the format:
+'element - count'
+separated by commas in order of first appearance.`,
+    rules: [
+      'Maintain an ordered frequency map or list of elements in order of first appearance.',
+      'Count frequency of each element.',
+      'Return string formatted as "e1 - c1, e2 - c2, ...".'
+    ],
+    coreLogic: `Use a LinkedHashMap or maintain unique elements in an array. Count occurrences of each number, then build a comma-separated string formatted as "val - count".`,
+    dryRun: [
+      { element: 10, countSoFar: 1 },
+      { element: 5,  countSoFar: 1 },
+      { element: 10, countSoFar: 2 },
+      { element: 15, countSoFar: 1 },
+      { element: 10, countSoFar: 3 },
+      { element: 5,  countSoFar: 2 }
+    ],
+    constraints: [
+      '1 <= arr.length <= 10^5',
+      '-10^9 <= arr[i] <= 10^9'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'arr = [10, 5, 10, 15, 10, 5]',
+        args: [[10, 5, 10, 15, 10, 5]],
+        expectedOutput: '10 - 3, 5 - 2, 15 - 1',
+        explanation: '10 appears 3 times, 5 appears 2 times, 15 appears 1 time.'
+      },
+      {
+        id: 'tc-2',
+        name: 'All Unique Elements',
+        input: 'arr = [1, 2, 3, 4]',
+        args: [[1, 2, 3, 4]],
+        expectedOutput: '1 - 1, 2 - 1, 3 - 1, 4 - 1',
+        explanation: 'Every element appears exactly once.'
+      },
+      {
+        id: 'tc-3',
+        name: 'All Identical Elements',
+        input: 'arr = [5, 5, 5, 5]',
+        args: [[5, 5, 5, 5]],
+        expectedOutput: '5 - 4',
+        explanation: 'Single distinct element 5 appears 4 times.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Single Element',
+        input: 'arr = [42]',
+        args: [[42]],
+        expectedOutput: '42 - 1',
+        explanation: 'Only 42 appears 1 time.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Negative Numbers Included',
+        input: 'arr = [-1, -2, -1, 0]',
+        args: [[-1, -2, -1, 0]],
+        expectedOutput: '-1 - 2, -2 - 1, 0 - 1',
+        explanation: '-1 appears 2 times, -2 appears 1 time, 0 appears 1 time.'
+      }
+    ],
+    starterCode: {
+      python: `def count_occurrences(arr):
+    # TODO: Return string in format "e1 - c1, e2 - c2, ..."
+    pass
+
+if __name__ == "__main__":
+    print(count_occurrences([10, 5, 10, 15, 10, 5]))
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String countOccurrences(int[] arr) {
+        // TODO: Return string formatted as "e1 - c1, e2 - c2, ..."
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+
+std::string countOccurrences(const std::vector<int>& arr) {
+    // TODO: Return string formatted as "e1 - c1, e2 - c2, ..."
+    return "";
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static string CountOccurrences(int[] arr) {
+        return "";
+    }
+}
+`,
+      javascript: `function countOccurrences(arr) {
+  // TODO: Return string formatted as "e1 - c1, e2 - c2, ..."
+  return "";
+}
+`
+    },
+    solutions: {
+      python: `def count_occurrences(arr):
+    freq = {}
+    for x in arr:
+        freq[x] = freq.get(x, 0) + 1
+    return ", ".join(f"{k} - {v}" for k, v in freq.items())
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String countOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new LinkedHashMap<>();
+        for (int x : arr) {
+            map.put(x, map.getOrDefault(x, 0) + 1);
+        }
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            list.add(e.getKey() + " - " + e.getValue());
+        }
+        return String.join(", ", list);
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+std::string countOccurrences(const std::vector<int>& arr) {
+    std::unordered_map<int, int> freq;
+    std::vector<int> order;
+    for (int x : arr) {
+        if (freq[x] == 0) order.push_back(x);
+        freq[x]++;
+    }
+    std::string res = "";
+    for (size_t i = 0; i < order.size(); i++) {
+        if (i > 0) res += ", ";
+        res += std::to_string(order[i]) + " - " + std::to_string(freq[order[i]]);
+    }
+    return res;
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static string CountOccurrences(int[] arr) {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        List<int> order = new List<int>();
+        foreach (int x in arr) {
+            if (!map.ContainsKey(x)) {
+                map[x] = 0;
+                order.Add(x);
+            }
+            map[x]++;
+        }
+        List<string> parts = new List<string>();
+        foreach (int k in order) {
+            parts.Add(k + " - " + map[k]);
+        }
+        return string.Join(", ", parts);
+    }
+}
+`,
+      javascript: `function countOccurrences(arr) {
+  const map = new Map();
+  for (const x of arr) {
+    map.set(x, (map.get(x) || 0) + 1);
+  }
+  const parts = [];
+  for (const [k, v] of map.entries()) {
+    parts.push(k + ' - ' + v);
+  }
+  return parts.join(', ');
+}
+`
+    },
+    runSimulation: (args) => {
+      const arr = args[0];
+      const map = new Map();
+      for (const x of arr) {
+        map.set(x, (map.get(x) || 0) + 1);
+      }
+      const parts = [];
+      for (const [k, v] of map.entries()) {
+        parts.push(k + ' - ' + v);
+      }
+      return parts.join(', ');
+    }
+  },
+
+  // =========================================================================
+  // Q13. Elevation Point
+  // =========================================================================
+  {
+    id: 'dsa-p-13',
+    qno: 13,
+    title: 'Elevation Point',
+    difficulty: 'Easy',
+    category: 'Arrays',
+    topic: 'Maximum Element / Bitonic Peak',
+    company: 'Accenture',
+    pattern: 'Linear Traversal',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given an array of N integers, find the elevation point.
+
+The elevation point is the highest point (maximum value) in the given array sequence.
+For example, for arr = [1, 2, 3, 4, 3, 2, 1], the elevation point is 4.`,
+    rules: [
+      'Traverse the array and track the maximum element seen so far.',
+      'Return the maximum value found.'
+    ],
+    coreLogic: `Initialize max = arr[0]. For each element from index 1 to n - 1, if arr[i] > max, update max = arr[i]. Return max.`,
+    dryRun: [
+      { element: 1, maxSoFar: 1 },
+      { element: 2, maxSoFar: 2 },
+      { element: 3, maxSoFar: 3 },
+      { element: 4, maxSoFar: 4 },
+      { element: 3, maxSoFar: 4 },
+      { element: 2, maxSoFar: 4 },
+      { element: 1, maxSoFar: 4 }
+    ],
+    constraints: [
+      '1 <= n <= 10^5',
+      '-10^9 <= arr[i] <= 10^9'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'arr = [1, 2, 3, 4, 3, 2, 1], n = 7',
+        args: [[1, 2, 3, 4, 3, 2, 1], 7],
+        expectedOutput: '4',
+        explanation: 'The highest point in the sequence is 4.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Given Two Elements',
+        input: 'arr = [5, 3], n = 2',
+        args: [[5, 3], 2],
+        expectedOutput: '5',
+        explanation: 'Max of [5, 3] is 5.'
+      },
+      {
+        id: 'tc-3',
+        name: 'Peak in Middle',
+        input: 'arr = [1, 5, 3, 2], n = 4',
+        args: [[1, 5, 3, 2], 4],
+        expectedOutput: '5',
+        explanation: 'Elevation point is 5.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Single Element',
+        input: 'arr = [10], n = 1',
+        args: [[10], 1],
+        expectedOutput: '10',
+        explanation: 'Only element 10 is the elevation point.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Negative Elements',
+        input: 'arr = [-10, -5, -2, -8], n = 4',
+        args: [[-10, -5, -2, -8], 4],
+        expectedOutput: '-2',
+        explanation: 'Highest element among negatives is -2.'
+      }
+    ],
+    starterCode: {
+      python: `def elevation_point(arr, n):
+    # TODO: Return maximum element in arr
+    pass
+
+if __name__ == "__main__":
+    print(elevation_point([1, 2, 3, 4, 3, 2, 1], 7)) # Expected: 4
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int elevationPoint(int[] arr, int n) {
+        // TODO: Return maximum element in arr
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int elevationPoint(const std::vector<int>& arr, int n) {
+    // TODO: Return maximum element in arr
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int ElevationPoint(int[] arr, int n) {
+        return 0;
+    }
+}
+`,
+      javascript: `function elevationPoint(arr, n) {
+  // TODO: Return maximum element in arr
+  return 0;
+}
+`
+    },
+    solutions: {
+      python: `def elevation_point(arr, n):
+    max_val = arr[0]
+    for i in range(1, n):
+        if arr[i] > max_val:
+            max_val = arr[i]
+    return max_val
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int elevationPoint(int[] arr, int n) {
+        int max = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        return max;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int elevationPoint(const std::vector<int>& arr, int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) max = arr[i];
+    }
+    return max;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int ElevationPoint(int[] arr, int n) {
+        int max = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > max) max = arr[i];
+        }
+        return max;
+    }
+}
+`,
+      javascript: `function elevationPoint(arr, n) {
+  let max = arr[0];
+  for (let i = 1; i < n; i++) {
+    if (arr[i] > max) max = arr[i];
+  }
+  return max;
+}
+`
+    },
+    runSimulation: (args) => {
+      const [arr, n] = args;
+      let max = arr[0];
+      for (let i = 1; i < n; i++) {
+        if (arr[i] > max) max = arr[i];
+      }
+      return max;
+    }
+  },
+
+  // =========================================================================
+  // Q14. Encode Number
+  // =========================================================================
+  {
+    id: 'dsa-p-14',
+    qno: 14,
+    title: 'Encode Number',
+    difficulty: 'Easy',
+    category: 'Number Manipulation',
+    topic: 'Digit Processing',
+    company: 'Accenture',
+    pattern: 'Digit Extraction + Concatenation',
+    timeComplexity: 'O(D)',
+    spaceComplexity: 'O(D)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `You work in the message encoding department of a national security agency.
+You are given an integer N.
+
+To encode the number:
+1. Take each digit of N.
+2. Square each digit individually.
+3. Concatenate the squares together.
+4. Return the resulting encoded string.
+
+Example: N = 34 -> 3^2 = 9, 4^2 = 16 -> Output: "916".`,
+    rules: [
+      'Extract each digit of N from left to right.',
+      'Square each digit: sq = digit * digit.',
+      'Concatenate all squared values into a single string.'
+    ],
+    coreLogic: `Convert the integer to a string. For each character c, compute digit = c - '0', square it (digit * digit), and append to the result string.`,
+    dryRun: [
+      { digit: 3, square: '3^2 = 9', resultSoFar: '9' },
+      { digit: 4, square: '4^2 = 16', resultSoFar: '916' }
+    ],
+    constraints: [
+      '0 <= N <= 10^9'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'N = 34',
+        args: [34],
+        expectedOutput: '916',
+        explanation: '3^2 = 9, 4^2 = 16 -> "916"'
+      },
+      {
+        id: 'tc-2',
+        name: 'Small Digits',
+        input: 'N = 12',
+        args: [12],
+        expectedOutput: '14',
+        explanation: '1^2 = 1, 2^2 = 4 -> "14"'
+      },
+      {
+        id: 'tc-3',
+        name: 'Digits with Double-Digit Square',
+        input: 'N = 25',
+        args: [25],
+        expectedOutput: '425',
+        explanation: '2^2 = 4, 5^2 = 25 -> "425"'
+      },
+      {
+        id: 'tc-4',
+        name: 'All Nines',
+        input: 'N = 99',
+        args: [99],
+        expectedOutput: '8181',
+        explanation: '9^2 = 81, 9^2 = 81 -> "8181"'
+      },
+      {
+        id: 'tc-5',
+        name: 'Zero Digit Included',
+        input: 'N = 10',
+        args: [10],
+        expectedOutput: '10',
+        explanation: '1^2 = 1, 0^2 = 0 -> "10"'
+      }
+    ],
+    starterCode: {
+      python: `def encode_number(n: int) -> str:
+    # TODO: Square each digit and concatenate into a string
+    pass
+
+if __name__ == "__main__":
+    print(encode_number(34)) # Expected: "916"
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String encodeNumber(int n) {
+        // TODO: Square each digit and concatenate into a string
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string encodeNumber(int n) {
+    // TODO: Square each digit and concatenate into a string
+    return "";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string EncodeNumber(int n) {
+        return "";
+    }
+}
+`,
+      javascript: `function encodeNumber(n) {
+  // TODO: Square each digit and concatenate into a string
+  return "";
+}
+`
+    },
+    solutions: {
+      python: `def encode_number(n: int) -> str:
+    s = str(n)
+    return "".join(str(int(c)**2) for c in s)
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String encodeNumber(int n) {
+        String s = String.valueOf(n);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            int d = s.charAt(i) - '0';
+            sb.append(d * d);
+        }
+        return sb.toString();
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string encodeNumber(int n) {
+    std::string s = std::to_string(n);
+    std::string res = "";
+    for (char c : s) {
+        int d = c - '0';
+        res += std::to_string(d * d);
+    }
+    return res;
+}
+`,
+      csharp: `using System;
+using System.Text;
+
+public class Solution {
+    public static string EncodeNumber(int n) {
+        string s = n.ToString();
+        StringBuilder sb = new StringBuilder();
+        foreach (char c in s) {
+            int d = c - '0';
+            sb.Append(d * d);
+        }
+        return sb.ToString();
+    }
+}
+`,
+      javascript: `function encodeNumber(n) {
+  return String(n)
+    .split('')
+    .map(c => Number(c) ** 2)
+    .join('');
+}
+`
+    },
+    runSimulation: (args) => {
+      const n = args[0];
+      return String(n)
+        .split('')
+        .map(c => Number(c) ** 2)
+        .join('');
+    }
+  },
+
+  // =========================================================================
+  // Q15. Equilibrium Sum
+  // =========================================================================
+  {
+    id: 'dsa-p-15',
+    qno: 15,
+    title: 'Equilibrium Sum',
+    difficulty: 'Easy',
+    category: 'Arrays',
+    topic: 'Prefix / Total Sum',
+    company: 'Accenture',
+    pattern: 'Prefix Sum',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given an integer array of size n, find the index of the equilibrium point.
+
+An equilibrium point is an index where:
+Sum of elements on the left = Sum of elements on the right.
+
+If no equilibrium point exists, return -1.
+If multiple exist, return the first one.`,
+    rules: [
+      'First compute totalSum of all elements.',
+      'Maintain leftSum starting at 0.',
+      'At index i: rightSum = totalSum - leftSum - arr[i].',
+      'If leftSum == rightSum, return i.',
+      'Otherwise, leftSum += arr[i]. Return -1 if not found.'
+    ],
+    coreLogic: `rightSum can be computed dynamically as totalSum - leftSum - arr[i] in O(1) time per element, enabling an efficient O(N) single-pass solution after initial sum.`,
+    dryRun: [
+      { idx: 0, val: 3, left: 0, right: '17 - 0 - 3 = 14', match: 'No' },
+      { idx: 1, val: 4, left: 3, right: '17 - 3 - 4 = 10', match: 'No' },
+      { idx: 2, val: 3, left: 7, right: '17 - 7 - 3 = 7',  match: 'Yes (Index 2)' }
+    ],
+    constraints: [
+      '1 <= n <= 10^5',
+      '-10^4 <= arr[i] <= 10^4'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'arr = [3, 4, 3, 1, 6], n = 5',
+        args: [[3, 4, 3, 1, 6], 5],
+        expectedOutput: '2',
+        explanation: 'At index 2: left = 3+4=7, right = 1+6=7.'
+      },
+      {
+        id: 'tc-2',
+        name: 'No Equilibrium Point',
+        input: 'arr = [1, 2, 3], n = 3',
+        args: [[1, 2, 3], 3],
+        expectedOutput: '-1',
+        explanation: 'No index satisfies leftSum == rightSum.'
+      },
+      {
+        id: 'tc-3',
+        name: 'Equilibrium with Duplicate Values',
+        input: 'arr = [1, 2, 3, 3], n = 4',
+        args: [[1, 2, 3, 3], 4],
+        expectedOutput: '2',
+        explanation: 'At index 2: left = 1+2=3, right = 3.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Single Element',
+        input: 'arr = [5], n = 1',
+        args: [[5], 1],
+        expectedOutput: '0',
+        explanation: 'Index 0 has left=0 and right=0.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Zero in Middle',
+        input: 'arr = [2, 0, 2], n = 3',
+        args: [[2, 0, 2], 3],
+        expectedOutput: '1',
+        explanation: 'At index 1: left = 2, right = 2.'
+      }
+    ],
+    starterCode: {
+      python: `def equilibrium_index(arr, n):
+    # TODO: Return equilibrium index, or -1
+    pass
+
+if __name__ == "__main__":
+    print(equilibrium_index([3, 4, 3, 1, 6], 5)) # Expected: 2
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int equilibriumIndex(int[] arr, int n) {
+        // TODO: Return equilibrium index, or -1
+        return -1;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int equilibriumIndex(int arr[], int n) {
+    // TODO: Return equilibrium index, or -1
+    return -1;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int EquilibriumIndex(int[] arr, int n) {
+        return -1;
+    }
+}
+`,
+      javascript: `function equilibriumIndex(arr, n) {
+  // TODO: Return equilibrium index, or -1
+  return -1;
+}
+`
+    },
+    solutions: {
+      python: `def equilibrium_index(arr, n):
+    total = sum(arr)
+    left = 0
+    for i in range(n):
+        right = total - left - arr[i]
+        if left == right:
+            return i
+        left += arr[i]
+    return -1
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int equilibriumIndex(int[] arr, int n) {
+        int total = 0;
+        for (int i = 0; i < n; i++) total += arr[i];
+        int left = 0;
+        for (int i = 0; i < n; i++) {
+            int right = total - left - arr[i];
+            if (left == right) return i;
+            left += arr[i];
+        }
+        return -1;
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+int equilibriumIndex(int arr[], int n) {
+    int total = 0;
+    for (int i = 0; i < n; i++) total += arr[i];
+    int left = 0;
+    for (int i = 0; i < n; i++) {
+        int right = total - left - arr[i];
+        if (left == right) return i;
+        left += arr[i];
+    }
+    return -1;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int EquilibriumIndex(int[] arr, int n) {
+        int total = 0;
+        for (int i = 0; i < n; i++) total += arr[i];
+        int left = 0;
+        for (int i = 0; i < n; i++) {
+            int right = total - left - arr[i];
+            if (left == right) return i;
+            left += arr[i];
+        }
+        return -1;
+    }
+}
+`,
+      javascript: `function equilibriumIndex(arr, n) {
+  let total = arr.reduce((a, b) => a + b, 0);
+  let left = 0;
+  for (let i = 0; i < n; i++) {
+    let right = total - left - arr[i];
+    if (left === right) return i;
+    left += arr[i];
+  }
+  return -1;
+}
+`
+    },
+    runSimulation: (args) => {
+      const [arr, n] = args;
+      let total = arr.reduce((a, b) => a + b, 0);
+      let left = 0;
+      for (let i = 0; i < n; i++) {
+        let right = total - left - arr[i];
+        if (left === right) return i;
+        left += arr[i];
+      }
+      return -1;
+    }
+  },
+
+  // =========================================================================
+  // Q16. Missing Number
+  // =========================================================================
+  {
+    id: 'dsa-p-16',
+    qno: 16,
+    title: 'Missing Number',
+    difficulty: 'Easy',
+    category: 'Arrays / Mathematics',
+    topic: 'Missing Element',
+    company: 'Accenture',
+    pattern: 'Sum Formula',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given an array of integers representing numbers from 1 to N with exactly one number missing, write a function that finds and returns the missing number.
+
+Example: arr = [1, 2, 4, 5, 6], N = 6 -> Expected Output: 3.`,
+    rules: [
+      'Expected sum = N * (N + 1) / 2.',
+      'Actual sum = sum(arr).',
+      'Missing number = Expected sum - Actual sum.'
+    ],
+    coreLogic: `The sum of first N natural numbers is N*(N+1)/2. Subtracting the actual sum of array elements from the expected sum yields the missing number in O(N) time and O(1) space.`,
+    dryRun: [
+      { step: 'Array', value: '[1, 2, 4, 5, 6]' },
+      { step: 'N', value: 6 },
+      { step: 'Expected Sum', value: '6 * 7 / 2 = 21' },
+      { step: 'Actual Sum', value: '1 + 2 + 4 + 5 + 6 = 18' },
+      { step: 'Missing', value: '21 - 18 = 3' }
+    ],
+    constraints: [
+      '2 <= N <= 10^5',
+      'arr.length == N - 1',
+      '1 <= arr[i] <= N'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'arr = [1, 2, 4, 5, 6], N = 6',
+        args: [[1, 2, 4, 5, 6], 6],
+        expectedOutput: '3',
+        explanation: 'Expected sum 21 - Actual sum 18 = 3.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Missing Near End',
+        input: 'arr = [1, 2, 3, 5], N = 5',
+        args: [[1, 2, 3, 5], 5],
+        expectedOutput: '4',
+        explanation: 'Missing number is 4.'
+      },
+      {
+        id: 'tc-3',
+        name: 'Missing First Element',
+        input: 'arr = [2, 3, 4, 5], N = 5',
+        args: [[2, 3, 4, 5], 5],
+        expectedOutput: '1',
+        explanation: 'Missing number is 1.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Minimal Size (N = 2)',
+        input: 'arr = [1], N = 2',
+        args: [[1], 2],
+        expectedOutput: '2',
+        explanation: 'Missing number is 2.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Larger Range (N = 10)',
+        input: 'arr = [1, 2, 3, 4, 5, 6, 7, 8, 10], N = 10',
+        args: [[1, 2, 3, 4, 5, 6, 7, 8, 10], 10],
+        expectedOutput: '9',
+        explanation: 'Missing number is 9.'
+      }
+    ],
+    starterCode: {
+      python: `def missing_number(arr, n):
+    # TODO: Return missing number in range 1 to n
+    pass
+
+if __name__ == "__main__":
+    print(missing_number([1, 2, 4, 5, 6], 6)) # Expected: 3
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int missingNumber(int[] arr, int n) {
+        // TODO: Return missing number in range 1 to n
+        return 0;
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+
+int missingNumber(int arr[], int n) {
+    // TODO: Return missing number in range 1 to n
+    return 0;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int MissingNumber(int[] arr, int n) {
+        return 0;
+    }
+}
+`,
+      javascript: `function missingNumber(arr, n) {
+  // TODO: Return missing number in range 1 to n
+  return 0;
+}
+`
+    },
+    solutions: {
+      python: `def missing_number(arr, n):
+    expected = n * (n + 1) // 2
+    return expected - sum(arr)
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static int missingNumber(int[] arr, int n) {
+        long expected = (long) n * (n + 1) / 2;
+        long actual = 0;
+        for (int x : arr) actual += x;
+        return (int)(expected - actual);
+    }
+}
+`,
+      cpp: `#include <iostream>
+
+int missingNumber(int arr[], int n) {
+    long long expected = (long long) n * (n + 1) / 2;
+    long long actual = 0;
+    for (int i = 0; i < n - 1; i++) actual += arr[i];
+    return expected - actual;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static int MissingNumber(int[] arr, int n) {
+        long expected = (long) n * (n + 1) / 2;
+        long actual = 0;
+        foreach (int x in arr) actual += x;
+        return (int)(expected - actual);
+    }
+}
+`,
+      javascript: `function missingNumber(arr, n) {
+  const expected = (n * (n + 1)) / 2;
+  const actual = arr.reduce((a, b) => a + b, 0);
+  return expected - actual;
+}
+`
+    },
+    runSimulation: (args) => {
+      const [arr, n] = args;
+      const expected = (n * (n + 1)) / 2;
+      const actual = arr.reduce((a, b) => a + b, 0);
+      return expected - actual;
+    }
+  },
+
+  // =========================================================================
+  // Q17. First K Words
+  // =========================================================================
+  {
+    id: 'dsa-p-17',
+    qno: 17,
+    title: 'First K Words',
+    difficulty: 'Easy',
+    category: 'Strings',
+    topic: 'String Parsing / Tokenization',
+    company: 'Accenture',
+    pattern: 'Tokenization',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(N)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Print the first K words of a given space-separated string.
+If the string contains fewer than K words, return all available words.
+
+Example: String = "Hello I am a passionate developer", K = 4 -> Output: "Hello I am a".`,
+    rules: [
+      'Split the string into words using whitespace.',
+      'Take at most K words.',
+      'Join them with a single space and return.'
+    ],
+    coreLogic: `Tokenize the string by space characters, select the first min(K, totalWords) tokens, and join them with a single space.`,
+    dryRun: [
+      { index: 1, word: 'Hello' },
+      { index: 2, word: 'I' },
+      { index: 3, word: 'am' },
+      { index: 4, word: 'a' }
+    ],
+    constraints: [
+      '1 <= s.length <= 10^5',
+      '1 <= K <= 10^4'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 's = "Hello I am a passionate developer", K = 4',
+        args: ["Hello I am a passionate developer", 4],
+        expectedOutput: 'Hello I am a',
+        explanation: 'First 4 words extracted.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Two Words',
+        input: 's = "I love coding", K = 2',
+        args: ["I love coding", 2],
+        expectedOutput: 'I love',
+        explanation: 'First 2 words are "I love".'
+      },
+      {
+        id: 'tc-3',
+        name: 'K Exceeds Word Count',
+        input: 's = "One two three", K = 5',
+        args: ["One two three", 5],
+        expectedOutput: 'One two three',
+        explanation: 'Only 3 words exist; returns all.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Single Word',
+        input: 's = "Accenture", K = 1',
+        args: ["Accenture", 1],
+        expectedOutput: 'Accenture',
+        explanation: 'Only 1 word requested.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Five Words',
+        input: 's = "The quick brown fox jumps", K = 3',
+        args: ["The quick brown fox jumps", 3],
+        expectedOutput: 'The quick brown',
+        explanation: 'First 3 words returned.'
+      }
+    ],
+    starterCode: {
+      python: `def first_k_words(s: str, k: int) -> str:
+    # TODO: Return first k words joined by space
+    pass
+
+if __name__ == "__main__":
+    print(first_k_words("Hello I am a passionate developer", 4))
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String firstKWords(String s, int k) {
+        // TODO: Return first k words joined by space
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string firstKWords(const std::string& s, int k) {
+    // TODO: Return first k words joined by space
+    return "";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string FirstKWords(string s, int k) {
+        return "";
+    }
+}
+`,
+      javascript: `function firstKWords(s, k) {
+  // TODO: Return first k words joined by space
+  return "";
+}
+`
+    },
+    solutions: {
+      python: `def first_k_words(s: str, k: int) -> str:
+    words = s.strip().split()
+    return " ".join(words[:k])
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String firstKWords(String s, int k) {
+        String[] words = s.trim().split("\\s+");
+        int count = Math.min(k, words.length);
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < count; i++) list.add(words[i]);
+        return String.join(" ", list);
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+#include <sstream>
+
+std::string firstKWords(const std::string& s, int k) {
+    std::stringstream ss(s);
+    std::string word, res = "";
+    int count = 0;
+    while (ss >> word && count < k) {
+        if (count > 0) res += " ";
+        res += word;
+        count++;
+    }
+    return res;
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string FirstKWords(string s, int k) {
+        string[] words = s.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        int count = Math.Min(k, words.Length);
+        return string.Join(" ", words, 0, count);
+    }
+}
+`,
+      javascript: `function firstKWords(s, k) {
+  return s.trim().split(/\s+/).slice(0, k).join(' ');
+}
+`
+    },
+    runSimulation: (args) => {
+      const [s, k] = args;
+      return s.trim().split(/\s+/).slice(0, k).join(' ');
+    }
+  },
+
+  // =========================================================================
+  // Q18. Floyd's Triangle
+  // =========================================================================
+  {
+    id: 'dsa-p-18',
+    qno: 18,
+    title: "Floyd's Triangle",
+    difficulty: 'Easy',
+    category: 'Patterns',
+    topic: 'Pattern Printing / Nested Loops',
+    company: 'Accenture',
+    pattern: 'Nested Loops',
+    timeComplexity: 'O(N^2)',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given an integer N, generate N rows of Floyd's Triangle.
+Floyd's Triangle is a right-angled triangular arrangement of consecutive natural numbers.
+
+Example for N = 4:
+1
+2 3
+4 5 6
+7 8 9 10
+Lines are separated by newline characters.`,
+    rules: [
+      'Initialize counter num = 1.',
+      'For row i from 1 to N: print i consecutive numbers separated by spaces.',
+      'Return rows joined by newline characters.'
+    ],
+    coreLogic: `Iterate row from 1 to N. In row i, append numbers from num to num + i - 1 separated by spaces, incrementing num. Join rows with newline.`,
+    dryRun: [
+      { row: 1, numbers: '1' },
+      { row: 2, numbers: '2 3' },
+      { row: 3, numbers: '4 5 6' },
+      { row: 4, numbers: '7 8 9 10' }
+    ],
+    constraints: [
+      '1 <= N <= 20'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'N = 4',
+        args: [4],
+        expectedOutput: '1\n2 3\n4 5 6\n7 8 9 10',
+        explanation: '4 rows of consecutive numbers.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Single Row',
+        input: 'N = 1',
+        args: [1],
+        expectedOutput: '1',
+        explanation: 'Single row with 1.'
+      },
+      {
+        id: 'tc-3',
+        name: 'Three Rows',
+        input: 'N = 3',
+        args: [3],
+        expectedOutput: '1\n2 3\n4 5 6',
+        explanation: '3 rows containing numbers 1 through 6.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Two Rows',
+        input: 'N = 2',
+        args: [2],
+        expectedOutput: '1\n2 3',
+        explanation: '2 rows containing 1 and 2 3.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Five Rows',
+        input: 'N = 5',
+        args: [5],
+        expectedOutput: '1\n2 3\n4 5 6\n7 8 9 10\n11 12 13 14 15',
+        explanation: '5 rows containing numbers 1 to 15.'
+      }
+    ],
+    starterCode: {
+      python: `def floyd_triangle(n: int) -> str:
+    # TODO: Return N rows of Floyd's Triangle joined by newline
+    pass
+
+if __name__ == "__main__":
+    print(floyd_triangle(4))
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String floydTriangle(int n) {
+        // TODO: Return N rows of Floyd's Triangle joined by newline
+        return "";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string floydTriangle(int n) {
+    // TODO: Return N rows of Floyd's Triangle joined by newline
+    return "";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string FloydTriangle(int n) {
+        return "";
+    }
+}
+`,
+      javascript: `function floydTriangle(n) {
+  // TODO: Return N rows of Floyd's Triangle joined by newline
+  return "";
+}
+`
+    },
+    solutions: {
+      python: `def floyd_triangle(n: int) -> str:
+    lines = []
+    num = 1
+    for i in range(1, n + 1):
+        row = [str(num + j) for j in range(i)]
+        lines.append(" ".join(row))
+        num += i
+    return "\n".join(lines)
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String floydTriangle(int n) {
+        StringBuilder sb = new StringBuilder();
+        int num = 1;
+        for (int i = 1; i <= n; i++) {
+            if (i > 1) sb.append("\n");
+            for (int j = 1; j <= i; j++) {
+                if (j > 1) sb.append(" ");
+                sb.append(num++);
+            }
+        }
+        return sb.toString();
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string floydTriangle(int n) {
+    std::string res = "";
+    int num = 1;
+    for (int i = 1; i <= n; i++) {
+        if (i > 1) res += "\n";
+        for (int j = 1; j <= i; j++) {
+            if (j > 1) res += " ";
+            res += std::to_string(num++);
+        }
+    }
+    return res;
+}
+`,
+      csharp: `using System;
+using System.Text;
+
+public class Solution {
+    public static string FloydTriangle(int n) {
+        StringBuilder sb = new StringBuilder();
+        int num = 1;
+        for (int i = 1; i <= n; i++) {
+            if (i > 1) sb.Append("\n");
+            for (int j = 1; j <= i; j++) {
+                if (j > 1) sb.Append(" ");
+                sb.Append(num++);
+            }
+        }
+        return sb.ToString();
+    }
+}
+`,
+      javascript: `function floydTriangle(n) {
+  const lines = [];
+  let num = 1;
+  for (let i = 1; i <= n; i++) {
+    const row = [];
+    for (let j = 1; j <= i; j++) {
+      row.push(num++);
+    }
+    lines.push(row.join(' '));
+  }
+  return lines.join('\n');
+}
+`
+    },
+    runSimulation: (args) => {
+      const n = args[0];
+      const lines = [];
+      let num = 1;
+      for (let i = 1; i <= n; i++) {
+        const row = [];
+        for (let j = 1; j <= i; j++) {
+          row.push(num++);
+        }
+        lines.push(row.join(' '));
+      }
+      return lines.join('\n');
+    }
+  },
+
+  // =========================================================================
+  // Q19. Googly Prime Number
+  // =========================================================================
+  {
+    id: 'dsa-p-19',
+    qno: 19,
+    title: 'Googly Prime Number',
+    difficulty: 'Easy',
+    category: 'Mathematics',
+    topic: 'Digit Sum + Prime Check',
+    company: 'Accenture',
+    pattern: 'Digit Manipulation + Prime Check',
+    timeComplexity: 'O(D + sqrt(S))',
+    spaceComplexity: 'O(1)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `A number is considered Googly Prime if the sum of its digits is a prime number.
+Given an integer N, return "YES" if N is a Googly Prime number, otherwise return "NO".
+
+Examples:
+- 43 -> 4 + 3 = 7 (prime) -> "YES"
+- 123 -> 1 + 2 + 3 = 6 (not prime) -> "NO"`,
+    rules: [
+      'Extract digits of N and compute sum.',
+      'Check if sum >= 2 and has no divisors other than 1 and itself.',
+      'Return "YES" if sum is prime, else "NO".'
+    ],
+    coreLogic: `Sum the digits of N. Then test if the digit sum S is prime by checking divisors from 2 up to sqrt(S). Return "YES" if prime, else "NO".`,
+    dryRun: [
+      { input: 43, digitSum: '4 + 3 = 7', isPrime: 'Yes', result: 'YES' },
+      { input: 123, digitSum: '1 + 2 + 3 = 6', isPrime: 'No', result: 'NO' }
+    ],
+    constraints: [
+      '1 <= N <= 10^9'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example 1',
+        input: 'N = 43',
+        args: [43],
+        expectedOutput: 'YES',
+        explanation: '4 + 3 = 7. 7 is a prime number.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Given Example 2',
+        input: 'N = 123',
+        args: [123],
+        expectedOutput: 'NO',
+        explanation: '1 + 2 + 3 = 6. 6 is composite (divisible by 2 and 3).'
+      },
+      {
+        id: 'tc-3',
+        name: 'Small Prime Sum (2)',
+        input: 'N = 11',
+        args: [11],
+        expectedOutput: 'YES',
+        explanation: '1 + 1 = 2. 2 is prime.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Sum Equals 1',
+        input: 'N = 100',
+        args: [100],
+        expectedOutput: 'NO',
+        explanation: '1 + 0 + 0 = 1. 1 is not a prime number.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Two Digits Prime Sum (11)',
+        input: 'N = 29',
+        args: [29],
+        expectedOutput: 'YES',
+        explanation: '2 + 9 = 11. 11 is prime.'
+      }
+    ],
+    starterCode: {
+      python: `def googly_prime(n: int) -> str:
+    # TODO: Return "YES" if digit sum is prime, else "NO"
+    pass
+
+if __name__ == "__main__":
+    print(googly_prime(43)) # Expected: "YES"
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String googlyPrime(int n) {
+        // TODO: Return "YES" if digit sum is prime, else "NO"
+        return "NO";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+std::string googlyPrime(int n) {
+    // TODO: Return "YES" if digit sum is prime, else "NO"
+    return "NO";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    public static string GooglyPrime(int n) {
+        return "NO";
+    }
+}
+`,
+      javascript: `function googlyPrime(n) {
+  // TODO: Return "YES" if digit sum is prime, else "NO"
+  return "NO";
+}
+`
+    },
+    solutions: {
+      python: `def is_prime(x):
+    if x < 2:
+        return False
+    for i in range(2, int(x**0.5) + 1):
+        if x % i == 0:
+            return False
+    return True
+
+def googly_prime(n: int) -> str:
+    s = sum(int(c) for c in str(n))
+    return "YES" if is_prime(s) else "NO"
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    private static boolean isPrime(int x) {
+        if (x < 2) return false;
+        for (int i = 2; i * i <= x; i++) {
+            if (x % i == 0) return false;
+        }
+        return true;
+    }
+
+    public static String googlyPrime(int n) {
+        int sum = 0;
+        int temp = n;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp /= 10;
+        }
+        return isPrime(sum) ? "YES" : "NO";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <string>
+
+bool isPrime(int x) {
+    if (x < 2) return false;
+    for (int i = 2; i * i <= x; i++) {
+        if (x % i == 0) return false;
+    }
+    return true;
+}
+
+std::string googlyPrime(int n) {
+    int sum = 0, temp = n;
+    while (temp > 0) {
+        sum += temp % 10;
+        temp /= 10;
+    }
+    return isPrime(sum) ? "YES" : "NO";
+}
+`,
+      csharp: `using System;
+
+public class Solution {
+    private static bool IsPrime(int x) {
+        if (x < 2) return false;
+        for (int i = 2; i * i <= x; i++) {
+            if (x % i == 0) return false;
+        }
+        return true;
+    }
+
+    public static string GooglyPrime(int n) {
+        int sum = 0, temp = n;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp /= 10;
+        }
+        return IsPrime(sum) ? "YES" : "NO";
+    }
+}
+`,
+      javascript: `function isPrime(x) {
+  if (x < 2) return false;
+  for (let i = 2; i * i <= x; i++) {
+    if (x % i === 0) return false;
+  }
+  return true;
+}
+
+function googlyPrime(n) {
+  let sum = 0, temp = n;
+  while (temp > 0) {
+    sum += temp % 10;
+    temp = Math.floor(temp / 10);
+  }
+  return isPrime(sum) ? "YES" : "NO";
+}
+`
+    },
+    runSimulation: (args) => {
+      const n = args[0];
+      const isP = (x) => {
+        if (x < 2) return false;
+        for (let i = 2; i * i <= x; i++) if (x % i === 0) return false;
+        return true;
+      };
+      let sum = 0, temp = n;
+      while (temp > 0) {
+        sum += temp % 10;
+        temp = Math.floor(temp / 10);
+      }
+      return isP(sum) ? 'YES' : 'NO';
+    }
+  },
+
+  // =========================================================================
+  // Q20. Intersection of Array
+  // =========================================================================
+  {
+    id: 'dsa-p-20',
+    qno: 20,
+    title: 'Intersection of Array',
+    difficulty: 'Easy',
+    category: 'Arrays',
+    topic: 'Array Intersection / Hash Set',
+    company: 'Accenture',
+    pattern: 'Hash Set / Two Pointers',
+    timeComplexity: 'O(N + M)',
+    spaceComplexity: 'O(N + M)',
+    rewardXp: 50,
+    targetMins: 15,
+    description: `Given two integer arrays arr1 and arr2, return the distinct elements present in both arrays in sorted order, separated by commas.
+If there is no common element, return "Empty".
+
+Example: arr1 = [1, 2, 2, 1], arr2 = [2, 2] -> Output: "2".`,
+    rules: [
+      'Store distinct elements of arr1 in a Set.',
+      'Check which elements exist in arr2 and store in an intersection Set.',
+      'If intersection is empty, return "Empty".',
+      'Otherwise, sort distinct elements ascending and join by commas.'
+    ],
+    coreLogic: `Insert all elements of arr1 into a HashSet. Iterate over arr2; if an element exists in the set, add it to the intersection set. Sort the intersection elements and return as comma-separated string, or "Empty" if none.`,
+    dryRun: [
+      { arr1: '[1, 2, 2, 1]', set1: '{1, 2}' },
+      { arr2: '[2, 2]', common: '{2}' },
+      { result: '"2"' }
+    ],
+    constraints: [
+      '1 <= arr1.length, arr2.length <= 10^5',
+      '-10^9 <= arr1[i], arr2[i] <= 10^9'
+    ],
+    testCases: [
+      {
+        id: 'tc-1',
+        name: 'Given Example',
+        input: 'arr1 = [1, 2, 2, 1], arr2 = [2, 2]',
+        args: [[1, 2, 2, 1], [2, 2]],
+        expectedOutput: '2',
+        explanation: 'Only element 2 is present in both arrays.'
+      },
+      {
+        id: 'tc-2',
+        name: 'Multiple Common Elements',
+        input: 'arr1 = [4, 9, 5], arr2 = [9, 4, 9, 8, 4]',
+        args: [[4, 9, 5], [9, 4, 9, 8, 4]],
+        expectedOutput: '4, 9',
+        explanation: '4 and 9 are present in both arrays.'
+      },
+      {
+        id: 'tc-3',
+        name: 'No Common Elements',
+        input: 'arr1 = [1, 2, 3], arr2 = [4, 5, 6]',
+        args: [[1, 2, 3], [4, 5, 6]],
+        expectedOutput: 'Empty',
+        explanation: 'No overlapping elements.'
+      },
+      {
+        id: 'tc-4',
+        name: 'Identical Duplicates',
+        input: 'arr1 = [7, 7, 7], arr2 = [7]',
+        args: [[7, 7, 7], [7]],
+        expectedOutput: '7',
+        explanation: 'Single common element 7.'
+      },
+      {
+        id: 'tc-5',
+        name: 'Sorted Overlap',
+        input: 'arr1 = [10, 20, 30, 40], arr2 = [30, 40, 50]',
+        args: [[10, 20, 30, 40], [30, 40, 50]],
+        expectedOutput: '30, 40',
+        explanation: '30 and 40 are common.'
+      }
+    ],
+    starterCode: {
+      python: `def intersection_of_arrays(arr1, arr2):
+    # TODO: Return comma-separated distinct common elements in sorted order, or "Empty"
+    pass
+
+if __name__ == "__main__":
+    print(intersection_of_arrays([1, 2, 2, 1], [2, 2])) # Expected: "2"
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String intersectionOfArrays(int[] arr1, int[] arr2) {
+        // TODO: Return comma-separated distinct common elements in sorted order, or "Empty"
+        return "Empty";
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+
+std::string intersectionOfArrays(const std::vector<int>& arr1, const std::vector<int>& arr2) {
+    // TODO: Return comma-separated distinct common elements in sorted order, or "Empty"
+    return "Empty";
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static string IntersectionOfArrays(int[] arr1, int[] arr2) {
+        return "Empty";
+    }
+}
+`,
+      javascript: `function intersectionOfArrays(arr1, arr2) {
+  // TODO: Return comma-separated distinct common elements in sorted order, or "Empty"
+  return "Empty";
+}
+`
+    },
+    solutions: {
+      python: `def intersection_of_arrays(arr1, arr2):
+    s1 = set(arr1)
+    common = sorted(list(s1.intersection(arr2)))
+    if not common:
+        return "Empty"
+    return ", ".join(str(x) for x in common)
+`,
+      java: `import java.util.*;
+
+public class Solution {
+    public static String intersectionOfArrays(int[] arr1, int[] arr2) {
+        Set<Integer> set1 = new HashSet<>();
+        for (int x : arr1) set1.add(x);
+        Set<Integer> common = new TreeSet<>();
+        for (int x : arr2) {
+            if (set1.contains(x)) common.add(x);
+        }
+        if (common.isEmpty()) return "Empty";
+        List<String> list = new ArrayList<>();
+        for (int x : common) list.add(String.valueOf(x));
+        return String.join(", ", list);
+    }
+}
+`,
+      cpp: `#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+#include <unordered_set>
+
+std::string intersectionOfArrays(const std::vector<int>& arr1, const std::vector<int>& arr2) {
+    std::unordered_set<int> s1(arr1.begin(), arr1.end());
+    std::set<int> common;
+    for (int x : arr2) {
+        if (s1.count(x)) common.insert(x);
+    }
+    if (common.empty()) return "Empty";
+    std::string res = "";
+    bool first = true;
+    for (int x : common) {
+        if (!first) res += ", ";
+        res += std::to_string(x);
+        first = false;
+    }
+    return res;
+}
+`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public static string IntersectionOfArrays(int[] arr1, int[] arr2) {
+        HashSet<int> s1 = new HashSet<int>(arr1);
+        SortedSet<int> common = new SortedSet<int>();
+        foreach (int x in arr2) {
+            if (s1.Contains(x)) common.Add(x);
+        }
+        if (common.Count == 0) return "Empty";
+        return string.Join(", ", common);
+    }
+}
+`,
+      javascript: `function intersectionOfArrays(arr1, arr2) {
+  const s1 = new Set(arr1);
+  const common = Array.from(new Set(arr2.filter(x => s1.has(x)))).sort((a, b) => a - b);
+  if (common.length === 0) return "Empty";
+  return common.join(', ');
+}
+`
+    },
+    runSimulation: (args) => {
+      const [arr1, arr2] = args;
+      const s1 = new Set(arr1);
+      const common = Array.from(new Set(arr2.filter(x => s1.has(x)))).sort((a, b) => a - b);
+      if (common.length === 0) return "Empty";
+      return common.join(', ');
+    }
+  }
+
 ];
+
+export const dsaPracticeQuestions = DSA_PRACTICE_QUESTIONS;
+export default DSA_PRACTICE_QUESTIONS;
