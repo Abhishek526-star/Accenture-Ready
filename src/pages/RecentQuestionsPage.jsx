@@ -474,9 +474,11 @@ if __name__ == "__main__":
       java: `import java.util.*;
 
 public class Solution {
-    // Single function to complete: returns the integer count of X < N where EqSum(X) > N
     public static int countValidNumbers(int N) {
         // TODO: Return integer count
+        // Returns the integer count of X < N where EqSum(X) > N
+
+        
         return 0;
     }
 }
