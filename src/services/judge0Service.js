@@ -60,13 +60,13 @@ for _t in _tests:
     if (questionId === 'recent-dsa-002') {
       return `${cleanUserCode}
 
-import json
 _tests = [112, 50, 10, 250]
 for _n in _tests:
     try:
-        _r = find_valid_numbers(_n)
-        _cnt = len(_r) if isinstance(_r, (list, set, tuple)) else _r
-        print("TEST_RES:" + json.dumps(_cnt))
+        _fn = count_valid_numbers if 'count_valid_numbers' in globals() else find_valid_numbers
+        _r = _fn(_n)
+        _cnt = len(_r) if isinstance(_r, (list, set, tuple)) else int(_r)
+        print("TEST_RES:" + str(_cnt))
     except Exception as _e:
         print("TEST_ERR:" + str(_e))
 `;
@@ -397,18 +397,20 @@ except Exception as _e:
     }
 
     if (questionId === 'recent-dsa-002') {
+      const isFind = cleanUserCode.includes('findValidNumbers');
+      const callSnippet = isFind
+        ? `Object r = findValidNumbers(n);
+                int res = (r instanceof java.util.List) ? ((java.util.List)r).size() : ((Number)r).intValue();`
+        : `int res = countValidNumbers(n);`;
+
       return `${cleanUserCode}
 
     public static void main(String[] args) {
         int[] tests = {112, 50, 10, 250};
         for (int n : tests) {
             try {
-                Object res = findValidNumbers(n);
-                if (res instanceof java.util.List) {
-                    System.out.println("TEST_RES:" + ((java.util.List)res).size());
-                } else {
-                    System.out.println("TEST_RES:" + res);
-                }
+                ${callSnippet}
+                System.out.println("TEST_RES:" + res);
             } catch (Exception e) {
                 System.out.println("TEST_ERR:" + e.getMessage());
             }
@@ -821,13 +823,18 @@ int main() {
     }
 
     if (questionId === 'recent-dsa-002') {
+      const isFind = cleanUserCode.includes('findValidNumbers');
+      const callSnippet = isFind
+        ? `auto r = findValidNumbers(n); int res = r.size();`
+        : `int res = countValidNumbers(n);`;
+
       return `${cleanUserCode}
 
 int main() {
     int tests[] = {112, 50, 10, 250};
     for (int n : tests) {
-        auto res = findValidNumbers(n);
-        std::cout << "TEST_RES:" << res.size() << std::endl;
+        ${callSnippet}
+        std::cout << "TEST_RES:" << res << std::endl;
     }
     return 0;
 }
@@ -1135,13 +1142,18 @@ int main() {
     }
 
     if (questionId === 'recent-dsa-002') {
+      const isFind = cleanUserCode.includes('FindValidNumbers');
+      const callSnippet = isFind
+        ? `var r = FindValidNumbers(n); int res = r.Count;`
+        : `int res = CountValidNumbers(n);`;
+
       return `${cleanUserCode}
 
     public static void Main() {
         int[] tests = {112, 50, 10, 250};
         foreach (int n in tests) {
-            var res = FindValidNumbers(n);
-            Console.WriteLine("TEST_RES:" + res.Count);
+            ${callSnippet}
+            Console.WriteLine("TEST_RES:" + res);
         }
     }
 }
@@ -1448,9 +1460,10 @@ for (const _t of _tests) {
 const _tests = [112, 50, 10, 250];
 for (const _n of _tests) {
     try {
-        const _res = findValidNumbers(_n);
-        const _cnt = Array.isArray(_res) ? _res.length : _res;
-        console.log("TEST_RES:" + JSON.stringify(_cnt));
+        const _fn = typeof countValidNumbers === 'function' ? countValidNumbers : findValidNumbers;
+        const _res = _fn(_n);
+        const _cnt = Array.isArray(_res) ? _res.length : Number(_res);
+        console.log("TEST_RES:" + _cnt);
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

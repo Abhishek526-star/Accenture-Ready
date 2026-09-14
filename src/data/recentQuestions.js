@@ -243,12 +243,13 @@ For example, for \`X = 112\`:
 EqSum(112) = 1 + 11 + 112 = 124
 \`\`\`
 
-**Goal:** Count (or list) all integers \`X\` such that:
+**Goal:** Implement a single function that returns the **integer count** of all integers \`X\` such that:
 1. \`1 <= X < N\`
 2. \`EqSum(X) > N\``,
     rules: [
       '1. 1 <= X < N',
-      '2. EqSum(X) > N'
+      '2. EqSum(X) > N',
+      '3. Must complete in a single function returning an integer value.'
     ],
     formulaBreakdown: [
       { num: 8, digits: '8', prefixes: '8', calculation: '8', eqSum: 8 },
@@ -258,14 +259,14 @@ EqSum(112) = 1 + 11 + 112 = 124
     ],
     constraints: [
       '1 <= N <= 10^5',
-      'Return either the total count of valid numbers or the list of valid numbers.'
+      'Return the total integer count of valid numbers.'
     ],
     testCases: [
       {
         id: 'tc-1',
         input: 'N = 112',
         inputRaw: 112,
-        expectedOutput: 'Total Count: 10',
+        expectedOutput: '10',
         validNumbers: [102, 103, 104, 105, 106, 107, 108, 109, 110, 111],
         explanation: `We need to find all X < 112 where EqSum(X) > 112.
 • Checking X = 105:
@@ -281,7 +282,7 @@ EqSum(112) = 1 + 11 + 112 = 124
         id: 'tc-2',
         input: 'N = 50',
         inputRaw: 50,
-        expectedOutput: 'Total Count: 3',
+        expectedOutput: '3',
         validNumbers: [47, 48, 49],
         explanation: `• For 2-digit numbers X < 50:
   EqSum(46) = 4 + 46 = 50 (50 > 50 is false) Invalid
@@ -295,7 +296,7 @@ EqSum(112) = 1 + 11 + 112 = 124
         id: 'tc-3',
         input: 'N = 10',
         inputRaw: 10,
-        expectedOutput: 'Total Count: 0',
+        expectedOutput: '0',
         validNumbers: [],
         explanation: `• For single digit numbers X < 10, EqSum(X) = X <= 9.
 • None of the integers X < 10 satisfy EqSum(X) > 10.
@@ -305,173 +306,133 @@ EqSum(112) = 1 + 11 + 112 = 124
         id: 'tc-4',
         input: 'N = 250',
         inputRaw: 250,
-        expectedOutput: 'Total Count: 23',
+        expectedOutput: '23',
         explanation: `• Evaluates 3-digit prefix sums from 1 to 249.
 • Checks X < 250 with EqSum(X) > 250.
 • Total Count: 23 valid integers.`
       }
     ],
     solutions: {
-      python: `def calculate_eqsum(x: int) -> int:
-    """Calculates EqSum by summing all prefix values of number x."""
-    s = str(x)
-    return sum(int(s[:i]) for i in range(1, len(s) + 1))
-
-def find_valid_numbers(N: int) -> list[int]:
-    """Returns all numbers X < N such that EqSum(X) > N."""
-    valid_numbers = []
-    
+      python: `def count_valid_numbers(N: int) -> int:
+    """Returns the integer count of all numbers X < N such that EqSum(X) > N.
+    Single function implementation returning an integer value.
+    """
+    count = 0
     for x in range(1, N):
-        if calculate_eqsum(x) > N:
-            valid_numbers.append(x)
-            
-    return valid_numbers
+        s = str(x)
+        eq_sum = sum(int(s[:i]) for i in range(1, len(s) + 1))
+        if eq_sum > N:
+            count += 1
+    return count
 
-# Test Cases
-print("N=112:", len(find_valid_numbers(112)), find_valid_numbers(112)) # 10 valid
-print("N=50:", len(find_valid_numbers(50)), find_valid_numbers(50))   # 3 valid`,
+if __name__ == "__main__":
+    print(count_valid_numbers(112)) # Expected: 10
+    print(count_valid_numbers(50))  # Expected: 3`,
 
       java: `import java.util.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Solution {
-    // Helper method to calculate EqSum for a given number X
-    public static long calculateEqSum(int x) {
-        String s = String.valueOf(x);
-        long totalEqSum = 0;
-        
-        for (int i = 1; i <= s.length(); i++) {
-            totalEqSum += Long.parseLong(s.substring(0, i));
-        }
-        
-        return totalEqSum;
-    }
-    
-    // Function to find all X < N where EqSum(X) > N
-    public static List<Integer> findValidNumbers(int N) {
-        List<Integer> validNumbers = new ArrayList<>();
-        
+    // Single function to complete: returns the integer count of numbers X < N where EqSum(X) > N
+    public static int countValidNumbers(int N) {
+        int count = 0;
         for (int x = 1; x < N; x++) {
-            if (calculateEqSum(x) > N) {
-                validNumbers.add(x);
+            String s = String.valueOf(x);
+            long eqSum = 0;
+            for (int i = 1; i <= s.length(); i++) {
+                eqSum += Long.parseLong(s.substring(0, i));
+            }
+            if (eqSum > N) {
+                count++;
             }
         }
-        
-        return validNumbers;
+        return count;
     }
 
     public static void main(String[] args) {
-        List<Integer> res1 = findValidNumbers(112);
-        System.out.println("N=112 count: " + res1.size()); // Output: 10
-        System.out.println("Numbers: " + res1);
-        
-        List<Integer> res2 = findValidNumbers(50);
-        System.out.println("N=50 count: " + res2.size());  // Output: 3
-        System.out.println("Numbers: " + res2);
+        System.out.println(countValidNumbers(112)); // Expected: 10
+        System.out.println(countValidNumbers(50));  // Expected: 3
     }
 }`,
 
       cpp: `#include <iostream>
-#include <vector>
 #include <string>
 
-long long calculateEqSum(int x) {
-    std::string s = std::to_string(x);
-    long long total = 0;
-    for (size_t i = 1; i <= s.length(); ++i) {
-        total += std::stoll(s.substr(0, i));
-    }
-    return total;
-}
-
-std::vector<int> findValidNumbers(int N) {
-    std::vector<int> valid;
+int countValidNumbers(int N) {
+    int count = 0;
     for (int x = 1; x < N; ++x) {
-        if (calculateEqSum(x) > N) {
-            valid.push_back(x);
+        std::string s = std::to_string(x);
+        long long eqSum = 0;
+        for (size_t i = 1; i <= s.length(); ++i) {
+            eqSum += std::stoll(s.substr(0, i));
+        }
+        if (eqSum > N) {
+            count++;
         }
     }
-    return valid;
+    return count;
 }
 
 int main() {
-    auto res1 = findValidNumbers(112);
-    std::cout << "N=112 count: " << res1.size() << std::endl; // 10
-    auto res2 = findValidNumbers(50);
-    std::cout << "N=50 count: " << res2.size() << std::endl;   // 3
+    std::cout << countValidNumbers(112) << std::endl; // 10
+    std::cout << countValidNumbers(50) << std::endl;  // 3
     return 0;
 }`,
 
       csharp: `using System;
-using System.Collections.Generic;
 
 public class Solution {
-    public static long CalculateEqSum(int x) {
-        string s = x.ToString();
-        long totalEqSum = 0;
-        for (int i = 1; i <= s.Length; i++) {
-            totalEqSum += long.Parse(s.Substring(0, i));
-        }
-        return totalEqSum;
-    }
-
-    public static List<int> FindValidNumbers(int N) {
-        List<int> validNumbers = new List<int>();
+    public static int CountValidNumbers(int N) {
+        int count = 0;
         for (int x = 1; x < N; x++) {
-            if (CalculateEqSum(x) > N) {
-                validNumbers.Add(x);
+            string s = x.ToString();
+            long eqSum = 0;
+            for (int i = 1; i <= s.Length; i++) {
+                eqSum += long.Parse(s.Substring(0, i));
+            }
+            if (eqSum > N) {
+                count++;
             }
         }
-        return validNumbers;
+        return count;
     }
 
     public static void Main() {
-        List<int> res1 = FindValidNumbers(112);
-        Console.WriteLine("N=112 count: " + res1.Count); // Output: 10
-        List<int> res2 = FindValidNumbers(50);
-        Console.WriteLine("N=50 count: " + res2.Count);  // Output: 3
+        Console.WriteLine(CountValidNumbers(112)); // Output: 10
+        Console.WriteLine(CountValidNumbers(50));  // Output: 3
     }
 }`,
 
-      javascript: `function calculateEqSum(x) {
-  const s = String(x);
-  let total = 0;
-  for (let i = 1; i <= s.length; i++) {
-    total += Number(s.substring(0, i));
-  }
-  return total;
-}
-
-function findValidNumbers(N) {
-  const validNumbers = [];
+      javascript: `function countValidNumbers(N) {
+  let count = 0;
   for (let x = 1; x < N; x++) {
-    if (calculateEqSum(x) > N) {
-      validNumbers.push(x);
+    const s = String(x);
+    let eqSum = 0;
+    for (let i = 1; i <= s.length; i++) {
+      eqSum += parseInt(s.substring(0, i), 10);
+    }
+    if (eqSum > N) {
+      count++;
     }
   }
-  return validNumbers;
+  return count;
 }
 
-console.log("N=112 count:", findValidNumbers(112).length); // 10
-console.log("N=50 count:", findValidNumbers(50).length);   // 3`
+console.log(countValidNumbers(112)); // 10
+console.log(countValidNumbers(50));  // 3`
     },
     runSimulation: (N) => {
-      const calculateEqSum = (x) => {
-        const s = String(x);
-        let total = 0;
-        for (let i = 1; i <= s.length; i++) {
-          total += Number(s.substring(0, i));
-        }
-        return total;
-      };
-      const valid = [];
+      let count = 0;
       for (let x = 1; x < N; x++) {
-        if (calculateEqSum(x) > N) {
-          valid.push(x);
+        const s = String(x);
+        let eqSum = 0;
+        for (let i = 1; i <= s.length; i++) {
+          eqSum += parseInt(s.substring(0, i), 10);
+        }
+        if (eqSum > N) {
+          count++;
         }
       }
-      return { count: valid.length, numbers: valid };
+      return count;
     }
   },
 

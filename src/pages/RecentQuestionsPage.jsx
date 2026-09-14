@@ -464,66 +464,43 @@ public class Solution {
 
   if (question.id === 'recent-dsa-002') {
     return {
-      python: `def calculate_eqsum(x):
-    # Helper to calculate EqSum(X) = sum of all prefix sub-numbers of X
-    pass
-
-def find_valid_numbers(N):
-    # TODO: Find all positive integers X < N where EqSum(X) > N
-    pass
+      python: `def count_valid_numbers(N: int) -> int:
+    # TODO: Complete single function to return the integer count of X < N where EqSum(X) > N
+    return 0
 
 if __name__ == "__main__":
-    print(find_valid_numbers(112)) # Expected count: 10
+    print(count_valid_numbers(112)) # Expected: 10
 `,
-      java: `import java.util.ArrayList;
-import java.util.List;
+      java: `import java.util.*;
 
 public class Solution {
-    // Helper: calculate EqSum for a given number X
-    public static long calculateEqSum(int x) {
-        // TODO: sum of all prefix sub-numbers
+    // Single function to complete: returns the integer count of X < N where EqSum(X) > N
+    public static int countValidNumbers(int N) {
+        // TODO: Return integer count
         return 0;
-    }
-    
-    // Find all X < N where EqSum(X) > N
-    public static List<Integer> findValidNumbers(int N) {
-        // TODO: return list of valid numbers
-        return new ArrayList<>();
     }
 }
 `,
       cpp: `#include <iostream>
-#include <vector>
 #include <string>
 
-long long calculateEqSum(int x) {
-    // TODO: sum of prefix numbers
+int countValidNumbers(int N) {
+    // TODO: Return integer count of X < N where EqSum(X) > N
     return 0;
-}
-
-std::vector<int> findValidNumbers(int N) {
-    // TODO: return valid numbers X < N where EqSum(X) > N
-    return {};
 }
 `,
       csharp: `using System;
-using System.Collections.Generic;
 
 public class Solution {
-    public static List<int> FindValidNumbers(int N) {
-        // TODO: Find all X < N where EqSum(X) > N
-        return new List<int>();
+    public static int CountValidNumbers(int N) {
+        // TODO: Return integer count of X < N where EqSum(X) > N
+        return 0;
     }
 }
 `,
-      javascript: `function calculateEqSum(x) {
-  // TODO: Return sum of all prefix sub-numbers of x
+      javascript: `function countValidNumbers(N) {
+  // TODO: Return integer count of X < N where EqSum(X) > N
   return 0;
-}
-
-function findValidNumbers(N) {
-  // TODO: Return array of all numbers X < N where EqSum(X) > N
-  return [];
 }
 `
     };
@@ -1766,7 +1743,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               passed = false;
             } else {
               const cnt = typeof out === 'number' ? out : (Array.isArray(out) ? out.length : Number(out));
-              actualStr = `Count: ${isNaN(cnt) ? (out ?? 0) : cnt}`;
+              actualStr = `${isNaN(cnt) ? (out ?? 0) : cnt}`;
               passed = !isNaN(cnt) && cnt === t.expCount;
             }
           } else if (sub.mode === 'executed') {
@@ -1776,27 +1753,28 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               passed = false;
             } else {
               const cnt = Array.isArray(u.ret) ? u.ret.length : (typeof u.ret === 'number' ? u.ret : 0);
-              actualStr = `Count: ${cnt}`;
+              actualStr = `${cnt}`;
               passed = cnt === t.expCount;
             }
           } else if (sub.mode === 'dummy_return') {
             const cnt = Array.isArray(sub.returnValue) ? sub.returnValue.length : (typeof sub.returnValue === 'number' ? sub.returnValue : 0);
-            actualStr = `Count: ${cnt}`;
+            actualStr = `${cnt}`;
             passed = cnt === t.expCount;
           } else if (sub.mode === 'flawed') {
-            actualStr = `Count: 0 (Missing EqSum prefix calculation)`;
+            actualStr = `0`;
             passed = t.expCount === 0;
           } else {
             const sim = q.runSimulation(t.N);
-            actualStr = `Count: ${sim.count}` + (t.id === 2 ? ` (Valid: [${sim.numbers.join(', ')}])` : '');
-            passed = sim.count === t.expCount;
+            const cnt = typeof sim === 'number' ? sim : (sim?.count ?? 0);
+            actualStr = `${cnt}`;
+            passed = cnt === t.expCount;
           }
 
           return {
             id: t.id,
             name: t.name,
             input: `N = ${t.N}`,
-            expected: `Count: ${t.expCount}`,
+            expected: `${t.expCount}`,
             actual: actualStr,
             passed,
             latency: jTimeStr || t.latency
