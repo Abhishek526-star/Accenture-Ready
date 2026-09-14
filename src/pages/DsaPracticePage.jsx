@@ -411,10 +411,23 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             actualOutput = `Error: ${rawVal.error}`;
             passed = false;
           } else {
-            actualOutput = String(rawVal ?? '');
+            if (Array.isArray(rawVal)) {
+              actualOutput = `[${rawVal.join(', ')}]`;
+            } else if (rawVal !== null && typeof rawVal === 'object') {
+              actualOutput = JSON.stringify(rawVal);
+            } else {
+              actualOutput = String(rawVal ?? '');
+            }
+
+            const trimmedExp = expectedVal.trim();
+            if (trimmedExp.startsWith('[') && trimmedExp.endsWith(']') && !actualOutput.trim().startsWith('[')) {
+              actualOutput = `[${actualOutput.trim()}]`;
+            }
+
             const normActual = normalizeOutput(actualOutput);
             const normExpected = normalizeOutput(expectedVal);
-            passed = normActual !== '' && normActual === normExpected;
+            const stripBrackets = s => s.replace(/^\[\s*/, '').replace(/\s*\]$/, '');
+            passed = normActual !== '' && (normActual === normExpected || stripBrackets(normActual) === stripBrackets(normExpected));
           }
         } else {
           // Local fallback simulation engine
@@ -432,10 +445,24 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               } else {
                 simRet = expectedVal;
               }
-              actualOutput = String(simRet);
+              
+              if (Array.isArray(simRet)) {
+                actualOutput = `[${simRet.join(', ')}]`;
+              } else if (simRet !== null && typeof simRet === 'object') {
+                actualOutput = JSON.stringify(simRet);
+              } else {
+                actualOutput = String(simRet);
+              }
+
+              const trimmedExp = expectedVal.trim();
+              if (trimmedExp.startsWith('[') && trimmedExp.endsWith(']') && !actualOutput.trim().startsWith('[')) {
+                actualOutput = `[${actualOutput.trim()}]`;
+              }
+
               const normActual = normalizeOutput(actualOutput);
               const normExpected = normalizeOutput(expectedVal);
-              passed = normActual !== '' && normActual === normExpected;
+              const stripBrackets = s => s.replace(/^\[\s*/, '').replace(/\s*\]$/, '');
+              passed = normActual !== '' && (normActual === normExpected || stripBrackets(normActual) === stripBrackets(normExpected));
             }
           } catch (simErr) {
             actualOutput = `Error: ${simErr.message}`;
@@ -483,7 +510,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
   return (
     <div className="dsa-practice-page" style={{ maxWidth: '1600px', width: '100%', margin: '0 auto', padding: '1rem 1.5rem 3rem 1.5rem', boxSizing: 'border-box', overflowX: 'hidden' }}>
       <SEO
-        title="Accenture DSA Practice – 20 Authentic Assessment Questions"
+        title={`Accenture DSA Practice – ${DSA_PRACTICE_QUESTIONS.length} Authentic Assessment Questions`}
         description="Practice authentic Accenture assessment DSA coding questions with 5 comprehensive test cases, multi-language Monaco IDE, and real-time Judge0 CE compilation."
       />
 
@@ -1087,7 +1114,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
                         <span style={{ fontSize: '0.78rem', color: '#38bdf8', fontWeight: 800 }}>
                           Test Case #{idx + 1} — {tc.name}
                         </span>
-                        <span style={{ fontSize: '0.78rem', color: '#4ade80', background: 'rgba(74, 222, 128, 0.1)', padding: '2px 8px', borderRadius: '4px', fontFamily: "'JetBrains Mono', monospace" }}>
+                        <span style={{ fontSize: '0.78rem', color: '#4ade80', background: 'rgba(74, 222, 128, 0.1)', padding: '3px 8px', borderRadius: '4px', fontFamily: "'JetBrains Mono', monospace", whiteSpace: 'pre-line', lineHeight: 1.35, textAlign: 'right' }}>
                           Expected Output: {String(tc.expectedOutput ?? tc.expected ?? '')}
                         </span>
                       </div>
@@ -1533,10 +1560,10 @@ export default function DsaPracticePage({ theme = 'dark' }) {
                           <span style={{ color: '#64748b' }}>Input: </span>{r.input}
                         </div>
                         <div style={{ background: '#070b14', padding: '6px 8px', borderRadius: '6px', color: '#94a3b8' }}>
-                          <span style={{ color: '#64748b' }}>Expected: </span><span style={{ color: '#4ade80' }}>{r.expected}</span>
+                          <span style={{ color: '#64748b' }}>Expected: </span><span style={{ color: '#4ade80', whiteSpace: 'pre-line' }}>{r.expected}</span>
                         </div>
                         <div style={{ background: '#070b14', padding: '6px 8px', borderRadius: '6px', color: '#94a3b8' }}>
-                          <span style={{ color: '#64748b' }}>Output: </span><span style={{ color: r.passed ? '#4ade80' : '#f87171' }}>{r.actual}</span>
+                          <span style={{ color: '#64748b' }}>Output: </span><span style={{ color: r.passed ? '#4ade80' : '#f87171', whiteSpace: 'pre-line' }}>{r.actual}</span>
                         </div>
                       </div>
                     </div>
