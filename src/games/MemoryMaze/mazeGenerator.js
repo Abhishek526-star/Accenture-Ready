@@ -318,25 +318,35 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     addWall(cells, 2, 2, 3, 2);
     addWall(cells, 2, 3, 3, 3);
   } else if (variantKey === '5x5-grid') {
-    // 5x5 Grid with 1 Key
+    // 5×5 Grid — 1 Key  (Master difficulty, harder)
+    // Start: (0,0) | Key: (3,1) | Door: (4,4)
+    // Serpentine path (22 steps):
+    // (0,0)→(0,1)→(0,2)→(0,3)→(1,3)→(1,2)→(1,1)→(1,0)→(2,0)→(2,1)
+    //      →(3,1)[KEY]→(3,0)→(4,0)→(4,1)→(4,2)→(3,2)→(2,2)→(2,3)
+    //      →(2,4)→(3,4)→(3,3)→(4,3)→(4,4)[DOOR]
     start = { r: 0, c: 0 };
     keys = [{ r: 3, c: 1, id: 'k1', label: 'Key 1' }];
     door = { r: 4, c: 4 };
 
-    // Solvable path: (0,0)->(0,1)->(0,2)->(1,2)->(1,1)->(2,1)->(3,1)[KEY]->(3,0)->(4,0)->(4,1)->(4,2)->(3,2)->(2,2)->(2,3)->(3,3)->(3,4)->(4,4)[DOOR]
-    addWall(cells, 0, 0, 1, 0);
-    addWall(cells, 0, 2, 0, 3);
-    addWall(cells, 1, 1, 1, 2);
-    addWall(cells, 1, 3, 2, 3);
-    addWall(cells, 2, 0, 3, 0);
-    addWall(cells, 2, 1, 2, 2);
-    addWall(cells, 2, 4, 3, 4);
-    addWall(cells, 3, 1, 4, 1);
-    addWall(cells, 3, 2, 3, 3);
-    addWall(cells, 4, 2, 4, 3);
-    addWall(cells, 4, 3, 4, 4);
+    addWall(cells, 0, 0, 1, 0);  // force going RIGHT from start
+    addWall(cells, 0, 3, 0, 4);  // block row-0 far-right
+    addWall(cells, 0, 4, 1, 4);  // block col-4 top
+    addWall(cells, 1, 3, 1, 4);  // block row-1 right
+    addWall(cells, 1, 4, 2, 4);  // block col-4 upper-mid
+    addWall(cells, 2, 0, 3, 0);  // block col-0 mid shortcut
+    addWall(cells, 2, 1, 2, 2);  // block row-2 center shortcut
+    addWall(cells, 2, 3, 3, 3);  // block col-3 mid
+    addWall(cells, 3, 1, 3, 2);  // block row-3 left of key
+    addWall(cells, 3, 2, 3, 3);  // block row-3 center
+    addWall(cells, 3, 4, 4, 4);  // block col-4 right side
+    addWall(cells, 4, 2, 4, 3);  // block row-4 center
   } else if (variantKey === '5x5-two-keys') {
-    // 5x5 Two Keys
+    // 5×5 Two Keys  (Grandmaster difficulty, harder)
+    // Start: (0,0) | Key1: (0,4) | Key2: (4,0) | Door: (4,4)
+    // Cross-path K1-first (23 steps):
+    // (0,0)→(1,0)→(2,0)→(2,1)→(1,1)→(0,1)→(0,2)→(0,3)→(0,4)[K1]
+    //      →(1,4)→(1,3)→(2,3)→(2,4)→(3,4)→(3,3)→(3,2)→(3,1)→(3,0)
+    //      →(4,0)[K2]→(4,1)→(4,2)→(4,3)→(4,4)[DOOR]
     start = { r: 0, c: 0 };
     keys = [
       { r: 0, c: 4, id: 'k1', label: 'Key 1' },
@@ -344,47 +354,70 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     ];
     door = { r: 4, c: 4 };
 
-    // Solvable path: Start -> (0,4) [Key 1] -> backtrack/explore -> (4,0) [Key 2] -> (4,4) [Door]
-    addWall(cells, 0, 1, 1, 1);
-    addWall(cells, 0, 3, 1, 3);
-    addWall(cells, 1, 0, 1, 1);
-    addWall(cells, 1, 2, 1, 3);
-    addWall(cells, 1, 4, 2, 4);
-    addWall(cells, 2, 1, 2, 2);
-    addWall(cells, 2, 2, 3, 2);
-    addWall(cells, 2, 3, 3, 3);
-    addWall(cells, 3, 0, 3, 1);
-    addWall(cells, 3, 3, 3, 4);
-    addWall(cells, 4, 1, 4, 2);
+    addWall(cells, 0, 0, 0, 1);  // block right from start — must go DOWN
+    addWall(cells, 0, 2, 1, 2);  // block col-2 rows 0-1
+    addWall(cells, 0, 3, 1, 3);  // block col-3 rows 0-1
+    addWall(cells, 1, 0, 1, 1);  // block row-1 left shortcut
+    addWall(cells, 1, 1, 1, 2);  // block row-1 center
+    addWall(cells, 1, 2, 1, 3);  // block row-1 further
+    addWall(cells, 2, 0, 3, 0);  // block col-0 mid
+    addWall(cells, 2, 1, 3, 1);  // block col-1 mid
+    addWall(cells, 2, 2, 2, 3);  // block row-2 center
+    addWall(cells, 2, 2, 3, 2);  // block col-2 mid
+    addWall(cells, 3, 3, 4, 3);  // block col-3 lower
+    addWall(cells, 3, 4, 4, 4);  // block col-4 lower
   } else if (variantKey === '6x6-grid') {
     // 6×6 Grid – 1 Key  (Legend difficulty)
-    // Start: top-left (0,0) | Key 1: (4,2) | Door: bottom-right (5,5)
-    // Solution path: (0,0)→(0,1)→(0,2)→(0,3)→(0,4)→(0,5)→(1,5)→(2,5)→
-    //               (2,4)→(2,3)→(2,2)→(2,1)→(3,1)→(4,1)→(4,2)[KEY]→
-    //               (4,3)→(4,4)→(4,5)→(5,5)[DOOR]
+    // Start: (0,0) | Key 1: (4,2) | Door: (5,5)
+    // Serpentine path (20 steps):
+    // (0,0)→(1,0)→(2,0)→(2,1)→(2,2)→(1,2)→(0,2)→(0,3)→(0,4)
+    //      →(1,4)→(1,5)→(2,5)→(3,5)→(3,4)→(3,3)→(3,2)→(4,2)[KEY]
+    //      →(4,3)→(5,3)→(5,4)→(5,5)[DOOR]
     start = { r: 0, c: 0 };
     keys  = [{ r: 4, c: 2, id: 'k1', label: 'Key 1' }];
     door  = { r: 5, c: 5 };
 
-    addWall(cells, 0, 0, 1, 0);  // block shortcut straight down from start
-    addWall(cells, 1, 0, 2, 0);  // block col-0 mid shortcut
-    addWall(cells, 1, 1, 2, 1);  // block (1,1)↔(2,1) internal
-    addWall(cells, 2, 0, 3, 0);  // block col-0 further
-    addWall(cells, 2, 2, 3, 2);  // block col-2 mid
-    addWall(cells, 3, 0, 4, 0);  // block col-0 lower
-    addWall(cells, 3, 2, 3, 3);  // block row-3 horizontal shortcut
-    addWall(cells, 3, 3, 4, 3);  // block col-3 bypass around key
-    addWall(cells, 4, 0, 5, 0);  // block col-0 bottom
-    addWall(cells, 4, 2, 5, 2);  // block going down from key cell
-    addWall(cells, 5, 0, 5, 1);  // seal off bottom-left dead end
-    addWall(cells, 5, 1, 5, 2);  // seal bottom row left section
-    addWall(cells, 5, 2, 5, 3);  // force approach to door from col-4/5
+    // Traps near start — block obvious "go right"
+    addWall(cells, 0, 0, 0, 1);  // block right from start — must go DOWN
+    addWall(cells, 0, 1, 1, 1);  // block (0,1)↔(1,1) trap
+    addWall(cells, 0, 1, 0, 2);  // block row-0 early slide
+
+    // Chokepoints in the middle
+    addWall(cells, 0, 3, 1, 3);  // block (0,3)↔(1,3) — can't shortcut down mid
+    addWall(cells, 0, 4, 0, 5);  // block row-0 far-right — must detour via (1,4)
+    addWall(cells, 0, 5, 1, 5);  // block col-5 top approach
+    addWall(cells, 1, 2, 1, 3);  // block row-1 mid (force U-shape via row 0)
+    addWall(cells, 1, 3, 1, 4);  // block row-1 right section
+    addWall(cells, 2, 1, 3, 1);  // block col-1 mid — can't shortcut via col 1
+    addWall(cells, 2, 4, 2, 5);  // block (2,4)↔(2,5) — can't shortcut col-5 early
+    addWall(cells, 2, 0, 3, 0);  // block col-0 lower
+
+    // Near key
+    addWall(cells, 3, 1, 3, 2);  // block row-3 left — must approach key from above
+    addWall(cells, 3, 5, 4, 5);  // block col-5 lower-right bypass
+
+    // Near door — force specific approach
+    addWall(cells, 4, 0, 4, 1);  // block row-4 left trap
+    addWall(cells, 4, 2, 5, 2);  // block going down from key
+    addWall(cells, 4, 3, 4, 4);  // block row-4 right — must go down via (5,3)
+    addWall(cells, 4, 4, 5, 4);  // block col-4 approach to door
+    addWall(cells, 4, 5, 5, 5);  // block (4,5)↔(5,5) top-of-door trap
+    addWall(cells, 5, 0, 5, 1);  // seal bottom-left dead end
+    addWall(cells, 5, 1, 5, 2);  // seal bottom row left
+    addWall(cells, 5, 2, 5, 3);  // seal bottom row — force (5,3)→(5,4)→(5,5)
+    // Extra blocking walls — seal left column and lower-left traps
+    addWall(cells, 1, 0, 1, 1);  // block row-1 right from col-0
+    addWall(cells, 2, 0, 3, 0);  // block col-0 rows 2-3
+    addWall(cells, 3, 0, 4, 0);  // block col-0 rows 3-4
+    addWall(cells, 4, 0, 5, 0);  // block col-0 rows 4-5
+    addWall(cells, 4, 1, 5, 1);  // block col-1 rows 4-5 (lower-left trap)
   } else {
-    // 6×6 Two Keys  (Mythic difficulty)
-    // Start: top-left (0,0) | Key 1: (0,5) | Key 2: (5,0) | Door: (5,5)
-    // Solution (K1 first): (0,0)→(0,1)→(0,2)→(0,3)→(0,4)→(0,5)[K1]→
-    //   (1,5)→(1,4)→(1,3)→(1,2)→(1,1)→(1,0)→(2,0)→(3,0)→(4,0)→(5,0)[K2]→
-    //   (5,1)→(5,2)→(5,3)→(5,4)→(5,5)[DOOR]
+    // 6×6 Two Keys  (Mythic difficulty — border walls edition)
+    // Start: (0,0) | Key 1: (0,5) | Key 2: (5,0) | Door: (5,5)
+    // Interior serpentine path (27 steps, K1-first):
+    // (0,0)→(1,0)→(1,1)→(2,1)→(2,2)→(1,2)→(1,3)→(1,4)→(0,4)→(0,5)[K1]
+    //      →(1,5)→(2,5)→(2,4)→(3,4)→(3,3)→(3,2)→(3,1)→(3,0)
+    //      →(4,0)→(5,0)[K2]→(5,1)→(5,2)→(5,3)→(4,3)→(4,4)→(5,4)→(5,5)[DOOR]
     start = { r: 0, c: 0 };
     keys  = [
       { r: 0, c: 5, id: 'k1', label: 'Key 1' },
@@ -392,18 +425,33 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     ];
     door  = { r: 5, c: 5 };
 
-    addWall(cells, 0, 0, 1, 0);  // force going right from start toward K1
-    addWall(cells, 1, 5, 2, 5);  // block right-col shortcut after K1
-    addWall(cells, 2, 0, 2, 1);  // block col-0↔col-1 mid row
-    addWall(cells, 2, 1, 2, 2);  // block row-2 centre
-    addWall(cells, 2, 3, 2, 4);  // block row-2 right centre
-    addWall(cells, 3, 1, 3, 2);  // block row-3 left centre
-    addWall(cells, 3, 3, 3, 4);  // block row-3 right centre
-    addWall(cells, 3, 0, 3, 1);  // block row-3 far left
-    addWall(cells, 4, 2, 4, 3);  // block row-4 middle
-    addWall(cells, 4, 1, 5, 1);  // block col-1 near K2 corridor
-    addWall(cells, 4, 4, 5, 4);  // block col-4 approach to door row
-    addWall(cells, 3, 4, 4, 4);  // block col-4 upper
+    // Border walls — seal top row (only gate: (0,4)↔(0,5) to reach K1)
+    addWall(cells, 0, 0, 0, 1);  // top-left locked
+    addWall(cells, 0, 1, 0, 2);  // top row locked
+    addWall(cells, 0, 2, 0, 3);  // top row locked
+    addWall(cells, 0, 3, 0, 4);  // top row locked — only (0,4)↔(0,5) stays open
+
+    // Border walls — seal left col (gates: (0,0)↔(1,0), (3,0)↔(4,0), (4,0)↔(5,0))
+    addWall(cells, 1, 0, 2, 0);  // left col rows 1-2 locked
+    addWall(cells, 2, 0, 3, 0);  // left col rows 2-3 locked
+
+    // Border walls — seal right col (gates: (0,5)↔(1,5), (1,5)↔(2,5))
+    addWall(cells, 2, 5, 3, 5);  // right col rows 2-3 locked
+    addWall(cells, 3, 5, 4, 5);  // right col rows 3-4 locked
+    addWall(cells, 4, 5, 5, 5);  // right col rows 4-5 locked
+
+    // Border walls — seal bottom row (gates: (5,0)↔(5,1), (5,1)↔(5,2), (5,2)↔(5,3), (5,4)↔(5,5))
+    addWall(cells, 5, 3, 5, 4);  // bottom row sealed — force (5,3)→(4,3) UP
+
+    // Interior walls — block shortcuts through the open interior
+    addWall(cells, 0, 1, 1, 1);  // (0,1)↔(1,1) trap near start
+    addWall(cells, 1, 4, 2, 4);  // block col-4 mid
+    addWall(cells, 2, 2, 2, 3);  // row-2 center shortcut
+    addWall(cells, 2, 3, 2, 4);  // row-2 right shortcut
+    addWall(cells, 3, 2, 4, 2);  // (3,2)↔(4,2) block lower-center
+    addWall(cells, 3, 3, 4, 3);  // (3,3)↔(4,3) trap near door approach
+    addWall(cells, 4, 1, 4, 2);  // row-4 left-center
+    addWall(cells, 4, 1, 5, 1);  // (4,1)↔(5,1) col-1 lower trap
   }
 
   // Verify solvability
