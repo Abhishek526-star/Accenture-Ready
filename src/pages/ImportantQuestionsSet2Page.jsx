@@ -41,6 +41,7 @@ import { importantQuestionsSet2Storage } from '../utils/importantQuestionsSet2St
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function ImportantQuestionsSet2Page({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -303,11 +304,15 @@ export default function ImportantQuestionsSet2Page({ theme = 'dark' }) {
                 type="button"
                 className="cloud-btn cloud-btn-ghost"
                 onClick={() => {
-                  if (window.confirm('Reset all answers for this session?')) {
-                    setUserAnswers({});
-                    setCurrentIndex(0);
-                    setTimeRemaining(activeQuestions.length * 60);
-                  }
+                  confirmToast(
+                    'Reset all answers for this session?',
+                    () => {
+                      setUserAnswers({});
+                      setCurrentIndex(0);
+                      setTimeRemaining(activeQuestions.length * 60);
+                    },
+                    { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+                  );
                 }}
                 title="Reset answers"
               >

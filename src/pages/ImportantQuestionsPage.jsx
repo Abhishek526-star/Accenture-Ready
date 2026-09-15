@@ -40,6 +40,7 @@ import { importantQuestionsStorage } from '../utils/importantQuestionsStorage.js
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function ImportantQuestionsPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -171,13 +172,14 @@ export default function ImportantQuestionsPage({ theme = 'dark' }) {
     const remaining = activeQuestions.length - answered;
 
     if (remaining > 0 && mode === 'exam') {
-      const confirm = window.confirm(
-        `You have ${remaining} unanswered questions. Are you sure you want to submit?`
+      confirmToast(
+        `You have ${remaining} unanswered questions. Submit anyway?`,
+        () => submitAssessment(false),
+        { icon: '📤', confirmLabel: 'Yes, submit', type: 'warning' }
       );
-      if (!confirm) return;
+    } else {
+      submitAssessment(false);
     }
-
-    submitAssessment(false);
   };
 
   const answeredCount = Object.keys(userAnswers).filter((k) => userAnswers[k]).length;
@@ -312,11 +314,15 @@ export default function ImportantQuestionsPage({ theme = 'dark' }) {
                 type="button"
                 className="cloud-btn cloud-btn-ghost"
                 onClick={() => {
-                  if (window.confirm('Reset all answers for this session?')) {
-                    setUserAnswers({});
-                    setCurrentIndex(0);
-                    setTimeRemaining(activeQuestions.length * 60);
-                  }
+                  confirmToast(
+                    'Reset all answers for this session?',
+                    () => {
+                      setUserAnswers({});
+                      setCurrentIndex(0);
+                      setTimeRemaining(activeQuestions.length * 60);
+                    },
+                    { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+                  );
                 }}
                 title="Reset answers"
               >

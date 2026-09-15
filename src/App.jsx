@@ -1,5 +1,6 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Home from './pages/Home.jsx';
@@ -172,6 +173,19 @@ export default function App() {
           onClose={() => setIsSearchOpen(false)}
         />
       </div>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#0f172a',
+            color: '#f1f5f9',
+            border: '1px solid rgba(249,115,22,0.35)',
+            borderRadius: '10px',
+            fontSize: '0.875rem',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.55)',
+          },
+        }}
+      />
     </BrowserRouter>
   );
 }

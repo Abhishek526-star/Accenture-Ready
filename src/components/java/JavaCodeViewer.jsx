@@ -11,6 +11,7 @@ import {
   Sparkles,
   CheckCircle2
 } from 'lucide-react';
+import { confirmToast } from '../../utils/confirmToast.jsx';
 
 export default function JavaCodeViewer({
   initialCode,
@@ -40,11 +41,15 @@ export default function JavaCodeViewer({
   };
 
   const handleReset = () => {
-    if (window.confirm('Reset code back to the original topic snippet?')) {
-      setCode(initialCode);
-      setConsoleOutput(null);
-      if (onCodeSave) onCodeSave(initialCode);
-    }
+    confirmToast(
+      'Reset code back to the original topic snippet?',
+      () => {
+        setCode(initialCode);
+        setConsoleOutput(null);
+        if (onCodeSave) onCodeSave(initialCode);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   const handleRun = () => {

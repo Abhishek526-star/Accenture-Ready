@@ -14,6 +14,7 @@ import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function CloudAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -172,23 +173,28 @@ export default function CloudAssessmentPage({ theme = 'dark' }) {
     const unansweredCount = activeQuestions.length - answeredCount;
 
     if (unansweredCount > 0 && mode === 'exam') {
-      const confirmSubmit = window.confirm(
-        `You have ${unansweredCount} unanswered questions remaining. Are you sure you want to submit the assessment?`
+      confirmToast(
+        `You have ${unansweredCount} unanswered questions. Submit the assessment?`,
+        () => submitAssessment(false),
+        { icon: '📤', confirmLabel: 'Yes, submit', type: 'warning' }
       );
-      if (!confirmSubmit) return;
+    } else {
+      submitAssessment(false);
     }
-
-    submitAssessment(false);
   };
 
   // Reset quiz
   const handleResetQuiz = () => {
-    if (window.confirm('Are you sure you want to reset your answers for this section?')) {
-      setUserAnswers({});
-      setCurrentIndex(0);
-      setTimeRemaining(activeQuestions.length * 60);
-      setTimeTakenSeconds(0);
-    }
+    confirmToast(
+      'Reset your answers for this section?',
+      () => {
+        setUserAnswers({});
+        setCurrentIndex(0);
+        setTimeRemaining(activeQuestions.length * 60);
+        setTimeTakenSeconds(0);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   // Retake Entire Quiz from Modal

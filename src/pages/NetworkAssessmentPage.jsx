@@ -18,6 +18,7 @@ import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function NetworkAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -178,12 +179,16 @@ export default function NetworkAssessmentPage({ theme = 'dark' }) {
 
   // Reset quiz
   const handleResetQuiz = () => {
-    if (window.confirm('Are you sure you want to reset your answers for this section?')) {
-      setUserAnswers({});
-      setCurrentIndex(0);
-      setTimeRemaining(activeQuestions.length * 60);
-      setTimeTakenSeconds(0);
-    }
+    confirmToast(
+      'Reset your answers for this section?',
+      () => {
+        setUserAnswers({});
+        setCurrentIndex(0);
+        setTimeRemaining(activeQuestions.length * 60);
+        setTimeTakenSeconds(0);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   // Retake Entire Quiz from Modal

@@ -30,6 +30,7 @@ import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SQLResultsModal from '../components/sql/SQLResultsModal.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 import QuestionDropdown from '../components/QuestionDropdown.jsx';
@@ -174,12 +175,16 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   // 2. Reset Query Code
   const handleResetCode = () => {
-    if (window.confirm('Clear your SQL query for this question?')) {
-      setCode('');
-      sqlStorage.resetDraft(currentQuestion.id);
-      setQueryResult(null);
-      setTestSuiteResult(null);
-    }
+    confirmToast(
+      'Clear your SQL query for this question?',
+      () => {
+        setCode('');
+        sqlStorage.resetDraft(currentQuestion.id);
+        setQueryResult(null);
+        setTestSuiteResult(null);
+      },
+      { icon: '🗑️', confirmLabel: 'Yes, clear it', type: 'warning' }
+    );
   };
 
   // 3. Submit & Run All Tests (Visible + Hidden)

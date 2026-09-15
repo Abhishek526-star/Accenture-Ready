@@ -38,6 +38,7 @@ import { cloudSecurityStorage } from '../utils/cloudSecurityStorage.js';
 import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function CloudSecurityPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -169,13 +170,14 @@ export default function CloudSecurityPage({ theme = 'dark' }) {
     const remaining = activeQuestions.length - answered;
 
     if (remaining > 0 && mode === 'exam') {
-      const confirm = window.confirm(
-        `You have ${remaining} unanswered security questions. Are you sure you want to submit?`
+      confirmToast(
+        `You have ${remaining} unanswered security questions. Submit anyway?`,
+        () => submitAssessment(false),
+        { icon: '📤', confirmLabel: 'Yes, submit', type: 'warning' }
       );
-      if (!confirm) return;
+    } else {
+      submitAssessment(false);
     }
-
-    submitAssessment(false);
   };
 
   const answeredCount = Object.keys(userAnswers).filter((k) => userAnswers[k]).length;
@@ -276,11 +278,15 @@ export default function CloudSecurityPage({ theme = 'dark' }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (window.confirm('Reset current answers?')) {
-                    setUserAnswers({});
-                    setCurrentIndex(0);
-                    setTimeRemaining(activeQuestions.length * 60);
-                  }
+                  confirmToast(
+                    'Reset current answers?',
+                    () => {
+                      setUserAnswers({});
+                      setCurrentIndex(0);
+                      setTimeRemaining(activeQuestions.length * 60);
+                    },
+                    { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+                  );
                 }}
                 className="cloud-btn cloud-btn-ghost"
               >

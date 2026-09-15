@@ -31,6 +31,7 @@ import { javaTopics } from '../data/javaTopics.js';
 import { javaStorage } from '../utils/javaStorage.js';
 import { storage } from '../utils/storage.js';
 import { sqlStorage } from '../utils/sqlStorage.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function Dashboard({ theme = 'dark' }) {
   const [readinessData, setReadinessData] = useState(() => calculateReadinessScore());
@@ -55,12 +56,16 @@ export default function Dashboard({ theme = 'dark' }) {
   const javaProgress = Math.round((completedJava.length / javaTopics.length) * 100);
 
   const handleResetAll = () => {
-    if (window.confirm('Are you sure you want to reset your practice progress? This cannot be undone.')) {
-      storage.set('completed-questions', []);
-      sqlStorage.set('completed-questions', []);
-      javaStorage.resetAllProgress(javaTopics);
-      setRefreshKey(k => k + 1);
-    }
+    confirmToast(
+      'Reset all practice progress? This cannot be undone.',
+      () => {
+        storage.set('completed-questions', []);
+        sqlStorage.set('completed-questions', []);
+        javaStorage.resetAllProgress(javaTopics);
+        setRefreshKey(k => k + 1);
+      },
+      { icon: '⚠️', confirmLabel: 'Yes, reset everything', type: 'danger' }
+    );
   };
 
   return (

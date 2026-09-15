@@ -31,6 +31,7 @@ import { gamificationService } from '../services/gamificationService.js';
 import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 const DC_CPP_STARTERS = {
   'dc-01': `#include <iostream>
@@ -139,13 +140,18 @@ export default function DailyChallengePage({ theme = 'dark' }) {
   };
 
   const handleResetCode = () => {
-    if (window.confirm(`Reset ${LANGUAGE_CONFIG.find(l => l.id === selectedLang)?.label} code back to the function starter template?`)) {
-      setCodeMap(prev => ({
-        ...prev,
-        [selectedLang]: challenge.starterTemplates[selectedLang] || ''
-      }));
-      setTestResults(null);
-    }
+    const langLabel = LANGUAGE_CONFIG.find(l => l.id === selectedLang)?.label ?? selectedLang;
+    confirmToast(
+      `Reset ${langLabel} code back to the starter template?`,
+      () => {
+        setCodeMap(prev => ({
+          ...prev,
+          [selectedLang]: challenge.starterTemplates[selectedLang] || ''
+        }));
+        setTestResults(null);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   const handleCopyCode = () => {

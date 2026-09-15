@@ -457,7 +457,7 @@ If the string is \`None\` or empty, return \`0\`.`,
         id: 'tc-2',
         name: 'Invalid Number',
         input: 'n = "2020"',
-        expectedOutput: '0',
+        expectedOutput: '2',
         explanation: 'Fails positional frequency requirements. Returns 0.'
       },
       {

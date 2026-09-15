@@ -31,6 +31,7 @@ import {
 import { interviewQuestions } from '../data/interviewQuestions.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { infoToast } from '../utils/confirmToast.jsx';
 
 // Helper component to render markdown-formatted answer beautifully
 function FormattedAnswer({ text }) {
@@ -252,7 +253,7 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
   // Text-To-Speech Speech Synthesis Audio Preview
   const handleSpeak = (id, text) => {
     if (!('speechSynthesis' in window)) {
-      alert('Speech synthesis is not supported in this browser.');
+      infoToast('Speech synthesis is not supported in this browser.', { icon: '🔇', type: 'error' });
       return;
     }
 

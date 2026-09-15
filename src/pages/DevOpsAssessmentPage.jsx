@@ -30,6 +30,7 @@ import CloudAnalysisModal from '../components/cloud/CloudAnalysisModal.jsx';
 import CloudStudyNotesModal from '../components/cloud/CloudStudyNotesModal.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function DevOpsAssessmentPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -166,13 +167,17 @@ export default function DevOpsAssessmentPage({ theme = 'dark' }) {
 
   // Reset
   const handleResetQuiz = () => {
-    if (window.confirm('Are you sure you want to reset your answers for this DevOps assessment section?')) {
-      setUserAnswers({});
-      setCurrentIndex(0);
-      setTimeRemaining(activeQuestions.length * 60);
-      setTimeTakenSeconds(0);
-      setIsTimerPaused(false);
-    }
+    confirmToast(
+      'Reset your answers for this DevOps assessment section?',
+      () => {
+        setUserAnswers({});
+        setCurrentIndex(0);
+        setTimeRemaining(activeQuestions.length * 60);
+        setTimeTakenSeconds(0);
+        setIsTimerPaused(false);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   // Submit / Auto-Submit
@@ -181,13 +186,14 @@ export default function DevOpsAssessmentPage({ theme = 'dark' }) {
     const unAnswered = activeQuestions.length - answeredCount;
 
     if (unAnswered > 0) {
-      const confirmSubmit = window.confirm(
-        `You have ${unAnswered} unanswered questions in this DevOps set. Do you want to submit and view complete analytics?`
+      confirmToast(
+        `You have ${unAnswered} unanswered DevOps questions. Submit and view analytics?`,
+        finalizeAttempt,
+        { icon: '📤', confirmLabel: 'Yes, submit', type: 'warning' }
       );
-      if (!confirmSubmit) return;
+    } else {
+      finalizeAttempt();
     }
-
-    finalizeAttempt();
   };
 
   const handleAutoSubmit = () => {

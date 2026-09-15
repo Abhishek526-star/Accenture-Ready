@@ -27,6 +27,7 @@ import JavaTipCard from '../components/java/JavaTipCard.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function JavaLearningPage({ theme = 'dark' }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -79,16 +80,15 @@ export default function JavaLearningPage({ theme = 'dark' }) {
     }
   };
 
-  // Reset all progress
   const handleResetProgress = () => {
-    if (
-      window.confirm(
-        'Are you sure you want to reset your Java Learning topic completion progress?'
-      )
-    ) {
-      javaStorage.resetAllProgress(javaTopics);
-      setCompletedTopicIds([]);
-    }
+    confirmToast(
+      'Reset your Java Learning topic completion progress?',
+      () => {
+        javaStorage.resetAllProgress(javaTopics);
+        setCompletedTopicIds([]);
+      },
+      { icon: '🔄', confirmLabel: 'Yes, reset', type: 'warning' }
+    );
   };
 
   // Navigation: Previous & Next

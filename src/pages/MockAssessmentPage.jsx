@@ -20,6 +20,7 @@ import {
 import { mockTestService, initializeMockSession } from '../services/mockTestService.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
+import { confirmToast } from '../utils/confirmToast.jsx';
 
 export default function MockAssessmentPage({ theme = 'dark' }) {
   const navigate = useNavigate();
@@ -75,9 +76,11 @@ export default function MockAssessmentPage({ theme = 'dark' }) {
   };
 
   const handleManualSubmit = () => {
-    if (window.confirm('Are you sure you want to finish and submit your Accenture Mock Assessment?')) {
-      handleAutoSubmit();
-    }
+    confirmToast(
+      'Finish and submit your Accenture Mock Assessment?',
+      handleAutoSubmit,
+      { icon: '📤', confirmLabel: 'Yes, submit now', type: 'warning' }
+    );
   };
 
   const formatTimer = (seconds) => {
