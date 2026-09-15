@@ -67,6 +67,24 @@ export const MEMORY_MAZE_VARIANTS = {
     difficulty: 'Grandmaster',
     timeLimit: 300, // 5:00
     description: 'A challenging 5x5 maze with 2 hidden keys. Collect Key 1 and Key 2 before reaching the door.'
+  },
+  '6x6-grid': {
+    id: '6x6-grid',
+    name: '6×6 Grid',
+    gridSize: 6,
+    numberOfKeys: 1,
+    difficulty: 'Legend',
+    timeLimit: 320, // 5:20
+    description: 'A massive 6x6 invisible maze. Navigate the winding hidden path, collect the key and unlock the exit door.'
+  },
+  '6x6-two-keys': {
+    id: '6x6-two-keys',
+    name: '6×6 Two Keys',
+    gridSize: 6,
+    numberOfKeys: 2,
+    difficulty: 'Mythic',
+    timeLimit: 360, // 6:00
+    description: 'The ultimate challenge — a 6x6 invisible maze with 2 hidden keys spread across the grid. Collect both before reaching the door.'
   }
 };
 
@@ -317,7 +335,7 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     addWall(cells, 3, 2, 3, 3);
     addWall(cells, 4, 2, 4, 3);
     addWall(cells, 4, 3, 4, 4);
-  } else {
+  } else if (variantKey === '5x5-two-keys') {
     // 5x5 Two Keys
     start = { r: 0, c: 0 };
     keys = [
@@ -338,6 +356,54 @@ export function generateMemoryMaze(variantKey = 'find-the-key') {
     addWall(cells, 3, 0, 3, 1);
     addWall(cells, 3, 3, 3, 4);
     addWall(cells, 4, 1, 4, 2);
+  } else if (variantKey === '6x6-grid') {
+    // 6×6 Grid – 1 Key  (Legend difficulty)
+    // Start: top-left (0,0) | Key 1: (4,2) | Door: bottom-right (5,5)
+    // Solution path: (0,0)→(0,1)→(0,2)→(0,3)→(0,4)→(0,5)→(1,5)→(2,5)→
+    //               (2,4)→(2,3)→(2,2)→(2,1)→(3,1)→(4,1)→(4,2)[KEY]→
+    //               (4,3)→(4,4)→(4,5)→(5,5)[DOOR]
+    start = { r: 0, c: 0 };
+    keys  = [{ r: 4, c: 2, id: 'k1', label: 'Key 1' }];
+    door  = { r: 5, c: 5 };
+
+    addWall(cells, 0, 0, 1, 0);  // block shortcut straight down from start
+    addWall(cells, 1, 0, 2, 0);  // block col-0 mid shortcut
+    addWall(cells, 1, 1, 2, 1);  // block (1,1)↔(2,1) internal
+    addWall(cells, 2, 0, 3, 0);  // block col-0 further
+    addWall(cells, 2, 2, 3, 2);  // block col-2 mid
+    addWall(cells, 3, 0, 4, 0);  // block col-0 lower
+    addWall(cells, 3, 2, 3, 3);  // block row-3 horizontal shortcut
+    addWall(cells, 3, 3, 4, 3);  // block col-3 bypass around key
+    addWall(cells, 4, 0, 5, 0);  // block col-0 bottom
+    addWall(cells, 4, 2, 5, 2);  // block going down from key cell
+    addWall(cells, 5, 0, 5, 1);  // seal off bottom-left dead end
+    addWall(cells, 5, 1, 5, 2);  // seal bottom row left section
+    addWall(cells, 5, 2, 5, 3);  // force approach to door from col-4/5
+  } else {
+    // 6×6 Two Keys  (Mythic difficulty)
+    // Start: top-left (0,0) | Key 1: (0,5) | Key 2: (5,0) | Door: (5,5)
+    // Solution (K1 first): (0,0)→(0,1)→(0,2)→(0,3)→(0,4)→(0,5)[K1]→
+    //   (1,5)→(1,4)→(1,3)→(1,2)→(1,1)→(1,0)→(2,0)→(3,0)→(4,0)→(5,0)[K2]→
+    //   (5,1)→(5,2)→(5,3)→(5,4)→(5,5)[DOOR]
+    start = { r: 0, c: 0 };
+    keys  = [
+      { r: 0, c: 5, id: 'k1', label: 'Key 1' },
+      { r: 5, c: 0, id: 'k2', label: 'Key 2' }
+    ];
+    door  = { r: 5, c: 5 };
+
+    addWall(cells, 0, 0, 1, 0);  // force going right from start toward K1
+    addWall(cells, 1, 5, 2, 5);  // block right-col shortcut after K1
+    addWall(cells, 2, 0, 2, 1);  // block col-0↔col-1 mid row
+    addWall(cells, 2, 1, 2, 2);  // block row-2 centre
+    addWall(cells, 2, 3, 2, 4);  // block row-2 right centre
+    addWall(cells, 3, 1, 3, 2);  // block row-3 left centre
+    addWall(cells, 3, 3, 3, 4);  // block row-3 right centre
+    addWall(cells, 3, 0, 3, 1);  // block row-3 far left
+    addWall(cells, 4, 2, 4, 3);  // block row-4 middle
+    addWall(cells, 4, 1, 5, 1);  // block col-1 near K2 corridor
+    addWall(cells, 4, 4, 5, 4);  // block col-4 approach to door row
+    addWall(cells, 3, 4, 4, 4);  // block col-4 upper
   }
 
   // Verify solvability
