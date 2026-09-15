@@ -3561,6 +3561,7 @@ a {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
   overflow: hidden;
   background: var(--bg-app);
   min-width: 0;
@@ -3614,16 +3615,16 @@ a {
 }
 
 .sql-editor-wrapper {
-  flex: 1 1 50%;
-  min-height: 220px;
+  flex: 0 0 44%;
+  min-height: 160px;
   background: #1e1e1e;
   overflow: hidden;
 }
 
 /* Bottom Results Panel */
 .sql-bottom-panel {
-  flex: 1 1 50%;
-  min-height: 200px;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   background: var(--bg-surface);
@@ -3682,9 +3683,10 @@ a {
 }
 
 .bottom-panel-body {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1rem 1rem 2.25rem 1rem;
   background: var(--bg-surface);
 }
 
@@ -3711,11 +3713,11 @@ a {
 .sql-error-box {
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.3);
-  border-radius: 6px;
-  padding: 1rem;
+  border-radius: 8px;
+  padding: 1.25rem 1.25rem 1.75rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .error-title {
@@ -3884,17 +3886,18 @@ a {
 .test-cases-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  padding-bottom: 2rem;
 }
 
 .test-case-card {
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--bg-surface-elevated);
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.1rem 1.15rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .test-case-card.passed {
@@ -3975,12 +3978,14 @@ a {
 
 .tc-fail-reason {
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.6rem;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem 0.75rem 0.85rem;
   background: rgba(239, 68, 68, 0.1);
-  border-radius: 4px;
-  font-size: 0.78rem;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.55;
   color: #fca5a5;
   font-family: var(--font-mono);
 }

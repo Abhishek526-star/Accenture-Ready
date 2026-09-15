@@ -43,7 +43,7 @@ export default function PreparationRoadmapPage({ theme = 'dark' }) {
       tasks: [
         { title: 'Strings & Parsing Logic', link: '/practice?q=2', done: completedCoding.length >= 4 },
         { title: 'Frequency Map DSA Pattern', link: '/learn/dsa', done: true },
-        { title: 'SQL GROUP BY & Aggregation', link: '/sql-assessment?q=sql-002', done: completedSQL.length >= 1 }
+        { title: 'SQL GROUP BY & Aggregation', link: '/sql-assessment?q=sql-012', done: completedSQL.length >= 1 }
       ]
     },
     {
@@ -51,7 +51,7 @@ export default function PreparationRoadmapPage({ theme = 'dark' }) {
       title: 'SQL JOINs & Two Pointer Algorithmic Mastery',
       description: 'Multi-table INNER and LEFT JOINs, handling NULLs, and linear two-pointer array partitions.',
       tasks: [
-        { title: 'SQL JOIN Practice Queries', link: '/sql-assessment?q=sql-004', done: completedSQL.length >= 3 },
+        { title: 'SQL JOIN Practice Queries', link: '/sql-assessment?q=sql-002', done: completedSQL.length >= 3 },
         { title: 'Two Pointer Pattern Study', link: '/learn/dsa', done: true },
         { title: 'Attempt Daily Challenge', link: '/daily-challenge', done: true }
       ]

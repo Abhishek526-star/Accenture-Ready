@@ -35,6 +35,27 @@ export async function createIsolatedDB(question, dataset) {
   const sqlInstance = await getSQLInstance();
   const db = new sqlInstance.Database();
 
+  // Register MySQL compatibility functions in SQLite
+  try {
+    const concatFn = (...args) => args.filter((a) => a !== null && a !== undefined).join('');
+    db.create_function('CONCAT', concatFn);
+    db.create_function('concat', concatFn);
+
+    const regexpFn = (pattern, val) => {
+      if (val === null || val === undefined) return 0;
+      try {
+        const regex = new RegExp(pattern);
+        return regex.test(String(val)) ? 1 : 0;
+      } catch {
+        return 0;
+      }
+    };
+    db.create_function('REGEXP', regexpFn);
+    db.create_function('regexp', regexpFn);
+  } catch (fnErr) {
+    console.warn('Could not register SQLite custom functions:', fnErr);
+  }
+
   // Create tables according to schema
   if (question.tableSchema && Array.isArray(question.tableSchema)) {
     for (const table of question.tableSchema) {
@@ -88,14 +109,19 @@ export function executeQuery(db, query) {
     };
   }
 
+  // MySQL compatibility: normalize EXTRACT(YEAR FROM date_col) and SQLite keyword collisions like 'transaction'
+  const normalizedQuery = query
+    .replace(/EXTRACT\s*\(\s*YEAR\s+FROM\s+([^)]+)\)/gi, "CAST(strftime('%Y', $1) AS INTEGER)")
+    .replace(/\b(FROM|JOIN|INTO|UPDATE)\s+transaction\b/gi, '$1 "transaction"');
+
   const startTime = performance.now();
   try {
     let stmt;
     try {
-      stmt = db.prepare(query);
+      stmt = db.prepare(normalizedQuery);
     } catch (prepErr) {
       // If db.prepare fails (e.g. multi-statement with trailing semicolons), fallback to db.exec
-      const res = db.exec(query);
+      const res = db.exec(normalizedQuery);
       const executionTimeMs = Math.round((performance.now() - startTime) * 100) / 100;
       if (!res || res.length === 0) {
         return {

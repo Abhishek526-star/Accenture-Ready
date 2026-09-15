@@ -12,6 +12,7 @@ import {
   FileCode
 } from 'lucide-react';
 import { formatExplanationHtml, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
+import { formatSqlQuery } from '../../utils/sqlFormatter.js';
 
 export default function SQLSolutionViewer({ question, onLoadSolution }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,17 +24,19 @@ export default function SQLSolutionViewer({ question, onLoadSolution }) {
     return null;
   }
 
+  const formattedSolution = formatSqlQuery(question.solution || '');
+
   const handleCopy = () => {
-    if (question.solution) {
-      navigator.clipboard.writeText(question.solution);
+    if (formattedSolution) {
+      navigator.clipboard.writeText(formattedSolution);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
   const handleLoad = () => {
-    if (onLoadSolution && question.solution) {
-      onLoadSolution(question.solution);
+    if (onLoadSolution && formattedSolution) {
+      onLoadSolution(formattedSolution);
       setHasLoaded(true);
       setTimeout(() => setHasLoaded(false), 2500);
     }
@@ -143,19 +146,19 @@ export default function SQLSolutionViewer({ question, onLoadSolution }) {
             {activeTab === 'sql' && (
               <div className="solution-code-pane">
                 <div className="code-pane-header">
-                  <span>SQLite Query</span>
+                  <span>Official SQL Query (MySQL / SQLite)</span>
                   <button
                     type="button"
                     className="copy-code-btn"
                     onClick={handleCopy}
-                    title="Copy SQL to clipboard"
+                    title="Copy formatted SQL to clipboard"
                   >
                     {copied ? <Check size={12} /> : <Copy size={12} />}
                     <span>{copied ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
-                <pre className="solution-pre">
-                  <code>{question.solution}</code>
+                <pre className="solution-pre" style={{ whiteSpace: 'pre', overflowX: 'auto', lineHeight: '1.6' }}>
+                  <code style={{ fontFamily: 'var(--font-mono, monospace)' }}>{formattedSolution}</code>
                 </pre>
               </div>
             )}

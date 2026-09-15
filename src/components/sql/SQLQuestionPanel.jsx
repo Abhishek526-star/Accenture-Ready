@@ -1,16 +1,29 @@
-import React, { useMemo } from 'react';
-import { Clock, Tag, HelpCircle, FileText, Info, ListChecks, Check } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Clock, Tag, HelpCircle, FileText, Info, ListChecks, Check, Database, GitFork } from 'lucide-react';
 import SQLSchemaViewer from './SQLSchemaViewer.jsx';
 import SQLExampleViewer from './SQLExampleViewer.jsx';
 import SQLSolutionViewer from './SQLSolutionViewer.jsx';
+import SQLSchemaModal from './SQLSchemaModal.jsx';
+import { sqlViewSchemas } from '../../data/sqlSchemas.js';
 import { parseProblemStatement, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
 
-export default function SQLQuestionPanel({ question, onApplySolution }) {
+export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolution }) {
+  const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false);
+
   if (!question) return null;
 
   const parsedProblem = useMemo(() => {
-    return parseProblemStatement(question.problem);
-  }, [question.problem]);
+    return parseProblemStatement(question.problem || question.description || '');
+  }, [question.problem, question.description]);
+
+  // Determine full relational schema if available
+  const effectiveSchema = useMemo(() => {
+    if (question.viewSchema) return question.viewSchema;
+    const qNum = parseInt(String(question.id || '').replace(/^sql-0*/i, ''), 10);
+    if (qNum && sqlViewSchemas[qNum]) return sqlViewSchemas[qNum];
+    if (question.tableSchema && question.tableSchema.length > 0) return { tables: question.tableSchema };
+    return null;
+  }, [question]);
 
   const getDifficultyBadge = (diff) => {
     switch (diff?.toLowerCase()) {
@@ -33,7 +46,7 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
           <span className="sql-round-badge">SQL</span>
           {getDifficultyBadge(question.difficulty)}
           <span className="sql-time-badge">
-            <Clock size={12} /> {question.duration} mins
+            <Clock size={12} /> {question.duration || 15} mins
           </span>
           {question.category && (
             <span className="sql-category-badge">
@@ -50,7 +63,7 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
         {question.solution && (
           <SQLSolutionViewer
             question={question}
-            onLoadSolution={onApplySolution}
+            onLoadSolution={onLoadSolution || onApplySolution}
           />
         )}
 
@@ -65,10 +78,54 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
           </div>
         )}
 
-        {/* Database Schema Viewer */}
-        <div className="sql-section">
-          <SQLSchemaViewer tableSchema={question.tableSchema} />
-        </div>
+        {/* Database Schema Section with View Schema Button */}
+        {effectiveSchema && (
+          <div className="sql-section">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div className="section-label" style={{ margin: 0 }}>
+                <Database size={15} />
+                <span>Database Schema</span>
+              </div>
+
+              {/* View Schema Button: opens floating iFrame-style ER Diagram window */}
+              <button
+                type="button"
+                onClick={() => setIsSchemaModalOpen(true)}
+                className="btn btn-sm btn-outline"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  padding: '5px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(249, 115, 22, 0.4)',
+                  background: 'rgba(234, 88, 12, 0.12)',
+                  color: '#fb923c',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                }}
+                title="Click to open interactive Entity-Relationship (ER) Diagram window"
+              >
+                <GitFork size={13} />
+                <span>View Schema</span>
+              </button>
+            </div>
+
+            {/* Floating iFrame-Style Window Modal */}
+            <SQLSchemaModal
+              isOpen={isSchemaModalOpen}
+              onClose={() => setIsSchemaModalOpen(false)}
+              schema={effectiveSchema}
+              questionTitle={question.title}
+            />
+
+            {/* Standard Table View for inline quick lookup */}
+            <SQLSchemaViewer tableSchema={question.tableSchema || (effectiveSchema.tables || [])} />
+          </div>
+        )}
 
         {/* Problem Statement */}
         <div className="sql-section problem-statement">
@@ -128,14 +185,14 @@ export default function SQLQuestionPanel({ question, onApplySolution }) {
         )}
 
         {/* Notes & Requirements */}
-        {question.notes && question.notes.length > 0 && (
+        {((question.notes && question.notes.length > 0) || (question.rules && question.rules.length > 0)) && (
           <div className="sql-section sql-notes-box">
             <div className="section-label">
               <Info size={15} />
-              <span>Important Notes</span>
+              <span>Important Rules & Notes</span>
             </div>
             <ul className="notes-list">
-              {question.notes.map((note, idx) => (
+              {(question.notes || question.rules || []).map((note, idx) => (
                 <li
                   key={idx}
                   dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(note) }}

@@ -1,2683 +1,9383 @@
 // src/data/sqlQuestions.js
+// 30 Authentic Accenture SQL Assessment Questions (PYQ)
 
 export const sqlQuestions = [
   {
-    id: "sql-001",
-    title: "Second Highest DISTINCT Salary",
-    difficulty: "Medium",
-    duration: 15,
-    category: "SUBQUERY & NULL HANDLING",
-    tableSchema: [
+    "id": "sql-001",
+    "title": "Debit transactions between 10,000 and 50,000",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
       {
-        name: "Employee",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "salary", type: "INTEGER", primaryKey: false }
+        "name": "transaction",
+        "columns": [
+          {
+            "name": "Transaction_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Account_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Transaction_Date",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Amount",
+            "type": "REAL",
+            "primaryKey": false
+          },
+          {
+            "name": "Transaction_Type",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Write a SQL query to report the second highest DISTINCT salary from the Employee table. If there is no second highest salary, the query should report NULL.",
-    problem: `Write a SQL query to report the second highest distinct salary from the **Employee** table. If there is no second highest salary, the query should report **NULL** (or return a single row with NULL).
-
-### Important Requirements:
-- The result column name MUST be exactly **SecondHighestSalary**.
-- If multiple employees share the highest salary, the second highest must be strictly lower than the highest.
-- If the table is empty or has only one distinct salary, return **NULL** in the \`SecondHighestSalary\` column (exactly 1 row containing NULL).`,
-    notes: [
-      "Second highest means the second strictly DISTINCT salary value.",
-      "If there are no qualifying records (e.g. 1 employee, or all salaries identical), the output must be a single row with NULL, not an empty result set.",
-      "Column names are case-insensitive in SQL, but must match 'SecondHighestSalary' in your SELECT clause alias."
+    "howToAttempt": "Write an SQL query to display the transaction ID, transaction amount and transaction type of all transactions whose transaction type is 'Debit' and transaction amount is greater than 10000 but less than 50000.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the transaction ID, transaction amount and transaction type of all transactions whose transaction type is 'Debit' and transaction amount is greater than 10000 but less than 50000.\n\n### Requirements:\n- **Expected Output Columns:** `Transaction_ID`, `Amount`, `Transaction_Type`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** WHERE, AND, range filtering\n- Filter the transaction table using two conditions: Transaction_Type must be 'Debit', and Amount must be strictly between 10000 and 50000. Return the three requested columns.",
+    "notes": [
+      "Filter the transaction table using two conditions: Transaction_Type must be 'Debit', and Amount must be strictly between 10000 and 50000. Return the three requested columns.",
+      "Rows 101 and 104 satisfy both strict amount boundaries and the Debit condition. Rows at exactly 10000 or 50000 are excluded; Credit transactions are also excluded.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT (
-    SELECT DISTINCT salary 
-    FROM Employee 
-    ORDER BY salary DESC 
-    LIMIT 1 OFFSET 1
-) AS SecondHighestSalary;`,
-    explanation: `We use a scalar subquery with **DISTINCT**, **ORDER BY salary DESC**, and **LIMIT 1 OFFSET 1**.
-When a subquery returns 0 rows inside a SELECT clause, SQL evaluates the entire expression as **NULL**, ensuring a single row with NULL is produced even for empty or single-salary tables.`,
-    expectedColumns: ["SecondHighestSalary"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  Transaction_ID,\n  Amount,\n  Transaction_Type\nFROM transaction\nWHERE Transaction_Type = 'Debit'\n  AND Amount > 10000\n  AND Amount < 50000;",
+    "explanation": "Filter the transaction table using two conditions: Transaction_Type must be 'Debit', and Amount must be strictly between 10000 and 50000. Return the three requested columns. Rows 101 and 104 satisfy both strict amount boundaries and the Debit condition. Rows at exactly 10000 or 50000 are excluded; Credit transactions are also excluded.",
+    "expectedColumns": [
+      "Transaction_ID",
+      "Amount",
+      "Transaction_Type"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Standard Distinct Salaries)",
-        input: {
-          Employee: [
-            { id: 1, salary: 100 },
-            { id: 2, salary: 200 },
-            { id: 3, salary: 300 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "transaction": [
+            {
+              "Transaction_ID": 101,
+              "Account_ID": 1,
+              "Transaction_Date": "2024-01-10",
+              "Amount": 12000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 102,
+              "Account_ID": 2,
+              "Transaction_Date": "2024-01-11",
+              "Amount": 50000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 103,
+              "Account_ID": 3,
+              "Transaction_Date": "2024-01-12",
+              "Amount": 25000,
+              "Transaction_Type": "Credit"
+            },
+            {
+              "Transaction_ID": 104,
+              "Account_ID": 4,
+              "Transaction_Date": "2024-01-13",
+              "Amount": 49999.5,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 105,
+              "Account_ID": 5,
+              "Transaction_Date": "2024-01-14",
+              "Amount": 10000,
+              "Transaction_Type": "Debit"
+            }
           ]
         },
-        output: [
-          { SecondHighestSalary: 200 }
+        "output": [
+          {
+            "Transaction_ID": 101,
+            "Amount": 12000,
+            "Transaction_Type": "Debit"
+          },
+          {
+            "Transaction_ID": 104,
+            "Amount": 49999.5,
+            "Transaction_Type": "Debit"
+          }
         ],
-        explanation: "The distinct salaries are 300, 200, 100. The second highest distinct salary is 200."
-      },
+        "explanation": "Rows 101 and 104 satisfy both strict amount boundaries and the Debit condition. Rows at exactly 10000 or 50000 are excluded; Credit transactions are also excluded."
+      }
+    ],
+    "testCases": [
       {
-        title: "Example 2 (Single Distinct Salary)",
-        input: {
-          Employee: [
-            { id: 1, salary: 100 }
+        "id": "sql-001-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "transaction": [
+            {
+              "Transaction_ID": 101,
+              "Account_ID": 1,
+              "Transaction_Date": "2024-01-10",
+              "Amount": 12000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 102,
+              "Account_ID": 2,
+              "Transaction_Date": "2024-01-11",
+              "Amount": 50000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 103,
+              "Account_ID": 3,
+              "Transaction_Date": "2024-01-12",
+              "Amount": 25000,
+              "Transaction_Type": "Credit"
+            },
+            {
+              "Transaction_ID": 104,
+              "Account_ID": 4,
+              "Transaction_Date": "2024-01-13",
+              "Amount": 49999.5,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 105,
+              "Account_ID": 5,
+              "Transaction_Date": "2024-01-14",
+              "Amount": 10000,
+              "Transaction_Type": "Debit"
+            }
           ]
         },
-        output: [
-          { SecondHighestSalary: null }
+        "expected": [
+          {
+            "Transaction_ID": 101,
+            "Amount": 12000,
+            "Transaction_Type": "Debit"
+          },
+          {
+            "Transaction_ID": 104,
+            "Amount": 49999.5,
+            "Transaction_Type": "Debit"
+          }
+        ]
+      },
+      {
+        "id": "sql-001-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "transaction": [
+            {
+              "Transaction_ID": 1202,
+              "Account_ID": 1002,
+              "Transaction_Date": "ZZ_2024-01-10",
+              "Amount": 25000,
+              "Transaction_Type": "ZZ_Debit"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-001-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "transaction": [
+            {
+              "Transaction_ID": 101,
+              "Account_ID": 1,
+              "Transaction_Date": "2024-01-10",
+              "Amount": 12000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 102,
+              "Account_ID": 2,
+              "Transaction_Date": "2024-01-11",
+              "Amount": 50000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 103,
+              "Account_ID": 3,
+              "Transaction_Date": "2024-01-12",
+              "Amount": 25000,
+              "Transaction_Type": "Credit"
+            },
+            {
+              "Transaction_ID": 104,
+              "Account_ID": 4,
+              "Transaction_Date": "2024-01-13",
+              "Amount": 49999.5,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 105,
+              "Account_ID": 5,
+              "Transaction_Date": "2024-01-14",
+              "Amount": 10000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 201,
+              "Account_ID": 101,
+              "Transaction_Date": "2024-01-10",
+              "Amount": 12000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 203,
+              "Account_ID": 103,
+              "Transaction_Date": "2024-01-11",
+              "Amount": 50000,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 205,
+              "Account_ID": 105,
+              "Transaction_Date": "2024-01-12",
+              "Amount": 25000,
+              "Transaction_Type": "Credit"
+            },
+            {
+              "Transaction_ID": 207,
+              "Account_ID": 107,
+              "Transaction_Date": "2024-01-13",
+              "Amount": 49999.5,
+              "Transaction_Type": "Debit"
+            },
+            {
+              "Transaction_ID": 209,
+              "Account_ID": 109,
+              "Transaction_Date": "2024-01-14",
+              "Amount": 10000,
+              "Transaction_Type": "Debit"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Transaction_ID": 101,
+            "Amount": 12000,
+            "Transaction_Type": "Debit"
+          },
+          {
+            "Transaction_ID": 104,
+            "Amount": 49999.5,
+            "Transaction_Type": "Debit"
+          },
+          {
+            "Transaction_ID": 201,
+            "Amount": 12000,
+            "Transaction_Type": "Debit"
+          },
+          {
+            "Transaction_ID": 207,
+            "Amount": 49999.5,
+            "Transaction_Type": "Debit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-002",
+    "title": "Customers whose account type starts with Sa",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "customer",
+        "columns": [
+          {
+            "name": "Customer_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "First_Name",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Last_Name",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Contact",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "account",
+        "columns": [
+          {
+            "name": "Account_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Customer_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Account_Type",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Balance",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the first name, contact number and balance of all customers whose account type starts with 'Sa'. The output should be ordered by the customer's first name.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the first name, contact number and balance of all customers whose account type starts with 'Sa'. The output should be ordered by the customer's first name.\n\n### Requirements:\n- **Expected Output Columns:** `First_Name`, `Contact`, `Balance`\n- **Ordering Requirement:** Result MUST be ordered as specified in the problem statement.\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, LIKE, ORDER BY\n- Join Customer with Account because the customer name/contact and account type/balance are stored separately. Use LIKE 'Sa%' and ORDER BY First_Name.",
+    "notes": [
+      "Join Customer with Account because the customer name/contact and account type/balance are stored separately. Use LIKE 'Sa%' and ORDER BY First_Name.",
+      "Only Savings, Salary and Saving Plus start with 'Sa'. The result is then alphabetically ordered by first name.",
+      "Rows must match the exact sorting specified."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  c.First_Name,\n  c.Contact,\n  a.Balance\nFROM customer c\nJOIN account a ON c.Customer_ID = a.Customer_ID\nWHERE a.Account_Type LIKE 'Sa%'\nORDER BY c.First_Name;",
+    "explanation": "Join Customer with Account because the customer name/contact and account type/balance are stored separately. Use LIKE 'Sa%' and ORDER BY First_Name. Only Savings, Salary and Saving Plus start with 'Sa'. The result is then alphabetically ordered by first name.",
+    "expectedColumns": [
+      "First_Name",
+      "Contact",
+      "Balance"
+    ],
+    "orderSensitive": true,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Sam",
+              "Last_Name": "Khan",
+              "Contact": "90001"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Sara",
+              "Last_Name": "Roy",
+              "Contact": "90002"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "John",
+              "Last_Name": "Das",
+              "Contact": "90003"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Sahil",
+              "Last_Name": "Verma",
+              "Contact": "90004"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 11,
+              "Customer_ID": 1,
+              "Account_Type": "Savings",
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 12,
+              "Customer_ID": 2,
+              "Account_Type": "Salary",
+              "Balance": 60000
+            },
+            {
+              "Account_ID": 13,
+              "Customer_ID": 3,
+              "Account_Type": "Current",
+              "Balance": 70000
+            },
+            {
+              "Account_ID": 14,
+              "Customer_ID": 4,
+              "Account_Type": "Saving Plus",
+              "Balance": 30000
+            }
+          ]
+        },
+        "output": [
+          {
+            "First_Name": "Sahil",
+            "Contact": "90004",
+            "Balance": 30000
+          },
+          {
+            "First_Name": "Sam",
+            "Contact": "90001",
+            "Balance": 45000
+          },
+          {
+            "First_Name": "Sara",
+            "Contact": "90002",
+            "Balance": 60000
+          }
         ],
-        explanation: "There is only one salary, so no second highest distinct salary exists. Return NULL."
+        "explanation": "Only Savings, Salary and Saving Plus start with 'Sa'. The result is then alphabetically ordered by first name."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Three Distinct Salaries",
-        isHidden: false,
-        data: {
-          Employee: [
-            { id: 1, salary: 100 },
-            { id: 2, salary: 200 },
-            { id: 3, salary: 300 }
+        "id": "sql-002-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Sam",
+              "Last_Name": "Khan",
+              "Contact": "90001"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Sara",
+              "Last_Name": "Roy",
+              "Contact": "90002"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "John",
+              "Last_Name": "Das",
+              "Contact": "90003"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Sahil",
+              "Last_Name": "Verma",
+              "Contact": "90004"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 11,
+              "Customer_ID": 1,
+              "Account_Type": "Savings",
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 12,
+              "Customer_ID": 2,
+              "Account_Type": "Salary",
+              "Balance": 60000
+            },
+            {
+              "Account_ID": 13,
+              "Customer_ID": 3,
+              "Account_Type": "Current",
+              "Balance": 70000
+            },
+            {
+              "Account_ID": 14,
+              "Customer_ID": 4,
+              "Account_Type": "Saving Plus",
+              "Balance": 30000
+            }
           ]
         },
-        expected: [{ SecondHighestSalary: 200 }]
+        "expected": [
+          {
+            "First_Name": "Sahil",
+            "Contact": "90004",
+            "Balance": 30000
+          },
+          {
+            "First_Name": "Sam",
+            "Contact": "90001",
+            "Balance": 45000
+          },
+          {
+            "First_Name": "Sara",
+            "Contact": "90002",
+            "Balance": 60000
+          }
+        ]
       },
       {
-        id: "test-2",
-        name: "Visible Test Case 2 — Single Distinct Salary (Returns NULL)",
-        isHidden: false,
-        data: {
-          Employee: [{ id: 1, salary: 100 }]
-        },
-        expected: [{ SecondHighestSalary: null }]
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 1 — Duplicate Highest Salaries",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, salary: 100 },
-            { id: 2, salary: 300 },
-            { id: 3, salary: 300 },
-            { id: 4, salary: 200 }
+        "id": "sql-002-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1002,
+              "First_Name": "Sam",
+              "Last_Name": "ZZ_Khan",
+              "Contact": "ZZ_90001"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 1022,
+              "Customer_ID": 1002,
+              "Account_Type": "ZZ_Savings",
+              "Balance": 91000
+            }
           ]
         },
-        expected: [{ SecondHighestSalary: 200 }]
+        "expected": []
       },
       {
-        id: "test-4",
-        name: "Hidden Test Case 2 — All Salaries Identical",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, salary: 100 },
-            { id: 2, salary: 100 },
-            { id: 3, salary: 100 }
+        "id": "sql-002-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Sam",
+              "Last_Name": "Khan",
+              "Contact": "90001"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Sara",
+              "Last_Name": "Roy",
+              "Contact": "90002"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "John",
+              "Last_Name": "Das",
+              "Contact": "90003"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Sahil",
+              "Last_Name": "Verma",
+              "Contact": "90004"
+            },
+            {
+              "Customer_ID": 101,
+              "First_Name": "Sam",
+              "Last_Name": "Khan",
+              "Contact": "90001"
+            },
+            {
+              "Customer_ID": 103,
+              "First_Name": "Sara",
+              "Last_Name": "Roy",
+              "Contact": "90002"
+            },
+            {
+              "Customer_ID": 105,
+              "First_Name": "John",
+              "Last_Name": "Das",
+              "Contact": "90003"
+            },
+            {
+              "Customer_ID": 107,
+              "First_Name": "Sahil",
+              "Last_Name": "Verma",
+              "Contact": "90004"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 11,
+              "Customer_ID": 1,
+              "Account_Type": "Savings",
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 12,
+              "Customer_ID": 2,
+              "Account_Type": "Salary",
+              "Balance": 60000
+            },
+            {
+              "Account_ID": 13,
+              "Customer_ID": 3,
+              "Account_Type": "Current",
+              "Balance": 70000
+            },
+            {
+              "Account_ID": 14,
+              "Customer_ID": 4,
+              "Account_Type": "Saving Plus",
+              "Balance": 30000
+            },
+            {
+              "Account_ID": 111,
+              "Customer_ID": 101,
+              "Account_Type": "Savings",
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 113,
+              "Customer_ID": 103,
+              "Account_Type": "Salary",
+              "Balance": 60000
+            },
+            {
+              "Account_ID": 115,
+              "Customer_ID": 105,
+              "Account_Type": "Current",
+              "Balance": 70000
+            },
+            {
+              "Account_ID": 117,
+              "Customer_ID": 107,
+              "Account_Type": "Saving Plus",
+              "Balance": 30000
+            }
           ]
         },
-        expected: [{ SecondHighestSalary: null }]
-      },
-      {
-        id: "test-5",
-        name: "Hidden Test Case 3 — Empty Table",
-        isHidden: true,
-        data: {
-          Employee: []
-        },
-        expected: [{ SecondHighestSalary: null }]
-      },
-      {
-        id: "test-6",
-        name: "Hidden Test Case 4 — Descending Distinct Salaries",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, salary: 500 },
-            { id: 2, salary: 400 },
-            { id: 3, salary: 400 },
-            { id: 4, salary: 300 },
-            { id: 5, salary: 200 }
-          ]
-        },
-        expected: [{ SecondHighestSalary: 400 }]
+        "expected": [
+          {
+            "First_Name": "Sahil",
+            "Contact": "90004",
+            "Balance": 30000
+          },
+          {
+            "First_Name": "Sahil",
+            "Contact": "90004",
+            "Balance": 30000
+          },
+          {
+            "First_Name": "Sam",
+            "Contact": "90001",
+            "Balance": 45000
+          },
+          {
+            "First_Name": "Sam",
+            "Contact": "90001",
+            "Balance": 45000
+          },
+          {
+            "First_Name": "Sara",
+            "Contact": "90002",
+            "Balance": 60000
+          },
+          {
+            "First_Name": "Sara",
+            "Contact": "90002",
+            "Balance": 60000
+          }
+        ]
       }
     ]
   },
   {
-    id: "sql-002",
-    title: "Classes With At Least 5 Students",
-    difficulty: "Easy",
-    duration: 15,
-    category: "GROUP BY & HAVING",
-    tableSchema: [
+    "id": "sql-003",
+    "title": "Employees with basic salary above 5,000",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Courses",
-        columns: [
-          { name: "student", type: "TEXT", primaryKey: false },
-          { name: "class", type: "TEXT", primaryKey: false }
+        "name": "employee_info",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPTID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "JOINING_DT",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DOB",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "YRS_OF_EXP",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "salary_info",
+        "columns": [
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "BASIC",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "emp_payroll",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "MONTH",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "YEAR",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "TOTAL_EARNING",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NETPAY",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Write a SQL query to report all classes that have at least five students enrolled. Return the result table in any order.",
-    problem: `Write a SQL query to find all classes that have **at least five students** enrolled.
-
-### Important Requirements:
-- Return only the **class** column.
-- The result can be returned in **any order**.
-- The query should accurately count unique enrollments per class using appropriate grouping logic.`,
-    notes: [
-      "Use GROUP BY class and HAVING COUNT(student) >= 5 or COUNT(DISTINCT student) >= 5.",
-      "The result set must only contain the 'class' column.",
-      "Classes with 4 or fewer students must NOT be included."
+    "howToAttempt": "Write an SQL query to display the employee ID, name, basic salary and net pay for employees whose basic salary is greater than 5,000.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the employee ID, name, basic salary and net pay for employees whose basic salary is greater than 5,000.\n\n### Requirements:\n- **Expected Output Columns:** `EMPID`, `EMPNAME`, `BASIC`, `NETPAY`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, WHERE, multiple tables\n- Employee information, salary information and payroll information are connected by employee category and employee ID. Join the required tables and filter Basic > 5000.",
+    "notes": [
+      "Employee information, salary information and payroll information are connected by employee category and employee ID. Join the required tables and filter Basic > 5000.",
+      "Amit and Neha belong to category A, whose basic salary is 6500. Riya's category B salary is 4800, so she is filtered out.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT class
-FROM Courses
-GROUP BY class
-HAVING COUNT(student) >= 5;`,
-    explanation: `Group by the \`class\` column, then apply \`HAVING COUNT(student) >= 5\` to filter only the groups that have at least 5 students.`,
-    expectedColumns: ["class"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Math Class with 6 Students)",
-        input: {
-          Courses: [
-            { student: "A", class: "Math" },
-            { student: "B", class: "English" },
-            { student: "C", class: "Math" },
-            { student: "D", class: "Biology" },
-            { student: "E", class: "Math" },
-            { student: "F", class: "Computer" },
-            { student: "G", class: "Math" },
-            { student: "H", class: "Math" },
-            { student: "I", class: "Math" }
-          ]
-        },
-        output: [{ class: "Math" }],
-        explanation: "Math has 6 students (>= 5). English, Biology, and Computer each have 1 student (< 5)."
-      }
+    "starterCode": "",
+    "solution": "SELECT\n  ei.EMPID AS EMPID,\n  ei.EMPNAME AS EMPNAME,\n  si.BASIC AS BASIC,\n  ep.NETPAY AS NETPAY\nFROM employee_info ei\nJOIN salary_info si ON ei.EMPLOYEE_CATEGORY = si.EMPLOYEE_CATEGORY\nJOIN emp_payroll ep ON ei.EMPID = ep.EMPID\nWHERE si.BASIC > 5000;",
+    "explanation": "Employee information, salary information and payroll information are connected by employee category and employee ID. Join the required tables and filter Basic > 5000. Amit and Neha belong to category A, whose basic salary is 6500. Riya's category B salary is 4800, so she is filtered out.",
+    "expectedColumns": [
+      "EMPID",
+      "EMPNAME",
+      "BASIC",
+      "NETPAY"
     ],
-    testCases: [
+    "orderSensitive": false,
+    "examples": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Single Qualifying Class",
-        isHidden: false,
-        data: {
-          Courses: [
-            { student: "A", class: "Math" },
-            { student: "B", class: "English" },
-            { student: "C", class: "Math" },
-            { student: "D", class: "Biology" },
-            { student: "E", class: "Math" },
-            { student: "F", class: "Computer" },
-            { student: "G", class: "Math" },
-            { student: "H", class: "Math" },
-            { student: "I", class: "Math" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "JOINING_DT": "2019-01-10",
+              "DOB": "1995-01-01",
+              "YRS_OF_EXP": 6,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "JOINING_DT": "2020-02-10",
+              "DOB": "1996-02-02",
+              "YRS_OF_EXP": 5,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "JOINING_DT": "2018-03-12",
+              "DOB": "1994-03-03",
+              "YRS_OF_EXP": 7,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
+          ],
+          "emp_payroll": [
+            {
+              "EMPID": 1,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7500,
+              "NETPAY": 7000
+            },
+            {
+              "EMPID": 2,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 5500,
+              "NETPAY": 5000
+            },
+            {
+              "EMPID": 3,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7600,
+              "NETPAY": 7100
+            }
           ]
         },
-        expected: [{ class: "Math" }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Exact Boundary of 5 Students",
-        isHidden: true,
-        data: {
-          Courses: [
-            { student: "S1", class: "Physics" },
-            { student: "S2", class: "Physics" },
-            { student: "S3", class: "Physics" },
-            { student: "S4", class: "Physics" },
-            { student: "S5", class: "Physics" },
-            { student: "S6", class: "Art" }
-          ]
-        },
-        expected: [{ class: "Physics" }]
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Boundary of 4 Students (Must Exclude)",
-        isHidden: true,
-        data: {
-          Courses: [
-            { student: "S1", class: "Chemistry" },
-            { student: "S2", class: "Chemistry" },
-            { student: "S3", class: "Chemistry" },
-            { student: "S4", class: "Chemistry" }
-          ]
-        },
-        expected: []
-      },
-      {
-        id: "test-4",
-        name: "Hidden Test Case 3 — Multiple Qualifying Classes",
-        isHidden: true,
-        data: {
-          Courses: [
-            { student: "1", class: "Math" },
-            { student: "2", class: "Math" },
-            { student: "3", class: "Math" },
-            { student: "4", class: "Math" },
-            { student: "5", class: "Math" },
-            { student: "6", class: "Science" },
-            { student: "7", class: "Science" },
-            { student: "8", class: "Science" },
-            { student: "9", class: "Science" },
-            { student: "10", class: "Science" },
-            { student: "11", class: "Science" },
-            { student: "12", class: "Music" }
-          ]
-        },
-        expected: [{ class: "Math" }, { class: "Science" }]
-      },
-      {
-        id: "test-5",
-        name: "Hidden Test Case 4 — Empty Table",
-        isHidden: true,
-        data: { Courses: [] },
-        expected: []
-      }
-    ]
-  },
-  {
-    id: "sql-003",
-    title: "Account Salary Categories",
-    difficulty: "Medium",
-    duration: 15,
-    category: "CASE & AGGREGATE FUNCTIONS",
-    tableSchema: [
-      {
-        name: "Accounts",
-        columns: [
-          { name: "account_id", type: "INTEGER", primaryKey: true },
-          { name: "income", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Categorize every account based on its income into 'Low Salary', 'Average Salary', or 'High Salary'. All 3 categories must always appear even when there are zero accounts in that category.",
-    problem: `Write a SQL query to report the number of bank accounts for each salary category:
-- **Low Salary**: All incomes strictly less than $20,000 (\`income < 20000\`).
-- **Average Salary**: All incomes in the inclusive range [$20,000, $50,000] (\`20000 <= income <= 50000\`).
-- **High Salary**: All incomes strictly greater than $50,000 (\`income > 50000\`).
-
-### Critical Requirement:
-- Return the columns: **category** and **accounts_count**.
-- **All three categories ('Low Salary', 'Average Salary', 'High Salary') must appear in the result table**, even if a category has **0** accounts.
-- The result can be returned in any order.`,
-    notes: [
-      "Tip: You can use UNION of 3 queries each selecting the literal category string and counting matches from Accounts.",
-      "Ensure the exact category strings: 'Low Salary', 'Average Salary', 'High Salary'.",
-      "When a category has no matching records, accounts_count must be 0, not NULL."
-    ],
-    starterCode: '',
-    solution: `SELECT 'Low Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE income < 20000
-UNION
-SELECT 'Average Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE income >= 20000 AND income <= 50000
-UNION
-SELECT 'High Salary' AS category, COUNT(*) AS accounts_count FROM Accounts WHERE income > 50000;`,
-    explanation: `By combining 3 explicit queries with **UNION**, each category string is guaranteed to be in the output set. When no records match the WHERE condition, \`COUNT(*)\` evaluates to **0**.`,
-    expectedColumns: ["category", "accounts_count"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (With 0 Average Salary)",
-        input: {
-          Accounts: [
-            { account_id: 3, income: 108939 },
-            { account_id: 2, income: 12747 },
-            { account_id: 8, income: 87709 },
-            { account_id: 6, income: 91796 }
-          ]
-        },
-        output: [
-          { category: "Low Salary", accounts_count: 1 },
-          { category: "Average Salary", accounts_count: 0 },
-          { category: "High Salary", accounts_count: 3 }
+        "output": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          }
         ],
-        explanation: "Low Salary: Account 2 ($12747). Average Salary: None (count is 0). High Salary: Accounts 3, 6, 8 (3 accounts)."
+        "explanation": "Amit and Neha belong to category A, whose basic salary is 6500. Riya's category B salary is 4800, so she is filtered out."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Mixed with Zero Average Salary",
-        isHidden: false,
-        data: {
-          Accounts: [
-            { account_id: 3, income: 108939 },
-            { account_id: 2, income: 12747 },
-            { account_id: 8, income: 87709 },
-            { account_id: 6, income: 91796 }
+        "id": "sql-003-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "JOINING_DT": "2019-01-10",
+              "DOB": "1995-01-01",
+              "YRS_OF_EXP": 6,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "JOINING_DT": "2020-02-10",
+              "DOB": "1996-02-02",
+              "YRS_OF_EXP": 5,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "JOINING_DT": "2018-03-12",
+              "DOB": "1994-03-03",
+              "YRS_OF_EXP": 7,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
+          ],
+          "emp_payroll": [
+            {
+              "EMPID": 1,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7500,
+              "NETPAY": 7000
+            },
+            {
+              "EMPID": 2,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 5500,
+              "NETPAY": 5000
+            },
+            {
+              "EMPID": 3,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7600,
+              "NETPAY": 7100
+            }
           ]
         },
-        expected: [
-          { category: "Low Salary", accounts_count: 1 },
-          { category: "Average Salary", accounts_count: 0 },
-          { category: "High Salary", accounts_count: 3 }
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Zero Low Salary Accounts",
-        isHidden: true,
-        data: {
-          Accounts: [
-            { account_id: 1, income: 25000 },
-            { account_id: 2, income: 45000 },
-            { account_id: 3, income: 75000 }
+        "id": "sql-003-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1002,
+              "EMPNAME": "ZZ_Amit",
+              "DEPTID": 1020,
+              "JOINING_DT": "ZZ_2019-01-10",
+              "DOB": "ZZ_1995-01-01",
+              "YRS_OF_EXP": 1012,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 14000
+            }
+          ],
+          "emp_payroll": [
+            {
+              "EMPID": 1002,
+              "MONTH": 1002,
+              "YEAR": 5048,
+              "TOTAL_EARNING": 16000,
+              "NETPAY": 15000
+            }
           ]
         },
-        expected: [
-          { category: "Low Salary", accounts_count: 0 },
-          { category: "Average Salary", accounts_count: 2 },
-          { category: "High Salary", accounts_count: 1 }
+        "expected": [
+          {
+            "EMPID": 1002,
+            "EMPNAME": "ZZ_Amit",
+            "BASIC": 14000,
+            "NETPAY": 15000
+          }
         ]
       },
       {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Zero High Salary Accounts",
-        isHidden: true,
-        data: {
-          Accounts: [
-            { account_id: 1, income: 15000 },
-            { account_id: 2, income: 18000 },
-            { account_id: 3, income: 30000 }
+        "id": "sql-003-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "JOINING_DT": "2019-01-10",
+              "DOB": "1995-01-01",
+              "YRS_OF_EXP": 6,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "JOINING_DT": "2020-02-10",
+              "DOB": "1996-02-02",
+              "YRS_OF_EXP": 5,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "JOINING_DT": "2018-03-12",
+              "DOB": "1994-03-03",
+              "YRS_OF_EXP": 7,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 101,
+              "EMPNAME": "Amit",
+              "DEPTID": 110,
+              "JOINING_DT": "2019-01-10",
+              "DOB": "1995-01-01",
+              "YRS_OF_EXP": 6,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 103,
+              "EMPNAME": "Riya",
+              "DEPTID": 121,
+              "JOINING_DT": "2020-02-10",
+              "DOB": "1996-02-02",
+              "YRS_OF_EXP": 5,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 105,
+              "EMPNAME": "Neha",
+              "DEPTID": 112,
+              "JOINING_DT": "2018-03-12",
+              "DOB": "1994-03-03",
+              "YRS_OF_EXP": 7,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            },
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
+          ],
+          "emp_payroll": [
+            {
+              "EMPID": 1,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7500,
+              "NETPAY": 7000
+            },
+            {
+              "EMPID": 2,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 5500,
+              "NETPAY": 5000
+            },
+            {
+              "EMPID": 3,
+              "MONTH": 1,
+              "YEAR": 2024,
+              "TOTAL_EARNING": 7600,
+              "NETPAY": 7100
+            },
+            {
+              "EMPID": 101,
+              "MONTH": 1,
+              "YEAR": 2124,
+              "TOTAL_EARNING": 7500,
+              "NETPAY": 7000
+            },
+            {
+              "EMPID": 103,
+              "MONTH": 1,
+              "YEAR": 2125,
+              "TOTAL_EARNING": 5500,
+              "NETPAY": 5000
+            },
+            {
+              "EMPID": 105,
+              "MONTH": 1,
+              "YEAR": 2126,
+              "TOTAL_EARNING": 7600,
+              "NETPAY": 7100
+            }
           ]
         },
-        expected: [
-          { category: "Low Salary", accounts_count: 2 },
-          { category: "Average Salary", accounts_count: 1 },
-          { category: "High Salary", accounts_count: 0 }
-        ]
-      },
-      {
-        id: "test-4",
-        name: "Hidden Test Case 3 — Only High Salary Accounts (Low=0, Avg=0)",
-        isHidden: true,
-        data: {
-          Accounts: [
-            { account_id: 1, income: 60000 },
-            { account_id: 2, income: 90000 },
-            { account_id: 3, income: 120000 },
-            { account_id: 4, income: 50001 }
-          ]
-        },
-        expected: [
-          { category: "Low Salary", accounts_count: 0 },
-          { category: "Average Salary", accounts_count: 0 },
-          { category: "High Salary", accounts_count: 4 }
-        ]
-      },
-      {
-        id: "test-5",
-        name: "Hidden Test Case 4 — Empty Table (All Counts Zero)",
-        isHidden: true,
-        data: { Accounts: [] },
-        expected: [
-          { category: "Low Salary", accounts_count: 0 },
-          { category: "Average Salary", accounts_count: 0 },
-          { category: "High Salary", accounts_count: 0 }
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 105,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          },
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "BASIC": 6500,
+            "NETPAY": 7000
+          },
+          {
+            "EMPID": 105,
+            "EMPNAME": "Neha",
+            "BASIC": 6500,
+            "NETPAY": 7100
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-004",
-    title: "Combine Two Tables",
-    difficulty: "Easy",
-    duration: 15,
-    category: "LEFT JOIN",
-    tableSchema: [
+    "id": "sql-004",
+    "title": "Employees with more than 5 years of experience",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
       {
-        name: "Person",
-        columns: [
-          { name: "personId", type: "INTEGER", primaryKey: true },
-          { name: "lastName", type: "TEXT", primaryKey: false },
-          { name: "firstName", type: "TEXT", primaryKey: false }
-        ]
-      },
-      {
-        name: "Address",
-        columns: [
-          { name: "addressId", type: "INTEGER", primaryKey: true },
-          { name: "personId", type: "INTEGER", primaryKey: false },
-          { name: "city", type: "TEXT", primaryKey: false },
-          { name: "state", type: "TEXT", primaryKey: false }
+        "name": "employee_info",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "JOINING_DT",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "YRS_OF_EXP",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Write a SQL query to report the firstName, lastName, city, and state of each person in the Person table. If the address of a personId is not present in Address, report null instead.",
-    problem: `Write a SQL query to report the **firstName**, **lastName**, **city**, and **state** of each person in the **Person** table.
-
-### Important Requirements:
-- If the address of a personId is not present in the **Address** table, report **null** for \`city\` and \`state\`.
-- Return the columns: \`firstName\`, \`lastName\`, \`city\`, \`state\`.
-- Return the result in any order.`,
-    notes: [
-      "Use a LEFT JOIN from Person to Address on Person.personId = Address.personId.",
-      "Ensure every person in the Person table is included in the output."
+    "howToAttempt": "Write an SQL query to display the names of employees who have more than 5 years of experience and joined after January 1, 2001. Use aliases 'Employee ID' and 'Employee Name'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the names of employees who have more than 5 years of experience and joined after January 1, 2001. Use aliases 'Employee ID' and 'Employee Name'.\n\n### Requirements:\n- **Expected Output Columns:** `Employee ID`, `Employee Name`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** AND, date filtering, aliases\n- Both conditions must be true. Filter YRS_OF_EXP > 5 and JOINING_DT > '2001-01-01', then return EMPID and EMPNAME using the requested aliases.",
+    "notes": [
+      "Both conditions must be true. Filter YRS_OF_EXP > 5 and JOINING_DT > '2001-01-01', then return EMPID and EMPNAME using the requested aliases.",
+      "Amit and Raj satisfy both conditions. Riya fails the joining-date condition, while Neha has exactly 5 years and therefore fails the 'more than 5' condition.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    p.firstName,
-    p.lastName,
-    a.city,
-    a.state
-FROM Person p
-LEFT JOIN Address a ON p.personId = a.personId;`,
-    explanation: `A \`LEFT JOIN\` ensures that all records from the left table (\`Person\`) are kept. If there is no matching record in the right table (\`Address\`), the resulting \`city\` and \`state\` columns are filled with \`NULL\`.`,
-    expectedColumns: ["firstName", "lastName", "city", "state"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  EMPID AS `Employee ID`,\n  EMPNAME AS `Employee Name`\nFROM employee_info\nWHERE YRS_OF_EXP > 5\n  AND JOINING_DT > '2001-01-01';",
+    "explanation": "Both conditions must be true. Filter YRS_OF_EXP > 5 and JOINING_DT > '2001-01-01', then return EMPID and EMPNAME using the requested aliases. Amit and Raj satisfy both conditions. Riya fails the joining-date condition, while Neha has exactly 5 years and therefore fails the 'more than 5' condition.",
+    "expectedColumns": [
+      "Employee ID",
+      "Employee Name"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Person without Address)",
-        input: {
-          Person: [
-            { personId: 1, lastName: "Wang", firstName: "Allen" },
-            { personId: 2, lastName: "Alice", firstName: "Bob" }
-          ],
-          Address: [
-            { addressId: 1, personId: 2, city: "New York City", state: "New York" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "JOINING_DT": "2010-01-10",
+              "YRS_OF_EXP": 7
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "JOINING_DT": "2000-05-10",
+              "YRS_OF_EXP": 8
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "JOINING_DT": "2015-03-12",
+              "YRS_OF_EXP": 5
+            },
+            {
+              "EMPID": 4,
+              "EMPNAME": "Raj",
+              "JOINING_DT": "2005-06-01",
+              "YRS_OF_EXP": 6
+            }
           ]
         },
-        output: [
-          { firstName: "Allen", lastName: "Wang", city: null, state: null },
-          { firstName: "Bob", lastName: "Alice", city: "New York City", state: "New York" }
+        "output": [
+          {
+            "Employee ID": 1,
+            "Employee Name": "Amit"
+          },
+          {
+            "Employee ID": 4,
+            "Employee Name": "Raj"
+          }
         ],
-        explanation: "Allen has personId 1 which is not in Address table, so city and state are NULL."
+        "explanation": "Amit and Raj satisfy both conditions. Riya fails the joining-date condition, while Neha has exactly 5 years and therefore fails the 'more than 5' condition."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Basic Person & Address Join",
-        isHidden: false,
-        data: {
-          Person: [
-            { personId: 1, lastName: "Wang", firstName: "Allen" },
-            { personId: 2, lastName: "Alice", firstName: "Bob" }
-          ],
-          Address: [
-            { addressId: 1, personId: 2, city: "New York City", state: "New York" }
+        "id": "sql-004-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "JOINING_DT": "2010-01-10",
+              "YRS_OF_EXP": 7
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "JOINING_DT": "2000-05-10",
+              "YRS_OF_EXP": 8
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "JOINING_DT": "2015-03-12",
+              "YRS_OF_EXP": 5
+            },
+            {
+              "EMPID": 4,
+              "EMPNAME": "Raj",
+              "JOINING_DT": "2005-06-01",
+              "YRS_OF_EXP": 6
+            }
           ]
         },
-        expected: [
-          { firstName: "Allen", lastName: "Wang", city: null, state: null },
-          { firstName: "Bob", lastName: "Alice", city: "New York City", state: "New York" }
+        "expected": [
+          {
+            "Employee ID": 1,
+            "Employee Name": "Amit"
+          },
+          {
+            "Employee ID": 4,
+            "Employee Name": "Raj"
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All Persons Have Addresses",
-        isHidden: true,
-        data: {
-          Person: [
-            { personId: 1, lastName: "Smith", firstName: "John" },
-            { personId: 2, lastName: "Doe", firstName: "Jane" }
-          ],
-          Address: [
-            { addressId: 10, personId: 1, city: "Chicago", state: "Illinois" },
-            { addressId: 20, personId: 2, city: "Seattle", state: "Washington" }
+        "id": "sql-004-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1002,
+              "EMPNAME": "ZZ_Amit",
+              "JOINING_DT": "ZZ_2010-01-10",
+              "YRS_OF_EXP": 1014
+            }
           ]
         },
-        expected: [
-          { firstName: "John", lastName: "Smith", city: "Chicago", state: "Illinois" },
-          { firstName: "Jane", lastName: "Doe", city: "Seattle", state: "Washington" }
+        "expected": [
+          {
+            "Employee ID": 1002,
+            "Employee Name": "ZZ_Amit"
+          }
         ]
       },
       {
-        id: "test-3",
-        name: "Hidden Test Case 2 — No Persons Have Addresses",
-        isHidden: true,
-        data: {
-          Person: [
-            { personId: 10, lastName: "Taylor", firstName: "Sam" }
-          ],
-          Address: []
+        "id": "sql-004-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "JOINING_DT": "2010-01-10",
+              "YRS_OF_EXP": 7
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "JOINING_DT": "2000-05-10",
+              "YRS_OF_EXP": 8
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "JOINING_DT": "2015-03-12",
+              "YRS_OF_EXP": 5
+            },
+            {
+              "EMPID": 4,
+              "EMPNAME": "Raj",
+              "JOINING_DT": "2005-06-01",
+              "YRS_OF_EXP": 6
+            },
+            {
+              "EMPID": 101,
+              "EMPNAME": "Amit",
+              "JOINING_DT": "2010-01-10",
+              "YRS_OF_EXP": 7
+            },
+            {
+              "EMPID": 103,
+              "EMPNAME": "Riya",
+              "JOINING_DT": "2000-05-10",
+              "YRS_OF_EXP": 8
+            },
+            {
+              "EMPID": 105,
+              "EMPNAME": "Neha",
+              "JOINING_DT": "2015-03-12",
+              "YRS_OF_EXP": 5
+            },
+            {
+              "EMPID": 107,
+              "EMPNAME": "Raj",
+              "JOINING_DT": "2005-06-01",
+              "YRS_OF_EXP": 6
+            }
+          ]
         },
-        expected: [
-          { firstName: "Sam", lastName: "Taylor", city: null, state: null }
+        "expected": [
+          {
+            "Employee ID": 1,
+            "Employee Name": "Amit"
+          },
+          {
+            "Employee ID": 4,
+            "Employee Name": "Raj"
+          },
+          {
+            "Employee ID": 101,
+            "Employee Name": "Amit"
+          },
+          {
+            "Employee ID": 107,
+            "Employee Name": "Raj"
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-005",
-    title: "Employees Earning More Than Their Managers",
-    difficulty: "Easy",
-    duration: 15,
-    category: "SELF JOIN",
-    tableSchema: [
+    "id": "sql-005",
+    "title": "Wednesday course schedules",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Employee",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false },
-          { name: "managerId", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find the employees who earn more than their managers. Return the result table with column 'Employee'.",
-    problem: `Write a SQL query to find the employees who earn **more than their managers**.
-
-### Important Requirements:
-- Return the result column named **Employee**.
-- An employee without a manager (\`managerId IS NULL\`) cannot earn more than a manager.
-- Return the result in any order.`,
-    notes: [
-      "Perform a SELF JOIN on the Employee table: `Employee e JOIN Employee m ON e.managerId = m.id`.",
-      "Filter with `WHERE e.salary > m.salary`."
-    ],
-    starterCode: '',
-    solution: `SELECT e.name AS Employee
-FROM Employee e
-JOIN Employee m ON e.managerId = m.id
-WHERE e.salary > m.salary;`,
-    explanation: `We join the Employee table to itself on \`e.managerId = m.id\` so that each employee is paired with their direct manager. Then, we filter for \`e.salary > m.salary\`.`,
-    expectedColumns: ["Employee"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Joe earns more than Sam)",
-        input: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 70000, managerId: 3 },
-            { id: 2, name: "Henry", salary: 80000, managerId: 4 },
-            { id: 3, name: "Sam", salary: 60000, managerId: null },
-            { id: 4, name: "Max", salary: 90000, managerId: null }
-          ]
-        },
-        output: [{ Employee: "Joe" }],
-        explanation: "Joe ($70000) earns more than manager Sam ($60000). Henry ($80000) earns less than manager Max ($90000)."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Single qualifying employee",
-        isHidden: false,
-        data: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 70000, managerId: 3 },
-            { id: 2, name: "Henry", salary: 80000, managerId: 4 },
-            { id: 3, name: "Sam", salary: 60000, managerId: null },
-            { id: 4, name: "Max", salary: 90000, managerId: null }
-          ]
-        },
-        expected: [{ Employee: "Joe" }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — No one earns more than their manager",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, name: "A", salary: 50000, managerId: 2 },
-            { id: 2, name: "B", salary: 100000, managerId: null }
-          ]
-        },
-        expected: []
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Multiple subordinates earning more",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, name: "Alice", salary: 95000, managerId: 3 },
-            { id: 2, name: "Bob", salary: 92000, managerId: 3 },
-            { id: 3, name: "Charlie", salary: 80000, managerId: null }
-          ]
-        },
-        expected: [{ Employee: "Alice" }, { Employee: "Bob" }]
-      }
-    ]
-  },
-  {
-    id: "sql-006",
-    title: "Duplicate Emails",
-    difficulty: "Easy",
-    duration: 15,
-    category: "GROUP BY & HAVING",
-    tableSchema: [
-      {
-        name: "Person",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "email", type: "TEXT", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Report all the duplicate emails in the Person table. Return the result column named Email.",
-    problem: `Write a SQL query to report all the duplicate emails.
-
-### Important Requirements:
-- Return the result column named **Email** (or **email**).
-- All emails are guaranteed to be in lowercase.
-- Return the result table in any order.`,
-    notes: [
-      "Use `GROUP BY email HAVING COUNT(email) > 1`."
-    ],
-    starterCode: '',
-    solution: `SELECT email AS Email
-FROM Person
-GROUP BY email
-HAVING COUNT(email) > 1;`,
-    explanation: `Grouping by \`email\` gathers identical email entries. \`HAVING COUNT(email) > 1\` filters out emails that only appear once.`,
-    expectedColumns: ["Email"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Duplicate a@b.com)",
-        input: {
-          Person: [
-            { id: 1, email: "a@b.com" },
-            { id: 2, email: "c@d.com" },
-            { id: 3, email: "a@b.com" }
-          ]
-        },
-        output: [{ Email: "a@b.com" }],
-        explanation: "a@b.com appears twice, so it is a duplicate email."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Single duplicate email",
-        isHidden: false,
-        data: {
-          Person: [
-            { id: 1, email: "a@b.com" },
-            { id: 2, email: "c@d.com" },
-            { id: 3, email: "a@b.com" }
-          ]
-        },
-        expected: [{ Email: "a@b.com" }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All unique emails",
-        isHidden: true,
-        data: {
-          Person: [
-            { id: 1, email: "user1@domain.com" },
-            { id: 2, email: "user2@domain.com" }
-          ]
-        },
-        expected: []
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Multiple duplicate emails",
-        isHidden: true,
-        data: {
-          Person: [
-            { id: 1, email: "test@x.com" },
-            { id: 2, email: "test@x.com" },
-            { id: 3, email: "admin@x.com" },
-            { id: 4, email: "admin@x.com" },
-            { id: 5, email: "admin@x.com" },
-            { id: 6, email: "unique@x.com" }
-          ]
-        },
-        expected: [{ Email: "test@x.com" }, { Email: "admin@x.com" }]
-      }
-    ]
-  },
-  {
-    id: "sql-007",
-    title: "Customers Who Never Order",
-    difficulty: "Easy",
-    duration: 15,
-    category: "LEFT JOIN / NOT IN",
-    tableSchema: [
-      {
-        name: "Customers",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false }
+        "name": "course",
+        "columns": [
+          {
+            "name": "course_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "course_name",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        name: "Orders",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "customerId", type: "INTEGER", primaryKey: false }
+        "name": "section",
+        "columns": [
+          {
+            "name": "section_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "course_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "schedule_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "schedule",
+        "columns": [
+          {
+            "name": "schedule_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "day",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "starttime",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find all customers who never order anything. Return the result table with column 'Customers'.",
-    problem: `Write a SQL query to report all customers who never place any orders.
-
-### Important Requirements:
-- Return the result column named **Customers**.
-- Return the result in any order.`,
-    notes: [
-      "Use `LEFT JOIN Orders ON Customers.id = Orders.customerId WHERE Orders.customerId IS NULL` or `WHERE id NOT IN (SELECT customerId FROM Orders)`."
+    "howToAttempt": "Write an SQL query to display the course ID, course name, and schedule details (day and start time) of all courses taught on Wednesday. Use 'wed' as the value stored in the database. Use aliases 'Course ID', 'Course Name', 'Day' and 'Start Time'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the course ID, course name, and schedule details (day and start time) of all courses taught on Wednesday. Use 'wed' as the value stored in the database. Use aliases 'Course ID', 'Course Name', 'Day' and 'Start Time'.\n\n### Requirements:\n- **Expected Output Columns:** `Course ID`, `Course Name`, `Day`, `Start Time`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, aliases, filtering\n- Join course to section and schedule. The schedule table stores the day value as 'wed', so filter s.day = 'wed'.",
+    "notes": [
+      "Join course to section and schedule. The schedule table stores the day value as 'wed', so filter s.day = 'wed'.",
+      "The two sections whose schedule day is 'wed' are returned, together with their course details.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT c.name AS Customers
-FROM Customers c
-LEFT JOIN Orders o ON c.id = o.customerId
-WHERE o.customerId IS NULL;`,
-    explanation: `A \`LEFT JOIN\` retains all customers. Customers who have never placed an order will have \`o.customerId IS NULL\`.`,
-    expectedColumns: ["Customers"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  c.course_id AS `Course ID`,\n  c.course_name AS `Course Name`,\n  s.day AS `Day`,\n  s.starttime AS `Start Time`\nFROM course c\nJOIN section sec ON c.course_id = sec.course_id\nJOIN schedule s ON sec.schedule_id = s.schedule_id\nWHERE s.day = 'wed';",
+    "explanation": "Join course to section and schedule. The schedule table stores the day value as 'wed', so filter s.day = 'wed'. The two sections whose schedule day is 'wed' are returned, together with their course details.",
+    "expectedColumns": [
+      "Course ID",
+      "Course Name",
+      "Day",
+      "Start Time"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Henry and Max never ordered)",
-        input: {
-          Customers: [
-            { id: 1, name: "Joe" },
-            { id: 2, name: "Henry" },
-            { id: 3, name: "Sam" },
-            { id: 4, name: "Max" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "course": [
+            {
+              "course_id": 1,
+              "course_name": "DBMS"
+            },
+            {
+              "course_id": 2,
+              "course_name": "Networks"
+            },
+            {
+              "course_id": 3,
+              "course_name": "OS"
+            }
           ],
-          Orders: [
-            { id: 1, customerId: 3 },
-            { id: 2, customerId: 1 }
+          "section": [
+            {
+              "section_id": 101,
+              "course_id": 1,
+              "schedule_id": 201
+            },
+            {
+              "section_id": 102,
+              "course_id": 2,
+              "schedule_id": 202
+            },
+            {
+              "section_id": 103,
+              "course_id": 3,
+              "schedule_id": 203
+            }
+          ],
+          "schedule": [
+            {
+              "schedule_id": 201,
+              "day": "wed",
+              "starttime": "09:00"
+            },
+            {
+              "schedule_id": 202,
+              "day": "thu",
+              "starttime": "10:00"
+            },
+            {
+              "schedule_id": 203,
+              "day": "wed",
+              "starttime": "14:00"
+            }
           ]
         },
-        output: [
-          { Customers: "Henry" },
-          { Customers: "Max" }
+        "output": [
+          {
+            "Course ID": 1,
+            "Course Name": "DBMS",
+            "Day": "wed",
+            "Start Time": "09:00"
+          },
+          {
+            "Course ID": 3,
+            "Course Name": "OS",
+            "Day": "wed",
+            "Start Time": "14:00"
+          }
         ],
-        explanation: "Henry (id 2) and Max (id 4) do not appear in the Orders table."
+        "explanation": "The two sections whose schedule day is 'wed' are returned, together with their course details."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Standard Customers and Orders",
-        isHidden: false,
-        data: {
-          Customers: [
-            { id: 1, name: "Joe" },
-            { id: 2, name: "Henry" },
-            { id: 3, name: "Sam" },
-            { id: 4, name: "Max" }
+        "id": "sql-005-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "course": [
+            {
+              "course_id": 1,
+              "course_name": "DBMS"
+            },
+            {
+              "course_id": 2,
+              "course_name": "Networks"
+            },
+            {
+              "course_id": 3,
+              "course_name": "OS"
+            }
           ],
-          Orders: [
-            { id: 1, customerId: 3 },
-            { id: 2, customerId: 1 }
+          "section": [
+            {
+              "section_id": 101,
+              "course_id": 1,
+              "schedule_id": 201
+            },
+            {
+              "section_id": 102,
+              "course_id": 2,
+              "schedule_id": 202
+            },
+            {
+              "section_id": 103,
+              "course_id": 3,
+              "schedule_id": 203
+            }
+          ],
+          "schedule": [
+            {
+              "schedule_id": 201,
+              "day": "wed",
+              "starttime": "09:00"
+            },
+            {
+              "schedule_id": 202,
+              "day": "thu",
+              "starttime": "10:00"
+            },
+            {
+              "schedule_id": 203,
+              "day": "wed",
+              "starttime": "14:00"
+            }
           ]
         },
-        expected: [{ Customers: "Henry" }, { Customers: "Max" }]
+        "expected": [
+          {
+            "Course ID": 1,
+            "Course Name": "DBMS",
+            "Day": "wed",
+            "Start Time": "09:00"
+          },
+          {
+            "Course ID": 3,
+            "Course Name": "OS",
+            "Day": "wed",
+            "Start Time": "14:00"
+          }
+        ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All customers placed orders",
-        isHidden: true,
-        data: {
-          Customers: [
-            { id: 1, name: "Alice" },
-            { id: 2, name: "Bob" }
+        "id": "sql-005-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "course": [
+            {
+              "course_id": 1002,
+              "course_name": "ZZ_DBMS"
+            }
           ],
-          Orders: [
-            { id: 10, customerId: 1 },
-            { id: 20, customerId: 2 }
+          "section": [
+            {
+              "section_id": 1202,
+              "course_id": 1002,
+              "schedule_id": 1402
+            }
+          ],
+          "schedule": [
+            {
+              "schedule_id": 1402,
+              "day": "wed",
+              "starttime": "ZZ_09:00"
+            }
           ]
         },
-        expected: []
+        "expected": [
+          {
+            "Course ID": 1002,
+            "Course Name": "ZZ_DBMS",
+            "Day": "wed",
+            "Start Time": "ZZ_09:00"
+          }
+        ]
       },
       {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Orders table is completely empty",
-        isHidden: true,
-        data: {
-          Customers: [
-            { id: 1, name: "Alice" },
-            { id: 2, name: "Bob" }
+        "id": "sql-005-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "course": [
+            {
+              "course_id": 1,
+              "course_name": "DBMS"
+            },
+            {
+              "course_id": 2,
+              "course_name": "Networks"
+            },
+            {
+              "course_id": 3,
+              "course_name": "OS"
+            },
+            {
+              "course_id": 101,
+              "course_name": "DBMS"
+            },
+            {
+              "course_id": 103,
+              "course_name": "Networks"
+            },
+            {
+              "course_id": 105,
+              "course_name": "OS"
+            }
           ],
-          Orders: []
+          "section": [
+            {
+              "section_id": 101,
+              "course_id": 1,
+              "schedule_id": 201
+            },
+            {
+              "section_id": 102,
+              "course_id": 2,
+              "schedule_id": 202
+            },
+            {
+              "section_id": 103,
+              "course_id": 3,
+              "schedule_id": 203
+            },
+            {
+              "section_id": 201,
+              "course_id": 101,
+              "schedule_id": 301
+            },
+            {
+              "section_id": 203,
+              "course_id": 103,
+              "schedule_id": 303
+            },
+            {
+              "section_id": 205,
+              "course_id": 105,
+              "schedule_id": 305
+            }
+          ],
+          "schedule": [
+            {
+              "schedule_id": 201,
+              "day": "wed",
+              "starttime": "09:00"
+            },
+            {
+              "schedule_id": 202,
+              "day": "thu",
+              "starttime": "10:00"
+            },
+            {
+              "schedule_id": 203,
+              "day": "wed",
+              "starttime": "14:00"
+            },
+            {
+              "schedule_id": 301,
+              "day": "wed",
+              "starttime": "09:00"
+            },
+            {
+              "schedule_id": 303,
+              "day": "thu",
+              "starttime": "10:00"
+            },
+            {
+              "schedule_id": 305,
+              "day": "wed",
+              "starttime": "14:00"
+            }
+          ]
         },
-        expected: [{ Customers: "Alice" }, { Customers: "Bob" }]
+        "expected": [
+          {
+            "Course ID": 1,
+            "Course Name": "DBMS",
+            "Day": "wed",
+            "Start Time": "09:00"
+          },
+          {
+            "Course ID": 3,
+            "Course Name": "OS",
+            "Day": "wed",
+            "Start Time": "14:00"
+          },
+          {
+            "Course ID": 101,
+            "Course Name": "DBMS",
+            "Day": "wed",
+            "Start Time": "09:00"
+          },
+          {
+            "Course ID": 105,
+            "Course Name": "OS",
+            "Day": "wed",
+            "Start Time": "14:00"
+          }
+        ]
       }
     ]
   },
   {
-    id: "sql-008",
-    title: "Rank Scores (Dense Rank)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "WINDOW FUNCTIONS & DENSE_RANK",
-    tableSchema: [
+    "id": "sql-006",
+    "title": "Books published after 1 January 1940 in category C102",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Scores",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "score", type: "REAL", primaryKey: false }
+        "name": "books",
+        "columns": [
+          {
+            "name": "ISBN",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Title",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Price",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Published_Date",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "book_category",
+        "columns": [
+          {
+            "name": "ISBN",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Category_ID",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find the rank of the scores. The scores should be ranked from highest to lowest with no gaps in ranking values (Dense Rank).",
-    problem: `Write a SQL query to rank the scores from highest to lowest.
-
-### Ranking Rules:
-- The scores should be ranked from the highest to the lowest.
-- If there is a tie between two scores, both should have the same ranking.
-- After a tie, the next ranking number should be the next consecutive integer value (i.e. there should be no holes between ranks, **DENSE_RANK**).
-- Return the columns: **score**, **rank**.
-- Return the result table ordered by **score DESC**.`,
-    notes: [
-      "Use `DENSE_RANK() OVER (ORDER BY score DESC)` as `rank`.",
-      "The query must return `score` and `rank` ordered by score descending."
+    "howToAttempt": "Write an SQL query to display the Title, Price and ISBN of books published after January 1, 1940 and belonging to category 'C102'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the Title, Price and ISBN of books published after January 1, 1940 and belonging to category 'C102'.\n\n### Requirements:\n- **Expected Output Columns:** `Title`, `Price`, `ISBN`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, date comparison, AND\n- Filter books by publication date and connect them to their category through the book-category mapping table. The date comparison is strict: published after 1940-01-01.",
+    "notes": [
+      "Filter books by publication date and connect them to their category through the book-category mapping table. The date comparison is strict: published after 1940-01-01.",
+      "I1 and I3 are in C102 and were published after the cutoff. I2 is too old and I4 belongs to another category.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    score,
-    DENSE_RANK() OVER (ORDER BY score DESC) AS rank
-FROM Scores
-ORDER BY score DESC;`,
-    explanation: `\`DENSE_RANK() OVER (ORDER BY score DESC)\` assigns sequential rank integers without skipping any rank numbers when tied values occur.`,
-    expectedColumns: ["score", "rank"],
-    orderSensitive: true,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  b.Title,\n  b.Price,\n  b.ISBN\nFROM books b\nJOIN book_category bc ON b.ISBN = bc.ISBN\nWHERE b.Published_Date > '1940-01-01'\n  AND bc.Category_ID = 'C102';",
+    "explanation": "Filter books by publication date and connect them to their category through the book-category mapping table. The date comparison is strict: published after 1940-01-01. I1 and I3 are in C102 and were published after the cutoff. I2 is too old and I4 belongs to another category.",
+    "expectedColumns": [
+      "Title",
+      "Price",
+      "ISBN"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Tied scores sharing ranks)",
-        input: {
-          Scores: [
-            { id: 1, score: 3.50 },
-            { id: 2, score: 3.65 },
-            { id: 3, score: 4.00 },
-            { id: 4, score: 3.85 },
-            { id: 5, score: 4.00 },
-            { id: 6, score: 3.65 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "books": [
+            {
+              "ISBN": "I1",
+              "Title": "SQL Basics",
+              "Price": 500,
+              "Published_Date": "1950-01-01"
+            },
+            {
+              "ISBN": "I2",
+              "Title": "Old SQL",
+              "Price": 400,
+              "Published_Date": "1939-12-31"
+            },
+            {
+              "ISBN": "I3",
+              "Title": "Advanced SQL",
+              "Price": 700,
+              "Published_Date": "1945-05-01"
+            },
+            {
+              "ISBN": "I4",
+              "Title": "Networks",
+              "Price": 600,
+              "Published_Date": "1955-01-01"
+            }
+          ],
+          "book_category": [
+            {
+              "ISBN": "I1",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I2",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I3",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I4",
+              "Category_ID": "C101"
+            }
           ]
         },
-        output: [
-          { score: 4.00, rank: 1 },
-          { score: 4.00, rank: 1 },
-          { score: 3.85, rank: 2 },
-          { score: 3.65, rank: 3 },
-          { score: 3.65, rank: 3 },
-          { score: 3.50, rank: 4 }
+        "output": [
+          {
+            "Title": "SQL Basics",
+            "Price": 500,
+            "ISBN": "I1"
+          },
+          {
+            "Title": "Advanced SQL",
+            "Price": 700,
+            "ISBN": "I3"
+          }
         ],
-        explanation: "Rank 1 is shared by 4.00, rank 2 is 3.85, rank 3 is shared by 3.65, rank 4 is 3.50."
+        "explanation": "I1 and I3 are in C102 and were published after the cutoff. I2 is too old and I4 belongs to another category."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Scores with multiple ties",
-        isHidden: false,
-        data: {
-          Scores: [
-            { id: 1, score: 3.50 },
-            { id: 2, score: 3.65 },
-            { id: 3, score: 4.00 },
-            { id: 4, score: 3.85 },
-            { id: 5, score: 4.00 },
-            { id: 6, score: 3.65 }
+        "id": "sql-006-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "books": [
+            {
+              "ISBN": "I1",
+              "Title": "SQL Basics",
+              "Price": 500,
+              "Published_Date": "1950-01-01"
+            },
+            {
+              "ISBN": "I2",
+              "Title": "Old SQL",
+              "Price": 400,
+              "Published_Date": "1939-12-31"
+            },
+            {
+              "ISBN": "I3",
+              "Title": "Advanced SQL",
+              "Price": 700,
+              "Published_Date": "1945-05-01"
+            },
+            {
+              "ISBN": "I4",
+              "Title": "Networks",
+              "Price": 600,
+              "Published_Date": "1955-01-01"
+            }
+          ],
+          "book_category": [
+            {
+              "ISBN": "I1",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I2",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I3",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I4",
+              "Category_ID": "C101"
+            }
           ]
         },
-        expected: [
-          { score: 4.00, rank: 1 },
-          { score: 4.00, rank: 1 },
-          { score: 3.85, rank: 2 },
-          { score: 3.65, rank: 3 },
-          { score: 3.65, rank: 3 },
-          { score: 3.50, rank: 4 }
+        "expected": [
+          {
+            "Title": "SQL Basics",
+            "Price": 500,
+            "ISBN": "I1"
+          },
+          {
+            "Title": "Advanced SQL",
+            "Price": 700,
+            "ISBN": "I3"
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single score record",
-        isHidden: true,
-        data: {
-          Scores: [{ id: 1, score: 5.0 }]
-        },
-        expected: [{ score: 5.0, rank: 1 }]
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 2 — All scores identical",
-        isHidden: true,
-        data: {
-          Scores: [
-            { id: 1, score: 3.0 },
-            { id: 2, score: 3.0 },
-            { id: 3, score: 3.0 }
+        "id": "sql-006-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "books": [
+            {
+              "ISBN": "I1",
+              "Title": "ZZ_SQL Basics",
+              "Price": 2000,
+              "Published_Date": "ZZ_1950-01-01"
+            }
+          ],
+          "book_category": [
+            {
+              "ISBN": "I1",
+              "Category_ID": "ZZ_C102"
+            }
           ]
         },
-        expected: [
-          { score: 3.0, rank: 1 },
-          { score: 3.0, rank: 1 },
-          { score: 3.0, rank: 1 }
+        "expected": []
+      },
+      {
+        "id": "sql-006-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "books": [
+            {
+              "ISBN": "I1",
+              "Title": "SQL Basics",
+              "Price": 500,
+              "Published_Date": "1950-01-01"
+            },
+            {
+              "ISBN": "I2",
+              "Title": "Old SQL",
+              "Price": 400,
+              "Published_Date": "1939-12-31"
+            },
+            {
+              "ISBN": "I3",
+              "Title": "Advanced SQL",
+              "Price": 700,
+              "Published_Date": "1945-05-01"
+            },
+            {
+              "ISBN": "I4",
+              "Title": "Networks",
+              "Price": 600,
+              "Published_Date": "1955-01-01"
+            },
+            {
+              "ISBN": "ALT_I1",
+              "Title": "SQL Basics",
+              "Price": 500,
+              "Published_Date": "1950-01-01"
+            },
+            {
+              "ISBN": "ALT_I2",
+              "Title": "Old SQL",
+              "Price": 400,
+              "Published_Date": "1939-12-31"
+            },
+            {
+              "ISBN": "ALT_I3",
+              "Title": "Advanced SQL",
+              "Price": 700,
+              "Published_Date": "1945-05-01"
+            },
+            {
+              "ISBN": "ALT_I4",
+              "Title": "Networks",
+              "Price": 600,
+              "Published_Date": "1955-01-01"
+            }
+          ],
+          "book_category": [
+            {
+              "ISBN": "I1",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I2",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I3",
+              "Category_ID": "C102"
+            },
+            {
+              "ISBN": "I4",
+              "Category_ID": "C101"
+            },
+            {
+              "ISBN": "ALT_I1",
+              "Category_ID": "ALT_C102"
+            },
+            {
+              "ISBN": "ALT_I2",
+              "Category_ID": "ALT_C102"
+            },
+            {
+              "ISBN": "ALT_I3",
+              "Category_ID": "ALT_C102"
+            },
+            {
+              "ISBN": "ALT_I4",
+              "Category_ID": "ALT_C101"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Title": "SQL Basics",
+            "Price": 500,
+            "ISBN": "I1"
+          },
+          {
+            "Title": "Advanced SQL",
+            "Price": 700,
+            "ISBN": "I3"
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-009",
-    title: "Department Highest Salary",
-    difficulty: "Medium",
-    duration: 15,
-    category: "JOIN & SUBQUERY",
-    tableSchema: [
+    "id": "sql-007",
+    "title": "Categories beginning with M",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "PATTERN MATCHING & STRINGS",
+    "tableSchema": [
       {
-        name: "Employee",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false },
-          { name: "departmentId", type: "INTEGER", primaryKey: false }
-        ]
-      },
-      {
-        name: "Department",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false }
+        "name": "channelscategory",
+        "columns": [
+          {
+            "name": "categoryid",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "categoryname",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find employees who have the highest salary in each of the departments. Return the Department, Employee, and Salary columns.",
-    problem: `Write a SQL query to find employees who have the highest salary in each of the departments.
-
-### Important Requirements:
-- Return columns: **Department**, **Employee**, **Salary**.
-- If multiple employees in the same department share the highest salary, all of them must be included.
-- Return the result table in any order.`,
-    notes: [
-      "Find the max salary per departmentId using `(departmentId, salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId)`.",
-      "Join with Department to obtain the department name."
+    "howToAttempt": "Write an SQL query to display the category ID and category name for categories whose name starts with the letter 'M'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the category ID and category name for categories whose name starts with the letter 'M'.\n\n### Requirements:\n- **Expected Output Columns:** `CATEGORYID`, `CATEGORYNAME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** LIKE, wildcard\n- Use LIKE 'M%' to match category names whose first character is M. Return categoryid and categoryname.",
+    "notes": [
+      "Use LIKE 'M%' to match category names whose first character is M. Return categoryid and categoryname.",
+      "The % wildcard allows any characters after the initial M, so all three matching names are returned.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    d.name AS Department,
-    e.name AS Employee,
-    e.salary AS Salary
-FROM Employee e
-JOIN Department d ON e.departmentId = d.id
-WHERE (e.departmentId, e.salary) IN (
-    SELECT departmentId, MAX(salary)
-    FROM Employee
-    GROUP BY departmentId
-);`,
-    explanation: `We group employees by \`departmentId\` to identify the maximum salary in each department. We then filter the employees whose \`(departmentId, salary)\` tuple matches the departmental max.`,
-    expectedColumns: ["Department", "Employee", "Salary"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  categoryid AS CATEGORYID,\n  categoryname AS CATEGORYNAME\nFROM channelscategory\nWHERE categoryname LIKE 'M%';",
+    "explanation": "Use LIKE 'M%' to match category names whose first character is M. Return categoryid and categoryname. The % wildcard allows any characters after the initial M, so all three matching names are returned.",
+    "expectedColumns": [
+      "CATEGORYID",
+      "CATEGORYNAME"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (IT and Sales top earners)",
-        input: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 70000, departmentId: 1 },
-            { id: 2, name: "Jim", salary: 90000, departmentId: 1 },
-            { id: 3, name: "Henry", salary: 80000, departmentId: 2 },
-            { id: 4, name: "Sam", salary: 60000, departmentId: 2 },
-            { id: 5, name: "Max", salary: 90000, departmentId: 1 }
-          ],
-          Department: [
-            { id: 1, name: "IT" },
-            { id: 2, name: "Sales" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "channelscategory": [
+            {
+              "categoryid": 1,
+              "categoryname": "Music"
+            },
+            {
+              "categoryid": 2,
+              "categoryname": "Movies"
+            },
+            {
+              "categoryid": 3,
+              "categoryname": "Sports"
+            },
+            {
+              "categoryid": 4,
+              "categoryname": "News"
+            },
+            {
+              "categoryid": 5,
+              "categoryname": "Marketing"
+            }
           ]
         },
-        output: [
-          { Department: "IT", Employee: "Jim", Salary: 90000 },
-          { Department: "IT", Employee: "Max", Salary: 90000 },
-          { Department: "Sales", Employee: "Henry", Salary: 80000 }
+        "output": [
+          {
+            "CATEGORYID": 1,
+            "CATEGORYNAME": "Music"
+          },
+          {
+            "CATEGORYID": 2,
+            "CATEGORYNAME": "Movies"
+          },
+          {
+            "CATEGORYID": 5,
+            "CATEGORYNAME": "Marketing"
+          }
         ],
-        explanation: "Jim and Max both earn 90000 in IT. Henry earns 80000 in Sales."
+        "explanation": "The % wildcard allows any characters after the initial M, so all three matching names are returned."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — IT and Sales departments",
-        isHidden: false,
-        data: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 70000, departmentId: 1 },
-            { id: 2, name: "Jim", salary: 90000, departmentId: 1 },
-            { id: 3, name: "Henry", salary: 80000, departmentId: 2 },
-            { id: 4, name: "Sam", salary: 60000, departmentId: 2 },
-            { id: 5, name: "Max", salary: 90000, departmentId: 1 }
-          ],
-          Department: [
-            { id: 1, name: "IT" },
-            { id: 2, name: "Sales" }
+        "id": "sql-007-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "channelscategory": [
+            {
+              "categoryid": 1,
+              "categoryname": "Music"
+            },
+            {
+              "categoryid": 2,
+              "categoryname": "Movies"
+            },
+            {
+              "categoryid": 3,
+              "categoryname": "Sports"
+            },
+            {
+              "categoryid": 4,
+              "categoryname": "News"
+            },
+            {
+              "categoryid": 5,
+              "categoryname": "Marketing"
+            }
           ]
         },
-        expected: [
-          { Department: "IT", Employee: "Jim", Salary: 90000 },
-          { Department: "IT", Employee: "Max", Salary: 90000 },
-          { Department: "Sales", Employee: "Henry", Salary: 80000 }
+        "expected": [
+          {
+            "CATEGORYID": 1,
+            "CATEGORYNAME": "Music"
+          },
+          {
+            "CATEGORYID": 2,
+            "CATEGORYNAME": "Movies"
+          },
+          {
+            "CATEGORYID": 5,
+            "CATEGORYNAME": "Marketing"
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single employee per department",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, name: "Alice", salary: 50000, departmentId: 1 }
-          ],
-          Department: [
-            { id: 1, name: "HR" }
+        "id": "sql-007-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "channelscategory": [
+            {
+              "categoryid": 1002,
+              "categoryname": "ZZ_Music"
+            }
           ]
         },
-        expected: [
-          { Department: "HR", Employee: "Alice", Salary: 50000 }
+        "expected": []
+      },
+      {
+        "id": "sql-007-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "channelscategory": [
+            {
+              "categoryid": 1,
+              "categoryname": "Music"
+            },
+            {
+              "categoryid": 2,
+              "categoryname": "Movies"
+            },
+            {
+              "categoryid": 3,
+              "categoryname": "Sports"
+            },
+            {
+              "categoryid": 4,
+              "categoryname": "News"
+            },
+            {
+              "categoryid": 5,
+              "categoryname": "Marketing"
+            },
+            {
+              "categoryid": 101,
+              "categoryname": "Music"
+            },
+            {
+              "categoryid": 103,
+              "categoryname": "Movies"
+            },
+            {
+              "categoryid": 105,
+              "categoryname": "Sports"
+            },
+            {
+              "categoryid": 107,
+              "categoryname": "News"
+            },
+            {
+              "categoryid": 109,
+              "categoryname": "Marketing"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "CATEGORYID": 1,
+            "CATEGORYNAME": "Music"
+          },
+          {
+            "CATEGORYID": 2,
+            "CATEGORYNAME": "Movies"
+          },
+          {
+            "CATEGORYID": 5,
+            "CATEGORYNAME": "Marketing"
+          },
+          {
+            "CATEGORYID": 101,
+            "CATEGORYNAME": "Music"
+          },
+          {
+            "CATEGORYID": 103,
+            "CATEGORYNAME": "Movies"
+          },
+          {
+            "CATEGORYID": 109,
+            "CATEGORYNAME": "Marketing"
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-010",
-    title: "Consecutive Numbers",
-    difficulty: "Medium",
-    duration: 15,
-    category: "SELF JOIN / LAG",
-    tableSchema: [
+    "id": "sql-008",
+    "title": "Trains starting with M going to Pune",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Logs",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "num", type: "INTEGER", primaryKey: false }
+        "name": "train_details_tbl",
+        "columns": [
+          {
+            "name": "train_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "train_name",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_type",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_from",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_to",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_speed",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "train_stations_tbl",
+        "columns": [
+          {
+            "name": "station_id",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "station_name",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find all numbers that appear at least three times consecutively in the Logs table.",
-    problem: `Write a SQL query to find all numbers that appear at least **three times consecutively**.
-
-### Important Requirements:
-- Return the result column named **ConsecutiveNums**.
-- The result must contain distinct numbers only.
-- Return the result table in any order.`,
-    notes: [
-      "Join Logs table with itself: `Logs l1 JOIN Logs l2 ON l1.id = l2.id - 1 JOIN Logs l3 ON l1.id = l3.id - 2`.",
-      "Filter with `WHERE l1.num = l2.num AND l2.num = l3.num`."
+    "howToAttempt": "Write an SQL query to find the train ID and name of all trains that have a name starting with the alphabet 'M' and that go to the station with name 'PUNE'.",
+    "problem": "### Problem Statement\nWrite an SQL query to find the train ID and name of all trains that have a name starting with the alphabet 'M' and that go to the station with name 'PUNE'.\n\n### Requirements:\n- **Expected Output Columns:** `train_id`, `train_name`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, LIKE, multiple conditions\n- Join train_details_tbl to train_stations_tbl using train_to = station_id. Filter train_name with LIKE 'M%' and station_name = 'PUNE'.",
+    "notes": [
+      "Join train_details_tbl to train_stations_tbl using train_to = station_id. Filter train_name with LIKE 'M%' and station_name = 'PUNE'.",
+      "Both matching trains start with M and have train_to mapped to the PUNE station. Rajdhani does not start with M; Mysore goes to Bangalore.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT DISTINCT l1.num AS ConsecutiveNums
-FROM Logs l1
-JOIN Logs l2 ON l1.id = l2.id - 1
-JOIN Logs l3 ON l1.id = l3.id - 2
-WHERE l1.num = l2.num AND l2.num = l3.num;`,
-    explanation: `By joining \`Logs\` on sequential IDs \`l1.id = l2.id - 1 = l3.id - 2\`, we check if \`l1.num = l2.num = l3.num\`. \`DISTINCT\` ensures repeated sequences are reported once.`,
-    expectedColumns: ["ConsecutiveNums"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (1 appears 3 times consecutively)",
-        input: {
-          Logs: [
-            { id: 1, num: 1 },
-            { id: 2, num: 1 },
-            { id: 3, num: 1 },
-            { id: 4, num: 2 },
-            { id: 5, num: 1 },
-            { id: 6, num: 2 },
-            { id: 7, num: 2 }
-          ]
-        },
-        output: [{ ConsecutiveNums: 1 }],
-        explanation: "1 is the only number that appears consecutively for at least three times (id 1, 2, 3)."
-      }
+    "starterCode": "",
+    "solution": "SELECT\n  td.train_id,\n  td.train_name\nFROM train_details_tbl td\nJOIN train_stations_tbl ts ON td.train_to = ts.station_id\nWHERE td.train_name LIKE 'M%'\n  AND ts.station_name = 'PUNE';",
+    "explanation": "Join train_details_tbl to train_stations_tbl using train_to = station_id. Filter train_name with LIKE 'M%' and station_name = 'PUNE'. Both matching trains start with M and have train_to mapped to the PUNE station. Rajdhani does not start with M; Mysore goes to Bangalore.",
+    "expectedColumns": [
+      "train_id",
+      "train_name"
     ],
-    testCases: [
+    "orderSensitive": false,
+    "examples": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Consecutive 1s",
-        isHidden: false,
-        data: {
-          Logs: [
-            { id: 1, num: 1 },
-            { id: 2, num: 1 },
-            { id: 3, num: 1 },
-            { id: 4, num: 2 },
-            { id: 5, num: 1 },
-            { id: 6, num: 2 },
-            { id: 7, num: 2 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Maharashtra Express",
+              "train_type": "EXP",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 80
+            },
+            {
+              "train_id": 2,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 45
+            },
+            {
+              "train_id": 3,
+              "train_name": "Rajdhani Express",
+              "train_type": "EXP",
+              "train_from": "DEL",
+              "train_to": "P01",
+              "train_speed": 120
+            },
+            {
+              "train_id": 4,
+              "train_name": "Mysore Express",
+              "train_type": "EXP",
+              "train_from": "BLR",
+              "train_to": "B01",
+              "train_speed": 90
+            }
+          ],
+          "train_stations_tbl": [
+            {
+              "station_id": "P01",
+              "station_name": "PUNE"
+            },
+            {
+              "station_id": "B01",
+              "station_name": "BANGALORE"
+            }
           ]
         },
-        expected: [{ ConsecutiveNums: 1 }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — No consecutive three numbers",
-        isHidden: true,
-        data: {
-          Logs: [
-            { id: 1, num: 1 },
-            { id: 2, num: 2 },
-            { id: 3, num: 1 },
-            { id: 4, num: 2 }
-          ]
-        },
-        expected: []
-      },
-      {
-        id: "test-3",
-        name: "Hidden Test Case 2 — Multiple distinct consecutive sequences",
-        isHidden: true,
-        data: {
-          Logs: [
-            { id: 1, num: 3 },
-            { id: 2, num: 3 },
-            { id: 3, num: 3 },
-            { id: 4, num: 5 },
-            { id: 5, num: 5 },
-            { id: 6, num: 5 }
-          ]
-        },
-        expected: [{ ConsecutiveNums: 3 }, { ConsecutiveNums: 5 }]
-      }
-    ]
-  },
-  {
-    id: "sql-011",
-    title: "Rising Temperature",
-    difficulty: "Easy",
-    duration: 15,
-    category: "DATE FUNCTIONS & SELF JOIN",
-    tableSchema: [
-      {
-        name: "Weather",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "recordDate", type: "TEXT", primaryKey: false },
-          { name: "temperature", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find all dates' id with higher temperatures compared to its previous dates (yesterday).",
-    problem: `Write a SQL query to find all dates' \`id\` with higher temperatures compared to its previous dates (yesterday).
-
-### Important Requirements:
-- Return the column **id**.
-- The comparison must be strictly between consecutive dates (\`recordDate = yesterday\`).
-- Return the result table in any order.`,
-    notes: [
-      "In SQLite, use `julianday(w1.recordDate) - julianday(w2.recordDate) = 1` or `date(w1.recordDate, '-1 day') = w2.recordDate`.",
-      "Filter for `w1.temperature > w2.temperature`."
-    ],
-    starterCode: '',
-    solution: `SELECT w1.id
-FROM Weather w1
-JOIN Weather w2 ON date(w1.recordDate, '-1 day') = w2.recordDate
-WHERE w1.temperature > w2.temperature;`,
-    explanation: `We join \`Weather\` with itself where \`w2\` represents the day immediately prior (\`date(w1.recordDate, '-1 day') = w2.recordDate\`) and filter for \`w1.temperature > w2.temperature\`.`,
-    expectedColumns: ["id"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Day 2 and Day 4 warmer than previous day)",
-        input: {
-          Weather: [
-            { id: 1, recordDate: "2015-01-01", temperature: 10 },
-            { id: 2, recordDate: "2015-01-02", temperature: 25 },
-            { id: 3, recordDate: "2015-01-03", temperature: 20 },
-            { id: 4, recordDate: "2015-01-04", temperature: 30 }
-          ]
-        },
-        output: [
-          { id: 2 },
-          { id: 4 }
+        "output": [
+          {
+            "train_id": 1,
+            "train_name": "Maharashtra Express"
+          },
+          {
+            "train_id": 2,
+            "train_name": "Mumbai Local"
+          }
         ],
-        explanation: "2015-01-02 (25) > 2015-01-01 (10). 2015-01-04 (30) > 2015-01-03 (20)."
+        "explanation": "Both matching trains start with M and have train_to mapped to the PUNE station. Rajdhani does not start with M; Mysore goes to Bangalore."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Consecutive calendar days",
-        isHidden: false,
-        data: {
-          Weather: [
-            { id: 1, recordDate: "2015-01-01", temperature: 10 },
-            { id: 2, recordDate: "2015-01-02", temperature: 25 },
-            { id: 3, recordDate: "2015-01-03", temperature: 20 },
-            { id: 4, recordDate: "2015-01-04", temperature: 30 }
+        "id": "sql-008-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Maharashtra Express",
+              "train_type": "EXP",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 80
+            },
+            {
+              "train_id": 2,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 45
+            },
+            {
+              "train_id": 3,
+              "train_name": "Rajdhani Express",
+              "train_type": "EXP",
+              "train_from": "DEL",
+              "train_to": "P01",
+              "train_speed": 120
+            },
+            {
+              "train_id": 4,
+              "train_name": "Mysore Express",
+              "train_type": "EXP",
+              "train_from": "BLR",
+              "train_to": "B01",
+              "train_speed": 90
+            }
+          ],
+          "train_stations_tbl": [
+            {
+              "station_id": "P01",
+              "station_name": "PUNE"
+            },
+            {
+              "station_id": "B01",
+              "station_name": "BANGALORE"
+            }
           ]
         },
-        expected: [{ id: 2 }, { id: 4 }]
+        "expected": [
+          {
+            "train_id": 1,
+            "train_name": "Maharashtra Express"
+          },
+          {
+            "train_id": 2,
+            "train_name": "Mumbai Local"
+          }
+        ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Temperatures dropping continuously",
-        isHidden: true,
-        data: {
-          Weather: [
-            { id: 1, recordDate: "2020-05-01", temperature: 40 },
-            { id: 2, recordDate: "2020-05-02", temperature: 35 },
-            { id: 3, recordDate: "2020-05-03", temperature: 30 }
+        "id": "sql-008-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1002,
+              "train_name": "ZZ_Maharashtra Express",
+              "train_type": "EXP",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 1160
+            }
+          ],
+          "train_stations_tbl": [
+            {
+              "station_id": "P01",
+              "station_name": "ZZ_PUNE"
+            }
           ]
         },
-        expected: []
+        "expected": []
+      },
+      {
+        "id": "sql-008-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Maharashtra Express",
+              "train_type": "EXP",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 80
+            },
+            {
+              "train_id": 2,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 45
+            },
+            {
+              "train_id": 3,
+              "train_name": "Rajdhani Express",
+              "train_type": "EXP",
+              "train_from": "DEL",
+              "train_to": "P01",
+              "train_speed": 120
+            },
+            {
+              "train_id": 4,
+              "train_name": "Mysore Express",
+              "train_type": "EXP",
+              "train_from": "BLR",
+              "train_to": "B01",
+              "train_speed": 90
+            },
+            {
+              "train_id": 101,
+              "train_name": "Maharashtra Express",
+              "train_type": "EXP",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 80
+            },
+            {
+              "train_id": 103,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_from": "MUM",
+              "train_to": "P01",
+              "train_speed": 45
+            },
+            {
+              "train_id": 105,
+              "train_name": "Rajdhani Express",
+              "train_type": "EXP",
+              "train_from": "DEL",
+              "train_to": "P01",
+              "train_speed": 120
+            },
+            {
+              "train_id": 107,
+              "train_name": "Mysore Express",
+              "train_type": "EXP",
+              "train_from": "BLR",
+              "train_to": "B01",
+              "train_speed": 90
+            }
+          ],
+          "train_stations_tbl": [
+            {
+              "station_id": "P01",
+              "station_name": "PUNE"
+            },
+            {
+              "station_id": "B01",
+              "station_name": "BANGALORE"
+            },
+            {
+              "station_id": "ALT_P01",
+              "station_name": "PUNE"
+            },
+            {
+              "station_id": "ALT_B01",
+              "station_name": "BANGALORE"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "train_id": 1,
+            "train_name": "Maharashtra Express"
+          },
+          {
+            "train_id": 2,
+            "train_name": "Mumbai Local"
+          },
+          {
+            "train_id": 101,
+            "train_name": "Maharashtra Express"
+          },
+          {
+            "train_id": 103,
+            "train_name": "Mumbai Local"
+          }
+        ]
       }
     ]
   },
   {
-    id: "sql-012",
-    title: "Game Play Analysis I (First Login Date)",
-    difficulty: "Easy",
-    duration: 15,
-    category: "GROUP BY & AGGREGATE",
-    tableSchema: [
+    "id": "sql-009",
+    "title": "Employees with more than 10 CL or ML leaves",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
       {
-        name: "Activity",
-        columns: [
-          { name: "player_id", type: "INTEGER", primaryKey: false },
-          { name: "device_id", type: "INTEGER", primaryKey: false },
-          { name: "event_date", type: "TEXT", primaryKey: false },
-          { name: "games_played", type: "INTEGER", primaryKey: false }
+        "name": "LEAVE_INFO",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FROM_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "TO_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "TOTAL_LEAVES",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "LEAVE_TYPE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Write a SQL query to report the first login date for each player. Return player_id and first_login.",
-    problem: `Write a SQL query to report the **first login date** for each player.
-
-### Important Requirements:
-- Return columns: **player_id**, **first_login**.
-- The result table should report the earliest \`event_date\` for every \`player_id\`.
-- Return the result in any order.`,
-    notes: [
-      "Use `GROUP BY player_id` and `MIN(event_date) AS first_login`."
+    "howToAttempt": "Write an SQL query to display the employee ID, type of leave and total number of leaves for employees who have taken more than 10 leaves, where the leave type is either Casual Leave (CL) or Medical Leave (ML).",
+    "problem": "### Problem Statement\nWrite an SQL query to display the employee ID, type of leave and total number of leaves for employees who have taken more than 10 leaves, where the leave type is either Casual Leave (CL) or Medical Leave (ML).\n\n### Requirements:\n- **Expected Output Columns:** `EMPID`, `LEAVE_TYPE`, `TOTAL_LEAVES`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** IN, WHERE, AND\n- Filter LEAVE_INFO with TOTAL_LEAVES > 10 and restrict LEAVE_TYPE to CL or ML using IN.",
+    "notes": [
+      "Filter LEAVE_INFO with TOTAL_LEAVES > 10 and restrict LEAVE_TYPE to CL or ML using IN.",
+      "Only CL/ML records with more than 10 leaves qualify. Exactly 10 leaves does not qualify because the condition is > 10.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    player_id,
-    MIN(event_date) AS first_login
-FROM Activity
-GROUP BY player_id;`,
-    explanation: `Grouping by \`player_id\` and applying \`MIN(event_date)\` selects each player's earliest login date.`,
-    expectedColumns: ["player_id", "first_login"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  EMPID,\n  LEAVE_TYPE,\n  TOTAL_LEAVES\nFROM LEAVE_INFO\nWHERE TOTAL_LEAVES > 10\n  AND LEAVE_TYPE IN ('CL','ML');",
+    "explanation": "Filter LEAVE_INFO with TOTAL_LEAVES > 10 and restrict LEAVE_TYPE to CL or ML using IN. Only CL/ML records with more than 10 leaves qualify. Exactly 10 leaves does not qualify because the condition is > 10.",
+    "expectedColumns": [
+      "EMPID",
+      "LEAVE_TYPE",
+      "TOTAL_LEAVES"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Players 1, 2, 3 earliest login)",
-        input: {
-          Activity: [
-            { player_id: 1, device_id: 2, event_date: "2016-03-01", games_played: 5 },
-            { player_id: 1, device_id: 2, event_date: "2016-05-02", games_played: 6 },
-            { player_id: 2, device_id: 3, event_date: "2017-06-25", games_played: 1 },
-            { player_id: 3, device_id: 1, event_date: "2016-03-02", games_played: 0 },
-            { player_id: 3, device_id: 4, event_date: "2018-07-03", games_played: 5 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "LEAVE_INFO": [
+            {
+              "EMPID": 1,
+              "FROM_DATE": "2024-01-01",
+              "TO_DATE": "2024-01-15",
+              "TOTAL_LEAVES": 12,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 2,
+              "FROM_DATE": "2024-02-01",
+              "TO_DATE": "2024-02-20",
+              "TOTAL_LEAVES": 15,
+              "LEAVE_TYPE": "ML"
+            },
+            {
+              "EMPID": 3,
+              "FROM_DATE": "2024-03-01",
+              "TO_DATE": "2024-03-05",
+              "TOTAL_LEAVES": 5,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 4,
+              "FROM_DATE": "2024-04-01",
+              "TO_DATE": "2024-04-20",
+              "TOTAL_LEAVES": 18,
+              "LEAVE_TYPE": "PL"
+            },
+            {
+              "EMPID": 5,
+              "FROM_DATE": "2024-05-01",
+              "TO_DATE": "2024-05-15",
+              "TOTAL_LEAVES": 10,
+              "LEAVE_TYPE": "ML"
+            }
           ]
         },
-        output: [
-          { player_id: 1, first_login: "2016-03-01" },
-          { player_id: 2, first_login: "2017-06-25" },
-          { player_id: 3, first_login: "2016-03-02" }
+        "output": [
+          {
+            "EMPID": 1,
+            "LEAVE_TYPE": "CL",
+            "TOTAL_LEAVES": 12
+          },
+          {
+            "EMPID": 2,
+            "LEAVE_TYPE": "ML",
+            "TOTAL_LEAVES": 15
+          }
         ],
-        explanation: "Player 1 first logged in on 2016-03-01. Player 2 on 2017-06-25. Player 3 on 2016-03-02."
+        "explanation": "Only CL/ML records with more than 10 leaves qualify. Exactly 10 leaves does not qualify because the condition is > 10."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Multi-player activity log",
-        isHidden: false,
-        data: {
-          Activity: [
-            { player_id: 1, device_id: 2, event_date: "2016-03-01", games_played: 5 },
-            { player_id: 1, device_id: 2, event_date: "2016-05-02", games_played: 6 },
-            { player_id: 2, device_id: 3, event_date: "2017-06-25", games_played: 1 },
-            { player_id: 3, device_id: 1, event_date: "2016-03-02", games_played: 0 },
-            { player_id: 3, device_id: 4, event_date: "2018-07-03", games_played: 5 }
+        "id": "sql-009-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "LEAVE_INFO": [
+            {
+              "EMPID": 1,
+              "FROM_DATE": "2024-01-01",
+              "TO_DATE": "2024-01-15",
+              "TOTAL_LEAVES": 12,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 2,
+              "FROM_DATE": "2024-02-01",
+              "TO_DATE": "2024-02-20",
+              "TOTAL_LEAVES": 15,
+              "LEAVE_TYPE": "ML"
+            },
+            {
+              "EMPID": 3,
+              "FROM_DATE": "2024-03-01",
+              "TO_DATE": "2024-03-05",
+              "TOTAL_LEAVES": 5,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 4,
+              "FROM_DATE": "2024-04-01",
+              "TO_DATE": "2024-04-20",
+              "TOTAL_LEAVES": 18,
+              "LEAVE_TYPE": "PL"
+            },
+            {
+              "EMPID": 5,
+              "FROM_DATE": "2024-05-01",
+              "TO_DATE": "2024-05-15",
+              "TOTAL_LEAVES": 10,
+              "LEAVE_TYPE": "ML"
+            }
           ]
         },
-        expected: [
-          { player_id: 1, first_login: "2016-03-01" },
-          { player_id: 2, first_login: "2017-06-25" },
-          { player_id: 3, first_login: "2016-03-02" }
+        "expected": [
+          {
+            "EMPID": 1,
+            "LEAVE_TYPE": "CL",
+            "TOTAL_LEAVES": 12
+          },
+          {
+            "EMPID": 2,
+            "LEAVE_TYPE": "ML",
+            "TOTAL_LEAVES": 15
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single player with multiple logins",
-        isHidden: true,
-        data: {
-          Activity: [
-            { player_id: 10, device_id: 1, event_date: "2021-01-15", games_played: 2 },
-            { player_id: 10, device_id: 1, event_date: "2021-01-10", games_played: 4 }
+        "id": "sql-009-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "LEAVE_INFO": [
+            {
+              "EMPID": 1002,
+              "FROM_DATE": "ZZ_2024-01-01",
+              "TO_DATE": "ZZ_2024-01-15",
+              "TOTAL_LEAVES": 1024,
+              "LEAVE_TYPE": "CL"
+            }
           ]
         },
-        expected: [
-          { player_id: 10, first_login: "2021-01-10" }
+        "expected": [
+          {
+            "EMPID": 1002,
+            "LEAVE_TYPE": "CL",
+            "TOTAL_LEAVES": 1024
+          }
+        ]
+      },
+      {
+        "id": "sql-009-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "LEAVE_INFO": [
+            {
+              "EMPID": 1,
+              "FROM_DATE": "2024-01-01",
+              "TO_DATE": "2024-01-15",
+              "TOTAL_LEAVES": 12,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 2,
+              "FROM_DATE": "2024-02-01",
+              "TO_DATE": "2024-02-20",
+              "TOTAL_LEAVES": 15,
+              "LEAVE_TYPE": "ML"
+            },
+            {
+              "EMPID": 3,
+              "FROM_DATE": "2024-03-01",
+              "TO_DATE": "2024-03-05",
+              "TOTAL_LEAVES": 5,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 4,
+              "FROM_DATE": "2024-04-01",
+              "TO_DATE": "2024-04-20",
+              "TOTAL_LEAVES": 18,
+              "LEAVE_TYPE": "PL"
+            },
+            {
+              "EMPID": 5,
+              "FROM_DATE": "2024-05-01",
+              "TO_DATE": "2024-05-15",
+              "TOTAL_LEAVES": 10,
+              "LEAVE_TYPE": "ML"
+            },
+            {
+              "EMPID": 101,
+              "FROM_DATE": "2024-01-01",
+              "TO_DATE": "2024-01-15",
+              "TOTAL_LEAVES": 12,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 103,
+              "FROM_DATE": "2024-02-01",
+              "TO_DATE": "2024-02-20",
+              "TOTAL_LEAVES": 15,
+              "LEAVE_TYPE": "ML"
+            },
+            {
+              "EMPID": 105,
+              "FROM_DATE": "2024-03-01",
+              "TO_DATE": "2024-03-05",
+              "TOTAL_LEAVES": 5,
+              "LEAVE_TYPE": "CL"
+            },
+            {
+              "EMPID": 107,
+              "FROM_DATE": "2024-04-01",
+              "TO_DATE": "2024-04-20",
+              "TOTAL_LEAVES": 18,
+              "LEAVE_TYPE": "PL"
+            },
+            {
+              "EMPID": 109,
+              "FROM_DATE": "2024-05-01",
+              "TO_DATE": "2024-05-15",
+              "TOTAL_LEAVES": 10,
+              "LEAVE_TYPE": "ML"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "EMPID": 1,
+            "LEAVE_TYPE": "CL",
+            "TOTAL_LEAVES": 12
+          },
+          {
+            "EMPID": 2,
+            "LEAVE_TYPE": "ML",
+            "TOTAL_LEAVES": 15
+          },
+          {
+            "EMPID": 101,
+            "LEAVE_TYPE": "CL",
+            "TOTAL_LEAVES": 12
+          },
+          {
+            "EMPID": 103,
+            "LEAVE_TYPE": "ML",
+            "TOTAL_LEAVES": 15
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-013",
-    title: "Managers with at Least 5 Direct Reports",
-    difficulty: "Medium",
-    duration: 15,
-    category: "GROUP BY & HAVING / SUBQUERY",
-    tableSchema: [
+    "id": "sql-010",
+    "title": "Employees working in HR",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Employee",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "department", type: "TEXT", primaryKey: false },
-          { name: "managerId", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find managers with at least five direct reports. Return the result table with column 'name'.",
-    problem: `Write a SQL query to report the managers who have **at least five direct reports**.
-
-### Important Requirements:
-- Return the result column named **name**.
-- No employee will be their own manager.
-- Return the result in any order.`,
-    notes: [
-      "Find managerIds with `COUNT(*) >= 5` in `Employee` where `managerId IS NOT NULL`.",
-      "Filter the manager's name using `id IN (SELECT managerId FROM Employee GROUP BY managerId HAVING COUNT(*) >= 5)`."
-    ],
-    starterCode: '',
-    solution: `SELECT name
-FROM Employee
-WHERE id IN (
-    SELECT managerId
-    FROM Employee
-    GROUP BY managerId
-    HAVING COUNT(*) >= 5
-);`,
-    explanation: `We group all direct reports by \`managerId\` and retain those with \`COUNT(*) >= 5\`. We then select the names of the employees whose \`id\` matches those manager IDs.`,
-    expectedColumns: ["name"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (John has 5 direct reports)",
-        input: {
-          Employee: [
-            { id: 101, name: "John", department: "A", managerId: null },
-            { id: 102, name: "Dan", department: "A", managerId: 101 },
-            { id: 103, name: "James", department: "A", managerId: 101 },
-            { id: 104, name: "Amy", department: "A", managerId: 101 },
-            { id: 105, name: "Anne", department: "A", managerId: 101 },
-            { id: 106, name: "Ron", department: "B", managerId: 101 }
-          ]
-        },
-        output: [{ name: "John" }],
-        explanation: "John has 5 direct reports (Dan, James, Amy, Anne, Ron)."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Manager John with 5 reports",
-        isHidden: false,
-        data: {
-          Employee: [
-            { id: 101, name: "John", department: "A", managerId: null },
-            { id: 102, name: "Dan", department: "A", managerId: 101 },
-            { id: 103, name: "James", department: "A", managerId: 101 },
-            { id: 104, name: "Amy", department: "A", managerId: 101 },
-            { id: 105, name: "Anne", department: "A", managerId: 101 },
-            { id: 106, name: "Ron", department: "B", managerId: 101 }
-          ]
-        },
-        expected: [{ name: "John" }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Manager with exactly 4 reports (Must Exclude)",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, name: "Boss", department: "Sales", managerId: null },
-            { id: 2, name: "E1", department: "Sales", managerId: 1 },
-            { id: 3, name: "E2", department: "Sales", managerId: 1 },
-            { id: 4, name: "E3", department: "Sales", managerId: 1 },
-            { id: 5, name: "E4", department: "Sales", managerId: 1 }
-          ]
-        },
-        expected: []
-      }
-    ]
-  },
-  {
-    id: "sql-014",
-    title: "Employee Bonus",
-    difficulty: "Easy",
-    duration: 15,
-    category: "LEFT JOIN & NULL FILTERING",
-    tableSchema: [
-      {
-        name: "Employee",
-        columns: [
-          { name: "empId", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "supervisor", type: "INTEGER", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false }
+        "name": "employee_info",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPTID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        name: "Bonus",
-        columns: [
-          { name: "empId", type: "INTEGER", primaryKey: true },
-          { name: "bonus", type: "INTEGER", primaryKey: false }
+        "name": "department_info",
+        "columns": [
+          {
+            "name": "DEPTID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPTNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LOCATION",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "salary_info",
+        "columns": [
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "BASIC",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Report the name and bonus amount of each employee with a bonus less than 1000 or no bonus at all.",
-    problem: `Write a SQL query to report the **name** and **bonus** amount of each employee with a bonus **less than 1000** (or who received **no bonus**).
-
-### Important Requirements:
-- Return columns: **name**, **bonus**.
-- If an employee has no bonus record, \`bonus\` should be returned as **null**.
-- Return the result table in any order.`,
-    notes: [
-      "Use `LEFT JOIN Bonus ON Employee.empId = Bonus.empId`.",
-      "Filter with `WHERE Bonus.bonus < 1000 OR Bonus.bonus IS NULL`."
+    "howToAttempt": "Write an SQL query to display the ID, Name, Department name and Basic salary of employees working in the 'HR' department.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the ID, Name, Department name and Basic salary of employees working in the 'HR' department.\n\n### Requirements:\n- **Expected Output Columns:** `EMPID`, `EMPNAME`, `DEPTNAME`, `BASIC`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, department filtering\n- Join employee_info to department_info for the department name and to salary_info for basic salary. Filter the department name to HR.",
+    "notes": [
+      "Join employee_info to department_info for the department name and to salary_info for basic salary. Filter the department name to HR.",
+      "Employees 1 and 3 belong to department 10, which is HR. Their category A maps to a basic salary of 6500.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    e.name,
-    b.bonus
-FROM Employee e
-LEFT JOIN Bonus b ON e.empId = b.empId
-WHERE b.bonus < 1000 OR b.bonus IS NULL;`,
-    explanation: `We perform a \`LEFT JOIN\` so employees without a bonus record remain in the set with \`bonus\` as \`NULL\`. The condition \`b.bonus < 1000 OR b.bonus IS NULL\` filters for employees with low or missing bonus amounts.`,
-    expectedColumns: ["name", "bonus"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  ei.EMPID,\n  ei.EMPNAME,\n  di.DEPTNAME,\n  si.BASIC\nFROM employee_info ei\nJOIN department_info di ON ei.DEPTID = di.DEPTID\nJOIN salary_info si ON ei.EMPLOYEE_CATEGORY = si.EMPLOYEE_CATEGORY\nWHERE di.DEPTNAME = 'HR';",
+    "explanation": "Join employee_info to department_info for the department name and to salary_info for basic salary. Filter the department name to HR. Employees 1 and 3 belong to department 10, which is HR. Their category A maps to a basic salary of 6500.",
+    "expectedColumns": [
+      "EMPID",
+      "EMPNAME",
+      "DEPTNAME",
+      "BASIC"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Employees Brad, John, Dan)",
-        input: {
-          Employee: [
-            { empId: 3, name: "Brad", supervisor: null, salary: 4000 },
-            { empId: 1, name: "John", supervisor: 3, salary: 1000 },
-            { empId: 2, name: "Dan", supervisor: 3, salary: 2000 },
-            { empId: 4, name: "Thomas", supervisor: 3, salary: 4000 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            }
           ],
-          Bonus: [
-            { empId: 2, bonus: 500 },
-            { empId: 4, bonus: 2000 }
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
           ]
         },
-        output: [
-          { name: "Brad", bonus: null },
-          { name: "John", bonus: null },
-          { name: "Dan", bonus: 500 }
+        "output": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          }
         ],
-        explanation: "Brad and John have no bonus (null). Dan has bonus 500 (< 1000). Thomas has bonus 2000 (>= 1000) so excluded."
+        "explanation": "Employees 1 and 3 belong to department 10, which is HR. Their category A maps to a basic salary of 6500."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Mix of low, high, and null bonuses",
-        isHidden: false,
-        data: {
-          Employee: [
-            { empId: 3, name: "Brad", supervisor: null, salary: 4000 },
-            { empId: 1, name: "John", supervisor: 3, salary: 1000 },
-            { empId: 2, name: "Dan", supervisor: 3, salary: 2000 },
-            { empId: 4, name: "Thomas", supervisor: 3, salary: 4000 }
+        "id": "sql-010-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            }
           ],
-          Bonus: [
-            { empId: 2, bonus: 500 },
-            { empId: 4, bonus: 2000 }
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
           ]
         },
-        expected: [
-          { name: "Brad", bonus: null },
-          { name: "John", bonus: null },
-          { name: "Dan", bonus: 500 }
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All bonuses >= 1000",
-        isHidden: true,
-        data: {
-          Employee: [
-            { empId: 1, name: "Rich", supervisor: null, salary: 8000 }
+        "id": "sql-010-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1002,
+              "EMPNAME": "ZZ_Amit",
+              "DEPTID": 1020,
+              "EMPLOYEE_CATEGORY": "A"
+            }
           ],
-          Bonus: [
-            { empId: 1, bonus: 5000 }
+          "department_info": [
+            {
+              "DEPTID": 1020,
+              "DEPTNAME": "HR",
+              "LOCATION": "ZZ_BANGALORE"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 14000
+            }
           ]
         },
-        expected: []
+        "expected": [
+          {
+            "EMPID": 1002,
+            "EMPNAME": "ZZ_Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 14000
+          }
+        ]
+      },
+      {
+        "id": "sql-010-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 101,
+              "EMPNAME": "Amit",
+              "DEPTID": 110,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 103,
+              "EMPNAME": "Riya",
+              "DEPTID": 121,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 105,
+              "EMPNAME": "Neha",
+              "DEPTID": 112,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            },
+            {
+              "DEPTID": 110,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 121,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            },
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "BASIC": 6500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "BASIC": 4800
+            }
+          ]
+        },
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 3,
+            "EMPNAME": "Neha",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "BASIC": 6500
+          }
+        ]
       }
     ]
   },
   {
-    id: "sql-015",
-    title: "Find Customer Referee",
-    difficulty: "Easy",
-    duration: 15,
-    category: "WHERE & NULL HANDLING",
-    tableSchema: [
+    "id": "sql-011",
+    "title": "House rent allowance for Bangalore or Cochin departments",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Customer",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "referee_id", type: "INTEGER", primaryKey: false }
+        "name": "employee_info",
+        "columns": [
+          {
+            "name": "EMPID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPTID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "department_info",
+        "columns": [
+          {
+            "name": "DEPTID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPTNAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LOCATION",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "salary_info",
+        "columns": [
+          {
+            "name": "EMPLOYEE_CATEGORY",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "HOUSE_RENT_ALLOWANCE",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find the names of the customer that are not referred by the customer with id = 2.",
-    problem: `Write a SQL query to report the names of the customer that are **not referred by the customer with id = 2**.
-
-### Important Requirements:
-- Return column: **name**.
-- Customers with \`referee_id IS NULL\` must be included in the result.
-- Return the result table in any order.`,
-    notes: [
-      "Remember that `referee_id != 2` alone will evaluate to UNKNOWN for NULL values.",
-      "Always specify `WHERE referee_id != 2 OR referee_id IS NULL`."
+    "howToAttempt": "Write an SQL query to display the ID, Name, Department name and House Rent Allowance for employees who work in departments located in either BANGALORE or COCHIN.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the ID, Name, Department name and House Rent Allowance for employees who work in departments located in either BANGALORE or COCHIN.\n\n### Requirements:\n- **Expected Output Columns:** `EMPID`, `EMPNAME`, `DEPTNAME`, `HOUSE_RENT_ALLOWANCE`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, IN, location filtering\n- Join employee, department and salary tables. Filter department location using IN ('BANGALORE','COCHIN') and select HOUSE_RENT_ALLOWANCE.",
+    "notes": [
+      "Join employee, department and salary tables. Filter department location using IN ('BANGALORE','COCHIN') and select HOUSE_RENT_ALLOWANCE.",
+      "Only employees in departments located in Bangalore or Cochin are included; the Delhi employee is excluded.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT name
-FROM Customer
-WHERE referee_id != 2 OR referee_id IS NULL;`,
-    explanation: `In SQL three-valued logic, comparisons with NULL evaluate to UNKNOWN. To include customers who have no referee, we explicitly write \`WHERE referee_id != 2 OR referee_id IS NULL\`.`,
-    expectedColumns: ["name"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  ei.EMPID,\n  ei.EMPNAME,\n  di.DEPTNAME,\n  si.HOUSE_RENT_ALLOWANCE\nFROM employee_info ei\nJOIN department_info di ON ei.DEPTID = di.DEPTID\nJOIN salary_info si ON ei.EMPLOYEE_CATEGORY = si.EMPLOYEE_CATEGORY\nWHERE di.LOCATION IN ('BANGALORE','COCHIN');",
+    "explanation": "Join employee, department and salary tables. Filter department location using IN ('BANGALORE','COCHIN') and select HOUSE_RENT_ALLOWANCE. Only employees in departments located in Bangalore or Cochin are included; the Delhi employee is excluded.",
+    "expectedColumns": [
+      "EMPID",
+      "EMPNAME",
+      "DEPTNAME",
+      "HOUSE_RENT_ALLOWANCE"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Filtering referee_id = 2)",
-        input: {
-          Customer: [
-            { id: 1, name: "Will", referee_id: null },
-            { id: 2, name: "Jane", referee_id: null },
-            { id: 3, name: "Alex", referee_id: 2 },
-            { id: 4, name: "Bill", referee_id: null },
-            { id: 5, name: "Zack", referee_id: 1 },
-            { id: 6, name: "Mark", referee_id: 2 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 30,
+              "EMPLOYEE_CATEGORY": "C"
+            }
+          ],
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            },
+            {
+              "DEPTID": 30,
+              "DEPTNAME": "SALES",
+              "LOCATION": "DELHI"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "HOUSE_RENT_ALLOWANCE": 1200
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "HOUSE_RENT_ALLOWANCE": 900
+            },
+            {
+              "EMPLOYEE_CATEGORY": "C",
+              "HOUSE_RENT_ALLOWANCE": 1500
+            }
           ]
         },
-        output: [
-          { name: "Will" },
-          { name: "Jane" },
-          { name: "Bill" },
-          { name: "Zack" }
+        "output": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 2,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          }
         ],
-        explanation: "Alex and Mark have referee_id = 2 and are excluded. Will, Jane, Bill (null) and Zack (1) are included."
+        "explanation": "Only employees in departments located in Bangalore or Cochin are included; the Delhi employee is excluded."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Customers with mix of referee IDs",
-        isHidden: false,
-        data: {
-          Customer: [
-            { id: 1, name: "Will", referee_id: null },
-            { id: 2, name: "Jane", referee_id: null },
-            { id: 3, name: "Alex", referee_id: 2 },
-            { id: 4, name: "Bill", referee_id: null },
-            { id: 5, name: "Zack", referee_id: 1 },
-            { id: 6, name: "Mark", referee_id: 2 }
+        "id": "sql-011-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 30,
+              "EMPLOYEE_CATEGORY": "C"
+            }
+          ],
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            },
+            {
+              "DEPTID": 30,
+              "DEPTNAME": "SALES",
+              "LOCATION": "DELHI"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "HOUSE_RENT_ALLOWANCE": 1200
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "HOUSE_RENT_ALLOWANCE": 900
+            },
+            {
+              "EMPLOYEE_CATEGORY": "C",
+              "HOUSE_RENT_ALLOWANCE": 1500
+            }
           ]
         },
-        expected: [
-          { name: "Will" },
-          { name: "Jane" },
-          { name: "Bill" },
-          { name: "Zack" }
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 2,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All customers referred by id 2",
-        isHidden: true,
-        data: {
-          Customer: [
-            { id: 1, name: "Alice", referee_id: 2 },
-            { id: 2, name: "Bob", referee_id: 2 }
+        "id": "sql-011-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1002,
+              "EMPNAME": "ZZ_Amit",
+              "DEPTID": 1020,
+              "EMPLOYEE_CATEGORY": "A"
+            }
+          ],
+          "department_info": [
+            {
+              "DEPTID": 1020,
+              "DEPTNAME": "HR",
+              "LOCATION": "ZZ_BANGALORE"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "HOUSE_RENT_ALLOWANCE": 3400
+            }
           ]
         },
-        expected: []
+        "expected": []
+      },
+      {
+        "id": "sql-011-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "employee_info": [
+            {
+              "EMPID": 1,
+              "EMPNAME": "Amit",
+              "DEPTID": 10,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 2,
+              "EMPNAME": "Riya",
+              "DEPTID": 20,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 3,
+              "EMPNAME": "Neha",
+              "DEPTID": 30,
+              "EMPLOYEE_CATEGORY": "C"
+            },
+            {
+              "EMPID": 101,
+              "EMPNAME": "Amit",
+              "DEPTID": 110,
+              "EMPLOYEE_CATEGORY": "A"
+            },
+            {
+              "EMPID": 103,
+              "EMPNAME": "Riya",
+              "DEPTID": 121,
+              "EMPLOYEE_CATEGORY": "B"
+            },
+            {
+              "EMPID": 105,
+              "EMPNAME": "Neha",
+              "DEPTID": 132,
+              "EMPLOYEE_CATEGORY": "C"
+            }
+          ],
+          "department_info": [
+            {
+              "DEPTID": 10,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 20,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            },
+            {
+              "DEPTID": 30,
+              "DEPTNAME": "SALES",
+              "LOCATION": "DELHI"
+            },
+            {
+              "DEPTID": 110,
+              "DEPTNAME": "HR",
+              "LOCATION": "BANGALORE"
+            },
+            {
+              "DEPTID": 121,
+              "DEPTNAME": "IT",
+              "LOCATION": "COCHIN"
+            },
+            {
+              "DEPTID": 132,
+              "DEPTNAME": "SALES",
+              "LOCATION": "DELHI"
+            }
+          ],
+          "salary_info": [
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "HOUSE_RENT_ALLOWANCE": 1200
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "HOUSE_RENT_ALLOWANCE": 900
+            },
+            {
+              "EMPLOYEE_CATEGORY": "C",
+              "HOUSE_RENT_ALLOWANCE": 1500
+            },
+            {
+              "EMPLOYEE_CATEGORY": "A",
+              "HOUSE_RENT_ALLOWANCE": 1200
+            },
+            {
+              "EMPLOYEE_CATEGORY": "B",
+              "HOUSE_RENT_ALLOWANCE": 900
+            },
+            {
+              "EMPLOYEE_CATEGORY": "C",
+              "HOUSE_RENT_ALLOWANCE": 1500
+            }
+          ]
+        },
+        "expected": [
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 1,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 2,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          },
+          {
+            "EMPID": 2,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 101,
+            "EMPNAME": "Amit",
+            "DEPTNAME": "HR",
+            "HOUSE_RENT_ALLOWANCE": 1200
+          },
+          {
+            "EMPID": 103,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          },
+          {
+            "EMPID": 103,
+            "EMPNAME": "Riya",
+            "DEPTNAME": "IT",
+            "HOUSE_RENT_ALLOWANCE": 900
+          }
+        ]
       }
     ]
   },
   {
-    id: "sql-016",
-    title: "Customer Placing Largest Number of Orders",
-    difficulty: "Easy",
-    duration: 15,
-    category: "GROUP BY & LIMIT",
-    tableSchema: [
+    "id": "sql-012",
+    "title": "Average account balance by account type",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "AGGREGATION & GROUPING",
+    "tableSchema": [
       {
-        name: "Orders",
-        columns: [
-          { name: "order_number", type: "INTEGER", primaryKey: true },
-          { name: "customer_number", type: "INTEGER", primaryKey: false }
+        "name": "Accounts",
+        "columns": [
+          {
+            "name": "Account_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Account_Type_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Account_Balance",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find the customer_number for the customer who has placed the largest number of orders.",
-    problem: `Write a SQL query to find the **customer_number** for the customer who has placed the **largest number of orders**.
-
-### Important Requirements:
-- Return column: **customer_number**.
-- The test cases are generated so that exactly one customer placed more orders than anyone else.`,
-    notes: [
-      "Use `GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1`."
+    "howToAttempt": "Write an SQL query to display the account type ID and average account balance for each account type where the average account balance is greater than or equal to 50000.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the account type ID and average account balance for each account type where the average account balance is greater than or equal to 50000.\n\n### Requirements:\n- **Expected Output Columns:** `Account_Type_ID`, `Average`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** GROUP BY, AVG, HAVING\n- Group accounts by Account_Type_ID, calculate AVG(Account_Balance), and use HAVING because the condition is applied to the aggregate result.",
+    "notes": [
+      "Group accounts by Account_Type_ID, calculate AVG(Account_Balance), and use HAVING because the condition is applied to the aggregate result.",
+      "Type 10 averages 50000 and therefore qualifies because the condition is >= 50000. Type 20 averages 75000. Type 30 averages only 30000.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT customer_number
-FROM Orders
-GROUP BY customer_number
-ORDER BY COUNT(*) DESC
-LIMIT 1;`,
-    explanation: `Grouping by \`customer_number\` counts total orders per customer. Ordering descending by count and applying \`LIMIT 1\` yields the top customer.`,
-    expectedColumns: ["customer_number"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  Account_Type_ID,\n  AVG(Account_Balance) AS Average\nFROM Accounts\nGROUP BY Account_Type_ID\nHAVING AVG(Account_Balance) >= 50000;",
+    "explanation": "Group accounts by Account_Type_ID, calculate AVG(Account_Balance), and use HAVING because the condition is applied to the aggregate result. Type 10 averages 50000 and therefore qualifies because the condition is >= 50000. Type 20 averages 75000. Type 30 averages only 30000.",
+    "expectedColumns": [
+      "Account_Type_ID",
+      "Average"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Customer 3 placed 2 orders)",
-        input: {
-          Orders: [
-            { order_number: 1, customer_number: 1 },
-            { order_number: 2, customer_number: 2 },
-            { order_number: 3, customer_number: 3 },
-            { order_number: 4, customer_number: 3 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "Accounts": [
+            {
+              "Account_ID": 1,
+              "Account_Type_ID": 10,
+              "Account_Balance": 60000
+            },
+            {
+              "Account_ID": 2,
+              "Account_Type_ID": 10,
+              "Account_Balance": 40000
+            },
+            {
+              "Account_ID": 3,
+              "Account_Type_ID": 20,
+              "Account_Balance": 70000
+            },
+            {
+              "Account_ID": 4,
+              "Account_Type_ID": 20,
+              "Account_Balance": 80000
+            },
+            {
+              "Account_ID": 5,
+              "Account_Type_ID": 30,
+              "Account_Balance": 30000
+            }
           ]
         },
-        output: [{ customer_number: 3 }],
-        explanation: "Customer 3 placed 2 orders (orders 3 and 4), which is more than customer 1 or 2."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Customer 3 has most orders",
-        isHidden: false,
-        data: {
-          Orders: [
-            { order_number: 1, customer_number: 1 },
-            { order_number: 2, customer_number: 2 },
-            { order_number: 3, customer_number: 3 },
-            { order_number: 4, customer_number: 3 }
-          ]
-        },
-        expected: [{ customer_number: 3 }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single order in table",
-        isHidden: true,
-        data: {
-          Orders: [
-            { order_number: 100, customer_number: 42 }
-          ]
-        },
-        expected: [{ customer_number: 42 }]
-      }
-    ]
-  },
-  {
-    id: "sql-017",
-    title: "Big Countries",
-    difficulty: "Easy",
-    duration: 15,
-    category: "WHERE CLAUSE & OR",
-    tableSchema: [
-      {
-        name: "World",
-        columns: [
-          { name: "name", type: "TEXT", primaryKey: true },
-          { name: "continent", type: "TEXT", primaryKey: false },
-          { name: "area", type: "INTEGER", primaryKey: false },
-          { name: "population", type: "INTEGER", primaryKey: false },
-          { name: "gdp", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find the name, population, and area of the big countries. A country is big if it has an area of at least 3,000,000 sq km or a population of at least 25,000,000.",
-    problem: `A country is **big** if:
-- It has an area of at least three million (i.e., \`area >= 3000000\`), or
-- It has a population of at least twenty-five million (i.e., \`population >= 25000000\`).
-
-Write a SQL query to report the **name**, **population**, and **area** of the big countries.
-
-### Important Requirements:
-- Return columns: **name**, **population**, **area**.
-- Return the result table in any order.`,
-    notes: [
-      "Use `WHERE area >= 3000000 OR population >= 25000000`."
-    ],
-    starterCode: '',
-    solution: `SELECT 
-    name,
-    population,
-    area
-FROM World
-WHERE area >= 3000000 OR population >= 25000000;`,
-    explanation: `We select the three requested columns and filter using the disjunction \`WHERE area >= 3000000 OR population >= 25000000\`.`,
-    expectedColumns: ["name", "population", "area"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Afghanistan and Algeria qualify)",
-        input: {
-          World: [
-            { name: "Afghanistan", continent: "Asia", area: 652230, population: 25500100, gdp: 20343000 },
-            { name: "Albania", continent: "Europe", area: 28748, population: 2831741, gdp: 12960000 },
-            { name: "Algeria", continent: "Africa", area: 2381741, population: 37100000, gdp: 188681000 }
-          ]
-        },
-        output: [
-          { name: "Afghanistan", population: 25500100, area: 652230 },
-          { name: "Algeria", population: 37100000, area: 2381741 }
+        "output": [
+          {
+            "Account_Type_ID": 10,
+            "Average": 50000
+          },
+          {
+            "Account_Type_ID": 20,
+            "Average": 75000
+          }
         ],
-        explanation: "Afghanistan has population >= 25M. Algeria has population >= 25M. Albania meets neither criterion."
+        "explanation": "Type 10 averages 50000 and therefore qualifies because the condition is >= 50000. Type 20 averages 75000. Type 30 averages only 30000."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Nations list",
-        isHidden: false,
-        data: {
-          World: [
-            { name: "Afghanistan", continent: "Asia", area: 652230, population: 25500100, gdp: 20343000 },
-            { name: "Albania", continent: "Europe", area: 28748, population: 2831741, gdp: 12960000 },
-            { name: "Algeria", continent: "Africa", area: 2381741, population: 37100000, gdp: 188681000 }
+        "id": "sql-012-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "Accounts": [
+            {
+              "Account_ID": 1,
+              "Account_Type_ID": 10,
+              "Account_Balance": 60000
+            },
+            {
+              "Account_ID": 2,
+              "Account_Type_ID": 10,
+              "Account_Balance": 40000
+            },
+            {
+              "Account_ID": 3,
+              "Account_Type_ID": 20,
+              "Account_Balance": 70000
+            },
+            {
+              "Account_ID": 4,
+              "Account_Type_ID": 20,
+              "Account_Balance": 80000
+            },
+            {
+              "Account_ID": 5,
+              "Account_Type_ID": 30,
+              "Account_Balance": 30000
+            }
           ]
         },
-        expected: [
-          { name: "Afghanistan", population: 25500100, area: 652230 },
-          { name: "Algeria", population: 37100000, area: 2381741 }
+        "expected": [
+          {
+            "Account_Type_ID": 10,
+            "Average": 50000
+          },
+          {
+            "Account_Type_ID": 20,
+            "Average": 75000
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Big by area only",
-        isHidden: true,
-        data: {
-          World: [
-            { name: "Canada", continent: "North America", area: 9984670, population: 38000000, gdp: 1643000000 },
-            { name: "SmallLand", continent: "Asia", area: 500, population: 1000, gdp: 50000 }
+        "id": "sql-012-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "Accounts": [
+            {
+              "Account_ID": 1002,
+              "Account_Type_ID": 1020,
+              "Account_Balance": 121000
+            }
           ]
         },
-        expected: [
-          { name: "Canada", population: 38000000, area: 9984670 }
+        "expected": [
+          {
+            "Account_Type_ID": 1020,
+            "Average": 121000
+          }
+        ]
+      },
+      {
+        "id": "sql-012-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "Accounts": [
+            {
+              "Account_ID": 1,
+              "Account_Type_ID": 10,
+              "Account_Balance": 60000
+            },
+            {
+              "Account_ID": 2,
+              "Account_Type_ID": 10,
+              "Account_Balance": 40000
+            },
+            {
+              "Account_ID": 3,
+              "Account_Type_ID": 20,
+              "Account_Balance": 70000
+            },
+            {
+              "Account_ID": 4,
+              "Account_Type_ID": 20,
+              "Account_Balance": 80000
+            },
+            {
+              "Account_ID": 5,
+              "Account_Type_ID": 30,
+              "Account_Balance": 30000
+            },
+            {
+              "Account_ID": 101,
+              "Account_Type_ID": 110,
+              "Account_Balance": 60000
+            },
+            {
+              "Account_ID": 103,
+              "Account_Type_ID": 111,
+              "Account_Balance": 40000
+            },
+            {
+              "Account_ID": 105,
+              "Account_Type_ID": 122,
+              "Account_Balance": 70000
+            },
+            {
+              "Account_ID": 107,
+              "Account_Type_ID": 123,
+              "Account_Balance": 80000
+            },
+            {
+              "Account_ID": 109,
+              "Account_Type_ID": 134,
+              "Account_Balance": 30000
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Account_Type_ID": 10,
+            "Average": 50000
+          },
+          {
+            "Account_Type_ID": 20,
+            "Average": 75000
+          },
+          {
+            "Account_Type_ID": 110,
+            "Average": 60000
+          },
+          {
+            "Account_Type_ID": 122,
+            "Average": 70000
+          },
+          {
+            "Account_Type_ID": 123,
+            "Average": 80000
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-018",
-    title: "Swap Salary (CASE Statement)",
-    difficulty: "Easy",
-    duration: 15,
-    category: "CASE STATEMENT",
-    tableSchema: [
+    "id": "sql-013",
+    "title": "Customers with bank balance at least 50,000",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Salary",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "sex", type: "TEXT", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Swap all 'f' and 'm' values (i.e. change all 'f' to 'm' and 'm' to 'f'). Return id, name, swapped sex, and salary.",
-    problem: `Write a SQL query to swap all \`'f'\` and \`'m'\` values (i.e. change all \`'f'\` to \`'m'\` and vice versa) with a single query.
-
-### Important Requirements:
-- Return columns: **id**, **name**, **sex**, **salary**.
-- If \`sex\` was \`'m'\`, it must be returned as \`'f'\`.
-- If \`sex\` was \`'f'\`, it must be returned as \`'m'\`.
-- Return the result in any order.`,
-    notes: [
-      "Use `CASE WHEN sex = 'm' THEN 'f' ELSE 'm' END AS sex`."
-    ],
-    starterCode: '',
-    solution: `SELECT 
-    id,
-    name,
-    CASE WHEN sex = 'm' THEN 'f' ELSE 'm' END AS sex,
-    salary
-FROM Salary;`,
-    explanation: `A \`CASE\` expression conditionally replaces \`'m'\` with \`'f'\` and \`'f'\` with \`'m'\`.`,
-    expectedColumns: ["id", "name", "sex", "salary"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Swapping sex column)",
-        input: {
-          Salary: [
-            { id: 1, name: "A", sex: "m", salary: 2500 },
-            { id: 2, name: "B", sex: "f", salary: 1500 },
-            { id: 3, name: "C", sex: "m", salary: 5500 },
-            { id: 4, name: "D", sex: "f", salary: 500 }
-          ]
-        },
-        output: [
-          { id: 1, name: "A", sex: "f", salary: 2500 },
-          { id: 2, name: "B", sex: "m", salary: 1500 },
-          { id: 3, name: "C", sex: "f", salary: 5500 },
-          { id: 4, name: "D", sex: "m", salary: 500 }
-        ],
-        explanation: "All 'm' are converted to 'f', and all 'f' are converted to 'm'."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Mixed genders swap",
-        isHidden: false,
-        data: {
-          Salary: [
-            { id: 1, name: "A", sex: "m", salary: 2500 },
-            { id: 2, name: "B", sex: "f", salary: 1500 },
-            { id: 3, name: "C", sex: "m", salary: 5500 },
-            { id: 4, name: "D", sex: "f", salary: 500 }
-          ]
-        },
-        expected: [
-          { id: 1, name: "A", sex: "f", salary: 2500 },
-          { id: 2, name: "B", sex: "m", salary: 1500 },
-          { id: 3, name: "C", sex: "f", salary: 5500 },
-          { id: 4, name: "D", sex: "m", salary: 500 }
+        "name": "customer",
+        "columns": [
+          {
+            "name": "Customer_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "First_Name",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Last_Name",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — All male employees",
-        isHidden: true,
-        data: {
-          Salary: [
-            { id: 1, name: "Tom", sex: "m", salary: 3000 },
-            { id: 2, name: "Jerry", sex: "m", salary: 2000 }
+        "name": "account",
+        "columns": [
+          {
+            "name": "Account_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Customer_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "Balance",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the first name, last name and account ID of customers who have a bank balance greater than or equal to 50000. Order the output by the customer's first name.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the first name, last name and account ID of customers who have a bank balance greater than or equal to 50000. Order the output by the customer's first name.\n\n### Requirements:\n- **Expected Output Columns:** `First_Name`, `Last_Name`, `Account_ID`\n- **Ordering Requirement:** Result MUST be ordered as specified in the problem statement.\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, WHERE, ORDER BY\n- Join customer and account using Customer_ID, filter Balance >= 50000, and sort by First_Name.",
+    "notes": [
+      "Join customer and account using Customer_ID, filter Balance >= 50000, and sort by First_Name.",
+      "Amit qualifies at exactly 50000, Raj and Riya qualify above it, and Neha is excluded. The final order is alphabetical by first name.",
+      "Rows must match the exact sorting specified."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  c.First_Name,\n  c.Last_Name,\n  a.Account_ID\nFROM customer c\nJOIN account a ON c.Customer_ID = a.Customer_ID\nWHERE a.Balance >= 50000\nORDER BY c.First_Name;",
+    "explanation": "Join customer and account using Customer_ID, filter Balance >= 50000, and sort by First_Name. Amit qualifies at exactly 50000, Raj and Riya qualify above it, and Neha is excluded. The final order is alphabetical by first name.",
+    "expectedColumns": [
+      "First_Name",
+      "Last_Name",
+      "Account_ID"
+    ],
+    "orderSensitive": true,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Amit",
+              "Last_Name": "Shah"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Riya",
+              "Last_Name": "Roy"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "Neha",
+              "Last_Name": "Das"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Raj",
+              "Last_Name": "Kumar"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 101,
+              "Customer_ID": 1,
+              "Balance": 50000
+            },
+            {
+              "Account_ID": 102,
+              "Customer_ID": 2,
+              "Balance": 75000
+            },
+            {
+              "Account_ID": 103,
+              "Customer_ID": 3,
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 104,
+              "Customer_ID": 4,
+              "Balance": 60000
+            }
           ]
         },
-        expected: [
-          { id: 1, name: "Tom", sex: "f", salary: 3000 },
-          { id: 2, name: "Jerry", sex: "f", salary: 2000 }
+        "output": [
+          {
+            "First_Name": "Amit",
+            "Last_Name": "Shah",
+            "Account_ID": 101
+          },
+          {
+            "First_Name": "Raj",
+            "Last_Name": "Kumar",
+            "Account_ID": 104
+          },
+          {
+            "First_Name": "Riya",
+            "Last_Name": "Roy",
+            "Account_ID": 102
+          }
+        ],
+        "explanation": "Amit qualifies at exactly 50000, Raj and Riya qualify above it, and Neha is excluded. The final order is alphabetical by first name."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-013-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Amit",
+              "Last_Name": "Shah"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Riya",
+              "Last_Name": "Roy"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "Neha",
+              "Last_Name": "Das"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Raj",
+              "Last_Name": "Kumar"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 101,
+              "Customer_ID": 1,
+              "Balance": 50000
+            },
+            {
+              "Account_ID": 102,
+              "Customer_ID": 2,
+              "Balance": 75000
+            },
+            {
+              "Account_ID": 103,
+              "Customer_ID": 3,
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 104,
+              "Customer_ID": 4,
+              "Balance": 60000
+            }
+          ]
+        },
+        "expected": [
+          {
+            "First_Name": "Amit",
+            "Last_Name": "Shah",
+            "Account_ID": 101
+          },
+          {
+            "First_Name": "Raj",
+            "Last_Name": "Kumar",
+            "Account_ID": 104
+          },
+          {
+            "First_Name": "Riya",
+            "Last_Name": "Roy",
+            "Account_ID": 102
+          }
+        ]
+      },
+      {
+        "id": "sql-013-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1002,
+              "First_Name": "ZZ_Amit",
+              "Last_Name": "ZZ_Shah"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 1202,
+              "Customer_ID": 1002,
+              "Balance": 101000
+            }
+          ]
+        },
+        "expected": [
+          {
+            "First_Name": "ZZ_Amit",
+            "Last_Name": "ZZ_Shah",
+            "Account_ID": 1202
+          }
+        ]
+      },
+      {
+        "id": "sql-013-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "customer": [
+            {
+              "Customer_ID": 1,
+              "First_Name": "Amit",
+              "Last_Name": "Shah"
+            },
+            {
+              "Customer_ID": 2,
+              "First_Name": "Riya",
+              "Last_Name": "Roy"
+            },
+            {
+              "Customer_ID": 3,
+              "First_Name": "Neha",
+              "Last_Name": "Das"
+            },
+            {
+              "Customer_ID": 4,
+              "First_Name": "Raj",
+              "Last_Name": "Kumar"
+            },
+            {
+              "Customer_ID": 101,
+              "First_Name": "Amit",
+              "Last_Name": "Shah"
+            },
+            {
+              "Customer_ID": 103,
+              "First_Name": "Riya",
+              "Last_Name": "Roy"
+            },
+            {
+              "Customer_ID": 105,
+              "First_Name": "Neha",
+              "Last_Name": "Das"
+            },
+            {
+              "Customer_ID": 107,
+              "First_Name": "Raj",
+              "Last_Name": "Kumar"
+            }
+          ],
+          "account": [
+            {
+              "Account_ID": 101,
+              "Customer_ID": 1,
+              "Balance": 50000
+            },
+            {
+              "Account_ID": 102,
+              "Customer_ID": 2,
+              "Balance": 75000
+            },
+            {
+              "Account_ID": 103,
+              "Customer_ID": 3,
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 104,
+              "Customer_ID": 4,
+              "Balance": 60000
+            },
+            {
+              "Account_ID": 201,
+              "Customer_ID": 101,
+              "Balance": 50000
+            },
+            {
+              "Account_ID": 203,
+              "Customer_ID": 103,
+              "Balance": 75000
+            },
+            {
+              "Account_ID": 205,
+              "Customer_ID": 105,
+              "Balance": 45000
+            },
+            {
+              "Account_ID": 207,
+              "Customer_ID": 107,
+              "Balance": 60000
+            }
+          ]
+        },
+        "expected": [
+          {
+            "First_Name": "Amit",
+            "Last_Name": "Shah",
+            "Account_ID": 101
+          },
+          {
+            "First_Name": "Amit",
+            "Last_Name": "Shah",
+            "Account_ID": 201
+          },
+          {
+            "First_Name": "Raj",
+            "Last_Name": "Kumar",
+            "Account_ID": 104
+          },
+          {
+            "First_Name": "Raj",
+            "Last_Name": "Kumar",
+            "Account_ID": 207
+          },
+          {
+            "First_Name": "Riya",
+            "Last_Name": "Roy",
+            "Account_ID": 102
+          },
+          {
+            "First_Name": "Riya",
+            "Last_Name": "Roy",
+            "Account_ID": 203
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-019",
-    title: "Customer Total Spending (3-Table Join)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "3-TABLE JOIN & AGGREGATION",
-    tableSchema: [
+    "id": "sql-014",
+    "title": "Staff with salary greater than 50,000",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
       {
-        name: "Customers",
-        columns: [
-          { name: "customer_id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false }
-        ]
-      },
-      {
-        name: "Orders",
-        columns: [
-          { name: "order_id", type: "INTEGER", primaryKey: true },
-          { name: "customer_id", type: "INTEGER", primaryKey: false },
-          { name: "product_id", type: "INTEGER", primaryKey: false },
-          { name: "quantity", type: "INTEGER", primaryKey: false }
-        ]
-      },
-      {
-        name: "Products",
-        columns: [
-          { name: "product_id", type: "INTEGER", primaryKey: true },
-          { name: "product_name", type: "TEXT", primaryKey: false },
-          { name: "price", type: "INTEGER", primaryKey: false }
+        "name": "staff",
+        "columns": [
+          {
+            "name": "firstname",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "position",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "salary",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Calculate total spending and total order count per customer by joining Customers, Orders, and Products tables. Include customers with 0 orders.",
-    problem: `Write a SQL query to calculate the **total spending** and **total orders count** for each customer.
-
-### Requirements:
-- Merge 3 tables: **Customers**, **Orders**, and **Products**.
-- Return columns: **customer_name**, **total_spent**, **orders_count**.
-- For customers who have not placed any orders, \`total_spent\` must be **0** and \`orders_count\` must be **0**.
-- Return the result in any order.`,
-    notes: [
-      "Use `LEFT JOIN Orders ON Customers.customer_id = Orders.customer_id` followed by `LEFT JOIN Products ON Orders.product_id = Products.product_id`.",
-      "Use `COALESCE(SUM(Orders.quantity * Products.price), 0) AS total_spent` and `COUNT(Orders.order_id) AS orders_count`.",
-      "Group by `Customers.customer_id, Customers.name`."
+    "howToAttempt": "Write an SQL query to display the First name (using alias 'Staff First Name'), Position and salary of staff members where salary is greater than 50000.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the First name (using alias 'Staff First Name'), Position and salary of staff members where salary is greater than 50000.\n\n### Requirements:\n- **Expected Output Columns:** `Staff First Name`, `POSITION`, `SALARY`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** alias, WHERE\n- Select the requested columns from staff and apply salary > 50000. Alias the first-name column exactly as requested.",
+    "notes": [
+      "Select the requested columns from staff and apply salary > 50000. Alias the first-name column exactly as requested.",
+      "Only salaries strictly greater than 50000 qualify, so the employee at exactly 50000 is excluded.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    c.name AS customer_name,
-    COALESCE(SUM(o.quantity * p.price), 0) AS total_spent,
-    COUNT(o.order_id) AS orders_count
-FROM Customers c
-LEFT JOIN Orders o ON c.customer_id = o.customer_id
-LEFT JOIN Products p ON o.product_id = p.product_id
-GROUP BY c.customer_id, c.name;`,
-    explanation: `We join Customers with Orders using LEFT JOIN to retain customers with zero purchases, and then join with Products to retrieve product prices. We use \`COALESCE(SUM(...), 0)\` to return 0 instead of NULL for customers with no orders.`,
-    expectedColumns: ["customer_name", "total_spent", "orders_count"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  firstname AS `Staff First Name`,\n  position AS POSITION,\n  salary AS SALARY\nFROM staff\nWHERE salary > 50000;",
+    "explanation": "Select the requested columns from staff and apply salary > 50000. Alias the first-name column exactly as requested. Only salaries strictly greater than 50000 qualify, so the employee at exactly 50000 is excluded.",
+    "expectedColumns": [
+      "Staff First Name",
+      "POSITION",
+      "SALARY"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Alice, Bob, and Charlie with zero orders)",
-        input: {
-          Customers: [
-            { customer_id: 1, name: "Alice" },
-            { customer_id: 2, name: "Bob" },
-            { customer_id: 3, name: "Charlie" }
-          ],
-          Orders: [
-            { order_id: 101, customer_id: 1, product_id: 1, quantity: 2 },
-            { order_id: 102, customer_id: 1, product_id: 2, quantity: 1 },
-            { order_id: 103, customer_id: 2, product_id: 1, quantity: 3 }
-          ],
-          Products: [
-            { product_id: 1, product_name: "Keyboard", price: 50 },
-            { product_id: 2, product_name: "Mouse", price: 20 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "staff": [
+            {
+              "firstname": "Amit",
+              "position": "Manager",
+              "salary": 60000
+            },
+            {
+              "firstname": "Riya",
+              "position": "Analyst",
+              "salary": 50000
+            },
+            {
+              "firstname": "Neha",
+              "position": "Developer",
+              "salary": 75000
+            },
+            {
+              "firstname": "Raj",
+              "position": "Clerk",
+              "salary": 45000
+            }
           ]
         },
-        output: [
-          { customer_name: "Alice", total_spent: 120, orders_count: 2 },
-          { customer_name: "Bob", total_spent: 150, orders_count: 1 },
-          { customer_name: "Charlie", total_spent: 0, orders_count: 0 }
+        "output": [
+          {
+            "Staff First Name": "Amit",
+            "POSITION": "Manager",
+            "SALARY": 60000
+          },
+          {
+            "Staff First Name": "Neha",
+            "POSITION": "Developer",
+            "SALARY": 75000
+          }
         ],
-        explanation: "Alice spent 2*50 + 1*20 = 120 across 2 orders. Bob spent 3*50 = 150 across 1 order. Charlie has 0 orders."
+        "explanation": "Only salaries strictly greater than 50000 qualify, so the employee at exactly 50000 is excluded."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Multi-table revenue calculation",
-        isHidden: false,
-        data: {
-          Customers: [
-            { customer_id: 1, name: "Alice" },
-            { customer_id: 2, name: "Bob" },
-            { customer_id: 3, name: "Charlie" }
-          ],
-          Orders: [
-            { order_id: 101, customer_id: 1, product_id: 1, quantity: 2 },
-            { order_id: 102, customer_id: 1, product_id: 2, quantity: 1 },
-            { order_id: 103, customer_id: 2, product_id: 1, quantity: 3 }
-          ],
-          Products: [
-            { product_id: 1, product_name: "Keyboard", price: 50 },
-            { product_id: 2, product_name: "Mouse", price: 20 }
+        "id": "sql-014-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "staff": [
+            {
+              "firstname": "Amit",
+              "position": "Manager",
+              "salary": 60000
+            },
+            {
+              "firstname": "Riya",
+              "position": "Analyst",
+              "salary": 50000
+            },
+            {
+              "firstname": "Neha",
+              "position": "Developer",
+              "salary": 75000
+            },
+            {
+              "firstname": "Raj",
+              "position": "Clerk",
+              "salary": 45000
+            }
           ]
         },
-        expected: [
-          { customer_name: "Alice", total_spent: 120, orders_count: 2 },
-          { customer_name: "Bob", total_spent: 150, orders_count: 1 },
-          { customer_name: "Charlie", total_spent: 0, orders_count: 0 }
+        "expected": [
+          {
+            "Staff First Name": "Amit",
+            "POSITION": "Manager",
+            "SALARY": 60000
+          },
+          {
+            "Staff First Name": "Neha",
+            "POSITION": "Developer",
+            "SALARY": 75000
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single customer with no orders",
-        isHidden: true,
-        data: {
-          Customers: [{ customer_id: 99, name: "David" }],
-          Orders: [],
-          Products: [{ product_id: 1, product_name: "Monitor", price: 200 }]
+        "id": "sql-014-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "staff": [
+            {
+              "firstname": "ZZ_Amit",
+              "position": "ZZ_Manager",
+              "salary": 121000
+            }
+          ]
         },
-        expected: [
-          { customer_name: "David", total_spent: 0, orders_count: 0 }
+        "expected": [
+          {
+            "Staff First Name": "ZZ_Amit",
+            "POSITION": "ZZ_Manager",
+            "SALARY": 121000
+          }
+        ]
+      },
+      {
+        "id": "sql-014-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "staff": [
+            {
+              "firstname": "Amit",
+              "position": "Manager",
+              "salary": 60000
+            },
+            {
+              "firstname": "Riya",
+              "position": "Analyst",
+              "salary": 50000
+            },
+            {
+              "firstname": "Neha",
+              "position": "Developer",
+              "salary": 75000
+            },
+            {
+              "firstname": "Raj",
+              "position": "Clerk",
+              "salary": 45000
+            },
+            {
+              "firstname": "Amit",
+              "position": "Manager",
+              "salary": 60000
+            },
+            {
+              "firstname": "Riya",
+              "position": "Analyst",
+              "salary": 50000
+            },
+            {
+              "firstname": "Neha",
+              "position": "Developer",
+              "salary": 75000
+            },
+            {
+              "firstname": "Raj",
+              "position": "Clerk",
+              "salary": 45000
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Staff First Name": "Amit",
+            "POSITION": "Manager",
+            "SALARY": 60000
+          },
+          {
+            "Staff First Name": "Neha",
+            "POSITION": "Developer",
+            "SALARY": 75000
+          },
+          {
+            "Staff First Name": "Amit",
+            "POSITION": "Manager",
+            "SALARY": 60000
+          },
+          {
+            "Staff First Name": "Neha",
+            "POSITION": "Developer",
+            "SALARY": 75000
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-020",
-    title: "Sales Person Without Orders in 'RED' Company (3 Tables)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "3-TABLE JOIN & SUBQUERY",
-    tableSchema: [
+    "id": "sql-015",
+    "title": "Patients with unpaid bills",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "SalesPerson",
-        columns: [
-          { name: "sales_id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false },
-          { name: "commission_rate", type: "INTEGER", primaryKey: false },
-          { name: "hire_date", type: "TEXT", primaryKey: false }
+        "name": "Patient",
+        "columns": [
+          {
+            "name": "PatientID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FirstName",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LastName",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "Email",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "AdmissionDate",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        name: "Company",
-        columns: [
-          { name: "com_id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "city", type: "TEXT", primaryKey: false }
-        ]
-      },
-      {
-        name: "Orders",
-        columns: [
-          { name: "order_id", type: "INTEGER", primaryKey: true },
-          { name: "order_date", type: "TEXT", primaryKey: false },
-          { name: "com_id", type: "INTEGER", primaryKey: false },
-          { name: "sales_id", type: "INTEGER", primaryKey: false },
-          { name: "amount", type: "INTEGER", primaryKey: false }
+        "name": "Billing",
+        "columns": [
+          {
+            "name": "BillingID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PatientID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "TotalAmount",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PaymentStatus",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Report the names of all the salespersons who did not have any orders related to the company with the name 'RED'.",
-    problem: `Write a SQL query to report the names of all the salespersons who **did not have any orders related to the company with the name "RED"**.
-
-### Important Requirements:
-- Merge / inspect 3 tables: **SalesPerson**, **Company**, and **Orders**.
-- Return the result column named **name**.
-- Return the result in any order.`,
-    notes: [
-      "Join `Orders` and `Company` where `Company.name = 'RED'` to find all `sales_id` that sold to RED.",
-      "Select salespersons whose `sales_id NOT IN (...)`."
+    "howToAttempt": "Write an SQL query to display the full name (alias 'PatientName'), email (alias 'PatientEmail'), admission date (alias 'AdmissionDate'), and total billing amount (alias 'TotalBilling') for each patient. Include only patients with unpaid bills and sort by total billing amount descending.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the full name (alias 'PatientName'), email (alias 'PatientEmail'), admission date (alias 'AdmissionDate'), and total billing amount (alias 'TotalBilling') for each patient. Include only patients with unpaid bills and sort by total billing amount descending.\n\n### Requirements:\n- **Expected Output Columns:** `PatientName`, `PatientEmail`, `AdmissionDate`, `TotalBilling`\n- **Ordering Requirement:** Result MUST be ordered as specified in the problem statement.\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, CONCAT, alias, ORDER BY DESC\n- Join Patient and Billing on PatientID. Build the full name with CONCAT, filter PaymentStatus = 'Unpaid', and sort TotalAmount in descending order.",
+    "notes": [
+      "Join Patient and Billing on PatientID. Build the full name with CONCAT, filter PaymentStatus = 'Unpaid', and sort TotalAmount in descending order.",
+      "John and Raj have unpaid bills. Raj appears first because 15000 is greater than 9000. Maya is excluded because the bill is paid.",
+      "Rows must match the exact sorting specified."
     ],
-    starterCode: '',
-    solution: `SELECT s.name
-FROM SalesPerson s
-WHERE s.sales_id NOT IN (
-    SELECT o.sales_id
-    FROM Orders o
-    JOIN Company c ON o.com_id = c.com_id
-    WHERE c.name = 'RED'
-);`,
-    explanation: `We join \`Orders\` with \`Company\` to extract all salesperson IDs associated with company 'RED'. Then we query \`SalesPerson\` using \`NOT IN\` to identify everyone who never dealt with 'RED'.`,
-    expectedColumns: ["name"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  CONCAT(p.FirstName, ' ', p.LastName) AS PatientName,\n  p.Email AS PatientEmail,\n  p.AdmissionDate AS AdmissionDate,\n  b.TotalAmount AS TotalBilling\nFROM Patient p\nJOIN Billing b ON p.PatientID = b.PatientID\nWHERE b.PaymentStatus = 'Unpaid'\nORDER BY b.TotalAmount DESC;",
+    "explanation": "Join Patient and Billing on PatientID. Build the full name with CONCAT, filter PaymentStatus = 'Unpaid', and sort TotalAmount in descending order. John and Raj have unpaid bills. Raj appears first because 15000 is greater than 9000. Maya is excluded because the bill is paid.",
+    "expectedColumns": [
+      "PatientName",
+      "PatientEmail",
+      "AdmissionDate",
+      "TotalBilling"
+    ],
+    "orderSensitive": true,
+    "examples": [
       {
-        title: "Example 1 (Amy, Mark, Alex never sold to RED)",
-        input: {
-          SalesPerson: [
-            { sales_id: 1, name: "John", salary: 100000, commission_rate: 6, hire_date: "4/1/2006" },
-            { sales_id: 2, name: "Amy", salary: 12000, commission_rate: 5, hire_date: "5/1/2010" },
-            { sales_id: 3, name: "Mark", salary: 65000, commission_rate: 12, hire_date: "12/25/2008" },
-            { sales_id: 4, name: "Pam", salary: 25000, commission_rate: 25, hire_date: "1/1/2005" },
-            { sales_id: 5, name: "Alex", salary: 50000, commission_rate: 10, hire_date: "2/3/2007" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "Patient": [
+            {
+              "PatientID": 1,
+              "FirstName": "John",
+              "LastName": "Doe",
+              "Email": "john@example.com",
+              "AdmissionDate": "2024-01-10"
+            },
+            {
+              "PatientID": 2,
+              "FirstName": "Maya",
+              "LastName": "Singh",
+              "Email": "maya@example.com",
+              "AdmissionDate": "2024-01-11"
+            },
+            {
+              "PatientID": 3,
+              "FirstName": "Raj",
+              "LastName": "Kumar",
+              "Email": "raj@example.com",
+              "AdmissionDate": "2024-01-12"
+            }
           ],
-          Company: [
-            { com_id: 1, name: "RED", city: "Boston" },
-            { com_id: 2, name: "ORANGE", city: "New York" },
-            { com_id: 3, name: "YELLOW", city: "Chicago" }
-          ],
-          Orders: [
-            { order_id: 1, order_date: "1/1/2014", com_id: 3, sales_id: 4, amount: 10000 },
-            { order_id: 2, order_date: "2/1/2014", com_id: 4, sales_id: 5, amount: 5000 },
-            { order_id: 3, order_date: "3/1/2014", com_id: 1, sales_id: 1, amount: 50000 },
-            { order_id: 4, order_date: "4/1/2014", com_id: 1, sales_id: 4, amount: 25000 }
+          "Billing": [
+            {
+              "BillingID": 101,
+              "PatientID": 1,
+              "TotalAmount": 9000,
+              "PaymentStatus": "Unpaid"
+            },
+            {
+              "BillingID": 102,
+              "PatientID": 2,
+              "TotalAmount": 12000,
+              "PaymentStatus": "Paid"
+            },
+            {
+              "BillingID": 103,
+              "PatientID": 3,
+              "TotalAmount": 15000,
+              "PaymentStatus": "Unpaid"
+            }
           ]
         },
-        output: [
-          { name: "Amy" },
-          { name: "Mark" },
-          { name: "Alex" }
+        "output": [
+          {
+            "PatientName": "Raj Kumar",
+            "PatientEmail": "raj@example.com",
+            "AdmissionDate": "2024-01-12",
+            "TotalBilling": 15000
+          },
+          {
+            "PatientName": "John Doe",
+            "PatientEmail": "john@example.com",
+            "AdmissionDate": "2024-01-10",
+            "TotalBilling": 9000
+          }
         ],
-        explanation: "John (order 3) and Pam (order 4) had orders for company RED. Amy, Mark, and Alex did not."
+        "explanation": "John and Raj have unpaid bills. Raj appears first because 15000 is greater than 9000. Maya is excluded because the bill is paid."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — 3-table company order filtering",
-        isHidden: false,
-        data: {
-          SalesPerson: [
-            { sales_id: 1, name: "John", salary: 100000, commission_rate: 6, hire_date: "4/1/2006" },
-            { sales_id: 2, name: "Amy", salary: 12000, commission_rate: 5, hire_date: "5/1/2010" },
-            { sales_id: 3, name: "Mark", salary: 65000, commission_rate: 12, hire_date: "12/25/2008" },
-            { sales_id: 4, name: "Pam", salary: 25000, commission_rate: 25, hire_date: "1/1/2005" },
-            { sales_id: 5, name: "Alex", salary: 50000, commission_rate: 10, hire_date: "2/3/2007" }
+        "id": "sql-015-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "Patient": [
+            {
+              "PatientID": 1,
+              "FirstName": "John",
+              "LastName": "Doe",
+              "Email": "john@example.com",
+              "AdmissionDate": "2024-01-10"
+            },
+            {
+              "PatientID": 2,
+              "FirstName": "Maya",
+              "LastName": "Singh",
+              "Email": "maya@example.com",
+              "AdmissionDate": "2024-01-11"
+            },
+            {
+              "PatientID": 3,
+              "FirstName": "Raj",
+              "LastName": "Kumar",
+              "Email": "raj@example.com",
+              "AdmissionDate": "2024-01-12"
+            }
           ],
-          Company: [
-            { com_id: 1, name: "RED", city: "Boston" },
-            { com_id: 2, name: "ORANGE", city: "New York" },
-            { com_id: 3, name: "YELLOW", city: "Chicago" }
-          ],
-          Orders: [
-            { order_id: 1, order_date: "1/1/2014", com_id: 3, sales_id: 4, amount: 10000 },
-            { order_id: 2, order_date: "2/1/2014", com_id: 4, sales_id: 5, amount: 5000 },
-            { order_id: 3, order_date: "3/1/2014", com_id: 1, sales_id: 1, amount: 50000 },
-            { order_id: 4, order_date: "4/1/2014", com_id: 1, sales_id: 4, amount: 25000 }
+          "Billing": [
+            {
+              "BillingID": 101,
+              "PatientID": 1,
+              "TotalAmount": 9000,
+              "PaymentStatus": "Unpaid"
+            },
+            {
+              "BillingID": 102,
+              "PatientID": 2,
+              "TotalAmount": 12000,
+              "PaymentStatus": "Paid"
+            },
+            {
+              "BillingID": 103,
+              "PatientID": 3,
+              "TotalAmount": 15000,
+              "PaymentStatus": "Unpaid"
+            }
           ]
         },
-        expected: [{ name: "Amy" }, { name: "Mark" }, { name: "Alex" }]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — No orders placed to RED by anyone",
-        isHidden: true,
-        data: {
-          SalesPerson: [
-            { sales_id: 1, name: "Alice", salary: 80000, commission_rate: 10, hire_date: "2015-01-01" }
-          ],
-          Company: [
-            { com_id: 1, name: "RED", city: "Dallas" }
-          ],
-          Orders: []
-        },
-        expected: [{ name: "Alice" }]
-      }
-    ]
-  },
-  {
-    id: "sql-021",
-    title: "Students and Examinations (3 Tables Cross/Left Join)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "CROSS JOIN & LEFT JOIN (3 TABLES)",
-    tableSchema: [
-      {
-        name: "Students",
-        columns: [
-          { name: "student_id", type: "INTEGER", primaryKey: true },
-          { name: "student_name", type: "TEXT", primaryKey: false }
-        ]
-      },
-      {
-        name: "Subjects",
-        columns: [
-          { name: "subject_name", type: "TEXT", primaryKey: true }
-        ]
-      },
-      {
-        name: "Examinations",
-        columns: [
-          { name: "student_id", type: "INTEGER", primaryKey: false },
-          { name: "subject_name", type: "TEXT", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find the number of times each student attended each exam. Every student and subject pair must appear, with 0 for unattempted subjects.",
-    problem: `Write a SQL query to find the number of times each student attended each exam.
-
-### Important Requirements:
-- Cross join **Students** and **Subjects** to create all possible pairs, then \`LEFT JOIN\` with **Examinations**.
-- Return columns: **student_id**, **student_name**, **subject_name**, **attended_exams**.
-- Order the result table by **student_id**, **subject_name**.`,
-    notes: [
-      "Use `FROM Students s CROSS JOIN Subjects sub`.",
-      "Join with Examinations: `LEFT JOIN Examinations e ON s.student_id = e.student_id AND sub.subject_name = e.subject_name`.",
-      "Group by `s.student_id, s.student_name, sub.subject_name` and count `COUNT(e.student_id)`."
-    ],
-    starterCode: '',
-    solution: `SELECT 
-    s.student_id,
-    s.student_name,
-    sub.subject_name,
-    COUNT(e.student_id) AS attended_exams
-FROM Students s
-CROSS JOIN Subjects sub
-LEFT JOIN Examinations e 
-    ON s.student_id = e.student_id AND sub.subject_name = e.subject_name
-GROUP BY s.student_id, s.student_name, sub.subject_name
-ORDER BY s.student_id, sub.subject_name;`,
-    explanation: `\`CROSS JOIN\` guarantees that every student is paired with every available subject. \`LEFT JOIN Examinations\` matches exam attendances, and \`COUNT(e.student_id)\` counts match rows (producing 0 when unattempted).`,
-    expectedColumns: ["student_id", "student_name", "subject_name", "attended_exams"],
-    orderSensitive: true,
-    examples: [
-      {
-        title: "Example 1 (Alice and Bob subject attendance matrix)",
-        input: {
-          Students: [
-            { student_id: 1, student_name: "Alice" },
-            { student_id: 2, student_name: "Bob" }
-          ],
-          Subjects: [
-            { subject_name: "Math" },
-            { subject_name: "Physics" }
-          ],
-          Examinations: [
-            { student_id: 1, subject_name: "Math" },
-            { student_id: 1, subject_name: "Math" },
-            { student_id: 1, subject_name: "Physics" },
-            { student_id: 2, subject_name: "Math" }
-          ]
-        },
-        output: [
-          { student_id: 1, student_name: "Alice", subject_name: "Math", attended_exams: 2 },
-          { student_id: 1, student_name: "Alice", subject_name: "Physics", attended_exams: 1 },
-          { student_id: 2, student_name: "Bob", subject_name: "Math", attended_exams: 1 },
-          { student_id: 2, student_name: "Bob", subject_name: "Physics", attended_exams: 0 }
-        ],
-        explanation: "Alice attended Math twice and Physics once. Bob attended Math once and Physics 0 times."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Multi-student multi-subject exam count",
-        isHidden: false,
-        data: {
-          Students: [
-            { student_id: 1, student_name: "Alice" },
-            { student_id: 2, student_name: "Bob" }
-          ],
-          Subjects: [
-            { subject_name: "Math" },
-            { subject_name: "Physics" }
-          ],
-          Examinations: [
-            { student_id: 1, subject_name: "Math" },
-            { student_id: 1, subject_name: "Math" },
-            { student_id: 1, subject_name: "Physics" },
-            { student_id: 2, subject_name: "Math" }
-          ]
-        },
-        expected: [
-          { student_id: 1, student_name: "Alice", subject_name: "Math", attended_exams: 2 },
-          { student_id: 1, student_name: "Alice", subject_name: "Physics", attended_exams: 1 },
-          { student_id: 2, student_name: "Bob", subject_name: "Math", attended_exams: 1 },
-          { student_id: 2, student_name: "Bob", subject_name: "Physics", attended_exams: 0 }
+        "expected": [
+          {
+            "PatientName": "Raj Kumar",
+            "PatientEmail": "raj@example.com",
+            "AdmissionDate": "2024-01-12",
+            "TotalBilling": 15000
+          },
+          {
+            "PatientName": "John Doe",
+            "PatientEmail": "john@example.com",
+            "AdmissionDate": "2024-01-10",
+            "TotalBilling": 9000
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Student with 0 attendances across all subjects",
-        isHidden: true,
-        data: {
-          Students: [{ student_id: 5, student_name: "Leo" }],
-          Subjects: [{ subject_name: "Chemistry" }],
-          Examinations: []
+        "id": "sql-015-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "Patient": [
+            {
+              "PatientID": 1002,
+              "FirstName": "ZZ_John",
+              "LastName": "Doe",
+              "Email": "ZZ_john@example.com",
+              "AdmissionDate": "ZZ_2024-01-10"
+            }
+          ],
+          "Billing": [
+            {
+              "BillingID": 1202,
+              "PatientID": 1002,
+              "TotalAmount": 19000,
+              "PaymentStatus": "ZZ_Unpaid"
+            }
+          ]
         },
-        expected: [
-          { student_id: 5, student_name: "Leo", subject_name: "Chemistry", attended_exams: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: "sql-022",
-    title: "Department Top Three Salaries (Dense Rank & Join)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "WINDOW FUNCTIONS & 2-TABLE JOIN",
-    tableSchema: [
-      {
-        name: "Employee",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "salary", type: "INTEGER", primaryKey: false },
-          { name: "departmentId", type: "INTEGER", primaryKey: false }
-        ]
+        "expected": []
       },
       {
-        name: "Department",
-        columns: [
-          { name: "id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false }
-        ]
-      }
-    ],
-    howToAttempt: "Find employees who earn in the top three unique salaries for each department.",
-    problem: `A company's executives want to see who earns the most money in each of the company's departments. A **high earner** in a department is an employee who has a salary in the **top three unique salaries** for that department.
-
-Write a SQL query to find the employees who are high earners in each of the departments.
-
-### Important Requirements:
-- Return columns: **Department**, **Employee**, **Salary**.
-- If two employees share a salary, both should be included and share that rank level.
-- Return the result in any order.`,
-    notes: [
-      "Use `DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC)` in a CTE or subquery.",
-      "Filter for `rnk <= 3`."
-    ],
-    starterCode: '',
-    solution: `WITH RankedSalaries AS (
-    SELECT 
-        d.name AS Department,
-        e.name AS Employee,
-        e.salary AS Salary,
-        DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC) AS rnk
-    FROM Employee e
-    JOIN Department d ON e.departmentId = d.id
-)
-SELECT Department, Employee, Salary
-FROM RankedSalaries
-WHERE rnk <= 3;`,
-    explanation: `We partition by department and compute \`DENSE_RANK()\` on salary descending so distinct salary values receive sequential ranks. We filter for \`rnk <= 3\`.`,
-    expectedColumns: ["Department", "Employee", "Salary"],
-    orderSensitive: false,
-    examples: [
-      {
-        title: "Example 1 (Top 3 earners per department)",
-        input: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 85000, departmentId: 1 },
-            { id: 2, name: "Henry", salary: 80000, departmentId: 2 },
-            { id: 3, name: "Sam", salary: 60000, departmentId: 2 },
-            { id: 4, name: "Max", salary: 90000, departmentId: 1 },
-            { id: 5, name: "Janet", salary: 69000, departmentId: 1 },
-            { id: 6, name: "Randy", salary: 85000, departmentId: 1 },
-            { id: 7, name: "Will", salary: 70000, departmentId: 1 }
+        "id": "sql-015-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "Patient": [
+            {
+              "PatientID": 1,
+              "FirstName": "John",
+              "LastName": "Doe",
+              "Email": "john@example.com",
+              "AdmissionDate": "2024-01-10"
+            },
+            {
+              "PatientID": 2,
+              "FirstName": "Maya",
+              "LastName": "Singh",
+              "Email": "maya@example.com",
+              "AdmissionDate": "2024-01-11"
+            },
+            {
+              "PatientID": 3,
+              "FirstName": "Raj",
+              "LastName": "Kumar",
+              "Email": "raj@example.com",
+              "AdmissionDate": "2024-01-12"
+            },
+            {
+              "PatientID": 101,
+              "FirstName": "John",
+              "LastName": "Doe",
+              "Email": "john@example.com",
+              "AdmissionDate": "2024-01-10"
+            },
+            {
+              "PatientID": 103,
+              "FirstName": "Maya",
+              "LastName": "Singh",
+              "Email": "maya@example.com",
+              "AdmissionDate": "2024-01-11"
+            },
+            {
+              "PatientID": 105,
+              "FirstName": "Raj",
+              "LastName": "Kumar",
+              "Email": "raj@example.com",
+              "AdmissionDate": "2024-01-12"
+            }
           ],
-          Department: [
-            { id: 1, name: "IT" },
-            { id: 2, name: "Sales" }
+          "Billing": [
+            {
+              "BillingID": 101,
+              "PatientID": 1,
+              "TotalAmount": 9000,
+              "PaymentStatus": "Unpaid"
+            },
+            {
+              "BillingID": 102,
+              "PatientID": 2,
+              "TotalAmount": 12000,
+              "PaymentStatus": "Paid"
+            },
+            {
+              "BillingID": 103,
+              "PatientID": 3,
+              "TotalAmount": 15000,
+              "PaymentStatus": "Unpaid"
+            },
+            {
+              "BillingID": 201,
+              "PatientID": 101,
+              "TotalAmount": 9000,
+              "PaymentStatus": "Unpaid"
+            },
+            {
+              "BillingID": 203,
+              "PatientID": 103,
+              "TotalAmount": 12000,
+              "PaymentStatus": "Paid"
+            },
+            {
+              "BillingID": 205,
+              "PatientID": 105,
+              "TotalAmount": 15000,
+              "PaymentStatus": "Unpaid"
+            }
           ]
         },
-        output: [
-          { Department: "IT", Employee: "Max", Salary: 90000 },
-          { Department: "IT", Employee: "Joe", Salary: 85000 },
-          { Department: "IT", Employee: "Randy", Salary: 85000 },
-          { Department: "IT", Employee: "Will", Salary: 70000 },
-          { Department: "Sales", Employee: "Henry", Salary: 80000 },
-          { Department: "Sales", Employee: "Sam", Salary: 60000 }
-        ],
-        explanation: "In IT: Max ($90k, rank 1), Joe & Randy ($85k, rank 2), Will ($70k, rank 3) are top 3. Janet ($69k, rank 4) is excluded."
-      }
-    ],
-    testCases: [
-      {
-        id: "test-1",
-        name: "Visible Test Case 1 — Top 3 salaries in IT and Sales",
-        isHidden: false,
-        data: {
-          Employee: [
-            { id: 1, name: "Joe", salary: 85000, departmentId: 1 },
-            { id: 2, name: "Henry", salary: 80000, departmentId: 2 },
-            { id: 3, name: "Sam", salary: 60000, departmentId: 2 },
-            { id: 4, name: "Max", salary: 90000, departmentId: 1 },
-            { id: 5, name: "Janet", salary: 69000, departmentId: 1 },
-            { id: 6, name: "Randy", salary: 85000, departmentId: 1 },
-            { id: 7, name: "Will", salary: 70000, departmentId: 1 }
-          ],
-          Department: [
-            { id: 1, name: "IT" },
-            { id: 2, name: "Sales" }
-          ]
-        },
-        expected: [
-          { Department: "IT", Employee: "Max", Salary: 90000 },
-          { Department: "IT", Employee: "Joe", Salary: 85000 },
-          { Department: "IT", Employee: "Randy", Salary: 85000 },
-          { Department: "IT", Employee: "Will", Salary: 70000 },
-          { Department: "Sales", Employee: "Henry", Salary: 80000 },
-          { Department: "Sales", Employee: "Sam", Salary: 60000 }
-        ]
-      },
-      {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Department with fewer than 3 employees",
-        isHidden: true,
-        data: {
-          Employee: [
-            { id: 1, name: "Alice", salary: 50000, departmentId: 10 }
-          ],
-          Department: [
-            { id: 10, name: "Marketing" }
-          ]
-        },
-        expected: [
-          { Department: "Marketing", Employee: "Alice", Salary: 50000 }
+        "expected": [
+          {
+            "PatientName": "Raj Kumar",
+            "PatientEmail": "raj@example.com",
+            "AdmissionDate": "2024-01-12",
+            "TotalBilling": 15000
+          },
+          {
+            "PatientName": "Raj Kumar",
+            "PatientEmail": "raj@example.com",
+            "AdmissionDate": "2024-01-12",
+            "TotalBilling": 15000
+          },
+          {
+            "PatientName": "John Doe",
+            "PatientEmail": "john@example.com",
+            "AdmissionDate": "2024-01-10",
+            "TotalBilling": 9000
+          },
+          {
+            "PatientName": "John Doe",
+            "PatientEmail": "john@example.com",
+            "AdmissionDate": "2024-01-10",
+            "TotalBilling": 9000
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-023",
-    title: "Project Employees Average Experience (3 Tables)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "3-TABLE JOIN & GROUP BY",
-    tableSchema: [
+    "id": "sql-016",
+    "title": "Flights operated by Singapore Airlines",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
       {
-        name: "Project",
-        columns: [
-          { name: "project_id", type: "INTEGER", primaryKey: false },
-          { name: "employee_id", type: "INTEGER", primaryKey: false }
+        "name": "Flight",
+        "columns": [
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "AIRPLANE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPARTURE_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPARTURE_TIME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        name: "Employee",
-        columns: [
-          { name: "employee_id", type: "INTEGER", primaryKey: true },
-          { name: "name", type: "TEXT", primaryKey: false },
-          { name: "experience_years", type: "INTEGER", primaryKey: false },
-          { name: "department_id", type: "INTEGER", primaryKey: false }
+        "name": "Airplane",
+        "columns": [
+          {
+            "name": "AIRPLANE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "AIRLINE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "MODELNUMBER",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "MANUFACTURER",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       },
       {
-        name: "Department",
-        columns: [
-          { name: "department_id", type: "INTEGER", primaryKey: true },
-          { name: "department_name", type: "TEXT", primaryKey: false }
+        "name": "Airline",
+        "columns": [
+          {
+            "name": "AIRLINE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Report the project_id, department_name, and the average experience years of employees in that department working on each project rounded to 2 decimal places.",
-    problem: `Write a SQL query that reports the **project_id**, **department_name**, and the **average experience years** of all employees in that department assigned to that project, rounded to **2 decimal places**.
-
-### Requirements:
-- Merge 3 tables: **Project**, **Employee**, and **Department**.
-- Return columns: **project_id**, **department_name**, **average_years**.
-- Return the result in any order.`,
-    notes: [
-      "Use `JOIN Employee e ON p.employee_id = e.employee_id` and `JOIN Department d ON e.department_id = d.department_id`.",
-      "Use `ROUND(AVG(e.experience_years), 2) AS average_years`.",
-      "Group by `p.project_id, d.department_id, d.department_name`."
+    "howToAttempt": "Write an SQL query to display the list of flights operated by Singapore Airlines, including the flight ID, departure date and departure time.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the list of flights operated by Singapore Airlines, including the flight ID, departure date and departure time.\n\n### Requirements:\n- **Expected Output Columns:** `FLIGHT_ID`, `DEPARTURE_DATE`, `DEPARTURE_TIME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** three-table JOIN, foreign keys, filtering\n- Flight references an airplane, and airplane references an airline. Join Flight → Airplane → Airline and filter airline name to Singapore Airlines.",
+    "notes": [
+      "Flight references an airplane, and airplane references an airline. Join Flight → Airplane → Airline and filter airline name to Singapore Airlines.",
+      "Flights 1 and 3 use airplanes operated by Singapore Airlines; flight 2 belongs to another airline.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    p.project_id,
-    d.department_name,
-    ROUND(AVG(e.experience_years), 2) AS average_years
-FROM Project p
-JOIN Employee e ON p.employee_id = e.employee_id
-JOIN Department d ON e.department_id = d.department_id
-GROUP BY p.project_id, d.department_id, d.department_name;`,
-    explanation: `We join the bridge table \`Project\` with \`Employee\` and \`Department\`, then group by each project and department combination to calculate the average years of experience rounded to 2 decimals.`,
-    expectedColumns: ["project_id", "department_name", "average_years"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  f.FLIGHT_ID,\n  f.DEPARTURE_DATE,\n  f.DEPARTURE_TIME\nFROM Flight f\nJOIN Airplane a ON f.AIRPLANE_ID = a.AIRPLANE_ID\nJOIN Airline al ON a.AIRLINE_ID = al.AIRLINE_ID\nWHERE al.NAME = 'Singapore Airlines';",
+    "explanation": "Flight references an airplane, and airplane references an airline. Join Flight → Airplane → Airline and filter airline name to Singapore Airlines. Flights 1 and 3 use airplanes operated by Singapore Airlines; flight 2 belongs to another airline.",
+    "expectedColumns": [
+      "FLIGHT_ID",
+      "DEPARTURE_DATE",
+      "DEPARTURE_TIME"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Project 1 and 2 engineering experience)",
-        input: {
-          Project: [
-            { project_id: 1, employee_id: 1 },
-            { project_id: 1, employee_id: 2 },
-            { project_id: 1, employee_id: 3 },
-            { project_id: 2, employee_id: 1 },
-            { project_id: 2, employee_id: 4 }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "Flight": [
+            {
+              "FLIGHT_ID": 1,
+              "AIRPLANE_ID": 10,
+              "DEPARTURE_DATE": "2024-02-10",
+              "DEPARTURE_TIME": "09:00"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "AIRPLANE_ID": 11,
+              "DEPARTURE_DATE": "2024-02-11",
+              "DEPARTURE_TIME": "12:00"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "AIRPLANE_ID": 12,
+              "DEPARTURE_DATE": "2024-02-12",
+              "DEPARTURE_TIME": "18:00"
+            }
           ],
-          Employee: [
-            { employee_id: 1, name: "Khaled", experience_years: 3, department_id: 1 },
-            { employee_id: 2, name: "Ali", experience_years: 2, department_id: 1 },
-            { employee_id: 3, name: "John", experience_years: 1, department_id: 2 },
-            { employee_id: 4, name: "Doe", experience_years: 2, department_id: 2 }
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
           ],
-          Department: [
-            { department_id: 1, department_name: "Engineering" },
-            { department_id: 2, department_name: "Product" }
+          "Airline": [
+            {
+              "AIRLINE_ID": 100,
+              "NAME": "Singapore Airlines"
+            },
+            {
+              "AIRLINE_ID": 101,
+              "NAME": "Other Airline"
+            }
           ]
         },
-        output: [
-          { project_id: 1, department_name: "Engineering", average_years: 2.5 },
-          { project_id: 1, department_name: "Product", average_years: 1.0 },
-          { project_id: 2, department_name: "Engineering", average_years: 3.0 },
-          { project_id: 2, department_name: "Product", average_years: 2.0 }
+        "output": [
+          {
+            "FLIGHT_ID": 1,
+            "DEPARTURE_DATE": "2024-02-10",
+            "DEPARTURE_TIME": "09:00"
+          },
+          {
+            "FLIGHT_ID": 3,
+            "DEPARTURE_DATE": "2024-02-12",
+            "DEPARTURE_TIME": "18:00"
+          }
         ],
-        explanation: "Project 1 Engineering has employees 1 and 2 (avg = 2.5). Project 1 Product has employee 3 (avg = 1.0)."
+        "explanation": "Flights 1 and 3 use airplanes operated by Singapore Airlines; flight 2 belongs to another airline."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Multi-project multi-department staffing",
-        isHidden: false,
-        data: {
-          Project: [
-            { project_id: 1, employee_id: 1 },
-            { project_id: 1, employee_id: 2 },
-            { project_id: 1, employee_id: 3 },
-            { project_id: 2, employee_id: 1 },
-            { project_id: 2, employee_id: 4 }
+        "id": "sql-016-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "Flight": [
+            {
+              "FLIGHT_ID": 1,
+              "AIRPLANE_ID": 10,
+              "DEPARTURE_DATE": "2024-02-10",
+              "DEPARTURE_TIME": "09:00"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "AIRPLANE_ID": 11,
+              "DEPARTURE_DATE": "2024-02-11",
+              "DEPARTURE_TIME": "12:00"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "AIRPLANE_ID": 12,
+              "DEPARTURE_DATE": "2024-02-12",
+              "DEPARTURE_TIME": "18:00"
+            }
           ],
-          Employee: [
-            { employee_id: 1, name: "Khaled", experience_years: 3, department_id: 1 },
-            { employee_id: 2, name: "Ali", experience_years: 2, department_id: 1 },
-            { employee_id: 3, name: "John", experience_years: 1, department_id: 2 },
-            { employee_id: 4, name: "Doe", experience_years: 2, department_id: 2 }
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
           ],
-          Department: [
-            { department_id: 1, department_name: "Engineering" },
-            { department_id: 2, department_name: "Product" }
+          "Airline": [
+            {
+              "AIRLINE_ID": 100,
+              "NAME": "Singapore Airlines"
+            },
+            {
+              "AIRLINE_ID": 101,
+              "NAME": "Other Airline"
+            }
           ]
         },
-        expected: [
-          { project_id: 1, department_name: "Engineering", average_years: 2.5 },
-          { project_id: 1, department_name: "Product", average_years: 1.0 },
-          { project_id: 2, department_name: "Engineering", average_years: 3.0 },
-          { project_id: 2, department_name: "Product", average_years: 2.0 }
+        "expected": [
+          {
+            "FLIGHT_ID": 1,
+            "DEPARTURE_DATE": "2024-02-10",
+            "DEPARTURE_TIME": "09:00"
+          },
+          {
+            "FLIGHT_ID": 3,
+            "DEPARTURE_DATE": "2024-02-12",
+            "DEPARTURE_TIME": "18:00"
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Single employee project",
-        isHidden: true,
-        data: {
-          Project: [{ project_id: 10, employee_id: 5 }],
-          Employee: [{ employee_id: 5, name: "Solo", experience_years: 7, department_id: 3 }],
-          Department: [{ department_id: 3, department_name: "Research" }]
+        "id": "sql-016-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "Flight": [
+            {
+              "FLIGHT_ID": 1002,
+              "AIRPLANE_ID": 1020,
+              "DEPARTURE_DATE": "ZZ_2024-02-10",
+              "DEPARTURE_TIME": "ZZ_09:00"
+            }
+          ],
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 1020,
+              "AIRLINE_ID": 1200,
+              "MODELNUMBER": "ZZ_A320",
+              "MANUFACTURER": "ZZ_Airbus"
+            }
+          ],
+          "Airline": [
+            {
+              "AIRLINE_ID": 1200,
+              "NAME": "ZZ_Singapore Airlines"
+            }
+          ]
         },
-        expected: [
-          { project_id: 10, department_name: "Research", average_years: 7.0 }
+        "expected": []
+      },
+      {
+        "id": "sql-016-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "Flight": [
+            {
+              "FLIGHT_ID": 1,
+              "AIRPLANE_ID": 10,
+              "DEPARTURE_DATE": "2024-02-10",
+              "DEPARTURE_TIME": "09:00"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "AIRPLANE_ID": 11,
+              "DEPARTURE_DATE": "2024-02-11",
+              "DEPARTURE_TIME": "12:00"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "AIRPLANE_ID": 12,
+              "DEPARTURE_DATE": "2024-02-12",
+              "DEPARTURE_TIME": "18:00"
+            },
+            {
+              "FLIGHT_ID": 101,
+              "AIRPLANE_ID": 110,
+              "DEPARTURE_DATE": "2024-02-10",
+              "DEPARTURE_TIME": "09:00"
+            },
+            {
+              "FLIGHT_ID": 103,
+              "AIRPLANE_ID": 112,
+              "DEPARTURE_DATE": "2024-02-11",
+              "DEPARTURE_TIME": "12:00"
+            },
+            {
+              "FLIGHT_ID": 105,
+              "AIRPLANE_ID": 114,
+              "DEPARTURE_DATE": "2024-02-12",
+              "DEPARTURE_TIME": "18:00"
+            }
+          ],
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 110,
+              "AIRLINE_ID": 200,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 112,
+              "AIRLINE_ID": 202,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 114,
+              "AIRLINE_ID": 202,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
+          ],
+          "Airline": [
+            {
+              "AIRLINE_ID": 100,
+              "NAME": "Singapore Airlines"
+            },
+            {
+              "AIRLINE_ID": 101,
+              "NAME": "Other Airline"
+            },
+            {
+              "AIRLINE_ID": 200,
+              "NAME": "Singapore Airlines"
+            },
+            {
+              "AIRLINE_ID": 202,
+              "NAME": "Other Airline"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FLIGHT_ID": 1,
+            "DEPARTURE_DATE": "2024-02-10",
+            "DEPARTURE_TIME": "09:00"
+          },
+          {
+            "FLIGHT_ID": 3,
+            "DEPARTURE_DATE": "2024-02-12",
+            "DEPARTURE_TIME": "18:00"
+          },
+          {
+            "FLIGHT_ID": 101,
+            "DEPARTURE_DATE": "2024-02-10",
+            "DEPARTURE_TIME": "09:00"
+          }
         ]
       }
     ]
   },
   {
-    id: "sql-024",
-    title: "Market Analysis — Favorite Brand Orders (3 Tables)",
-    difficulty: "Medium",
-    duration: 15,
-    category: "3-TABLE LEFT JOIN & FILTER",
-    tableSchema: [
+    "id": "sql-017",
+    "title": "Airbus airplanes",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
       {
-        name: "Users",
-        columns: [
-          { name: "user_id", type: "INTEGER", primaryKey: true },
-          { name: "join_date", type: "TEXT", primaryKey: false },
-          { name: "favorite_brand", type: "TEXT", primaryKey: false }
-        ]
-      },
-      {
-        name: "Orders",
-        columns: [
-          { name: "order_id", type: "INTEGER", primaryKey: true },
-          { name: "order_date", type: "TEXT", primaryKey: false },
-          { name: "item_id", type: "INTEGER", primaryKey: false },
-          { name: "buyer_id", type: "INTEGER", primaryKey: false },
-          { name: "seller_id", type: "INTEGER", primaryKey: false }
-        ]
-      },
-      {
-        name: "Items",
-        columns: [
-          { name: "item_id", type: "INTEGER", primaryKey: true },
-          { name: "item_brand", type: "TEXT", primaryKey: false }
+        "name": "Airplane",
+        "columns": [
+          {
+            "name": "AIRPLANE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "AIRLINE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "MODELNUMBER",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "MANUFACTURER",
+            "type": "TEXT",
+            "primaryKey": false
+          }
         ]
       }
     ],
-    howToAttempt: "Find for each user, their join date and the number of orders they made as a buyer in 2019.",
-    problem: `Write a SQL query to find for each user, the **join date** and the **number of orders they made as a buyer in 2019**.
-
-### Important Requirements:
-- Join 3 tables: **Users**, **Orders**, and **Items** (or Users & Orders).
-- Return columns: **buyer_id**, **join_date**, **orders_in_2019**.
-- Users with 0 orders in 2019 must appear in the result table with \`orders_in_2019\` equal to **0**.
-- Return the result in any order.`,
-    notes: [
-      "Use `FROM Users u LEFT JOIN Orders o ON u.user_id = o.buyer_id AND strftime('%Y', o.order_date) = '2019'`.",
-      "Group by `u.user_id, u.join_date` and count `COUNT(o.order_id) AS orders_in_2019`."
+    "howToAttempt": "Write an SQL query to display the AIRPLANE_ID and MODELNUMBER of airplanes manufactured by Airbus.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the AIRPLANE_ID and MODELNUMBER of airplanes manufactured by Airbus.\n\n### Requirements:\n- **Expected Output Columns:** `AIRPLANE_ID`, `MODELNUMBER`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** WHERE, string comparison\n- This is a single-table filtering problem. Select the two requested columns and filter MANUFACTURER = 'Airbus'.",
+    "notes": [
+      "This is a single-table filtering problem. Select the two requested columns and filter MANUFACTURER = 'Airbus'.",
+      "Only rows whose manufacturer is exactly Airbus are returned.",
+      "Row output order is flexible unless specified otherwise."
     ],
-    starterCode: '',
-    solution: `SELECT 
-    u.user_id AS buyer_id,
-    u.join_date,
-    COUNT(o.order_id) AS orders_in_2019
-FROM Users u
-LEFT JOIN Orders o ON u.user_id = o.buyer_id AND strftime('%Y', o.order_date) = '2019'
-GROUP BY u.user_id, u.join_date;`,
-    explanation: `By placing the 2019 filter in the \`LEFT JOIN\` condition (\`strftime('%Y', o.order_date) = '2019'\`), users who placed no orders in 2019 are still preserved from the \`Users\` table, resulting in a count of 0.`,
-    expectedColumns: ["buyer_id", "join_date", "orders_in_2019"],
-    orderSensitive: false,
-    examples: [
+    "starterCode": "",
+    "solution": "SELECT\n  AIRPLANE_ID,\n  MODELNUMBER\nFROM Airplane\nWHERE MANUFACTURER = 'Airbus';",
+    "explanation": "This is a single-table filtering problem. Select the two requested columns and filter MANUFACTURER = 'Airbus'. Only rows whose manufacturer is exactly Airbus are returned.",
+    "expectedColumns": [
+      "AIRPLANE_ID",
+      "MODELNUMBER"
+    ],
+    "orderSensitive": false,
+    "examples": [
       {
-        title: "Example 1 (Users with 2019 and non-2019 orders)",
-        input: {
-          Users: [
-            { user_id: 1, join_date: "2018-01-01", favorite_brand: "Lenovo" },
-            { user_id: 2, join_date: "2018-02-09", favorite_brand: "Samsung" },
-            { user_id: 3, join_date: "2018-01-19", favorite_brand: "LG" },
-            { user_id: 4, join_date: "2018-05-21", favorite_brand: "HP" }
-          ],
-          Orders: [
-            { order_id: 1, order_date: "2019-08-01", item_id: 4, buyer_id: 1, seller_id: 2 },
-            { order_id: 2, order_date: "2018-08-02", item_id: 2, buyer_id: 1, seller_id: 3 },
-            { order_id: 3, order_date: "2019-08-03", item_id: 3, buyer_id: 2, seller_id: 3 },
-            { order_id: 4, order_date: "2018-08-04", item_id: 1, buyer_id: 4, seller_id: 2 },
-            { order_id: 5, order_date: "2019-08-04", item_id: 1, buyer_id: 3, seller_id: 4 }
-          ],
-          Items: [
-            { item_id: 1, item_brand: "Samsung" },
-            { item_id: 2, item_brand: "Lenovo" },
-            { item_id: 3, item_brand: "LG" },
-            { item_id: 4, item_brand: "HP" }
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
           ]
         },
-        output: [
-          { buyer_id: 1, join_date: "2018-01-01", orders_in_2019: 1 },
-          { buyer_id: 2, join_date: "2018-02-09", orders_in_2019: 1 },
-          { buyer_id: 3, join_date: "2018-01-19", orders_in_2019: 1 },
-          { buyer_id: 4, join_date: "2018-05-21", orders_in_2019: 0 }
+        "output": [
+          {
+            "AIRPLANE_ID": 10,
+            "MODELNUMBER": "A320"
+          },
+          {
+            "AIRPLANE_ID": 12,
+            "MODELNUMBER": "A350"
+          }
         ],
-        explanation: "User 1, 2, 3 each bought 1 order in 2019. User 4 bought an order in 2018 but 0 in 2019."
+        "explanation": "Only rows whose manufacturer is exactly Airbus are returned."
       }
     ],
-    testCases: [
+    "testCases": [
       {
-        id: "test-1",
-        name: "Visible Test Case 1 — Multi-table yearly order count",
-        isHidden: false,
-        data: {
-          Users: [
-            { user_id: 1, join_date: "2018-01-01", favorite_brand: "Lenovo" },
-            { user_id: 2, join_date: "2018-02-09", favorite_brand: "Samsung" },
-            { user_id: 3, join_date: "2018-01-19", favorite_brand: "LG" },
-            { user_id: 4, join_date: "2018-05-21", favorite_brand: "HP" }
-          ],
-          Orders: [
-            { order_id: 1, order_date: "2019-08-01", item_id: 4, buyer_id: 1, seller_id: 2 },
-            { order_id: 2, order_date: "2018-08-02", item_id: 2, buyer_id: 1, seller_id: 3 },
-            { order_id: 3, order_date: "2019-08-03", item_id: 3, buyer_id: 2, seller_id: 3 },
-            { order_id: 4, order_date: "2018-08-04", item_id: 1, buyer_id: 4, seller_id: 2 },
-            { order_id: 5, order_date: "2019-08-04", item_id: 1, buyer_id: 3, seller_id: 4 }
-          ],
-          Items: [
-            { item_id: 1, item_brand: "Samsung" },
-            { item_id: 2, item_brand: "Lenovo" },
-            { item_id: 3, item_brand: "LG" },
-            { item_id: 4, item_brand: "HP" }
+        "id": "sql-017-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
           ]
         },
-        expected: [
-          { buyer_id: 1, join_date: "2018-01-01", orders_in_2019: 1 },
-          { buyer_id: 2, join_date: "2018-02-09", orders_in_2019: 1 },
-          { buyer_id: 3, join_date: "2018-01-19", orders_in_2019: 1 },
-          { buyer_id: 4, join_date: "2018-05-21", orders_in_2019: 0 }
+        "expected": [
+          {
+            "AIRPLANE_ID": 10,
+            "MODELNUMBER": "A320"
+          },
+          {
+            "AIRPLANE_ID": 12,
+            "MODELNUMBER": "A350"
+          }
         ]
       },
       {
-        id: "test-2",
-        name: "Hidden Test Case 1 — Empty orders table",
-        isHidden: true,
-        data: {
-          Users: [{ user_id: 10, join_date: "2019-01-01", favorite_brand: "Apple" }],
-          Orders: [],
-          Items: []
+        "id": "sql-017-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 1020,
+              "AIRLINE_ID": 1200,
+              "MODELNUMBER": "ZZ_A320",
+              "MANUFACTURER": "ZZ_Airbus"
+            }
+          ]
         },
-        expected: [
-          { buyer_id: 10, join_date: "2019-01-01", orders_in_2019: 0 }
+        "expected": []
+      },
+      {
+        "id": "sql-017-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "Airplane": [
+            {
+              "AIRPLANE_ID": 10,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 11,
+              "AIRLINE_ID": 101,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 12,
+              "AIRLINE_ID": 100,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 110,
+              "AIRLINE_ID": 200,
+              "MODELNUMBER": "A320",
+              "MANUFACTURER": "Airbus"
+            },
+            {
+              "AIRPLANE_ID": 112,
+              "AIRLINE_ID": 202,
+              "MODELNUMBER": "B737",
+              "MANUFACTURER": "Boeing"
+            },
+            {
+              "AIRPLANE_ID": 114,
+              "AIRLINE_ID": 202,
+              "MODELNUMBER": "A350",
+              "MANUFACTURER": "Airbus"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "AIRPLANE_ID": 10,
+            "MODELNUMBER": "A320"
+          },
+          {
+            "AIRPLANE_ID": 12,
+            "MODELNUMBER": "A350"
+          },
+          {
+            "AIRPLANE_ID": 110,
+            "MODELNUMBER": "A320"
+          },
+          {
+            "AIRPLANE_ID": 114,
+            "MODELNUMBER": "A350"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-018",
+    "title": "Students registered in 2012",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "student",
+        "columns": [
+          {
+            "name": "STUDENT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "LAST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "registration",
+        "columns": [
+          {
+            "name": "REG_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "STUDENT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "REG_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the last names of students who registered in the year 2012.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the last names of students who registered in the year 2012.\n\n### Requirements:\n- **Expected Output Columns:** `LAST_NAME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, date/year filtering\n- Join Student and Registration using Student_ID. Extract the year from REG_DATE and keep records from 2012. The supplied source also shows a LIKE '2012%' alternative.",
+    "notes": [
+      "Join Student and Registration using Student_ID. Extract the year from REG_DATE and keep records from 2012. The supplied source also shows a LIKE '2012%' alternative.",
+      "Students 1 and 3 have registration dates in 2012. Student 2 registered in 2011 and is excluded.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  s.LAST_NAME\nFROM student s\nJOIN registration r ON s.STUDENT_ID = r.STUDENT_ID\nWHERE EXTRACT(YEAR\nFROM r.REG_DATE) = 2012;",
+    "explanation": "Join Student and Registration using Student_ID. Extract the year from REG_DATE and keep records from 2012. The supplied source also shows a LIKE '2012%' alternative. Students 1 and 3 have registration dates in 2012. Student 2 registered in 2011 and is excluded.",
+    "expectedColumns": [
+      "LAST_NAME"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "student": [
+            {
+              "STUDENT_ID": 1,
+              "LAST_NAME": "Shah",
+              "FIRST_NAME": "Amit"
+            },
+            {
+              "STUDENT_ID": 2,
+              "LAST_NAME": "Roy",
+              "FIRST_NAME": "Riya"
+            },
+            {
+              "STUDENT_ID": 3,
+              "LAST_NAME": "Das",
+              "FIRST_NAME": "Neha"
+            }
+          ],
+          "registration": [
+            {
+              "REG_ID": 101,
+              "STUDENT_ID": 1,
+              "REG_DATE": "2012-05-10"
+            },
+            {
+              "REG_ID": 102,
+              "STUDENT_ID": 2,
+              "REG_DATE": "2011-06-12"
+            },
+            {
+              "REG_ID": 103,
+              "STUDENT_ID": 3,
+              "REG_DATE": "2012-09-01"
+            }
+          ]
+        },
+        "output": [
+          {
+            "LAST_NAME": "Shah"
+          },
+          {
+            "LAST_NAME": "Das"
+          }
+        ],
+        "explanation": "Students 1 and 3 have registration dates in 2012. Student 2 registered in 2011 and is excluded."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-018-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "student": [
+            {
+              "STUDENT_ID": 1,
+              "LAST_NAME": "Shah",
+              "FIRST_NAME": "Amit"
+            },
+            {
+              "STUDENT_ID": 2,
+              "LAST_NAME": "Roy",
+              "FIRST_NAME": "Riya"
+            },
+            {
+              "STUDENT_ID": 3,
+              "LAST_NAME": "Das",
+              "FIRST_NAME": "Neha"
+            }
+          ],
+          "registration": [
+            {
+              "REG_ID": 101,
+              "STUDENT_ID": 1,
+              "REG_DATE": "2012-05-10"
+            },
+            {
+              "REG_ID": 102,
+              "STUDENT_ID": 2,
+              "REG_DATE": "2011-06-12"
+            },
+            {
+              "REG_ID": 103,
+              "STUDENT_ID": 3,
+              "REG_DATE": "2012-09-01"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "LAST_NAME": "Shah"
+          },
+          {
+            "LAST_NAME": "Das"
+          }
+        ]
+      },
+      {
+        "id": "sql-018-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "student": [
+            {
+              "STUDENT_ID": 1002,
+              "LAST_NAME": "ZZ_Shah",
+              "FIRST_NAME": "ZZ_Amit"
+            }
+          ],
+          "registration": [
+            {
+              "REG_ID": 1202,
+              "STUDENT_ID": 1002,
+              "REG_DATE": "ZZ_2012-05-10"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-018-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "student": [
+            {
+              "STUDENT_ID": 1,
+              "LAST_NAME": "Shah",
+              "FIRST_NAME": "Amit"
+            },
+            {
+              "STUDENT_ID": 2,
+              "LAST_NAME": "Roy",
+              "FIRST_NAME": "Riya"
+            },
+            {
+              "STUDENT_ID": 3,
+              "LAST_NAME": "Das",
+              "FIRST_NAME": "Neha"
+            },
+            {
+              "STUDENT_ID": 101,
+              "LAST_NAME": "Shah",
+              "FIRST_NAME": "Amit"
+            },
+            {
+              "STUDENT_ID": 103,
+              "LAST_NAME": "Roy",
+              "FIRST_NAME": "Riya"
+            },
+            {
+              "STUDENT_ID": 105,
+              "LAST_NAME": "Das",
+              "FIRST_NAME": "Neha"
+            }
+          ],
+          "registration": [
+            {
+              "REG_ID": 101,
+              "STUDENT_ID": 1,
+              "REG_DATE": "2012-05-10"
+            },
+            {
+              "REG_ID": 102,
+              "STUDENT_ID": 2,
+              "REG_DATE": "2011-06-12"
+            },
+            {
+              "REG_ID": 103,
+              "STUDENT_ID": 3,
+              "REG_DATE": "2012-09-01"
+            },
+            {
+              "REG_ID": 201,
+              "STUDENT_ID": 101,
+              "REG_DATE": "2012-05-10"
+            },
+            {
+              "REG_ID": 203,
+              "STUDENT_ID": 103,
+              "REG_DATE": "2011-06-12"
+            },
+            {
+              "REG_ID": 205,
+              "STUDENT_ID": 105,
+              "REG_DATE": "2012-09-01"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "LAST_NAME": "Shah"
+          },
+          {
+            "LAST_NAME": "Das"
+          },
+          {
+            "LAST_NAME": "Shah"
+          },
+          {
+            "LAST_NAME": "Das"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-019",
+    "title": "Cabin crew with first name A and flight ID ending in 1",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "cabincrew",
+        "columns": [
+          {
+            "name": "CABINCREW_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LAST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "CONTACT",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "flight",
+        "columns": [
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_TO",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the cabin crew ID, first name, last name, contact and flight ID of cabin crew members whose first name starts with 'A' and whose flight ID ends with '1'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the cabin crew ID, first name, last name, contact and flight ID of cabin crew members whose first name starts with 'A' and whose flight ID ends with '1'.\n\n### Requirements:\n- **Expected Output Columns:** `CABINCREW_ID`, `FIRST_NAME`, `LAST_NAME`, `CONTACT`, `FLIGHT_ID`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, LIKE, multiple filters\n- Join cabincrew to flight on FLIGHT_ID. Use LIKE 'A%' for the crew first name and LIKE '%1' for a flight ID ending in 1.",
+    "notes": [
+      "Join cabincrew to flight on FLIGHT_ID. Use LIKE 'A%' for the crew first name and LIKE '%1' for a flight ID ending in 1.",
+      "Anita and Ajay start with A and their flight IDs end in 1. Aman fails the flight-ID condition and Riya fails the name condition.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  c.CABINCREW_ID,\n  c.FIRST_NAME,\n  c.LAST_NAME,\n  c.CONTACT,\n  f.FLIGHT_ID\nFROM cabincrew c\nJOIN flight f ON c.FLIGHT_ID = f.FLIGHT_ID\nWHERE c.FIRST_NAME LIKE 'A%'\n  AND f.FLIGHT_ID LIKE '%1';",
+    "explanation": "Join cabincrew to flight on FLIGHT_ID. Use LIKE 'A%' for the crew first name and LIKE '%1' for a flight ID ending in 1. Anita and Ajay start with A and their flight IDs end in 1. Aman fails the flight-ID condition and Riya fails the name condition.",
+    "expectedColumns": [
+      "CABINCREW_ID",
+      "FIRST_NAME",
+      "LAST_NAME",
+      "CONTACT",
+      "FLIGHT_ID"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "cabincrew": [
+            {
+              "CABINCREW_ID": 1,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Anita",
+              "LAST_NAME": "Sharma",
+              "CONTACT": "90001"
+            },
+            {
+              "CABINCREW_ID": 2,
+              "FLIGHT_ID": 12,
+              "FIRST_NAME": "Aman",
+              "LAST_NAME": "Roy",
+              "CONTACT": "90002"
+            },
+            {
+              "CABINCREW_ID": 3,
+              "FLIGHT_ID": 21,
+              "FIRST_NAME": "Ajay",
+              "LAST_NAME": "Das",
+              "CONTACT": "90003"
+            },
+            {
+              "CABINCREW_ID": 4,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Khan",
+              "CONTACT": "90004"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 11,
+              "FLIGHT_TO": "Paris"
+            },
+            {
+              "FLIGHT_ID": 12,
+              "FLIGHT_TO": "London"
+            },
+            {
+              "FLIGHT_ID": 21,
+              "FLIGHT_TO": "Rome"
+            }
+          ]
+        },
+        "output": [
+          {
+            "CABINCREW_ID": 1,
+            "FIRST_NAME": "Anita",
+            "LAST_NAME": "Sharma",
+            "CONTACT": "90001",
+            "FLIGHT_ID": 11
+          },
+          {
+            "CABINCREW_ID": 3,
+            "FIRST_NAME": "Ajay",
+            "LAST_NAME": "Das",
+            "CONTACT": "90003",
+            "FLIGHT_ID": 21
+          }
+        ],
+        "explanation": "Anita and Ajay start with A and their flight IDs end in 1. Aman fails the flight-ID condition and Riya fails the name condition."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-019-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "cabincrew": [
+            {
+              "CABINCREW_ID": 1,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Anita",
+              "LAST_NAME": "Sharma",
+              "CONTACT": "90001"
+            },
+            {
+              "CABINCREW_ID": 2,
+              "FLIGHT_ID": 12,
+              "FIRST_NAME": "Aman",
+              "LAST_NAME": "Roy",
+              "CONTACT": "90002"
+            },
+            {
+              "CABINCREW_ID": 3,
+              "FLIGHT_ID": 21,
+              "FIRST_NAME": "Ajay",
+              "LAST_NAME": "Das",
+              "CONTACT": "90003"
+            },
+            {
+              "CABINCREW_ID": 4,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Khan",
+              "CONTACT": "90004"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 11,
+              "FLIGHT_TO": "Paris"
+            },
+            {
+              "FLIGHT_ID": 12,
+              "FLIGHT_TO": "London"
+            },
+            {
+              "FLIGHT_ID": 21,
+              "FLIGHT_TO": "Rome"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "CABINCREW_ID": 1,
+            "FIRST_NAME": "Anita",
+            "LAST_NAME": "Sharma",
+            "CONTACT": "90001",
+            "FLIGHT_ID": 11
+          },
+          {
+            "CABINCREW_ID": 3,
+            "FIRST_NAME": "Ajay",
+            "LAST_NAME": "Das",
+            "CONTACT": "90003",
+            "FLIGHT_ID": 21
+          }
+        ]
+      },
+      {
+        "id": "sql-019-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "cabincrew": [
+            {
+              "CABINCREW_ID": 1002,
+              "FLIGHT_ID": 1022,
+              "FIRST_NAME": "ZZ_Anita",
+              "LAST_NAME": "ZZ_Sharma",
+              "CONTACT": "ZZ_90001"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 1022,
+              "FLIGHT_TO": "ZZ_Paris"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-019-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "cabincrew": [
+            {
+              "CABINCREW_ID": 1,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Anita",
+              "LAST_NAME": "Sharma",
+              "CONTACT": "90001"
+            },
+            {
+              "CABINCREW_ID": 2,
+              "FLIGHT_ID": 12,
+              "FIRST_NAME": "Aman",
+              "LAST_NAME": "Roy",
+              "CONTACT": "90002"
+            },
+            {
+              "CABINCREW_ID": 3,
+              "FLIGHT_ID": 21,
+              "FIRST_NAME": "Ajay",
+              "LAST_NAME": "Das",
+              "CONTACT": "90003"
+            },
+            {
+              "CABINCREW_ID": 4,
+              "FLIGHT_ID": 11,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Khan",
+              "CONTACT": "90004"
+            },
+            {
+              "CABINCREW_ID": 101,
+              "FLIGHT_ID": 111,
+              "FIRST_NAME": "Anita",
+              "LAST_NAME": "Sharma",
+              "CONTACT": "90001"
+            },
+            {
+              "CABINCREW_ID": 103,
+              "FLIGHT_ID": 113,
+              "FIRST_NAME": "Aman",
+              "LAST_NAME": "Roy",
+              "CONTACT": "90002"
+            },
+            {
+              "CABINCREW_ID": 105,
+              "FLIGHT_ID": 123,
+              "FIRST_NAME": "Ajay",
+              "LAST_NAME": "Das",
+              "CONTACT": "90003"
+            },
+            {
+              "CABINCREW_ID": 107,
+              "FLIGHT_ID": 114,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Khan",
+              "CONTACT": "90004"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 11,
+              "FLIGHT_TO": "Paris"
+            },
+            {
+              "FLIGHT_ID": 12,
+              "FLIGHT_TO": "London"
+            },
+            {
+              "FLIGHT_ID": 21,
+              "FLIGHT_TO": "Rome"
+            },
+            {
+              "FLIGHT_ID": 111,
+              "FLIGHT_TO": "Paris"
+            },
+            {
+              "FLIGHT_ID": 113,
+              "FLIGHT_TO": "London"
+            },
+            {
+              "FLIGHT_ID": 123,
+              "FLIGHT_TO": "Rome"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "CABINCREW_ID": 1,
+            "FIRST_NAME": "Anita",
+            "LAST_NAME": "Sharma",
+            "CONTACT": "90001",
+            "FLIGHT_ID": 11
+          },
+          {
+            "CABINCREW_ID": 3,
+            "FIRST_NAME": "Ajay",
+            "LAST_NAME": "Das",
+            "CONTACT": "90003",
+            "FLIGHT_ID": 21
+          },
+          {
+            "CABINCREW_ID": 101,
+            "FIRST_NAME": "Anita",
+            "LAST_NAME": "Sharma",
+            "CONTACT": "90001",
+            "FLIGHT_ID": 111
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-020",
+    "title": "Passengers and baggage on flights to Paris on 2024-02-11",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "AGGREGATION & GROUPING",
+    "tableSchema": [
+      {
+        "name": "flight",
+        "columns": [
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_TO",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "ARRIVAL_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "boardingpass",
+        "columns": [
+          {
+            "name": "BOARDINGPASS_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PASSENGER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "BAGGAGE",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the flight ID, total number of passengers and total baggage for flights going to Paris and arriving on 2024-02-11.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the flight ID, total number of passengers and total baggage for flights going to Paris and arriving on 2024-02-11.\n\n### Requirements:\n- **Expected Output Columns:** `FLIGHT_ID`, `Total_Passengers`, `Total_Baggage`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, COUNT, SUM, GROUP BY\n- Join Flight with BoardingPass, filter destination and arrival date, then group by flight ID. COUNT counts passengers and SUM totals baggage.",
+    "notes": [
+      "Join Flight with BoardingPass, filter destination and arrival date, then group by flight ID. COUNT counts passengers and SUM totals baggage.",
+      "Only flight 1 meets both destination and arrival-date filters. It has two boarding-pass records with 20 + 15 baggage.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  f.FLIGHT_ID,\n  COUNT(bp.PASSENGER_ID) AS Total_Passengers,\n  SUM(bp.BAGGAGE) AS Total_Baggage\nFROM flight f\nJOIN boardingpass bp ON f.FLIGHT_ID = bp.FLIGHT_ID\nWHERE f.FLIGHT_TO = 'Paris'\n  AND f.ARRIVAL_DATE = '2024-02-11'\nGROUP BY f.FLIGHT_ID;",
+    "explanation": "Join Flight with BoardingPass, filter destination and arrival date, then group by flight ID. COUNT counts passengers and SUM totals baggage. Only flight 1 meets both destination and arrival-date filters. It has two boarding-pass records with 20 + 15 baggage.",
+    "expectedColumns": [
+      "FLIGHT_ID",
+      "Total_Passengers",
+      "Total_Baggage"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "flight": [
+            {
+              "FLIGHT_ID": 1,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-11"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-12"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "FLIGHT_TO": "London",
+              "ARRIVAL_DATE": "2024-02-11"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 501,
+              "BAGGAGE": 20
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 502,
+              "BAGGAGE": 15
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "FLIGHT_ID": 2,
+              "PASSENGER_ID": 503,
+              "BAGGAGE": 10
+            },
+            {
+              "BOARDINGPASS_ID": 104,
+              "FLIGHT_ID": 3,
+              "PASSENGER_ID": 504,
+              "BAGGAGE": 30
+            }
+          ]
+        },
+        "output": [
+          {
+            "FLIGHT_ID": 1,
+            "Total_Passengers": 2,
+            "Total_Baggage": 35
+          }
+        ],
+        "explanation": "Only flight 1 meets both destination and arrival-date filters. It has two boarding-pass records with 20 + 15 baggage."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-020-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "flight": [
+            {
+              "FLIGHT_ID": 1,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-11"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-12"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "FLIGHT_TO": "London",
+              "ARRIVAL_DATE": "2024-02-11"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 501,
+              "BAGGAGE": 20
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 502,
+              "BAGGAGE": 15
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "FLIGHT_ID": 2,
+              "PASSENGER_ID": 503,
+              "BAGGAGE": 10
+            },
+            {
+              "BOARDINGPASS_ID": 104,
+              "FLIGHT_ID": 3,
+              "PASSENGER_ID": 504,
+              "BAGGAGE": 30
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FLIGHT_ID": 1,
+            "Total_Passengers": 2,
+            "Total_Baggage": 35
+          }
+        ]
+      },
+      {
+        "id": "sql-020-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "flight": [
+            {
+              "FLIGHT_ID": 1002,
+              "FLIGHT_TO": "ZZ_Paris",
+              "ARRIVAL_DATE": "ZZ_2024-02-11"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 1202,
+              "FLIGHT_ID": 1002,
+              "PASSENGER_ID": 2002,
+              "BAGGAGE": 1040
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-020-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "flight": [
+            {
+              "FLIGHT_ID": 1,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-11"
+            },
+            {
+              "FLIGHT_ID": 2,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-12"
+            },
+            {
+              "FLIGHT_ID": 3,
+              "FLIGHT_TO": "London",
+              "ARRIVAL_DATE": "2024-02-11"
+            },
+            {
+              "FLIGHT_ID": 101,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-11"
+            },
+            {
+              "FLIGHT_ID": 103,
+              "FLIGHT_TO": "Paris",
+              "ARRIVAL_DATE": "2024-02-12"
+            },
+            {
+              "FLIGHT_ID": 105,
+              "FLIGHT_TO": "London",
+              "ARRIVAL_DATE": "2024-02-11"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 501,
+              "BAGGAGE": 20
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "FLIGHT_ID": 1,
+              "PASSENGER_ID": 502,
+              "BAGGAGE": 15
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "FLIGHT_ID": 2,
+              "PASSENGER_ID": 503,
+              "BAGGAGE": 10
+            },
+            {
+              "BOARDINGPASS_ID": 104,
+              "FLIGHT_ID": 3,
+              "PASSENGER_ID": 504,
+              "BAGGAGE": 30
+            },
+            {
+              "BOARDINGPASS_ID": 201,
+              "FLIGHT_ID": 101,
+              "PASSENGER_ID": 601,
+              "BAGGAGE": 20
+            },
+            {
+              "BOARDINGPASS_ID": 203,
+              "FLIGHT_ID": 102,
+              "PASSENGER_ID": 603,
+              "BAGGAGE": 15
+            },
+            {
+              "BOARDINGPASS_ID": 205,
+              "FLIGHT_ID": 104,
+              "PASSENGER_ID": 605,
+              "BAGGAGE": 10
+            },
+            {
+              "BOARDINGPASS_ID": 207,
+              "FLIGHT_ID": 106,
+              "PASSENGER_ID": 607,
+              "BAGGAGE": 30
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FLIGHT_ID": 1,
+            "Total_Passengers": 2,
+            "Total_Baggage": 35
+          },
+          {
+            "FLIGHT_ID": 101,
+            "Total_Passengers": 1,
+            "Total_Baggage": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-021",
+    "title": "Count products in the Women category",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "AGGREGATION & GROUPING",
+    "tableSchema": [
+      {
+        "name": "product",
+        "columns": [
+          {
+            "name": "PRODUCT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "product_category",
+        "columns": [
+          {
+            "name": "PRODUCT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "CATEGORY_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "category",
+        "columns": [
+          {
+            "name": "CATEGORY_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to find the number of products belonging to the 'Women' category.",
+    "problem": "### Problem Statement\nWrite an SQL query to find the number of products belonging to the 'Women' category.\n\n### Requirements:\n- **Expected Output Columns:** `product_count`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, COUNT\n- A product can be connected to categories through product_category. Join all three tables and count matching product records.",
+    "notes": [
+      "A product can be connected to categories through product_category. Join all three tables and count matching product records.",
+      "Two products map to category 10, whose name is Women.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  COUNT(*) AS product_count\nFROM product p\nJOIN product_category pc ON p.PRODUCT_ID = pc.PRODUCT_ID\nJOIN category c ON pc.CATEGORY_ID = c.CATEGORY_ID\nWHERE c.NAME = 'Women';",
+    "explanation": "A product can be connected to categories through product_category. Join all three tables and count matching product records. Two products map to category 10, whose name is Women.",
+    "expectedColumns": [
+      "product_count"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Dress"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Laptop"
+            },
+            {
+              "PRODUCT_ID": 4,
+              "NAME": "Bag"
+            }
+          ],
+          "product_category": [
+            {
+              "PRODUCT_ID": 1,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 2,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 3,
+              "CATEGORY_ID": 20
+            },
+            {
+              "PRODUCT_ID": 4,
+              "CATEGORY_ID": 30
+            }
+          ],
+          "category": [
+            {
+              "CATEGORY_ID": 10,
+              "NAME": "Women"
+            },
+            {
+              "CATEGORY_ID": 20,
+              "NAME": "Electronics"
+            },
+            {
+              "CATEGORY_ID": 30,
+              "NAME": "Travel"
+            }
+          ]
+        },
+        "output": [
+          {
+            "product_count": 2
+          }
+        ],
+        "explanation": "Two products map to category 10, whose name is Women."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-021-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Dress"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Laptop"
+            },
+            {
+              "PRODUCT_ID": 4,
+              "NAME": "Bag"
+            }
+          ],
+          "product_category": [
+            {
+              "PRODUCT_ID": 1,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 2,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 3,
+              "CATEGORY_ID": 20
+            },
+            {
+              "PRODUCT_ID": 4,
+              "CATEGORY_ID": 30
+            }
+          ],
+          "category": [
+            {
+              "CATEGORY_ID": 10,
+              "NAME": "Women"
+            },
+            {
+              "CATEGORY_ID": 20,
+              "NAME": "Electronics"
+            },
+            {
+              "CATEGORY_ID": 30,
+              "NAME": "Travel"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "product_count": 2
+          }
+        ]
+      },
+      {
+        "id": "sql-021-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1002,
+              "NAME": "ZZ_Dress"
+            }
+          ],
+          "product_category": [
+            {
+              "PRODUCT_ID": 1002,
+              "CATEGORY_ID": 1020
+            }
+          ],
+          "category": [
+            {
+              "CATEGORY_ID": 1020,
+              "NAME": "ZZ_Women"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "product_count": 0
+          }
+        ]
+      },
+      {
+        "id": "sql-021-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Dress"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Laptop"
+            },
+            {
+              "PRODUCT_ID": 4,
+              "NAME": "Bag"
+            },
+            {
+              "PRODUCT_ID": 101,
+              "NAME": "Dress"
+            },
+            {
+              "PRODUCT_ID": 103,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 105,
+              "NAME": "Laptop"
+            },
+            {
+              "PRODUCT_ID": 107,
+              "NAME": "Bag"
+            }
+          ],
+          "product_category": [
+            {
+              "PRODUCT_ID": 1,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 2,
+              "CATEGORY_ID": 10
+            },
+            {
+              "PRODUCT_ID": 3,
+              "CATEGORY_ID": 20
+            },
+            {
+              "PRODUCT_ID": 4,
+              "CATEGORY_ID": 30
+            },
+            {
+              "PRODUCT_ID": 101,
+              "CATEGORY_ID": 110
+            },
+            {
+              "PRODUCT_ID": 103,
+              "CATEGORY_ID": 111
+            },
+            {
+              "PRODUCT_ID": 105,
+              "CATEGORY_ID": 122
+            },
+            {
+              "PRODUCT_ID": 107,
+              "CATEGORY_ID": 133
+            }
+          ],
+          "category": [
+            {
+              "CATEGORY_ID": 10,
+              "NAME": "Women"
+            },
+            {
+              "CATEGORY_ID": 20,
+              "NAME": "Electronics"
+            },
+            {
+              "CATEGORY_ID": 30,
+              "NAME": "Travel"
+            },
+            {
+              "CATEGORY_ID": 110,
+              "NAME": "Women"
+            },
+            {
+              "CATEGORY_ID": 121,
+              "NAME": "Electronics"
+            },
+            {
+              "CATEGORY_ID": 132,
+              "NAME": "Travel"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "product_count": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-022",
+    "title": "Trains with speed below 50",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "FILTERING & PREDICATES",
+    "tableSchema": [
+      {
+        "name": "train_details_tbl",
+        "columns": [
+          {
+            "name": "train_id",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "train_name",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_type",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "train_speed",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the train name and train type of trains whose speed is less than 50.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the train name and train type of trains whose speed is less than 50.\n\n### Requirements:\n- **Expected Output Columns:** `TRAIN_NAME`, `TRAIN_TYPE`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** WHERE, comparison operator\n- Filter train_details_tbl using train_speed < 50 and return train_name and train_type.",
+    "notes": [
+      "Filter train_details_tbl using train_speed < 50 and return train_name and train_type.",
+      "45 and 49 are below 50. A speed of exactly 50 is excluded.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  train_name AS TRAIN_NAME,\n  train_type AS TRAIN_TYPE\nFROM train_details_tbl\nWHERE train_speed < 50;",
+    "explanation": "Filter train_details_tbl using train_speed < 50 and return train_name and train_type. 45 and 49 are below 50. A speed of exactly 50 is excluded.",
+    "expectedColumns": [
+      "TRAIN_NAME",
+      "TRAIN_TYPE"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_speed": 45
+            },
+            {
+              "train_id": 2,
+              "train_name": "Rajdhani",
+              "train_type": "EXP",
+              "train_speed": 120
+            },
+            {
+              "train_id": 3,
+              "train_name": "Slow Passenger",
+              "train_type": "PAS",
+              "train_speed": 49
+            },
+            {
+              "train_id": 4,
+              "train_name": "Express X",
+              "train_type": "EXP",
+              "train_speed": 50
+            }
+          ]
+        },
+        "output": [
+          {
+            "TRAIN_NAME": "Mumbai Local",
+            "TRAIN_TYPE": "LOC"
+          },
+          {
+            "TRAIN_NAME": "Slow Passenger",
+            "TRAIN_TYPE": "PAS"
+          }
+        ],
+        "explanation": "45 and 49 are below 50. A speed of exactly 50 is excluded."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-022-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_speed": 45
+            },
+            {
+              "train_id": 2,
+              "train_name": "Rajdhani",
+              "train_type": "EXP",
+              "train_speed": 120
+            },
+            {
+              "train_id": 3,
+              "train_name": "Slow Passenger",
+              "train_type": "PAS",
+              "train_speed": 49
+            },
+            {
+              "train_id": 4,
+              "train_name": "Express X",
+              "train_type": "EXP",
+              "train_speed": 50
+            }
+          ]
+        },
+        "expected": [
+          {
+            "TRAIN_NAME": "Mumbai Local",
+            "TRAIN_TYPE": "LOC"
+          },
+          {
+            "TRAIN_NAME": "Slow Passenger",
+            "TRAIN_TYPE": "PAS"
+          }
+        ]
+      },
+      {
+        "id": "sql-022-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1002,
+              "train_name": "ZZ_Mumbai Local",
+              "train_type": "LOC",
+              "train_speed": 1090
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-022-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "train_details_tbl": [
+            {
+              "train_id": 1,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_speed": 45
+            },
+            {
+              "train_id": 2,
+              "train_name": "Rajdhani",
+              "train_type": "EXP",
+              "train_speed": 120
+            },
+            {
+              "train_id": 3,
+              "train_name": "Slow Passenger",
+              "train_type": "PAS",
+              "train_speed": 49
+            },
+            {
+              "train_id": 4,
+              "train_name": "Express X",
+              "train_type": "EXP",
+              "train_speed": 50
+            },
+            {
+              "train_id": 101,
+              "train_name": "Mumbai Local",
+              "train_type": "LOC",
+              "train_speed": 45
+            },
+            {
+              "train_id": 103,
+              "train_name": "Rajdhani",
+              "train_type": "EXP",
+              "train_speed": 120
+            },
+            {
+              "train_id": 105,
+              "train_name": "Slow Passenger",
+              "train_type": "PAS",
+              "train_speed": 49
+            },
+            {
+              "train_id": 107,
+              "train_name": "Express X",
+              "train_type": "EXP",
+              "train_speed": 50
+            }
+          ]
+        },
+        "expected": [
+          {
+            "TRAIN_NAME": "Mumbai Local",
+            "TRAIN_TYPE": "LOC"
+          },
+          {
+            "TRAIN_NAME": "Slow Passenger",
+            "TRAIN_TYPE": "PAS"
+          },
+          {
+            "TRAIN_NAME": "Mumbai Local",
+            "TRAIN_TYPE": "LOC"
+          },
+          {
+            "TRAIN_NAME": "Slow Passenger",
+            "TRAIN_TYPE": "PAS"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-023",
+    "title": "Vegetarian passengers on flight 4 from Hong Kong",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "passenger",
+        "columns": [
+          {
+            "name": "PASSENGER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "CONTACT",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "boardingpass",
+        "columns": [
+          {
+            "name": "BOARDINGPASS_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PASSENGER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "MEAL",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "flight",
+        "columns": [
+          {
+            "name": "FLIGHT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLIGHT_FROM",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the first name and contact of passengers who travelled on flight 4 from Hong Kong and selected a Vegetarian meal.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the first name and contact of passengers who travelled on flight 4 from Hong Kong and selected a Vegetarian meal.\n\n### Requirements:\n- **Expected Output Columns:** `FIRST_NAME`, `CONTACT`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, DISTINCT, multiple conditions\n- Join Passenger → BoardingPass → Flight. Filter the flight origin, flight ID and meal type. DISTINCT prevents duplicate passenger rows.",
+    "notes": [
+      "Join Passenger → BoardingPass → Flight. Filter the flight origin, flight ID and meal type. DISTINCT prevents duplicate passenger rows.",
+      "Only Amit is on flight 4 from Hong Kong with a Vegetarian meal.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  DISTINCT p.FIRST_NAME,\n  p.CONTACT\nFROM passenger p\nJOIN boardingpass bp ON p.PASSENGER_ID = bp.PASSENGER_ID\nJOIN flight f ON bp.FLIGHT_ID = f.FLIGHT_ID\nWHERE f.FLIGHT_FROM = 'Hong Kong'\n  AND bp.FLIGHT_ID = 4\n  AND bp.MEAL = 'Vegetarian';",
+    "explanation": "Join Passenger → BoardingPass → Flight. Filter the flight origin, flight ID and meal type. DISTINCT prevents duplicate passenger rows. Only Amit is on flight 4 from Hong Kong with a Vegetarian meal.",
+    "expectedColumns": [
+      "FIRST_NAME",
+      "CONTACT"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "passenger": [
+            {
+              "PASSENGER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "CONTACT": "90001"
+            },
+            {
+              "PASSENGER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "CONTACT": "90002"
+            },
+            {
+              "PASSENGER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "CONTACT": "90003"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "PASSENGER_ID": 1,
+              "FLIGHT_ID": 4,
+              "MEAL": "Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "PASSENGER_ID": 2,
+              "FLIGHT_ID": 4,
+              "MEAL": "Non-Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "PASSENGER_ID": 3,
+              "FLIGHT_ID": 5,
+              "MEAL": "Vegetarian"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 4,
+              "FLIGHT_FROM": "Hong Kong"
+            },
+            {
+              "FLIGHT_ID": 5,
+              "FLIGHT_FROM": "Delhi"
+            }
+          ]
+        },
+        "output": [
+          {
+            "FIRST_NAME": "Amit",
+            "CONTACT": "90001"
+          }
+        ],
+        "explanation": "Only Amit is on flight 4 from Hong Kong with a Vegetarian meal."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-023-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "passenger": [
+            {
+              "PASSENGER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "CONTACT": "90001"
+            },
+            {
+              "PASSENGER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "CONTACT": "90002"
+            },
+            {
+              "PASSENGER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "CONTACT": "90003"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "PASSENGER_ID": 1,
+              "FLIGHT_ID": 4,
+              "MEAL": "Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "PASSENGER_ID": 2,
+              "FLIGHT_ID": 4,
+              "MEAL": "Non-Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "PASSENGER_ID": 3,
+              "FLIGHT_ID": 5,
+              "MEAL": "Vegetarian"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 4,
+              "FLIGHT_FROM": "Hong Kong"
+            },
+            {
+              "FLIGHT_ID": 5,
+              "FLIGHT_FROM": "Delhi"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FIRST_NAME": "Amit",
+            "CONTACT": "90001"
+          }
+        ]
+      },
+      {
+        "id": "sql-023-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "passenger": [
+            {
+              "PASSENGER_ID": 1002,
+              "FIRST_NAME": "ZZ_Amit",
+              "CONTACT": "ZZ_90001"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 1202,
+              "PASSENGER_ID": 1002,
+              "FLIGHT_ID": 1008,
+              "MEAL": "ZZ_Vegetarian"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 1008,
+              "FLIGHT_FROM": "ZZ_Hong Kong"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-023-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "passenger": [
+            {
+              "PASSENGER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "CONTACT": "90001"
+            },
+            {
+              "PASSENGER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "CONTACT": "90002"
+            },
+            {
+              "PASSENGER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "CONTACT": "90003"
+            },
+            {
+              "PASSENGER_ID": 101,
+              "FIRST_NAME": "Amit",
+              "CONTACT": "90001"
+            },
+            {
+              "PASSENGER_ID": 103,
+              "FIRST_NAME": "Riya",
+              "CONTACT": "90002"
+            },
+            {
+              "PASSENGER_ID": 105,
+              "FIRST_NAME": "Neha",
+              "CONTACT": "90003"
+            }
+          ],
+          "boardingpass": [
+            {
+              "BOARDINGPASS_ID": 101,
+              "PASSENGER_ID": 1,
+              "FLIGHT_ID": 4,
+              "MEAL": "Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 102,
+              "PASSENGER_ID": 2,
+              "FLIGHT_ID": 4,
+              "MEAL": "Non-Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 103,
+              "PASSENGER_ID": 3,
+              "FLIGHT_ID": 5,
+              "MEAL": "Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 201,
+              "PASSENGER_ID": 101,
+              "FLIGHT_ID": 104,
+              "MEAL": "Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 203,
+              "PASSENGER_ID": 103,
+              "FLIGHT_ID": 105,
+              "MEAL": "Non-Vegetarian"
+            },
+            {
+              "BOARDINGPASS_ID": 205,
+              "PASSENGER_ID": 105,
+              "FLIGHT_ID": 107,
+              "MEAL": "Vegetarian"
+            }
+          ],
+          "flight": [
+            {
+              "FLIGHT_ID": 4,
+              "FLIGHT_FROM": "Hong Kong"
+            },
+            {
+              "FLIGHT_ID": 5,
+              "FLIGHT_FROM": "Delhi"
+            },
+            {
+              "FLIGHT_ID": 104,
+              "FLIGHT_FROM": "Hong Kong"
+            },
+            {
+              "FLIGHT_ID": 106,
+              "FLIGHT_FROM": "Delhi"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FIRST_NAME": "Amit",
+            "CONTACT": "90001"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-024",
+    "title": "Products currently in the transit hub",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "product",
+        "columns": [
+          {
+            "name": "PRODUCT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "order_item",
+        "columns": [
+          {
+            "name": "ORDER_ITEM_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "ORDER_DELIVERY_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PRODUCT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "QUANTITY",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "order_delivery",
+        "columns": [
+          {
+            "name": "ORDER_DELIVERY_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "ORDER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "STATUS",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the product ID and product name of products whose delivery status is 'In the transit hub'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the product ID and product name of products whose delivery status is 'In the transit hub'.\n\n### Requirements:\n- **Expected Output Columns:** `PRODUCT_ID`, `NAME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, DISTINCT, status filtering\n- Join product to order_item, then order_item to order_delivery. Filter the delivery status and use DISTINCT because a product can appear in multiple order items.",
+    "notes": [
+      "Join product to order_item, then order_item to order_delivery. Filter the delivery status and use DISTINCT because a product can appear in multiple order items.",
+      "Phone has two order items whose delivery status is the transit hub, but DISTINCT returns it only once. Shoes is delivered and Bag has no matching transit-hub delivery.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  DISTINCT p.PRODUCT_ID,\n  p.NAME\nFROM product p\nJOIN order_item oi ON p.PRODUCT_ID = oi.PRODUCT_ID\nJOIN order_delivery od ON oi.ORDER_DELIVERY_ID = od.ORDER_DELIVERY_ID\nWHERE od.STATUS = 'In the transit hub';",
+    "explanation": "Join product to order_item, then order_item to order_delivery. Filter the delivery status and use DISTINCT because a product can appear in multiple order items. Phone has two order items whose delivery status is the transit hub, but DISTINCT returns it only once. Shoes is delivered and Bag has no matching transit-hub delivery.",
+    "expectedColumns": [
+      "PRODUCT_ID",
+      "NAME"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Phone"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Bag"
+            }
+          ],
+          "order_item": [
+            {
+              "ORDER_ITEM_ID": 11,
+              "ORDER_DELIVERY_ID": 101,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 2
+            },
+            {
+              "ORDER_ITEM_ID": 12,
+              "ORDER_DELIVERY_ID": 102,
+              "PRODUCT_ID": 2,
+              "QUANTITY": 1
+            },
+            {
+              "ORDER_ITEM_ID": 13,
+              "ORDER_DELIVERY_ID": 103,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 1
+            }
+          ],
+          "order_delivery": [
+            {
+              "ORDER_DELIVERY_ID": 101,
+              "ORDER_ID": 500,
+              "STATUS": "In the transit hub"
+            },
+            {
+              "ORDER_DELIVERY_ID": 102,
+              "ORDER_ID": 501,
+              "STATUS": "Delivered"
+            },
+            {
+              "ORDER_DELIVERY_ID": 103,
+              "ORDER_ID": 502,
+              "STATUS": "In the transit hub"
+            }
+          ]
+        },
+        "output": [
+          {
+            "PRODUCT_ID": 1,
+            "NAME": "Phone"
+          }
+        ],
+        "explanation": "Phone has two order items whose delivery status is the transit hub, but DISTINCT returns it only once. Shoes is delivered and Bag has no matching transit-hub delivery."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-024-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Phone"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Bag"
+            }
+          ],
+          "order_item": [
+            {
+              "ORDER_ITEM_ID": 11,
+              "ORDER_DELIVERY_ID": 101,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 2
+            },
+            {
+              "ORDER_ITEM_ID": 12,
+              "ORDER_DELIVERY_ID": 102,
+              "PRODUCT_ID": 2,
+              "QUANTITY": 1
+            },
+            {
+              "ORDER_ITEM_ID": 13,
+              "ORDER_DELIVERY_ID": 103,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 1
+            }
+          ],
+          "order_delivery": [
+            {
+              "ORDER_DELIVERY_ID": 101,
+              "ORDER_ID": 500,
+              "STATUS": "In the transit hub"
+            },
+            {
+              "ORDER_DELIVERY_ID": 102,
+              "ORDER_ID": 501,
+              "STATUS": "Delivered"
+            },
+            {
+              "ORDER_DELIVERY_ID": 103,
+              "ORDER_ID": 502,
+              "STATUS": "In the transit hub"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "PRODUCT_ID": 1,
+            "NAME": "Phone"
+          }
+        ]
+      },
+      {
+        "id": "sql-024-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1002,
+              "NAME": "ZZ_Phone"
+            }
+          ],
+          "order_item": [
+            {
+              "ORDER_ITEM_ID": 1022,
+              "ORDER_DELIVERY_ID": 1202,
+              "PRODUCT_ID": 1002,
+              "QUANTITY": 1004
+            }
+          ],
+          "order_delivery": [
+            {
+              "ORDER_DELIVERY_ID": 1202,
+              "ORDER_ID": 2000,
+              "STATUS": "ZZ_In the transit hub"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-024-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "product": [
+            {
+              "PRODUCT_ID": 1,
+              "NAME": "Phone"
+            },
+            {
+              "PRODUCT_ID": 2,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 3,
+              "NAME": "Bag"
+            },
+            {
+              "PRODUCT_ID": 101,
+              "NAME": "Phone"
+            },
+            {
+              "PRODUCT_ID": 103,
+              "NAME": "Shoes"
+            },
+            {
+              "PRODUCT_ID": 105,
+              "NAME": "Bag"
+            }
+          ],
+          "order_item": [
+            {
+              "ORDER_ITEM_ID": 11,
+              "ORDER_DELIVERY_ID": 101,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 2
+            },
+            {
+              "ORDER_ITEM_ID": 12,
+              "ORDER_DELIVERY_ID": 102,
+              "PRODUCT_ID": 2,
+              "QUANTITY": 1
+            },
+            {
+              "ORDER_ITEM_ID": 13,
+              "ORDER_DELIVERY_ID": 103,
+              "PRODUCT_ID": 1,
+              "QUANTITY": 1
+            },
+            {
+              "ORDER_ITEM_ID": 111,
+              "ORDER_DELIVERY_ID": 201,
+              "PRODUCT_ID": 101,
+              "QUANTITY": 2
+            },
+            {
+              "ORDER_ITEM_ID": 113,
+              "ORDER_DELIVERY_ID": 203,
+              "PRODUCT_ID": 103,
+              "QUANTITY": 1
+            },
+            {
+              "ORDER_ITEM_ID": 115,
+              "ORDER_DELIVERY_ID": 205,
+              "PRODUCT_ID": 103,
+              "QUANTITY": 1
+            }
+          ],
+          "order_delivery": [
+            {
+              "ORDER_DELIVERY_ID": 101,
+              "ORDER_ID": 500,
+              "STATUS": "In the transit hub"
+            },
+            {
+              "ORDER_DELIVERY_ID": 102,
+              "ORDER_ID": 501,
+              "STATUS": "Delivered"
+            },
+            {
+              "ORDER_DELIVERY_ID": 103,
+              "ORDER_ID": 502,
+              "STATUS": "In the transit hub"
+            },
+            {
+              "ORDER_DELIVERY_ID": 201,
+              "ORDER_ID": 600,
+              "STATUS": "In the transit hub"
+            },
+            {
+              "ORDER_DELIVERY_ID": 203,
+              "ORDER_ID": 602,
+              "STATUS": "Delivered"
+            },
+            {
+              "ORDER_DELIVERY_ID": 205,
+              "ORDER_ID": 604,
+              "STATUS": "In the transit hub"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "PRODUCT_ID": 1,
+            "NAME": "Phone"
+          },
+          {
+            "PRODUCT_ID": 101,
+            "NAME": "Phone"
+          },
+          {
+            "PRODUCT_ID": 103,
+            "NAME": "Shoes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-025",
+    "title": "Artists whose name contains a number",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "PATTERN MATCHING & STRINGS",
+    "tableSchema": [
+      {
+        "name": "artist",
+        "columns": [
+          {
+            "name": "ARTIST_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the artist ID and name where the artist has a number in the name.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the artist ID and name where the artist has a number in the name.\n\n### Requirements:\n- **Expected Output Columns:** `ARTIST_ID`, `NAME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** REGEXP, pattern matching\n- Use MySQL REGEXP '[0-9]' to detect any digit from 0 through 9 anywhere in the artist name. The supplied source also shows a LIKE-based alternative.",
+    "notes": [
+      "Use MySQL REGEXP '[0-9]' to detect any digit from 0 through 9 anywhere in the artist name. The supplied source also shows a LIKE-based alternative.",
+      "U2, Maroon 5 and 2Pac contain at least one digit. ABBA and Coldplay contain none.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  ARTIST_ID,\n  NAME\nFROM artist\nWHERE NAME REGEXP '[0-9]';",
+    "explanation": "Use MySQL REGEXP '[0-9]' to detect any digit from 0 through 9 anywhere in the artist name. The supplied source also shows a LIKE-based alternative. U2, Maroon 5 and 2Pac contain at least one digit. ABBA and Coldplay contain none.",
+    "expectedColumns": [
+      "ARTIST_ID",
+      "NAME"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "artist": [
+            {
+              "ARTIST_ID": 1,
+              "NAME": "ABBA"
+            },
+            {
+              "ARTIST_ID": 2,
+              "NAME": "U2"
+            },
+            {
+              "ARTIST_ID": 3,
+              "NAME": "Maroon 5"
+            },
+            {
+              "ARTIST_ID": 4,
+              "NAME": "Coldplay"
+            },
+            {
+              "ARTIST_ID": 5,
+              "NAME": "2Pac"
+            }
+          ]
+        },
+        "output": [
+          {
+            "ARTIST_ID": 2,
+            "NAME": "U2"
+          },
+          {
+            "ARTIST_ID": 3,
+            "NAME": "Maroon 5"
+          },
+          {
+            "ARTIST_ID": 5,
+            "NAME": "2Pac"
+          }
+        ],
+        "explanation": "U2, Maroon 5 and 2Pac contain at least one digit. ABBA and Coldplay contain none."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-025-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "artist": [
+            {
+              "ARTIST_ID": 1,
+              "NAME": "ABBA"
+            },
+            {
+              "ARTIST_ID": 2,
+              "NAME": "U2"
+            },
+            {
+              "ARTIST_ID": 3,
+              "NAME": "Maroon 5"
+            },
+            {
+              "ARTIST_ID": 4,
+              "NAME": "Coldplay"
+            },
+            {
+              "ARTIST_ID": 5,
+              "NAME": "2Pac"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "ARTIST_ID": 2,
+            "NAME": "U2"
+          },
+          {
+            "ARTIST_ID": 3,
+            "NAME": "Maroon 5"
+          },
+          {
+            "ARTIST_ID": 5,
+            "NAME": "2Pac"
+          }
+        ]
+      },
+      {
+        "id": "sql-025-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "artist": [
+            {
+              "ARTIST_ID": 1002,
+              "NAME": "ZZ_ABBA"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-025-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "artist": [
+            {
+              "ARTIST_ID": 1,
+              "NAME": "ABBA"
+            },
+            {
+              "ARTIST_ID": 2,
+              "NAME": "U2"
+            },
+            {
+              "ARTIST_ID": 3,
+              "NAME": "Maroon 5"
+            },
+            {
+              "ARTIST_ID": 4,
+              "NAME": "Coldplay"
+            },
+            {
+              "ARTIST_ID": 5,
+              "NAME": "2Pac"
+            },
+            {
+              "ARTIST_ID": 101,
+              "NAME": "ABBA"
+            },
+            {
+              "ARTIST_ID": 103,
+              "NAME": "U2"
+            },
+            {
+              "ARTIST_ID": 105,
+              "NAME": "Maroon 5"
+            },
+            {
+              "ARTIST_ID": 107,
+              "NAME": "Coldplay"
+            },
+            {
+              "ARTIST_ID": 109,
+              "NAME": "2Pac"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "ARTIST_ID": 2,
+            "NAME": "U2"
+          },
+          {
+            "ARTIST_ID": 3,
+            "NAME": "Maroon 5"
+          },
+          {
+            "ARTIST_ID": 5,
+            "NAME": "2Pac"
+          },
+          {
+            "ARTIST_ID": 103,
+            "NAME": "U2"
+          },
+          {
+            "ARTIST_ID": 105,
+            "NAME": "Maroon 5"
+          },
+          {
+            "ARTIST_ID": 109,
+            "NAME": "2Pac"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-026",
+    "title": "Messages containing Hello",
+    "difficulty": "Easy",
+    "duration": 15,
+    "category": "PATTERN MATCHING & STRINGS",
+    "tableSchema": [
+      {
+        "name": "message",
+        "columns": [
+          {
+            "name": "MESSAGE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "CONTENT",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the message ID and content of messages containing the word 'Hello'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the message ID and content of messages containing the word 'Hello'.\n\n### Requirements:\n- **Expected Output Columns:** `MESSAGE_ID`, `CONTENT`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** LIKE, wildcards\n- Use LIKE '%Hello%' so the text can occur anywhere inside CONTENT.",
+    "notes": [
+      "Use LIKE '%Hello%' so the text can occur anywhere inside CONTENT.",
+      "With a typical case-insensitive MySQL collation, LIKE '%Hello%' also matches 'hello again'. If the website deliberately uses a case-sensitive collation, row 4 will not match.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  MESSAGE_ID,\n  CONTENT\nFROM message\nWHERE CONTENT LIKE '%Hello%';",
+    "explanation": "Use LIKE '%Hello%' so the text can occur anywhere inside CONTENT. With a typical case-insensitive MySQL collation, LIKE '%Hello%' also matches 'hello again'. If the website deliberately uses a case-sensitive collation, row 4 will not match.",
+    "expectedColumns": [
+      "MESSAGE_ID",
+      "CONTENT"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "message": [
+            {
+              "MESSAGE_ID": 1,
+              "CONTENT": "Hello world"
+            },
+            {
+              "MESSAGE_ID": 2,
+              "CONTENT": "Hi there"
+            },
+            {
+              "MESSAGE_ID": 3,
+              "CONTENT": "Say Hello to everyone"
+            },
+            {
+              "MESSAGE_ID": 4,
+              "CONTENT": "hello again"
+            },
+            {
+              "MESSAGE_ID": 5,
+              "CONTENT": "Welcome"
+            }
+          ]
+        },
+        "output": [
+          {
+            "MESSAGE_ID": 1,
+            "CONTENT": "Hello world"
+          },
+          {
+            "MESSAGE_ID": 3,
+            "CONTENT": "Say Hello to everyone"
+          },
+          {
+            "MESSAGE_ID": 4,
+            "CONTENT": "hello again"
+          }
+        ],
+        "explanation": "With a typical case-insensitive MySQL collation, LIKE '%Hello%' also matches 'hello again'. If the website deliberately uses a case-sensitive collation, row 4 will not match."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-026-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "message": [
+            {
+              "MESSAGE_ID": 1,
+              "CONTENT": "Hello world"
+            },
+            {
+              "MESSAGE_ID": 2,
+              "CONTENT": "Hi there"
+            },
+            {
+              "MESSAGE_ID": 3,
+              "CONTENT": "Say Hello to everyone"
+            },
+            {
+              "MESSAGE_ID": 4,
+              "CONTENT": "hello again"
+            },
+            {
+              "MESSAGE_ID": 5,
+              "CONTENT": "Welcome"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "MESSAGE_ID": 1,
+            "CONTENT": "Hello world"
+          },
+          {
+            "MESSAGE_ID": 3,
+            "CONTENT": "Say Hello to everyone"
+          },
+          {
+            "MESSAGE_ID": 4,
+            "CONTENT": "hello again"
+          }
+        ]
+      },
+      {
+        "id": "sql-026-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "message": [
+            {
+              "MESSAGE_ID": 1002,
+              "CONTENT": "ZZ_Hello world"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "MESSAGE_ID": 1002,
+            "CONTENT": "ZZ_Hello world"
+          }
+        ]
+      },
+      {
+        "id": "sql-026-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "message": [
+            {
+              "MESSAGE_ID": 1,
+              "CONTENT": "Hello world"
+            },
+            {
+              "MESSAGE_ID": 2,
+              "CONTENT": "Hi there"
+            },
+            {
+              "MESSAGE_ID": 3,
+              "CONTENT": "Say Hello to everyone"
+            },
+            {
+              "MESSAGE_ID": 4,
+              "CONTENT": "hello again"
+            },
+            {
+              "MESSAGE_ID": 5,
+              "CONTENT": "Welcome"
+            },
+            {
+              "MESSAGE_ID": 101,
+              "CONTENT": "Hello world"
+            },
+            {
+              "MESSAGE_ID": 103,
+              "CONTENT": "Hi there"
+            },
+            {
+              "MESSAGE_ID": 105,
+              "CONTENT": "Say Hello to everyone"
+            },
+            {
+              "MESSAGE_ID": 107,
+              "CONTENT": "hello again"
+            },
+            {
+              "MESSAGE_ID": 109,
+              "CONTENT": "Welcome"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "MESSAGE_ID": 1,
+            "CONTENT": "Hello world"
+          },
+          {
+            "MESSAGE_ID": 3,
+            "CONTENT": "Say Hello to everyone"
+          },
+          {
+            "MESSAGE_ID": 4,
+            "CONTENT": "hello again"
+          },
+          {
+            "MESSAGE_ID": 101,
+            "CONTENT": "Hello world"
+          },
+          {
+            "MESSAGE_ID": 105,
+            "CONTENT": "Say Hello to everyone"
+          },
+          {
+            "MESSAGE_ID": 107,
+            "CONTENT": "hello again"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-027",
+    "title": "In-use vehicles whose plate ends in 0",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "driver",
+        "columns": [
+          {
+            "name": "DRIVER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LAST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LICENSE_NUMBER",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "vehicle",
+        "columns": [
+          {
+            "name": "VEHICLE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "DRIVER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PLATE_NUMBER",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "STATUS",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the full name, license number and plate number of all drivers whose vehicles have a status of 'In Use' and whose plate ends with '0'. The name should combine first name and last name with a space.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the full name, license number and plate number of all drivers whose vehicles have a status of 'In Use' and whose plate ends with '0'. The name should combine first name and last name with a space.\n\n### Requirements:\n- **Expected Output Columns:** `Name`, `LICENSE_NUMBER`, `PLATE_NUMBER`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, CONCAT, LIKE\n- Join driver and vehicle on DRIVER_ID. Filter vehicle status and use LIKE '%0' for a plate ending in 0. CONCAT builds the full driver name.",
+    "notes": [
+      "Join driver and vehicle on DRIVER_ID. Filter vehicle status and use LIKE '%0' for a plate ending in 0. CONCAT builds the full driver name.",
+      "Amit's vehicle is in use and its plate ends in 0. Riya's plate does not end in 0; Neha's vehicle is not in use.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  CONCAT(d.FIRST_NAME, ' ', d.LAST_NAME) AS Name,\n  d.LICENSE_NUMBER,\n  v.PLATE_NUMBER\nFROM driver d\nJOIN vehicle v ON d.DRIVER_ID = v.DRIVER_ID\nWHERE v.STATUS = 'In Use'\n  AND v.PLATE_NUMBER LIKE '%0';",
+    "explanation": "Join driver and vehicle on DRIVER_ID. Filter vehicle status and use LIKE '%0' for a plate ending in 0. CONCAT builds the full driver name. Amit's vehicle is in use and its plate ends in 0. Riya's plate does not end in 0; Neha's vehicle is not in use.",
+    "expectedColumns": [
+      "Name",
+      "LICENSE_NUMBER",
+      "PLATE_NUMBER"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah",
+              "LICENSE_NUMBER": "LIC1"
+            },
+            {
+              "DRIVER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy",
+              "LICENSE_NUMBER": "LIC2"
+            },
+            {
+              "DRIVER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das",
+              "LICENSE_NUMBER": "LIC3"
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1,
+              "PLATE_NUMBER": "UP10",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2,
+              "PLATE_NUMBER": "UP21",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3,
+              "PLATE_NUMBER": "UP30",
+              "STATUS": "Maintenance"
+            }
+          ]
+        },
+        "output": [
+          {
+            "Name": "Amit Shah",
+            "LICENSE_NUMBER": "LIC1",
+            "PLATE_NUMBER": "UP10"
+          }
+        ],
+        "explanation": "Amit's vehicle is in use and its plate ends in 0. Riya's plate does not end in 0; Neha's vehicle is not in use."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-027-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah",
+              "LICENSE_NUMBER": "LIC1"
+            },
+            {
+              "DRIVER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy",
+              "LICENSE_NUMBER": "LIC2"
+            },
+            {
+              "DRIVER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das",
+              "LICENSE_NUMBER": "LIC3"
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1,
+              "PLATE_NUMBER": "UP10",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2,
+              "PLATE_NUMBER": "UP21",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3,
+              "PLATE_NUMBER": "UP30",
+              "STATUS": "Maintenance"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Name": "Amit Shah",
+            "LICENSE_NUMBER": "LIC1",
+            "PLATE_NUMBER": "UP10"
+          }
+        ]
+      },
+      {
+        "id": "sql-027-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1002,
+              "FIRST_NAME": "ZZ_Amit",
+              "LAST_NAME": "ZZ_Shah",
+              "LICENSE_NUMBER": "ZZ_LIC1"
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 1202,
+              "DRIVER_ID": 1002,
+              "PLATE_NUMBER": "ZZ_UP10",
+              "STATUS": "ZZ_In Use"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-027-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah",
+              "LICENSE_NUMBER": "LIC1"
+            },
+            {
+              "DRIVER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy",
+              "LICENSE_NUMBER": "LIC2"
+            },
+            {
+              "DRIVER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das",
+              "LICENSE_NUMBER": "LIC3"
+            },
+            {
+              "DRIVER_ID": 101,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah",
+              "LICENSE_NUMBER": "LIC1"
+            },
+            {
+              "DRIVER_ID": 103,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy",
+              "LICENSE_NUMBER": "LIC2"
+            },
+            {
+              "DRIVER_ID": 105,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das",
+              "LICENSE_NUMBER": "LIC3"
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1,
+              "PLATE_NUMBER": "UP10",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2,
+              "PLATE_NUMBER": "UP21",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3,
+              "PLATE_NUMBER": "UP30",
+              "STATUS": "Maintenance"
+            },
+            {
+              "VEHICLE_ID": 201,
+              "DRIVER_ID": 101,
+              "PLATE_NUMBER": "UP10",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 203,
+              "DRIVER_ID": 103,
+              "PLATE_NUMBER": "UP21",
+              "STATUS": "In Use"
+            },
+            {
+              "VEHICLE_ID": 205,
+              "DRIVER_ID": 105,
+              "PLATE_NUMBER": "UP30",
+              "STATUS": "Maintenance"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "Name": "Amit Shah",
+            "LICENSE_NUMBER": "LIC1",
+            "PLATE_NUMBER": "UP10"
+          },
+          {
+            "Name": "Amit Shah",
+            "LICENSE_NUMBER": "LIC1",
+            "PLATE_NUMBER": "UP10"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-028",
+    "title": "Highly rated drivers with non-cancelled bookings",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "driver",
+        "columns": [
+          {
+            "name": "DRIVER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "LICENSE_NUMBER",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "RATING",
+            "type": "REAL",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "vehicle",
+        "columns": [
+          {
+            "name": "VEHICLE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "DRIVER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "booking",
+        "columns": [
+          {
+            "name": "BOOKING_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "VEHICLE_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "STATUS",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the license number, vehicle ID, rating and booking ID of drivers whose rating is greater than or equal to 4.5 and whose booking status is not 'Cancelled'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the license number, vehicle ID, rating and booking ID of drivers whose rating is greater than or equal to 4.5 and whose booking status is not 'Cancelled'.\n\n### Requirements:\n- **Expected Output Columns:** `LICENSE_NUMBER`, `VEHICLE_ID`, `RATING`, `BOOKING_ID`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** JOIN, >= comparison, not-equal filtering\n- Join driver to vehicle and booking. Filter rating >= 4.5 and exclude cancelled bookings.",
+    "notes": [
+      "Join driver to vehicle and booking. Filter rating >= 4.5 and exclude cancelled bookings.",
+      "Drivers 1 and 2 meet the rating threshold and have non-cancelled bookings. Driver 1's cancelled booking is excluded.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  d.LICENSE_NUMBER,\n  v.VEHICLE_ID,\n  d.RATING,\n  b.BOOKING_ID\nFROM driver d\nJOIN vehicle v ON d.DRIVER_ID = v.DRIVER_ID\nJOIN booking b ON v.VEHICLE_ID = b.VEHICLE_ID\nWHERE d.RATING >= 4.5\n  AND b.STATUS <> 'Cancelled';",
+    "explanation": "Join driver to vehicle and booking. Filter rating >= 4.5 and exclude cancelled bookings. Drivers 1 and 2 meet the rating threshold and have non-cancelled bookings. Driver 1's cancelled booking is excluded.",
+    "expectedColumns": [
+      "LICENSE_NUMBER",
+      "VEHICLE_ID",
+      "RATING",
+      "BOOKING_ID"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "LICENSE_NUMBER": "LIC1",
+              "RATING": 4.8
+            },
+            {
+              "DRIVER_ID": 2,
+              "LICENSE_NUMBER": "LIC2",
+              "RATING": 4.5
+            },
+            {
+              "DRIVER_ID": 3,
+              "LICENSE_NUMBER": "LIC3",
+              "RATING": 4.2
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3
+            }
+          ],
+          "booking": [
+            {
+              "BOOKING_ID": 1001,
+              "VEHICLE_ID": 101,
+              "STATUS": "Completed"
+            },
+            {
+              "BOOKING_ID": 1002,
+              "VEHICLE_ID": 101,
+              "STATUS": "Cancelled"
+            },
+            {
+              "BOOKING_ID": 1003,
+              "VEHICLE_ID": 102,
+              "STATUS": "Confirmed"
+            },
+            {
+              "BOOKING_ID": 1004,
+              "VEHICLE_ID": 103,
+              "STATUS": "Completed"
+            }
+          ]
+        },
+        "output": [
+          {
+            "LICENSE_NUMBER": "LIC1",
+            "VEHICLE_ID": 101,
+            "RATING": 4.8,
+            "BOOKING_ID": 1001
+          },
+          {
+            "LICENSE_NUMBER": "LIC2",
+            "VEHICLE_ID": 102,
+            "RATING": 4.5,
+            "BOOKING_ID": 1003
+          }
+        ],
+        "explanation": "Drivers 1 and 2 meet the rating threshold and have non-cancelled bookings. Driver 1's cancelled booking is excluded."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-028-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "LICENSE_NUMBER": "LIC1",
+              "RATING": 4.8
+            },
+            {
+              "DRIVER_ID": 2,
+              "LICENSE_NUMBER": "LIC2",
+              "RATING": 4.5
+            },
+            {
+              "DRIVER_ID": 3,
+              "LICENSE_NUMBER": "LIC3",
+              "RATING": 4.2
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3
+            }
+          ],
+          "booking": [
+            {
+              "BOOKING_ID": 1001,
+              "VEHICLE_ID": 101,
+              "STATUS": "Completed"
+            },
+            {
+              "BOOKING_ID": 1002,
+              "VEHICLE_ID": 101,
+              "STATUS": "Cancelled"
+            },
+            {
+              "BOOKING_ID": 1003,
+              "VEHICLE_ID": 102,
+              "STATUS": "Confirmed"
+            },
+            {
+              "BOOKING_ID": 1004,
+              "VEHICLE_ID": 103,
+              "STATUS": "Completed"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "LICENSE_NUMBER": "LIC1",
+            "VEHICLE_ID": 101,
+            "RATING": 4.8,
+            "BOOKING_ID": 1001
+          },
+          {
+            "LICENSE_NUMBER": "LIC2",
+            "VEHICLE_ID": 102,
+            "RATING": 4.5,
+            "BOOKING_ID": 1003
+          }
+        ]
+      },
+      {
+        "id": "sql-028-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1002,
+              "LICENSE_NUMBER": "ZZ_LIC1",
+              "RATING": 1009.6
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 1202,
+              "DRIVER_ID": 1002
+            }
+          ],
+          "booking": [
+            {
+              "BOOKING_ID": 3002,
+              "VEHICLE_ID": 1202,
+              "STATUS": "ZZ_Completed"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "LICENSE_NUMBER": "ZZ_LIC1",
+            "VEHICLE_ID": 1202,
+            "RATING": 1009.6,
+            "BOOKING_ID": 3002
+          }
+        ]
+      },
+      {
+        "id": "sql-028-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "driver": [
+            {
+              "DRIVER_ID": 1,
+              "LICENSE_NUMBER": "LIC1",
+              "RATING": 4.8
+            },
+            {
+              "DRIVER_ID": 2,
+              "LICENSE_NUMBER": "LIC2",
+              "RATING": 4.5
+            },
+            {
+              "DRIVER_ID": 3,
+              "LICENSE_NUMBER": "LIC3",
+              "RATING": 4.2
+            },
+            {
+              "DRIVER_ID": 101,
+              "LICENSE_NUMBER": "LIC1",
+              "RATING": 4.8
+            },
+            {
+              "DRIVER_ID": 103,
+              "LICENSE_NUMBER": "LIC2",
+              "RATING": 4.5
+            },
+            {
+              "DRIVER_ID": 105,
+              "LICENSE_NUMBER": "LIC3",
+              "RATING": 4.2
+            }
+          ],
+          "vehicle": [
+            {
+              "VEHICLE_ID": 101,
+              "DRIVER_ID": 1
+            },
+            {
+              "VEHICLE_ID": 102,
+              "DRIVER_ID": 2
+            },
+            {
+              "VEHICLE_ID": 103,
+              "DRIVER_ID": 3
+            },
+            {
+              "VEHICLE_ID": 201,
+              "DRIVER_ID": 101
+            },
+            {
+              "VEHICLE_ID": 203,
+              "DRIVER_ID": 103
+            },
+            {
+              "VEHICLE_ID": 205,
+              "DRIVER_ID": 105
+            }
+          ],
+          "booking": [
+            {
+              "BOOKING_ID": 1001,
+              "VEHICLE_ID": 101,
+              "STATUS": "Completed"
+            },
+            {
+              "BOOKING_ID": 1002,
+              "VEHICLE_ID": 101,
+              "STATUS": "Cancelled"
+            },
+            {
+              "BOOKING_ID": 1003,
+              "VEHICLE_ID": 102,
+              "STATUS": "Confirmed"
+            },
+            {
+              "BOOKING_ID": 1004,
+              "VEHICLE_ID": 103,
+              "STATUS": "Completed"
+            },
+            {
+              "BOOKING_ID": 1101,
+              "VEHICLE_ID": 201,
+              "STATUS": "Completed"
+            },
+            {
+              "BOOKING_ID": 1103,
+              "VEHICLE_ID": 202,
+              "STATUS": "Cancelled"
+            },
+            {
+              "BOOKING_ID": 1105,
+              "VEHICLE_ID": 204,
+              "STATUS": "Confirmed"
+            },
+            {
+              "BOOKING_ID": 1107,
+              "VEHICLE_ID": 206,
+              "STATUS": "Completed"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "LICENSE_NUMBER": "LIC1",
+            "VEHICLE_ID": 101,
+            "RATING": 4.8,
+            "BOOKING_ID": 1001
+          },
+          {
+            "LICENSE_NUMBER": "LIC2",
+            "VEHICLE_ID": 102,
+            "RATING": 4.5,
+            "BOOKING_ID": 1003
+          },
+          {
+            "LICENSE_NUMBER": "LIC1",
+            "VEHICLE_ID": 201,
+            "RATING": 4.8,
+            "BOOKING_ID": 1101
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-029",
+    "title": "Count viewers sharing the same name",
+    "difficulty": "Medium",
+    "duration": 15,
+    "category": "AGGREGATION & GROUPING",
+    "tableSchema": [
+      {
+        "name": "viewer",
+        "columns": [
+          {
+            "name": "viewername",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the number of viewers having the same name, with the viewer name and its count.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the number of viewers having the same name, with the viewer name and its count.\n\n### Requirements:\n- **Expected Output Columns:** `viewername`, `name_count`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** GROUP BY, COUNT\n- GROUP BY viewername creates one group for each distinct name. COUNT(*) gives the number of viewers in each group.",
+    "notes": [
+      "GROUP BY viewername creates one group for each distinct name. COUNT(*) gives the number of viewers in each group.",
+      "Amit appears three times, Riya twice and Neha once. GROUP BY produces one result row per name.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  viewername,\n  COUNT(*) AS name_count\nFROM viewer\nGROUP BY viewername;",
+    "explanation": "GROUP BY viewername creates one group for each distinct name. COUNT(*) gives the number of viewers in each group. Amit appears three times, Riya twice and Neha once. GROUP BY produces one result row per name.",
+    "expectedColumns": [
+      "viewername",
+      "name_count"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "viewer": [
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Neha"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            }
+          ]
+        },
+        "output": [
+          {
+            "viewername": "Amit",
+            "name_count": 3
+          },
+          {
+            "viewername": "Neha",
+            "name_count": 1
+          },
+          {
+            "viewername": "Riya",
+            "name_count": 2
+          }
+        ],
+        "explanation": "Amit appears three times, Riya twice and Neha once. GROUP BY produces one result row per name."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-029-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "viewer": [
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Neha"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "viewername": "Amit",
+            "name_count": 3
+          },
+          {
+            "viewername": "Neha",
+            "name_count": 1
+          },
+          {
+            "viewername": "Riya",
+            "name_count": 2
+          }
+        ]
+      },
+      {
+        "id": "sql-029-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "viewer": [
+            {
+              "viewername": "ZZ_Amit"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "viewername": "ZZ_Amit",
+            "name_count": 1
+          }
+        ]
+      },
+      {
+        "id": "sql-029-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "viewer": [
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Neha"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            },
+            {
+              "viewername": "Neha"
+            },
+            {
+              "viewername": "Riya"
+            },
+            {
+              "viewername": "Amit"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "viewername": "Amit",
+            "name_count": 6
+          },
+          {
+            "viewername": "Neha",
+            "name_count": 2
+          },
+          {
+            "viewername": "Riya",
+            "name_count": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql-030",
+    "title": "Contacts whose job title contains Engineer",
+    "difficulty": "Hard",
+    "duration": 15,
+    "category": "JOINS & RELATIONAL QUERIES",
+    "tableSchema": [
+      {
+        "name": "users",
+        "columns": [
+          {
+            "name": "USER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "LAST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "contacts",
+        "columns": [
+          {
+            "name": "USER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "CONTACT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "jobs",
+        "columns": [
+          {
+            "name": "USER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "JOB_TITLE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "howToAttempt": "Write an SQL query to display the full name of users whose contact has a job title containing the word 'Engineer'.",
+    "problem": "### Problem Statement\nWrite an SQL query to display the full name of users whose contact has a job title containing the word 'Engineer'.\n\n### Requirements:\n- **Expected Output Columns:** `FULLNAME`\n- Review the schema tabs below for all tables, columns, and relations.\n\n### Concept & Hints:\n- **Key SQL Concepts:** self-join pattern, JOIN, LIKE, DISTINCT, CONCAT\n- The relationship is users → contacts → users (the contact person) → jobs. Join the contact user to jobs and filter JOB_TITLE with LIKE '%Engineer%'. DISTINCT prevents duplicate names.",
+    "notes": [
+      "The relationship is users → contacts → users (the contact person) → jobs. Join the contact user to jobs and filter JOB_TITLE with LIKE '%Engineer%'. DISTINCT prevents duplicate names.",
+      "Amit has contacts 2 and 3; contact 2 is a Software Engineer. Riya and Neha both have contact 4, a Civil Engineer. DISTINCT prevents duplicate names.",
+      "Row output order is flexible unless specified otherwise."
+    ],
+    "starterCode": "",
+    "solution": "SELECT\n  DISTINCT CONCAT(u.FIRST_NAME, ' ', u.LAST_NAME) AS FULLNAME\nFROM users u\nJOIN contacts c ON u.USER_ID = c.USER_ID\nJOIN users cu ON c.CONTACT_ID = cu.USER_ID\nJOIN jobs j ON cu.USER_ID = j.USER_ID\nWHERE j.JOB_TITLE LIKE '%Engineer%';",
+    "explanation": "The relationship is users → contacts → users (the contact person) → jobs. Join the contact user to jobs and filter JOB_TITLE with LIKE '%Engineer%'. DISTINCT prevents duplicate names. Amit has contacts 2 and 3; contact 2 is a Software Engineer. Riya and Neha both have contact 4, a Civil Engineer. DISTINCT prevents duplicate names.",
+    "expectedColumns": [
+      "FULLNAME"
+    ],
+    "orderSensitive": false,
+    "examples": [
+      {
+        "title": "Example 1 (Accenture Assessment Sample)",
+        "input": {
+          "users": [
+            {
+              "USER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah"
+            },
+            {
+              "USER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy"
+            },
+            {
+              "USER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das"
+            },
+            {
+              "USER_ID": 4,
+              "FIRST_NAME": "Raj",
+              "LAST_NAME": "Kumar"
+            }
+          ],
+          "contacts": [
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 2
+            },
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 3
+            },
+            {
+              "USER_ID": 2,
+              "CONTACT_ID": 4
+            },
+            {
+              "USER_ID": 3,
+              "CONTACT_ID": 4
+            }
+          ],
+          "jobs": [
+            {
+              "USER_ID": 2,
+              "JOB_TITLE": "Software Engineer"
+            },
+            {
+              "USER_ID": 3,
+              "JOB_TITLE": "Designer"
+            },
+            {
+              "USER_ID": 4,
+              "JOB_TITLE": "Civil Engineer"
+            }
+          ]
+        },
+        "output": [
+          {
+            "FULLNAME": "Amit Shah"
+          },
+          {
+            "FULLNAME": "Riya Roy"
+          },
+          {
+            "FULLNAME": "Neha Das"
+          }
+        ],
+        "explanation": "Amit has contacts 2 and 3; contact 2 is a Software Engineer. Riya and Neha both have contact 4, a Civil Engineer. DISTINCT prevents duplicate names."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "sql-030-test-1",
+        "name": "Visible Test Case 1 — Assessment Standard Dataset",
+        "isHidden": false,
+        "data": {
+          "users": [
+            {
+              "USER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah"
+            },
+            {
+              "USER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy"
+            },
+            {
+              "USER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das"
+            },
+            {
+              "USER_ID": 4,
+              "FIRST_NAME": "Raj",
+              "LAST_NAME": "Kumar"
+            }
+          ],
+          "contacts": [
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 2
+            },
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 3
+            },
+            {
+              "USER_ID": 2,
+              "CONTACT_ID": 4
+            },
+            {
+              "USER_ID": 3,
+              "CONTACT_ID": 4
+            }
+          ],
+          "jobs": [
+            {
+              "USER_ID": 2,
+              "JOB_TITLE": "Software Engineer"
+            },
+            {
+              "USER_ID": 3,
+              "JOB_TITLE": "Designer"
+            },
+            {
+              "USER_ID": 4,
+              "JOB_TITLE": "Civil Engineer"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FULLNAME": "Amit Shah"
+          },
+          {
+            "FULLNAME": "Riya Roy"
+          },
+          {
+            "FULLNAME": "Neha Das"
+          }
+        ]
+      },
+      {
+        "id": "sql-030-test-2",
+        "name": "Hidden Test Case 2 — Boundary & Filter Variance",
+        "isHidden": true,
+        "data": {
+          "users": [
+            {
+              "USER_ID": 1002,
+              "FIRST_NAME": "ZZ_Amit",
+              "LAST_NAME": "ZZ_Shah"
+            }
+          ],
+          "contacts": [
+            {
+              "USER_ID": 1002,
+              "CONTACT_ID": 1004
+            }
+          ],
+          "jobs": [
+            {
+              "USER_ID": 1004,
+              "JOB_TITLE": "ZZ_Software Engineer"
+            }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "sql-030-test-3",
+        "name": "Hidden Test Case 3 — Multi-Record Scaling",
+        "isHidden": true,
+        "data": {
+          "users": [
+            {
+              "USER_ID": 1,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah"
+            },
+            {
+              "USER_ID": 2,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy"
+            },
+            {
+              "USER_ID": 3,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das"
+            },
+            {
+              "USER_ID": 4,
+              "FIRST_NAME": "Raj",
+              "LAST_NAME": "Kumar"
+            },
+            {
+              "USER_ID": 101,
+              "FIRST_NAME": "Amit",
+              "LAST_NAME": "Shah"
+            },
+            {
+              "USER_ID": 103,
+              "FIRST_NAME": "Riya",
+              "LAST_NAME": "Roy"
+            },
+            {
+              "USER_ID": 105,
+              "FIRST_NAME": "Neha",
+              "LAST_NAME": "Das"
+            },
+            {
+              "USER_ID": 107,
+              "FIRST_NAME": "Raj",
+              "LAST_NAME": "Kumar"
+            }
+          ],
+          "contacts": [
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 2
+            },
+            {
+              "USER_ID": 1,
+              "CONTACT_ID": 3
+            },
+            {
+              "USER_ID": 2,
+              "CONTACT_ID": 4
+            },
+            {
+              "USER_ID": 3,
+              "CONTACT_ID": 4
+            },
+            {
+              "USER_ID": 101,
+              "CONTACT_ID": 102
+            },
+            {
+              "USER_ID": 102,
+              "CONTACT_ID": 104
+            },
+            {
+              "USER_ID": 104,
+              "CONTACT_ID": 106
+            },
+            {
+              "USER_ID": 106,
+              "CONTACT_ID": 107
+            }
+          ],
+          "jobs": [
+            {
+              "USER_ID": 2,
+              "JOB_TITLE": "Software Engineer"
+            },
+            {
+              "USER_ID": 3,
+              "JOB_TITLE": "Designer"
+            },
+            {
+              "USER_ID": 4,
+              "JOB_TITLE": "Civil Engineer"
+            },
+            {
+              "USER_ID": 102,
+              "JOB_TITLE": "Software Engineer"
+            },
+            {
+              "USER_ID": 104,
+              "JOB_TITLE": "Designer"
+            },
+            {
+              "USER_ID": 106,
+              "JOB_TITLE": "Civil Engineer"
+            }
+          ]
+        },
+        "expected": [
+          {
+            "FULLNAME": "Amit Shah"
+          },
+          {
+            "FULLNAME": "Riya Roy"
+          },
+          {
+            "FULLNAME": "Neha Das"
+          }
         ]
       }
     ]
   }
 ];
-
