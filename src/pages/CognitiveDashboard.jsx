@@ -169,7 +169,10 @@ export default function CognitiveDashboard() {
                   { id: '4x4-grid', label: '4×4 Grid' },
                   { id: '4x4-two-keys', label: '4×4 Two Keys' },
                   { id: '5x5-grid', label: '5×5 Grid (1 Key)' },
-                  { id: '5x5-two-keys', label: '5×5 Grid (2 Keys)' }
+                  { id: '5x5-two-keys', label: '5×5 Grid (2 Keys)' },
+                  { id: '6x6-grid', label: '6×6 Grid (1 Key)' },
+                  { id: '6x6-two-keys', label: '6×6 Grid (2 Keys)' }
+
                 ].map((v) => (
                   <Link
                     key={v.id}
