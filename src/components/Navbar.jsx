@@ -37,6 +37,7 @@ import {
   Sparkles,
   Terminal
 } from 'lucide-react';
+import { PYQ_BANKS } from '../data/pyqBanks.js';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
   const location = useLocation();
@@ -70,6 +71,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
   const isLearnActive = location.pathname.startsWith('/learn') || location.pathname.startsWith('/java');
   const isPracticeActive = location.pathname === '/practice' || location.pathname === '/bookmarks' || location.pathname === '/mistakes' || location.pathname === '/daily-challenge';
   const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security') || location.pathname.includes('important') || location.pathname.includes('recent');
+  const isPyqActive = location.pathname.startsWith('/pyq/');
   const isCognitiveActive = location.pathname.startsWith('/cognitive');
 
   return (
@@ -206,6 +208,54 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                 <RotateCcw size={14} className="text-red-400" />
                 <span>Retry Mistakes Vault</span>
               </Link>
+            </div>
+          )}
+        </div>
+
+        {/* PYQs Dropdown */}
+        <div style={{ position: 'relative' }}>
+          <button
+            type="button"
+            className={`nav-item ${isPyqActive ? 'active' : ''}`}
+            onClick={(e) => toggleDropdown('pyqs', e)}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
+          >
+            <FileText size={14} />
+            <span>PYQs</span>
+            <ChevronDown size={12} />
+          </button>
+          {activeDropdown === 'pyqs' && (
+            <div className="nav-dropdown-menu" style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              minWidth: '260px',
+              background: '#0f172a',
+              border: '1px solid #334155',
+              borderRadius: '10px',
+              boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5)',
+              padding: '6px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
+              zIndex: 1001
+            }}>
+              {PYQ_BANKS.map((bank) => (
+                <Link
+                  key={bank.id}
+                  to={`/pyq/${bank.id}`}
+                  className="dropdown-link"
+                  style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <FileSpreadsheet size={14} className="text-emerald-400" />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    <span style={{ fontWeight: 700 }}>{bank.shortTitle}</span>
+                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 400 }}>
+                      Previous Year Paper • {bank.questions.length} Qs • {bank.durationMinutes} min
+                    </span>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
         </div>
@@ -524,6 +574,27 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <Link to="/mistakes" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Mistakes Vault</span>
                   </Link>
+                </div>
+              </div>
+
+              {/* PYQs Section */}
+              <div className="mobile-nav-group">
+                <div className="mobile-group-header">
+                  <FileText size={14} className="text-sky-400" />
+                  <span>PYQs — Question Papers</span>
+                </div>
+                <div className="mobile-group-items">
+                  {PYQ_BANKS.map((bank) => (
+                    <Link
+                      key={bank.id}
+                      to={`/pyq/${bank.id}`}
+                      className="mobile-sublink highlight-sky"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <FileSpreadsheet size={14} />
+                      <span>{bank.shortTitle} ({bank.questions.length} Qs)</span>
+                    </Link>
+                  ))}
                 </div>
               </div>
 

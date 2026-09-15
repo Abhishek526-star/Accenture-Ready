@@ -1,0 +1,2043 @@
+{
+  "title": "Accenture Network Security and Cloud PYQs",
+  "category": "Network Security and Cloud",
+  "source": "Uploaded Accenture PYQ PDF",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following layer of OSI model adds logical address of the sender and receiver?",
+      "options": [
+        "Data Link layer",
+        "Network Layer",
+        "Session Layer",
+        "Transport Layer"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "The Data Link layer uses physical (MAC) addressing for delivery within a local network segment.",
+        "B": "The Network layer uses logical addressing, such as IP addresses, to identify source and destination hosts across networks.",
+        "C": "The Session layer manages sessions between applications; it does not provide logical IP addressing.",
+        "D": "The Transport layer provides end-to-end delivery, segmentation, and reliability, but logical addressing is handled by the Network layer."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Which of the following is an example of a SAAS cloud service model?",
+      "options": [
+        "Google Workspace",
+        "DropBox",
+        "Salesforce",
+        "All of the above"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Google Workspace provides ready-to-use applications over the internet, so it is a SaaS offering.",
+        "B": "Dropbox provides cloud-based file storage and related user applications, fitting the SaaS model.",
+        "C": "Salesforce delivers business applications through the internet, making it a SaaS example.",
+        "D": "All three listed services are examples of software delivered to users over the internet, so all are SaaS examples."
+      }
+    },
+    {
+      "id": 3,
+      "question": "An attack in which the user receives an unwanted amount of emails is called?",
+      "options": [
+        "Smurfing",
+        "Denial of Service",
+        "E-mail bombing",
+        "Ping storm"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Smurfing is a network attack involving spoofed ICMP traffic sent through broadcast mechanisms.",
+        "B": "A Denial-of-Service attack attempts to make a service unavailable by overwhelming a system or resource.",
+        "C": "E-mail bombing involves sending a very large number of emails to a target, flooding the user's mailbox.",
+        "D": "A ping storm involves excessive ICMP echo traffic and is not specifically an email-flooding attack."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Which of the following software applications allows a user to view a webpage?",
+      "options": [
+        "Notepad",
+        "Adobe Acrobat",
+        "Google Drive",
+        "Internet Explorer"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Notepad is a text editor and does not function as a web browser.",
+        "B": "Adobe Acrobat is primarily used for viewing and working with PDF documents.",
+        "C": "Google Drive is a cloud storage and file-management service, not the conventional web-browser application described here.",
+        "D": "Internet Explorer is a web browser designed to retrieve and display webpages."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Attack in which a user creates a packet that appears to be something else is?",
+      "options": [
+        "Smurfing",
+        "Trojan",
+        "E-mail bombing",
+        "Spoofing"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Smurfing uses spoofed source addresses with ICMP traffic to amplify network traffic toward a target.",
+        "B": "A Trojan is malicious software disguised as legitimate software; it is not specifically the act of making a packet appear to originate from somewhere else.",
+        "C": "E-mail bombing floods a target with emails.",
+        "D": "Spoofing involves falsifying information so that a packet or communication appears to come from another source."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Which of the following is a popular version control system used for changes in software development?",
+      "options": [
+        "USB",
+        "Git",
+        "HTTP",
+        "SSL"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "USB is a hardware interface and storage/communication standard, not a version control system.",
+        "B": "Git is a distributed version control system used to track changes in source code and collaborate on software projects.",
+        "C": "HTTP is an application-layer protocol for web communication.",
+        "D": "SSL is a security protocol family historically used to secure network communication; it is not a version control system."
+      }
+    },
+    {
+      "id": 7,
+      "question": "In TCP/IP Model, which of the following protocol is used on transport layer?",
+      "options": [
+        "FTP",
+        "ARP",
+        "UDP",
+        "DNS"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "FTP is an application-layer protocol used for file transfer.",
+        "B": "ARP is used for address resolution and operates around the link/network boundary rather than as a transport protocol.",
+        "C": "UDP is a transport-layer protocol providing connectionless datagram delivery.",
+        "D": "DNS is an application-layer protocol used for name resolution."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Which popular web browser uses a rendering engine called \"Blink\"?",
+      "options": [
+        "Google Chrome",
+        "Mozilla Firefox",
+        "Safari",
+        "Microsoft Edge"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Google Chrome uses the Blink rendering engine for processing and displaying web content.",
+        "B": "Mozilla Firefox uses the Gecko rendering engine.",
+        "C": "Safari uses Apple's WebKit rendering engine.",
+        "D": "Microsoft Edge also uses Blink in its Chromium-based architecture, but the source marks Google Chrome as the intended answer."
+      }
+    },
+    {
+      "id": 9,
+      "question": "What does the http:// in a web URL stand for?",
+      "options": [
+        "Hyperlink transfer protocol",
+        "Hypertext Transmission Protocol",
+        "Hyperlink transfer procedure",
+        "Hypertext Transfer protocol"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "HTTP does not expand to 'Hyperlink transfer protocol'.",
+        "B": "The standard expansion uses 'Transfer', not 'Transmission'.",
+        "C": "HTTP is a protocol, not a 'transfer procedure'.",
+        "D": "HTTP stands for Hypertext Transfer Protocol."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Which of this is not a network edge device?",
+      "options": [
+        "Switch",
+        "PC",
+        "SmartPhones",
+        "Servers"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A switch is a network infrastructure device that connects devices within a LAN, so it is the source-marked answer for this question.",
+        "B": "A PC can act as an endpoint connected at the network edge.",
+        "C": "A smartphone is an endpoint device that connects to a network.",
+        "D": "A server can be an endpoint/host on a network."
+      }
+    },
+    {
+      "id": 11,
+      "question": "What is the term for the data communication system within a building or campus?",
+      "options": [
+        "LAN",
+        "MAN",
+        "WAN",
+        "PAN"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "LAN stands for Local Area Network and commonly covers a building, office, or campus.",
+        "B": "MAN stands for Metropolitan Area Network and generally covers a city or metropolitan region.",
+        "C": "WAN stands for Wide Area Network and covers large geographic areas.",
+        "D": "PAN stands for Personal Area Network and typically covers a small personal range around an individual."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Which one of the following is cloud platform by Amazon?",
+      "options": [
+        "Azure",
+        "AWS",
+        "Cloudera",
+        "All of the mentioned"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Azure is Microsoft's cloud computing platform.",
+        "B": "AWS (Amazon Web Services) is Amazon's cloud platform.",
+        "C": "Cloudera provides data-management and analytics technologies rather than being Amazon's cloud platform.",
+        "D": "The options are not all Amazon cloud platforms because Azure and Cloudera are not AWS."
+      }
+    },
+    {
+      "id": 13,
+      "question": "Which one of the following can be considered as the example of the front-end?",
+      "options": [
+        "Web Browser",
+        "Google Compute Engine",
+        "Cisco Metapod",
+        "AWS"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A web browser provides the client-side interface through which users access cloud applications, so it represents the front end.",
+        "B": "Google Compute Engine is a cloud infrastructure service used on the backend/infrastructure side.",
+        "C": "Cisco Metapod is a cloud infrastructure service, not a user-facing front-end application.",
+        "D": "AWS is a cloud services platform rather than the front-end interface itself."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Which of the following is not a function of Network Layer?",
+      "options": [
+        "Congestion Control",
+        "Error Control",
+        "Routing",
+        "Inter Networking"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Network-layer mechanisms can participate in congestion-related functions and routing decisions.",
+        "B": "Error control is primarily associated with reliable/error-managed delivery at other layers, particularly the Data Link and Transport layers, rather than being a primary Network-layer function.",
+        "C": "Routing is a core Network-layer function.",
+        "D": "Internetworking, or connecting and routing between networks, is a key Network-layer role."
+      }
+    },
+    {
+      "id": 15,
+      "question": "What is the main purpose of router?",
+      "options": [
+        "To connect multiple networks and route packets",
+        "To format documents",
+        "To store data",
+        "To print documents"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A router connects different networks and forwards packets toward their destinations using routing information.",
+        "B": "Formatting documents is an application/software task, not the primary purpose of a router.",
+        "C": "Data storage is handled by storage systems or servers, not routers as their main function.",
+        "D": "Printing is handled by printers and print services, not routers as their primary role."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Which of the following protocols helps to get the network-layer address for a host?",
+      "options": [
+        "SMTP",
+        "ARP",
+        "DHCP",
+        "ICMP"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "SMTP is used for sending email between mail systems.",
+        "B": "ARP maps a known IP/network-layer address to a MAC/link-layer address; it does not normally assign the network-layer address.",
+        "C": "DHCP can provide a host with its IP address and other network configuration.",
+        "D": "ICMP is used for network diagnostics and control/error reporting."
+      }
+    },
+    {
+      "id": 17,
+      "question": "Which of the following is an example of IaaS?",
+      "options": [
+        "Google Compute Engine",
+        "Google Classroom",
+        "Google App Engine",
+        "All"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Google Compute Engine provides virtual machines and infrastructure resources, making it an IaaS example.",
+        "B": "Google Classroom is an application/service for education rather than an infrastructure service.",
+        "C": "Google App Engine is a managed application platform and is generally classified as PaaS.",
+        "D": "The options do not all belong to IaaS."
+      }
+    },
+    {
+      "id": 18,
+      "question": "Match the following cloud service models with their appropriate examples: 1. SaaS 2. PaaS 3. IaaS. Examples: A) Microsoft 365 B) Magento Commerce Cloud C) Google Compute Engine. Options:",
+      "options": [
+        "1-A, 2-B, 3-C",
+        "1-B, 2-A, 3-C",
+        "1-A, 2-C, 3-B",
+        "1-C, 2-A, 3-B"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Microsoft 365 is SaaS, Magento Commerce Cloud is used here as the PaaS example, and Google Compute Engine is IaaS, so this mapping matches the source.",
+        "B": "This incorrectly places Magento Commerce Cloud as SaaS and Microsoft 365 as PaaS in the source's classification.",
+        "C": "This incorrectly assigns Google Compute Engine to PaaS and Magento Commerce Cloud to IaaS.",
+        "D": "This incorrectly assigns Google Compute Engine to SaaS and Microsoft 365 to PaaS."
+      }
+    },
+    {
+      "id": 19,
+      "question": "Which of the following is the most important area of concern in cloud computing?",
+      "options": [
+        "Scalability",
+        "Storage",
+        "Security",
+        "All of the mentioned"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Scalability is important because cloud systems need to handle changing workloads, but the source identifies security as the primary concern here.",
+        "B": "Storage is an important cloud capability, but it is not the source-marked primary concern.",
+        "C": "Security is a major concern because cloud resources and data must be protected against unauthorized access and attacks.",
+        "D": "Although all listed areas matter, the source specifically marks security as the answer."
+      }
+    },
+    {
+      "id": 20,
+      "question": "How many phases are there in cloud computing Planning?",
+      "options": [
+        "1",
+        "5",
+        "3",
+        "6"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The source does not identify one as the number of cloud-computing planning phases.",
+        "B": "Five is not the number marked in the source.",
+        "C": "The source marks three phases as the answer.",
+        "D": "Six is not the source-marked answer."
+      }
+    },
+    {
+      "id": 21,
+      "question": "As per which of the following essential characteristics of cloud, the hosted application should be reachable via any network-based appliance?",
+      "options": [
+        "On-Demand Self-service",
+        "Broad network access",
+        "Resource pooling",
+        "Rapid elasticity"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "On-demand self-service means users can provision resources automatically without requiring human interaction with the provider.",
+        "B": "Broad network access means cloud capabilities are available over the network through standard mechanisms and can be accessed from various client devices.",
+        "C": "Resource pooling concerns provider resources being pooled to serve multiple consumers.",
+        "D": "Rapid elasticity concerns resources being quickly scaled up or down according to demand."
+      }
+    },
+    {
+      "id": 22,
+      "question": "Which architectural layer is used as a backend in cloud?",
+      "options": [
+        "Cloud",
+        "Soft",
+        "Client",
+        "All"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source identifies the cloud layer as the backend layer in the cloud architecture described.",
+        "B": "'Soft' is not the backend architectural layer identified by the source.",
+        "C": "The client layer represents the front end through which users interact with services.",
+        "D": "The source distinguishes the cloud layer as the backend rather than all options."
+      }
+    },
+    {
+      "id": 23,
+      "question": "What is the purpose of the OSI model in networking?",
+      "options": [
+        "To define the architecture for network protocols",
+        "To establish a framework for software development",
+        "To specify the physical network infrastructure",
+        "To manage network security"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The OSI model provides a layered conceptual framework for understanding and designing network communication functions and protocols.",
+        "B": "Software development frameworks are separate from the OSI networking model.",
+        "C": "The OSI model describes communication functions rather than specifying a particular physical infrastructure.",
+        "D": "Security can be implemented across network layers, but managing security is not the primary purpose of the OSI model."
+      }
+    },
+    {
+      "id": 24,
+      "question": "Which OSI Model layer is responsible for routing packets between different networks?",
+      "options": [
+        "Physical Layer",
+        "Data Link Layer",
+        "Network Layer",
+        "Transport Layer"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The Physical layer transmits raw bits over the physical medium.",
+        "B": "The Data Link layer handles framing and local-link delivery.",
+        "C": "The Network layer provides logical addressing and routing between networks.",
+        "D": "The Transport layer provides end-to-end transport services such as segmentation and reliability."
+      }
+    },
+    {
+      "id": 25,
+      "question": "What is the purpose of subnetting in IP Addressing?",
+      "options": [
+        "To create smaller, more manageable network segments",
+        "To encrypt data transmissions",
+        "To establish direct connections between devices",
+        "To increase the speed of data transmission"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Subnetting divides an IP network into smaller logical networks, making address management and routing more manageable.",
+        "B": "Encryption is a security function and is not the purpose of subnetting.",
+        "C": "Subnetting does not itself establish direct physical connections between devices.",
+        "D": "Subnetting can affect network organization and routing efficiency, but its direct purpose is network segmentation."
+      }
+    },
+    {
+      "id": 26,
+      "question": "Which type of IP address is used to identify the network itself, rather than individual devices within the network?",
+      "options": [
+        "Public IP Address",
+        "Private IP Address",
+        "Subnet",
+        "Default gateway"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "A public IP address is globally routable and may identify a public-facing host or network interface.",
+        "B": "The source marks Private IP Address; private addressing is used within internal networks and is not globally routable.",
+        "C": "A subnet is a network subdivision rather than an IP address type in this wording.",
+        "D": "A default gateway is the router/interface used by hosts to reach other networks."
+      }
+    },
+    {
+      "id": 27,
+      "question": "Which network topology connects all devices to a central hub or switch, with each device having its own dedicated connection to the central device?",
+      "options": [
+        "Star Topology",
+        "Bus Topology",
+        "Ring Topology",
+        "Mesh Topology"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "In a star topology, each device has a separate connection to a central hub or switch.",
+        "B": "In a bus topology, devices share a common communication backbone.",
+        "C": "In a ring topology, devices form a closed loop with neighboring connections.",
+        "D": "In a mesh topology, devices have multiple interconnections rather than one central connection."
+      }
+    },
+    {
+      "id": 28,
+      "question": "Which protocol is commonly used for secure remote login and file transfer over a network?",
+      "options": [
+        "HTTP",
+        "FTP",
+        "SSH",
+        "SFTP"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "HTTP is used for web communication and is not itself a secure remote-login/file-transfer protocol.",
+        "B": "FTP transfers files but does not provide the secure encrypted channel implied by the question.",
+        "C": "SSH provides secure remote login and can tunnel other services, but the source selects SFTP for secure file transfer.",
+        "D": "SFTP provides secure file transfer over the SSH protocol."
+      }
+    },
+    {
+      "id": 29,
+      "question": "Which device is responsible for forwarding data packets between different networks in network infrastructure?",
+      "options": [
+        "Router",
+        "Switch",
+        "Hub",
+        "Modem"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A router forwards packets between different IP networks using routing information.",
+        "B": "A switch primarily forwards frames within a local network based on MAC addresses.",
+        "C": "A hub repeats incoming signals to connected ports rather than routing packets between networks.",
+        "D": "A modem converts signals between network/digital and communication-medium forms; it is not primarily a routing device."
+      }
+    },
+    {
+      "id": 30,
+      "question": "In www.hubspot.com/commercial/....., 'commercial' is called?",
+      "options": [
+        "Query",
+        "Directory",
+        "TLD",
+        "Host"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "A query is typically a parameter portion of a URL following a question mark.",
+        "B": "The source treats 'commercial' as a directory/path component of the URL.",
+        "C": "The TLD is the final domain suffix, such as .com.",
+        "D": "The host in this URL is hubspot.com."
+      }
+    },
+    {
+      "id": 31,
+      "question": "Which of the following statements is true about modems? 1. Modems use the telephone lines 2. Modem stands for modulator and demodulator 3. Modems are no longer used in secure network 4. Both 1 and 2 5. None of the above/More than one of the above",
+      "options": [
+        "Both 1 and 2",
+        "None of the above",
+        "Only 1",
+        "Only 2"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Statements 1 and 2 are both true according to the source, so this is the intended correct combination.",
+        "B": "This is incorrect because statements 1 and 2 are identified as true.",
+        "C": "Statement 1 alone does not capture the source's intended combination because statement 2 is also true.",
+        "D": "The source's answer is option 4, meaning 'Both 1 and 2'; the option numbering in the extracted PDF corresponds to this choice."
+      }
+    },
+    {
+      "id": 32,
+      "question": "________ hides the true network address and is used to intercept all messages entering and leaving the network.",
+      "options": [
+        "Logic bomb",
+        "Firewall",
+        "Patches",
+        "Proxy Server"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "A logic bomb is malicious code triggered by a particular condition or event; it does not hide network addresses.",
+        "B": "A firewall filters network traffic according to security rules but is not the source's intended answer for hiding the true address here.",
+        "C": "Patches are software updates used to fix bugs or vulnerabilities.",
+        "D": "A proxy server acts as an intermediary and can hide the internal network address from external parties."
+      }
+    },
+    {
+      "id": 33,
+      "question": "Which virus spreads in application software?",
+      "options": [
+        "Macro Virus",
+        "Boot Virus",
+        "File Virus",
+        "Antivirus"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A macro virus is embedded in documents or applications that support macros and can spread when the infected content is opened or executed.",
+        "B": "A boot virus targets boot sectors or boot-related areas rather than application macros.",
+        "C": "A file virus infects executable files; the source specifically marks macro virus for this question.",
+        "D": "Antivirus software is designed to detect or remove malware; it is not a virus."
+      }
+    },
+    {
+      "id": 34,
+      "question": "In Computing, ___ is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules.",
+      "options": [
+        "Spyware",
+        "Cookie",
+        "Spam",
+        "Firewall"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Spyware is malicious or unwanted software that monitors user activity or gathers information.",
+        "B": "A cookie is data stored by a website in a user's browser for state and preference management.",
+        "C": "Spam refers to unsolicited messages, commonly email.",
+        "D": "A firewall filters and controls network traffic according to configured security policies."
+      }
+    },
+    {
+      "id": 35,
+      "question": "A Computer virus is a?",
+      "options": [
+        "Hardware",
+        "Software",
+        "Bacteria",
+        "Freeware"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Hardware refers to physical computer components, while a virus is executable code.",
+        "B": "A computer virus is a type of malicious software that can replicate or modify other programs.",
+        "C": "Bacteria are biological organisms and are unrelated to computer viruses.",
+        "D": "Freeware is software distributed at no monetary cost; it is not synonymous with a virus."
+      }
+    },
+    {
+      "id": 36,
+      "question": "Which of the following is malicious software that, on execution, runs its own code and modifies other computer programs?",
+      "options": [
+        "Virus",
+        "Spam",
+        "Spyware",
+        "Adware"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A virus is malicious code capable of executing and modifying or attaching to other programs.",
+        "B": "Spam is unsolicited communication, not a self-replicating program that modifies other programs.",
+        "C": "Spyware secretly collects information or monitors activity rather than being defined primarily by modifying other programs.",
+        "D": "Adware displays unwanted advertising and may track activity; it is not the definition given here."
+      }
+    },
+    {
+      "id": 37,
+      "question": "Dynamic packet filters firewall are fourth generation firewalls that work at?",
+      "options": [
+        "Application Layer",
+        "TCP",
+        "TCP, UDP",
+        "Session layer"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The Application layer handles application-specific protocols; dynamic packet filtering is not limited to this layer.",
+        "B": "TCP is a transport-layer protocol, but the source identifies both TCP and UDP.",
+        "C": "Dynamic packet filtering can inspect transport-layer TCP and UDP traffic and associated connection state.",
+        "D": "The Session layer is not the source-marked operating level for dynamic packet filtering."
+      }
+    },
+    {
+      "id": 38,
+      "question": "Unsolicited electronic messages sent for marketing purposes are called?",
+      "options": [
+        "Virus",
+        "Unzip",
+        "Spam",
+        "URL"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "A virus is malicious software, not an unsolicited marketing message.",
+        "B": "Unzip refers to extracting files from a compressed archive.",
+        "C": "Spam is unsolicited electronic communication, often sent in bulk for advertising or other purposes.",
+        "D": "A URL is a web resource address."
+      }
+    },
+    {
+      "id": 39,
+      "question": "Which of the following is essential concept related to cloud?",
+      "options": [
+        "Reliability",
+        "Productivity",
+        "Abstraction",
+        "All of these"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Reliability is an important cloud characteristic, but the source identifies abstraction as the essential concept here.",
+        "B": "Productivity can be improved by cloud services but is not the source-marked concept.",
+        "C": "Abstraction hides underlying infrastructure details and is a fundamental concept in cloud computing.",
+        "D": "The source specifically marks abstraction rather than all listed choices."
+      }
+    },
+    {
+      "id": 40,
+      "question": "________ Computing refers to applications and services that run on a distributed network using virtualized resources.",
+      "options": [
+        "Distributed",
+        "Cloud",
+        "Soft",
+        "Parallel"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Distributed computing describes computation across multiple networked systems, but the source does not mark it here.",
+        "B": "Cloud computing commonly uses distributed and virtualized resources, but the extracted source marks option C due to apparent source formatting/typing.",
+        "C": "The source marks option C ('Soft') as the answer, although this wording appears inconsistent with the standard definition.",
+        "D": "Parallel computing focuses on simultaneous computation, not specifically distributed network services using virtualized resources."
+      }
+    },
+    {
+      "id": 41,
+      "question": "________ has many of the characteristics of what is now being called cloud computing.",
+      "options": [
+        "Internet",
+        "Software",
+        "Web Service",
+        "All of the mentioned"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source identifies the Internet as having many characteristics associated with modern cloud computing.",
+        "B": "Software is a broad category and is not the source-marked answer.",
+        "C": "Web services are related to cloud architectures but are not the source-marked answer.",
+        "D": "The source specifically marks Internet rather than all options."
+      }
+    },
+    {
+      "id": 42,
+      "question": "Which of the following is the deployment model?",
+      "options": [
+        "Public",
+        "Hybrid",
+        "Private",
+        "All of above"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Public cloud is a recognized cloud deployment model in which resources are offered to multiple customers.",
+        "B": "Hybrid cloud combines private and public cloud environments and is a recognized deployment model.",
+        "C": "Private cloud is a recognized deployment model dedicated to a single organization.",
+        "D": "Public, private, and hybrid are all cloud deployment models, so all listed deployment choices apply."
+      }
+    },
+    {
+      "id": 43,
+      "question": "Which of the following cloud concept is related to pooling and sharing of resources?",
+      "options": [
+        "Polymorphism",
+        "Abstraction",
+        "Virtualization",
+        "None"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Polymorphism is an object-oriented programming concept involving one interface with multiple implementations.",
+        "B": "Abstraction hides implementation details but is not the source-marked mechanism for resource pooling.",
+        "C": "Virtualization abstracts physical resources into logical/virtual resources that can be shared and pooled.",
+        "D": "This is incorrect because virtualization directly relates to resource pooling and sharing."
+      }
+    },
+    {
+      "id": 44,
+      "question": "Cloud computing is a unidirectional in nature system and it is necessarily?",
+      "options": [
+        "Stateless",
+        "Stateful",
+        "Reliable",
+        "All of above"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source states that cloud computing in this context is necessarily stateless.",
+        "B": "Stateful systems retain session/state information; this is not the source-marked choice.",
+        "C": "Reliability is important in cloud computing but is not what the source asks for here.",
+        "D": "The source selects stateless rather than all options."
+      }
+    },
+    {
+      "id": 45,
+      "question": "Which of the following is best known service model?",
+      "options": [
+        "SaaS",
+        "PaaS",
+        "IaaS",
+        "All of the mentioned"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "SaaS is a major cloud service model delivering software applications to users.",
+        "B": "PaaS is a major cloud service model providing a platform for application development and deployment.",
+        "C": "IaaS is a major cloud service model providing infrastructure resources.",
+        "D": "SaaS, PaaS, and IaaS are all widely recognized cloud service models."
+      }
+    },
+    {
+      "id": 46,
+      "question": "Which of the following is related to service provided by cloud?",
+      "options": [
+        "Sourcing",
+        "Ownership",
+        "Reliability",
+        "None"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source associates cloud-provided services with sourcing.",
+        "B": "Ownership is not the source-marked answer for the service-provision concept in this question.",
+        "C": "Reliability is an important cloud characteristic but is not the answer identified in the source.",
+        "D": "This is incorrect because the source provides sourcing as the answer."
+      }
+    },
+    {
+      "id": 47,
+      "question": "Which of the following cloud concept is related to pooling and sharing of resources?",
+      "options": [
+        "Polymorphism",
+        "Abstraction",
+        "Virtualization",
+        "None"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Polymorphism is an object-oriented programming concept, not the cloud resource-pooling mechanism.",
+        "B": "Abstraction hides implementation complexity but is not the source-marked answer.",
+        "C": "Virtualization allows physical resources to be represented as virtual resources that can be pooled and shared.",
+        "D": "This is incorrect because virtualization directly fits the description."
+      }
+    },
+    {
+      "id": 48,
+      "question": "CaaS stands for ______ as a service.",
+      "options": [
+        "Container",
+        "Computing",
+        "Communication",
+        "Cloud"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "CaaS commonly stands for Container as a Service, providing container-based application infrastructure and management.",
+        "B": "Computing is not the expansion given by the source.",
+        "C": "Communication is not the expansion given by the source.",
+        "D": "Cloud is not the expansion given by the source."
+      }
+    },
+    {
+      "id": 49,
+      "question": "Which of the following is owned by an organization selling cloud services?",
+      "options": [
+        "Public",
+        "Private",
+        "Community",
+        "Hybrid"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Public cloud infrastructure is offered to multiple customers, so it is not the source-marked ownership model.",
+        "B": "Private cloud is dedicated to a single organization, but the source does not mark it here.",
+        "C": "The source identifies Community as the answer for this question.",
+        "D": "Hybrid cloud combines deployment environments rather than directly expressing the ownership description asked here."
+      }
+    },
+    {
+      "id": 50,
+      "question": "Which of the following service provider provides the least amount of built-in security?",
+      "options": [
+        "SaaS",
+        "PaaS",
+        "IaaS",
+        "All of above"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "SaaS providers manage a larger portion of the application stack, including many security responsibilities.",
+        "B": "PaaS providers manage the platform layer and therefore provide more built-in infrastructure/platform security than IaaS at the customer-managed boundary.",
+        "C": "IaaS generally leaves more security responsibility to the customer for operating systems, applications, and configurations, so the source marks IaaS.",
+        "D": "The service models do not provide the same amount of built-in security responsibility."
+      }
+    },
+    {
+      "id": 51,
+      "question": "Cloud Computing refers to?",
+      "options": [
+        "Accessing the hardware",
+        "Configuring the hardware",
+        "Manipulating the hardware",
+        "All of the above"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Cloud computing can provide access to computing infrastructure and resources through network services.",
+        "B": "Cloud environments allow users or administrators to configure provisioned resources.",
+        "C": "Cloud management can include manipulating virtualized resources and hardware-backed infrastructure.",
+        "D": "The source marks all of the listed activities as covered by the question's description."
+      }
+    },
+    {
+      "id": 52,
+      "question": "How many types of cloud are there in deployment models?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Two is fewer than the number of deployment models identified by the source.",
+        "B": "Three is not the source-marked count.",
+        "C": "The source identifies four deployment-model types.",
+        "D": "Five is not the source-marked count."
+      }
+    },
+    {
+      "id": 53,
+      "question": "The ______ allows systems and services to be accessible by a group of organizations.",
+      "options": [
+        "Private cloud",
+        "Public cloud",
+        "Community cloud",
+        "Hybrid"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "A private cloud is generally dedicated to a single organization.",
+        "B": "A public cloud is designed to provide services to a broad set of customers rather than a defined community of organizations.",
+        "C": "A community cloud is designed for shared use by organizations with common requirements or interests.",
+        "D": "A hybrid cloud combines multiple deployment environments and is not defined specifically by a group of organizations."
+      }
+    },
+    {
+      "id": 54,
+      "question": "Which of the following is not a major cloud computing platform?",
+      "options": [
+        "Microsoft Azure",
+        "Amazon EC2",
+        "IBM Deep Blue",
+        "Google 101"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Microsoft Azure is a major cloud computing platform.",
+        "B": "Amazon EC2 is a major AWS compute service and cloud infrastructure offering.",
+        "C": "IBM Deep Blue was a specialized chess-playing supercomputer, not a major cloud computing platform.",
+        "D": "Google 101 is not a standard major cloud platform name; however, the source marks IBM Deep Blue as the intended answer."
+      }
+    },
+    {
+      "id": 55,
+      "question": "Which of the following architectural layer is used as front end in cloud computing?",
+      "options": [
+        "Client",
+        "Cloud",
+        "Soft",
+        "All of above"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The client layer is the user-facing/front-end side through which users access cloud services.",
+        "B": "The cloud/backend layer provides the underlying cloud resources and services.",
+        "C": "'Soft' is not the front-end architectural layer identified by the source.",
+        "D": "The source specifically marks the client layer."
+      }
+    },
+    {
+      "id": 56,
+      "question": "Which of the following network device is used to transmit digital signal over the internet?",
+      "options": [
+        "Repeater",
+        "Modem",
+        "Switch",
+        "Hub"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "A repeater regenerates and retransmits signals to extend network distance.",
+        "B": "A modem modulates and demodulates signals and is used to connect digital devices/networks to communication services.",
+        "C": "A switch forwards frames among devices on a LAN.",
+        "D": "A hub repeats incoming signals to all connected ports."
+      }
+    },
+    {
+      "id": 57,
+      "question": "Bridge can be used to join: 1. An unshielded twisted pair (UTP) cabling and fiber optic cabling 2. Token Ring and Ethernet",
+      "options": [
+        "Only 2",
+        "Neither 1 nor 2",
+        "Only 1",
+        "Both 1 and 2"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "The source does not consider only statement 2 correct.",
+        "B": "The source marks neither statement as correct for the bridge capabilities described.",
+        "C": "The source does not consider only statement 1 correct.",
+        "D": "The source does not mark both statements as correct."
+      }
+    },
+    {
+      "id": 58,
+      "question": "Which of the following type of error occurs in both parallel and serial communication system?",
+      "options": [
+        "Burst error",
+        "Multiple bit error",
+        "Framing error",
+        "Bit error"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Burst errors affect multiple bits in a sequence and are not the general source-marked answer here.",
+        "B": "Multiple-bit errors affect more than one bit, but the source marks bit error.",
+        "C": "Framing errors are associated specifically with certain serial communication framing schemes.",
+        "D": "A bit error can occur in both serial and parallel communication when a transmitted bit is received incorrectly."
+      }
+    },
+    {
+      "id": 59,
+      "question": "MS Office 365 is an example of which of the following type of cloud service model?",
+      "options": [
+        "PaaS",
+        "IaaS",
+        "SaaS",
+        "IDaaS"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "PaaS provides a managed application-development/deployment platform rather than ready-to-use office applications.",
+        "B": "IaaS provides virtualized compute, storage, and networking resources.",
+        "C": "Microsoft 365 provides ready-to-use productivity applications over the internet, fitting SaaS.",
+        "D": "IDaaS focuses on identity and access management delivered as a service."
+      }
+    },
+    {
+      "id": 60,
+      "question": "In TCP/IP Model, which of the following protocol is used on internet layer?",
+      "options": [
+        "IGMP",
+        "FRP",
+        "ARP",
+        "UDP"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "IGMP is associated with multicast group management and is commonly mapped to the Internet layer, but the source marks ARP.",
+        "B": "FRP is not the standard protocol intended here.",
+        "C": "ARP performs address resolution between IP and MAC addressing and is commonly associated with the TCP/IP Internet/link boundary; it is the source-marked answer.",
+        "D": "UDP is a transport-layer protocol."
+      }
+    },
+    {
+      "id": 61,
+      "question": "Which of the following is used to establish a VPN connection?",
+      "options": [
+        "Nginx",
+        "HAProxy",
+        "Zeus",
+        "OpenSwan"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Nginx is a web server/reverse proxy and is not the source's VPN solution.",
+        "B": "HAProxy is a load balancer and proxy server.",
+        "C": "Zeus is not the source-marked VPN software.",
+        "D": "OpenSwan is IPsec-based VPN software used to establish secure VPN connections."
+      }
+    },
+    {
+      "id": 62,
+      "question": "Which of the following industries have to use the private cloud deployment model?",
+      "options": [
+        "Banking",
+        "ECommerce",
+        "Logistics",
+        "All of the mentioned"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Banking organizations may use private clouds where control, compliance, and security requirements are important.",
+        "B": "E-commerce organizations can also use private cloud infrastructure for specific workloads and requirements.",
+        "C": "Logistics organizations may also use private cloud environments for controlled workloads and data.",
+        "D": "The source marks all listed industries as potentially requiring the private-cloud model."
+      }
+    },
+    {
+      "id": 63,
+      "question": "Which of the following is an example of IaaS?",
+      "options": [
+        "MailChimp",
+        "AWS EC2",
+        "Salesforce",
+        "WordPress"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "MailChimp is a hosted software application/service, not an infrastructure resource.",
+        "B": "Amazon EC2 provides virtual compute instances and is a standard IaaS example.",
+        "C": "Salesforce is primarily a SaaS business application platform.",
+        "D": "WordPress is software/content-management technology and, when hosted as a service, is not itself the IaaS example intended here."
+      }
+    },
+    {
+      "id": 64,
+      "question": "Which of the following protocols is commonly used for accessing, browsing, and retrieving information from websites on the World Wide Web?",
+      "options": [
+        "File Transfer Protocol",
+        "Hypertext Transfer Protocol",
+        "Simple Mail Transfer Protocol",
+        "Domain Name System"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "FTP is designed for file transfer rather than normal webpage retrieval.",
+        "B": "HTTP is the application-layer protocol used for transferring web resources between clients and web servers.",
+        "C": "SMTP is used for email transmission.",
+        "D": "DNS resolves domain names to IP addresses rather than transferring webpage content."
+      }
+    },
+    {
+      "id": 65,
+      "question": "Which device is used to connect two different networks?",
+      "options": [
+        "Switch",
+        "Hub",
+        "Repeater",
+        "Router"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "A switch primarily connects devices within a LAN and forwards frames based on MAC addresses.",
+        "B": "A hub simply repeats signals among connected ports.",
+        "C": "A repeater regenerates signals to extend a network segment.",
+        "D": "A router connects different IP networks and forwards packets between them."
+      }
+    },
+    {
+      "id": 66,
+      "question": "Which protocol is used to send emails?",
+      "options": [
+        "FTP",
+        "SMTP",
+        "HTTP",
+        "SNMP"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "FTP is used for file transfer.",
+        "B": "SMTP (Simple Mail Transfer Protocol) is used for sending email between mail clients and servers or between mail servers.",
+        "C": "HTTP is primarily used for web communication.",
+        "D": "SNMP is used for network management and monitoring."
+      }
+    },
+    {
+      "id": 67,
+      "question": "What does DNS stand for?",
+      "options": [
+        "Domain name system",
+        "Data network service",
+        "Digital network signal",
+        "Domain network system"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "DNS stands for Domain Name System, which maps domain names to IP addresses and other DNS records.",
+        "B": "Data Network Service is not the standard expansion of DNS.",
+        "C": "Digital Network Signal is not the standard expansion.",
+        "D": "Domain Network System is not the standard expansion."
+      }
+    },
+    {
+      "id": 68,
+      "question": "Which of the following payment options is best suited for small businesses in cloud?",
+      "options": [
+        "Pay-as-you-go",
+        "Pay-and-use",
+        "Pay-per-use",
+        "None of the mentioned options"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Pay-as-you-go allows a business to pay for cloud resources based on usage without a large upfront infrastructure investment.",
+        "B": "'Pay-and-use' is not the standard payment model identified by the source.",
+        "C": "Pay-per-use is conceptually similar to usage-based billing, but the source specifically marks pay-as-you-go.",
+        "D": "This is incorrect because the source provides a suitable option."
+      }
+    },
+    {
+      "id": 69,
+      "question": "In cryptography, the sequence of the letters is rearranged by?",
+      "options": [
+        "Transposition ciphers",
+        "Substitution ciphers",
+        "Both A and B",
+        "None of these"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A transposition cipher rearranges the positions of plaintext characters while retaining the characters themselves.",
+        "B": "A substitution cipher replaces characters or symbols with other symbols rather than simply rearranging their positions.",
+        "C": "Only transposition directly matches the description of rearranging the sequence of letters.",
+        "D": "This is incorrect because transposition ciphers perform the described operation."
+      }
+    },
+    {
+      "id": 70,
+      "question": "Which of the following is not the benefit of the cloud if you choose Platform as a Service?",
+      "options": [
+        "Management of Middleware",
+        "Management of Data",
+        "Management of Runtime",
+        "All of the mentioned options"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "In PaaS, the provider generally manages the middleware/runtime/platform stack, so management of middleware is not a customer benefit in the source's framing.",
+        "B": "PaaS can provide managed platform capabilities while allowing customers to focus on application data and code.",
+        "C": "Runtime is typically managed by the PaaS provider, making this also potentially inconsistent with the wording; however, the source marks option A.",
+        "D": "The source does not mark all options as the answer."
+      }
+    },
+    {
+      "id": 71,
+      "question": "DES Encryption algorithm is an example of which of the following options?",
+      "options": [
+        "Bit-oriented cipher",
+        "All of the mentioned options",
+        "Byte-oriented cipher",
+        "Key-alternating block ciphers"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "DES is a block cipher that operates on 64-bit blocks using bit-level transformations, matching the source's classification.",
+        "B": "The source does not classify all listed choices as correct.",
+        "C": "DES is not classified as a byte-oriented cipher in the source.",
+        "D": "The source does not mark key-alternating block ciphers for DES."
+      }
+    },
+    {
+      "id": 72,
+      "question": "Which software prevents external access to a system?",
+      "options": [
+        "Firewall",
+        "Gateway",
+        "Router",
+        "Virus checker"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A firewall controls network access according to security rules and can block unauthorized external connections.",
+        "B": "A gateway connects or translates between networks/protocols but is not primarily a security access-control software.",
+        "C": "A router forwards packets between networks; it is not primarily designed to prevent external access.",
+        "D": "A virus checker detects malware rather than controlling network access."
+      }
+    },
+    {
+      "id": 73,
+      "question": "The term FTP stands for?",
+      "options": [
+        "File transfer program",
+        "File transmission protocol",
+        "File transfer protocol",
+        "File transfer protection"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "FTP does not expand to File Transfer Program.",
+        "B": "FTP uses 'Transfer', not 'Transmission'.",
+        "C": "FTP stands for File Transfer Protocol.",
+        "D": "FTP does not stand for File Transfer Protection."
+      }
+    },
+    {
+      "id": 74,
+      "question": "Which of the following types of network security ensures that potential attackers cannot infiltrate your network?",
+      "options": [
+        "Firewall",
+        "Network Access Control",
+        "Virtual Private Network",
+        "Both Network Access Control and Virtual Private Network"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "A firewall filters traffic and can prevent unauthorized connections, but the source marks VPN for this question.",
+        "B": "Network Access Control restricts which devices/users can gain network access, but it is not the source-marked answer.",
+        "C": "A VPN establishes an encrypted and authenticated tunnel for secure network communication, and the source identifies it as the answer.",
+        "D": "Although NAC and VPN can both contribute to security, the source specifically marks VPN."
+      }
+    },
+    {
+      "id": 75,
+      "question": "Antivirus scanning devices fall under which type of network security device?",
+      "options": [
+        "Active devices",
+        "Preventative devices",
+        "Unified Threat Management devices",
+        "Passive devices"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source classifies antivirus scanning devices as active security devices because they actively inspect or respond to malicious software.",
+        "B": "Preventative describes a security function, but it is not the category selected by the source.",
+        "C": "UTM devices integrate multiple security functions and are broader than antivirus scanning alone.",
+        "D": "Passive devices generally monitor without actively responding; antivirus scanning is not classified this way in the source."
+      }
+    },
+    {
+      "id": 76,
+      "question": "The correct order of corresponding OSI layers for having functionalities of routing and reconciling machine representation differences with shared access resolution and ASCII test protocol is?",
+      "options": [
+        "Network, Physical, Transport, Data Link",
+        "Network, Physical, Data Link, Application",
+        "Network, Presentation, Data Link, Application",
+        "Network, Presentation, Physical, Transport"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The order does not match the source's mapping of routing, representation, shared access resolution, and ASCII-related application functions.",
+        "B": "The source does not map the second function to the Physical layer and does not select this sequence.",
+        "C": "Network handles routing, Presentation handles representation/translation, Data Link handles link access, and Application contains application-level protocols; this is the source-marked sequence.",
+        "D": "The final layers do not correspond to the functions listed in the question."
+      }
+    },
+    {
+      "id": 77,
+      "question": "The term WAN stands for?",
+      "options": [
+        "Wide Area Net",
+        "Wide Access Network",
+        "Wide Area Network",
+        "Wide Access Net"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The standard term uses 'Network', not 'Net'.",
+        "B": "WAN does not expand to Wide Access Network.",
+        "C": "WAN stands for Wide Area Network.",
+        "D": "WAN does not expand to Wide Access Net."
+      }
+    },
+    {
+      "id": 78,
+      "question": "Which of the following is the incorrect representation of the layer number of an OSI model?",
+      "options": [
+        "Layer 6 is the presentation layer",
+        "Layer 4 is the session layer",
+        "Layer 3 is the network layer",
+        "Layer 2 is the data link layer"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Layer 6 is the Presentation layer, so this representation is correct.",
+        "B": "Layer 4 is the Transport layer; the Session layer is Layer 5, so this representation is incorrect.",
+        "C": "Layer 3 is the Network layer, so this is correct.",
+        "D": "Layer 2 is the Data Link layer, so this is correct."
+      }
+    },
+    {
+      "id": 79,
+      "question": "How many versions are available of IP?",
+      "options": [
+        "6 version",
+        "4 version",
+        "2 version",
+        "1 version"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The source does not identify six standard IP versions for this question.",
+        "B": "IPv4 is one major version, but it is not the total number asked for.",
+        "C": "The source identifies two major versions: IPv4 and IPv6.",
+        "D": "There is more than one major IP version, so one is incorrect."
+      }
+    },
+    {
+      "id": 80,
+      "question": "Which of the following cloud metric shows the time it takes for any work on the virtual environment and for the virtual environment to complete the request?",
+      "options": [
+        "Reliability Metric",
+        "Throughput metric",
+        "Response Time Metric",
+        "Service/system availability metric"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Reliability measures the consistency or dependability of service rather than the time to complete a request.",
+        "B": "Throughput measures the amount of work/data processed per unit time.",
+        "C": "Response time measures the time taken to respond to a request or complete the relevant operation.",
+        "D": "Availability measures how often a service is operational and accessible, not request completion time."
+      }
+    },
+    {
+      "id": 81,
+      "question": "In specific, if the systems use separate protocols, which one of the following devices is used to link two systems?",
+      "options": [
+        "Repeater",
+        "Gateway",
+        "Bridge",
+        "Hub"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "A repeater regenerates signals and does not translate between different protocols.",
+        "B": "A gateway can connect systems using different protocols by providing protocol translation/interconnection.",
+        "C": "A bridge connects network segments using compatible link-layer protocols rather than serving as the general protocol translator described.",
+        "D": "A hub repeats signals among ports and does not link different protocols."
+      }
+    },
+    {
+      "id": 82,
+      "question": "Bit rate control is a function of which of the following layer of the OSI model?",
+      "options": [
+        "Network layer",
+        "Physical Layer",
+        "Application Layer",
+        "Session Layer"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "The Network layer handles logical addressing and routing rather than the basic bit-rate function identified here.",
+        "B": "The Physical layer deals with transmission of raw bits and physical signaling characteristics, including data-rate aspects.",
+        "C": "The Application layer provides application-specific network services.",
+        "D": "The Session layer manages communication sessions between applications."
+      }
+    },
+    {
+      "id": 83,
+      "question": "Which of the following protocol is used for remote login?",
+      "options": [
+        "SNMP",
+        "TELNET",
+        "DNS",
+        "SMTP"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "SNMP is used for network monitoring and management.",
+        "B": "Telnet provides remote terminal/login access, although it transmits credentials and data without modern encryption.",
+        "C": "DNS resolves domain names and does not provide remote login.",
+        "D": "SMTP is used for sending email."
+      }
+    },
+    {
+      "id": 84,
+      "question": "Which of the following ensures a loop-free topology that is used for bridge Ethernet local area network?",
+      "options": [
+        "PPP (Point to Point Protocol)",
+        "Internet control protocol",
+        "Spanning Tree Protocol",
+        "IPv6 control protocol"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "PPP is used for point-to-point data-link connections, not for preventing Ethernet switching loops.",
+        "B": "'Internet control protocol' is not the protocol identified for Ethernet loop prevention.",
+        "C": "Spanning Tree Protocol (STP) creates a loop-free logical topology by blocking redundant paths.",
+        "D": "IPv6 control protocol is not the Ethernet loop-prevention mechanism."
+      }
+    },
+    {
+      "id": 85,
+      "question": "Attack in which a user creates a packet that appears to be something else is?",
+      "options": [
+        "Smurfing",
+        "Trojan",
+        "E-mail",
+        "Spoofing"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Smurfing is a traffic-amplification attack using spoofed addressing.",
+        "B": "A Trojan is malware disguised as legitimate software.",
+        "C": "E-mail is a communication medium, not the attack described.",
+        "D": "Spoofing falsifies packet/source information so traffic appears to originate from another source."
+      }
+    },
+    {
+      "id": 86,
+      "question": "An operating system running on a type ______ VM is full virtualization.",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "All of the above"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source marks Type 1 VM for full virtualization. A Type 1 hypervisor runs directly on the host hardware.",
+        "B": "Type 2 hypervisors run on top of a host operating system and are not the source-marked answer.",
+        "C": "Type 3 is not the standard hypervisor classification used for this distinction.",
+        "D": "The source identifies Type 1 rather than all choices."
+      }
+    },
+    {
+      "id": 87,
+      "question": "________ applications have a much lower barrier to entry than their locally installed competitors.",
+      "options": [
+        "CaaS",
+        "IaaS",
+        "PaaS",
+        "None of these"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "CaaS is Container as a Service and does not specifically describe the application category in the question.",
+        "B": "IaaS provides infrastructure resources rather than directly describing the cited application category.",
+        "C": "PaaS provides a development/deployment platform and is not the source's answer to the statement.",
+        "D": "The source marks 'None of these', indicating that none of the listed service models matches the statement as phrased."
+      }
+    },
+    {
+      "id": 88,
+      "question": "Network Security provides authentication and access control for resources.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "This is true: network security mechanisms can include authentication and access-control measures to protect resources.",
+        "B": "This is false because authentication and access control are recognized security functions."
+      }
+    },
+    {
+      "id": 89,
+      "question": "Security features that control who can access resources in the OS.",
+      "options": [
+        "Authentication",
+        "Identification",
+        "Validation",
+        "Access Control"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Authentication verifies the identity of a user or entity; it does not itself define which resources that identity may access.",
+        "B": "Identification is the process of claiming or presenting an identity.",
+        "C": "Validation can refer to checking correctness or legitimacy, but it is not the specific access-permission mechanism named here.",
+        "D": "Access control determines which users or entities are permitted to access particular resources."
+      }
+    },
+    {
+      "id": 90,
+      "question": "An algorithm in encryption is called?",
+      "options": [
+        "Algorithm",
+        "Procedure",
+        "Cipher",
+        "Module"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "'Algorithm' is a general term for a computational procedure and is not the cryptographic name requested.",
+        "B": "Procedure is a generic term and is not the source-marked cryptographic term.",
+        "C": "A cipher is an algorithm or system used to perform encryption/decryption transformations.",
+        "D": "Module refers to a software component and is not the cryptographic term."
+      }
+    },
+    {
+      "id": 91,
+      "question": "Which of these is a part of network identification?",
+      "options": [
+        "UserID",
+        "Password",
+        "OTP",
+        "Fingerprint"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "A User ID identifies the account or user attempting to access a network/resource.",
+        "B": "A password is primarily an authentication factor used to verify an identity.",
+        "C": "An OTP is a temporary authentication factor.",
+        "D": "A fingerprint is a biometric authentication factor."
+      }
+    },
+    {
+      "id": 92,
+      "question": "Which of the following has many features of that is now known as cloud computing?",
+      "options": [
+        "Web Service",
+        "Software",
+        "All of the mentioned",
+        "Internet"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Web services contribute concepts used in cloud architectures but are not the source-marked answer.",
+        "B": "Software is too broad to be the specific historical concept identified here.",
+        "C": "The source does not mark all listed choices.",
+        "D": "The source identifies the Internet as having many characteristics associated with modern cloud computing."
+      }
+    },
+    {
+      "id": 93,
+      "question": "Which of the following is an essential concept related to Cloud?",
+      "options": [
+        "Reliability",
+        "Abstraction",
+        "Productivity",
+        "All of the mentioned"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Reliability is important for cloud services but is not the source-marked essential concept.",
+        "B": "Abstraction hides the underlying implementation and infrastructure complexity from cloud users, making it a fundamental cloud concept.",
+        "C": "Productivity is a potential benefit, not the source-marked concept.",
+        "D": "The source specifically marks abstraction rather than all choices."
+      }
+    },
+    {
+      "id": 94,
+      "question": "Cloud computing is a concept that involves pooling physical resources and offering them as which sort of resource?",
+      "options": [
+        "Cloud",
+        "Real",
+        "Virtual",
+        "None of the mentioned"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Cloud describes the service environment but not the type of resource created from pooled physical resources.",
+        "B": "Physical resources are not offered as 'real' resources in the virtualization model described.",
+        "C": "Virtualization presents pooled physical resources as virtual resources that can be allocated to users.",
+        "D": "This is incorrect because the source provides virtual as the answer."
+      }
+    },
+    {
+      "id": 95,
+      "question": "Which type of topology is best suited for large businesses which must carefully control and coordinate the operation of distributed branch outlets?",
+      "options": [
+        "Ring",
+        "Local area",
+        "Hierarchical",
+        "Star"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Ring topology connects devices in a ring and is not the source's choice for coordinated large branch structures.",
+        "B": "Local area describes a network scope rather than a topology type in this context.",
+        "C": "Hierarchical topology can provide structured organization, but the source marks star.",
+        "D": "The source identifies star topology as the best-suited option for the described setup."
+      }
+    },
+    {
+      "id": 96,
+      "question": "The location of the resource on the internet is given by its?",
+      "options": [
+        "Protocol",
+        "URL",
+        "Email address",
+        "ICQ"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "A protocol specifies communication rules, such as HTTP, but is not the resource locator itself.",
+        "B": "A URL (Uniform Resource Locator) identifies the location/address of a resource on the internet.",
+        "C": "An email address identifies a mailbox, not a general internet resource.",
+        "D": "ICQ is an instant-messaging service/identifier and is not the standard resource locator."
+      }
+    },
+    {
+      "id": 97,
+      "question": "Which of the following cloud service providers should be preferred if most of your data is of Binary large objects type?",
+      "options": [
+        "Oracle",
+        "AWS",
+        "Google Cloud Platform",
+        "Azure"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "Oracle offers cloud storage services, but the source does not select it for the stated BLOB requirement.",
+        "B": "AWS provides object storage such as Amazon S3, but it is not the source-marked choice.",
+        "C": "Google Cloud provides object storage as well, but the source does not mark it here.",
+        "D": "The source marks Azure as the preferred provider for the described BLOB-heavy data workload."
+      }
+    },
+    {
+      "id": 98,
+      "question": "Which of the following statements is true about cloud and data center? 1. In Cloud, owner is responsible for downtime and repairs 2. In Data center, owner is responsible for downtime and repairs. Choose the correct answer.",
+      "options": [
+        "Neither 1 nor 2",
+        "Only 2",
+        "Only 1",
+        "Both 1 and 2"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "The source states that statement 2 is true, so neither is incorrect.",
+        "B": "The source marks only statement 2: in a traditional data center, the owner is responsible for downtime and repairs.",
+        "C": "Statement 1 is not the source-marked statement because cloud infrastructure maintenance is shared with/provider-managed depending on the service model.",
+        "D": "The source does not mark both statements as true."
+      }
+    },
+    {
+      "id": 99,
+      "question": "An attack in which the user receives an unwanted amount of emails is?",
+      "options": [
+        "Ping Storm",
+        "Denial of Service",
+        "E-mail bombing",
+        "Smurfing"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "A ping storm is excessive ICMP/ping traffic rather than an email-flooding attack.",
+        "B": "Denial of Service is a broad category of attacks intended to make a service unavailable.",
+        "C": "E-mail bombing sends a large number of unwanted emails to a target.",
+        "D": "Smurfing is a network traffic amplification attack using spoofed addressing."
+      }
+    },
+    {
+      "id": 100,
+      "question": "Which of the following types of network security ensures that potential attackers cannot infiltrate your network?",
+      "options": [
+        "Firewall",
+        "Network Access Control",
+        "Virtual Private Network",
+        "Both Network Access Control and Virtual Private Network"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "A firewall filters traffic and can block unauthorized network connections, but the source marks VPN.",
+        "B": "Network Access Control can restrict device/user access, but it is not the source-marked answer.",
+        "C": "A VPN provides an encrypted, authenticated tunnel for protected network communication and is the source-marked answer.",
+        "D": "Both NAC and VPN can contribute to security, but the source specifically selects VPN."
+      }
+    },
+    {
+      "id": 101,
+      "question": "Antivirus scanning devices fall under which type of network security device?",
+      "options": [
+        "Active devices",
+        "Preventative devices",
+        "Unified Threat Management devices",
+        "Passive devices"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source categorizes antivirus scanning devices as active devices because they actively inspect systems and can detect/respond to threats.",
+        "B": "Preventative is a function/category description, but not the source's selected type.",
+        "C": "UTM devices integrate several security functions rather than describing antivirus scanning alone.",
+        "D": "Passive devices generally monitor without active intervention, unlike the source's classification."
+      }
+    },
+    {
+      "id": 102,
+      "question": "Consider a situation where you have to choose between the major cloud service providers. Which would you choose if you want support for Linux, Windows Server, and SQL Server and enhanced security?",
+      "options": [
+        "Azure",
+        "Google Cloud",
+        "Alibaba Cloud",
+        "Oracle"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Microsoft Azure supports Windows Server, SQL Server, Linux workloads, and a broad set of security capabilities, matching the source's choice.",
+        "B": "Google Cloud supports Linux and Windows workloads, but it is not the source-marked answer for this combination.",
+        "C": "Alibaba Cloud offers broad infrastructure services but is not the source-marked choice.",
+        "D": "Oracle Cloud provides database-focused and infrastructure services but is not the source-marked choice here."
+      }
+    },
+    {
+      "id": 103,
+      "question": "How many processes are there for changing a plaintext piece of data into encrypted data in AES-128?",
+      "options": [
+        "12",
+        "14",
+        "18",
+        "10"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "AES-128 does not use 12 rounds; 12 rounds applies to AES-192.",
+        "B": "AES-256 uses 14 rounds, not AES-128.",
+        "C": "18 is not the standard number of AES rounds for AES-128.",
+        "D": "AES-128 uses 10 encryption rounds, so the source marks 10."
+      }
+    },
+    {
+      "id": 104,
+      "question": "Which of the following cloud service providers does not provide Hybrid Storage?",
+      "options": [
+        "All of the mentioned options",
+        "AWS",
+        "Azure",
+        "Google Cloud"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "The source does not mark all providers as lacking hybrid storage.",
+        "B": "AWS offers hybrid storage/integration options, so it is not the source's answer.",
+        "C": "Azure provides hybrid storage capabilities and integrations.",
+        "D": "The source marks Google Cloud as the provider that does not provide Hybrid Storage in this question."
+      }
+    },
+    {
+      "id": 105,
+      "question": "Suppose computers A and B have IP addresses 10.105.1.113 and 10.105.1.91 respectively and they both use the same netmask N. Which value of N should not be used if A and B should belong to the same network?",
+      "options": [
+        "255.255.255.0",
+        "255.255.255.128",
+        "255.255.255.192",
+        "255.255.255.224"
+      ],
+      "answer": "D",
+      "explanations": {
+        "A": "With /24, both addresses fall in the same network because the first three octets are identical.",
+        "B": "With /25, both 91 and 113 fall within the 0–127 host range of the same subnet.",
+        "C": "With /26, both addresses fall within the 64–127 subnet, so they remain in the same network.",
+        "D": "With /27, 91 is in the 64–95 subnet while 113 is in the 96–127 subnet, so they would be in different networks."
+      }
+    },
+    {
+      "id": 106,
+      "question": "What is the maximum size of data that the application layer can pass on to the TCP layer below?",
+      "options": [
+        "Any size",
+        "2^16 bytes - size of TCP header",
+        "2^16 bytes",
+        "1500 bytes"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The application can provide data of arbitrary application-level size; TCP segments it into transport-layer units as needed.",
+        "B": "The 16-bit length-related limit concerns a TCP segment/header representation, not a fixed maximum size of application data passed to TCP as a whole.",
+        "C": "2^16 bytes is not the maximum application message size because TCP can process a stream larger than one segment.",
+        "D": "1500 bytes is a common Ethernet MTU, not the maximum size of an application-layer data stream passed to TCP."
+      }
+    },
+    {
+      "id": 107,
+      "question": "A computer on a 10 Mbps network is regulated by a token bucket. The token bucket is filled at a rate of 2 Mbps. It is initially filled to capacity with 16 Megabits. What is the maximum duration for which the computer can transmit at the full 10 Mbps?",
+      "options": [
+        "6 seconds",
+        "8 seconds",
+        "2 seconds",
+        "5 seconds"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "Six seconds would require a different initial token/rate relationship and does not match the token-bucket calculation.",
+        "B": "Eight seconds is not the correct duration for the given burst capacity and refill rate.",
+        "C": "At 10 Mbps transmission with tokens replenished at 2 Mbps, tokens are consumed at a net 8 Mbps; 16 Mb / 8 Mbps = 2 seconds.",
+        "D": "Five seconds is not the correct result from the given rates."
+      }
+    },
+    {
+      "id": 108,
+      "question": "You are a system administrator on a NetWare network, you are running NetWare 4.11 and you cannot communicate with your router. What likely may be the problem?",
+      "options": [
+        "NetWare 4.11 defaults to 802.2 encapsulation",
+        "NetWare 4.11 defaults to 802.3 encapsulation",
+        "Cisco routers only work with NetWare 3.11",
+        "NetWare 3.11 defaults to 802.2 encapsulation"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "The source identifies NetWare 4.11's default 802.2 encapsulation as the likely interoperability problem with the router.",
+        "B": "This is the opposite of the source-marked default and therefore is not the expected answer.",
+        "C": "Cisco routers are not limited to NetWare 3.11 in the way stated.",
+        "D": "The question concerns NetWare 4.11, so this option does not address the described version/default."
+      }
+    },
+    {
+      "id": 109,
+      "question": "Which protocol is used to send emails?",
+      "options": [
+        "FTP",
+        "SMTP",
+        "HTTP",
+        "SNMP"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "FTP is used for file transfer.",
+        "B": "SMTP is the standard protocol used for sending email.",
+        "C": "HTTP is used for web communication.",
+        "D": "SNMP is used for network management and monitoring."
+      }
+    },
+    {
+      "id": 110,
+      "question": "What is the purpose of DHCP?",
+      "options": [
+        "To resolve domain names",
+        "To assign IP addresses",
+        "To encrypt data",
+        "To transfer files"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "DNS, not DHCP, resolves domain names to IP addresses.",
+        "B": "DHCP dynamically assigns IP addresses and other network configuration information to clients.",
+        "C": "DHCP does not provide encryption of application data.",
+        "D": "File transfer is handled by protocols such as FTP or HTTP, not DHCP."
+      }
+    },
+    {
+      "id": 111,
+      "question": "Which layer of the OSI model does the IP protocol operate at?",
+      "options": [
+        "Physical",
+        "Data Link",
+        "Network",
+        "Transport"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "The Physical layer transmits raw bits over physical media.",
+        "B": "The Data Link layer handles frames and local-link delivery.",
+        "C": "IP is a Network-layer protocol responsible for logical addressing and packet forwarding/routing.",
+        "D": "The Transport layer contains protocols such as TCP and UDP."
+      }
+    },
+    {
+      "id": 112,
+      "question": "Which of the following is a connection-oriented protocol?",
+      "options": [
+        "UDP",
+        "TCP",
+        "IP",
+        "ICMP"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "UDP is connectionless and does not establish a connection before sending datagrams.",
+        "B": "TCP is connection-oriented and establishes a connection before reliable byte-stream transfer.",
+        "C": "IP provides connectionless packet delivery at the Network layer.",
+        "D": "ICMP is a network control/diagnostic protocol and is not connection-oriented like TCP."
+      }
+    },
+    {
+      "id": 113,
+      "question": "What is the primary function of ARP?",
+      "options": [
+        "Resolve IP addresses to MAC addresses",
+        "Resolve MAC addresses to IP addresses",
+        "Transfer files",
+        "Encrypt data"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "ARP resolves a known IPv4 address to the corresponding MAC address on the local network.",
+        "B": "Reverse address mapping is associated with other mechanisms such as RARP, not standard ARP.",
+        "C": "File transfer is performed by protocols such as FTP or SFTP.",
+        "D": "ARP does not encrypt data."
+      }
+    },
+    {
+      "id": 114,
+      "question": "Which layer of the OSI model is responsible for error detection and correction?",
+      "options": [
+        "Physical Layer",
+        "Data Link Layer",
+        "Network Layer",
+        "Application Layer"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "The Physical layer transmits raw bits and does not provide the primary framing-level error control described.",
+        "B": "The Data Link layer commonly provides frame-level error detection and, depending on the protocol, error recovery/correction mechanisms.",
+        "C": "The Network layer focuses on logical addressing and routing rather than link-level error detection/correction.",
+        "D": "The Application layer provides application services rather than basic link-level error control."
+      }
+    },
+    {
+      "id": 115,
+      "question": "What protocol does HTTP use to ensure reliable communication?",
+      "options": [
+        "UDP",
+        "TCP",
+        "FTP",
+        "ICMP"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "UDP is connectionless and does not itself provide TCP-style reliable byte-stream delivery.",
+        "B": "Traditional HTTP/1.1 and HTTP/2 use TCP, which provides reliable ordered transport.",
+        "C": "FTP is an application-layer file-transfer protocol, not the transport protocol used by HTTP.",
+        "D": "ICMP is used for network diagnostics/control messages rather than reliable HTTP transport."
+      }
+    },
+    {
+      "id": 116,
+      "question": "What is the primary function of DNS?",
+      "options": [
+        "To provide secure communication",
+        "To resolve domain names to IP addresses",
+        "To transfer files",
+        "To monitor network traffic"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "Secure communication is provided by mechanisms such as TLS/HTTPS, not DNS's primary function.",
+        "B": "DNS translates domain names into IP addresses and provides other DNS records used for locating services.",
+        "C": "File transfer is handled by protocols such as FTP, SFTP, or HTTP.",
+        "D": "Network traffic monitoring is handled by network-management and monitoring tools/protocols."
+      }
+    },
+    {
+      "id": 117,
+      "question": "What is the default subnet mask for a Class C network?",
+      "options": [
+        "255.0.0.0",
+        "255.255.0.0",
+        "255.255.255.0",
+        "255.255.255.255"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "255.0.0.0 is the traditional default mask for a Class A network.",
+        "B": "255.255.0.0 is the traditional default mask for a Class B network.",
+        "C": "255.255.255.0 is the traditional default /24 mask associated with a Class C network.",
+        "D": "255.255.255.255 represents a /32 host address, not the default Class C network mask."
+      }
+    },
+    {
+      "id": 118,
+      "question": "What protocol is used for secure transactions on the internet?",
+      "options": [
+        "FTP",
+        "HTTP",
+        "HTTPS",
+        "TFTP"
+      ],
+      "answer": "C",
+      "explanations": {
+        "A": "FTP transfers files but does not provide the secure web-transaction protection intended here.",
+        "B": "HTTP transfers web resources without the encryption provided by HTTPS.",
+        "C": "HTTPS is HTTP carried over TLS, providing encryption and authentication for secure web communication.",
+        "D": "TFTP is a simple file-transfer protocol with minimal features and no built-in secure transaction mechanism."
+      }
+    },
+    {
+      "id": 119,
+      "question": "What is the size of an IPv4 address?",
+      "options": [
+        "32 bits",
+        "64 bits",
+        "128 bits",
+        "256 bits"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "An IPv4 address is 32 bits long, normally represented as four 8-bit decimal octets.",
+        "B": "64 bits is not the size of an IPv4 address.",
+        "C": "128 bits is the size of an IPv6 address.",
+        "D": "256 bits is not the size of a standard IP address."
+      }
+    },
+    {
+      "id": 120,
+      "question": "What type of protocol is ICMP?",
+      "options": [
+        "Connection-oriented",
+        "Connectionless",
+        "Secure",
+        "Application-level"
+      ],
+      "answer": "B",
+      "explanations": {
+        "A": "ICMP does not establish a connection like TCP.",
+        "B": "ICMP is a connectionless Internet-layer control and diagnostic protocol.",
+        "C": "ICMP is not itself a secure communication protocol.",
+        "D": "ICMP is associated with the Internet/Network layer rather than being an application-level protocol."
+      }
+    }
+  ]
+}

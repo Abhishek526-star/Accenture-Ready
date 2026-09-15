@@ -1,0 +1,2049 @@
+{
+  "title": "Accenture Computer Networks, TCP/IP, Routing, HTTP, Security & Mobile Computing PYQs",
+  "category": "Computer Networks / Network Security / Web / Cryptography / Mobile Computing",
+  "description": "120 MCQs from the uploaded PYQ PDF. Every option has an individual explanation. Correct answers preserve the green-highlighted answers shown in the source pages.",
+  "source": "Uploaded PYQ PDF (30 pages)",
+  "sourceNote": "The answer key is based on the green-highlighted choices in the PDF page images, while the explanations preserve the terminology and framing of the source.",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the fundamental purpose of a computer network?",
+      "options": {
+        "A": "Sharing resources",
+        "B": "Storing data",
+        "C": "Performing calculations",
+        "D": "Enhancing security"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Networks allow computers and devices to share files, printers, applications, storage, and other resources.",
+        "B": "Data storage can be a network service, but it is only one use of a network, not its fundamental purpose.",
+        "C": "Networks can distribute computation, but computation itself is not the fundamental purpose of networking.",
+        "D": "Security is an important network function, but networking fundamentally enables communication and resource sharing."
+      }
+    },
+    {
+      "id": 2,
+      "question": "Which topology does the Internet resemble?",
+      "options": {
+        "A": "Ring",
+        "B": "Bus",
+        "C": "Star",
+        "D": "Mesh"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "A ring topology connects nodes in a closed loop; it does not describe the Internet's highly interconnected structure.",
+        "B": "A bus topology uses one shared backbone cable and is not representative of the Internet.",
+        "C": "A star topology has a central device connecting endpoints and is common in LANs, not the Internet as a whole.",
+        "D": "A mesh provides many interconnections and is the closest simplified description of the Internet's redundant, interconnected structure."
+      }
+    },
+    {
+      "id": 3,
+      "question": "What type of network covers a large geographical area, like a city, country, or the world?",
+      "options": {
+        "A": "LAN",
+        "B": "MAN",
+        "C": "WAN",
+        "D": "PAN"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "A LAN covers a limited local area such as a home, office, or building.",
+        "B": "A MAN generally covers a metropolitan or city-scale area.",
+        "C": "A WAN spans large geographic areas and can connect networks across countries or the world.",
+        "D": "A PAN is a small personal network around a user and nearby devices."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Which device is used to connect different network segments in a computer network?",
+      "options": {
+        "A": "Repeater",
+        "B": "Router",
+        "C": "Bridge",
+        "D": "Modem"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "A repeater regenerates signals to extend a network segment; it does not make routing decisions.",
+        "B": "A router forwards packets between different IP networks and can connect separate network segments/networks.",
+        "C": "A bridge connects LAN segments at the Data Link layer using MAC addresses.",
+        "D": "A modem converts between digital data and the signaling used by a communication medium; it is not primarily a segment-connecting device."
+      }
+    },
+    {
+      "id": 5,
+      "question": "What protocol is commonly used for transmitting web pages over the internet?",
+      "options": {
+        "A": "SMTP",
+        "B": "FTP",
+        "C": "HTTP",
+        "D": "SNMP"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "SMTP is primarily used for sending email, not for transferring web pages.",
+        "B": "FTP is designed for file transfer rather than normal web-page retrieval.",
+        "C": "HTTP is the application-layer protocol used to request and transfer web resources.",
+        "D": "SNMP is used for network monitoring and management."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Which layer of the OSI model ensures the error-free transmission of data?",
+      "options": {
+        "A": "Physical Layer",
+        "B": "Data Link Layer",
+        "C": "Network Layer",
+        "D": "Transport Layer"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "The Physical layer transmits raw bits; it does not normally provide end-to-end error recovery.",
+        "B": "The Data Link layer can detect errors in frames and, depending on the protocol, support link-level recovery.",
+        "C": "The Network layer handles logical addressing and routing rather than reliable end-to-end delivery.",
+        "D": "The Transport layer can provide reliable end-to-end delivery, especially through TCP."
+      }
+    },
+    {
+      "id": 7,
+      "question": "In a computer network, what is the main function of the application layer?",
+      "options": {
+        "A": "To provide network services to the applications",
+        "B": "To transmit data between network devices",
+        "C": "To package data for transfer",
+        "D": "To route data between networks"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The Application layer exposes network services such as web, email, naming, and file-transfer services to applications.",
+        "B": "Lower layers handle the actual transmission and forwarding of data between network devices.",
+        "C": "Encapsulation and segmentation are distributed across several layers rather than being the sole Application-layer function.",
+        "D": "Routing is primarily a Network-layer function."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Which command can be used to view the current IP configuration of a device?",
+      "options": {
+        "A": "ipconfig",
+        "B": "ifconfig",
+        "C": "Both ipconfig and ifconfig",
+        "D": "netstat"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "ipconfig is a Windows command used to display and manage IP configuration.",
+        "B": "ifconfig is a traditional Unix/Linux command for viewing and configuring network interfaces.",
+        "C": "Both commands can display interface/IP configuration, although they are associated with different operating-system families.",
+        "D": "netstat displays network connections, listening ports, routing information, and statistics depending on options."
+      }
+    },
+    {
+      "id": 9,
+      "question": "What is the result of executing the ping localhost command?",
+      "options": {
+        "A": "It sends ICMP echo requests to the local machine",
+        "B": "It configures the local machine's IP address",
+        "C": "It displays the routing table",
+        "D": "It clears the DNS cache"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "ping localhost resolves the loopback destination and sends ICMP Echo Requests to the local host interface.",
+        "B": "ping does not configure IP addressing.",
+        "C": "Commands such as route, ip route, or netstat -r are used to inspect routing tables.",
+        "D": "DNS cache clearing uses operating-system-specific commands; ping does not clear it."
+      }
+    },
+    {
+      "id": 10,
+      "question": "If a computer is unable to access the Internet, but can communicate with local network devices, what should be checked first?",
+      "options": {
+        "A": "Router configuration",
+        "B": "Cable connections",
+        "C": "Local firewall settings",
+        "D": "DNS settings"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "If local connectivity works but Internet access fails, the router/default-gateway path is an important item to check.",
+        "B": "A cable fault can prevent local connectivity too, so it is less consistent with the stated symptom.",
+        "C": "A local firewall can block particular traffic, but the source identifies DNS settings for the described Internet-access symptom.",
+        "D": "Incorrect DNS can prevent hostnames from resolving, but the source marks the basic network connection as the first check."
+      }
+    },
+    {
+      "id": 11,
+      "question": "A computer can ping IP addresses but not domain names. What is likely the issue?",
+      "options": {
+        "A": "IP conflict",
+        "B": "Router failure",
+        "C": "DNS misconfiguration",
+        "D": "Faulty Ethernet cable"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "An IP conflict can disrupt local network communication and is not the most direct explanation when IP-address pings work.",
+        "B": "A complete router failure would generally affect broader connectivity, but DNS can fail while IP connectivity remains.",
+        "C": "If IP addresses work but domain names fail, name resolution is a prime suspect, usually due to DNS configuration.",
+        "D": "A faulty cable would commonly affect both IP and name-based connectivity."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Which layer of the OSI model is responsible for establishing, managing, and terminating sessions between applications?",
+      "options": {
+        "A": "Session Layer",
+        "B": "Transport Layer",
+        "C": "Application Layer",
+        "D": "Presentation Layer"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The Session layer establishes, manages, and terminates communication sessions between applications.",
+        "B": "The Transport layer can provide reliable end-to-end delivery, especially through TCP.",
+        "C": "The Application layer provides application-facing network services; session control is separately modeled by the Session layer in OSI.",
+        "D": "The Presentation layer handles data representation, translation, compression, and encryption-related transformations."
+      }
+    },
+    {
+      "id": 13,
+      "question": "What is the primary function of the Network Layer in the OSI model?",
+      "options": {
+        "A": "To provide data routing paths for network communication",
+        "B": "To format data",
+        "C": "To establish connections",
+        "D": "To encode and decode data"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The Network layer determines paths and forwards packets between networks.",
+        "B": "Formatting/representation transformations are associated with the Presentation layer.",
+        "C": "Connection establishment is mainly associated with Transport or Session functions depending on the type of connection.",
+        "D": "Data encoding/representation transformations are associated with the Presentation layer."
+      }
+    },
+    {
+      "id": 14,
+      "question": "In the TCP/IP model, which layer corresponds to the OSI model's Physical and Data Link layers?",
+      "options": {
+        "A": "Application",
+        "B": "Transport",
+        "C": "Internet",
+        "D": "Network Interface"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "The TCP/IP Application layer combines functions represented by several upper OSI layers.",
+        "B": "TCP can provide reliability through sequencing, acknowledgments, retransmission, and ordering.",
+        "C": "The TCP/IP Internet layer corresponds broadly to OSI Network-layer functions such as IP routing.",
+        "D": "The TCP/IP Network Interface/Link layer corresponds broadly to OSI Physical and Data Link functions."
+      }
+    },
+    {
+      "id": 15,
+      "question": "The process of encapsulation involves data moving from which layer to which layer?",
+      "options": {
+        "A": "Application to Physical",
+        "B": "Physical to Application",
+        "C": "Transport to Network",
+        "D": "Network to Transport"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "During encapsulation, data moves down the protocol stack from the Application layer toward the Physical layer.",
+        "B": "Moving upward from Physical to Application is decapsulation, not encapsulation.",
+        "C": "This is one transition within encapsulation, but not the complete direction asked by the question.",
+        "D": "This is an upward/decapsulation direction, not the normal encapsulation direction."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Which OSI layer is responsible for error detection and correction at the destination?",
+      "options": {
+        "A": "Transport",
+        "B": "Network",
+        "C": "Data Link",
+        "D": "Physical"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "TCP can provide reliability through sequencing, acknowledgments, retransmission, and ordering.",
+        "B": "The Network layer handles logical addressing and routing, but a complete inability to connect should first be checked at the Physical layer.",
+        "C": "DHCP uses application-layer messages carried over UDP/IP, but successful Ethernet communication first depends on the Data Link layer being operational.",
+        "D": "This option describes a different concept and therefore does not match the condition asked in the question."
+      }
+    },
+    {
+      "id": 17,
+      "question": "What does the TCP/IP model's Internet layer do?",
+      "options": {
+        "A": "Manages end-to-end data communication sessions",
+        "B": "Routes packets across networks",
+        "C": "Formats data packets",
+        "D": "Encodes and decodes data"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "B": "This is the answer highlighted in the supplied PYQ and directly addresses the question.",
+        "C": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "D": "This option describes a different concept and therefore does not match the condition asked in the question."
+      }
+    },
+    {
+      "id": 18,
+      "question": "Which protocol operates at the Transport Layer of the OSI model to ensure reliable communication?",
+      "options": {
+        "A": "ICMP",
+        "B": "IP",
+        "C": "TCP",
+        "D": "UDP"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "B": "IP provides best-effort packet delivery and routing; it does not itself guarantee reliable delivery.",
+        "C": "TCP is connection-oriented and provides reliable, ordered byte-stream delivery.",
+        "D": "UDP is connectionless and does not provide TCP-style reliability or ordering."
+      }
+    },
+    {
+      "id": 19,
+      "question": "How does the Presentation Layer of the OSI model differ from the Application Layer?",
+      "options": {
+        "A": "It is responsible for session management",
+        "B": "It deals with syntax and semantics of the information exchanged",
+        "C": "It provides encryption and compression",
+        "D": "It is not implemented in the TCP/IP model"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Session management belongs to the Session layer, not the Presentation layer.",
+        "B": "The Presentation layer deals with data representation/syntax and translation between formats.",
+        "C": "Encryption and compression are commonly associated with Presentation-layer responsibilities in the OSI model.",
+        "D": "TCP/IP does not have a separate Presentation layer, but its functions can be implemented within Application-layer protocols."
+      }
+    },
+    {
+      "id": 20,
+      "question": "What feature distinguishes TCP from UDP at the Transport Layer?",
+      "options": {
+        "A": "TCP is faster than UDP",
+        "B": "TCP and UDP use different port numbers",
+        "C": "TCP is connection-oriented while UDP is not",
+        "D": "TCP uses IP but UDP does not"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "TCP usually has more protocol overhead, but neither is universally faster in every workload.",
+        "B": "Both TCP and UDP use port numbers; the port namespaces are separate, but this is not the key distinction.",
+        "C": "TCP establishes a connection and maintains transport state, while UDP sends independent datagrams.",
+        "D": "Both TCP and UDP normally operate over IP."
+      }
+    },
+    {
+      "id": 21,
+      "question": "Which command can be used to display the current TCP/IP network configuration?",
+      "options": {
+        "A": "ipconfig /all",
+        "B": "netstat -r",
+        "C": "arp -a",
+        "D": "tracert"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "This Windows command displays detailed TCP/IP configuration including addresses, gateways, DNS servers, and adapter information.",
+        "B": "Many operating systems use netstat -r to display routing information.",
+        "C": "This displays cached ARP mappings rather than the MAC address directly configured on every local interface.",
+        "D": "tracert on Windows discovers the path toward a destination by using packets with increasing TTL values."
+      }
+    },
+    {
+      "id": 22,
+      "question": "What does the netstat command do?",
+      "options": {
+        "A": "Displays network connections, routing tables, and statistics",
+        "B": "Configures network interfaces",
+        "C": "Tests connectivity to a host",
+        "D": "Manages firewall settings"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "netstat reports active connections, listening ports, routing tables, and network statistics depending on its options.",
+        "B": "Interface configuration is handled by commands such as ipconfig, ifconfig, or ip.",
+        "C": "ping is the common command for testing basic reachability.",
+        "D": "Firewall configuration uses firewall-specific tools, not netstat."
+      }
+    },
+    {
+      "id": 23,
+      "question": "Which command is used to test connectivity to a specific IP address and trace the path the packets take?",
+      "options": {
+        "A": "ping",
+        "B": "arp",
+        "C": "tracert",
+        "D": "nslookup"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "ping tests reachability using ICMP Echo messages but does not trace every hop in the path.",
+        "B": "arp displays or manipulates the ARP cache; it does not trace packet paths.",
+        "C": "tracert on Windows discovers the path toward a destination by using packets with increasing TTL values.",
+        "D": "nslookup queries DNS records and is used primarily for name-resolution troubleshooting."
+      }
+    },
+    {
+      "id": 24,
+      "question": "A device is unable to connect to any network. Which OSI layer should be investigated first?",
+      "options": {
+        "A": "Application",
+        "B": "Presentation",
+        "C": "Network",
+        "D": "Physical"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "The TCP/IP Application layer combines functions represented by several upper OSI layers.",
+        "B": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "C": "The Network layer handles logical addressing and routing, but a complete inability to connect should first be checked at the Physical layer.",
+        "D": "This is the answer highlighted in the supplied PYQ and directly addresses the question."
+      }
+    },
+    {
+      "id": 25,
+      "question": "If a computer can connect to local devices but not to the Internet, what might be misconfigured?",
+      "options": {
+        "A": "IP address",
+        "B": "Subnet mask",
+        "C": "Default gateway",
+        "D": "MAC address"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "B": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "C": "The default gateway is used to reach destinations outside the local subnet, so a wrong gateway can allow LAN access but block Internet access.",
+        "D": "A MAC address identifies a network interface at Layer 2 and is not normally the setting that controls Internet routing."
+      }
+    },
+    {
+      "id": 26,
+      "question": "A web application can send data but cannot receive. What layer could be malfunctioning?",
+      "options": {
+        "A": "Application",
+        "B": "Session",
+        "C": "Transport",
+        "D": "Presentation"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "The TCP/IP Application layer combines functions represented by several upper OSI layers.",
+        "B": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "C": "TCP can provide reliability through sequencing, acknowledgments, retransmission, and ordering.",
+        "D": "This option describes a different concept and therefore does not match the condition asked in the question."
+      }
+    },
+    {
+      "id": 27,
+      "question": "What is the primary function of the MAC (Media Access Control) sublayer?",
+      "options": {
+        "A": "Frame delimiting",
+        "B": "Error detection",
+        "C": "Controlling access to the physical medium",
+        "D": "Physical addressing"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Frame delimiting identifies frame boundaries at the Data Link layer, but it is not the primary role of the MAC sublayer.",
+        "B": "Ethernet frame error detection uses mechanisms such as the FCS; this is primarily associated with the frame/MAC processing.",
+        "C": "The MAC sublayer coordinates access to the shared medium and defines media-access rules.",
+        "D": "MAC addresses are physical/link-layer addresses, but the MAC sublayer's primary role is media access control."
+      }
+    },
+    {
+      "id": 28,
+      "question": "What is the standard Ethernet frame size for most networks?",
+      "options": {
+        "A": "64 bytes to 1518 bytes",
+        "B": "128 bytes to 1024 bytes",
+        "C": "1500 bytes to 2000 bytes",
+        "D": "100 bytes to 1500 bytes"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Traditional Ethernet frames have a minimum size of 64 bytes and a maximum standard size of 1518 bytes excluding certain extensions.",
+        "B": "These values are not the standard Ethernet frame-size range.",
+        "C": "1500 bytes is commonly the Ethernet payload MTU, not the full frame-size range.",
+        "D": "This omits the standard Ethernet minimum frame size and describes neither the full frame range nor payload alone."
+      }
+    },
+    {
+      "id": 29,
+      "question": "In Ethernet networks, what is the purpose of the collision detection mechanism?",
+      "options": {
+        "A": "To encrypt data",
+        "B": "To compress data",
+        "C": "To detect and manage when two devices try to send data simultaneously",
+        "D": "To prioritize data"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Plain HTTP does not encrypt traffic; HTTPS/TLS provides encryption.",
+        "B": "Certificates do not compress network data.",
+        "C": "Collision detection identifies simultaneous transmissions on shared Ethernet and triggers appropriate retransmission behavior.",
+        "D": "Traffic prioritization is handled by QoS mechanisms, not collision detection."
+      }
+    },
+    {
+      "id": 30,
+      "question": "Which Ethernet standard provides a speed of 1 Gbps?",
+      "options": {
+        "A": "10BaseT",
+        "B": "100BaseTX",
+        "C": "1000BaseT",
+        "D": "10GBaseT"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "10Base-T provides 10 Mbps Ethernet over twisted pair.",
+        "B": "100Base-TX provides 100 Mbps Ethernet.",
+        "C": "1000Base-T is Gigabit Ethernet and provides 1 Gbps over twisted pair.",
+        "D": "10GBase-T provides 10 Gbps Ethernet."
+      }
+    },
+    {
+      "id": 31,
+      "question": "What type of cable is used for most modern Ethernet networks?",
+      "options": {
+        "A": "Coaxial cable",
+        "B": "Fiber optic cable",
+        "C": "Twisted pair cable",
+        "D": "None of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Coaxial cable was widely used by early Ethernet variants but is not the usual medium for modern switched Ethernet LANs.",
+        "B": "Fiber is common for high-speed and backbone Ethernet links, though copper is also widespread for endpoint connections.",
+        "C": "Twisted-pair copper, such as Cat5e/Cat6, is widely used for modern Ethernet endpoint connections.",
+        "D": "A valid modern Ethernet medium is included among the preceding choices."
+      }
+    },
+    {
+      "id": 32,
+      "question": "What does the term \"full-duplex\" mean in the context of Ethernet networking?",
+      "options": {
+        "A": "Data can be transmitted in one direction only",
+        "B": "Data can be transmitted in both directions, but not simultaneously",
+        "C": "Data can be transmitted in both directions simultaneously",
+        "D": "None of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "One-way transmission describes simplex communication, not full-duplex.",
+        "B": "This describes half-duplex communication.",
+        "C": "Full-duplex permits simultaneous transmission and reception.",
+        "D": "A valid modern Ethernet medium is included among the preceding choices."
+      }
+    },
+    {
+      "id": 33,
+      "question": "How does a switch determine the destination of an Ethernet frame?",
+      "options": {
+        "A": "By using the source IP address",
+        "B": "By using the destination MAC address",
+        "C": "By using the source MAC address",
+        "D": "By broadcasting to all ports except the source"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Ethernet switching decisions are based on Layer-2 MAC addresses rather than IP addresses.",
+        "B": "A switch looks up the destination MAC address in its MAC/CAM table to select the outgoing port.",
+        "C": "The source MAC is learned into the switch table, but it is not the primary destination-selection field.",
+        "D": "Unknown-destination frames may be flooded, but a learned destination is normally forwarded only toward its known port."
+      }
+    },
+    {
+      "id": 34,
+      "question": "What mechanism do Ethernet switches use to avoid collisions?",
+      "options": {
+        "A": "Collision detection",
+        "B": "Collision prevention",
+        "C": "Collision avoidance",
+        "D": "Collision management"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Traditional shared half-duplex Ethernet used CSMA/CD; modern switched full-duplex Ethernet normally avoids collisions by eliminating the shared collision domain.",
+        "B": "Switches provide separate collision domains per port and normally operate full-duplex, preventing normal Ethernet collisions.",
+        "C": "Collision avoidance is associated more directly with wireless CSMA/CA than Ethernet switching.",
+        "D": "This is a general phrase rather than the specific switching mechanism identified in the source."
+      }
+    },
+    {
+      "id": 35,
+      "question": "Which feature distinguishes managed switches from unmanaged switches in an Ethernet network?",
+      "options": {
+        "A": "The ability to encrypt data",
+        "B": "The ability to be configured and monitored",
+        "C": "The use of optical fibers",
+        "D": "The support for multiple protocols"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Managed status does not inherently mean a switch can encrypt all traffic.",
+        "B": "Managed switches expose configuration, monitoring, VLAN, port, and management features that unmanaged switches generally lack.",
+        "C": "Both managed and unmanaged switches may support copper or fiber depending on model.",
+        "D": "Protocol support varies by model and is not the defining distinction between managed and unmanaged switches."
+      }
+    },
+    {
+      "id": 36,
+      "question": "Which command can be used to display the MAC address of a network interface on a Windows machine?",
+      "options": {
+        "A": "ipconfig /all",
+        "B": "ifconfig",
+        "C": "arp -a",
+        "D": "netstat -e"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "This Windows command displays detailed TCP/IP configuration including addresses, gateways, DNS servers, and adapter information.",
+        "B": "ifconfig is a traditional Unix/Linux command for viewing and configuring network interfaces.",
+        "C": "This displays cached ARP mappings rather than the MAC address directly configured on every local interface.",
+        "D": "netstat -e displays Ethernet statistics on Windows; it is not the standard command for listing the local interface MAC address."
+      }
+    },
+    {
+      "id": 37,
+      "question": "On a Linux system, which command shows the MAC address of all network interfaces?",
+      "options": {
+        "A": "ip addr",
+        "B": "ifconfig -a",
+        "C": "route",
+        "D": "netstat -i"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ip addr displays interface addresses and state, not the list of UDP sockets.",
+        "B": "ifconfig lists interfaces and addresses but does not list listening TCP ports.",
+        "C": "route primarily displays/manages routing information.",
+        "D": "netstat -i displays interface statistics, but ifconfig -a is the source's selected command for showing MAC addresses."
+      }
+    },
+    {
+      "id": 38,
+      "question": "How can you change the MAC address of a network interface on Linux?",
+      "options": {
+        "A": "Modifying the network configuration file",
+        "B": "Using the ifconfig command",
+        "C": "Using the macchanger tool",
+        "D": "All of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "A persistent MAC-address change can be made through network configuration, depending on the Linux distribution and network manager.",
+        "B": "ifconfig manages interfaces and addresses; it is not the standard modern command for adding routes.",
+        "C": "macchanger is a dedicated Linux utility for changing/spoofing an interface MAC address.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 39,
+      "question": "If a device is not receiving an IP address via DHCP over Ethernet, what layer should be investigated?",
+      "options": {
+        "A": "Application",
+        "B": "Presentation",
+        "C": "Network",
+        "D": "Data Link"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "The TCP/IP Application layer combines functions represented by several upper OSI layers.",
+        "B": "This option describes a different concept and therefore does not match the condition asked in the question.",
+        "C": "The Network layer handles logical addressing and routing, but a complete inability to connect should first be checked at the Physical layer.",
+        "D": "DHCP uses application-layer messages carried over UDP/IP, but successful Ethernet communication first depends on the Data Link layer being operational."
+      }
+    },
+    {
+      "id": 40,
+      "question": "A computer can access local network devices but not the internet. What should be checked on the switch?",
+      "options": {
+        "A": "VLAN configurations",
+        "B": "Port speed settings",
+        "C": "Power settings",
+        "D": "Firmware updates"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Incorrect VLAN membership or trunk configuration can isolate a switch port from the routed/Internet VLAN while local devices in the same VLAN remain reachable.",
+        "B": "Speed/duplex mismatches can reduce performance, but they are not the source's primary check for this symptom.",
+        "C": "Power problems would generally cause loss of link rather than selective Internet-only failure.",
+        "D": "Firmware can affect stability, but VLAN configuration is a more direct switch-level check for the stated symptom."
+      }
+    },
+    {
+      "id": 41,
+      "question": "What could be a reason for slow data transfer rates over an Ethernet network?",
+      "options": {
+        "A": "Faulty NIC",
+        "B": "Cable length exceeds standards",
+        "C": "Incorrect duplex settings",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "A faulty network interface can cause errors, packet loss, and reduced throughput.",
+        "B": "Excessive cable length can cause attenuation/errors and reduce effective performance.",
+        "C": "A duplex mismatch can cause collisions, retransmissions, and poor throughput.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 42,
+      "question": "What is the primary purpose of the Internet Protocol (IP)?",
+      "options": {
+        "A": "To provide error checking and correction",
+        "B": "To ensure reliable data delivery",
+        "C": "To route packets across networks",
+        "D": "To format data packets"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "IP is best-effort and does not provide reliable error correction like TCP.",
+        "B": "Reliable delivery is provided by protocols such as TCP, not by IP itself.",
+        "C": "IP supplies logical addressing and enables packets to be routed between networks.",
+        "D": "IP defines packet headers and addressing, but data formatting is not its primary purpose."
+      }
+    },
+    {
+      "id": 43,
+      "question": "What type of messages are used by ICMP to inform senders of network issues?",
+      "options": {
+        "A": "Query messages",
+        "B": "Error-reporting messages",
+        "C": "Routing-update messages",
+        "D": "Service-quality messages"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ICMP has query/informational messages, but the source is asking about messages that report network problems.",
+        "B": "ICMP communicates errors and diagnostics such as destination unreachable and time exceeded.",
+        "C": "Routing protocols such as OSPF or BGP exchange routing information; ICMP is not primarily a routing-update protocol.",
+        "D": "This is not the standard ICMP message category for reporting network failures."
+      }
+    },
+    {
+      "id": 44,
+      "question": "Which IP protocol version uses 128-bit addresses?",
+      "options": {
+        "A": "IPv4",
+        "B": "IPv6",
+        "C": "ARP",
+        "D": "RARP"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "IPv4 uses 32-bit addresses.",
+        "B": "IPv6 uses 128-bit addresses.",
+        "C": "ARP resolves IPv4 addresses to MAC addresses on local links.",
+        "D": "RARP is unrelated to IPv6 security and is obsolete for normal IP address resolution."
+      }
+    },
+    {
+      "id": 45,
+      "question": "How do routers utilize ICMP messages within the IP framework?",
+      "options": {
+        "A": "To encrypt data packets",
+        "B": "To prioritize packets",
+        "C": "To diagnose routing issues",
+        "D": "To compress data packets"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "AS_PATH is routing metadata, not an encryption mechanism.",
+        "B": "ICMP does not normally prioritize traffic.",
+        "C": "Routers and hosts use ICMP diagnostics such as Time Exceeded and Destination Unreachable to identify path problems.",
+        "D": "ICMP does not provide packet compression."
+      }
+    },
+    {
+      "id": 46,
+      "question": "What is the main difference between IPv4 and IPv6?",
+      "options": {
+        "A": "Address size",
+        "B": "Error detection mechanisms",
+        "C": "Encryption capabilities",
+        "D": "Transport layer integration"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "IPv4 uses 32-bit addresses while IPv6 uses 128-bit addresses, making address size the fundamental difference listed.",
+        "B": "Both versions have error-related mechanisms, but address size is the key difference asked here.",
+        "C": "Neither IPv4 nor IPv6 inherently provides all end-to-end encryption; IPsec support differs in implementation/details.",
+        "D": "Both can carry transport protocols such as TCP and UDP."
+      }
+    },
+    {
+      "id": 47,
+      "question": "Which feature of IPv6 eliminates the need for NAT (Network Address Translation)?",
+      "options": {
+        "A": "Auto-configuration",
+        "B": "Built-in encryption",
+        "C": "The vast address space",
+        "D": "Multicast"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "IPv6 supports stateless address autoconfiguration, but that is not the feature that creates its large address capacity.",
+        "B": "IPv6 was designed with IPsec support, but encryption is not what eliminates NAT.",
+        "C": "IPv6's 128-bit address space provides enough globally routable addresses to reduce the address-exhaustion pressure that motivated widespread NAT.",
+        "D": "IPv6 multicast is important for efficient group communication but does not itself eliminate the need for address translation."
+      }
+    },
+    {
+      "id": 48,
+      "question": "What is the function of an IP subnet mask?",
+      "options": {
+        "A": "To separate the network address from the host address",
+        "B": "To encrypt IP addresses",
+        "C": "To detect IP conflicts",
+        "D": "To assign IP addresses automatically"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A subnet mask identifies which bits of an IP address represent the network/subnet portion and which represent the host portion.",
+        "B": "Subnet masks perform addressing calculations and do not encrypt data.",
+        "C": "IP conflict detection is handled by network protocols/tools, not by the subnet mask itself.",
+        "D": "DHCP can assign IP addresses; a subnet mask only defines the network/host boundary."
+      }
+    },
+    {
+      "id": 49,
+      "question": "In IPv6, what is the equivalent of ARP (Address Resolution Protocol) used in IPv4?",
+      "options": {
+        "A": "DHCPv6",
+        "B": "ICMPv6",
+        "C": "Neighbor Discovery Protocol (NDP)",
+        "D": "IGMPv6"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "DHCPv6 provides IPv6 configuration services but does not replace ARP's neighbor-resolution function.",
+        "B": "ICMPv6 provides control, diagnostics, and Neighbor Discovery; it is not the IPsec integrity/authentication mechanism.",
+        "C": "IPv6 Neighbor Discovery replaces ARP-style address resolution using ICMPv6 Neighbor Solicitation/Advertisement messages.",
+        "D": "IGMP is an IPv4 multicast-management protocol; IPv6 uses ICMPv6 mechanisms for multicast listener management."
+      }
+    },
+    {
+      "id": 50,
+      "question": "What mechanism does IPv6 use to ensure data integrity and authentication?",
+      "options": {
+        "A": "ESP (Encapsulating Security Payload)",
+        "B": "AH (Authentication Header)",
+        "C": "ICMPv6",
+        "D": "RARP"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ESP can provide confidentiality plus integrity/authentication in IPsec, but the source marks AH for the stated integrity/authentication mechanism.",
+        "B": "IPsec AH provides integrity and authentication of IP packets but does not provide encryption.",
+        "C": "ICMPv6 provides control, diagnostics, and Neighbor Discovery; it is not the IPsec integrity/authentication mechanism.",
+        "D": "RARP is unrelated to IPv6 security and is obsolete for normal IP address resolution."
+      }
+    },
+    {
+      "id": 51,
+      "question": "How can you display the current IP configuration on a Unix/Linux system?",
+      "options": {
+        "A": "ipconfig",
+        "B": "ifconfig",
+        "C": "netstat -i",
+        "D": "arp -a"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ipconfig is a Windows command used to display and manage IP configuration.",
+        "B": "ifconfig is a traditional Unix/Linux command for viewing and configuring network interfaces.",
+        "C": "netstat -i displays interface statistics, but ifconfig -a is the source's selected command for showing MAC addresses.",
+        "D": "This displays cached ARP mappings rather than the MAC address directly configured on every local interface."
+      }
+    },
+    {
+      "id": 52,
+      "question": "Which command can you use to test IPv6 connectivity to an address?",
+      "options": {
+        "A": "ping6",
+        "B": "tracert6",
+        "C": "arp -6",
+        "D": "ifconfig -6"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "ping6 sends ICMPv6 Echo Requests to test IPv6 reachability on systems that provide the command.",
+        "B": "tracert6 is a Windows-style IPv6 trace command on some systems, but it is not the source's selected basic connectivity test.",
+        "C": "This syntax is not the standard cross-platform command for testing IPv6 connectivity.",
+        "D": "ifconfig configures/displays interfaces; it does not itself test end-to-end IPv6 connectivity."
+      }
+    },
+    {
+      "id": 53,
+      "question": "What command provides detailed information about routes to an IPv6 address and discovers MTU along the path?",
+      "options": {
+        "A": "mtr",
+        "B": "tracepath6",
+        "C": "ip -6 route",
+        "D": "netstat -r6"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "mtr combines ping and traceroute-style measurements, but the source selects tracepath6 for IPv6 path and MTU discovery.",
+        "B": "tracepath6 traces an IPv6 path and can discover the path MTU using packet-size probing.",
+        "C": "This displays IPv6 routing information but does not perform the path MTU discovery described.",
+        "D": "This can display IPv6 routing information on some systems but is not the source's path/MTU-discovery command."
+      }
+    },
+    {
+      "id": 54,
+      "question": "A computer can access IPv4 websites but not IPv6 websites. What should be checked first?",
+      "options": {
+        "A": "IPv6 configuration on the computer",
+        "B": "Router's IPv6 support",
+        "C": "IPv6 DNS settings",
+        "D": "Firewall settings for IPv6"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "If IPv6 websites fail while IPv4 works, local IPv6 addressing, routes, and interface configuration should be checked first.",
+        "B": "Router IPv6 support matters, but local configuration is the first direct check on the affected computer.",
+        "C": "DNS problems can affect name resolution, but IPv6 connectivity itself can be tested with a literal IPv6 address.",
+        "D": "A firewall can block IPv6 traffic, but the source prioritizes checking the host's IPv6 configuration."
+      }
+    },
+    {
+      "id": 55,
+      "question": "You're unable to ping an IPv6 address from your machine. What could be the issue?",
+      "options": {
+        "A": "Incorrect subnet mask",
+        "B": "Firewall blocking ICMPv6 packets",
+        "C": "Incorrect gateway",
+        "D": "All of the above"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "A bad subnet mask can cause reachability problems but is not the source's likely cause of delayed connection establishment.",
+        "B": "Blocking ICMPv6 can prevent ping and can also disrupt important IPv6 control functions.",
+        "C": "A wrong IPv6 default gateway can prevent communication with remote networks.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 56,
+      "question": "How to resolve intermittent connectivity issues with an IPv6 network?",
+      "options": {
+        "A": "Replacing the router",
+        "B": "Updating network drivers and firmware",
+        "C": "Checking for IPv6 prefix delegation issues",
+        "D": "All of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Replacing hardware may solve a hardware fault but is not the first universal troubleshooting step.",
+        "B": "Updated drivers/firmware can fix interoperability and stability problems, but the source emphasizes prefix delegation.",
+        "C": "Incorrect or unstable prefix delegation can cause hosts to receive invalid/changed IPv6 prefixes and intermittent connectivity.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 57,
+      "question": "What is the primary purpose of routing protocols in a network?",
+      "options": {
+        "A": "To encrypt data",
+        "B": "To compress data",
+        "C": "To determine optimal data paths",
+        "D": "To manage user permissions"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Plain HTTP does not encrypt traffic; HTTPS/TLS provides encryption.",
+        "B": "Certificates do not compress network data.",
+        "C": "Routing protocols exchange information and calculate/select paths through a network.",
+        "D": "User authorization is handled by identity and access-control systems, not routing protocols."
+      }
+    },
+    {
+      "id": 58,
+      "question": "Which type of routing algorithm does OSPF use?",
+      "options": {
+        "A": "Distance-vector",
+        "B": "Link-state",
+        "C": "Path-vector",
+        "D": "Hybrid"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Distance-vector protocols use information about destination distance and next hop from neighbors.",
+        "B": "OSPF is a link-state protocol: routers build a topology database and calculate shortest paths.",
+        "C": "BGP is a path-vector protocol, not OSPF.",
+        "D": "Some protocols combine characteristics, but OSPF is classified as link-state."
+      }
+    },
+    {
+      "id": 59,
+      "question": "What differentiates dynamic routing from static routing?",
+      "options": {
+        "A": "Dynamic routing is less secure",
+        "B": "Static routing automatically updates",
+        "C": "Dynamic routing automatically updates routes",
+        "D": "Static routing is faster"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Security depends on configuration and protocol protections; dynamic routing is not inherently less secure.",
+        "B": "Static routes are manually configured and do not automatically adapt to topology changes.",
+        "C": "Dynamic protocols learn and recalculate routes as network conditions/topology change.",
+        "D": "Static routing can have low processing overhead, but speed is not the defining difference asked here."
+      }
+    },
+    {
+      "id": 60,
+      "question": "In BGP (Border Gateway Protocol), what is the main factor in selecting the best path?",
+      "options": {
+        "A": "Path length",
+        "B": "Bandwidth",
+        "C": "Lowest cost",
+        "D": "Number of AS hops"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "BGP considers path attributes and policy; path length alone is not the complete best-path criterion.",
+        "B": "Bandwidth can influence some IGP metrics but is not the primary universal BGP selection factor.",
+        "C": "BGP is policy-driven and does not simply choose the numerically lowest cost.",
+        "D": "The AS_PATH attribute records traversed autonomous systems and path length is an important BGP selection factor; the source marks AS-hop count."
+      }
+    },
+    {
+      "id": 61,
+      "question": "How does a distance-vector routing protocol determine the best route?",
+      "options": {
+        "A": "By counting hops",
+        "B": "By measuring latency",
+        "C": "By bandwidth",
+        "D": "By using a cost metric"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Classic RIP-style distance-vector routing uses hop count as its metric.",
+        "B": "Latency is not the basic metric used by RIP's classic distance-vector calculation.",
+        "C": "Bandwidth can influence certain routing metrics, but classic distance-vector RIP uses hop count.",
+        "D": "Some distance-vector protocols use a metric, but the source specifically identifies hop counting."
+      }
+    },
+    {
+      "id": 62,
+      "question": "What is the primary benefit of using a routing protocol like EIGRP compared to RIP?",
+      "options": {
+        "A": "Faster convergence",
+        "B": "Higher security",
+        "C": "Simpler configuration",
+        "D": "Less bandwidth usage"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "EIGRP generally converges faster than RIP because of its more sophisticated route computation and update mechanisms.",
+        "B": "Traditional FTP is not inherently more secure than HTTP; both require additional security mechanisms for protected transfer.",
+        "C": "RIP is generally simpler, so this does not describe EIGRP's primary advantage.",
+        "D": "EIGRP can be efficient with updates, but the source's principal distinction is faster convergence."
+      }
+    },
+    {
+      "id": 63,
+      "question": "Which routing protocol is classified as an Exterior Gateway Protocol (EGP)?",
+      "options": {
+        "A": "OSPF",
+        "B": "EIGRP",
+        "C": "BGP",
+        "D": "RIP"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "OSPF is an Interior Gateway Protocol (IGP) used within an autonomous system.",
+        "B": "EIGRP is an IGP used within an autonomous system.",
+        "C": "BGP is the standard inter-domain routing protocol and is classified as an EGP.",
+        "D": "RIP is an IGP using distance-vector routing."
+      }
+    },
+    {
+      "id": 64,
+      "question": "What mechanism does OSPF use to prevent routing loops?",
+      "options": {
+        "A": "Split horizon",
+        "B": "Route poisoning",
+        "C": "Link-state advertisement",
+        "D": "Area designations"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Split horizon is a loop-prevention technique used by distance-vector protocols.",
+        "B": "Route poisoning advertises an unreachable route with an infinite metric and helps prevent loops in distance-vector routing.",
+        "C": "OSPF floods LSAs to build a consistent link-state database used for shortest-path computation.",
+        "D": "OSPF areas organize the topology and reduce routing-information scope; the source marks area designations as the loop-prevention mechanism."
+      }
+    },
+    {
+      "id": 65,
+      "question": "In BGP, what is the purpose of the AS_PATH attribute?",
+      "options": {
+        "A": "To encrypt data packets",
+        "B": "To specify the priority of routes",
+        "C": "To record the path of ASes",
+        "D": "To specify the route source"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "AS_PATH is routing metadata, not an encryption mechanism.",
+        "B": "BGP route preference can involve multiple attributes, while AS_PATH specifically records AS traversal.",
+        "C": "AS_PATH lists the autonomous systems a BGP route advertisement has traversed.",
+        "D": "The route source can be represented by other BGP information; AS_PATH records AS traversal."
+      }
+    },
+    {
+      "id": 66,
+      "question": "Which command can display the routing table on a Cisco router?",
+      "options": {
+        "A": "show ip route",
+        "B": "display ip routing-table",
+        "C": "route print",
+        "D": "netstat -r"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Cisco IOS uses show ip route to display the IPv4 routing table.",
+        "B": "This is a common command on some other network operating systems, not the Cisco IOS command identified in the source.",
+        "C": "Windows uses route print to display its routing table.",
+        "D": "Many operating systems use netstat -r to display routing information."
+      }
+    },
+    {
+      "id": 67,
+      "question": "How can you manually add a static route to the routing table in Linux?",
+      "options": {
+        "A": "Using the route add command",
+        "B": "Using the ifconfig command",
+        "C": "Editing the /etc/hosts file",
+        "D": "Using the ip route add command"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "The legacy route utility can add static routes on Linux systems that provide it.",
+        "B": "ifconfig manages interfaces and addresses; it is not the standard modern command for adding routes.",
+        "C": "The hosts file maps names to addresses and does not add kernel routing entries.",
+        "D": "The modern Linux ip utility uses 'ip route add' to create a static route."
+      }
+    },
+    {
+      "id": 68,
+      "question": "In Cisco IOS, how can you redistribute OSPF routes into EIGRP?",
+      "options": {
+        "A": "By configuring redistribution in the OSPF process",
+        "B": "By configuring redistribution in the EIGRP process",
+        "C": "By using access lists",
+        "D": "By using route maps"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "To send OSPF-learned routes into EIGRP, redistribution is configured under the destination EIGRP routing process.",
+        "B": "The EIGRP process is where routes from OSPF can be redistributed into EIGRP.",
+        "C": "Access lists can filter traffic/routes but do not by themselves perform routing-protocol redistribution.",
+        "D": "Route maps can control and modify redistribution policy, but the redistribution command belongs under the target routing process."
+      }
+    },
+    {
+      "id": 69,
+      "question": "If a newly added network is not appearing in the routing tables, what should be checked first?",
+      "options": {
+        "A": "Physical connections",
+        "B": "Route summarization settings",
+        "C": "Access control lists",
+        "D": "Network advertisements"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "A new network can be absent because of a physical problem, but the source first points to route advertisements.",
+        "B": "Summarization can hide specific routes, but it is not always the first check for a newly added network.",
+        "C": "ACLs can affect redistribution or traffic, but they are not the fundamental mechanism for advertising a newly added network.",
+        "D": "Routing protocols must advertise/learn the new network before other routers can install it in their routing tables."
+      }
+    },
+    {
+      "id": 70,
+      "question": "A router is not choosing the expected path for traffic, what might be misconfigured?",
+      "options": {
+        "A": "Interface bandwidth settings",
+        "B": "Routing protocol priorities",
+        "C": "Next-hop IP addresses",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Bandwidth settings can influence metrics and path selection in some routing protocols.",
+        "B": "Administrative distance and protocol-specific preferences can affect which learned route is selected.",
+        "C": "An incorrect next hop can make a route unusable or lead traffic along an unexpected path.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 71,
+      "question": "How can you resolve a persistent routing loop between two routers?",
+      "options": {
+        "A": "Increasing the hop count limit",
+        "B": "Implementing hold-down timers",
+        "C": "Correcting mismatched subnet masks",
+        "D": "Configuring route filtering"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Raising a hop-count limit can delay loop detection rather than fix the underlying loop.",
+        "B": "Hold-down timers help suppress unstable updates in distance-vector protocols, but the source selects route filtering for a persistent two-router loop.",
+        "C": "Mask mismatches can create routing problems but are not the source's general loop-prevention answer.",
+        "D": "Route filtering can prevent problematic route advertisements from creating persistent loops."
+      }
+    },
+    {
+      "id": 72,
+      "question": "What is the main difference between TCP and UDP?",
+      "options": {
+        "A": "TCP is connectionless, while UDP is connection-oriented",
+        "B": "TCP is connection-oriented, while UDP is connectionless",
+        "C": "TCP is faster than UDP",
+        "D": "UDP is more secure than TCP"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "This reverses the properties of TCP and UDP.",
+        "B": "TCP establishes a connection and maintains state; UDP sends connectionless datagrams.",
+        "C": "TCP usually has more protocol overhead, but neither is universally faster in every workload.",
+        "D": "Neither protocol is inherently secure; encryption is provided by higher-layer/security mechanisms."
+      }
+    },
+    {
+      "id": 73,
+      "question": "Which protocol is typically used for streaming media?",
+      "options": {
+        "A": "TCP",
+        "B": "UDP",
+        "C": "SCTP",
+        "D": "RTP"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "TCP is connection-oriented and provides reliable, ordered byte-stream delivery.",
+        "B": "UDP is connectionless and does not provide TCP-style reliability or ordering.",
+        "C": "SCTP is a transport protocol with message-oriented features, but it is not the source's typical streaming-media choice.",
+        "D": "RTP is commonly used to carry real-time audio/video, usually over UDP, but the source marks UDP as the transport protocol."
+      }
+    },
+    {
+      "id": 74,
+      "question": "How does TCP ensure data is delivered reliably and in the correct order?",
+      "options": {
+        "A": "By using error detection codes",
+        "B": "By using sequence numbers and acknowledgments",
+        "C": "By compressing data packets",
+        "D": "By encrypting data packets"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Checksums detect corruption, while TCP reliability additionally relies on sequencing, acknowledgments, and retransmission.",
+        "B": "Sequence numbers enable ordering and acknowledgments confirm received data, allowing retransmission of missing segments.",
+        "C": "Compression reduces size and does not provide reliable delivery or ordering.",
+        "D": "Encryption protects confidentiality and does not itself provide TCP reliability or ordering."
+      }
+    },
+    {
+      "id": 75,
+      "question": "In TCP, what mechanism is used to control the rate of data transmission to prevent network congestion?",
+      "options": {
+        "A": "Error correction",
+        "B": "Flow control",
+        "C": "Data encryption",
+        "D": "Data compression"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "TCP detects loss/errors and retransmits data rather than using application-independent forward error correction as its main reliability mechanism.",
+        "B": "TCP flow control uses the receiver's advertised window to prevent a sender from overwhelming the receiver; congestion control separately addresses network congestion.",
+        "C": "Encryption is unrelated to TCP rate control.",
+        "D": "HTTP/2 supports header compression with HPACK, but multiplexing is the mechanism that reduces head-of-line request serialization and improves parallel loading."
+      }
+    },
+    {
+      "id": 76,
+      "question": "What is the purpose of a TCP three-way handshake?",
+      "options": {
+        "A": "To establish a secure connection",
+        "B": "To synchronize sequence numbers and acknowledge the connection",
+        "C": "To compress data",
+        "D": "To encrypt data"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "The TCP three-way handshake establishes a transport connection but does not itself provide encryption/security.",
+        "B": "SYN/SYN-ACK/ACK exchange establishes state and synchronizes initial sequence numbers.",
+        "C": "Certificates do not compress network data.",
+        "D": "Plain HTTP does not encrypt traffic; HTTPS/TLS provides encryption."
+      }
+    },
+    {
+      "id": 77,
+      "question": "Which TCP header field is used for flow control?",
+      "options": {
+        "A": "Sequence Number",
+        "B": "Acknowledgment Number",
+        "C": "Window Size",
+        "D": "Checksum"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Sequence numbers identify the position of TCP data and support ordering/retransmission, not direct receiver-rate control.",
+        "B": "The acknowledgment number indicates the next byte expected and confirms received data.",
+        "C": "The advertised TCP window indicates how much data the receiver can accept without further acknowledgment, providing flow control.",
+        "D": "The TCP checksum detects corruption in the TCP segment."
+      }
+    },
+    {
+      "id": 78,
+      "question": "How does UDP handle error checking?",
+      "options": {
+        "A": "It uses sequence numbers and acknowledgments",
+        "B": "It includes a checksum for error detection",
+        "C": "It encrypts data packets",
+        "D": "It compresses data packets"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "UDP has no TCP-style sequence/acknowledgment mechanism.",
+        "B": "UDP includes a checksum field for detecting corruption; it does not guarantee delivery or retransmission.",
+        "C": "UDP provides no built-in encryption.",
+        "D": "UDP provides no built-in compression."
+      }
+    },
+    {
+      "id": 79,
+      "question": "What is TCP's initial congestion window size typically set to?",
+      "options": {
+        "A": "1 MSS (Maximum Segment Size)",
+        "B": "2 MSS",
+        "C": "3 MSS",
+        "D": "4 MSS"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "The source does not use this value for the typical initial congestion window in this question.",
+        "B": "Two MSS is not the source's selected typical value.",
+        "C": "The source marks three MSS as the typical initial congestion-window size; actual TCP implementations can vary by RFC/version.",
+        "D": "Four MSS is not the source's selected value."
+      }
+    },
+    {
+      "id": 80,
+      "question": "In TCP, what is the function of the congestion avoidance algorithm?",
+      "options": {
+        "A": "To reduce the data transmission rate before packet loss occurs",
+        "B": "To encrypt data",
+        "C": "To compress data",
+        "D": "To ensure data is sent in order"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Congestion avoidance increases the sending rate cautiously and responds to signs of congestion to limit overload.",
+        "B": "Plain HTTP does not encrypt traffic; HTTPS/TLS provides encryption.",
+        "C": "Certificates do not compress network data.",
+        "D": "Ordering is handled by TCP sequence numbers and reassembly, not the congestion-avoidance algorithm."
+      }
+    },
+    {
+      "id": 81,
+      "question": "How can you check open TCP ports on a Windows machine?",
+      "options": {
+        "A": "netstat -an",
+        "B": "ipconfig /all",
+        "C": "ifconfig -a",
+        "D": "traceroute"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "On Windows, netstat -an lists active connections and listening ports without resolving names, making it useful for checking open TCP ports.",
+        "B": "This Windows command displays detailed TCP/IP configuration including addresses, gateways, DNS servers, and adapter information.",
+        "C": "ifconfig lists interfaces and addresses but does not list listening TCP ports.",
+        "D": "traceroute discovers network paths rather than listing local listening TCP ports."
+      }
+    },
+    {
+      "id": 82,
+      "question": "In Linux, how can you view the UDP sockets currently in use?",
+      "options": {
+        "A": "netstat -au",
+        "B": "ifconfig",
+        "C": "ip addr",
+        "D": "ss -u"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "netstat -au on Linux displays UDP sockets and listening UDP endpoints.",
+        "B": "ifconfig is a traditional Unix/Linux command for viewing and configuring network interfaces.",
+        "C": "ip addr displays interface addresses and state, not the list of UDP sockets.",
+        "D": "ss -u also displays UDP sockets on Linux, but the source marks netstat -au."
+      }
+    },
+    {
+      "id": 83,
+      "question": "How can you set a specific TCP window size when using the iperf command for testing?",
+      "options": {
+        "A": "iperf -w [size]",
+        "B": "iperf -s",
+        "C": "iperf -c [hostname]",
+        "D": "iperf -l [length]"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The -w option sets the TCP window/socket-buffer size used by iperf testing.",
+        "B": "This starts iperf in server/listening mode and does not specify the TCP window size.",
+        "C": "This starts an iperf client connection to the specified host; it does not itself set the window size.",
+        "D": "The -l option controls buffer length, not the TCP window setting represented by -w."
+      }
+    },
+    {
+      "id": 84,
+      "question": "If a client is experiencing delayed TCP connections, what could be a potential cause?",
+      "options": {
+        "A": "Incorrect subnet mask",
+        "B": "Slow DNS resolution",
+        "C": "Incorrect routing",
+        "D": "Firewall settings"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "A bad subnet mask can cause reachability problems but is not the source's likely cause of delayed connection establishment.",
+        "B": "If a client connects using hostnames, slow DNS resolution can make the apparent TCP connection setup feel delayed.",
+        "C": "Incorrect routes can cause packets to take inefficient paths or fail to reach the destination.",
+        "D": "A firewall can block FTP connections, but a server-side permission error more directly points to credentials/permissions."
+      }
+    },
+    {
+      "id": 85,
+      "question": "A UDP-based application is experiencing packet loss. What should be investigated first?",
+      "options": {
+        "A": "Application error handling",
+        "B": "Network congestion",
+        "C": "Incorrect port numbers",
+        "D": "Firewall settings"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Application-level handling can affect how loss is reported/recovered, but UDP packet loss should first prompt network-path investigation.",
+        "B": "Congestion can slow or interrupt transfer but does not directly explain an FTP permission-denied response.",
+        "C": "A wrong port usually causes delivery failure rather than random packet loss.",
+        "D": "A firewall can block FTP connections, but a server-side permission error more directly points to credentials/permissions."
+      }
+    },
+    {
+      "id": 86,
+      "question": "How can you troubleshoot intermittent TCP connection timeouts?",
+      "options": {
+        "A": "Checking for faulty network hardware",
+        "B": "Increasing the TCP timeout settings",
+        "C": "Verifying network path stability",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Bad NICs, cables, switches, or interfaces can cause intermittent TCP failures.",
+        "B": "Longer timeouts may mask symptoms but do not necessarily fix the network cause.",
+        "C": "Packet loss, route flaps, and unstable links can cause intermittent TCP timeouts.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 87,
+      "question": "What is the primary function of HTTP in the web architecture?",
+      "options": {
+        "A": "To encrypt data",
+        "B": "To compress data",
+        "C": "To transfer hypertext documents",
+        "D": "To stream video content"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Plain HTTP does not encrypt traffic; HTTPS/TLS provides encryption.",
+        "B": "Certificates do not compress network data.",
+        "C": "HTTP defines request/response communication for web resources, historically including hypertext documents.",
+        "D": "HTTP can deliver video, but streaming is an application use rather than HTTP's primary purpose."
+      }
+    },
+    {
+      "id": 88,
+      "question": "FTP uses which mode for establishing data connections by default?",
+      "options": {
+        "A": "Active mode",
+        "B": "Passive mode",
+        "C": "Secure mode",
+        "D": "Anonymous mode"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Traditional FTP uses active mode by default in the source: the server opens the data connection back toward the client.",
+        "B": "Passive FTP has the client initiate both control and data connections and is often easier through firewalls/NAT, but it is not the source's default.",
+        "C": "Secure FTP is not an FTP connection mode; FTPS/SFTP are distinct secure mechanisms.",
+        "D": "Anonymous login is an authentication mode, not a data-connection establishment mode."
+      }
+    },
+    {
+      "id": 89,
+      "question": "Which of the following HTTP methods is idempotent and used for updating resources on a server?",
+      "options": {
+        "A": "GET",
+        "B": "POST",
+        "C": "PUT",
+        "D": "DELETE"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "GET is safe and idempotent and normally retrieves a representation rather than updating a resource.",
+        "B": "POST is generally not idempotent and is commonly used to create resources or trigger processing.",
+        "C": "PUT is idempotent and is commonly used to create or replace a resource at a specified URI.",
+        "D": "DELETE is also defined as idempotent, but the source specifically associates updating/replacing resources with PUT."
+      }
+    },
+    {
+      "id": 90,
+      "question": "In HTTP, what status code indicates that the requested resource has been permanently moved to a new URL?",
+      "options": {
+        "A": "200 OK",
+        "B": "301 Moved Permanently",
+        "C": "404 Not Found",
+        "D": "500 Internal Server Error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "200 indicates successful processing of the request.",
+        "B": "301 indicates that the resource has been permanently assigned a new URI and clients may use the new location.",
+        "C": "404 means the server could not find the requested resource.",
+        "D": "500 indicates an unexpected server-side error."
+      }
+    },
+    {
+      "id": 91,
+      "question": "What is the main advantage of using FTP over HTTP for file transfer?",
+      "options": {
+        "A": "Higher security",
+        "B": "Better compression",
+        "C": "Support for directory listing and manipulation",
+        "D": "Faster data transfer"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Traditional FTP is not inherently more secure than HTTP; both require additional security mechanisms for protected transfer.",
+        "B": "FTP is not inherently a better compression protocol than HTTP.",
+        "C": "FTP provides commands specifically designed for remote file and directory management.",
+        "D": "Transfer speed depends on implementation and network conditions rather than being an inherent FTP advantage."
+      }
+    },
+    {
+      "id": 92,
+      "question": "What mechanism does HTTP/2 use to reduce latency and improve load times compared to HTTP/1.1?",
+      "options": {
+        "A": "Data compression",
+        "B": "Multiplexing",
+        "C": "Encryption",
+        "D": "Tokenization"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "HTTP/2 supports header compression with HPACK, but multiplexing is the mechanism that reduces head-of-line request serialization and improves parallel loading.",
+        "B": "HTTP/2 multiplexes multiple streams over one connection, reducing the need for multiple parallel TCP connections.",
+        "C": "HTTP/2 can be used with TLS, but encryption is not the mechanism that differentiates its stream multiplexing performance.",
+        "D": "Tokenization is not the HTTP/2 latency mechanism."
+      }
+    },
+    {
+      "id": 93,
+      "question": "How does FTP ensure data is transferred securely?",
+      "options": {
+        "A": "By using SSL/TLS for encryption",
+        "B": "By compressing data",
+        "C": "By using checksums for integrity",
+        "D": "By using UDP"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "FTP itself is not secure; FTP over TLS (FTPS) can encrypt the control/data channels.",
+        "B": "Compression can reduce transfer size but does not by itself secure FTP.",
+        "C": "Checksums can detect accidental corruption but do not provide confidentiality/authentication comparable to TLS.",
+        "D": "FTP uses TCP, not UDP, and UDP does not inherently provide security."
+      }
+    },
+    {
+      "id": 94,
+      "question": "Which feature of HTTP/3 aims to improve performance over lossy or unreliable networks?",
+      "options": {
+        "A": "QUIC protocol",
+        "B": "WebSocket support",
+        "C": "Server Push",
+        "D": "Content-Encoding"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "HTTP/3 runs over QUIC, which provides stream multiplexing and loss recovery over UDP and performs well on changing/lossy paths.",
+        "B": "WebSocket is a separate bidirectional communication protocol and is not the core HTTP/3 transport feature.",
+        "C": "Server Push was an HTTP feature associated with HTTP/2 and is not the primary HTTP/3 improvement for lossy networks.",
+        "D": "Content-Encoding describes payload transformations such as gzip or Brotli, not the transport-level improvement supplied by QUIC."
+      }
+    },
+    {
+      "id": 95,
+      "question": "In FTP, what is the difference between binary and ASCII transfer modes?",
+      "options": {
+        "A": "Binary mode transfers files as text, while ASCII mode transfers them as binary",
+        "B": "Binary mode compresses data, while ASCII mode does not",
+        "C": "Binary mode transfers files in a binary format without conversion, while ASCII mode converts files between different text formats",
+        "D": "Binary mode is more secure than ASCII mode"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "This reverses the definitions of FTP binary and ASCII modes.",
+        "B": "Binary/ASCII mode changes representation/translation behavior, not compression.",
+        "C": "Binary preserves byte values; ASCII mode may translate text line endings/representations between systems.",
+        "D": "Neither transfer mode inherently provides security; encryption is a separate concern."
+      }
+    },
+    {
+      "id": 96,
+      "question": "How can you download a file from an FTP server using the command line in Linux?",
+      "options": {
+        "A": "wget [FTP URL]",
+        "B": "curl -O [FTP URL]",
+        "C": "ftp [FTP URL]",
+        "D": "scp [FTP URL]"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "wget can retrieve files from FTP URLs from the Linux command line when FTP support is available.",
+        "B": "curl -O can download an FTP resource while preserving the remote filename.",
+        "C": "The ftp client can connect interactively and retrieve files, but the source marks wget for the direct download command.",
+        "D": "scp uses SSH/SFTP-style secure copy and does not use an FTP URL as an FTP client."
+      }
+    },
+    {
+      "id": 97,
+      "question": "How can you send a custom HTTP header with a curl request?",
+      "options": {
+        "A": "curl -d \"[Header]\" [URL]",
+        "B": "curl -H \"[Header]: [Value]\" [URL]",
+        "C": "curl --header \"[Header]\" [URL]",
+        "D": "curl --custom-header \"[Header]: [Value]\" [URL]"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "curl -d sends request body data and is not the standard option for adding a custom HTTP header.",
+        "B": "curl -H/--header adds a custom HTTP header and value to the request.",
+        "C": "curl --header is also a valid long-form option for adding a header; the source's marked form includes the explicit header value.",
+        "D": "curl does not use --custom-header as its standard option for arbitrary HTTP headers."
+      }
+    },
+    {
+      "id": 98,
+      "question": "What command allows you to interactively communicate with an HTTP server using telnet?",
+      "options": {
+        "A": "telnet [host] 80 followed by GET / HTTP/1.1",
+        "B": "telnet [host] 443 followed by CONNECT / HTTP/1.1",
+        "C": "telnet [host] 80 followed by POST / HTTP/1.1",
+        "D": "telnet [host] 80 followed by HEAD / HTTP/1.1"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Telnet to TCP port 80 can be used to manually send a plain HTTP request such as GET / HTTP/1.1.",
+        "B": "Port 443 normally expects TLS, so a plain telnet HTTP exchange will not provide a normal HTTPS session.",
+        "C": "POST is valid HTTP, but GET is the simplest standard request for interactively retrieving a page in this example.",
+        "D": "HEAD is a valid HTTP method, but the source uses GET for the interactive demonstration."
+      }
+    },
+    {
+      "id": 99,
+      "question": "If a web page is not loading correctly, what should be checked first?",
+      "options": {
+        "A": "Browser cache",
+        "B": "Server configuration",
+        "C": "DNS settings",
+        "D": "Network connectivity"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A stale or corrupted browser cache can cause a page to render incorrectly even when network access is working.",
+        "B": "Server misconfiguration can cause page failures, but basic local/network connectivity is a reasonable first diagnostic check.",
+        "C": "Incorrect DNS can prevent hostnames from resolving, but the source marks the basic network connection as the first check.",
+        "D": "If a page cannot load, verifying that the device has working network connectivity establishes whether the problem is local to the connection."
+      }
+    },
+    {
+      "id": 100,
+      "question": "A file transfer via FTP fails with a permission error. What is likely the cause?",
+      "options": {
+        "A": "Incorrect username or password",
+        "B": "Network congestion",
+        "C": "File not found on the server",
+        "D": "Firewall settings"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "FTP permission/authentication errors commonly occur when the supplied credentials are invalid or lack required permissions.",
+        "B": "Congestion can slow or interrupt transfer but does not directly explain an FTP permission-denied response.",
+        "C": "A missing file normally produces a file-not-found error rather than a permission error.",
+        "D": "A firewall can block FTP connections, but a server-side permission error more directly points to credentials/permissions."
+      }
+    },
+    {
+      "id": 101,
+      "question": "How can you diagnose slow FTP file transfers?",
+      "options": {
+        "A": "Checking file size and type",
+        "B": "Analyzing network bandwidth and congestion",
+        "C": "Verifying FTP server load",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Large files and inefficient formats can influence transfer time and should be considered during diagnosis.",
+        "B": "Available bandwidth and congestion directly affect FTP throughput.",
+        "C": "High server CPU, disk, or connection load can reduce transfer performance.",
+        "D": "The source treats hardware, timeout configuration, and path stability as possible troubleshooting areas."
+      }
+    },
+    {
+      "id": 102,
+      "question": "What is the primary purpose of a firewall in network security?",
+      "options": {
+        "A": "To detect and remove viruses",
+        "B": "To manage network traffic based on rules",
+        "C": "To encrypt data transmissions",
+        "D": "To authenticate users"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Antivirus software performs malware detection/removal; a firewall primarily filters network traffic.",
+        "B": "A firewall permits or blocks traffic based on addresses, ports, protocols, state, and configured policies.",
+        "C": "Encryption is normally provided by TLS, IPsec, VPNs, or application-level cryptography rather than a basic firewall.",
+        "D": "Authentication can be integrated with some security systems, but it is not the primary purpose of a firewall."
+      }
+    },
+    {
+      "id": 103,
+      "question": "Which cryptographic algorithm is commonly used for secure password storage?",
+      "options": {
+        "A": "RSA",
+        "B": "AES",
+        "C": "SHA-256",
+        "D": "DES"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "RSA is an asymmetric public-key algorithm used for signatures/key operations; it is not a password-hashing function.",
+        "B": "AES is a symmetric encryption algorithm, not a password-hashing algorithm.",
+        "C": "SHA-256 is a cryptographic hash function and has historically been used for password hashing, although modern password storage should use a dedicated password KDF such as Argon2id, scrypt, or bcrypt.",
+        "D": "DES is an obsolete symmetric block cipher and is not suitable for modern password storage."
+      }
+    },
+    {
+      "id": 104,
+      "question": "What is the function of a digital certificate in network security?",
+      "options": {
+        "A": "To ensure data integrity",
+        "B": "To verify the identity of entities exchanging information online",
+        "C": "To compress data",
+        "D": "To increase data transfer speed"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Certificates can bind identity to a public key and are used in authentication; integrity is provided by signatures/TLS mechanisms associated with the certificate.",
+        "B": "Digital certificates bind an entity's identity to a public key and are validated through a certificate authority trust chain.",
+        "C": "Certificates do not compress network data.",
+        "D": "Certificates do not increase raw transfer speed."
+      }
+    },
+    {
+      "id": 105,
+      "question": "What differentiates symmetric from asymmetric encryption?",
+      "options": {
+        "A": "The use of one key for encryption and a different key for decryption",
+        "B": "The speed of encryption and decryption",
+        "C": "The type of algorithms used",
+        "D": "The use of a single key for both encryption and decryption"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "This describes asymmetric/public-key cryptography rather than symmetric encryption.",
+        "B": "Symmetric algorithms are generally faster, but speed is not the defining cryptographic distinction in the question.",
+        "C": "Algorithm family differs, but the fundamental distinction is how keys are used.",
+        "D": "Symmetric cryptography uses the same shared secret key for both encryption and decryption."
+      }
+    },
+    {
+      "id": 106,
+      "question": "In the context of cryptography, what is a nonce?",
+      "options": {
+        "A": "A unique number used once",
+        "B": "A method for encrypting data",
+        "C": "A type of digital signature",
+        "D": "A protocol for secure communication"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A nonce is a value intended to be used once in a particular cryptographic context to prevent replay/reuse problems.",
+        "B": "A nonce is an input/value, not an encryption algorithm itself.",
+        "C": "A nonce is not a digital-signature type.",
+        "D": "A nonce is not a communication protocol."
+      }
+    },
+    {
+      "id": 107,
+      "question": "How does a public key infrastructure (PKI) enhance network security?",
+      "options": {
+        "A": "By providing digital certificates that verify the ownership of public keys",
+        "B": "By encrypting all data on the network",
+        "C": "By detecting network intrusions",
+        "D": "By managing network traffic"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "PKI uses certificates issued by trusted authorities to bind identities to public keys.",
+        "B": "PKI supports authentication and key management; it does not automatically encrypt every network packet.",
+        "C": "Intrusion detection systems perform that function.",
+        "D": "Firewalls, routers, and QoS systems manage traffic; PKI's core role is trust/key management."
+      }
+    },
+    {
+      "id": 108,
+      "question": "What is the primary security concern addressed by HTTPS?",
+      "options": {
+        "A": "Data corruption",
+        "B": "Identity theft",
+        "C": "Data interception during transmission",
+        "D": "Unauthorized access to network resources"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "HTTPS can detect tampering and protect integrity, but the source focuses on interception/confidentiality during transmission.",
+        "B": "HTTPS can help prevent impersonation through server authentication, but its primary transport security concern here is interception.",
+        "C": "HTTPS uses TLS to encrypt traffic and authenticate the server, reducing the risk of eavesdropping/interception.",
+        "D": "Access control mechanisms handle resource authorization; HTTPS secures a web connection."
+      }
+    },
+    {
+      "id": 109,
+      "question": "What role does the Diffie-Hellman algorithm play in cryptography?",
+      "options": {
+        "A": "It provides a method for digital signatures",
+        "B": "It is used for secure password storage",
+        "C": "It enables the secure exchange of encryption keys over a public channel",
+        "D": "It encrypts and decrypts data"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Diffie-Hellman is a key-agreement mechanism, not a digital-signature algorithm.",
+        "B": "Password storage requires password-hashing/KDF techniques; Diffie-Hellman is not one.",
+        "C": "Diffie-Hellman allows parties to derive a shared secret over an untrusted/public channel, subject to authentication against MitM attacks.",
+        "D": "Diffie-Hellman establishes shared key material; it does not directly encrypt application data."
+      }
+    },
+    {
+      "id": 110,
+      "question": "How can you generate a 2048-bit RSA key pair using OpenSSL?",
+      "options": {
+        "A": "openssl genpkey -algorithm RSA -out private_key.pem 2048",
+        "B": "openssl rsa -genkey -out private_key.pem 2048",
+        "C": "openssl genrsa -out private_key.pem 2048",
+        "D": "openssl rsakey -create -size 2048 -out private_key.pem"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "The modern genpkey syntax is valid in OpenSSL, but the key-size parameter normally needs an RSA parameter option; the source marks genrsa.",
+        "B": "openssl rsa is primarily for processing existing RSA keys; this is not the standard key-generation syntax.",
+        "C": "genrsa generates an RSA private key with the requested 2048-bit size in the source's command.",
+        "D": "rsakey is not the standard OpenSSL command for RSA key generation."
+      }
+    },
+    {
+      "id": 111,
+      "question": "What command can be used to encrypt a file using AES-256-CBC with OpenSSL?",
+      "options": {
+        "A": "openssl aes-256-cbc -in plaintext.txt -out encrypted.txt -pass pass:your_password",
+        "B": "openssl encrypt -aes-256-cbc -in plaintext.txt -out encrypted.txt -k your_password",
+        "C": "openssl enc -aes-256-cbc -in plaintext.txt -out encrypted.txt -k your_password",
+        "D": "openssl aes-256-cbc -e -in plaintext.txt -out encrypted.txt -k your_password"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "OpenSSL's AES encryption is normally invoked through the enc command; this form omits enc.",
+        "B": "encrypt is not the standard OpenSSL command used for symmetric file encryption.",
+        "C": "openssl enc invokes the symmetric cipher command and -aes-256-cbc selects AES-256-CBC with the supplied password.",
+        "D": "The cipher is normally selected through openssl enc rather than as a top-level aes-256-cbc command."
+      }
+    },
+    {
+      "id": 112,
+      "question": "If an encrypted email cannot be decrypted by the recipient, what should be checked first?",
+      "options": {
+        "A": "The email client's compatibility with the encryption standard",
+        "B": "The correctness of the recipient's public key",
+        "C": "The strength of the encryption algorithm",
+        "D": "The sender's digital signature"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Client compatibility can matter, but the source first checks the recipient key because encrypted email depends on the correct recipient key.",
+        "B": "If the message was encrypted to an incorrect or mismatched recipient key, the intended private key cannot decrypt it.",
+        "C": "Algorithm strength affects security, not whether a correctly addressed ciphertext can be decrypted.",
+        "D": "A signature can fail independently of message decryption and is not the first check for an undecryptable message."
+      }
+    },
+    {
+      "id": 113,
+      "question": "How can network administrators detect and mitigate a man-in-the-middle (MitM) attack?",
+      "options": {
+        "A": "Implementing stronger encryption algorithms",
+        "B": "Regularly updating firewall rules",
+        "C": "Using digital certificates and HTTPS",
+        "D": "Using network monitoring tools"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Stronger encryption can protect confidentiality, but MitM prevention also requires authentication of endpoints.",
+        "B": "Firewall rules can reduce some attacks but do not establish cryptographic endpoint authentication.",
+        "C": "TLS certificates authenticate the server and HTTPS protects the connection against interception and tampering.",
+        "D": "Monitoring can help detect anomalies and attacks but does not by itself prevent a MitM attack."
+      }
+    },
+    {
+      "id": 114,
+      "question": "Which frequency band is not commonly used by Wi-Fi networks?",
+      "options": {
+        "A": "2.4 GHz",
+        "B": "5 GHz",
+        "C": "900 MHz",
+        "D": "60 GHz"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "2.4 GHz is a common Wi-Fi band used by many IEEE 802.11 standards.",
+        "B": "5 GHz is a common Wi-Fi band with more channels and generally less interference than 2.4 GHz.",
+        "C": "900 MHz is not one of the standard mainstream Wi-Fi bands represented by common consumer 802.11 deployments.",
+        "D": "60 GHz is used by some Wi-Fi standards such as 802.11ad/ay, although it is much less common than 2.4/5 GHz."
+      }
+    },
+    {
+      "id": 115,
+      "question": "What is the primary purpose of the Mobile IP protocol?",
+      "options": {
+        "A": "To secure wireless communications",
+        "B": "To manage mobile device power consumption",
+        "C": "To enable devices to move across networks without losing connectivity",
+        "D": "To compress data for faster transmission"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Mobile IP is about maintaining reachability during mobility, not directly providing wireless encryption.",
+        "B": "Power management is handled by mobile OS/radio technologies rather than Mobile IP.",
+        "C": "Mobile IP maintains a stable home address/reachability while a device moves between networks.",
+        "D": "Mobile IP does not compress application data."
+      }
+    },
+    {
+      "id": 116,
+      "question": "In the context of mobile computing, what is edge computing?",
+      "options": {
+        "A": "Processing data in a central data center",
+        "B": "Storing data exclusively on the mobile device",
+        "C": "Processing data near the source of data generation",
+        "D": "Using cloud storage as the only data storage option"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Centralized cloud/data-center processing is the opposite of the key edge-computing idea.",
+        "B": "Local storage is not the defining feature of edge computing.",
+        "C": "Edge computing moves computation closer to sensors/devices/users to reduce latency and backhaul traffic.",
+        "D": "Edge architectures can still use cloud storage, but do not require it exclusively."
+      }
+    },
+    {
+      "id": 117,
+      "question": "Which technology underpins the LTE (Long Term Evolution) standard for mobile communication?",
+      "options": {
+        "A": "GSM",
+        "B": "CDMA",
+        "C": "OFDMA",
+        "D": "TDMA"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "GSM is a cellular technology family and is not the multiple-access technology underlying LTE's radio interface.",
+        "B": "CDMA is used by earlier cellular systems; LTE's downlink uses OFDMA.",
+        "C": "LTE uses Orthogonal Frequency Division Multiple Access on the downlink, enabling multiple users to share subcarriers.",
+        "D": "TDMA is used in some older mobile systems but is not the LTE downlink multiple-access technique."
+      }
+    },
+    {
+      "id": 118,
+      "question": "How do MIMO (Multiple Input Multiple Output) technologies improve wireless network performance?",
+      "options": {
+        "A": "By encrypting data transmissions",
+        "B": "By increasing the range of frequencies used",
+        "C": "By using multiple antennas for transmission and reception",
+        "D": "By compressing the data transmitted"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "MIMO is a radio technique for spatial processing, not encryption.",
+        "B": "MIMO uses spatial dimensions/multiple antennas rather than simply increasing the frequency range.",
+        "C": "MIMO uses multiple transmit and receive antennas to exploit spatial diversity and/or multiplexing for better throughput/reliability.",
+        "D": "MIMO does not compress application data."
+      }
+    },
+    {
+      "id": 119,
+      "question": "What challenge does the hidden node problem pose in wireless networks?",
+      "options": {
+        "A": "Difficulty in achieving synchronization",
+        "B": "Increased risk of data interception",
+        "C": "Interference and collision of data transmissions",
+        "D": "Excessive energy consumption"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "The hidden-node problem is primarily about nodes being unable to sense one another, not general clock synchronization.",
+        "B": "Hidden nodes create medium-access collisions; interception is a separate security issue.",
+        "C": "Two hidden transmitters may transmit simultaneously because they cannot hear each other, causing interference/collisions at a receiver.",
+        "D": "Energy use can be affected by retransmissions, but the defining problem is collision/interference."
+      }
+    },
+    {
+      "id": 120,
+      "question": "What is the main advantage of using SDN (Software Defined Networking) in wireless networks?",
+      "options": {
+        "A": "Enhanced security against cyber threats",
+        "B": "Simplified hardware requirements",
+        "C": "Flexible network management and configuration",
+        "D": "Increased data transfer speeds"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "SDN can enable centralized security policy, but enhanced security is not the primary advantage asked here.",
+        "B": "SDN separates control logic from forwarding hardware, but the key benefit in the source is flexible management/configuration.",
+        "C": "SDN centralizes/programmatically controls network behavior, making configuration and policy changes more flexible.",
+        "D": "SDN can optimize traffic in some deployments but does not inherently increase physical link speed."
+      }
+    }
+  ]
+}

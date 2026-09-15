@@ -1,0 +1,4516 @@
+[
+  {
+    "id": 1,
+    "question": "In MS Word, if you want to repeat the last action performed then which of the following keys should be used?",
+    "options": [
+      {
+        "id": "A",
+        "text": "F1",
+        "explanation": "F1 opens Help in Microsoft Office applications; it does not repeat the previous command."
+      },
+      {
+        "id": "B",
+        "text": "F2",
+        "explanation": "F2 is commonly used for editing or renaming in Windows applications; it is not the Repeat command in Word."
+      },
+      {
+        "id": "C",
+        "text": "F3",
+        "explanation": "F3 is associated with search or other application-specific commands; it is not Word's Repeat command."
+      },
+      {
+        "id": "D",
+        "text": "F4",
+        "explanation": "F4 repeats the most recently performed action in MS Word."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "F4 repeats the last action performed in MS Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 2,
+    "question": "What is the purpose of the icon shown in the image? This icon is available in the Layout tab (Page Layout tab in the previous version) of MS Word.",
+    "options": [
+      {
+        "id": "A",
+        "text": "To change the page size",
+        "explanation": "Page Size changes the physical paper size of the document, such as A4, Letter or Legal."
+      },
+      {
+        "id": "B",
+        "text": "Align the edges of multiple selected objects",
+        "explanation": "Object alignment tools align selected shapes or objects with each other; they do not change page size."
+      },
+      {
+        "id": "C",
+        "text": "To change the character attributes",
+        "explanation": "Character attributes include font, size and text effects and are controlled through font-formatting tools."
+      },
+      {
+        "id": "D",
+        "text": "To change the orientation of the document to Landscape or Portrait",
+        "explanation": "Orientation changes the page between Portrait and Landscape; it is a different Layout command from Size."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The shown Layout option is used to change the page size.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 3,
+    "question": "If you will merge all the eight cells shown in the image, then which value will remain in the merged cell?",
+    "options": [
+      {
+        "id": "A",
+        "text": "4",
+        "explanation": "4 is in the upper-right portion of the shown range, so it is not the upper-left value retained by the merge."
+      },
+      {
+        "id": "B",
+        "text": "8",
+        "explanation": "8 is in the bottom-right cell and is not retained when the complete range is merged."
+      },
+      {
+        "id": "C",
+        "text": "5",
+        "explanation": "5 is in the second row, so it is not the first value in the selected range."
+      },
+      {
+        "id": "D",
+        "text": "1",
+        "explanation": "1 is in the upper-left cell, and that is the value retained when the shown range is merged."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "When the range is merged, the value in the upper-left cell remains; in the image that value is 1.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 4,
+    "question": "Identify the view type in MS PowerPoint which will lead to the screen given below.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Slide show view",
+        "explanation": "Slide Show View presents slides full-screen for an audience; it does not show the File/Info management screen."
+      },
+      {
+        "id": "B",
+        "text": "Normal View",
+        "explanation": "Normal View is the main editing workspace for creating and modifying slides."
+      },
+      {
+        "id": "C",
+        "text": "Outline View",
+        "explanation": "Outline View focuses on the textual outline of slides rather than file-management commands."
+      },
+      {
+        "id": "D",
+        "text": "Backstage View",
+        "explanation": "Backstage View is opened from File and contains commands such as Info, Protect, Inspect, Save and Print."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The screen shown contains File/Info commands such as Protect Presentation, Inspect Presentation and Version History, which belong to Backstage View.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 5,
+    "question": "Which of the given options tells the purpose of the PowerPoint layout given below?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Comparison",
+        "explanation": "Comparison is designed for two side-by-side content areas, making it suitable for comparing two sets of information."
+      },
+      {
+        "id": "B",
+        "text": "Two Content",
+        "explanation": "Two Content also provides two content placeholders, but the source identifies the displayed layout as Comparison."
+      },
+      {
+        "id": "C",
+        "text": "Content with caption",
+        "explanation": "Content with Caption combines a content area with a caption area rather than two comparable content sections."
+      },
+      {
+        "id": "D",
+        "text": "Picture with caption",
+        "explanation": "Picture with Caption is intended for a picture accompanied by caption text, not the shown comparison structure."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The Comparison layout provides two side-by-side content areas for comparing information.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 6,
+    "question": "On which of the following tab you would click if you want to print a document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Insert",
+        "explanation": "Insert is used to add items such as tables, pictures, shapes and charts; printing is not its primary command."
+      },
+      {
+        "id": "B",
+        "text": "Design",
+        "explanation": "Design controls themes and visual appearance rather than the document printing command."
+      },
+      {
+        "id": "C",
+        "text": "Layout",
+        "explanation": "Layout controls page settings such as margins, orientation and spacing; printing is accessed elsewhere."
+      },
+      {
+        "id": "D",
+        "text": "File",
+        "explanation": "File opens Backstage View, where the Print command is available."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The Print command is available after opening the File tab/Backstage View.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 7,
+    "question": "If you have used Ctrl+Z to undo something then which of the following is used to redo it?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + Y",
+        "explanation": "Ctrl+Y performs Redo, restoring an action that was previously undone with Ctrl+Z."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + R",
+        "explanation": "Ctrl+R has other application-specific functions and is not the standard Redo shortcut in Office."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + X",
+        "explanation": "Ctrl+X cuts the selected content and places it on the clipboard."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + V",
+        "explanation": "Ctrl+V pastes content from the clipboard; it does not redo an undone action."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+Y is the Redo shortcut in Microsoft Office.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 8,
+    "question": "Consider a scenario in which you have a flowchart in your slide that has different themes for the various shapes in the flow chart. Which tab will have different theme styles?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Design Tab",
+        "explanation": "The Design tab contains presentation themes and their variants, which control the overall visual theme."
+      },
+      {
+        "id": "B",
+        "text": "Animation Tab",
+        "explanation": "The Animations tab controls movement/effects applied to objects within a slide."
+      },
+      {
+        "id": "C",
+        "text": "Insert Format Tab",
+        "explanation": "The Insert tab adds objects such as shapes, pictures and charts; it does not contain presentation themes."
+      },
+      {
+        "id": "D",
+        "text": "Drawing Tools Format Tab",
+        "explanation": "Drawing Tools Format formats a selected shape, while presentation-wide themes are handled by Design."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Presentation themes and theme variants are available from the Design tab.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 9,
+    "question": "In MS Excel, merging cells will keep only value and discard all other values. Which position is retained?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Upper-right",
+        "explanation": "The upper-right cell is not the first cell of the selected range, so its value is not the retained value."
+      },
+      {
+        "id": "B",
+        "text": "Upper-left",
+        "explanation": "The upper-left cell is the first cell in the selected range and its value is retained when the cells are merged."
+      },
+      {
+        "id": "C",
+        "text": "Bottom-right",
+        "explanation": "The bottom-right value is not retained because it is not in the upper-left cell."
+      },
+      {
+        "id": "D",
+        "text": "Bottom-left",
+        "explanation": "The bottom-left value is not retained because it is not in the upper-left cell."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "When cells containing multiple values are merged, Excel retains the value from the upper-left cell.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 10,
+    "question": "What does the given shape of cursor in MS Excel indicates?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Enter data inside a cell",
+        "explanation": "Entering or editing cell content uses an editing state/cursor rather than the horizontal double-arrow shown."
+      },
+      {
+        "id": "B",
+        "text": "Select a cell",
+        "explanation": "Selecting a cell normally uses the standard cell-selection pointer, not the horizontal resize pointer."
+      },
+      {
+        "id": "C",
+        "text": "Select menu",
+        "explanation": "Menu selection uses a different pointer and is unrelated to the shown column boundary cursor."
+      },
+      {
+        "id": "D",
+        "text": "Column resizing",
+        "explanation": "The horizontal double-arrow appears at a column boundary and indicates that the column width can be resized."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The horizontal double-arrow cursor indicates that a column boundary can be dragged to resize the column.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 11,
+    "question": "Which of the following key is used to exit from the full screen view from YouTube?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Enter",
+        "explanation": "Enter generally interacts with the current page/control; it is not the standard YouTube full-screen exit key."
+      },
+      {
+        "id": "B",
+        "text": "Esc",
+        "explanation": "Esc exits full-screen mode in YouTube and returns the video to its normal viewing state."
+      },
+      {
+        "id": "C",
+        "text": "Windows",
+        "explanation": "The Windows key opens or interacts with Windows system controls rather than exiting YouTube full-screen mode."
+      },
+      {
+        "id": "D",
+        "text": "Capslock",
+        "explanation": "Caps Lock changes keyboard capitalization and has no role in exiting YouTube full-screen mode."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Esc exits full-screen mode in YouTube.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 12,
+    "question": "Consider the following path: C:\\Device\\Module\\Module 1. What is the name of the file in this path?",
+    "options": [
+      {
+        "id": "A",
+        "text": "device",
+        "explanation": "Device is a directory component in the path, not the final file name."
+      },
+      {
+        "id": "B",
+        "text": "Module",
+        "explanation": "Module is an intermediate directory in the path."
+      },
+      {
+        "id": "C",
+        "text": "Module 1",
+        "explanation": "Module 1 is the final component of the supplied path and is identified by the source as the file name."
+      },
+      {
+        "id": "D",
+        "text": "C",
+        "explanation": "C is the drive designation, not the file name."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source identifies the final path component, Module 1, as the file name.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 13,
+    "question": "Aman has created a story of ten pages, but only wants to print first two pages. Which printer command should he choose?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Print All",
+        "explanation": "Print All would print every page rather than only the first two."
+      },
+      {
+        "id": "B",
+        "text": "Print from 1 to 2",
+        "explanation": "A page range of 1 to 2 restricts printing to the first and second pages."
+      },
+      {
+        "id": "C",
+        "text": "Page setup",
+        "explanation": "Page Setup changes page/layout settings; it does not select which pages to print."
+      },
+      {
+        "id": "D",
+        "text": "Print Preview",
+        "explanation": "Print Preview displays how the document will look before printing but does not itself specify the page range."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Selecting a page range such as 1 to 2 prints only the first two pages.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 14,
+    "question": "If you need to double underline a word, how will you do that?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Go to Format menu and then Font option. Open Underline Style and choose Double Underline",
+        "explanation": "This describes the older menu route but omits the explicit text-selection step emphasized by the source answer."
+      },
+      {
+        "id": "B",
+        "text": "From Format menu choose Font option and then from Font tab open Underline Style and select Double Underline",
+        "explanation": "It opens the relevant Font controls but does not explicitly select the word before applying the formatting."
+      },
+      {
+        "id": "C",
+        "text": "Select the text then choose Format >> Font and on Font tab, open Underline Style and choose Double Underline",
+        "explanation": "Selecting the word first and then choosing Double Underline from Font settings applies the requested formatting."
+      },
+      {
+        "id": "D",
+        "text": "Click double underline tool on formatting toolbar",
+        "explanation": "A dedicated double-underline toolbar button is not the method identified by the source."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "First select the text, then open the Font settings and choose Double Underline.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 15,
+    "question": "Which of the following would be the correct description for WORM Virus?",
+    "options": [
+      {
+        "id": "A",
+        "text": "It infects the boot sector",
+        "explanation": "Boot-sector infection is associated with boot-sector viruses, not the defining behavior of a worm."
+      },
+      {
+        "id": "B",
+        "text": "It propagates through the internet and e-mail",
+        "explanation": "Worms self-propagate across networks and can spread through Internet and email channels."
+      },
+      {
+        "id": "C",
+        "text": "It has no effect in increasing the internet traffic",
+        "explanation": "Worm propagation can increase network traffic, so this statement is incorrect."
+      },
+      {
+        "id": "D",
+        "text": "It alters the folder structure",
+        "explanation": "Changing folder structure is not the defining characteristic used to identify a worm."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "A worm is self-propagating malware that can spread through networks and email.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 16,
+    "question": "Which of these commands remove the paragraph formatting?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+L",
+        "explanation": "Ctrl+L applies left paragraph alignment; it does not remove paragraph formatting."
+      },
+      {
+        "id": "B",
+        "text": "Copy",
+        "explanation": "Copy places selected content on the clipboard and does not remove formatting."
+      },
+      {
+        "id": "C",
+        "text": "Open",
+        "explanation": "Open is a file command and has no function for removing paragraph formatting."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+Q",
+        "explanation": "Ctrl+Q removes paragraph-level formatting in Word, returning the paragraph toward its style defaults."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Ctrl+Q removes paragraph-level formatting in MS Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 17,
+    "question": "Which of these functions is used to land into a specific location of a document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Table of content",
+        "explanation": "A table of contents provides navigation through headings, but it is not the specific feature named by the source."
+      },
+      {
+        "id": "B",
+        "text": "Hypertext",
+        "explanation": "A hyperlink can navigate to another location, but the source specifically identifies Bookmark for marking a document location."
+      },
+      {
+        "id": "C",
+        "text": "Bookmark",
+        "explanation": "A bookmark marks a specific location in a document so it can be reached directly."
+      },
+      {
+        "id": "D",
+        "text": "Macro",
+        "explanation": "A macro automates actions; it is not primarily a document-location marker."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A bookmark marks a location in a document so it can be reached directly.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 18,
+    "question": "Name the computer database application that is part of MS Office Suite.",
+    "options": [
+      {
+        "id": "A",
+        "text": "MS Word",
+        "explanation": "Word is a word-processing application."
+      },
+      {
+        "id": "B",
+        "text": "MS Excel",
+        "explanation": "Excel is primarily a spreadsheet application."
+      },
+      {
+        "id": "C",
+        "text": "MS Access",
+        "explanation": "Access is Microsoft's database application in the Office suite."
+      },
+      {
+        "id": "D",
+        "text": "MS PowerPoint",
+        "explanation": "PowerPoint is presentation software."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "MS Access is the database application in the Microsoft Office suite.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 19,
+    "question": "The use of the IC in a computer has",
+    "options": [
+      {
+        "id": "A",
+        "text": "Increased the amount of heating",
+        "explanation": "Integrated circuits reduced size and generally improved efficiency; they did not increase computer heating as the stated effect."
+      },
+      {
+        "id": "B",
+        "text": "Reduced the size and cost of computers",
+        "explanation": "IC technology enabled smaller, less expensive and more reliable computers."
+      },
+      {
+        "id": "C",
+        "text": "Reduced the peripheral devices to be used",
+        "explanation": "ICs did not eliminate the need for peripheral devices."
+      },
+      {
+        "id": "D",
+        "text": "Reduced the performance capacity of the computer",
+        "explanation": "Integrated circuits contributed to improved, not reduced, computing performance."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Integrated circuits made computers smaller, more reliable and generally less expensive to produce.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 20,
+    "question": "Which of the given combination of file type and its extension is incorrect?",
+    "options": [
+      {
+        "id": "A",
+        "text": "MS Word - .doc",
+        "explanation": ".doc is a legacy Microsoft Word document extension."
+      },
+      {
+        "id": "B",
+        "text": "MS Excel - .xls",
+        "explanation": ".xls is a legacy Microsoft Excel workbook extension."
+      },
+      {
+        "id": "C",
+        "text": "MS Outlook - .out",
+        "explanation": ".out is not the standard Outlook data-file extension; formats such as .pst are used for Outlook data."
+      },
+      {
+        "id": "D",
+        "text": "MS PowerPoint - .ppt",
+        "explanation": ".ppt is a legacy Microsoft PowerPoint presentation extension."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source marks MS Outlook - .out as incorrect; Outlook commonly uses formats such as .pst for data files.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 21,
+    "question": "Which of the following is not available in Insert >> Picture?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Graph",
+        "explanation": "The source marks Graph as the item not available under the cited Insert > Picture command."
+      },
+      {
+        "id": "B",
+        "text": "Chart",
+        "explanation": "Chart is an available Office insertion feature, although its exact menu placement depends on the Office version."
+      },
+      {
+        "id": "C",
+        "text": "WordArt",
+        "explanation": "WordArt is an Office feature for decorative text and can be inserted into documents."
+      },
+      {
+        "id": "D",
+        "text": "ClipArt",
+        "explanation": "Clip Art was an Office image-insertion feature in older Office versions."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Graph as the option not available under the cited Picture command.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 22,
+    "question": "How to insert a sound file in MS document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "From Insert >> Sound menu option",
+        "explanation": "The source does not identify a standalone Insert > Sound command as the route for inserting the sound file."
+      },
+      {
+        "id": "B",
+        "text": "From Insert >> Object menu option",
+        "explanation": "Insert > Object can embed a file/object into a Word document, including supported media objects."
+      },
+      {
+        "id": "C",
+        "text": "From Insert >> Subject menu option",
+        "explanation": "Subject is not the relevant Word insertion command for a sound file."
+      },
+      {
+        "id": "D",
+        "text": "From Insert >> File menu option",
+        "explanation": "The source does not identify Insert > File as the required command for embedding a sound file."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source answer is Insert >> Object, which can be used to embed an object/file in a Word document.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 23,
+    "question": "It is possible to: 1. Modify 2. Sort a data source before performing a merge 3. Create",
+    "options": [
+      {
+        "id": "A",
+        "text": "Modify",
+        "explanation": "A mail-merge data source can be modified before completing the merge."
+      },
+      {
+        "id": "B",
+        "text": "Sort a data source before performing a merge",
+        "explanation": "The data source can be sorted before performing a mail merge."
+      },
+      {
+        "id": "C",
+        "text": "Create",
+        "explanation": "Mail-merge records/data can be created as part of preparing the data source."
+      },
+      {
+        "id": "D",
+        "text": "All of the above",
+        "explanation": "The source groups all listed operations as possible, so All of the above is the marked answer."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source marks all of the listed mail-merge operations as possible.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 24,
+    "question": "What does the formula LEN(\"I love mettl\") return?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Name Error",
+        "explanation": "A Name Error occurs when Excel does not recognize a name or function, not simply because LEN is used."
+      },
+      {
+        "id": "B",
+        "text": "Reference Error",
+        "explanation": "A Reference Error relates to invalid cell references, not this text-length calculation."
+      },
+      {
+        "id": "C",
+        "text": "12",
+        "explanation": "The source marks 12; LEN counts characters including spaces in the supplied text."
+      },
+      {
+        "id": "D",
+        "text": "10",
+        "explanation": "10 would undercount the characters because spaces also contribute to the LEN result."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "LEN counts the characters in the supplied text, including spaces; the source marks 12.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 25,
+    "question": "Which of the following functions will you use to extract the month from a date given in a cell in MS Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "CURRENTMONTH()",
+        "explanation": "CURRENTMONTH() is not a standard Excel worksheet function for extracting a month."
+      },
+      {
+        "id": "B",
+        "text": "DATE()",
+        "explanation": "The source marks DATE(), although DATE() normally constructs a date rather than extracting its month."
+      },
+      {
+        "id": "C",
+        "text": "DAY()",
+        "explanation": "DAY() extracts the day number from a date, not the month."
+      },
+      {
+        "id": "D",
+        "text": "MONTH()",
+        "explanation": "MONTH() is the function normally used to extract the month number; however, the uploaded source marks option B."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source PDF marks DATE() as the answer for this question.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 26,
+    "question": "If you want that all the numbers between 0 and 50 in a range should be displayed in blue color, which operation should you perform?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Select the numbers in the range from 0 to 50 and color it blue",
+        "explanation": "Manual blue formatting works for a fixed selection but does not automatically respond to values in the range."
+      },
+      {
+        "id": "B",
+        "text": "Use IF function",
+        "explanation": "An IF formula can test conditions, but by itself it does not apply cell formatting."
+      },
+      {
+        "id": "C",
+        "text": "Apply conditional formatting",
+        "explanation": "Conditional Formatting automatically applies a chosen format when a cell satisfies a specified condition."
+      },
+      {
+        "id": "D",
+        "text": "All of the given options",
+        "explanation": "The source marks Conditional Formatting rather than all options because the requirement is automatic condition-based formatting."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Conditional Formatting can automatically apply formatting when cell values satisfy a condition.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 27,
+    "question": "Can we edit a Macro Programmatically after recording it?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Yes",
+        "explanation": "Recorded VBA macros can be opened and edited programmatically in the VBA editor."
+      },
+      {
+        "id": "B",
+        "text": "No",
+        "explanation": "A recorded macro is not immutable; its generated code can be edited."
+      },
+      {
+        "id": "C",
+        "text": "Don't know",
+        "explanation": "The question has a definite yes/no answer; 'Don't know' does not describe the capability."
+      },
+      {
+        "id": "D",
+        "text": "Might be",
+        "explanation": "Macro editing is supported, so 'Might be' is not the appropriate answer."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Yes; recorded macros can be edited programmatically in the VBA editor.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 28,
+    "question": "What is a portion of a document in which you set certain page formatting options?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Page Setup",
+        "explanation": "Page Setup refers to settings used to configure a page; it is not the document portion itself."
+      },
+      {
+        "id": "B",
+        "text": "Page",
+        "explanation": "Page is a physical document page rather than a section used to group page-formatting settings."
+      },
+      {
+        "id": "C",
+        "text": "Section",
+        "explanation": "A section is a portion of a document that can have its own page-formatting settings."
+      },
+      {
+        "id": "D",
+        "text": "Document",
+        "explanation": "Document refers to the entire file rather than a portion with independent page settings."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A section can have its own page formatting settings such as margins, orientation and headers/footers.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 29,
+    "question": "Joe is working on an application project which can be used to text, format, input pages or prepare a report, and can also save and print the entire document. Which application is related to this scenario?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Data Management",
+        "explanation": "Data Management focuses on organizing/managing data rather than creating and formatting text documents."
+      },
+      {
+        "id": "B",
+        "text": "Word Processing",
+        "explanation": "Word Processing software is designed to create, edit, format, save and print documents."
+      },
+      {
+        "id": "C",
+        "text": "Operating System",
+        "explanation": "An operating system manages computer resources and applications; it is not primarily a document editor."
+      },
+      {
+        "id": "D",
+        "text": "Managing System",
+        "explanation": "Managing System is not the standard application category described in the question."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "A word processor is designed to create, edit, format, save and print text documents.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 30,
+    "question": "What is gutter Margin?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Margin that is added to right margin when printing",
+        "explanation": "The gutter is not specifically restricted to the right margin."
+      },
+      {
+        "id": "B",
+        "text": "Margin that is added to left margin when printing",
+        "explanation": "The gutter is not specifically restricted to the left margin."
+      },
+      {
+        "id": "C",
+        "text": "Margin that is added to the outside of the page when printing",
+        "explanation": "The gutter is not simply extra space on the outside edge of a page."
+      },
+      {
+        "id": "D",
+        "text": "Margin that is added to the binding side of page when printing",
+        "explanation": "A gutter margin is extra space provided on the binding side of a page."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "A gutter margin is extra space added on the binding side of a page.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 31,
+    "question": "The block in MS Excel spreadsheet, where a column and row intersects each other is called",
+    "options": [
+      {
+        "id": "A",
+        "text": "Keyblock",
+        "explanation": "Keyblock is not the standard Excel term for a row-column intersection."
+      },
+      {
+        "id": "B",
+        "text": "Cell",
+        "explanation": "A cell is the intersection of a row and a column in a spreadsheet."
+      },
+      {
+        "id": "C",
+        "text": "Box",
+        "explanation": "Box is not the standard Excel terminology for a row-column intersection."
+      },
+      {
+        "id": "D",
+        "text": "Square",
+        "explanation": "Square is not the standard Excel term; the correct term is cell."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The intersection of a row and a column in Excel is called a cell.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 32,
+    "question": "Which menu/group will we use if we want to change the typeface of selected text?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Edit",
+        "explanation": "Edit commands are mainly concerned with changing or manipulating content, not the source's typeface menu."
+      },
+      {
+        "id": "B",
+        "text": "Format",
+        "explanation": "The source identifies Format as the menu/group for changing the selected text's typeface."
+      },
+      {
+        "id": "C",
+        "text": "View",
+        "explanation": "View controls how the document is displayed rather than the selected text's typeface."
+      },
+      {
+        "id": "D",
+        "text": "Tools",
+        "explanation": "Tools contains utilities/settings in older Office versions, not the primary typeface command described."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source identifies Format as the menu/group for changing typeface.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 33,
+    "question": "What is the default font used in MS Word document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Calibri",
+        "explanation": "The source marks Calibri as the default Word font for the version assumed by the question."
+      },
+      {
+        "id": "B",
+        "text": "Arial",
+        "explanation": "Arial is a common font but is not the source-marked default."
+      },
+      {
+        "id": "C",
+        "text": "Algerian",
+        "explanation": "Algerian is a decorative font, not the standard default font."
+      },
+      {
+        "id": "D",
+        "text": "None of the above",
+        "explanation": "The source provides a specific answer, so 'None of the above' is not appropriate."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Calibri as the default font.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 34,
+    "question": "How to use Format Painter multiple times?",
+    "options": [
+      {
+        "id": "A",
+        "text": "By click on lock Format Painter icon",
+        "explanation": "A lock-style control is not the standard method identified by the source for repeatedly using Format Painter."
+      },
+      {
+        "id": "B",
+        "text": "Format Painter cannot be used multiple times",
+        "explanation": "Format Painter can be used multiple times, so this statement is false."
+      },
+      {
+        "id": "C",
+        "text": "By double click on the Format Painter icon",
+        "explanation": "Double-clicking Format Painter keeps it active so formatting can be applied to multiple selections."
+      },
+      {
+        "id": "D",
+        "text": "None of above",
+        "explanation": "There is a standard method—double-clicking Format Painter—so this option is incorrect."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Double-clicking Format Painter keeps it active so formatting can be applied to multiple selections.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 35,
+    "question": "What is computer virus?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Hardware",
+        "explanation": "A virus is not hardware; hardware refers to physical computer components."
+      },
+      {
+        "id": "B",
+        "text": "Software",
+        "explanation": "A computer virus is malicious software that can replicate or spread by infecting files or systems."
+      },
+      {
+        "id": "C",
+        "text": "USB",
+        "explanation": "USB is a hardware/interface term, not a type of computer virus."
+      },
+      {
+        "id": "D",
+        "text": "Bacteria",
+        "explanation": "A virus is not biological bacteria; the term refers to malicious computer software."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "A computer virus is a type of malicious software.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 36,
+    "question": "A Web browser deals with:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Internet",
+        "explanation": "A web browser accesses resources on the Internet/Web, but this is only one aspect of the question."
+      },
+      {
+        "id": "B",
+        "text": "Web Surfing",
+        "explanation": "Web surfing means navigating websites using a browser and describes a browser's use."
+      },
+      {
+        "id": "C",
+        "text": "HTML",
+        "explanation": "HTML is a markup language that browsers interpret to render webpages."
+      },
+      {
+        "id": "D",
+        "text": "All of the Above",
+        "explanation": "The source treats Internet, Web Surfing and HTML as related browser functions/concepts and marks all of the above."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "A browser is used to access and navigate the Web and interpret web technologies such as HTML.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 37,
+    "question": "Which generation of computers was based on integrated circuits?",
+    "options": [
+      {
+        "id": "A",
+        "text": "First generation",
+        "explanation": "First-generation computers were based primarily on vacuum tubes."
+      },
+      {
+        "id": "B",
+        "text": "Second generation",
+        "explanation": "Second-generation computers used transistors."
+      },
+      {
+        "id": "C",
+        "text": "Fourth Generation",
+        "explanation": "Fourth-generation computers are associated with microprocessors and VLSI technology."
+      },
+      {
+        "id": "D",
+        "text": "Third generation",
+        "explanation": "Third-generation computers used integrated circuits."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The third generation of computers used integrated circuits.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 38,
+    "question": "A component of a circuit that allows current to pass in one direction yet blocks the flow of current in the other direction",
+    "options": [
+      {
+        "id": "A",
+        "text": "Flip-flop",
+        "explanation": "A flip-flop is a digital storage element, not a one-way current device."
+      },
+      {
+        "id": "B",
+        "text": "Comparator",
+        "explanation": "A comparator compares signals or values; it does not primarily act as a one-way current valve."
+      },
+      {
+        "id": "C",
+        "text": "Diode",
+        "explanation": "A diode allows current to flow predominantly in one direction and blocks it in the opposite direction."
+      },
+      {
+        "id": "D",
+        "text": "Attenuator",
+        "explanation": "An attenuator reduces signal amplitude; it is not a one-way current device."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A diode primarily allows current to flow in one direction.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 39,
+    "question": "What is the short-cut key to start spell check in MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Alt + F7",
+        "explanation": "Alt+F7 starts the spelling/grammar checking function in MS Word."
+      },
+      {
+        "id": "B",
+        "text": "F2",
+        "explanation": "F2 is not the standard Word shortcut for starting spell check."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + Alt + S",
+        "explanation": "Ctrl+Alt+S is associated with other Word functionality, not starting spell check."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + S",
+        "explanation": "Ctrl+S saves the document; it does not start spell check."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Alt+F7 starts the spelling and grammar check in MS Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 40,
+    "question": "You want to move a paragraph in a Word document and paste it to a different part of the same document. You would do this by the sequence:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Cut, Copy, Paste",
+        "explanation": "Copy is unnecessary if the paragraph is being moved; Cut followed by Paste is the relevant operation."
+      },
+      {
+        "id": "B",
+        "text": "Select, Copy, Paste",
+        "explanation": "Copy followed by Paste duplicates the paragraph rather than moving it."
+      },
+      {
+        "id": "C",
+        "text": "Copy, Cut, Paste",
+        "explanation": "Copy, Cut, Paste is redundant and does not represent the standard move sequence."
+      },
+      {
+        "id": "D",
+        "text": "Select, Cut, Paste",
+        "explanation": "Select the paragraph, cut it, and paste it at the destination to move it."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Select the paragraph, cut it from its original location, then paste it at the destination.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 41,
+    "question": "Microsoft Windows is a",
+    "options": [
+      {
+        "id": "A",
+        "text": "Touch user interface",
+        "explanation": "Windows is not primarily classified as a touch user interface."
+      },
+      {
+        "id": "B",
+        "text": "Voice User interface",
+        "explanation": "Windows can support voice interaction, but that is not its primary interface classification."
+      },
+      {
+        "id": "C",
+        "text": "CUI",
+        "explanation": "CUI means character-based user interface; Windows is primarily graphical."
+      },
+      {
+        "id": "D",
+        "text": "GUI",
+        "explanation": "GUI means Graphical User Interface, which is the standard classification of Microsoft Windows."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Microsoft Windows primarily provides a graphical user interface.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 42,
+    "question": "In MS Word, which is used to insert virtual text (ghost text) in the background of the content?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ghost",
+        "explanation": "Ghost is not the standard Word feature name for background text."
+      },
+      {
+        "id": "B",
+        "text": "Comment",
+        "explanation": "Comments add review notes rather than background text behind document content."
+      },
+      {
+        "id": "C",
+        "text": "Water Mark",
+        "explanation": "A watermark places text or graphics behind the main document content."
+      },
+      {
+        "id": "D",
+        "text": "Hyperlink",
+        "explanation": "A hyperlink creates navigation to another location/resource and does not create background ghost text."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A watermark places text or graphics in the background of document content.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 43,
+    "question": "What happens when you select a row and press CTRL, SHIFT and Plus (+) at the same time in MS Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "The Task Manager window opens",
+        "explanation": "Ctrl+Shift+Plus does not open Task Manager."
+      },
+      {
+        "id": "B",
+        "text": "All the numeric values of the selected row are added",
+        "explanation": "The shortcut inserts cells/rows rather than adding the numeric values in the selected row."
+      },
+      {
+        "id": "C",
+        "text": "A new row is added above the selected row",
+        "explanation": "With a row selected, inserting cells/rows adds a new row above the selected row."
+      },
+      {
+        "id": "D",
+        "text": "A new worksheet is added to workbook",
+        "explanation": "The shortcut does not create a new worksheet; worksheet insertion uses a different command."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The Insert Cells shortcut can insert a new row above the selected row.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 44,
+    "question": "What is the name of the executable file of MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "MS Word",
+        "explanation": "MS Word is the application name, not the executable filename."
+      },
+      {
+        "id": "B",
+        "text": "MS Word.exe",
+        "explanation": "MS Word.exe is not the standard executable name identified by the source."
+      },
+      {
+        "id": "C",
+        "text": "Win Word",
+        "explanation": "Win Word is not the executable filename."
+      },
+      {
+        "id": "D",
+        "text": "WinWord.exe",
+        "explanation": "WinWord.exe is the executable associated with Microsoft Word in the source."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source identifies WinWord.exe as the executable associated with Microsoft Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 45,
+    "question": "The Snipping Tool",
+    "options": [
+      {
+        "id": "A",
+        "text": "Automatically saves your screenshots",
+        "explanation": "The Snipping Tool does not automatically save every screenshot without user action."
+      },
+      {
+        "id": "B",
+        "text": "Takes the screenshot of only active windows",
+        "explanation": "The source marks the active-window screenshot capability as the answer."
+      },
+      {
+        "id": "C",
+        "text": "Takes the screenshot only in rectangular format",
+        "explanation": "Snipping Tool supports multiple snip shapes, so it is not restricted only to rectangular captures."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks the active-window screenshot option as the answer.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 46,
+    "question": "State whether the following statements are true or false: (i) In MS Word, all paragraphs can have the right alignment. (ii) In MS Word, all paragraphs cannot have the same hanging position.",
+    "options": [
+      {
+        "id": "A",
+        "text": "(i) False, (ii) False",
+        "explanation": "The source says statement (i) is true, so this combination is incorrect."
+      },
+      {
+        "id": "B",
+        "text": "(i) True, (ii) False",
+        "explanation": "The source marks (i) True and (ii) False."
+      },
+      {
+        "id": "C",
+        "text": "(i) True, (ii) True",
+        "explanation": "The second statement is not marked true by the source."
+      },
+      {
+        "id": "D",
+        "text": "(i) False, (ii) True",
+        "explanation": "The first statement is not marked false by the source."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks statement (i) true and statement (ii) false.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 47,
+    "question": "Which of the following is the shortcut key to open a 'New Blank' document in MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + B",
+        "explanation": "Ctrl+B applies bold formatting."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + N",
+        "explanation": "Ctrl+N creates a new blank document."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + D",
+        "explanation": "Ctrl+D has other functions depending on the Office context and is not the New Document shortcut."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + M",
+        "explanation": "Ctrl+M generally changes paragraph indentation in Word; it is not the New Document shortcut."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Ctrl+N creates a new blank document.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 48,
+    "question": "In which of the following application you cannot run spellcheck?",
+    "options": [
+      {
+        "id": "A",
+        "text": "MS Word",
+        "explanation": "MS Word includes spelling and grammar checking tools."
+      },
+      {
+        "id": "B",
+        "text": "PowerPoint",
+        "explanation": "PowerPoint provides spelling-related checking features."
+      },
+      {
+        "id": "C",
+        "text": "MS Excel",
+        "explanation": "Excel provides spelling-check functionality."
+      },
+      {
+        "id": "D",
+        "text": "Notepad",
+        "explanation": "The source identifies Notepad as the application without the spell-check capability referred to in the question."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source marks Notepad as the application without the built-in spell-check feature referenced here.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 49,
+    "question": "Which of the following selection options is included in Paint?",
+    "options": [
+      {
+        "id": "A",
+        "text": "1 and 3",
+        "explanation": "The source says Rectangular and Circular together are not the correct combination."
+      },
+      {
+        "id": "B",
+        "text": "1 and 2",
+        "explanation": "Rectangular Selection and Free-Form Selection are the selection options identified by the source."
+      },
+      {
+        "id": "C",
+        "text": "1, 2 and 3",
+        "explanation": "The source does not include all three as the available set."
+      },
+      {
+        "id": "D",
+        "text": "2 and 3",
+        "explanation": "Free-Form is included, but Circular is not part of the source's listed Paint selection options."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source identifies Rectangular Selection and Free-Form Selection as available options.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 50,
+    "question": "In MS Word, if you have to indent the paragraph then which shortcut key should you use?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + I",
+        "explanation": "Ctrl+I applies italic formatting; it does not increase paragraph indentation."
+      },
+      {
+        "id": "B",
+        "text": "Alt + M",
+        "explanation": "Alt+M is not the standard Word shortcut for paragraph indentation."
+      },
+      {
+        "id": "C",
+        "text": "Alt + I",
+        "explanation": "Alt+I is not the standard shortcut for increasing paragraph indentation."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + M",
+        "explanation": "Ctrl+M increases paragraph indentation in Word."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Ctrl+M increases paragraph indentation in Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 51,
+    "question": "What is landscape?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Font Style",
+        "explanation": "Landscape is not a font style."
+      },
+      {
+        "id": "B",
+        "text": "Paper size",
+        "explanation": "Landscape is not a paper-size name."
+      },
+      {
+        "id": "C",
+        "text": "Page layout",
+        "explanation": "Page layout is a broader concept that includes orientation and other settings."
+      },
+      {
+        "id": "D",
+        "text": "Page orientation",
+        "explanation": "Landscape describes page orientation, with the page wider than it is tall."
+      },
+      {
+        "id": "E",
+        "text": "None of the Above",
+        "explanation": "There is a specific correct definition, so None of the Above is incorrect."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Landscape is a page orientation in which the page is wider than it is tall.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 52,
+    "question": "Which View is not present in PowerPoint?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Slide Sorter",
+        "explanation": "Slide Sorter is a standard PowerPoint view used to arrange and manage slides."
+      },
+      {
+        "id": "B",
+        "text": "Slide Show",
+        "explanation": "The source marks Slide Show, although modern PowerPoint does provide Slide Show as a presentation mode; the source wording is therefore version/context dependent."
+      },
+      {
+        "id": "C",
+        "text": "Normal",
+        "explanation": "Normal View is the principal editing view in PowerPoint."
+      },
+      {
+        "id": "D",
+        "text": "Outline",
+        "explanation": "Outline View is a standard PowerPoint view focused on slide text."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Slide Show as the option not present, although the source wording is inconsistent with standard PowerPoint terminology.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 53,
+    "question": "The space between the margin and text is called",
+    "options": [
+      {
+        "id": "A",
+        "text": "Line Spacing",
+        "explanation": "Line spacing is the vertical distance between lines of text."
+      },
+      {
+        "id": "B",
+        "text": "Paragraph spacing",
+        "explanation": "Paragraph spacing is the space before or after paragraphs."
+      },
+      {
+        "id": "C",
+        "text": "Indent",
+        "explanation": "Indent controls the distance of paragraph text from the margin."
+      },
+      {
+        "id": "D",
+        "text": "Index",
+        "explanation": "The source marks Index, although standard terminology would normally describe the margin-to-text distance as indentation."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source marks Index as the answer for this question.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 54,
+    "question": "Which of these functions is used to land into a specific location of a document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "SnapChat",
+        "explanation": "SnapChat is a social-media service and is not a document-navigation feature."
+      },
+      {
+        "id": "B",
+        "text": "Gmail",
+        "explanation": "Gmail is an email service and is not a document-location function."
+      },
+      {
+        "id": "C",
+        "text": "Facebook",
+        "explanation": "Facebook is a social-media platform and is not a document-location function."
+      },
+      {
+        "id": "D",
+        "text": "All of the mentioned options",
+        "explanation": "The source marks All of the mentioned options, but the question appears malformed and its options do not describe standard document-navigation features."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source marks All of the mentioned options; the question itself appears malformed in the PDF.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 55,
+    "question": "Which of the following functions is used to create a drop-down in selected cells?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Data > Conditional Formatting",
+        "explanation": "Conditional Formatting changes formatting based on conditions; it does not normally create a selectable list drop-down."
+      },
+      {
+        "id": "B",
+        "text": "Data > Data Validation",
+        "explanation": "Data Validation can create a list-based drop-down in selected Excel cells."
+      },
+      {
+        "id": "C",
+        "text": "Pivot Table",
+        "explanation": "A PivotTable summarizes data; it does not create a cell drop-down list."
+      },
+      {
+        "id": "D",
+        "text": "Data > Filter",
+        "explanation": "Filter controls displayed records in a range/table; it is not the standard method for creating a cell-entry drop-down."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Data Validation can create a list-based drop-down in selected Excel cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 56,
+    "question": "In cut-paste operation of MS Word",
+    "options": [
+      {
+        "id": "A",
+        "text": "A text can be cut, and paste exactly once",
+        "explanation": "Cut content can remain on the clipboard and therefore is not restricted to a single paste."
+      },
+      {
+        "id": "B",
+        "text": "A text can be cut, and paste multiple times",
+        "explanation": "After cutting, the clipboard content can be pasted more than once until it is replaced/cleared."
+      },
+      {
+        "id": "C",
+        "text": "A text can't be cut if a background color is set",
+        "explanation": "Background color does not prevent text from being cut."
+      },
+      {
+        "id": "D",
+        "text": "A text can't be cut if its length is more than 128 characters",
+        "explanation": "There is no 128-character limit that prevents cutting text in Word."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "After cutting, the content can be pasted multiple times while it remains available on the clipboard.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 57,
+    "question": "Which shortcut key is used to print a Word document?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + P",
+        "explanation": "Ctrl+P opens the Print interface for the current Word document."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + B",
+        "explanation": "Ctrl+B applies bold formatting."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + A",
+        "explanation": "Ctrl+A selects all content."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + Shift + P",
+        "explanation": "Ctrl+Shift+P is associated with font-related commands in some Office contexts, not standard document printing."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+P opens the Print interface.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 58,
+    "question": "_____ is the blank space outside the printing area on a page.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Margin",
+        "explanation": "Margins are the blank spaces around the printable content area of a page."
+      },
+      {
+        "id": "B",
+        "text": "Header",
+        "explanation": "A header is content placed in the upper page area, not the general blank space outside printing."
+      },
+      {
+        "id": "C",
+        "text": "Clip Art",
+        "explanation": "Clip Art is graphical content and is not a page-space term."
+      },
+      {
+        "id": "D",
+        "text": "Footer",
+        "explanation": "A footer is content placed in the lower page area, not the general blank space outside printing."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "A margin is the blank space around the printable document area.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 59,
+    "question": "Which shortcut is used to move to the previous worksheet?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Alt + PgUp",
+        "explanation": "Alt+Page Up moves horizontally within an Excel worksheet; it is not the previous-sheet shortcut."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + PgUp",
+        "explanation": "Ctrl+Page Up activates the previous worksheet."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + PgDn",
+        "explanation": "Ctrl+Page Down activates the next worksheet."
+      },
+      {
+        "id": "D",
+        "text": "Shift + Tab",
+        "explanation": "Shift+Tab generally moves to the previous cell/control, not the previous worksheet."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Ctrl+Page Up moves to the previous worksheet.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 60,
+    "question": "Which of the following term is related with legends in MS Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Clipart",
+        "explanation": "Clip Art is graphical content and is not the chart legend concept."
+      },
+      {
+        "id": "B",
+        "text": "Word Art",
+        "explanation": "WordArt creates decorative text and is unrelated to chart legends."
+      },
+      {
+        "id": "C",
+        "text": "Operator",
+        "explanation": "An operator is used in expressions/formulas and is unrelated to chart legends."
+      },
+      {
+        "id": "D",
+        "text": "Chart",
+        "explanation": "A chart contains a legend that identifies its data series."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "A legend is a component of an Excel chart that identifies data series.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 61,
+    "question": "Which of the following options in MS Word shows the contents of document as bullet points?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Draft",
+        "explanation": "Draft view is designed for editing text with minimal page-layout display."
+      },
+      {
+        "id": "B",
+        "text": "Web Layout",
+        "explanation": "Web Layout displays the document as it would appear in a web-style layout."
+      },
+      {
+        "id": "C",
+        "text": "Outline",
+        "explanation": "Outline View displays the document structure and heading levels in an outline form."
+      },
+      {
+        "id": "D",
+        "text": "Print Layout",
+        "explanation": "Print Layout shows the document as it will appear on printed pages."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Outline view displays the document structure using headings and outline levels.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 62,
+    "question": "A _____ is a pre-formatted container on a slide for content (text, graphics, or video) in MS PowerPoint.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Cascade",
+        "explanation": "Cascade is not the PowerPoint term for a predefined content container."
+      },
+      {
+        "id": "B",
+        "text": "Watermark",
+        "explanation": "A watermark is background text/graphics, not a slide content container."
+      },
+      {
+        "id": "C",
+        "text": "Placeholder",
+        "explanation": "A placeholder is a pre-formatted container for text, graphics, video or other slide content."
+      },
+      {
+        "id": "D",
+        "text": "Macros",
+        "explanation": "Macros automate tasks; they are not slide content containers."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A placeholder is a predefined area on a slide intended for content.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 63,
+    "question": "When working on an MS Excel sheet, to enter a formula in a cell, what should come before the formula?",
+    "options": [
+      {
+        "id": "A",
+        "text": "@",
+        "explanation": "@ is not the normal starting character for a standard Excel formula."
+      },
+      {
+        "id": "B",
+        "text": "=",
+        "explanation": "An equals sign tells Excel that the cell entry is a formula."
+      },
+      {
+        "id": "C",
+        "text": "*",
+        "explanation": "An asterisk is normally a multiplication operator inside a formula, not its starting marker."
+      },
+      {
+        "id": "D",
+        "text": "&",
+        "explanation": "& concatenates text in formulas; it is not the standard formula prefix."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Excel formulas normally begin with the equals sign (=).",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 64,
+    "question": "When you open a new Excel workbook, how many worksheets are there by default at the time of opening?",
+    "options": [
+      {
+        "id": "A",
+        "text": "One",
+        "explanation": "The source does not mark one as the default number."
+      },
+      {
+        "id": "B",
+        "text": "Three",
+        "explanation": "The source marks Three; note that default worksheet count is version-dependent and modern Excel commonly differs."
+      },
+      {
+        "id": "C",
+        "text": "Five",
+        "explanation": "The source does not mark Five."
+      },
+      {
+        "id": "D",
+        "text": "Seven",
+        "explanation": "The source does not mark Seven."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Three as the answer; this is version-dependent and differs from many modern Excel installations.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 65,
+    "question": "In MS PowerPoint, which key on the keyboard can be used to view slide show?",
+    "options": [
+      {
+        "id": "A",
+        "text": "F1",
+        "explanation": "F1 opens Help-related functionality."
+      },
+      {
+        "id": "B",
+        "text": "F2",
+        "explanation": "F2 does not start the PowerPoint slide show."
+      },
+      {
+        "id": "C",
+        "text": "F5",
+        "explanation": "F5 starts the PowerPoint slide show from the beginning."
+      },
+      {
+        "id": "D",
+        "text": "F10",
+        "explanation": "F10 activates menu/key-tip functionality rather than starting the slide show."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "F5 starts a PowerPoint slide show from the beginning.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 66,
+    "question": "In MS Word table, which option divides a cell into several cells?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Merge Cells",
+        "explanation": "Merge Cells combines selected cells into one cell."
+      },
+      {
+        "id": "B",
+        "text": "Split Cells",
+        "explanation": "Split Cells divides one table cell into multiple cells."
+      },
+      {
+        "id": "C",
+        "text": "Split table",
+        "explanation": "Split Table separates a table into two tables; it does not divide one cell."
+      },
+      {
+        "id": "D",
+        "text": "AutoFit",
+        "explanation": "AutoFit adjusts table/cell sizing to content or available space."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Split Cells divides one table cell into multiple cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 67,
+    "question": "Which feature is used to apply motion/effects in between one slide and another?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Animation Scheme",
+        "explanation": "Animation Schemes relate to object animation rather than the change between slides."
+      },
+      {
+        "id": "B",
+        "text": "Slide Design",
+        "explanation": "Slide Design controls presentation appearance and themes."
+      },
+      {
+        "id": "C",
+        "text": "Slide Transition",
+        "explanation": "Slide Transition controls the visual effect used when moving from one slide to another."
+      },
+      {
+        "id": "D",
+        "text": "Animation Objects",
+        "explanation": "Animation Objects is not the standard PowerPoint feature name for slide-to-slide effects."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Slide Transitions control visual effects when moving from one slide to another.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 68,
+    "question": "In MS Word table, which option divides a cell into several cells in a table?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Merge Cells",
+        "explanation": "Merge Cells combines multiple cells into one."
+      },
+      {
+        "id": "B",
+        "text": "Split Cells",
+        "explanation": "Split Cells divides a selected cell into several cells."
+      },
+      {
+        "id": "C",
+        "text": "Split table",
+        "explanation": "Split Table divides a table rather than a single cell."
+      },
+      {
+        "id": "D",
+        "text": "AutoFit",
+        "explanation": "AutoFit adjusts dimensions and does not divide a cell."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Split Cells divides a selected table cell into multiple cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 69,
+    "question": "How do you save a presentation under a new file name?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Select the File menu and choose Save As",
+        "explanation": "Save As lets the user specify a different file name and/or location."
+      },
+      {
+        "id": "B",
+        "text": "When you close PowerPoint the file will automatically be saved",
+        "explanation": "Closing PowerPoint does not automatically guarantee saving under a new name."
+      },
+      {
+        "id": "C",
+        "text": "Select the File menu and choose Save",
+        "explanation": "Save updates the current file rather than creating a new named copy."
+      },
+      {
+        "id": "D",
+        "text": "The file will automatically be saved under the new name when you change the title",
+        "explanation": "Changing the presentation title does not automatically create a new file name."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Save As lets you specify a new file name and location.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 70,
+    "question": "Which of the following is the correct keyboard shortcut to open the 'Save As' dialog box in MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "F12",
+        "explanation": "F12 opens the Save As dialog in Word."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + V",
+        "explanation": "Ctrl+V pastes clipboard content."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + F12",
+        "explanation": "Ctrl+F12 opens a different file-related dialog rather than the standard Save As shortcut identified here."
+      },
+      {
+        "id": "D",
+        "text": "Alt + Ctrl + S",
+        "explanation": "Alt+Ctrl+S is not the source-marked Save As shortcut."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "F12 opens the Save As dialog in Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 71,
+    "question": "Which option is not available in Cells group of Home tab in MS Excel 2007?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Insert",
+        "explanation": "Insert is part of the Cells group on the Home tab."
+      },
+      {
+        "id": "B",
+        "text": "Format",
+        "explanation": "Format is part of the Cells group."
+      },
+      {
+        "id": "C",
+        "text": "Sort",
+        "explanation": "Sort is associated with data sorting/Editing tools rather than the Cells group."
+      },
+      {
+        "id": "D",
+        "text": "Delete",
+        "explanation": "Delete is part of the Cells group."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source marks Sort as not being part of the Cells group; sorting is provided through the Editing group.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 72,
+    "question": "The ability to combine names and addresses with a standard document is called",
+    "options": [
+      {
+        "id": "A",
+        "text": "Document Formatting",
+        "explanation": "Document Formatting changes the appearance of a document but does not combine recipient records with it."
+      },
+      {
+        "id": "B",
+        "text": "Database Management",
+        "explanation": "Database Management deals with storing/managing data rather than merging names and addresses into a document."
+      },
+      {
+        "id": "C",
+        "text": "Mail Merge",
+        "explanation": "Mail Merge combines a standard document with recipient data such as names and addresses."
+      },
+      {
+        "id": "D",
+        "text": "Form Letters",
+        "explanation": "Form letters are a common output of mail merge, but Mail Merge is the feature being defined."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Mail Merge combines a main document with a data source containing names, addresses or other fields.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 73,
+    "question": "Which enables us to send the same letter to different persons?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Macros",
+        "explanation": "Macros automate repetitive actions and do not personalize a letter for multiple recipients."
+      },
+      {
+        "id": "B",
+        "text": "Template",
+        "explanation": "A template provides a reusable document design but does not automatically generate recipient-specific copies."
+      },
+      {
+        "id": "C",
+        "text": "Mail Merge",
+        "explanation": "Mail Merge can send/create the same basic letter for many recipients with personalized fields."
+      },
+      {
+        "id": "D",
+        "text": "None",
+        "explanation": "There is a specific feature for this task, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Mail Merge generates personalized copies of the same document for different recipients.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 74,
+    "question": "Word processor would most likely be used to do",
+    "options": [
+      {
+        "id": "A",
+        "text": "Keep an account of money spent",
+        "explanation": "Keeping financial accounts is more characteristic of spreadsheet/accounting software."
+      },
+      {
+        "id": "B",
+        "text": "Do a computer search in media center",
+        "explanation": "Searching media content is not the primary role of a word processor."
+      },
+      {
+        "id": "C",
+        "text": "Maintain an inventory",
+        "explanation": "Inventory management is generally handled with database or inventory software."
+      },
+      {
+        "id": "D",
+        "text": "Type a biography",
+        "explanation": "Typing and formatting a biography is a typical word-processing task."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Writing and formatting a biography is a typical word-processing task.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 75,
+    "question": "Which can be used for quick access to common commands and tools?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Status Bar",
+        "explanation": "The Status Bar displays document/application status information rather than serving as the main command toolbar."
+      },
+      {
+        "id": "B",
+        "text": "Tool Bar",
+        "explanation": "A Toolbar provides quick access to commonly used commands and tools."
+      },
+      {
+        "id": "C",
+        "text": "Menu Bar",
+        "explanation": "A Menu Bar organizes commands into menus rather than providing the direct tool buttons described."
+      },
+      {
+        "id": "D",
+        "text": "Title Bar",
+        "explanation": "The Title Bar displays the document/application title and window controls."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "A toolbar provides quick access to frequently used commands and tools.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 76,
+    "question": "Which of the following is not an essential component to perform a mail merge operation?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Main Document",
+        "explanation": "A Main Document contains the common text/content used for the merge."
+      },
+      {
+        "id": "B",
+        "text": "Data Source",
+        "explanation": "A Data Source supplies recipient-specific information."
+      },
+      {
+        "id": "C",
+        "text": "Merge Fields",
+        "explanation": "Merge Fields identify where data-source values should appear."
+      },
+      {
+        "id": "D",
+        "text": "Word Fields",
+        "explanation": "The source identifies Word Fields as not an essential mail-merge component."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "The source identifies Word Fields as non-essential; the standard components include a main document, data source and merge fields.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 77,
+    "question": "When the language bar is _____ it means that you do not see it on the screen but it will be displayed the next time you start your computer.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Restored",
+        "explanation": "Restored means a window/control has been returned from minimized/maximized state; it does not describe the language bar's hidden state."
+      },
+      {
+        "id": "B",
+        "text": "Hidden",
+        "explanation": "Hidden means the language bar is not visible while remaining available to be shown again."
+      },
+      {
+        "id": "C",
+        "text": "Minimized",
+        "explanation": "Minimized is not the state described by the source."
+      },
+      {
+        "id": "D",
+        "text": "Closed",
+        "explanation": "Closed would imply the feature/application has been shut down rather than merely hidden."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Hidden: the bar is not visible but can be shown again.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 78,
+    "question": "AutoCorrect was originally designed to replace typed words as you",
+    "options": [
+      {
+        "id": "A",
+        "text": "Short, repetitive",
+        "explanation": "AutoCorrect is not primarily designed around short repetitive words."
+      },
+      {
+        "id": "B",
+        "text": "Grammatically incorrect",
+        "explanation": "Grammar correction is a separate function from the core AutoCorrect behavior described."
+      },
+      {
+        "id": "C",
+        "text": "Misspelled",
+        "explanation": "AutoCorrect was designed to automatically replace common misspellings and typing errors."
+      },
+      {
+        "id": "D",
+        "text": "None of the above",
+        "explanation": "There is a specific intended use, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "AutoCorrect automatically fixes common typing and spelling mistakes.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 79,
+    "question": "Home key is used for",
+    "options": [
+      {
+        "id": "A",
+        "text": "Moves the cursor to the beginning of the document",
+        "explanation": "Ctrl+Home, rather than Home alone, moves to the beginning of the document."
+      },
+      {
+        "id": "B",
+        "text": "Moves the cursor to the beginning of the paragraph",
+        "explanation": "Ctrl+Up Arrow is associated with moving by paragraphs; Home alone moves to the line beginning."
+      },
+      {
+        "id": "C",
+        "text": "Moves the cursor to the beginning of the screen",
+        "explanation": "Home does not mean the beginning of the visible screen."
+      },
+      {
+        "id": "D",
+        "text": "Moves the cursor to the beginning of the line",
+        "explanation": "Home moves the cursor to the beginning of the current line."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Home moves the cursor to the beginning of the current line.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 80,
+    "question": "In MS PowerPoint, the shortcut Ctrl+M helps the user to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Open a new blank presentation",
+        "explanation": "Ctrl+N creates a new presentation/document rather than adding a slide to the current presentation."
+      },
+      {
+        "id": "B",
+        "text": "Apply bold to the selected text",
+        "explanation": "Ctrl+B applies bold formatting."
+      },
+      {
+        "id": "C",
+        "text": "Centre align the current selection",
+        "explanation": "Ctrl+E is the common center-alignment shortcut; Ctrl+M is not used for this purpose."
+      },
+      {
+        "id": "D",
+        "text": "Insert a new slide",
+        "explanation": "Ctrl+M inserts a new slide in PowerPoint."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Ctrl+M inserts a new slide in PowerPoint.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 81,
+    "question": "Ctrl + Right Arrow is used to:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor one word right",
+        "explanation": "Ctrl+Right Arrow moves the insertion point one word to the right/forward."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor to the end of the line",
+        "explanation": "End or related shortcuts move to line boundaries; Ctrl+Right Arrow is word-based."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor to the end of the document",
+        "explanation": "Ctrl+End moves to the end of a document."
+      },
+      {
+        "id": "D",
+        "text": "Move the cursor one paragraph down",
+        "explanation": "Ctrl+Down Arrow is associated with moving down by paragraph in Word."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+Right Arrow moves the cursor forward by one word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 82,
+    "question": "Ctrl + PageDown is used to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor one paragraph down",
+        "explanation": "Ctrl+Down Arrow, rather than Ctrl+PageDown, is the paragraph-oriented movement shortcut in Word."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor one page down",
+        "explanation": "The source marks Ctrl+PageDown as moving one page down."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor one line down",
+        "explanation": "A one-line movement is normally handled by the regular arrow key."
+      },
+      {
+        "id": "D",
+        "text": "Move the cursor",
+        "explanation": "The incomplete option does not specify the documented movement."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Move the cursor one page down.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 83,
+    "question": "Ctrl + Down Arrow is used to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor one paragraph down",
+        "explanation": "Ctrl+Down Arrow moves the cursor to the next paragraph in Word."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor one line down",
+        "explanation": "Down Arrow normally moves one line at a time."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor one page down",
+        "explanation": "Page Down moves approximately one screen/page of content, not Ctrl+Down Arrow."
+      },
+      {
+        "id": "D",
+        "text": "Move the cursor one screen down",
+        "explanation": "Ctrl+Down Arrow is paragraph-oriented rather than a generic screen-down command."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+Down Arrow moves the cursor to the next paragraph in Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 84,
+    "question": "Page Up key is used to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor one line up",
+        "explanation": "Arrow keys provide line-by-line movement; Page Up moves by a larger page-sized amount."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor one screen up",
+        "explanation": "The source distinguishes Page Up from the one-screen option and marks page-up movement."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor one page up",
+        "explanation": "Page Up moves upward by approximately one page of content."
+      },
+      {
+        "id": "D",
+        "text": "Move the cursor one paragraph up",
+        "explanation": "Paragraph movement uses paragraph-oriented shortcuts rather than Page Up."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Page Up moves the view/cursor upward by approximately one page of content.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 85,
+    "question": "Ctrl + Home is used to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor to the beginning of document",
+        "explanation": "Ctrl+Home moves the cursor to the beginning of the document."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor to the beginning of line",
+        "explanation": "Home moves to the beginning of the current line."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor to the beginning of paragraph",
+        "explanation": "Ctrl+Up Arrow is associated with paragraph-level movement."
+      },
+      {
+        "id": "D",
+        "text": "All of the above",
+        "explanation": "The shortcut has a specific document-start function, so all of the above is incorrect."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+Home moves to the beginning of the document.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 86,
+    "question": "Ctrl + End is used to",
+    "options": [
+      {
+        "id": "A",
+        "text": "Move the cursor to the end of line",
+        "explanation": "End moves to the end of a line; Ctrl+End moves to the end of the document."
+      },
+      {
+        "id": "B",
+        "text": "Move the cursor to the end of document",
+        "explanation": "Ctrl+End moves the cursor to the end of the document."
+      },
+      {
+        "id": "C",
+        "text": "Move the cursor to end of paragraph",
+        "explanation": "Paragraph movement uses different shortcuts."
+      },
+      {
+        "id": "D",
+        "text": "None of the above",
+        "explanation": "There is a valid documented action, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Ctrl+End moves to the end of the document.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 87,
+    "question": "Which Excel function allows you to perform calculations based on multiple conditions?",
+    "options": [
+      {
+        "id": "A",
+        "text": "IF",
+        "explanation": "The source marks IF; IF evaluates a logical test and can be nested/combined to handle multiple conditions."
+      },
+      {
+        "id": "B",
+        "text": "AND",
+        "explanation": "AND combines logical tests but returns a logical result rather than being the primary conditional calculation function described."
+      },
+      {
+        "id": "C",
+        "text": "OR",
+        "explanation": "OR evaluates whether at least one logical condition is true."
+      },
+      {
+        "id": "D",
+        "text": "IFERROR",
+        "explanation": "IFERROR handles errors in an expression; it is not the general multiple-condition function identified by the source."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks IF. IF can be nested or combined with logical tests to handle multiple conditions.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 88,
+    "question": "What is a named range in Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "A range of cells that is assigned a unique name for easy reference in formulas",
+        "explanation": "A named range is a cell/range given a defined name so formulas and references can use that name."
+      },
+      {
+        "id": "B",
+        "text": "A range of cells that contains only numeric values",
+        "explanation": "A named range may contain text, dates or numbers; it is not restricted to numeric values."
+      },
+      {
+        "id": "C",
+        "text": "A range of cells that is protected from editing",
+        "explanation": "Naming a range does not inherently protect it from editing."
+      },
+      {
+        "id": "D",
+        "text": "A range of cells with specific formatting applied",
+        "explanation": "Formatting is independent of whether a range has a defined name."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "A named range is a user-defined name assigned to a cell or range for easier reference.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 89,
+    "question": "What is the purpose of the INDIRECT function in Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "To calculate the sum of values in a range",
+        "explanation": "SUM adds values; it does not convert a text reference into a cell/range reference."
+      },
+      {
+        "id": "B",
+        "text": "To convert text to uppercase",
+        "explanation": "UPPER converts text to uppercase; INDIRECT has a different reference-related purpose."
+      },
+      {
+        "id": "C",
+        "text": "To return the reference specified by a text string",
+        "explanation": "INDIRECT interprets a text string as a cell or range reference."
+      },
+      {
+        "id": "D",
+        "text": "To count the number of cells that meet specific criteria",
+        "explanation": "COUNTIF/COUNTIFS are used to count cells meeting criteria; INDIRECT does not perform that task."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "INDIRECT converts a text string into a cell or range reference.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 90,
+    "question": "Which Excel feature allows you to analyze and visualize data in real-time dashboards?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Pivot Table",
+        "explanation": "The source marks Pivot Table; PivotTables are used to summarize/analyze data, though the dashboard wording is broader than a PivotTable alone."
+      },
+      {
+        "id": "B",
+        "text": "Power Query",
+        "explanation": "Power Query is primarily for importing, transforming and preparing data."
+      },
+      {
+        "id": "C",
+        "text": "PowerPoint",
+        "explanation": "PowerPoint is presentation software, not Excel's data-analysis feature."
+      },
+      {
+        "id": "D",
+        "text": "Power BI",
+        "explanation": "Power BI is Microsoft's dedicated analytics/dashboard platform, but the source marks Pivot Table."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Pivot Table as the answer; a PivotTable is used to summarize and analyze data, though the question's wording about real-time dashboards is broader.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 91,
+    "question": "Which Excel tool is used for dynamic data analysis and summarization?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Charts",
+        "explanation": "Charts visualize data but are not the primary dynamic summarization tool described."
+      },
+      {
+        "id": "B",
+        "text": "Named Ranges",
+        "explanation": "Named ranges simplify references but do not dynamically summarize datasets."
+      },
+      {
+        "id": "C",
+        "text": "Pivot Table",
+        "explanation": "Pivot Tables dynamically summarize and analyze data by categories, measures and filters."
+      },
+      {
+        "id": "D",
+        "text": "Conditional Formatting",
+        "explanation": "Conditional Formatting highlights cells based on rules rather than summarizing data."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Pivot Tables dynamically summarize and analyze large datasets.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 92,
+    "question": "While applying conditional formatting in Excel, we can check the conditions against",
+    "options": [
+      {
+        "id": "A",
+        "text": "Only Formula",
+        "explanation": "Conditional formatting can use formulas, but formula-only is too restrictive."
+      },
+      {
+        "id": "B",
+        "text": "Only Cell Value",
+        "explanation": "Conditional formatting can also use formulas, so cell-value-only is incomplete."
+      },
+      {
+        "id": "C",
+        "text": "Both Formula and Cell Value",
+        "explanation": "Rules can be based on cell values or formulas."
+      },
+      {
+        "id": "D",
+        "text": "Both Cell Value and Table",
+        "explanation": "The source does not identify Table as the second category in this question."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Conditional formatting rules can be based on cell values or formulas.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 93,
+    "question": "Starting with Microsoft Office 2003, Photo Editor was renamed to:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Manager",
+        "explanation": "Manager alone is not the renamed product name."
+      },
+      {
+        "id": "B",
+        "text": "Picture Manager",
+        "explanation": "The source marks Picture Manager as the name associated with the Office 2003 change."
+      },
+      {
+        "id": "C",
+        "text": "Picture Editor",
+        "explanation": "Picture Editor is not the source-marked name."
+      },
+      {
+        "id": "D",
+        "text": "Paint Editor",
+        "explanation": "Paint Editor is not the source-marked name."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Picture Manager.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 94,
+    "question": "Which of the following functions will help to find the number of working days between two calendar dates?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Business days",
+        "explanation": "The source marks Business days, although the standard Excel function commonly used to calculate working days is NETWORKDAYS."
+      },
+      {
+        "id": "B",
+        "text": "NETWORKDAYS",
+        "explanation": "NETWORKDAYS is the standard Excel function for counting working days between dates; the source nevertheless marks option A."
+      },
+      {
+        "id": "C",
+        "text": "DAYS",
+        "explanation": "DAYS returns the number of days between two dates without specifically excluding weekends/holidays."
+      },
+      {
+        "id": "D",
+        "text": "None of the mentioned options",
+        "explanation": "A relevant function is available, so None is not appropriate."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Business days as the answer.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 95,
+    "question": "Which of the following groups is not present under the Insert tab in MS Excel?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Charts",
+        "explanation": "Charts are available under the Insert tab."
+      },
+      {
+        "id": "B",
+        "text": "Text",
+        "explanation": "Text-related insertion commands are available under Insert."
+      },
+      {
+        "id": "C",
+        "text": "Sort & Filter",
+        "explanation": "Sort & Filter is associated with the Data tab rather than the Insert tab."
+      },
+      {
+        "id": "D",
+        "text": "Tables",
+        "explanation": "Tables can be inserted from the Insert tab."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Sort & Filter belongs to the Data tab rather than the Insert tab.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 96,
+    "question": "A compiler means",
+    "options": [
+      {
+        "id": "A",
+        "text": "A person who compiles source programs",
+        "explanation": "A compiler is software, not a person who compiles programs."
+      },
+      {
+        "id": "B",
+        "text": "The same thing as a programmer",
+        "explanation": "A programmer writes/maintains programs; a compiler translates source code."
+      },
+      {
+        "id": "C",
+        "text": "Keypunch operator",
+        "explanation": "A keypunch operator is a historical data-entry role, not a compiler."
+      },
+      {
+        "id": "D",
+        "text": "A program which translates source program into object program",
+        "explanation": "A compiler is a program that translates source code into a lower-level/object representation."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "A compiler translates source code into a lower-level/object form that can be processed for execution.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 97,
+    "question": "Which of the following commands will take you two steps backward from any particular directory?",
+    "options": [
+      {
+        "id": "A",
+        "text": "cd ../",
+        "explanation": "cd ../ moves up one directory level."
+      },
+      {
+        "id": "B",
+        "text": "cd ../..",
+        "explanation": "cd ../.. moves up two directory levels in Unix-like path syntax."
+      },
+      {
+        "id": "C",
+        "text": "cd ..\\",
+        "explanation": "The source uses the slash form; the backslash form is not the standard Unix-like command syntax."
+      },
+      {
+        "id": "D",
+        "text": "cd ..\\..\\",
+        "explanation": "The source marks the slash-based form; backslash syntax belongs to Windows path conventions and is not the cited command."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks cd ../.., which moves up two directory levels in Unix-like command syntax.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 98,
+    "question": "Which key is to be held down to select the word or phrase to be selected in MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Alt",
+        "explanation": "Alt is not the key identified by the source for the described text selection."
+      },
+      {
+        "id": "B",
+        "text": "Shift",
+        "explanation": "The source marks Shift for the described selection operation."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl",
+        "explanation": "Ctrl is used for many selection/navigation shortcuts but is not the source-marked answer here."
+      },
+      {
+        "id": "D",
+        "text": "Tab",
+        "explanation": "Tab moves between controls/cells rather than performing the described text selection."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Shift as the key used in the described selection operation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 99,
+    "question": "If by an accident a mail is deleted, then which of the following folders will save the mail?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Draft",
+        "explanation": "Drafts contain messages being composed, not normally deleted messages."
+      },
+      {
+        "id": "B",
+        "text": "Spam",
+        "explanation": "Spam/Junk contains messages classified as unwanted mail."
+      },
+      {
+        "id": "C",
+        "text": "Inbox",
+        "explanation": "Inbox contains received messages that have not been deleted."
+      },
+      {
+        "id": "D",
+        "text": "Trash",
+        "explanation": "Trash/Deleted Items is where deleted messages are normally retained temporarily."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Deleted messages are normally moved to the Trash/Deleted Items folder.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 100,
+    "question": "What is the difference between a Trojan and a Virus?",
+    "options": [
+      {
+        "id": "A",
+        "text": "A Virus replicates itself while a Trojan does not",
+        "explanation": "A virus is capable of self-replication/spreading by infection, while a Trojan generally relies on being executed or installed by the user and does not self-replicate in the same manner."
+      },
+      {
+        "id": "B",
+        "text": "They are different names for the same thing",
+        "explanation": "A Trojan and a virus are distinct categories of malware with different behaviors."
+      },
+      {
+        "id": "C",
+        "text": "None of the mentioned options",
+        "explanation": "There is a substantive distinction, so None is incorrect."
+      },
+      {
+        "id": "D",
+        "text": "A Virus starts as a Trojan and spreads later",
+        "explanation": "A virus does not necessarily start as a Trojan; they are distinct malware concepts."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "A virus is self-replicating malware, whereas a Trojan generally disguises itself as legitimate software and does not self-replicate in the same way.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 101,
+    "question": "While using formulas in Excel, the notation B8:B10 indicates:",
+    "options": [
+      {
+        "id": "A",
+        "text": "All cells from B8 to B10",
+        "explanation": "B8:B10 denotes the continuous range containing B8, B9 and B10."
+      },
+      {
+        "id": "B",
+        "text": "The product of cell B8 and cell B10",
+        "explanation": "A colon denotes a range, not multiplication; multiplication uses *."
+      },
+      {
+        "id": "C",
+        "text": "Cell B8 and cell B10 only",
+        "explanation": "The notation includes B9 as well, so it is not limited to B8 and B10."
+      },
+      {
+        "id": "D",
+        "text": "Cell B only",
+        "explanation": "The range specifies column B with rows 8 through 10, not column B as a whole."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "A colon denotes a continuous range, so B8:B10 includes B8, B9 and B10.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 102,
+    "question": "In currently open PowerPoint presentation, a new slide is inserted using shortcut key",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + N",
+        "explanation": "Ctrl+N creates a new presentation rather than a new slide in the current presentation."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + S",
+        "explanation": "Ctrl+S saves the current presentation."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + M",
+        "explanation": "Ctrl+M inserts a new slide into the current PowerPoint presentation."
+      },
+      {
+        "id": "D",
+        "text": "Shift + N",
+        "explanation": "Shift+N is not the standard shortcut for inserting a new slide."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Ctrl+M inserts a new slide into the current presentation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 103,
+    "question": "In order to increase the font size one value, the key we used is",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + F + <",
+        "explanation": "The shown key sequence is not the standard Office shortcut for increasing font size."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + F + >",
+        "explanation": "The shown key sequence is not the standard Office shortcut for increasing font size."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + F + Shift + >",
+        "explanation": "The extra Ctrl+F combination does not represent the standard increase-font-size shortcut."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + Shift + >",
+        "explanation": "Ctrl+Shift+> increases the font size to the next available size."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Ctrl+Shift+> increases the font size to the next available size.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 104,
+    "question": "Which of the following software applications allows a user to view a webpage?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Notepad",
+        "explanation": "Notepad is a plain-text editor, not a web browser."
+      },
+      {
+        "id": "B",
+        "text": "Adobe Acrobat",
+        "explanation": "Adobe Acrobat primarily views PDF documents."
+      },
+      {
+        "id": "C",
+        "text": "Google Drive",
+        "explanation": "Google Drive is a cloud storage/productivity service rather than the web-browser application named here."
+      },
+      {
+        "id": "D",
+        "text": "Internet Explorer",
+        "explanation": "Internet Explorer is a web browser capable of displaying webpages."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Internet Explorer is a web browser designed to display webpages.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 105,
+    "question": "In Microsoft Excel, what function would you use to find the average of a range of cells?",
+    "options": [
+      {
+        "id": "A",
+        "text": "SUM",
+        "explanation": "SUM adds values rather than calculating their average."
+      },
+      {
+        "id": "B",
+        "text": "AVG",
+        "explanation": "AVG is not the standard Excel worksheet function name for arithmetic mean."
+      },
+      {
+        "id": "C",
+        "text": "MEAN",
+        "explanation": "MEAN is not the standard Excel worksheet function name used here."
+      },
+      {
+        "id": "D",
+        "text": "AVERAGE",
+        "explanation": "AVERAGE calculates the arithmetic mean of a range."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "AVERAGE calculates the arithmetic mean of a range of cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 106,
+    "question": "What is the extension of a PowerPoint file saved in Microsoft Office 2016?",
+    "options": [
+      {
+        "id": "A",
+        "text": ".ppt",
+        "explanation": ".ppt is the older binary PowerPoint presentation format."
+      },
+      {
+        "id": "B",
+        "text": ".pptx",
+        "explanation": ".pptx is the standard XML-based PowerPoint presentation extension used by Office 2016."
+      },
+      {
+        "id": "C",
+        "text": ".pptm",
+        "explanation": ".pptm is used for macro-enabled PowerPoint presentations."
+      },
+      {
+        "id": "D",
+        "text": ".ppsx",
+        "explanation": ".ppsx is a PowerPoint Show format intended to open directly as a slideshow."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The standard PowerPoint presentation format is .pptx; .pptm is used for macro-enabled presentations.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 107,
+    "question": "Which key combination is used to open the 'Find and Replace' dialog box in Microsoft Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + H",
+        "explanation": "Ctrl+H opens the Find and Replace dialog in Word."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + F",
+        "explanation": "Ctrl+F opens the Find/search interface rather than the full Find and Replace dialog."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + G",
+        "explanation": "Ctrl+G opens Go To."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + R",
+        "explanation": "Ctrl+R has other formatting/alignment-related uses and is not Find and Replace."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+H opens Find and Replace in Word.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 108,
+    "question": "Switching to the previous window from current window can be done by shortcut keys which are",
+    "options": [
+      {
+        "id": "A",
+        "text": "Alt + Shift + Tab",
+        "explanation": "Alt+Shift+Tab switches backward through open application windows."
+      },
+      {
+        "id": "B",
+        "text": "Home key",
+        "explanation": "Home is a navigation key and does not switch application windows."
+      },
+      {
+        "id": "C",
+        "text": "Alt + Left Arrow",
+        "explanation": "Alt+Left Arrow commonly navigates backward in browser/file history rather than switching application windows."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + Shift + Tab",
+        "explanation": "Ctrl+Shift+Tab typically moves to a previous tab in tabbed interfaces."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Alt+Shift+Tab for switching to the previous window.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 109,
+    "question": "In PowerPoint, which view is used to show just the text content of the slides?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Slide Show View",
+        "explanation": "Slide Show View presents slides to the audience."
+      },
+      {
+        "id": "B",
+        "text": "Slide Sorter View",
+        "explanation": "Slide Sorter shows slide thumbnails for organization and reordering."
+      },
+      {
+        "id": "C",
+        "text": "Normal View",
+        "explanation": "Normal View combines slide editing with other editing panes."
+      },
+      {
+        "id": "D",
+        "text": "Outline View",
+        "explanation": "Outline View displays the textual outline/content of the slides."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "Outline View focuses on the textual outline of the presentation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 110,
+    "question": "Which feature in Microsoft Excel allows you to visually represent data in a graphical format?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tables",
+        "explanation": "Tables organize data but do not primarily provide graphical representation."
+      },
+      {
+        "id": "B",
+        "text": "Charts",
+        "explanation": "Charts represent worksheet data graphically."
+      },
+      {
+        "id": "C",
+        "text": "Formulas",
+        "explanation": "Formulas calculate values rather than visually representing them."
+      },
+      {
+        "id": "D",
+        "text": "Data Validation",
+        "explanation": "Data Validation controls allowed input values rather than producing graphs."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Charts convert worksheet data into graphical representations.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 111,
+    "question": "Which of the following file format is not a video file format?",
+    "options": [
+      {
+        "id": "A",
+        "text": "AVI",
+        "explanation": "AVI is a video container format."
+      },
+      {
+        "id": "B",
+        "text": "MOV",
+        "explanation": "MOV is a multimedia/video container format."
+      },
+      {
+        "id": "C",
+        "text": "MP4",
+        "explanation": "MP4 is a common multimedia/video container format."
+      },
+      {
+        "id": "D",
+        "text": "JPEG",
+        "explanation": "JPEG is an image format, not a video format."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "JPEG is an image format, whereas AVI, MOV and MP4 are video formats.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 112,
+    "question": "Which one is not an Image file?",
+    "options": [
+      {
+        "id": "A",
+        "text": ".bmp",
+        "explanation": "BMP is a raster image format."
+      },
+      {
+        "id": "B",
+        "text": ".png",
+        "explanation": "PNG is an image format supporting lossless compression and transparency."
+      },
+      {
+        "id": "C",
+        "text": ".wmv",
+        "explanation": "WMV is a video format, not an image format."
+      },
+      {
+        "id": "D",
+        "text": ".jpg",
+        "explanation": "JPG/JPEG is a common compressed image format."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "WMV is a video format, while BMP, PNG and JPG are image formats.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 113,
+    "question": "Which of the following commands is given to reboot the computer?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl + Alt + Del",
+        "explanation": "The source associates Ctrl+Alt+Delete with the reboot/restart command in the question."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl + Shift + Del",
+        "explanation": "Ctrl+Shift+Delete is not the standard Windows reboot shortcut."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + Alt + Shift",
+        "explanation": "Ctrl+Alt+Shift alone is not the standard reboot command."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl + Alt + Tab",
+        "explanation": "Ctrl+Alt+Tab is not the standard reboot command."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks Ctrl+Alt+Delete as the command associated with restarting/rebooting in the question.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 114,
+    "question": "The shortcut key to display Windows Help is",
+    "options": [
+      {
+        "id": "A",
+        "text": "Windows Logo + F1",
+        "explanation": "Windows Logo+F1 is the source-marked shortcut for Windows Help."
+      },
+      {
+        "id": "B",
+        "text": "Alt + F1",
+        "explanation": "Alt+F1 is not the source-marked Windows Help shortcut."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl + Alt + F1",
+        "explanation": "Ctrl+Alt+F1 is not the standard Windows Help shortcut."
+      },
+      {
+        "id": "D",
+        "text": "Alt + F",
+        "explanation": "Alt+F opens menu/file-related functionality rather than Windows Help."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Windows Logo+F1 opens Windows Help in the referenced shortcut scheme.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 115,
+    "question": "The numeric data entered in the worksheet (MS Excel) is aligned by default",
+    "options": [
+      {
+        "id": "A",
+        "text": "Centre",
+        "explanation": "Numeric values are not right-aligned to the center by default."
+      },
+      {
+        "id": "B",
+        "text": "Left",
+        "explanation": "Text is generally left-aligned by default; numeric data is treated differently."
+      },
+      {
+        "id": "C",
+        "text": "Right",
+        "explanation": "Excel normally right-aligns numeric data by default."
+      },
+      {
+        "id": "D",
+        "text": "Top",
+        "explanation": "Top refers to vertical alignment and is not the default horizontal alignment for numbers."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Excel normally right-aligns numeric values by default.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 116,
+    "question": "What does the URL http://www.uni.edu tell you about the source?",
+    "options": [
+      {
+        "id": "A",
+        "text": "It is associated with an educational institution.",
+        "explanation": "The source interprets the educational-domain-style URL as associated with an educational institution."
+      },
+      {
+        "id": "B",
+        "text": "It is associated with a military.",
+        "explanation": "Military organizations use .mil, not the domain type indicated in the question."
+      },
+      {
+        "id": "C",
+        "text": "It is associated with a commercial organization",
+        "explanation": "Commercial organizations commonly use .com."
+      },
+      {
+        "id": "D",
+        "text": "None of these",
+        "explanation": "The source identifies a specific applicable category, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The .edu-style educational domain in the source indicates an educational institution.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 117,
+    "question": "Add, subtract, multiply and logic operations are performed by",
+    "options": [
+      {
+        "id": "A",
+        "text": "Memory",
+        "explanation": "Memory stores data/instructions; it does not perform arithmetic and logic operations."
+      },
+      {
+        "id": "B",
+        "text": "Control unit",
+        "explanation": "The Control Unit directs operations but does not itself perform the arithmetic/logic calculations."
+      },
+      {
+        "id": "C",
+        "text": "ALU",
+        "explanation": "The ALU performs arithmetic and logical operations."
+      },
+      {
+        "id": "D",
+        "text": "None of the above",
+        "explanation": "There is a standard CPU component that performs these operations, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The Arithmetic Logic Unit performs arithmetic and logical operations.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 118,
+    "question": "Which of the following can be used to navigate from one slide to another in the same presentation or to a slide in another presentation in PowerPoint?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Footer",
+        "explanation": "A footer contains repeated bottom-of-page content and is not the normal navigation mechanism."
+      },
+      {
+        "id": "B",
+        "text": "Header",
+        "explanation": "A header contains repeated top-of-page content and is not the navigation mechanism described."
+      },
+      {
+        "id": "C",
+        "text": "Hyperlink",
+        "explanation": "A hyperlink can point to another slide in the same presentation or to another presentation."
+      },
+      {
+        "id": "D",
+        "text": "Attachment",
+        "explanation": "An attachment is a file association, not the standard slide-navigation feature."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "A hyperlink can point to another slide or another presentation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 119,
+    "question": "A feature of MS Office that saves the document automatically after a certain interval is called:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Save",
+        "explanation": "Save is a manual/general save command."
+      },
+      {
+        "id": "B",
+        "text": "Save As",
+        "explanation": "Save As creates or saves a copy under a specified name/location."
+      },
+      {
+        "id": "C",
+        "text": "Auto Save",
+        "explanation": "The source calls automatic saving after an interval Auto Save."
+      },
+      {
+        "id": "D",
+        "text": "Backup",
+        "explanation": "Backup refers to a separate copy/recovery concept rather than the named Office feature."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source identifies Auto Save as the automatic-saving feature.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 120,
+    "question": "What was the HTML editor that was part of Microsoft Office until 2003?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Web Page",
+        "explanation": "Web Page is a generic description, not the Microsoft product name."
+      },
+      {
+        "id": "B",
+        "text": "Explorer",
+        "explanation": "Explorer is associated with browsing/file management rather than the cited Office HTML editor."
+      },
+      {
+        "id": "C",
+        "text": "FrontPage",
+        "explanation": "FrontPage was Microsoft's web-authoring/HTML-editing application."
+      },
+      {
+        "id": "D",
+        "text": "DreamWeaver",
+        "explanation": "Dreamweaver is an Adobe/Macromedia web-authoring product, not Microsoft's Office-era editor."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Microsoft FrontPage was Microsoft's web-authoring/HTML editing product associated with Office-era software.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 121,
+    "question": "Which key combination is used to close a tab on a browser?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+T",
+        "explanation": "Ctrl+T opens a new browser tab."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl+A",
+        "explanation": "Ctrl+A selects all content."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl+W",
+        "explanation": "Ctrl+W closes the current browser tab."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+X",
+        "explanation": "Ctrl+X cuts selected content."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Ctrl+W closes the current browser tab.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 122,
+    "question": "Which feature is used to make a selected sentence all capital letters or all small letters in MS Word?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Change Letter",
+        "explanation": "Change Letter is not the standard Word feature name."
+      },
+      {
+        "id": "B",
+        "text": "Change Sentence",
+        "explanation": "Change Sentence is not the standard Word feature name."
+      },
+      {
+        "id": "C",
+        "text": "Change Case",
+        "explanation": "Change Case provides uppercase/lowercase and other capitalization options."
+      },
+      {
+        "id": "D",
+        "text": "Change Word",
+        "explanation": "Change Word is not the standard Word feature name for capitalization."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Change Case provides options such as UPPERCASE, lowercase and other capitalization forms.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 123,
+    "question": "What is the extension of MS Outlook mail file?",
+    "options": [
+      {
+        "id": "A",
+        "text": "PST",
+        "explanation": "PST is an Outlook data-file extension used for Personal Storage Table files."
+      },
+      {
+        "id": "B",
+        "text": "DOC",
+        "explanation": ".doc is a Word document extension."
+      },
+      {
+        "id": "C",
+        "text": "EXE",
+        "explanation": ".exe identifies an executable program file."
+      },
+      {
+        "id": "D",
+        "text": "Mail",
+        "explanation": "Mail is not the standard Outlook data-file extension."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "PST is the Outlook Personal Storage Table file format used for storing Outlook data.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 124,
+    "question": "How can you tell the email that you have read from the email that you have not read?",
+    "options": [
+      {
+        "id": "A",
+        "text": "The unread mail will be on top",
+        "explanation": "Unread messages are not defined solely by being at the top; sorting can be changed."
+      },
+      {
+        "id": "B",
+        "text": "The unread mail will be on bottom",
+        "explanation": "Unread messages are not inherently required to be at the bottom."
+      },
+      {
+        "id": "C",
+        "text": "The unread mail will be bold",
+        "explanation": "Outlook commonly displays unread messages in bold to distinguish them from read messages."
+      },
+      {
+        "id": "D",
+        "text": "The unread mail will be blue",
+        "explanation": "Blue is not the standard universal indicator of unread Outlook mail."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Unread messages are commonly displayed in bold in Outlook.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 125,
+    "question": "How do you request a receipt to show an email has been read?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Right-click the Send button and choose Send with receipt",
+        "explanation": "The source does not identify right-clicking Send as the standard route."
+      },
+      {
+        "id": "B",
+        "text": "Click the Send/Receive tab and click the receipted mail button",
+        "explanation": "Send/Receive is for mail synchronization/operations and is not the source-marked receipt setting."
+      },
+      {
+        "id": "C",
+        "text": "Click the Options tab from the message window and choose Request Receipt",
+        "explanation": "The source marks the Options tab in the message window and the request-receipt option."
+      },
+      {
+        "id": "D",
+        "text": "None of the above",
+        "explanation": "The source provides a specific method, so None is incorrect."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source marks the Options tab and Request Receipt action.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 126,
+    "question": "What is MS Word used for?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Design Pictures",
+        "explanation": "Word can handle images, but designing pictures is not its primary purpose."
+      },
+      {
+        "id": "B",
+        "text": "Design Videos",
+        "explanation": "Word is not primarily video-design software."
+      },
+      {
+        "id": "C",
+        "text": "Paint",
+        "explanation": "Paint is a separate graphics application."
+      },
+      {
+        "id": "D",
+        "text": "Design Texts",
+        "explanation": "MS Word is primarily used to create, edit and format text documents."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "MS Word is primarily used to create, edit and format text documents.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 127,
+    "question": "Documents can be _____ with MS Word.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Created",
+        "explanation": "Word can create documents."
+      },
+      {
+        "id": "B",
+        "text": "Edited",
+        "explanation": "Word can edit existing documents."
+      },
+      {
+        "id": "C",
+        "text": "Saved",
+        "explanation": "Word can save documents in supported file formats."
+      },
+      {
+        "id": "D",
+        "text": "All of the above",
+        "explanation": "All three capabilities are supported by MS Word."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "MS Word supports creating, editing and saving documents.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 128,
+    "question": "Microsoft Word was released in which year?",
+    "options": [
+      {
+        "id": "A",
+        "text": "1981",
+        "explanation": "1981 is not the source-marked release year."
+      },
+      {
+        "id": "B",
+        "text": "1982",
+        "explanation": "1982 is not the source-marked release year."
+      },
+      {
+        "id": "C",
+        "text": "1983",
+        "explanation": "The source marks 1983 as the release year of Microsoft Word."
+      },
+      {
+        "id": "D",
+        "text": "1984",
+        "explanation": "1984 is not the source-marked release year."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source marks 1983 as the release year.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 129,
+    "question": "STARTING WITH MICROSOFT OFFICE 2003, PHOTO EDITOR WAS RENAMED TO:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Manager",
+        "explanation": "Manager alone is not the source-marked renamed application."
+      },
+      {
+        "id": "B",
+        "text": "Picture Manager",
+        "explanation": "The source marks Picture Manager."
+      },
+      {
+        "id": "C",
+        "text": "Picture Editor",
+        "explanation": "Picture Editor is not the source-marked name."
+      },
+      {
+        "id": "D",
+        "text": "Paint Editor",
+        "explanation": "Paint Editor is not the source-marked name."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Picture Manager.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 130,
+    "question": "IS MICROSOFT WORKS PART OF THE MICROSOFT OFFICE SUITE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Yes",
+        "explanation": "The source marks No; Microsoft Works was a separate product from Microsoft Office."
+      },
+      {
+        "id": "B",
+        "text": "No",
+        "explanation": "Microsoft Works was not part of the Microsoft Office suite."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Microsoft Works was a separate productivity suite and was not part of Microsoft Office.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 131,
+    "question": "A FEATURE OF MS OFFICE THAT SAVES THE DOCUMENT AUTOMATICALLY AFTER A CERTAIN INTERVAL IS CALLED:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Web Page",
+        "explanation": "Web Page is unrelated to the stated automatic-save feature."
+      },
+      {
+        "id": "B",
+        "text": "Explorer",
+        "explanation": "Explorer is not the name of an Office automatic-save feature."
+      },
+      {
+        "id": "C",
+        "text": "FrontPage",
+        "explanation": "The source marks FrontPage, although the question text and options appear mismatched."
+      },
+      {
+        "id": "D",
+        "text": "DreamWeaver",
+        "explanation": "DreamWeaver is a web-authoring application, not the source-marked answer."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source marks FrontPage, although the question text and options do not match the stated topic.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 132,
+    "question": "WHICH FEATURE IS USED TO MAKE THE SELECTED SENTENCE IN ALL CAPITAL LETTERS OR ALL SMALL LETTERS?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Change Letter",
+        "explanation": "Change Letter is not the standard Word feature name."
+      },
+      {
+        "id": "B",
+        "text": "Change Sentence",
+        "explanation": "Change Sentence is not the standard Word feature name."
+      },
+      {
+        "id": "C",
+        "text": "Change Case",
+        "explanation": "Change Case controls uppercase/lowercase and other capitalization changes."
+      },
+      {
+        "id": "D",
+        "text": "Change Word",
+        "explanation": "Change Word is not the standard Word capitalization feature."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Change Case controls capitalization such as uppercase and lowercase.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 133,
+    "question": "WHICH OF THESE SOFTWARE APPLICATIONS WAS NOT PART OF THE FIRST VERSION OF MICROSOFT OFFICE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Paint",
+        "explanation": "The source marks Paint as part of the first-version comparison options, so it is not the source answer."
+      },
+      {
+        "id": "B",
+        "text": "Outlook",
+        "explanation": "The source marks Outlook as the application not part of the first version."
+      },
+      {
+        "id": "C",
+        "text": "PowerPoint",
+        "explanation": "PowerPoint was included among the original Office applications."
+      },
+      {
+        "id": "D",
+        "text": "MS Word",
+        "explanation": "MS Word was a core component of Microsoft Office."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Outlook as the answer.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 134,
+    "question": "HOW WOULD YOU INSERT THE INTERNATIONAL CHARACTER SHOWN IN THE IMAGE GIVEN BELOW?",
+    "options": [
+      {
+        "id": "A",
+        "text": "CTRL+SHIFT+~+?",
+        "explanation": "The source does not mark this key combination for the pictured character."
+      },
+      {
+        "id": "B",
+        "text": "CTRL+SHIFT+ALT+?",
+        "explanation": "The source marks Ctrl+Shift+Alt+? for the international character shown."
+      },
+      {
+        "id": "C",
+        "text": "CTRL+SHIFT+ALT+DEL+?",
+        "explanation": "Adding Delete does not match the source's shortcut."
+      },
+      {
+        "id": "D",
+        "text": "CTRL+SHIFT+ALT",
+        "explanation": "The source requires an additional key combination rather than Ctrl+Shift+Alt alone."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Ctrl+Shift+Alt+? for the pictured international character shortcut.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 135,
+    "question": "WHEN YOU ACTIVATE THE MINI TRANSLATOR IN MS WORD, IT WILL STAY ACTIVE UNTIL YOU DEACTIVATE IT WITHIN THE TRANSLATION MENU. ALSO, WHEN THE MINI TRANSLATOR IS ACTIVATED, THE DOCUMENT WILL BE SENT TO MICROSOFT TRANSLATOR AS YOU TYPE. ARE BOTH STATEMENTS CORRECT?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Both the statements are correct.",
+        "explanation": "The source marks both statements correct for the described Mini Translator behavior."
+      },
+      {
+        "id": "B",
+        "text": "Both the statements are incorrect.",
+        "explanation": "The source does not mark both statements incorrect."
+      },
+      {
+        "id": "C",
+        "text": "Only statement 2 is correct.",
+        "explanation": "The source does not identify only statement 2 as correct."
+      },
+      {
+        "id": "D",
+        "text": "Only statement 1 is correct",
+        "explanation": "The source does not identify only statement 1 as correct."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The source marks both statements as correct.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 136,
+    "question": "WHAT CAN BE DONE TO STOP WORD'S NUMBERING COMMAND FROM SUPPLYING AUTOMATIC NUMBERS TO SEQUENTIAL PARAGRAPHS?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Click the Numbering button again.",
+        "explanation": "Clicking the Numbering button again can turn off numbering for the current list."
+      },
+      {
+        "id": "B",
+        "text": "Press the Enter key twice to stop numbering.",
+        "explanation": "Pressing Enter twice can end an automatically numbered list."
+      },
+      {
+        "id": "C",
+        "text": "Both I and II",
+        "explanation": "Both listed actions can stop automatic numbering in the described circumstances."
+      },
+      {
+        "id": "D",
+        "text": "Neither I nor II",
+        "explanation": "Both I and II are viable methods, so neither is not the correct choice."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Both actions can stop automatic numbering in the situations described.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 137,
+    "question": "IF THERE IS ANY CONTEXTUAL ERROR IN THE DOCUMENT, THE TEXT WILL BE UNDERLINED WITH A GREEN LINE IN A WORD DOCUMENT. IF THERE IS ANY SPELLING ERROR, THE TEXT WILL BE UNDERLINED WITH A BLUE LINE. IF THERE IS ANY GRAMMATICAL ERROR, THE TEXT WILL BE UNDERLINED WITH A RED LINE. ARE THESE STATEMENTS CORRECT?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Only statements II and III are correct and statement I is wrong.",
+        "explanation": "The source marks all three statements false, so this combination is incorrect."
+      },
+      {
+        "id": "B",
+        "text": "All statements are false.",
+        "explanation": "The source marks all statements false; the stated green/blue/red mapping is not correct."
+      },
+      {
+        "id": "C",
+        "text": "All statements are true.",
+        "explanation": "The source does not consider all three statements true."
+      },
+      {
+        "id": "D",
+        "text": "Only statements I and II are correct and statement III is wrong",
+        "explanation": "The source does not consider only statement III wrong; all are marked false."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks all statements as false.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 138,
+    "question": "WHICH OF THE FOLLOWING CAN BE USED TO CLOSE A TAB ON A BROWSER?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+T",
+        "explanation": "Ctrl+T opens a new browser tab."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl+A",
+        "explanation": "Ctrl+A selects all page/content text."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl+W",
+        "explanation": "Ctrl+W closes the current browser tab."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+X",
+        "explanation": "Ctrl+X cuts selected content."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Ctrl+W closes the current browser tab.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 139,
+    "question": "WHICH KEY IS TO BE HELD DOWN TO SELECT A WORD OR PHRASE IN MS WORD?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Alt",
+        "explanation": "Alt is not the source-marked key for the described selection."
+      },
+      {
+        "id": "B",
+        "text": "Shift",
+        "explanation": "The source marks Shift for selecting the word or phrase as described."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl",
+        "explanation": "Ctrl is used in many Word shortcuts, but it is not the source-marked key here."
+      },
+      {
+        "id": "D",
+        "text": "Tab",
+        "explanation": "Tab moves focus rather than selecting the described word/phrase."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The source marks Shift as the key for the described selection operation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 140,
+    "question": "WHICH FEATURE IN MS WORD ALLOWS YOU TO FIND SYNONYMS OF A SELECTED WORD?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Thesaurus",
+        "explanation": "Thesaurus provides synonyms and related words for a selected word."
+      },
+      {
+        "id": "B",
+        "text": "Dictionary",
+        "explanation": "A dictionary primarily provides definitions/spelling information rather than synonym lookup."
+      },
+      {
+        "id": "C",
+        "text": "Translator",
+        "explanation": "Translator changes language/translation rather than simply listing synonyms."
+      },
+      {
+        "id": "D",
+        "text": "Grammar Check",
+        "explanation": "Grammar Check identifies grammar issues rather than providing synonyms."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Thesaurus provides synonyms and related words.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 141,
+    "question": "WHICH TAB IN MS WORD CONTAINS THE OPTION TO ADD A TABLE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Home",
+        "explanation": "Home contains common text formatting and editing commands, but Table is under Insert."
+      },
+      {
+        "id": "B",
+        "text": "Insert",
+        "explanation": "The Insert tab contains the Table command."
+      },
+      {
+        "id": "C",
+        "text": "Layout",
+        "explanation": "Layout handles page/table layout settings but is not the primary tab for inserting a table."
+      },
+      {
+        "id": "D",
+        "text": "Design",
+        "explanation": "Design controls appearance/themes rather than inserting the table itself."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The Insert tab contains the Table command.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 142,
+    "question": "HOW CAN YOU QUICKLY COPY FORMATTING FROM ONE CELL TO ANOTHER IN EXCEL?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Copy and Paste",
+        "explanation": "Copy and Paste can copy formatting if the correct paste option is chosen, but Format Painter is the dedicated quick tool."
+      },
+      {
+        "id": "B",
+        "text": "Format Painter",
+        "explanation": "Format Painter copies formatting from one cell/range and applies it to another."
+      },
+      {
+        "id": "C",
+        "text": "Fill Handle",
+        "explanation": "Fill Handle is mainly used to extend/copy data, formulas and patterns."
+      },
+      {
+        "id": "D",
+        "text": "Drag and Drop",
+        "explanation": "Drag and Drop primarily moves/copies cell content; it is not the dedicated formatting-copy tool."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Format Painter copies formatting from one cell or range to another.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 143,
+    "question": "WHICH FEATURE IN POWERPOINT ALLOWS YOU TO ADD MOVEMENT TO TEXT AND OBJECTS?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Transitions",
+        "explanation": "Transitions control effects between slides."
+      },
+      {
+        "id": "B",
+        "text": "Animations",
+        "explanation": "Animations add movement/effects to text and objects within a slide."
+      },
+      {
+        "id": "C",
+        "text": "Slide Show",
+        "explanation": "Slide Show presents the slides rather than defining object movement."
+      },
+      {
+        "id": "D",
+        "text": "Design",
+        "explanation": "Design controls presentation appearance rather than object movement."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Animations apply movement/effects to objects and text within a slide.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 144,
+    "question": "WHAT IS THE SHORTCUT KEY FOR UNDOING AN ACTION IN MS OFFICE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+Y",
+        "explanation": "Ctrl+Y is commonly Redo."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl+Z",
+        "explanation": "Ctrl+Z is the standard Undo shortcut."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl+X",
+        "explanation": "Ctrl+X cuts selected content."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+U",
+        "explanation": "Ctrl+U commonly applies underline formatting in Office applications."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Ctrl+Z performs Undo.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 145,
+    "question": "IN OUTLOOK, WHICH FEATURE ALLOWS YOU TO SET AN AUTOMATIC REPLY WHEN YOU ARE OUT OF THE OFFICE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Auto-Reply",
+        "explanation": "Auto-Reply is a generic description; the source uses the Outlook feature name Out of Office Assistant."
+      },
+      {
+        "id": "B",
+        "text": "Vacation Mode",
+        "explanation": "Vacation Mode is not the source's Outlook feature name."
+      },
+      {
+        "id": "C",
+        "text": "Out of Office Assistant",
+        "explanation": "Out of Office Assistant automatically replies while the user is away."
+      },
+      {
+        "id": "D",
+        "text": "Away Message",
+        "explanation": "Away Message is a generic term and not the source-marked Outlook feature."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source identifies Out of Office Assistant as the Outlook feature for automatic absence replies.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 146,
+    "question": "WHAT IS THE FEATURE IN MS WORD THAT CORRECTS COMMON TYPING ERRORS AS YOU TYPE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "AutoFormat",
+        "explanation": "AutoFormat applies formatting patterns; it does not primarily correct typing mistakes as they are entered."
+      },
+      {
+        "id": "B",
+        "text": "AutoCorrect",
+        "explanation": "AutoCorrect automatically fixes common typing errors as text is entered."
+      },
+      {
+        "id": "C",
+        "text": "Spell Check",
+        "explanation": "Spell Check identifies spelling problems but is not the feature that automatically corrects common typing errors as you type."
+      },
+      {
+        "id": "D",
+        "text": "Grammar Check",
+        "explanation": "Grammar Check identifies grammatical issues rather than serving as the main automatic typing-correction feature."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "AutoCorrect automatically fixes many common typing errors while you type.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 147,
+    "question": "WHICH TAB IN POWERPOINT CONTAINS THE OPTION TO INSERT A NEW SLIDE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Home",
+        "explanation": "The Home tab contains the New Slide command."
+      },
+      {
+        "id": "B",
+        "text": "Insert",
+        "explanation": "Insert can add various objects, but the source identifies Home for inserting a new slide."
+      },
+      {
+        "id": "C",
+        "text": "Design",
+        "explanation": "Design contains themes and presentation appearance settings."
+      },
+      {
+        "id": "D",
+        "text": "Transitions",
+        "explanation": "Transitions controls effects between slides."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The Home tab contains the New Slide command.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 148,
+    "question": "IN EXCEL, WHAT IS THE FUNCTION OF THE FILL HANDLE?",
+    "options": [
+      {
+        "id": "A",
+        "text": "To copy data or formulas to adjacent cells",
+        "explanation": "The Fill Handle copies or extends data, formulas and patterns into adjacent cells."
+      },
+      {
+        "id": "B",
+        "text": "To format cells",
+        "explanation": "Cell formatting is handled by formatting tools; the Fill Handle is not primarily a formatting control."
+      },
+      {
+        "id": "C",
+        "text": "To sort data",
+        "explanation": "Sorting is performed through sort commands, not the Fill Handle."
+      },
+      {
+        "id": "D",
+        "text": "To create charts",
+        "explanation": "Charts are created through chart insertion tools, not the Fill Handle."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "The Fill Handle extends or copies data, formulas and patterns into adjacent cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 149,
+    "question": "WHAT IS THE KEYBOARD SHORTCUT TO SELECT ALL CONTENT IN A DOCUMENT?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+C",
+        "explanation": "Ctrl+C copies selected content."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl+A",
+        "explanation": "Ctrl+A selects all content in the current document/active area."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl+V",
+        "explanation": "Ctrl+V pastes clipboard content."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+X",
+        "explanation": "Ctrl+X cuts selected content."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Ctrl+A selects all content in the current document or active area.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 150,
+    "question": "IN OUTLOOK, WHICH FOLDER CONTAINS EMAILS THAT HAVE BEEN MARKED AS JUNK MAIL?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Inbox",
+        "explanation": "Inbox contains received messages rather than messages classified as junk."
+      },
+      {
+        "id": "B",
+        "text": "Sent Items",
+        "explanation": "Sent Items contains messages sent by the user."
+      },
+      {
+        "id": "C",
+        "text": "Spam",
+        "explanation": "The source identifies Spam as the folder containing junk mail."
+      },
+      {
+        "id": "D",
+        "text": "Drafts",
+        "explanation": "Drafts contain messages that are still being composed."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "The source identifies Spam as the folder for junk mail.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 151,
+    "question": "IN MS WORD, WHAT FEATURE ALLOWS YOU TO TRACK CHANGES MADE TO A DOCUMENT?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Review Mode",
+        "explanation": "Review Mode is not the standard Word feature name for recording edits."
+      },
+      {
+        "id": "B",
+        "text": "Track Changes",
+        "explanation": "Track Changes records edits so they can be reviewed, accepted or rejected."
+      },
+      {
+        "id": "C",
+        "text": "Comments",
+        "explanation": "Comments add review notes but do not record every textual change."
+      },
+      {
+        "id": "D",
+        "text": "Compare Documents",
+        "explanation": "Compare Documents compares document versions but is not the primary feature for continuously tracking edits."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Track Changes records edits so they can be reviewed and accepted or rejected.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 152,
+    "question": "IN POWERPOINT, WHAT FEATURE ALLOWS YOU TO ADD SOUND EFFECTS TO YOUR PRESENTATION?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Animations",
+        "explanation": "Animations control object movement/effects and are not the primary audio-insertion feature."
+      },
+      {
+        "id": "B",
+        "text": "Audio",
+        "explanation": "Audio lets you insert sound files and audio content into a PowerPoint presentation."
+      },
+      {
+        "id": "C",
+        "text": "Transitions",
+        "explanation": "Transitions control slide-to-slide visual effects."
+      },
+      {
+        "id": "D",
+        "text": "Design",
+        "explanation": "Design controls themes and visual appearance."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "Audio is used to insert sound files and audio content into a presentation.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 153,
+    "question": "IN MS WORD, WHAT IS THE SHORTCUT KEY TO PRINT A DOCUMENT?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ctrl+P",
+        "explanation": "Ctrl+P opens the Print interface."
+      },
+      {
+        "id": "B",
+        "text": "Ctrl+S",
+        "explanation": "Ctrl+S saves the document."
+      },
+      {
+        "id": "C",
+        "text": "Ctrl+N",
+        "explanation": "Ctrl+N creates a new document."
+      },
+      {
+        "id": "D",
+        "text": "Ctrl+O",
+        "explanation": "Ctrl+O opens an existing document."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Ctrl+P opens the print interface.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 154,
+    "question": "WHICH TAB IN EXCEL CONTAINS THE OPTION TO INSERT A CHART?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Home",
+        "explanation": "Home contains common editing/formatting commands rather than the primary chart insertion command."
+      },
+      {
+        "id": "B",
+        "text": "Insert",
+        "explanation": "Insert contains chart insertion options."
+      },
+      {
+        "id": "C",
+        "text": "Data",
+        "explanation": "Data contains tools for data management, analysis and sorting rather than the primary chart insertion command."
+      },
+      {
+        "id": "D",
+        "text": "Review",
+        "explanation": "Review contains proofing, comments and review tools rather than chart insertion."
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "The Insert tab contains chart options.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 155,
+    "question": "IN OUTLOOK, WHAT IS THE FEATURE THAT HELPS MANAGE EMAILS BY FILTERING AND SORTING THEM?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Labels",
+        "explanation": "Labels are more commonly associated with Gmail and are not the source-marked Outlook feature."
+      },
+      {
+        "id": "B",
+        "text": "Filters",
+        "explanation": "Filters is a generic concept; the source specifically identifies Rules."
+      },
+      {
+        "id": "C",
+        "text": "Rules",
+        "explanation": "Outlook Rules can automatically filter, sort, move and process email based on conditions."
+      },
+      {
+        "id": "D",
+        "text": "Categories",
+        "explanation": "Categories organize messages by labels/colors but do not provide the full automatic rule-based processing described."
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "Rules can automatically filter, organize, move or otherwise process incoming messages.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  },
+  {
+    "id": 156,
+    "question": "IN EXCEL, WHAT FEATURE ALLOWS YOU TO QUICKLY APPLY A SET OF FORMATTING CHOICES?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Cell Styles",
+        "explanation": "Cell Styles provide predefined combinations of formatting that can be applied quickly."
+      },
+      {
+        "id": "B",
+        "text": "Conditional Formatting",
+        "explanation": "Conditional Formatting applies formatting when specified conditions are met rather than providing a general fixed style set."
+      },
+      {
+        "id": "C",
+        "text": "Themes",
+        "explanation": "Themes apply broader workbook/document visual design rather than a cell-specific style set."
+      },
+      {
+        "id": "D",
+        "text": "Templates",
+        "explanation": "Templates are reusable workbook/document structures, not simply a set of cell-formatting choices."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "Cell Styles provide predefined sets of formatting that can be quickly applied to cells.",
+    "source": "Accenture Common Application and MS Office PYQ PDF"
+  }
+]

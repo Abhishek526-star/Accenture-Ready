@@ -22,6 +22,7 @@ import OopAssessmentPage from './pages/OopAssessmentPage.jsx';
 import WifiSecurityPage from './pages/WifiSecurityPage.jsx';
 import DevOpsAssessmentPage from './pages/DevOpsAssessmentPage.jsx';
 import MsOfficeAssessmentPage from './pages/MsOfficeAssessmentPage.jsx';
+import PYQExamPage from './pages/PYQExamPage.jsx';
 import ImportantQuestionsPage from './pages/ImportantQuestionsPage.jsx';
 import ImportantQuestionsSet2Page from './pages/ImportantQuestionsSet2Page.jsx';
 import RecentQuestionsPage from './pages/RecentQuestionsPage.jsx';
@@ -130,6 +131,9 @@ export default function App() {
               <Route path="/msoffice" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/ms-office" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/excel" element={<Navigate to="/ms-office-assessment" replace />} />
+
+              {/* PYQ Question Papers (exam-style interface) */}
+              <Route path="/pyq/:bankId" element={<PYQExamPage theme={theme} />} />
 
               {/* High-Yield Most Important PYQs */}
               <Route path="/important-questions" element={<ImportantQuestionsPage theme={theme} />} />

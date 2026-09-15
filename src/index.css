@@ -9278,3 +9278,1296 @@ select option {
   }
 }
 
+/* ========================================================================
+   PYQ EXAM PAGE (Previous Year Question Papers — exam-style interface)
+   Modeled on the Accenture Cloud Assessment layout tokens above:
+   sidebar palette + live timer + question card + fixed action footer.
+   ======================================================================== */
+.pyq-exam-page {
+  min-height: calc(100vh - 50px);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  /* Clear the fixed bottom footer */
+  padding-bottom: 108px;
+}
+
+/* ---------- Top Bar ---------- */
+.pyq-exam-topbar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.pyq-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.pyq-topbar-back {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.pyq-topbar-back:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.pyq-topbar-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  flex-shrink: 0;
+}
+
+.pyq-topbar-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.pyq-topbar-paper {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pyq-topbar-meta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.pyq-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Compact timer chip in the top bar */
+.pyq-timer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(2, 132, 199, 0.15);
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  color: #38bdf8;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+}
+
+.pyq-timer-chip.danger {
+  background: rgba(220, 38, 38, 0.16);
+  border-color: rgba(220, 38, 38, 0.45);
+  color: #f87171;
+  animation: pyq-timer-pulse 1.6s ease-in-out infinite;
+}
+
+.pyq-timer-chip.stopped {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+  animation: none;
+}
+
+@keyframes pyq-timer-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(220, 38, 38, 0);
+  }
+}
+
+/* Mobile-only palette toggle */
+.pyq-sidebar-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 8px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pyq-sidebar-toggle:hover {
+  border-color: #0284c7;
+  color: #38bdf8;
+}
+
+/* ---------- Workspace Layout (Sidebar + Main) ---------- */
+.pyq-exam-workspace {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+/* ---------- Left Sidebar ---------- */
+.pyq-exam-sidebar {
+  position: sticky;
+  top: 66px;
+}
+
+.pyq-sidebar-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pyq-sidebar-paper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.pyq-sidebar-paper-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.3);
+}
+
+.pyq-sidebar-paper-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.pyq-sidebar-paper-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Live countdown block */
+.pyq-sidebar-timer {
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.pyq-sidebar-timer.danger {
+  background: rgba(220, 38, 38, 0.13);
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+.pyq-sidebar-timer-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.pyq-sidebar-timer.danger .pyq-sidebar-timer-label {
+  color: #f87171;
+}
+
+.pyq-sidebar-timer-clock {
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.04em;
+}
+
+.pyq-sidebar-timer.danger .pyq-sidebar-timer-clock {
+  color: #f87171;
+}
+
+/* Summary chips */
+.pyq-sidebar-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.pyq-summary-item {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.55rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.pyq-summary-count {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pyq-summary-count.answered {
+  color: #34d399;
+}
+
+.pyq-summary-count.marked {
+  color: #fbbf24;
+}
+
+.pyq-summary-count.unvisited {
+  color: var(--text-secondary);
+}
+
+.pyq-summary-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+/* Palette header + numbered status grid */
+.pyq-palette-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding-top: 0.25rem;
+}
+
+.pyq-palette-total {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(2, 132, 199, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.pyq-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.45rem;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.pyq-palette-btn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.pyq-palette-btn:hover {
+  border-color: #0284c7;
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.pyq-palette-btn.current {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.4);
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* Green = Answered */
+.pyq-palette-btn.answered {
+  background: rgba(22, 163, 74, 0.2);
+  border-color: rgba(22, 163, 74, 0.55);
+  color: #34d399;
+}
+
+/* Grey = Unvisited (default) + visited-not-answered slightly distinct */
+.pyq-palette-btn.unvisited {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.pyq-palette-btn.visited {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+  border-style: dashed;
+}
+
+/* Orange = Marked for Review */
+.pyq-palette-btn.marked {
+  background: rgba(245, 158, 11, 0.16);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.pyq-palette-btn.marked.answered {
+  background: rgba(22, 163, 74, 0.2);
+  border-color: rgba(22, 163, 74, 0.55);
+  color: #34d399;
+}
+
+.pyq-palette-marker {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #f59e0b;
+}
+
+/* Legend */
+.pyq-palette-legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pyq-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pyq-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.pyq-legend-swatch.answered {
+  background: #16a34a;
+}
+
+.pyq-legend-swatch.unvisited {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+}
+
+.pyq-legend-swatch.marked {
+  background: #f59e0b;
+}
+
+.pyq-legend-swatch.current {
+  background: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.3);
+}
+
+/* Submit button */
+.pyq-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+  transition: all 0.18s ease;
+}
+
+.pyq-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+}
+
+.pyq-submit-btn:disabled {
+  background: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Score card (after submit) */
+.pyq-score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.pyq-score-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.pyq-score-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #34d399;
+}
+
+.pyq-score-pct {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.pyq-retake-btn {
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pyq-retake-btn:hover {
+  border-color: #0284c7;
+  color: #38bdf8;
+}
+
+/* ---------- Right Main Panel ---------- */
+.pyq-exam-main {
+  min-width: 0;
+}
+
+.pyq-question-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  animation: pyq-card-in 0.22s ease;
+}
+
+@keyframes pyq-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pyq-question-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.pyq-question-number {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+
+.pyq-question-number strong {
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.pyq-question-flag-badge,
+.pyq-question-answered-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.pyq-question-flag-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.pyq-question-answered-badge {
+  background: rgba(22, 163, 74, 0.15);
+  color: #34d399;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+.pyq-question-source {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pyq-question-text {
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin: 0 0 1.4rem 0;
+}
+
+/* Radio option bubbles */
+.pyq-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.pyq-option-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.pyq-option-item:hover:not(.locked) {
+  border-color: #0284c7;
+  transform: translateY(-1px);
+}
+
+.pyq-option-item.selected {
+  background: rgba(2, 132, 199, 0.12);
+  border-color: #0284c7;
+  box-shadow: 0 0 0 1px rgba(2, 132, 199, 0.4);
+}
+
+.pyq-option-item.locked {
+  cursor: not-allowed;
+}
+
+.pyq-option-item.correct {
+  background: rgba(22, 163, 74, 0.15);
+  border-color: rgba(22, 163, 74, 0.55);
+}
+
+.pyq-option-item.incorrect {
+  background: rgba(220, 38, 38, 0.14);
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+/* Hidden native input — custom bubble rendered instead */
+.pyq-option-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Circular radio bubble */
+.pyq-option-bubble {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.pyq-option-item:hover:not(.locked) .pyq-option-bubble {
+  border-color: #0284c7;
+}
+
+.pyq-option-item.selected .pyq-option-bubble {
+  border-color: #0284c7;
+  background: #0284c7;
+}
+
+.pyq-option-item.selected .pyq-option-bubble::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.pyq-option-item.correct .pyq-option-bubble {
+  border-color: #16a34a;
+  background: #16a34a;
+}
+
+.pyq-option-item.incorrect .pyq-option-bubble {
+  border-color: #dc2626;
+  background: #dc2626;
+}
+
+/* Letter badge */
+.pyq-option-letter {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.pyq-option-item.selected .pyq-option-letter {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+}
+
+.pyq-option-item.correct .pyq-option-letter {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+.pyq-option-item.incorrect .pyq-option-letter {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+.pyq-option-text {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+/* Post-submit explanation */
+.pyq-explanation-box {
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.28);
+  border-radius: 12px;
+}
+
+.pyq-explanation-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(2, 132, 199, 0.15);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+
+.pyq-explanation-text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Empty / missing states */
+.pyq-exam-missing {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.pyq-exam-missing h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.pyq-exam-missing p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.pyq-missing-icon {
+  color: #fbbf24;
+}
+
+.pyq-missing-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+/* ---------- Fixed Bottom Footer ---------- */
+.pyq-exam-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.35);
+  z-index: 900;
+}
+
+.pyq-footer-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0.8rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pyq-footer-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+  max-width: 320px;
+}
+
+.pyq-footer-progress-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.pyq-footer-progress-track {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.pyq-footer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #16a34a);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.pyq-footer-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pyq-btn-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.pyq-btn-mark:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.22);
+  transform: translateY(-1px);
+}
+
+.pyq-btn-mark.active {
+  background: #f59e0b;
+  color: #1f2937;
+  border-color: #f59e0b;
+}
+
+.pyq-btn-mark:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pyq-btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  background: rgba(220, 38, 38, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(220, 38, 38, 0.35);
+}
+
+.pyq-btn-clear:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.2);
+  transform: translateY(-1px);
+}
+
+.pyq-btn-clear:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Submit confirmation modal ---------- */
+.pyq-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: pyq-fade-in 0.18s ease;
+}
+
+@keyframes pyq-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pyq-modal-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: pyq-card-in 0.2s ease;
+}
+
+.pyq-modal-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.pyq-modal-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pyq-modal-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.pyq-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Mobile drawer backdrop */
+.pyq-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 950;
+  animation: pyq-fade-in 0.18s ease;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .pyq-exam-workspace {
+    grid-template-columns: 280px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .pyq-question-card {
+    padding: 1.35rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .pyq-exam-page {
+    padding-bottom: 150px;
+  }
+
+  .pyq-sidebar-toggle {
+    display: inline-flex;
+  }
+
+  .pyq-exam-workspace {
+    grid-template-columns: 1fr;
+    padding: 1rem 0.9rem;
+  }
+
+  /* Sidebar becomes a slide-in drawer */
+  .pyq-exam-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 85vw);
+    z-index: 1000;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+  }
+
+  .pyq-exam-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .pyq-sidebar-card {
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 0;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+  }
+
+  .pyq-question-source {
+    display: none;
+  }
+
+  .pyq-footer-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .pyq-footer-progress {
+    max-width: none;
+  }
+
+  .pyq-footer-buttons {
+    justify-content: center;
+  }
+
+  .pyq-footer-buttons .cloud-btn span,
+  .pyq-btn-mark span,
+  .pyq-btn-clear span {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .pyq-exam-page {
+    padding-bottom: 190px;
+  }
+
+  .pyq-topbar-meta {
+    display: none;
+  }
+
+  .pyq-timer-chip {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .pyq-question-card {
+    padding: 1.1rem;
+  }
+
+  .pyq-question-text {
+    font-size: 1rem;
+  }
+
+  .pyq-footer-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pyq-footer-buttons .cloud-btn,
+  .pyq-btn-mark,
+  .pyq-btn-clear {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* ========================================================================
+   PYQ EXAM PAGE — Cloud Assessment parity additions
+   (utility classes referenced by CloudQuizHeader-style markup that were
+   missing from the base cloud stylesheet)
+   ======================================================================== */
+
+/* Right column wrapper for the Question Navigator */
+.cloud-palette-column {
+  min-width: 0;
+}
+
+/* Status bar right cluster (timer pill + bookmark counter) */
+.cloud-status-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Countdown timer pill (header) */
+.cloud-timer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.cloud-timer-pill.timer-warning {
+  border-color: #ef4444;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+  animation: pulse-border 1.5s infinite;
+}
+
+.cloud-timer-digits {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  min-width: 52px;
+  text-align: center;
+}
+
+.cloud-timer-pause-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0.2rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.cloud-timer-pause-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Progress label inside the header status bar */
+.cloud-progress-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary);
+}
+
+.cloud-progress-label strong {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* Analysis metric card accent variants */
+.cloud-metric-card.score {
+  border-top: 3px solid #38bdf8;
+}
+
+.cloud-metric-card.correct {
+  border-top: 3px solid var(--success);
+}
+
+.cloud-metric-card.wrong {
+  border-top: 3px solid var(--danger);
+}
+
+.cloud-metric-card.time {
+  border-top: 3px solid #6366f1;
+}
+
+/* Review list status icon sizing */
+.cloud-review-status-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Practice-mode per-option explanation text keeps letter badge aligned */
+.cloud-option-text-wrap .cloud-option-text {
+  display: block;
+}
+
+/* ------------------------------------------------------------------
+   Practice-mode reveal: readable distractor options (no blur/dimming)
+   ------------------------------------------------------------------ */
+
+/* Neutral (non-selected, non-correct) options keep FULL opacity so
+   their per-option explanations stay completely readable */
+.cloud-option-neutral {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-color);
+}
+
+.cloud-option-neutral:hover {
+  border-color: var(--border-color);
+  background: var(--bg-surface-elevated);
+}
+
+/* Shared inline explanation block for all three reveal states */
+.cloud-option-expl {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.cloud-option-expl-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+
+.cloud-option-expl-label-neutral {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .cloud-option-expl {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+}
+
