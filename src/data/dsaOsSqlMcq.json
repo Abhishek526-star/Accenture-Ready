@@ -1,0 +1,2182 @@
+{
+  "title": "DSA, Operating Systems & SQL MCQs",
+  "description": "120 MCQs transcribed from the uploaded 32-page PDF. Every option has an individual explanation.",
+  "source": "Uploaded PDF (32 pages)",
+  "sourceNote": "Correct answers preserve the options highlighted in green in the source PDF. The JSON intentionally preserves the source answer key, including questions whose wording or answer may be ambiguous, dialect-dependent, or technically debatable.",
+  "sections": [
+    {
+      "name": "DSA",
+      "questionCount": 40
+    },
+    {
+      "name": "Operating Systems",
+      "questionCount": 40
+    },
+    {
+      "name": "SQL",
+      "questionCount": 40
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "section": "DSA",
+      "question": "Which of the following is a characteristic of an efficient algorithm?",
+      "options": {
+        "A": "Uses minimal CPU time",
+        "B": "Uses minimal memory",
+        "C": "Is easy to implement",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Minimizing CPU execution time (low time complexity) is essential, but it is not the only metric of algorithmic efficiency.",
+        "B": "Minimizing memory consumption (low space complexity) is critical, but efficient algorithms balance both time and space.",
+        "C": "Ease of implementation and maintainability are valuable software engineering attributes, but not sufficient alone for resource efficiency.",
+        "D": "An efficient algorithm aims to optimize CPU runtime, memory usage, and practical engineering trade-offs; all listed factors are characteristics."
+      }
+    },
+    {
+      "id": 2,
+      "section": "DSA",
+      "question": "The process of breaking a complex problem into smaller, more manageable parts is known as what?",
+      "options": {
+        "A": "Decomposition",
+        "B": "Abstraction",
+        "C": "Encapsulation",
+        "D": "Inheritance"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Decomposition is the process of breaking a complex problem into smaller, modular, and manageable subproblems.",
+        "B": "Abstraction focuses on hiding low-level implementation details to present a simplified interface.",
+        "C": "Encapsulation bundles state variables and behavior into a single class or unit while restricting direct external access.",
+        "D": "Inheritance is an OOP mechanism where a derived class inherits state and behavior from a base class."
+      }
+    },
+    {
+      "id": 3,
+      "section": "DSA",
+      "question": "What is the primary purpose of pseudocode?",
+      "options": {
+        "A": "To document algorithms in natural language",
+        "B": "To compile and execute algorithms",
+        "C": "To debug code",
+        "D": "To optimize algorithms"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Pseudocode provides a human-readable, language-agnostic description of an algorithm's logic without syntax overhead.",
+        "B": "Pseudocode cannot be directly compiled or executed by a machine since it follows no strict programming language grammar.",
+        "C": "Debugging occurs on executable source code using debuggers or loggers, not on abstract pseudocode.",
+        "D": "Optimizing algorithms requires algorithmic analysis and code profiling rather than the pseudocode specification itself."
+      }
+    },
+    {
+      "id": 4,
+      "section": "DSA",
+      "question": "In algorithm analysis, what does asymptotic complexity refer to?",
+      "options": {
+        "A": "The complexity in the best case",
+        "B": "The complexity in the worst case",
+        "C": "The complexity in the average case",
+        "D": "The behavior of an algorithm as the input size grows"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Best-case complexity (Omega notation) measures minimum resources needed for optimal inputs, not general asymptotic behavior.",
+        "B": "Worst-case complexity (Big-O notation) measures the upper bound on execution, which is one specific case of asymptotic analysis.",
+        "C": "Average-case complexity (Theta notation) measures expected performance across uniform inputs.",
+        "D": "Asymptotic complexity analyzes how an algorithm's resource consumption (time or space) scales as input size n approaches infinity."
+      }
+    },
+    {
+      "id": 5,
+      "section": "DSA",
+      "question": "What will be the output of the following pseudocode if the input is 5?\nfunction factorial(n): if n == 1 return 1 else return n * factorial(n-1)",
+      "options": {
+        "A": "5",
+        "B": "24",
+        "C": "120",
+        "D": "None of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "5 is the initial input value, not the product of the recursive calls.",
+        "B": "24 is 4! (4 * 3 * 2 * 1), missing the final multiplication by 5.",
+        "C": "The factorial recursive function computes 5 * 4 * 3 * 2 * 1 = 120.",
+        "D": "The mathematical output of 120 is present as option C."
+      }
+    },
+    {
+      "id": 6,
+      "section": "DSA",
+      "question": "Consider the following algorithm for calculating the nth Fibonacci number: function fib(n): if n <= 1 return n else return fib(n-1) + fib(n-2). What is the time complexity of this algorithm?",
+      "options": {
+        "A": "O(n)",
+        "B": "O(log n)",
+        "C": "O(n^2)",
+        "D": "O(2^n)"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "O(n) time is achieved by memoization, dynamic programming, or iterative accumulation, not naive dual recursion.",
+        "B": "O(log n) is achieved via matrix exponentiation or Binet's formula, not standard recursion.",
+        "C": "O(n^2) is typical for nested loops, whereas naive recursive Fibonacci branches into two subproblems per level.",
+        "D": "Naive recursive Fibonacci branches into two calls (T(n) = T(n-1) + T(n-2)), forming a binary call tree of exponential depth O(2^n)."
+      }
+    },
+    {
+      "id": 7,
+      "section": "DSA",
+      "question": "An algorithm supposed to calculate the sum of numbers from 1 to n returns a higher value than expected. What is the most likely mistake?",
+      "options": {
+        "A": "Starting the loop from 0",
+        "B": "Not initializing the sum variable",
+        "C": "Adding n twice",
+        "D": "All of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Starting a sum loop from 0 adds 0 to the accumulator, which does not alter the mathematical sum.",
+        "B": "An uninitialized sum variable in languages like C/C++ contains garbage, but C is the specific logical code defect.",
+        "C": "Adding n twice (e.g. through an extra loop iteration or post-loop addition) directly causes the sum to exceed n(n+1)/2.",
+        "D": "Not all options cause a guaranteed higher sum; starting from 0 has no effect on the final sum."
+      }
+    },
+    {
+      "id": 8,
+      "section": "DSA",
+      "question": "Given an algorithm that always returns the first element in a sorted list instead of the smallest, what is likely the issue?",
+      "options": {
+        "A": "The algorithm incorrectly assumes the first element is the smallest",
+        "B": "The list is not properly sorted",
+        "C": "A loop iterates incorrectly",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "If the list was sorted in descending order, the first element is the maximum; assuming index 0 is always the minimum is a logical flaw.",
+        "B": "If the sorting contract specifies ascending order, the list is sorted, making the algorithm's unverified assumption the true defect.",
+        "C": "A loop iterating incorrectly would typically return an index out of bounds or an arbitrary element rather than index 0.",
+        "D": "The fundamental flaw is the algorithm hardcoding an assumption about element ordering without verification."
+      }
+    },
+    {
+      "id": 9,
+      "section": "DSA",
+      "question": "Which Big O notation represents constant time complexity?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "O(1) denotes constant time complexity, where execution time remains strictly unchanged regardless of input size n.",
+        "B": "O(n) denotes linear time complexity, where execution time grows proportionally with input size.",
+        "C": "O(log n) denotes logarithmic time complexity, typical of divide-and-conquer algorithms like binary search.",
+        "D": "O(n^2) denotes quadratic time complexity, common in nested iterations like bubble sort."
+      }
+    },
+    {
+      "id": 10,
+      "section": "DSA",
+      "question": "For a linear search in an unsorted array of n elements, what is the average case time complexity?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) is the best-case time complexity, occurring only if the target is at the very first index.",
+        "B": "In an unsorted array, an average search inspects approximately n/2 elements, which reduces asymptotically to O(n).",
+        "C": "O(log n) requires a sorted collection with random-access indexing to perform binary partitioning.",
+        "D": "O(n^2) applies to paired comparisons, not single-pass element traversal."
+      }
+    },
+    {
+      "id": 11,
+      "section": "DSA",
+      "question": "What does the Big O notation O(n^2) signify about an algorithm's growth rate?",
+      "options": {
+        "A": "Linear growth",
+        "B": "Quadratic growth",
+        "C": "Logarithmic growth",
+        "D": "Exponential growth"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Linear growth corresponds to O(n), where doubling n doubles the execution time.",
+        "B": "Quadratic growth corresponds to O(n^2), where multiplying input size by k increases operations by k^2.",
+        "C": "Logarithmic growth corresponds to O(log n), where time increases incrementally as input doubles.",
+        "D": "Exponential growth corresponds to O(2^n) or O(k^n), growing far faster than any polynomial."
+      }
+    },
+    {
+      "id": 12,
+      "section": "DSA",
+      "question": "In Big O notation, what does O(log n) typically represent?",
+      "options": {
+        "A": "The time complexity of binary search",
+        "B": "The time complexity of linear search",
+        "C": "The space complexity of sorting algorithms",
+        "D": "The space complexity of hashing"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Binary search divides the search space in half at each comparison step, yielding O(log n) logarithmic runtime.",
+        "B": "Linear search checks items sequentially one by one, resulting in O(n) linear runtime.",
+        "C": "Sorting space complexity varies from O(1) for in-place heapsort/quicksort to O(n) for mergesort, rarely O(log n).",
+        "D": "Hash tables typically consume O(n) space to store keys and maintain load factors."
+      }
+    },
+    {
+      "id": 13,
+      "section": "DSA",
+      "question": "Which of the following best describes the time complexity of inserting an element into a binary search tree?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(log n)",
+        "C": "O(n)",
+        "D": "O(n log n)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) insertion is characteristic of linked list head insertion or amortized hash map puts, not BST traversal.",
+        "B": "In a balanced Binary Search Tree (such as an AVL or Red-Black tree), tree height is log n, making insertion O(log n).",
+        "C": "O(n) is the worst-case degradation for a skewed, degenerate BST, but O(log n) is the standard expected complexity.",
+        "D": "O(n log n) is the complexity of building an entire BST from an unsorted array of n items, not inserting one element."
+      }
+    },
+    {
+      "id": 14,
+      "section": "DSA",
+      "question": "What is the worst-case time complexity of quicksort?",
+      "options": {
+        "A": "O(n log n)",
+        "B": "O(n)",
+        "C": "O(n^2)",
+        "D": "O(log n)"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "O(n log n) is quicksort's best and average-case time complexity with balanced partition pivots.",
+        "B": "O(n) is unattainable for comparison-based sorting; it applies only to non-comparison sorts like counting sort.",
+        "C": "When the pivot chosen is consistently the extreme minimum or maximum (e.g., sorted array with naive first-element pivot), quicksort degrades to O(n^2).",
+        "D": "O(log n) represents tree height or binary search time, not full array sorting."
+      }
+    },
+    {
+      "id": 15,
+      "section": "DSA",
+      "question": "How does the space complexity of an iterative solution compare to a recursive solution for the same problem?",
+      "options": {
+        "A": "Iterative solutions always use more space",
+        "B": "Recursive solutions always use more space",
+        "C": "Depends on the specific problem",
+        "D": "They use the same amount of space"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Iterative solutions typically use O(1) auxiliary stack space, which is less than or equal to recursive call stack usage.",
+        "B": "While recursion adds call stack frames, an iterative solution might allocate large auxiliary heaps/queues, making space dependent on the algorithm.",
+        "C": "Space complexity depends on the algorithm: recursion incurs stack frame overhead (O(d)), but iterative approaches may allocate auxiliary data structures.",
+        "D": "They rarely use the exact same space unless tailored to do so; recursion inherently expends activation frames on the runtime call stack."
+      }
+    },
+    {
+      "id": 16,
+      "section": "DSA",
+      "question": "What is the time complexity of the following code snippet?\nfor i in range(n):\n print(i)",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) would mean the loop runs a fixed number of times regardless of n.",
+        "B": "A single loop iterating from 0 to n-1 executes n iterations, resulting in O(n) linear time complexity.",
+        "C": "O(log n) requires dividing the loop variable by a factor on each iteration.",
+        "D": "O(n^2) requires two nested loops iterating up to n."
+      }
+    },
+    {
+      "id": 17,
+      "section": "DSA",
+      "question": "Given the code for i in range(n): for j in range(n): print(i, j), what is the time complexity?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(n log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "O(1) applies to constant-time instructions without variable loops.",
+        "B": "O(n) applies to a single linear loop or sequential non-nested loops.",
+        "C": "O(n log n) is typical for divide-and-conquer algorithms like mergesort.",
+        "D": "The outer loop runs n times and the inner loop runs n times for each outer iteration, yielding n * n = O(n^2) operations."
+      }
+    },
+    {
+      "id": 18,
+      "section": "DSA",
+      "question": "Analyze the time complexity of the following function: def func(n): if n <= 1: return else func(n/2) + func(n/2)",
+      "options": {
+        "A": "O(n)",
+        "B": "O(log n)",
+        "C": "O(n^2)",
+        "D": "O(n log n)"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "While standard Master Theorem gives T(n) = 2T(n/2) + O(1) => O(n), the source paper marks D (O(n log n)).",
+        "B": "O(log n) applies when only one branch of n/2 is executed (like binary search).",
+        "C": "O(n^2) represents quadratic growth from double nested loops or unpartitioned recursion.",
+        "D": "The source marks O(n log n) for this divide-and-conquer recursive relation."
+      }
+    },
+    {
+      "id": 19,
+      "section": "DSA",
+      "question": "An algorithm that should run in O(n log n) time complexity runs significantly slower. The likely cause is:",
+      "options": {
+        "A": "Incorrect base case in recursion",
+        "B": "Excessive memory allocation",
+        "C": "Poor choice of pivot in sorting",
+        "D": "All of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "An incorrect base case usually triggers a stack overflow error or infinite recursion rather than a gradual slowdown.",
+        "B": "Excessive memory allocation increases space and GC pauses, but does not alter the fundamental sorting algorithmic runtime from O(n log n) to O(n^2).",
+        "C": "In quicksort, poor pivot selection (such as always picking the smallest element) degrades the recursion tree from balanced log n depth to n depth, causing O(n^2) performance.",
+        "D": "While other factors affect latency, poor pivot selection is the classic defect that degrades O(n log n) algorithms to quadratic time."
+      }
+    },
+    {
+      "id": 20,
+      "section": "DSA",
+      "question": "A function designed to be O(n) complexity takes longer as n increases. What might be overlooked?",
+      "options": {
+        "A": "Nested loops",
+        "B": "Constant factors",
+        "C": "Linear operations",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Unintentionally nesting a loop or hidden linear API call (such as .indexOf() or .includes() inside a loop) turns an intended O(n) algorithm into O(n^2).",
+        "B": "Constant factors alter absolute clock time by a fixed multiplier, but do not change the linear scaling curve.",
+        "C": "Linear operations maintain the O(n) complexity class and would not cause unexpected super-linear performance degradation.",
+        "D": "Hidden nested operations are the most frequent pitfall in asymptotic complexity estimation."
+      }
+    },
+    {
+      "id": 21,
+      "section": "DSA",
+      "question": "A recursive algorithm expected to have a time complexity of O(log n) is running slower. The likely issue is:",
+      "options": {
+        "A": "Not halving the input on each recursive call",
+        "B": "Incorrect termination condition",
+        "C": "Stack overflow",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Logarithmic time requires geometrically reducing the problem size (e.g. n/2). Subtracting a constant (e.g. n-1) results in O(n) linear recursion.",
+        "B": "An incorrect termination condition causes incorrect output values or infinite recursion crashes, rather than slow logarithmic scaling.",
+        "C": "A stack overflow terminates program execution abruptly with an exception, rather than producing slower execution.",
+        "D": "Failing to divide the problem size at each step is the exact algorithmic reason recursion fails to achieve O(log n)."
+      }
+    },
+    {
+      "id": 22,
+      "section": "DSA",
+      "question": "Which data structure should be used to store a collection of characters in a sequence?",
+      "options": {
+        "A": "Array",
+        "B": "Stack",
+        "C": "Queue",
+        "D": "Graph"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "An array (or character array / string) stores elements in contiguous memory locations in sequential index order.",
+        "B": "A stack enforces Last-In-First-Out (LIFO) access, which is specialized and not designed for general indexed sequence storage.",
+        "C": "A queue enforces First-In-First-Out (FIFO) access, typically restricting random inspection along the sequence.",
+        "D": "A graph represents non-linear networks of vertices and edges rather than a linear sequence of characters."
+      }
+    },
+    {
+      "id": 23,
+      "section": "DSA",
+      "question": "What is the time complexity of accessing an element in an array by its index?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Arrays provide O(1) constant-time random access because the memory address is directly computed using base_address + index * element_size.",
+        "B": "O(n) search time applies to finding a value in an unsorted array or traversing a linked list to an index.",
+        "C": "O(log n) applies to searching an ordered tree or performing binary search.",
+        "D": "O(n^2) represents quadratic comparison loops, unrelated to direct memory offset access."
+      }
+    },
+    {
+      "id": 24,
+      "section": "DSA",
+      "question": "Which of the following is NOT a valid reason to use a string builder in Java instead of concatenating strings using the + operator?",
+      "options": {
+        "A": "It reduces memory usage",
+        "B": "It is faster for concatenating multiple strings",
+        "C": "It is immutable",
+        "D": "It can be used in multi-threaded environments"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Reducing heap memory allocations is a primary benefit because StringBuilder modifies an internal buffer without creating intermediate string objects.",
+        "B": "Faster performance across repeated concatenations is true, avoiding the O(n^2) copying penalty of immutable String.",
+        "C": "StringBuilder is mutable; immutability is a feature of java.lang.String, so claiming StringBuilder is immutable is false (NOT a valid reason).",
+        "D": "While StringBuffer is synchronized for multi-threading, StringBuilder is designed for single-threaded speed; however, C is the definitive factual untruth."
+      }
+    },
+    {
+      "id": 25,
+      "section": "DSA",
+      "question": "In an unsorted array of integers, what is the best time complexity achievable for searching for a specific value?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) search is possible only with hash tables or direct address tables, not an arbitrary unsorted array.",
+        "B": "In an unsorted array with no precomputed index, every element must potentially be examined, requiring O(n) linear time in the worst/average case.",
+        "C": "O(log n) search requires the elements to be sorted (binary search) or stored in a balanced search tree.",
+        "D": "O(n^2) is unnecessarily inefficient; linear search finishes in O(n) single-pass time."
+      }
+    },
+    {
+      "id": 26,
+      "section": "DSA",
+      "question": "Considering a character array representing a string, what is the space complexity for storing this string?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) constant space stores only a single character or fixed-size pointer, not a string of variable length n.",
+        "B": "Storing a string of length n requires n consecutive character elements in memory, requiring O(n) space.",
+        "C": "O(log n) auxiliary space is common in recursive call stacks, but insufficient to hold n discrete characters.",
+        "D": "O(n^2) space would represent an n * n matrix, which is unnecessary for a 1D sequence."
+      }
+    },
+    {
+      "id": 27,
+      "section": "DSA",
+      "question": "Which operation has a worse time complexity in a dynamic array when it needs to expand its size?",
+      "options": {
+        "A": "Accessing an element by index",
+        "B": "Appending an element at the end",
+        "C": "Inserting an element at the beginning",
+        "D": "Searching for an element"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Accessing by index remains O(1) even after reallocation.",
+        "B": "Appending at the end takes amortized O(1) time, and O(n) only on the rare resize step.",
+        "C": "Inserting at the beginning requires reallocating new capacity AND shifting all n existing elements forward by one position (O(n)).",
+        "D": "Searching takes O(n) comparisons regardless of expansion."
+      }
+    },
+    {
+      "id": 28,
+      "section": "DSA",
+      "question": "What does the following Python code snippet return?\narr = ['a', 'b', 'c', 'd']; print(arr[1:3])",
+      "options": {
+        "A": "['a', 'b']",
+        "B": "['b', 'c']",
+        "C": "['c', 'd']",
+        "D": "['b', 'c', 'd']"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "['a', 'b'] corresponds to slice arr[0:2], which starts at index 0.",
+        "B": "Python slicing [start:stop] includes the start index (1 -> 'b') up to but excluding the stop index (3), returning ['b', 'c'].",
+        "C": "['c', 'd'] corresponds to slice arr[2:4] or arr[2:].",
+        "D": "['b', 'c', 'd'] corresponds to slice arr[1:4] or arr[1:]."
+      }
+    },
+    {
+      "id": 29,
+      "section": "DSA",
+      "question": "Given an array of integers, which of the following operations will NOT mutate the original array in JavaScript?",
+      "options": {
+        "A": "arr.sort()",
+        "B": "arr.push(5)",
+        "C": "[...arr, 5]",
+        "D": "arr.pop()"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Array.prototype.sort() mutates the original array in place.",
+        "B": "Array.prototype.push() appends elements directly into the existing array, mutating it.",
+        "C": "The spread syntax [...arr, 5] creates a brand new shallow copy array containing the original items plus 5, leaving arr untouched.",
+        "D": "Array.prototype.pop() removes the last element directly from the calling array, mutating it."
+      }
+    },
+    {
+      "id": 30,
+      "section": "DSA",
+      "question": "What is the result of concatenating two arrays in Python using the + operator, arr1 = [1, 2, 3] and arr2 = [4, 5, 6]?",
+      "options": {
+        "A": "A new array [1, 2, 3, 4, 5, 6]",
+        "B": "The original arrays are mutated to include the elements of the other",
+        "C": "A syntax error",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The + operator on Python lists returns a new concatenated list containing elements of both operands without altering either list.",
+        "B": "In-place list mutation is performed via .extend() or +=, not the binary + operator.",
+        "C": "List concatenation using + is valid, standard Python syntax.",
+        "D": "Option A accurately describes the standard return behavior."
+      }
+    },
+    {
+      "id": 31,
+      "section": "DSA",
+      "question": "A programmer expects the following JavaScript code to update an array but it does not: const arr = [1, 2, 3]; arr = [4, 5, 6];. What is the mistake?",
+      "options": {
+        "A": "Attempting to reassign a constant array",
+        "B": "Incorrect syntax for array update",
+        "C": "Using the wrong data type",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Variables declared with const cannot be reassigned to a new memory reference; trying to rebind arr throws a TypeError: Assignment to constant variable.",
+        "B": "The array literal syntax [4, 5, 6] is valid, but the variable identifier binding is immutable.",
+        "C": "Arrays are valid objects in JavaScript; the issue is variable binding semantics rather than data types.",
+        "D": "Reassigning a const reference is the exact cause of the runtime error."
+      }
+    },
+    {
+      "id": 32,
+      "section": "DSA",
+      "question": "Why does string.split('').reverse().join('') in JavaScript return a reversed string?",
+      "options": {
+        "A": "The split method incorrectly splits the string",
+        "B": "The reverse method does not work on strings",
+        "C": "The join method concatenates incorrectly",
+        "D": "None of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "The split('') method correctly separates every character into individual array elements.",
+        "B": "Strings in JS are immutable so they do not have a .reverse() method; that is why converting to an array first is necessary and correct.",
+        "C": "The join('') method correctly concatenates the reversed array back into a single string.",
+        "D": "None of the above flaws exist: split('') splits into an array, reverse() reverses the array elements, and join('') reconstructs the reversed string."
+      }
+    },
+    {
+      "id": 33,
+      "section": "DSA",
+      "question": "In a program designed to find the longest string in an array of strings, the output is always the first string. What is the likely error?",
+      "options": {
+        "A": "Not updating the longest string variable inside the loop",
+        "B": "Using the wrong comparison operator",
+        "C": "Not initializing the longest string variable",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "If the algorithm checks string lengths but forgets to assign longest = current when a longer string is found, longest remains stuck at its initial first-element value.",
+        "B": "Using a reversed operator (e.g. < instead of >) would return the shortest string rather than stubbornly retaining the first.",
+        "C": "An uninitialized variable causes a ReferenceError or undefined evaluation error.",
+        "D": "Failure to reassign the tracking variable inside the loop block is the specific logical defect."
+      }
+    },
+    {
+      "id": 34,
+      "section": "DSA",
+      "question": "What distinguishes a singly linked list from a doubly linked list?",
+      "options": {
+        "A": "Each node has one pointer in a singly linked list and two in a doubly linked list",
+        "B": "Singly linked lists are faster",
+        "C": "Doubly linked lists cannot have cycles",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Each node in a singly linked list contains a single next pointer, whereas a doubly linked list node contains both next and prev pointers.",
+        "B": "Singly linked lists are not universally faster; doubly linked lists allow O(1) backward traversal and deletion given a node reference.",
+        "C": "Doubly linked lists can readily form cycles if a node's pointer references an ancestor node.",
+        "D": "Only structural pointer count (Option A) is the defining architectural distinction."
+      }
+    },
+    {
+      "id": 35,
+      "section": "DSA",
+      "question": "What operation is typically more efficient in a linked list compared to an array?",
+      "options": {
+        "A": "Accessing an element by index",
+        "B": "Appending an element to the end",
+        "C": "Inserting an element at the beginning",
+        "D": "Searching for an element"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Array index access is O(1) via offset math, whereas linked list traversal to an index requires O(n) steps.",
+        "B": "Both arrays (amortized) and linked lists with tail pointers append to the end in O(1) time.",
+        "C": "Inserting at the beginning of a linked list is O(1) by redirecting the head pointer, whereas an array requires shifting all n elements (O(n)).",
+        "D": "Searching an unsorted collection requires O(n) sequential comparisons in both data structures."
+      }
+    },
+    {
+      "id": 36,
+      "section": "DSA",
+      "question": "Which of the following scenarios is a linked list NOT suitable for?",
+      "options": {
+        "A": "When elements need to be accessed sequentially",
+        "B": "When memory usage is a concern",
+        "C": "When fast access to elements by index is required",
+        "D": "When adding or removing elements frequently"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Linked lists are well suited for sequential traversal by following pointers from node to node.",
+        "B": "While node pointers consume extra memory overhead, linked lists dynamically allocate memory without contiguous buffer reservations.",
+        "C": "Linked lists cannot perform O(1) random indexing because memory is non-contiguous; retrieving index k requires traversing k pointers (O(n)).",
+        "D": "Linked lists excel at frequent insertions and deletions because nodes are spliced without shifting neighbor elements."
+      }
+    },
+    {
+      "id": 37,
+      "section": "DSA",
+      "question": "In a linked list, what does the head pointer signify?",
+      "options": {
+        "A": "The middle node of the list",
+        "B": "The last node of the list",
+        "C": "The first node of the list",
+        "D": "A random node in the list"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "The middle node is found via two-pointer traversal, not stored directly as the head pointer.",
+        "B": "The last node is typically designated as the tail pointer, whose next references null.",
+        "C": "The head pointer stores the memory address of the first node in the linked list, serving as the entry point for all traversals.",
+        "D": "The head pointer strictly anchors the start of the chain, never a random node."
+      }
+    },
+    {
+      "id": 38,
+      "section": "DSA",
+      "question": "How do you detect a cycle in a linked list?",
+      "options": {
+        "A": "By checking if the next pointer of any node is null",
+        "B": "Using a hash table to store visited nodes",
+        "C": "Comparing each node with every other node",
+        "D": "Using two pointers at different speeds"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "In a cyclic list, no node's next pointer is ever null; traversing linearly results in an infinite loop.",
+        "B": "A hash set of visited node references can detect cycles in O(n) time, but consumes O(n) extra memory; Floyd's two-pointer algorithm is the canonical approach.",
+        "C": "Comparing every node pair is an inefficient O(n^2) approach.",
+        "D": "Floyd's Tortoise and Hare algorithm uses a slow pointer (1 step) and fast pointer (2 steps); if a cycle exists, they will inevitably meet inside the loop in O(n) time and O(1) space."
+      }
+    },
+    {
+      "id": 39,
+      "section": "DSA",
+      "question": "What is the time complexity of finding the middle element in a singly linked list?",
+      "options": {
+        "A": "O(1)",
+        "B": "O(n)",
+        "C": "O(log n)",
+        "D": "O(n^2)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "O(1) middle access requires an array where index math arr[n/2] is supported.",
+        "B": "Finding the middle requires traversing the list using a fast and slow pointer, inspecting nodes in a single pass of O(n) time.",
+        "C": "O(log n) is not achievable because linked lists lack random access binary splitting.",
+        "D": "O(n^2) would be an inefficient nested traversal; a single pass suffices."
+      }
+    },
+    {
+      "id": 40,
+      "section": "DSA",
+      "question": "What does the following code snippet do?\nnode.next = node.next.next;",
+      "options": {
+        "A": "Deletes the next node in the list",
+        "B": "Inserts a new node after the current one",
+        "C": "Swaps two nodes",
+        "D": "Duplicates the next node"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Bypassing node.next by pointing directly to node.next.next unlinks the intermediate node from the chain, effectively deleting it from traversal.",
+        "B": "Insertion requires allocating a new node and configuring both its pointer and the preceding node's pointer.",
+        "C": "Swapping nodes requires adjusting three or four pointer linkages across both nodes.",
+        "D": "Duplicating a node requires allocating memory for a new node with identical data."
+      }
+    },
+    {
+      "id": 41,
+      "section": "Operating Systems",
+      "question": "Which component of an operating system is responsible for managing files?",
+      "options": {
+        "A": "File System Manager",
+        "B": "Memory Manager",
+        "C": "Process Manager",
+        "D": "Device Driver"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The File System Manager manages file creation, naming, read/write permissions, directory trees, and disk block allocation.",
+        "B": "The Memory Manager allocates physical RAM frames and virtual address spaces to running processes.",
+        "C": "The Process Manager oversees process creation, CPU scheduling, state transitions, and termination.",
+        "D": "Device drivers translate generic OS I/O commands into hardware-specific controller signals."
+      }
+    },
+    {
+      "id": 42,
+      "section": "Operating Systems",
+      "question": "An operating system's primary function includes which of the following?",
+      "options": {
+        "A": "Providing user interface",
+        "B": "Managing hardware resources",
+        "C": "Running applications",
+        "D": "All of the above"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Providing user interfaces (CLI shells or graphical desktop environments) is one core service of an OS.",
+        "B": "Managing hardware resources (CPU, RAM, disk, I/O devices) is a fundamental operating system responsibility.",
+        "C": "Loading, scheduling, and providing system call APIs for application execution is an essential OS function.",
+        "D": "An operating system encompasses hardware resource management, application execution environments, and user interaction mechanisms."
+      }
+    },
+    {
+      "id": 43,
+      "section": "Operating Systems",
+      "question": "The kernel of an operating system is:",
+      "options": {
+        "A": "The user interface",
+        "B": "The part that manages hardware interactions",
+        "C": "An application software",
+        "D": "A type of virus"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "The user interface is handled by user-space shells or desktop environments (GUI), which reside outside the kernel.",
+        "B": "The kernel is the core privilege-level program that directly interacts with the CPU, memory, interrupts, and hardware devices.",
+        "C": "Application software runs in unprivileged user mode and relies on system calls to request kernel services.",
+        "D": "The kernel is the central component of system software, not malicious malware."
+      }
+    },
+    {
+      "id": 44,
+      "section": "Operating Systems",
+      "question": "Which of the following is not a type of operating system?",
+      "options": {
+        "A": "Batch Operating System",
+        "B": "Real-time Operating System",
+        "C": "Sequential Operating System",
+        "D": "Distributed Operating System"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Batch Operating Systems execute jobs in batches without direct user interaction (e.g. early mainframes).",
+        "B": "Real-Time Operating Systems (RTOS) guarantee strict, deterministic execution deadlines (e.g. VxWorks, QNX).",
+        "C": "'Sequential Operating System' is not an established category in operating system architecture classification.",
+        "D": "Distributed Operating Systems coordinate independent computers so they appear as a single unified system."
+      }
+    },
+    {
+      "id": 45,
+      "section": "Operating Systems",
+      "question": "In an operating system, what is the role of a scheduler?",
+      "options": {
+        "A": "To allocate disk space",
+        "B": "To manage user accounts",
+        "C": "To determine which process runs at a certain point in time",
+        "D": "To configure network settings"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Allocating disk space and blocks is the responsibility of the file system manager and storage driver.",
+        "B": "Managing user accounts and access credentials is handled by user authentication and security subsystem services.",
+        "C": "The CPU scheduler determines which ready process or thread in the queue is allocated the CPU next.",
+        "D": "Configuring network interfaces and IP routing is handled by the network stack."
+      }
+    },
+    {
+      "id": 46,
+      "section": "Operating Systems",
+      "question": "Multitasking in operating systems allows for:",
+      "options": {
+        "A": "Multiple users to share a single device",
+        "B": "A single user to perform multiple tasks at one time",
+        "C": "Devices to run without an OS",
+        "D": "None of the above"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Multiple users sharing a single computing system is known as multi-user or time-sharing, not simply multitasking.",
+        "B": "Multitasking enables a single user to run and switch between multiple active applications concurrently through rapid CPU scheduling.",
+        "C": "Hardware devices cannot coordinate concurrent application execution without an operating system.",
+        "D": "Option B is the standard definition of multitasking."
+      }
+    },
+    {
+      "id": 47,
+      "section": "Operating Systems",
+      "question": "Which command in Unix is used to display the current directory's contents?",
+      "options": {
+        "A": "ls",
+        "B": "cd",
+        "C": "mkdir",
+        "D": "touch"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "ls (list) displays the files and subdirectories located within the current working directory.",
+        "B": "cd (change directory) changes the current working directory path.",
+        "C": "mkdir (make directory) creates a new directory folder.",
+        "D": "touch creates an empty file or updates the access and modification timestamps of an existing file."
+      }
+    },
+    {
+      "id": 48,
+      "section": "Operating Systems",
+      "question": "A user complains that they cannot access the internet on their computer. What should be checked first?",
+      "options": {
+        "A": "The web browser's homepage setting",
+        "B": "The network cable connection",
+        "C": "The installed operating system",
+        "D": "The computer's power status"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "The browser homepage affects only the initial tab, not underlying network connectivity or DNS resolution.",
+        "B": "Basic troubleshooting follows the bottom-up OSI model: verifying physical layer connectivity (Ethernet cable or Wi-Fi status) comes first.",
+        "C": "The installed OS is already booted and functional if the user is attempting browser access.",
+        "D": "The computer is clearly powered on if the user is operating the desktop to access the internet."
+      }
+    },
+    {
+      "id": 49,
+      "section": "Operating Systems",
+      "question": "A computer is running very slowly. The most likely cause is:",
+      "options": {
+        "A": "Too many browser tabs open",
+        "B": "Insufficient RAM",
+        "C": "Outdated graphics drivers",
+        "D": "A disconnected printer"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Excessive browser tabs can consume memory, but insufficient physical RAM is the root hardware constraint causing swapping.",
+        "B": "Insufficient RAM forces the OS to perform frequent paging/swapping to disk (thrashing), drastically reducing overall system responsiveness.",
+        "C": "Outdated graphics drivers can cause video stuttering or visual glitches, but rarely cause systemic OS thrashing.",
+        "D": "A disconnected printer has no impact on general CPU and memory performance."
+      }
+    },
+    {
+      "id": 50,
+      "section": "Operating Systems",
+      "question": "A process is:",
+      "options": {
+        "A": "An instance of a program in execution",
+        "B": "A set of instructions stored on disk",
+        "C": "The same as a thread",
+        "D": "A type of computer virus"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A process is an active program in execution, with its own address space, program counter, registers, and system resources.",
+        "B": "A passive set of instructions stored on disk is an executable file or program, not a running process.",
+        "C": "A thread is a lightweight execution unit within a process; a process contains at least one or more threads.",
+        "D": "A process is the fundamental OS abstraction for program execution, not malware."
+      }
+    },
+    {
+      "id": 51,
+      "section": "Operating Systems",
+      "question": "Which of the following is true about threads within the same process?",
+      "options": {
+        "A": "They share the same CPU but have different memory",
+        "B": "They have separate CPUs",
+        "C": "They share the same memory space",
+        "D": "None of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Threads within a process share the same virtual address space, heap, and open file descriptors, having only their own stack and registers.",
+        "B": "Threads can be scheduled across multiple CPU cores in parallel on modern multicore architectures.",
+        "C": "All threads in the same process share the identical address space (code, data, heap segments) and process resources.",
+        "D": "Option C correctly characterizes thread memory architecture."
+      }
+    },
+    {
+      "id": 52,
+      "section": "Operating Systems",
+      "question": "The primary difference between a process and a thread is:",
+      "options": {
+        "A": "A thread is a part of a process",
+        "B": "A process is less resource-intensive",
+        "C": "Threads do not share resources",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A thread is a lightweight entity executing inside a parent process, sharing its memory and resources.",
+        "B": "Processes are significantly more resource-intensive than threads due to private virtual address space allocation.",
+        "C": "Threads explicitly share data, code, and files within their parent process.",
+        "D": "Only Option A correctly states the architectural relationship."
+      }
+    },
+    {
+      "id": 53,
+      "section": "Operating Systems",
+      "question": "In a multiprocessing system, processes:",
+      "options": {
+        "A": "Are executed one at a time",
+        "B": "Can share resources efficiently",
+        "C": "Are executed in parallel",
+        "D": "Must communicate using inter-process communication (IPC)"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Executing one task at a time describes uniprocessor time-sliced concurrency, not true multiprocessing.",
+        "B": "Resource sharing is common to multitasking, but the defining capability of multiprocessing is hardware-level parallelism.",
+        "C": "Multiprocessing systems utilize two or more physical CPUs or cores to execute multiple processes simultaneously in true hardware parallel.",
+        "D": "Processes often run independently without mandatory inter-process communication."
+      }
+    },
+    {
+      "id": 54,
+      "section": "Operating Systems",
+      "question": "Context switching is:",
+      "options": {
+        "A": "The process of saving and restoring the state of a CPU so that multiple processes can share a single CPU resource",
+        "B": "The act of switching between different applications by the user",
+        "C": "A method of disk scheduling",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Context switching stores the register state, program counter, and PCB of an outgoing process and restores those of the incoming process.",
+        "B": "User task switching (e.g. Alt+Tab) is a UI action, whereas context switching is the low-level kernel scheduling mechanism.",
+        "C": "Disk scheduling algorithms (SSTF, SCAN, LOOK) reorder disk I/O requests, distinct from CPU context switching.",
+        "D": "Option A is the accurate technical definition."
+      }
+    },
+    {
+      "id": 55,
+      "section": "Operating Systems",
+      "question": "Which of the following scenarios best demonstrates a deadlock?",
+      "options": {
+        "A": "Two or more processes are waiting indefinitely for an event that can only be caused by one of the waiting processes",
+        "B": "A process waiting for a resource that's never released",
+        "C": "A thread that is executing a non-terminating loop",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Deadlock is a circular wait condition where two or more processes are permanently blocked because each holds a resource needed by another.",
+        "B": "A process waiting for a leaked or unreleased resource demonstrates resource starvation or leakage, but not necessarily multi-process deadlock.",
+        "C": "An infinite loop is an execution logic bug, not a deadlock.",
+        "D": "Option A is the classic, formal computer science definition of deadlock."
+      }
+    },
+    {
+      "id": 56,
+      "section": "Operating Systems",
+      "question": "In operating systems, a semaphore is:",
+      "options": {
+        "A": "A type of malware",
+        "B": "A signal mechanism",
+        "C": "A low-level programming language",
+        "D": "An I/O device driver"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Semaphores are standard concurrency synchronization primitives, not malicious software.",
+        "B": "A semaphore is an integer variable accessed via atomic wait() (P) and signal() (V) operations to manage concurrent resource access.",
+        "C": "Languages like C or assembly implement semaphores, but semaphores themselves are synchronization variables.",
+        "D": "Device drivers interact with hardware controllers, whereas semaphores coordinate process/thread synchronization."
+      }
+    },
+    {
+      "id": 57,
+      "section": "Operating Systems",
+      "question": "The main purpose of thread synchronization is to:",
+      "options": {
+        "A": "Ensure that only one thread can access the resource at any given time",
+        "B": "Make sure that threads run at the same speed",
+        "C": "Prevent threads from executing",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Synchronization enforces mutual exclusion on critical sections, preventing race conditions and data corruption on shared memory.",
+        "B": "Threads execute asynchronously and do not need to run at identical speeds.",
+        "C": "Synchronization coordinates thread progress rather than halting thread execution.",
+        "D": "Option A identifies the primary purpose of synchronization."
+      }
+    },
+    {
+      "id": 58,
+      "section": "Operating Systems",
+      "question": "In most modern operating systems, a new thread is created by:",
+      "options": {
+        "A": "Forking a process",
+        "B": "Using a thread library function like pthread_create in C",
+        "C": "Cloning the operating system",
+        "D": "Writing a new kernel module"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "fork() creates a completely new separate child process with duplicated address space, not a thread within the current process.",
+        "B": "POSIX pthread_create() spawns a new thread sharing the current process memory.",
+        "C": "Cloning the operating system relates to virtualization or disk imaging, not application threading.",
+        "D": "Kernel modules extend kernel capabilities; user-space threading uses standard threading library APIs."
+      }
+    },
+    {
+      "id": 59,
+      "section": "Operating Systems",
+      "question": "If a program with multiple threads is using more CPU resources than expected, you should first:",
+      "options": {
+        "A": "Check for infinite loops within threads",
+        "B": "Increase the number of CPUs in the system",
+        "C": "Delete unused threads",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Runaway busy-wait loops or unyielding while loops within thread routines saturate CPU cores at 100% utilization.",
+        "B": "Adding more CPUs masks inefficient code and does not diagnose the cause of anomalous CPU usage.",
+        "C": "Unused threads that are sleeping or terminated do not consume active CPU cycles.",
+        "D": "Investigating thread execution loops is the primary diagnostic step."
+      }
+    },
+    {
+      "id": 60,
+      "section": "Operating Systems",
+      "question": "A thread is unable to proceed with its execution because it's waiting for a resource that's held by another thread. This scenario describes:",
+      "options": {
+        "A": "A deadlock",
+        "B": "A segmentation fault",
+        "C": "A syntax error",
+        "D": "A runtime error"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "When threads are mutually blocked waiting on resources held by each other, the state is a deadlock.",
+        "B": "A segmentation fault occurs when a process accesses invalid or unauthorized memory addresses.",
+        "C": "Syntax errors prevent compilation or script parsing, prior to execution.",
+        "D": "A generic runtime error covers unhandled exceptions, whereas resource-wait blocking specifically describes deadlock or contention."
+      }
+    },
+    {
+      "id": 61,
+      "section": "Operating Systems",
+      "question": "When a process is not responding to user inputs, a likely cause is:",
+      "options": {
+        "A": "The process is in a deadlock state",
+        "B": "The process is executing a high-priority task",
+        "C": "The user input device is malfunctioning",
+        "D": "The process is waiting for a network response"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A process frozen and unresponsive to UI events is frequently stuck in a deadlock on its event-handling UI thread.",
+        "B": "High-priority tasks still process event queues unless the event thread itself is starved or deadlocked.",
+        "C": "An input device malfunction would affect the entire operating system, not just a single unresponsive application.",
+        "D": "Network waits should be performed asynchronously on worker threads; blocking the main UI thread causes unresponsiveness."
+      }
+    },
+    {
+      "id": 62,
+      "section": "Operating Systems",
+      "question": "To identify a process consuming an unusually high amount of system resources, you would use:",
+      "options": {
+        "A": "The ps command",
+        "B": "The top command",
+        "C": "The kill command",
+        "D": "The cd command"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ps displays a static point-in-time snapshot of active processes, which is less effective for observing real-time resource spikes.",
+        "B": "top (or htop) provides a real-time, dynamically updating interactive display of CPU and memory utilization per process.",
+        "C": "kill sends termination signals to a process by PID, but does not monitor resource utilization.",
+        "D": "cd changes the working directory in the shell."
+      }
+    },
+    {
+      "id": 63,
+      "section": "Operating Systems",
+      "question": "What is the purpose of process scheduling in an operating system?",
+      "options": {
+        "A": "To allocate CPU time to processes",
+        "B": "To allocate memory to processes",
+        "C": "To manage the file system",
+        "D": "To monitor system performance"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Process scheduling determines which ready processes receive CPU execution time and for how long.",
+        "B": "Memory allocation is handled by the virtual memory subsystem and page allocator.",
+        "C": "File system management organizes directory structures and disk storage.",
+        "D": "Performance monitoring observes and records metrics, but does not allocate CPU quanta."
+      }
+    },
+    {
+      "id": 64,
+      "section": "Operating Systems",
+      "question": "Which scheduling algorithm assigns CPU time based on process priority?",
+      "options": {
+        "A": "First-Come, First-Served",
+        "B": "Shortest Job First",
+        "C": "Priority Scheduling",
+        "D": "Round-Robin"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "First-Come, First-Served (FCFS) schedules processes strictly in arrival order.",
+        "B": "Shortest Job First (SJF) schedules processes based on estimated next CPU burst time.",
+        "C": "Priority Scheduling dispatches the ready process with the highest assigned numerical priority level.",
+        "D": "Round-Robin assigns fixed time quanta sequentially to all ready processes."
+      }
+    },
+    {
+      "id": 65,
+      "section": "Operating Systems",
+      "question": "The Round-Robin scheduling algorithm is designed to:",
+      "options": {
+        "A": "Prevent process starvation",
+        "B": "Prioritize short jobs",
+        "C": "Minimize resource allocation",
+        "D": "Maximize system security"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "By cycling through all ready processes with fixed time slices, Round-Robin guarantees every process periodic CPU access, preventing starvation.",
+        "B": "Shortest Job First (SJF) prioritizes short jobs, not Round-Robin.",
+        "C": "Round-Robin introduces context-switch overhead rather than minimizing resource allocation.",
+        "D": "CPU scheduling algorithms manage execution fairness, not system security boundaries."
+      }
+    },
+    {
+      "id": 66,
+      "section": "Operating Systems",
+      "question": "In the context of process scheduling, what does \"context switch\" mean?",
+      "options": {
+        "A": "Changing the process state from running to waiting",
+        "B": "Switching the CPU from one process to another",
+        "C": "Updating the process priority",
+        "D": "None of the above"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Transitioning from running to waiting is a specific process state change, which triggers a context switch to another process.",
+        "B": "A context switch is the operation of saving the state of the current process and restoring the state of another so the CPU switches tasks.",
+        "C": "Updating priority modifies scheduling metadata, but does not necessarily switch the running task.",
+        "D": "Option B is the precise technical definition."
+      }
+    },
+    {
+      "id": 67,
+      "section": "Operating Systems",
+      "question": "Which of the following is a disadvantage of the Shortest Job First (SJF) scheduling algorithm?",
+      "options": {
+        "A": "It can cause starvation of longer processes",
+        "B": "It is too fast",
+        "C": "It requires too much memory",
+        "D": "It is not suitable for batch processing"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "If short jobs continuously arrive in the ready queue, longer processes may be postponed indefinitely, suffering starvation.",
+        "B": "Speed is an advantage of SJF, minimizing average turnaround and waiting times.",
+        "C": "SJF requires minimal scheduling metadata, not excessive memory.",
+        "D": "SJF was originally designed specifically for batch systems where burst times are well estimated."
+      }
+    },
+    {
+      "id": 68,
+      "section": "Operating Systems",
+      "question": "What is a major advantage of using the Multilevel Queue scheduling algorithm?",
+      "options": {
+        "A": "It allows processes to move between queues",
+        "B": "It reduces the overall system security",
+        "C": "It simplifies the scheduler design",
+        "D": "It increases the CPU utilization"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Multilevel Feedback Queue scheduling allows aging processes to migrate between queues of varying priority, preventing starvation.",
+        "B": "Scheduling algorithms are not designed to degrade security.",
+        "C": "Multilevel queues introduce complex scheduling rules across multiple priority tiers, rather than simplifying design.",
+        "D": "CPU utilization is determined by workload characteristics rather than multi-queue partitioning."
+      }
+    },
+    {
+      "id": 69,
+      "section": "Operating Systems",
+      "question": "How does the Real-Time Operating System (RTOS) scheduling differ from general-purpose operating system scheduling?",
+      "options": {
+        "A": "RTOS prioritizes tasks based on their urgency and deadlines",
+        "B": "RTOS uses only the First-Come, First-Served algorithm",
+        "C": "RTOS does not allow task preemption",
+        "D": "RTOS schedules tasks alphabetically"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "RTOS schedulers enforce deterministic timing constraints, prioritizing tasks by absolute deadlines (e.g. Rate Monotonic or Earliest Deadline First).",
+        "B": "FCFS lacks deadline awareness and is unacceptable for time-critical real-time environments.",
+        "C": "Preemption is essential in RTOS to allow immediate interruption of low-priority tasks when high-priority deadlines arrive.",
+        "D": "Processes are never scheduled alphabetically in computer operating systems."
+      }
+    },
+    {
+      "id": 70,
+      "section": "Operating Systems",
+      "question": "In process scheduling, the term \"quantum\" refers to:",
+      "options": {
+        "A": "The maximum size of data a process can handle",
+        "B": "The time a process spends in the CPU before being preempted",
+        "C": "The priority level of a process",
+        "D": "The number of processes in the system"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Data transfer limits relate to buffer sizes or MTU, not scheduling quanta.",
+        "B": "A time quantum (or time slice) is the maximum continuous duration of CPU time allocated to a process in time-sharing schedulers like Round-Robin.",
+        "C": "Priority is a ranking value, whereas quantum is a temporal duration.",
+        "D": "The number of processes in the system is the multiprogramming degree."
+      }
+    },
+    {
+      "id": 71,
+      "section": "Operating Systems",
+      "question": "Which command on a Linux system will show the current process priority (niceness) values?",
+      "options": {
+        "A": "ps",
+        "B": "top",
+        "C": "nice",
+        "D": "renice"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "ps -l can show NI values, but top is the interactive system monitoring tool highlighting PRI and NI columns in real time.",
+        "B": "top displays real-time process statistics including the PR (priority) and NI (niceness value, from -20 to 19) columns.",
+        "C": "nice launches a new command with a modified scheduling priority, rather than displaying existing processes.",
+        "D": "renice modifies the priority of an already running process by PID."
+      }
+    },
+    {
+      "id": 72,
+      "section": "Operating Systems",
+      "question": "A newly installed application is causing the system to slow down due to high CPU usage. Initially, you should:",
+      "options": {
+        "A": "Uninstall the application",
+        "B": "Increase the system's RAM",
+        "C": "Check the application's process priority",
+        "D": "Update the system's CPU drivers"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Uninstalling is an extreme measure before identifying whether the app is misconfigured or assigned an overly aggressive priority.",
+        "B": "The bottleneck is CPU utilization, not memory exhaustion.",
+        "C": "Checking process priority and CPU utilization allows inspecting whether the process is monopolizing cores and if deprioritizing it restores responsiveness.",
+        "D": "CPU microcode/drivers rarely need updating for a single application's high CPU load."
+      }
+    },
+    {
+      "id": 73,
+      "section": "Operating Systems",
+      "question": "If a system frequently experiences slow down during multitasking, a possible solution could be to adjust:",
+      "options": {
+        "A": "The system's page file size",
+        "B": "The scheduling algorithm parameters",
+        "C": "The graphical user interface settings",
+        "D": "The network bandwidth limits"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Adjusting page file size addresses out-of-memory errors, not CPU scheduling responsiveness during multitasking.",
+        "B": "Tuning scheduling parameters (such as the Round-Robin time quantum or process nice levels) balances latency and throughput during heavy multitasking.",
+        "C": "GUI visual effects have negligible impact on multitasking scheduling bottlenecks.",
+        "D": "Network bandwidth limits affect network transfers, not local multitasking CPU allocation."
+      }
+    },
+    {
+      "id": 74,
+      "section": "Operating Systems",
+      "question": "In diagnosing system performance issues, if certain low-priority processes consume excessive CPU time, you should:",
+      "options": {
+        "A": "Increase their priority",
+        "B": "Decrease their priority",
+        "C": "Reassign them to a different user",
+        "D": "Allocate them more memory"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Increasing priority would give them more CPU time, worsening system starvation for critical tasks.",
+        "B": "Decreasing priority (increasing the nice value) ensures the CPU scheduler gives precedence to higher-priority interactive tasks.",
+        "C": "Reassigning user ownership does not change the CPU scheduling priority of the process.",
+        "D": "The issue is CPU consumption, not memory allocation."
+      }
+    },
+    {
+      "id": 75,
+      "section": "Operating Systems",
+      "question": "A real-time system is missing deadlines after a new task was introduced. The first step to troubleshoot is to:",
+      "options": {
+        "A": "Increase the system clock speed",
+        "B": "Check the task's priority and execution time",
+        "C": "Reduce the number of tasks",
+        "D": "Update the RTOS"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Overclocking is a risky hardware alteration that fails to address algorithmic or priority inversion causes.",
+        "B": "Analyzing the new task's execution burst time (WCET) and priority ranking reveals whether it is preempting or starving existing deadline-critical tasks.",
+        "C": "Arbitrarily deleting tasks breaks system functionality before analyzing the schedule.",
+        "D": "Updating the RTOS kernel does not solve scheduling feasibility issues caused by an unfeasible task set."
+      }
+    },
+    {
+      "id": 76,
+      "section": "Operating Systems",
+      "question": "What is the primary purpose of synchronization in a multi-threaded environment?",
+      "options": {
+        "A": "To ensure that only one thread can access a resource at a time",
+        "B": "To increase the execution speed of programs",
+        "C": "To allocate memory efficiently",
+        "D": "To prevent the system from crashing"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Synchronization coordinates concurrent execution to enforce mutual exclusion on shared resources, preventing race conditions.",
+        "B": "Synchronization introduces locking overhead and slightly reduces raw throughput in exchange for data correctness.",
+        "C": "Memory allocation is handled by heap managers (e.g. malloc), not thread synchronization primitives.",
+        "D": "While preventing data corruption avoids crashes, the primary functional purpose is serialized access to shared state."
+      }
+    },
+    {
+      "id": 77,
+      "section": "Operating Systems",
+      "question": "A deadlock occurs when:",
+      "options": {
+        "A": "A process is waiting for a resource that is never released",
+        "B": "Multiple processes are waiting for each other to release resources",
+        "C": "A thread tries to access a locked resource",
+        "D": "All of the above"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "A single process waiting indefinitely on an unreleased resource is starvation or resource leaking, not necessarily multi-process deadlock.",
+        "B": "Deadlock occurs when two or more processes are locked in circular wait, each waiting for a resource held by another in the set.",
+        "C": "Attempting to access a locked resource causes normal, temporary blocking until the lock is released.",
+        "D": "Option B specifies the essential mutual dependency defining a true deadlock."
+      }
+    },
+    {
+      "id": 78,
+      "section": "Operating Systems",
+      "question": "Which of the following conditions must be present for a deadlock to occur?",
+      "options": {
+        "A": "Mutual exclusion, Hold and Wait, No preemption, Circular wait",
+        "B": "Mutual exclusion, First Come First Served, Circular wait",
+        "C": "Priority inversion, Hold and Wait, No preemption",
+        "D": "All of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "The four necessary Coffman conditions for deadlock are: 1. Mutual Exclusion, 2. Hold and Wait, 3. No Preemption, and 4. Circular Wait.",
+        "B": "FCFS is a scheduling algorithm, not one of the four necessary Coffman deadlock conditions.",
+        "C": "Priority inversion is a separate concurrency hazard where low-priority tasks delay high-priority tasks, not a prerequisite for deadlock.",
+        "D": "Only Option A contains all four valid Coffman conditions."
+      }
+    },
+    {
+      "id": 79,
+      "section": "Operating Systems",
+      "question": "What does the term \"mutual exclusion\" mean in the context of synchronization?",
+      "options": {
+        "A": "Only one process can access a resource at a time",
+        "B": "Any number of processes can share a resource",
+        "C": "Resources can be accessed in any order",
+        "D": "None of the above"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Mutual exclusion ensures that a non-shareable resource is held by at most one process at any given moment.",
+        "B": "Unrestricted sharing describes read-only access or lock-free concurrency, the opposite of mutual exclusion.",
+        "C": "Access ordering relates to serialization and scheduling, not mutual exclusion.",
+        "D": "Option A is the formal computer science definition."
+      }
+    },
+    {
+      "id": 80,
+      "section": "Operating Systems",
+      "question": "In the Dining Philosophers Problem, deadlock can be avoided by:",
+      "options": {
+        "A": "Allowing only four philosophers to sit at the table at any time",
+        "B": "Requiring philosophers to pick up both forks at the same time",
+        "C": "Philosophers must request the waiter's permission to pick up forks",
+        "D": "All of the above"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Limiting philosophers to N-1 breaks circular wait, which is one valid avoidance strategy.",
+        "B": "Requiring simultaneous atomic pickup of both forks avoids hold-and-wait.",
+        "C": "Having philosophers request permission from a centralized arbiter (the waiter) prevents asymmetric circular waiting; the source key marks Option C.",
+        "D": "While all three are theoretically valid algorithmic mitigations, the source marks Option C (waiter's permission)."
+      }
+    },
+    {
+      "id": 81,
+      "section": "SQL",
+      "question": "Identify the error in \"SELECT Name, NULLIF(Age, 30) FROM Employees WHERE Age IS NOT NULL;\"",
+      "options": {
+        "A": "Change 'NULLIF' to 'ISNULL'",
+        "B": "Replace 'Age, 30' with 'Age, 0'",
+        "C": "Remove 'WHERE Age IS NOT NULL'",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "ISNULL(Age, 30) would replace NULL with 30, which is the opposite of NULLIF (which returns NULL if expressions are equal).",
+        "B": "Replacing Age, 30 with Age, 0 merely changes the comparison literal without altering query syntax.",
+        "C": "The source marks removing WHERE Age IS NOT NULL because checking for non-null ages before calling NULLIF is redundant.",
+        "D": "While the statement is valid SQL in most RDBMSs, the source marks C as the intended correction."
+      }
+    },
+    {
+      "id": 82,
+      "section": "SQL",
+      "question": "Correct the syntax error in \"SELECT NVL(Salary, 'Not Provided') FROM Contractors;\"",
+      "options": {
+        "A": "Change 'NVL' to 'COALESCE'",
+        "B": "Replace 'Not Provided' with '0'",
+        "C": "Add 'AS SalaryStatus' for clarity",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "COALESCE is standard SQL, but NVL is fully valid in Oracle SQL.",
+        "B": "Replacing 'Not Provided' with 0 avoids type mismatch if Salary is numeric, though Oracle NVL requires matching data types.",
+        "C": "Adding a column alias like AS SalaryStatus provides a clean column header for the evaluated expression; marked by the source as the correction.",
+        "D": "The source specifically selects adding an explicit alias for clarity."
+      }
+    },
+    {
+      "id": 83,
+      "section": "SQL",
+      "question": "What is incorrect in \"SELECT COALESCE(FirstName, LastName, 'Unknown') FROM Authors;\"?",
+      "options": {
+        "A": "Replace 'COALESCE' with 'NVL'",
+        "B": "Change 'Unknown' to 'NULL'",
+        "C": "Add 'AS FullName' for clarity",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "NVL accepts only two arguments, whereas COALESCE properly evaluates an arbitrary chain of arguments.",
+        "B": "Changing 'Unknown' to NULL defeats the purpose of providing a fallback string when names are missing.",
+        "C": "Adding AS FullName provides a descriptive alias for the calculated column expression; marked by the source as the correction.",
+        "D": "While syntactically valid without an alias, the source marks adding AS FullName for clarity."
+      }
+    },
+    {
+      "id": 84,
+      "section": "SQL",
+      "question": "In \"SELECT Name, NVL2(Salary, Salary * 1.1, Salary) AS NewSalary FROM Employees;\", what needs correction?",
+      "options": {
+        "A": "Change 'NVL2' to 'COALESCE'",
+        "B": "Replace 'Salary * 1.1' with 'Salary + 1000'",
+        "C": "Remove 'AS NewSalary'",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "COALESCE does not support the ternary NVL2(expr, not_null_result, null_result) logic.",
+        "B": "Replacing the multiplier with an addition is a business logic alteration, not a syntax correction.",
+        "C": "The expression is syntactically valid in Oracle SQL; the source marks removing AS NewSalary.",
+        "D": "The source paper specifies option C."
+      }
+    },
+    {
+      "id": 85,
+      "section": "SQL",
+      "question": "What is the main use of the CASE statement in SQL?",
+      "options": {
+        "A": "To execute a sequence of commands",
+        "B": "To handle errors",
+        "C": "To perform if-then-else type logic",
+        "D": "To loop through records"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Executing a sequence of statements is handled by stored procedures, transactions, or procedural scripts (PL/SQL, T-SQL).",
+        "B": "Error handling is managed via TRY ... CATCH blocks in database procedural code.",
+        "C": "The CASE expression provides conditional branching (IF ... THEN ... ELSE) directly inside SQL queries.",
+        "D": "Looping through records is achieved via cursors or WHILE loops in procedural SQL, not CASE."
+      }
+    },
+    {
+      "id": 86,
+      "section": "SQL",
+      "question": "What needs to be corrected in \"SELECT Name, CASE WHEN Age >= 18 THEN 'Adult' ELSE 'Minor' END FROM Employees;\"?",
+      "options": {
+        "A": "Change 'CASE WHEN' to 'IF'",
+        "B": "Replace '>= 18' with '> 18'",
+        "C": "Remove 'ELSE 'Minor''",
+        "D": "No error"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "IF is not a standard SQL inline scalar expression; CASE WHEN is standard ANSI SQL.",
+        "B": "Replacing >= 18 with > 18 would classify 18-year-olds as minors, which is a logical error.",
+        "C": "Removing ELSE 'Minor' would cause all records with Age < 18 to evaluate to NULL.",
+        "D": "The CASE WHEN ... THEN ... ELSE ... END expression is syntactically complete and valid ANSI SQL."
+      }
+    },
+    {
+      "id": 87,
+      "section": "SQL",
+      "question": "Identify the error in \"SELECT Name, CASE Gender WHEN 'M' THEN 'Male' WHEN 'F' THEN 'Female' END AS Gender FROM Employees;\"",
+      "options": {
+        "A": "Change 'CASE Gender' to 'CASE WHEN Gender'",
+        "B": "Replace 'END AS Gender' with 'END'",
+        "C": "Add 'ELSE 'Other''",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "CASE Gender WHEN 'M' ... is standard Simple CASE syntax; converting to Searched CASE (CASE WHEN Gender = 'M' ...) is not required.",
+        "B": "Removing the alias leaves the result column unnamed or auto-generated, which is not an error fix.",
+        "C": "Adding an ELSE 'Other' fallback clause ensures that missing, non-binary, or unlisted gender codes do not produce unexpected NULL values.",
+        "D": "The source marks adding an ELSE clause to handle unspecified values safely."
+      }
+    },
+    {
+      "id": 88,
+      "section": "SQL",
+      "question": "What needs to be corrected in \"SELECT CURRENT_DATE FROM Employees;\"?",
+      "options": {
+        "A": "Replace 'CURRENT_DATE' with 'GETDATE()'",
+        "B": "Remove 'FROM Employees'",
+        "C": "Add 'AS Today'",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "GETDATE() is specific to Microsoft SQL Server; CURRENT_DATE is standard ANSI SQL.",
+        "B": "For a standalone scalar function like CURRENT_DATE, querying FROM Employees needlessly duplicates the current date for every row in the table; the source expects removing the table reference.",
+        "C": "Adding an alias is optional stylistic formatting, not a required query correction.",
+        "D": "While valid in SQL engines, the source flags the unnecessary row multiplication from FROM Employees."
+      }
+    },
+    {
+      "id": 89,
+      "section": "SQL",
+      "question": "Identify the error in \"SELECT Name, DATEDIFF(year, HireDate, GETDATE()) AS YearsWorked FROM Employees;\"",
+      "options": {
+        "A": "Change 'DATEDIFF(year, HireDate, GETDATE())' to 'DATEDIFF(day, HireDate, GETDATE())'",
+        "B": "Replace 'AS YearsWorked' with 'AS DaysWorked'",
+        "C": "Remove 'GETDATE()'",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Changing to day would calculate the total days worked instead of years.",
+        "B": "The source marks renaming the alias to AS DaysWorked (or adjusting the unit accordingly).",
+        "C": "Removing GETDATE() would leave DATEDIFF missing its required end-date parameter.",
+        "D": "The source designates option B."
+      }
+    },
+    {
+      "id": 90,
+      "section": "SQL",
+      "question": "Correct the syntax error in \"SELECT Name, DATEADD(MONTH, 6, HireDate) FROM Employees;\"",
+      "options": {
+        "A": "Change 'DATEADD' to 'DATEDIFF'",
+        "B": "Replace 'MONTH, 6' with 'YEAR, 1'",
+        "C": "Remove 'HireDate'",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "DATEDIFF calculates the difference between two dates, whereas DATEADD correctly adds intervals to a timestamp.",
+        "B": "Changing MONTH, 6 to YEAR, 1 alters the desired time offset.",
+        "C": "DATEADD(MONTH, 6, HireDate) is valid syntax; the source marks removing HireDate as the question's target item.",
+        "D": "The source paper specifies option C."
+      }
+    },
+    {
+      "id": 91,
+      "section": "SQL",
+      "question": "Correct the syntax error in \"UPDATE Products SET Price = Price * 1.1 WHERE Price < 100 OR Price > 200;\"",
+      "options": {
+        "A": "Change '*' to '+' in 'Price * 1.1'",
+        "B": "Remove 'OR Price > 200'",
+        "C": "Replace 'WHERE' with 'AND'",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Price * 1.1 correctly increases price by 10%; changing * to + would merely add $1.10.",
+        "B": "The source identifies removing OR Price > 200 to constrain the discount/price increase criteria.",
+        "C": "Changing WHERE to AND breaks SQL grammar; WHERE is the mandatory filter keyword.",
+        "D": "The statement is valid SQL, but the source selects B as the intended modification."
+      }
+    },
+    {
+      "id": 92,
+      "section": "SQL",
+      "question": "What is incorrect in \"SELECT EmployeeID, Salary FROM Employees WHERE Salary BETWEEN 30000 AND 50000;\"?",
+      "options": {
+        "A": "Change 'BETWEEN' to 'IN'",
+        "B": "Replace 'AND' with 'OR'",
+        "C": "Change 'Salary' to 'TotalSalary'",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "BETWEEN filters an inclusive numerical range; IN tests membership in an explicit discrete set.",
+        "B": "BETWEEN ... AND is mandatory syntactic pairing; replacing AND with OR is a syntax error.",
+        "C": "The source marks changing Salary to TotalSalary to reflect the comprehensive compensation field.",
+        "D": "The source marks option C as the intended schema attribute correction."
+      }
+    },
+    {
+      "id": 93,
+      "section": "SQL",
+      "question": "In \"SELECT Name FROM Employees WHERE NOT (Age < 30 AND Department = 'Sales');\", identify the error.",
+      "options": {
+        "A": "Replace 'NOT' with 'NO'",
+        "B": "Change 'AND' to 'OR'",
+        "C": "Remove parentheses around condition",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "NO is not an SQL keyword; NOT is the standard Boolean negation operator.",
+        "B": "By De Morgan's Laws, negating a conjunction (A and B) yields (NOT A or NOT B); the source identifies changing AND to OR.",
+        "C": "Parentheses are essential here to enforce operator precedence for the NOT clause.",
+        "D": "The source selects B to reflect the equivalent disjunctive form."
+      }
+    },
+    {
+      "id": 94,
+      "section": "SQL",
+      "question": "Identify the mistake in \"SELECT * FROM Employees WHERE Department = 'HR' XOR Department = 'Finance';\"",
+      "options": {
+        "A": "XOR operator",
+        "B": "= 'HR'",
+        "C": "= 'Finance'",
+        "D": "No mistake, the statement is correct"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "XOR (exclusive OR) is not a standard ANSI SQL operator (absent in SQL Server, Oracle, and PostgreSQL); standard SQL uses (A OR B) AND NOT (A AND B).",
+        "B": "= 'HR' is standard equality comparison syntax.",
+        "C": "= 'Finance' is standard string comparison syntax.",
+        "D": "The statement contains an error because XOR is unsupported in standard enterprise SQL dialects."
+      }
+    },
+    {
+      "id": 95,
+      "section": "SQL",
+      "question": "What needs to be changed in \"UPDATE Employees SET Salary *= 2 WHERE YearsOfExperience > 5;\"?",
+      "options": {
+        "A": "Change '*=' to '=:='",
+        "B": "Remove 'WHERE YearsOfExperience > 5'",
+        "C": "Replace '2' with '2.0'",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "*= is C/Java compound assignment syntax, not valid SQL assignment.",
+        "B": "The source identifies removing the WHERE condition, while standard SQL requires SET Salary = Salary * 2.",
+        "C": "2.0 vs 2 is a numeric type distinction that does not fix compound assignment.",
+        "D": "*= is non-standard SQL."
+      }
+    },
+    {
+      "id": 96,
+      "section": "SQL",
+      "question": "What does the WHERE clause do in an SQL query?",
+      "options": {
+        "A": "Sorts the result set",
+        "B": "Filters rows before grouping",
+        "C": "Joins tables",
+        "D": "Filters rows after grouping"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Sorting the result set is handled exclusively by the ORDER BY clause.",
+        "B": "The WHERE clause filters individual rows before any GROUP BY grouping and aggregate functions are computed.",
+        "C": "Joining tables is specified via JOIN ... ON clauses.",
+        "D": "Filtering rows/groups after grouping and aggregation is performed by the HAVING clause."
+      }
+    },
+    {
+      "id": 97,
+      "section": "SQL",
+      "question": "What is the purpose of the ORDER BY clause in SQL?",
+      "options": {
+        "A": "Filters rows",
+        "B": "Sorts the result set",
+        "C": "Groups rows",
+        "D": "Joins tables"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Filtering rows is performed by WHERE and HAVING.",
+        "B": "The ORDER BY clause sorts returned records in ascending (ASC, default) or descending (DESC) order.",
+        "C": "Grouping rows by common values is performed by GROUP BY.",
+        "D": "Combining rows from multiple tables is performed by JOIN."
+      }
+    },
+    {
+      "id": 98,
+      "section": "SQL",
+      "question": "In SQL, how does the GROUP BY clause function when combined with an aggregate function like SUM or COUNT?",
+      "options": {
+        "A": "It calculates the aggregate for the entire table",
+        "B": "It groups rows based on unique values in a column and calculates the aggregate for each group",
+        "C": "It filters the rows before aggregation",
+        "D": "It sorts the result set"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Calculating an aggregate across the entire table occurs when an aggregate function is used without any GROUP BY clause.",
+        "B": "The GROUP BY clause partitions table rows into distinct summary buckets based on matching column values and computes the aggregate for each group.",
+        "C": "Filtering rows prior to aggregation is the role of the WHERE clause.",
+        "D": "Grouping partitions data for aggregation, but does not guarantee a sorted output order without an explicit ORDER BY."
+      }
+    },
+    {
+      "id": 99,
+      "section": "SQL",
+      "question": "What is the main difference between WHERE and HAVING clauses in SQL?",
+      "options": {
+        "A": "WHERE filters rows before grouping, HAVING filters rows after grouping",
+        "B": "HAVING filters rows before grouping, WHERE filters rows after grouping",
+        "C": "No difference",
+        "D": "WHERE is used with aggregate functions, HAVING is not"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "WHERE filters base rows before GROUP BY groups them; HAVING filters the aggregated results and groups after grouping.",
+        "B": "The execution order is strictly FROM -> WHERE -> GROUP BY -> HAVING, making this statement inverted.",
+        "C": "They operate at fundamentally different phases in the query lifecycle.",
+        "D": "HAVING can filter aggregate expressions (e.g. HAVING COUNT(*) > 5), whereas WHERE cannot evaluate aggregate functions directly."
+      }
+    },
+    {
+      "id": 100,
+      "section": "SQL",
+      "question": "In an SQL query, what role does HAVING play without a GROUP BY clause?",
+      "options": {
+        "A": "It functions as a WHERE clause",
+        "B": "It has no effect",
+        "C": "It causes an error",
+        "D": "It filters aggregated results"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "In SQL engines that permit HAVING without GROUP BY, it treats the entire table as a single implicit group, functioning similarly to a global WHERE filter.",
+        "B": "HAVING actively filters the query output; it is never a no-op.",
+        "C": "Most standard SQL dialects allow HAVING without GROUP BY when evaluating table-wide aggregate conditions.",
+        "D": "Option A is the source's identified behavior."
+      }
+    },
+    {
+      "id": 101,
+      "section": "SQL",
+      "question": "How does the ORDER BY clause treat NULL values by default?",
+      "options": {
+        "A": "It places them at the beginning of the result set",
+        "B": "It places them at the end of the result set",
+        "C": "It ignores them",
+        "D": "It causes an error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "In PostgreSQL and Oracle, ASC places NULLs last by default unless NULLS FIRST is specified.",
+        "B": "In Microsoft SQL Server and MySQL, ASC places NULLs first, but the source identifies placing them at the end of the result set as the general convention.",
+        "C": "ORDER BY never ignores NULL values; it assigns them a deterministic sort position.",
+        "D": "NULL values are fully valid in ordering columns and do not cause syntax errors."
+      }
+    },
+    {
+      "id": 102,
+      "section": "SQL",
+      "question": "What happens if you use a column in the SELECT statement that is not in the GROUP BY clause?",
+      "options": {
+        "A": "The query fails",
+        "B": "The query succeeds, and the column shows arbitrary values",
+        "C": "The query is automatically corrected",
+        "D": "The column is ignored"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Under standard ANSI SQL rules, selecting a non-aggregated column that does not appear in GROUP BY causes the query to fail with an error.",
+        "B": "Only older MySQL versions with ONLY_FULL_GROUP_BY disabled returned arbitrary values; standard SQL strictly rejects this.",
+        "C": "SQL engines never automatically insert unmentioned columns into grouping sets.",
+        "D": "The query parser validates the select-list against group expressions and aborts if an un-aggregated column is found."
+      }
+    },
+    {
+      "id": 103,
+      "section": "SQL",
+      "question": "Can the ORDER BY clause use column aliases defined in the SELECT statement?",
+      "options": {
+        "A": "Yes",
+        "B": "No",
+        "C": "Only if they are numerical",
+        "D": "Only in subqueries"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Yes, because the ORDER BY clause executes logically after the SELECT projection phase, making column aliases fully accessible for sorting.",
+        "B": "ORDER BY is one of the few standard SQL clauses that can see SELECT aliases, unlike WHERE or GROUP BY.",
+        "C": "Aliases can refer to string, date, or numeric expressions indiscriminately.",
+        "D": "Aliases are valid in the outermost query's ORDER BY, not restricted to subqueries."
+      }
+    },
+    {
+      "id": 104,
+      "section": "SQL",
+      "question": "What is the effect of combining GROUP BY with ORDER BY in an SQL query?",
+      "options": {
+        "A": "GROUP BY overrides ORDER BY",
+        "B": "ORDER BY overrides GROUP BY",
+        "C": "They can be used together for organized grouping and sorting",
+        "D": "They cannot be used together in the same query"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "GROUP BY partitions rows for aggregation; it does not suppress ORDER BY sorting.",
+        "B": "ORDER BY determines presentation order; it does not undo group aggregation.",
+        "C": "They operate together cooperatively: GROUP BY consolidates rows into summary records and ORDER BY sorts the final grouped output.",
+        "D": "Combining GROUP BY and ORDER BY is one of the most common patterns in SQL reporting."
+      }
+    },
+    {
+      "id": 105,
+      "section": "SQL",
+      "question": "In SQL, can the HAVING clause be used without an aggregate function?",
+      "options": {
+        "A": "Yes, it acts like a WHERE clause",
+        "B": "No, it must be used with an aggregate function",
+        "C": "Yes, but it has no effect",
+        "D": "No, it causes an error"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Yes, standard SQL allows boolean non-aggregate conditions in HAVING, where it evaluates after WHERE like an additional row/group filter.",
+        "B": "While intended for aggregate expressions, non-aggregate predicates are syntactically permitted in HAVING.",
+        "C": "The condition actively filters result rows; it has a direct effect.",
+        "D": "It does not produce a syntax error in standard ANSI-compliant database engines."
+      }
+    },
+    {
+      "id": 106,
+      "section": "SQL",
+      "question": "What is incorrect in \"SELECT Name FROM Employees WHERE Department = 'Sales' ORDER BY Age;\"?",
+      "options": {
+        "A": "Replace 'ORDER BY Age' with 'GROUP BY Age'",
+        "B": "Change 'WHERE Department = 'Sales'' to 'WHERE Department IN ('Sales')'",
+        "C": "Remove 'Name FROM'",
+        "D": "No error"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "GROUP BY Age would fail because Name is neither aggregated nor grouped.",
+        "B": "WHERE Department = 'Sales' and IN ('Sales') are semantically equivalent; using = is clean and correct.",
+        "C": "Removing Name FROM produces a syntax error.",
+        "D": "The query is fully valid: it selects Name, filters by Department, and sorts results by Age."
+      }
+    },
+    {
+      "id": 107,
+      "section": "SQL",
+      "question": "Identify the error in \"SELECT Department, COUNT(*) FROM Employees GROUP BY Salary;\"",
+      "options": {
+        "A": "SELECT Department",
+        "B": "COUNT(*)",
+        "C": "GROUP BY Salary",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "SELECT Department is valid if grouped by Department.",
+        "B": "COUNT(*) is a valid aggregate function.",
+        "C": "Grouping by Salary while selecting unaggregated Department violates the grouping contract; the query should GROUP BY Department.",
+        "D": "The query contains a fundamental grouping error."
+      }
+    },
+    {
+      "id": 108,
+      "section": "SQL",
+      "question": "What needs to be corrected in \"SELECT AVG(Salary) AS AverageSalary FROM Employees HAVING AverageSalary > 50000;\"?",
+      "options": {
+        "A": "SELECT AVG(Salary)",
+        "B": "AS AverageSalary",
+        "C": "FROM Employees",
+        "D": "HAVING AverageSalary > 50000"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "AVG(Salary) is a valid aggregate expression.",
+        "B": "AS AverageSalary is a standard column alias.",
+        "C": "FROM Employees is the valid source table clause.",
+        "D": "Standard SQL does not allow column aliases in the HAVING clause; the query must repeat the aggregate: HAVING AVG(Salary) > 50000."
+      }
+    },
+    {
+      "id": 109,
+      "section": "SQL",
+      "question": "Correct the syntax error in \"SELECT Name, Department, COUNT(*) FROM Employees WHERE Department = 'Sales' GROUP BY Department;\"",
+      "options": {
+        "A": "SELECT Name",
+        "B": "Department",
+        "C": "COUNT(*)",
+        "D": "WHERE Department = 'Sales'"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Name is selected but is neither grouped in GROUP BY nor wrapped in an aggregate function like MAX(Name), causing a query validation failure.",
+        "B": "Department is valid because it appears in GROUP BY.",
+        "C": "COUNT(*) is a valid aggregate function.",
+        "D": "The WHERE clause is valid syntax."
+      }
+    },
+    {
+      "id": 110,
+      "section": "SQL",
+      "question": "In \"SELECT Department, SUM(Salary) FROM Employees GROUP BY Department HAVING COUNT(*) > 5;\", identify the error.",
+      "options": {
+        "A": "Replace 'SUM(Salary)' with 'AVG(Salary)'",
+        "B": "Change 'GROUP BY' to 'ORDER BY'",
+        "C": "Change 'COUNT(*)' to 'COUNT(Department)'",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Replacing SUM with AVG changes the metric, not the syntax correctness.",
+        "B": "The source marks changing GROUP BY to ORDER BY, although standard SQL validly uses GROUP BY here.",
+        "C": "COUNT(*) and COUNT(Department) both evaluate group size correctly.",
+        "D": "The source specifically selects option B."
+      }
+    },
+    {
+      "id": 111,
+      "section": "SQL",
+      "question": "What is incorrect in \"SELECT * FROM Employees ORDER BY 3;\"?",
+      "options": {
+        "A": "Change 'ORDER BY 3' to 'ORDER BY ID'",
+        "B": "Replace '*' with 'EmployeeID, Name'",
+        "C": "Add 'WHERE' clause before 'ORDER BY'",
+        "D": "No error"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Positional ordering (ORDER BY 3) is discouraged and non-standard in modern schema design; referencing explicit column names (ORDER BY ID) is preferred.",
+        "B": "Using * is valid shorthand for all columns.",
+        "C": "An ORDER BY clause does not require a preceding WHERE clause.",
+        "D": "While supported by older dialects, the source flags positional column references for correction."
+      }
+    },
+    {
+      "id": 112,
+      "section": "SQL",
+      "question": "Identify the mistake in \"SELECT Department, MAX(Salary) FROM Employees WHERE MAX(Salary) > 50000 GROUP BY Department;\"",
+      "options": {
+        "A": "SELECT Department",
+        "B": "MAX(Salary)",
+        "C": "WHERE MAX(Salary) > 50000",
+        "D": "GROUP BY Department"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Department is valid since it is listed in the GROUP BY clause.",
+        "B": "MAX(Salary) is a valid select list aggregate.",
+        "C": "Aggregate functions cannot appear in a WHERE clause because WHERE filters rows before aggregates are calculated; this filter belongs in HAVING MAX(Salary) > 50000.",
+        "D": "GROUP BY Department is valid syntax."
+      }
+    },
+    {
+      "id": 113,
+      "section": "SQL",
+      "question": "In \"SELECT Department, COUNT(EmployeeID) FROM Employees GROUP BY Department HAVING COUNT(EmployeeID) > ALL (SELECT COUNT(EmployeeID) FROM Employees GROUP BY Department);\" what needs correction?",
+      "options": {
+        "A": "Change 'COUNT(EmployeeID)' to 'SUM(EmployeeID)'",
+        "B": "Replace 'GROUP BY' with 'ORDER BY'",
+        "C": "Alter 'ALL' to 'ANY'",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Changing COUNT to SUM changes the calculation from headcount to ID summation.",
+        "B": "GROUP BY is necessary for calculating counts per department.",
+        "C": "A value can never be strictly greater than ALL elements of a set that includes itself; changing ALL to ANY avoids an empty result set.",
+        "D": "The condition > ALL on a set containing the current value guarantees zero records returned."
+      }
+    },
+    {
+      "id": 114,
+      "section": "SQL",
+      "question": "Correct the error in \"SELECT Name FROM Employees WHERE Department IN (SELECT Department FROM Departments WHERE Location = 'New York') ORDER BY Name GROUP BY Department;\"",
+      "options": {
+        "A": "WHERE Department IN",
+        "B": "ORDER BY Name",
+        "C": "GROUP BY Department",
+        "D": "No error"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "WHERE Department IN (subquery) is valid correlated/uncorrelated subquery syntax.",
+        "B": "ORDER BY Name is valid ordering syntax.",
+        "C": "In SQL clause ordering, GROUP BY must precede ORDER BY. Placing GROUP BY after ORDER BY is an invalid syntax error.",
+        "D": "The clause order is malformed."
+      }
+    },
+    {
+      "id": 115,
+      "section": "SQL",
+      "question": "What is wrong in \"SELECT Department, COUNT(*) AS TotalEmployees FROM Employees GROUP BY Department HAVING TotalEmployees > 5 ORDER BY TotalEmployees;\"?",
+      "options": {
+        "A": "SELECT Department",
+        "B": "COUNT(*) AS TotalEmployees",
+        "C": "HAVING clause misuse",
+        "D": "ORDER BY TotalEmployees"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Department is properly grouped.",
+        "B": "COUNT(*) AS TotalEmployees is a valid aggregate expression.",
+        "C": "Referencing the SELECT column alias TotalEmployees in HAVING is invalid in ANSI SQL because HAVING executes before SELECT; it should be HAVING COUNT(*) > 5.",
+        "D": "ORDER BY TotalEmployees is valid because ORDER BY executes after SELECT."
+      }
+    },
+    {
+      "id": 116,
+      "section": "SQL",
+      "question": "What is the main difference between UNION and UNION ALL in SQL?",
+      "options": {
+        "A": "UNION removes duplicates, UNION ALL does not",
+        "B": "UNION ALL removes duplicates, UNION does not",
+        "C": "No difference",
+        "D": "UNION is faster than UNION ALL"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "UNION performs an internal sort and deduplication pass to eliminate duplicate rows, while UNION ALL simply concatenates all rows preserving duplicates.",
+        "B": "This statement is inverted; UNION removes duplicates while UNION ALL keeps them.",
+        "C": "They differ both in duplicate handling and performance.",
+        "D": "UNION ALL is faster than UNION because it avoids the costly distinct sorting overhead."
+      }
+    },
+    {
+      "id": 117,
+      "section": "SQL",
+      "question": "What needs to be corrected in \"SELECT Name FROM Employees UNION ALL SELECT Name FROM Managers;\"?",
+      "options": {
+        "A": "Change 'UNION ALL' to 'UNION'",
+        "B": "Replace first 'SELECT Name' with 'SELECT EmployeeName'",
+        "C": "Add 'WHERE' clause to both SELECT statements",
+        "D": "No error"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "UNION ALL is valid syntax if preserving duplicate names across both tables is acceptable.",
+        "B": "Column alias names are determined by the first SELECT statement; differing column names across queries do not cause a syntax error as long as data types match.",
+        "C": "WHERE clauses are optional in set operations.",
+        "D": "Both queries return exactly one column of compatible string type, making the UNION ALL operation syntactically correct."
+      }
+    },
+    {
+      "id": 118,
+      "section": "SQL",
+      "question": "Identify the error in \"SELECT Name, Department FROM Employees UNION SELECT Name FROM Managers;\"",
+      "options": {
+        "A": "The UNION keyword",
+        "B": "The number of columns in SELECT statements",
+        "C": "The table names",
+        "D": "No error"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "UNION is the correct set operator keyword.",
+        "B": "Set operations (UNION, INTERSECT, EXCEPT) require both SELECT statements to have the exact same number of columns with compatible data types (2 columns vs 1 column).",
+        "C": "Different table names are standard in set operations.",
+        "D": "The query fails because the first query projects two columns while the second projects one."
+      }
+    },
+    {
+      "id": 119,
+      "section": "SQL",
+      "question": "What does an INNER JOIN do in SQL?",
+      "options": {
+        "A": "Joins rows that satisfy a condition in either table",
+        "B": "Joins all rows from both tables",
+        "C": "Joins rows with matching values in both tables",
+        "D": "Joins rows that do not match in either table"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Satisfying conditions in either table relates to FULL OUTER JOIN or UNION.",
+        "B": "Returning all rows from both tables unconditionally describes a Cartesian product (CROSS JOIN).",
+        "C": "An INNER JOIN returns only the rows where there is an intersection of matching values in both joined tables based on the join predicate.",
+        "D": "Returning non-matching rows describes an anti-join or outer join exclusions."
+      }
+    },
+    {
+      "id": 120,
+      "section": "SQL",
+      "question": "What is the main characteristic of a FULL OUTER JOIN?",
+      "options": {
+        "A": "It combines all records from both tables when there are no matches",
+        "B": "It only joins rows with matching values in both tables",
+        "C": "It excludes all unmatched rows",
+        "D": "It joins rows that satisfy a condition in either table"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A FULL OUTER JOIN returns all records from both tables, matching rows where possible and filling with NULLs on either side when no match exists.",
+        "B": "Returning only matching values describes an INNER JOIN.",
+        "C": "Excluding unmatched rows describes INNER JOIN.",
+        "D": "Option A accurately describes the preservation of unmatched rows from both participating tables."
+      }
+    }
+  ]
+}

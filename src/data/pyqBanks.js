@@ -24,8 +24,16 @@
 import msOfficePyqFull from './msOfficePyqFull.json';
 import networkSecurityCloudPyq from './networkSecurityCloudPyq.json';
 import computerNetworkPyq from './computerNetworkPyq.json';
+import dsaOsSqlMcq from './dsaOsSqlMcq.json';
 
 const LETTERS = 'ABCDEFGHIJ';
+
+const SECTION_MAP = {
+  dsa: 'dsa',
+  'operating systems': 'os',
+  os: 'os',
+  sql: 'sql'
+};
 
 /**
  * Lightweight keyword classifier so each paper can offer Cloud-style
@@ -173,6 +181,9 @@ const classifyTopic = (text) => {
 
 export const PYQ_TOPIC_LABELS = {
   all: 'All Topics',
+  dsa: 'DSA',
+  os: 'Operating Systems',
+  sql: 'SQL',
   word: 'MS Word',
   excel: 'MS Excel',
   powerpoint: 'MS PowerPoint',
@@ -216,7 +227,14 @@ const normalizeQuestions = (raw, fallbackSource) => {
   const bankSource = (!Array.isArray(raw) && raw.source) || fallbackSource;
 
   return questions.map((q, idx) => {
-    const topic = classifyTopic(q.question);
+    let topic;
+    if (q.section) {
+      const s = String(q.section).trim().toLowerCase();
+      topic = SECTION_MAP[s] || s;
+    } else {
+      topic = classifyTopic(q.question);
+    }
+
     const explanations = q.explanations || {};
     const correctAnswer = q.correctAnswer || q.answer;
     const options = normalizeOptions(q.options);
@@ -241,7 +259,7 @@ const normalizeQuestions = (raw, fallbackSource) => {
       explanation: q.explanation || explanations[correctAnswer] || '',
       optionExplanations,
       topic,
-      topicLabel: PYQ_TOPIC_LABELS[topic] || 'General',
+      topicLabel: PYQ_TOPIC_LABELS[topic] || q.section || 'General',
       source: q.source || bankSource
     };
   });
@@ -262,6 +280,11 @@ const computerNetworkQuestions = normalizeQuestions(
   'Uploaded PYQ PDF (30 pages)'
 );
 
+const dsaOsSqlQuestions = normalizeQuestions(
+  dsaOsSqlMcq,
+  'Uploaded Accenture PYQ PDF (32 pages)'
+);
+
 export const PYQ_BANKS = [
   {
     id: 'ms-office-pyq',
@@ -270,6 +293,7 @@ export const PYQ_BANKS = [
     description:
       'Common Application & MS Office PYQ paper — Word, Excel, PowerPoint, Outlook & Computer Fundamentals with exam and practice modes.',
     badge: '156 Qs',
+    durationMinutes: 156,
     questions: msOfficeQuestions
   },
   {
@@ -279,6 +303,7 @@ export const PYQ_BANKS = [
     description:
       'Network Security & Cloud Computing PYQ paper — OSI/TCP-IP, attacks, firewalls, cryptography, cloud service & deployment models with exam and practice modes.',
     badge: '120 Qs',
+    durationMinutes: 120,
     questions: networkCloudQuestions
   },
   {
@@ -288,7 +313,18 @@ export const PYQ_BANKS = [
     description:
       'Computer Networks PYQ paper — OSI/TCP-IP, routing (OSPF/BGP), Ethernet, HTTP/FTP, cryptography, Wi-Fi & mobile computing with exam and practice modes.',
     badge: '120 Qs',
+    durationMinutes: 120,
     questions: computerNetworkQuestions
+  },
+  {
+    id: 'dsa-os-sql-mcq',
+    title: 'Accenture Cloud Assessment – DSA, OS & SQL PYQ Practice',
+    shortTitle: 'DSA, Operating Systems & SQL',
+    description:
+      'DSA, Operating Systems & SQL PYQ paper — 120 MCQs (40 DSA, 40 OS, 40 SQL) with detailed per-option explanations in exam and practice modes.',
+    badge: '120 Qs',
+    durationMinutes: 120,
+    questions: dsaOsSqlQuestions
   }
 ];
 
