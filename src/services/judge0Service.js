@@ -29,6 +29,56 @@ export function normalizeOutput(output) {
 }
 
 /**
+ * Parses a `TEST_RES:` stdout payload without destroying user-formatted decimals.
+ *
+ * Numeric literals that carry explicit fraction digits (e.g. "12.00", "0.00",
+ * "-3.50") MUST stay strings, otherwise JSON.parse collapses them to JS numbers
+ * and String() re-prints "12" instead of "12.00", causing bogus test failures.
+ * Structured payloads (arrays, objects, booleans, null) still get parsed.
+ */
+export function parseTestResPayload(raw) {
+  const val = String(raw ?? '').trim();
+
+  // Formatted decimal literal ("12.00", "0.00", "-3.50") -> keep verbatim
+  if (/^[+-]?\d+\.\d+$/.test(val)) return val;
+
+  try {
+    const parsed = JSON.parse(val);
+    // Safety net for unquoted decimals that JSON parsed into a number
+    if (typeof parsed === 'number' && /\.\d*0$/.test(val)) return val;
+    return parsed;
+  } catch {
+    return val;
+  }
+}
+
+/**
+ * Compares harness output against the expected answer.
+ * Falls back to a numeric comparison with tolerance so that equivalent
+ * representations ("12" vs "12.00", "12.5" vs "12.50", float noise
+ * like 45.249999 vs 45.25, "-0.00" vs "0.00") are treated as equal.
+ */
+export function outputsMatch(actual, expected) {
+  const stripBrackets = s => s.replace(/^\[\s*/, '').replace(/\s*\]$/, '');
+
+  const normActual = normalizeOutput(actual);
+  const normExpected = normalizeOutput(expected);
+
+  if (normActual === '' || normExpected === '') return false;
+  if (normActual === normExpected) return true;
+
+  const a = stripBrackets(normActual);
+  const e = stripBrackets(normExpected);
+  if (a === e) return true;
+
+  const numActual = Number(a);
+  const numExpected = Number(e);
+  return Number.isFinite(numActual) &&
+    Number.isFinite(numExpected) &&
+    Math.abs(numActual - numExpected) <= 1e-6;
+}
+
+/**
  * Builds test harness code for Judge0 execution
  */
 export function buildJudge0Harness(questionId, userCode, lang) {
@@ -1901,11 +1951,7 @@ export async function executeDsaOnJudge0(question, userCode, lang) {
       const lines = stdout.split('\n');
       for (const line of lines) {
         if (line.startsWith('TEST_RES:')) {
-          let val = line.substring(9).trim();
-          try {
-            val = JSON.parse(val);
-          } catch {}
-          testOutputs.push(val);
+          testOutputs.push(parseTestResPayload(line.substring(9).trim()));
         } else if (line.startsWith('TEST_ERR:')) {
           testOutputs.push({ error: line.substring(9).trim() });
         }

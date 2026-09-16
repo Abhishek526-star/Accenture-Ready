@@ -30,7 +30,7 @@ import {
 } from 'lucide-react';
 import { DSA_PRACTICE_QUESTIONS } from '../data/dsaPracticeQuestions.js';
 import { gamificationService } from '../services/gamificationService.js';
-import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
+import { executeDsaOnJudge0, outputsMatch } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 
 const DSA_LANGUAGES = [
@@ -424,10 +424,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               actualOutput = `[${actualOutput.trim()}]`;
             }
 
-            const normActual = normalizeOutput(actualOutput);
-            const normExpected = normalizeOutput(expectedVal);
-            const stripBrackets = s => s.replace(/^\[\s*/, '').replace(/\s*\]$/, '');
-            passed = normActual !== '' && (normActual === normExpected || stripBrackets(normActual) === stripBrackets(normExpected));
+            passed = outputsMatch(actualOutput, expectedVal);
           }
         } else {
           // Local fallback simulation engine
@@ -459,10 +456,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
                 actualOutput = `[${actualOutput.trim()}]`;
               }
 
-              const normActual = normalizeOutput(actualOutput);
-              const normExpected = normalizeOutput(expectedVal);
-              const stripBrackets = s => s.replace(/^\[\s*/, '').replace(/\s*\]$/, '');
-              passed = normActual !== '' && (normActual === normExpected || stripBrackets(normActual) === stripBrackets(normExpected));
+              passed = outputsMatch(actualOutput, expectedVal);
             }
           } catch (simErr) {
             actualOutput = `Error: ${simErr.message}`;

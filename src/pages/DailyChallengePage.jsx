@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { getTodaysChallenge, markTodayChallengeComplete } from '../data/dailyChallenges.js';
 import { gamificationService } from '../services/gamificationService.js';
-import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
+import { executeDsaOnJudge0, outputsMatch } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 import { confirmToast } from '../utils/confirmToast.jsx';
@@ -214,10 +214,8 @@ export default function DailyChallengePage({ theme = 'dark' }) {
             passed = String(actual).trim().toLowerCase() === String(tc.expected).toLowerCase();
           } else if (typeof tc.expected === 'number') {
             passed = Number(actual) === tc.expected;
-          } else if (Array.isArray(tc.expected)) {
-            passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
           } else {
-            passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
+            passed = outputsMatch(actual, tc.expected);
           }
 
           return {
@@ -290,7 +288,7 @@ export default function DailyChallengePage({ theme = 'dark' }) {
               } else if (Array.isArray(tc.expected)) {
                 passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
               } else {
-                passed = normalizeOutput(actual) === normalizeOutput(tc.expected);
+                passed = outputsMatch(actual, tc.expected);
               }
 
               return {

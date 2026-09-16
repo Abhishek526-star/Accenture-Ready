@@ -38,7 +38,7 @@ import {
   getQuestionTestCases
 } from '../utils/dsaCodeTemplates.js';
 import { gamificationService } from '../services/gamificationService.js';
-import { executeDsaOnJudge0, normalizeOutput } from '../services/judge0Service.js';
+import { executeDsaOnJudge0, outputsMatch } from '../services/judge0Service.js';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 
@@ -263,13 +263,7 @@ export default function DsaPatternsPage({ theme = 'dark' }) {
             actual = j0Res.rawOutput.trim();
           }
 
-          let passed = false;
-          const normActual = normalizeOutput(actual);
-          const normExpected = normalizeOutput(tc.expected);
-
-          if (normActual && normExpected) {
-            passed = (normActual === normExpected);
-          }
+          const passed = outputsMatch(actual, tc.expected);
 
           return {
             id: idx + 1,
