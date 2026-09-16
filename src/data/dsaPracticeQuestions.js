@@ -6004,7 +6004,7 @@ public class Solution {
         if arr[i] > max_elem:
             max_elem = arr[i]
             max_idx = i
-    return f"{max_elem}\n{max_idx}"
+    return f"{max_elem} {max_idx}"
 `,
       java: `import java.util.*;
 
