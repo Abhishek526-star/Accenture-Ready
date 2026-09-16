@@ -99,6 +99,9 @@ export default function PYQExamPage({ theme = 'dark' }) {
     return allQuestions.filter((q) => q.topic === key);
   }, [allQuestions, activeGroup, activeTopic]);
 
+  const total = activeQuestions.length;
+  const timerTotal = total * 60; // timer equals number of questions (1 min each)
+
   /* -------- Core quiz state (keyed by question id) -------- */
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
@@ -107,14 +110,11 @@ export default function PYQExamPage({ theme = 'dark' }) {
   const [bookmarks, setBookmarks] = useState([]);
   const [isAnalysisOpen, setIsAnalysisOpen] = useState(false);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(() => timerTotal);
   const [timeTakenSeconds, setTimeTakenSeconds] = useState(0);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const autoSubmitRef = useRef(false);
-
-  const total = activeQuestions.length;
-  const timerTotal = total * 60; // timer equals number of questions (1 min each)
 
   /* Reset state when the active set or mode changes */
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function PYQExamPage({ theme = 'dark' }) {
     setIsAnalysisOpen(false);
     setShowSubmitConfirm(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeGroup, activeTopic, mode]);
+  }, [bankId, activeGroup, activeTopic, mode]);
 
   /* Restore persisted progress once per bank (first mount) */
   useEffect(() => {
@@ -556,7 +556,7 @@ export default function PYQExamPage({ theme = 'dark' }) {
                 className={`cloud-timer-pill ${
                   mode === 'exam' && timeRemaining < 300 ? 'timer-warning' : ''
                 }`}
-                title={`1 minute per question — ${total} questions`}
+                title={`1 minute per question — ${total} questions (${total} min)`}
               >
                 <Clock size={16} />
                 <span className="cloud-timer-digits">

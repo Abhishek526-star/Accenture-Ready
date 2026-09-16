@@ -1,0 +1,1731 @@
+{
+  "title": "Accenture Cloud Computing, Virtualization, Storage, Security & Networking MCQs",
+  "category": "Cloud Computing, Virtualization, Cloud Storage, Cloud Security, IAM, Cloud Networking",
+  "description": "100 MCQs transcribed from the uploaded 26-page PDF. Every option has an individual explanation.",
+  "source": "Uploaded PDF (26 pages)",
+  "sourceNote": "Correct answers preserve the options highlighted in green in the source PDF. The JSON intentionally preserves the source answer key, including questions whose wording, CLI syntax, or technical interpretation may be simplified, version-dependent, or debatable.",
+  "sections": [
+    {
+      "name": "Cloud Computing & Service/Deployment Models",
+      "questionRange": "1-30"
+    },
+    {
+      "name": "Virtualization & Containers",
+      "questionRange": "31-43"
+    },
+    {
+      "name": "Cloud Storage",
+      "questionRange": "44-56"
+    },
+    {
+      "name": "Cloud Security & IAM",
+      "questionRange": "57-79"
+    },
+    {
+      "name": "Cloud Networking & Deployment Management",
+      "questionRange": "80-100"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following is a primary characteristic of cloud computing?",
+      "options": {
+        "A": "On-demand self-service",
+        "B": "High latency",
+        "C": "Fixed storage",
+        "D": "Manual resource allocation"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "On-demand self-service allows consumers to provision computing capabilities (server time, network storage) automatically without human interaction with service providers.",
+        "B": "High latency is a network performance drawback, whereas cloud platforms actively design for low-latency edge delivery.",
+        "C": "Fixed storage is a constraint of legacy on-premises hardware, whereas cloud provides elastic, dynamically expandable storage.",
+        "D": "Manual resource allocation describes traditional IT workflows; cloud computing relies on automated, API-driven provisioning."
+      }
+    },
+    {
+      "id": 2,
+      "question": "What does cloud computing primarily aim to reduce?",
+      "options": {
+        "A": "Security",
+        "B": "Cost",
+        "C": "Speed",
+        "D": "Reliability"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Cloud computing aims to strengthen security through centralized patching and enterprise compliance, not reduce it.",
+        "B": "Cloud computing primarily reduces capital expenditure (CapEx) on physical data centers and hardware, shifting to a cost-effective pay-as-you-go operating model (OpEx).",
+        "C": "Cloud computing increases deployment and delivery speed through automated pipelines and elastic scaling, rather than reducing speed.",
+        "D": "Cloud platforms target high availability and reliability through multi-zone redundancy rather than reducing reliability."
+      }
+    },
+    {
+      "id": 3,
+      "question": "Which of the following is not a type of cloud computing deployment model?",
+      "options": {
+        "A": "Public cloud",
+        "B": "Private cloud",
+        "C": "Hybrid cloud",
+        "D": "Local cloud"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Public cloud is an established deployment model where computing infrastructure is shared across multiple tenants over the public internet.",
+        "B": "Private cloud is a recognized deployment model dedicated exclusively to a single organization for maximum control and compliance.",
+        "C": "Hybrid cloud is a standard model combining private infrastructure (or on-premises) with public cloud services via secure orchestration.",
+        "D": "'Local cloud' is not a standard NIST or industry deployment model; standard deployment models are Public, Private, Hybrid, and Community."
+      }
+    },
+    {
+      "id": 4,
+      "question": "Cloud computing allows for which of the following?",
+      "options": {
+        "A": "Fixed capacity",
+        "B": "Unlimited scalability",
+        "C": "Local-only access",
+        "D": "Hardware dependence"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Fixed capacity is a hallmark of physical on-premises servers, whereas the cloud eliminates capacity ceilings.",
+        "B": "Cloud computing provides virtually unlimited scalability, allowing applications to scale resources up, down, out, or in on demand.",
+        "C": "Cloud resources are accessible globally over standard networks (broad network access), not restricted to local-only access.",
+        "D": "Cloud computing abstracts underlying physical hardware through virtualization, removing user hardware dependency."
+      }
+    },
+    {
+      "id": 5,
+      "question": "What key factor distinguishes cloud computing from traditional IT infrastructures?",
+      "options": {
+        "A": "Decentralization",
+        "B": "Centralized hardware",
+        "C": "On-site management",
+        "D": "Manual updates"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Decentralization and multi-region geographic distribution distinguish cloud systems from localized, single-site traditional infrastructure.",
+        "B": "Centralized hardware housed in a single physical location is characteristic of legacy on-premises enterprise data centers.",
+        "C": "On-site management requires dedicated physical staffing, whereas cloud infrastructure is remotely managed and abstracted.",
+        "D": "Manual updates characterize traditional server maintenance, whereas cloud services automate updates and rolling deployments."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Which type of cloud service primarily offers virtualized hardware resources?",
+      "options": {
+        "A": "SaaS",
+        "B": "IaaS",
+        "C": "PaaS",
+        "D": "DaaS"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "SaaS (Software as a Service) delivers ready-to-use software applications directly to end-users (e.g. Gmail, Office 365).",
+        "B": "IaaS (Infrastructure as a Service) rents raw virtualized hardware resources such as virtual machines, block storage, and virtual networking.",
+        "C": "PaaS (Platform as a Service) provides managed runtimes, databases, and application frameworks for software developers.",
+        "D": "DaaS (Desktop as a Service) streams virtual desktop environments to client endpoints, rather than general raw hardware."
+      }
+    },
+    {
+      "id": 7,
+      "question": "Which of the following technologies is most commonly used in cloud computing?",
+      "options": {
+        "A": "Virtualization",
+        "B": "Blockchain",
+        "C": "Quantum computing",
+        "D": "Augmented reality"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Virtualization is the foundational technology of cloud computing, enabling multiple isolated virtual machines or containers to share physical hardware.",
+        "B": "Blockchain is a distributed ledger technology, used for decentralized transactions rather than foundational cloud resource pooling.",
+        "C": "Quantum computing is an emerging specialized computational paradigm, not the general foundation of mainstream cloud infrastructure.",
+        "D": "Augmented reality is a client-side visualization application technology, not a core cloud infrastructure mechanism."
+      }
+    },
+    {
+      "id": 8,
+      "question": "Which command in AWS CLI can you use to configure a default profile for cloud access?",
+      "options": {
+        "A": "aws configure",
+        "B": "aws init",
+        "C": "aws setup",
+        "D": "aws create-user"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`aws configure` is the primary AWS CLI setup command to configure credentials (access key, secret key), default region, and output format.",
+        "B": "`aws init` is not a valid AWS CLI command; initialization is handled by Terraform (`terraform init`) or repository tools.",
+        "C": "`aws setup` is not a recognized command in the AWS CLI toolset.",
+        "D": "`aws create-user` is invalid syntax; IAM user creation uses `aws iam create-user`."
+      }
+    },
+    {
+      "id": 9,
+      "question": "A company moved to a cloud environment, but users are facing slow data access times. What could be the cause?",
+      "options": {
+        "A": "Insufficient bandwidth",
+        "B": "Automatic scaling",
+        "C": "Virtualization",
+        "D": "Dedicated server allocation"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Insufficient network bandwidth between client locations and cloud data centers creates bottleneck delays during high-volume data transfers.",
+        "B": "Automatic scaling provisions additional compute instances during traffic spikes, which improves throughput rather than slowing data access.",
+        "C": "Virtualization hypervisor overhead is minimal (typically <2%) and does not cause severe network throughput degradation.",
+        "D": "Dedicated server allocation provides guaranteed compute and I/O performance, preventing noisy-neighbor slowdowns."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Which of the following is an example of Software as a Service (SaaS)?",
+      "options": {
+        "A": "Microsoft Azure",
+        "B": "Amazon EC2",
+        "C": "Google Docs",
+        "D": "VMware"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Microsoft Azure is a comprehensive cloud provider offering IaaS, PaaS, and developer platform services.",
+        "B": "Amazon EC2 is an Infrastructure as a Service (IaaS) offering providing resizable virtual compute instances.",
+        "C": "Google Docs is a quintessential SaaS application, providing web-based document editing directly to users without software installation.",
+        "D": "VMware provides virtualization hypervisor platforms (ESXi, Workstation) and private cloud tooling, not an end-user SaaS product."
+      }
+    },
+    {
+      "id": 11,
+      "question": "In which cloud service model does the provider manage everything from hardware to applications?",
+      "options": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "DaaS"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "In IaaS, the customer manages the operating system, middleware, runtime, data, and applications.",
+        "B": "In PaaS, the customer still manages and deploys the application code and application-level data.",
+        "C": "In SaaS, the cloud vendor manages the entire stack: physical infrastructure, OS, runtime, middleware, database, and application software.",
+        "D": "In DaaS (Desktop as a Service), the customer still configures desktop applications and user data."
+      }
+    },
+    {
+      "id": 12,
+      "question": "Which of the following is a key benefit of Platform as a Service (PaaS)?",
+      "options": {
+        "A": "Full hardware control",
+        "B": "Faster development",
+        "C": "Manual scaling",
+        "D": "Increased hardware flexibility"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Full hardware control is exclusive to on-premises bare-metal deployments or dedicated host IaaS, not PaaS.",
+        "B": "PaaS accelerates development by abstracting server provisioning, OS patching, and network routing so developers focus solely on code.",
+        "C": "Manual scaling defeats the purpose of PaaS; PaaS platforms automatically scale application instances based on load.",
+        "D": "PaaS abstracts hardware choices away, providing standardized runtime environments rather than custom hardware flexibility."
+      }
+    },
+    {
+      "id": 13,
+      "question": "In the IaaS model, which of the following is the responsibility of the user?",
+      "options": {
+        "A": "Application updates",
+        "B": "Networking",
+        "C": "Operating system",
+        "D": "Data backup"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "In IaaS, application updates are also the user's responsibility, but managing the underlying operating system (updates, patches, hardening) is the defining IaaS user boundary.",
+        "B": "Physical networking and hypervisor switching are maintained by the cloud provider under the IaaS shared responsibility model.",
+        "C": "In IaaS, the customer is fully responsible for selecting, installing, configuring, patching, and securing the guest Operating System.",
+        "D": "While users manage their own backup schedules, data backup is an operational task rather than the foundational platform layer."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Which cloud service model is best suited for developers who want to build custom applications without managing infrastructure?",
+      "options": {
+        "A": "SaaS",
+        "B": "PaaS",
+        "C": "IaaS",
+        "D": "FaaS"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "SaaS provides prebuilt commercial software with no access to build or deploy custom application code.",
+        "B": "PaaS provides pre-configured runtimes, managed databases, and deployment tooling, making it ideal for developers building custom applications without infrastructure overhead.",
+        "C": "IaaS requires developers to configure and maintain operating systems, web servers, and network topology manually.",
+        "D": "FaaS (Function as a Service) is suited for event-driven micro-functions, while PaaS supports full-fledged multi-tier application stacks."
+      }
+    },
+    {
+      "id": 15,
+      "question": "Which of the following is typically not a responsibility of the cloud provider in an IaaS model?",
+      "options": {
+        "A": "Networking",
+        "B": "Security",
+        "C": "Applications",
+        "D": "Virtualization"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Physical data center networking, routers, fiber links, and virtual switches are managed by the IaaS cloud provider.",
+        "B": "Physical data center security, environmental controls, and hypervisor isolation are maintained by the cloud provider.",
+        "C": "In an IaaS model, the customer—not the cloud provider—is entirely responsible for installing, configuring, and updating application software.",
+        "D": "Hypervisor virtualization layers and physical server hardware are managed entirely by the IaaS provider."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Which service model allows customers to rent virtualized computing resources over the internet?",
+      "options": {
+        "A": "SaaS",
+        "B": "IaaS",
+        "C": "PaaS",
+        "D": "DBaaS"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "SaaS licenses application software on a subscription basis, not raw computing power.",
+        "B": "IaaS allows customers to rent virtualized servers, storage, and networking on demand over the internet with complete administrative control.",
+        "C": "PaaS provides execution platforms and managed developer tools rather than bare virtual infrastructure.",
+        "D": "DBaaS (Database as a Service) provides managed database engines (e.g. Amazon RDS), not general computing resources."
+      }
+    },
+    {
+      "id": 17,
+      "question": "Which AWS service is an example of Infrastructure as a Service (IaaS)?",
+      "options": {
+        "A": "AWS Lambda",
+        "B": "Amazon EC2",
+        "C": "AWS S3",
+        "D": "AWS CloudFormation"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "AWS Lambda is a Serverless / Function as a Service (FaaS) offering where AWS manages the compute environment entirely.",
+        "B": "Amazon EC2 (Elastic Compute Cloud) is the flagship IaaS offering of AWS, providing resizable virtual servers with full root access.",
+        "C": "AWS S3 is an object storage service with managed HTTP REST APIs rather than an infrastructure compute instance.",
+        "D": "AWS CloudFormation is an Infrastructure as Code (IaC) templating service, not an infrastructure compute resource."
+      }
+    },
+    {
+      "id": 18,
+      "question": "A company using a SaaS product for their business processes is facing issues with scaling. What could be the reason?",
+      "options": {
+        "A": "Lack of cloud resources",
+        "B": "SaaS application has limited scalability",
+        "C": "Overloaded servers",
+        "D": "Network issues"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Public cloud providers have massive underlying resource pools; the bottleneck stems from application software architecture.",
+        "B": "SaaS applications have fixed architectural designs, database schemas, and multi-tenant quotas imposed by the SaaS vendor that can constrain client-specific scaling.",
+        "C": "SaaS providers manage and balance their own server fleets to handle typical collective demand.",
+        "D": "Network issues cause intermittent packet loss or latency, not structural application scalability bottlenecks."
+      }
+    },
+    {
+      "id": 19,
+      "question": "Which of the following is a public cloud deployment model?",
+      "options": {
+        "A": "AWS",
+        "B": "VMware",
+        "C": "Microsoft Azure",
+        "D": "Both AWS and Microsoft Azure"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "AWS is one major public cloud provider, but Microsoft Azure is equally a public cloud platform.",
+        "B": "VMware primarily provides private cloud and on-premises hypervisor virtualization platforms.",
+        "C": "Microsoft Azure is a major public cloud provider, alongside AWS.",
+        "D": "Both AWS and Microsoft Azure are globally distributed, multi-tenant public cloud hyperscalers."
+      }
+    },
+    {
+      "id": 20,
+      "question": "What is a key advantage of a private cloud model?",
+      "options": {
+        "A": "Shared resources",
+        "B": "Increased security",
+        "C": "Low cost",
+        "D": "Limited scalability"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Shared multi-tenant resources are characteristic of public clouds; private clouds provide dedicated single-tenant infrastructure.",
+        "B": "Private clouds deliver enhanced security, governance, and regulatory compliance by dedicating physical infrastructure solely to one organization behind dedicated firewalls.",
+        "C": "Private clouds incur high capital and operational costs for dedicated hardware, virtualization software, and maintenance.",
+        "D": "Limited scalability is a downside of private clouds, not an advantage."
+      }
+    },
+    {
+      "id": 21,
+      "question": "Which deployment model combines both private and public cloud features?",
+      "options": {
+        "A": "Public cloud",
+        "B": "Hybrid cloud",
+        "C": "Private cloud",
+        "D": "Community cloud"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Public cloud infrastructure is shared across multiple unrelated external organizations.",
+        "B": "Hybrid cloud combines private infrastructure (on-premises or hosted) with public cloud services, enabling data and workload portability.",
+        "C": "Private cloud is restricted exclusively to a single dedicated organization.",
+        "D": "Community cloud shares infrastructure among multiple organizations with shared regulatory or industry goals."
+      }
+    },
+    {
+      "id": 22,
+      "question": "Which of the following is a characteristic of community cloud deployment?",
+      "options": {
+        "A": "Infrastructure is shared between several organizations",
+        "B": "Infrastructure is managed by a single organization",
+        "C": "No scalability",
+        "D": "Only available to government organizations"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A community cloud is shared by several organizations that have common requirements, security regulations, or industry missions (e.g., banks or hospitals).",
+        "B": "Infrastructure managed by a single organization defines a private cloud model.",
+        "C": "Community clouds can scale dynamically across the participating member organizations.",
+        "D": "Community clouds are used across healthcare, financial, academic, and research consortia, not only governments."
+      }
+    },
+    {
+      "id": 23,
+      "question": "Which of the following scenarios is best suited for a hybrid cloud model?",
+      "options": {
+        "A": "A government agency hosting sensitive data",
+        "B": "A startup hosting a website",
+        "C": "A large enterprise with varying workloads",
+        "D": "A personal blog"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "A government agency hosting classified data typically mandates a strict air-gapped private cloud.",
+        "B": "A startup with a new website typically deploys entirely on cost-effective, rapidly elastic public clouds.",
+        "C": "Large enterprises benefit most from hybrid clouds by keeping sensitive core data on-premises while bursting dynamic seasonal workloads into the public cloud.",
+        "D": "A personal blog requires minimal static hosting or shared public cloud tiers."
+      }
+    },
+    {
+      "id": 24,
+      "question": "What is the primary benefit of a community cloud over a public cloud?",
+      "options": {
+        "A": "Higher security",
+        "B": "Lower cost",
+        "C": "No need for maintenance",
+        "D": "More scalability"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A community cloud provides higher security and compliance governance than a general public cloud because access is restricted to verified industry members.",
+        "B": "Community clouds generally cost more than public clouds due to smaller economies of scale.",
+        "C": "Community clouds still require ongoing administrative maintenance and hardware patching.",
+        "D": "Public clouds offer vastly greater global elasticity and scalability than localized community clouds."
+      }
+    },
+    {
+      "id": 25,
+      "question": "In Google Cloud Platform (GCP), which command can be used to create a new virtual machine instance in a public cloud environment?",
+      "options": {
+        "A": "gcloud init",
+        "B": "gcloud compute instances create",
+        "C": "gcloud vm create",
+        "D": "gcloud new vm"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`gcloud init` initializes the GCP SDK environment and authenticates user accounts.",
+        "B": "`gcloud compute instances create [INSTANCE_NAME]` is the standard Google Cloud CLI command to provision a new Compute Engine VM.",
+        "C": "`gcloud vm create` is not a valid GCP CLI syntax; Compute Engine commands are grouped under `gcloud compute instances`.",
+        "D": "`gcloud new vm` is invalid GCP syntax."
+      }
+    },
+    {
+      "id": 26,
+      "question": "Which Azure service is used to deploy applications across a hybrid cloud model?",
+      "options": {
+        "A": "Azure Stack",
+        "B": "Azure Kubernetes Service",
+        "C": "Azure VMs",
+        "D": "Azure Functions"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Azure Stack extends Azure infrastructure and services into on-premises data centers, creating a consistent hybrid cloud platform.",
+        "B": "Azure Kubernetes Service (AKS) manages containerized application clusters in Azure, not the hybrid physical infrastructure tier.",
+        "C": "Azure VMs are individual IaaS compute instances running in public Azure regions.",
+        "D": "Azure Functions is a serverless event-driven compute service in the public cloud."
+      }
+    },
+    {
+      "id": 27,
+      "question": "Which AWS service is ideal for deploying applications in a private cloud environment?",
+      "options": {
+        "A": "AWS Direct Connect",
+        "B": "AWS Lambda",
+        "C": "AWS EC2",
+        "D": "AWS VPC"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "AWS Direct Connect provides dedicated private network connectivity to AWS, not an isolated cloud hosting environment.",
+        "B": "AWS Lambda executes serverless functions on public multi-tenant AWS infrastructure.",
+        "C": "AWS EC2 instances run in the public cloud unless isolated within a private network topology.",
+        "D": "AWS VPC (Virtual Private Cloud) creates a logically isolated virtual network within AWS where enterprises deploy private, secure cloud architectures."
+      }
+    },
+    {
+      "id": 28,
+      "question": "In a hybrid cloud setup, which AWS tool helps securely connect an on-premises private cloud to the AWS public cloud?",
+      "options": {
+        "A": "AWS VPN",
+        "B": "AWS Direct Connect",
+        "C": "AWS Lambda",
+        "D": "AWS CloudFormation"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "AWS Site-to-Site VPN creates encrypted tunnels over the public internet, whereas Direct Connect provides a dedicated physical bypass.",
+        "B": "AWS Direct Connect establishes a dedicated, private physical fiber connection from an on-premises data center directly to AWS, bypassing the public internet.",
+        "C": "AWS Lambda is a compute service, not a network interconnect.",
+        "D": "AWS CloudFormation automates resource provisioning, not network cabling."
+      }
+    },
+    {
+      "id": 29,
+      "question": "A company using a public cloud environment is facing data security concerns. What could be a possible solution?",
+      "options": {
+        "A": "Move to a hybrid cloud",
+        "B": "Upgrade public cloud security",
+        "C": "Use more encryption",
+        "D": "Migrate to private cloud"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Moving to a hybrid cloud allows keeping sensitive confidential data on a secure private system while running non-sensitive workloads on the public cloud.",
+        "B": "Public cloud hyper-scaler security is already top-tier; security failures typically stem from misconfigured customer policies.",
+        "C": "Encryption protects data in transit and at rest, but cannot fulfill data sovereignty mandates requiring on-premises storage.",
+        "D": "Migrating entirely to a private cloud forfeits the elasticity and cost advantages of public cloud services."
+      }
+    },
+    {
+      "id": 30,
+      "question": "An organization using a private cloud is finding it difficult to scale during peak times. What could be the solution?",
+      "options": {
+        "A": "Migrate fully to a public cloud",
+        "B": "Move to a hybrid cloud",
+        "C": "Increase private cloud resources",
+        "D": "Move to a community cloud"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Fully migrating to public cloud may violate internal compliance or security requirements for core sensitive data.",
+        "B": "Adopting a hybrid cloud enables 'cloud bursting'—keeping steady baseline workloads on the private cloud while offloading peak demand spikes to the public cloud.",
+        "C": "Increasing on-premises hardware capacity is slow, expensive, and leaves excess idle capacity during non-peak seasons.",
+        "D": "A community cloud requires shared governance with other institutions, which may not match the company's private workload needs."
+      }
+    },
+    {
+      "id": 31,
+      "question": "What is the primary benefit of virtualization in cloud computing?",
+      "options": {
+        "A": "Increased physical servers",
+        "B": "Resource optimization",
+        "C": "Lower bandwidth usage",
+        "D": "Faster network speeds"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Virtualization consolidates workloads to reduce physical server count rather than increasing physical hardware.",
+        "B": "Resource optimization is the chief benefit of virtualization, maximizing physical CPU, RAM, and disk utilization by multiplexing multiple workloads on single hosts.",
+        "C": "Virtualization creates network traffic between VMs and storage nodes, not directly reducing external bandwidth.",
+        "D": "Virtualization focuses on computing resource utilization, not accelerating raw physical networking cables."
+      }
+    },
+    {
+      "id": 32,
+      "question": "Which type of hypervisor runs directly on the host's hardware without an underlying operating system?",
+      "options": {
+        "A": "Type 1",
+        "B": "Type 2",
+        "C": "Bare-metal",
+        "D": "Both Type 1 and Bare-metal"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Type 1 is correct, but Bare-metal is an interchangeable technical synonym; both terms describe this hypervisor class.",
+        "B": "Type 2 (hosted) hypervisors run on top of an existing host operating system (e.g., VirtualBox).",
+        "C": "Bare-metal hypervisor is correct, but Type 1 is its formal architectural designation.",
+        "D": "Type 1 and Bare-metal hypervisors are identical architectures that install and execute directly on physical server hardware without a host OS."
+      }
+    },
+    {
+      "id": 33,
+      "question": "In virtualization, what is the function of a hypervisor?",
+      "options": {
+        "A": "Manages the virtual machine and hardware interaction",
+        "B": "Creates storage clusters",
+        "C": "Optimizes network bandwidth",
+        "D": "Enhances security"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A hypervisor (Virtual Machine Monitor) arbitrates CPU, memory, and I/O access between virtual machines and the underlying physical hardware.",
+        "B": "Storage clusters are created and managed by software-defined storage solutions (e.g. Ceph, vSAN), not hypervisors.",
+        "C": "Network bandwidth optimization is handled by network switches and traffic shapers.",
+        "D": "While hypervisors enforce VM isolation, their primary operational role is virtual machine scheduling and hardware mediation."
+      }
+    },
+    {
+      "id": 34,
+      "question": "Which of the following is NOT a type of virtualization technology?",
+      "options": {
+        "A": "Desktop virtualization",
+        "B": "Network virtualization",
+        "C": "Application virtualization",
+        "D": "Fiber channel virtualization"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Desktop virtualization (VDI) delivers desktop operating system sessions from central servers to remote thin clients.",
+        "B": "Network virtualization (SDN/NVGRE/VXLAN) decouples network configurations from physical networking hardware.",
+        "C": "Application virtualization packages an application and its dependencies to run without installing directly on the OS.",
+        "D": "'Fiber channel virtualization' is not a standard standalone virtualization class; Fibre Channel is a physical SAN storage protocol."
+      }
+    },
+    {
+      "id": 35,
+      "question": "What is one key advantage of using containers over traditional virtual machines?",
+      "options": {
+        "A": "More secure",
+        "B": "Faster startup time",
+        "C": "Requires more resources",
+        "D": "Limited isolation"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Virtual machines offer stronger security isolation via dedicated hardware hypervisor boundaries than containers sharing a kernel.",
+        "B": "Containers start in milliseconds because they share the host OS kernel and do not need to boot a separate operating system.",
+        "C": "Containers are lightweight and consume significantly fewer CPU, memory, and disk resources than full VMs.",
+        "D": "Containers provide process-level namespace isolation, which is an intentional design trait rather than a comparative advantage."
+      }
+    },
+    {
+      "id": 36,
+      "question": "Which technology is most commonly used to isolate different cloud applications in a single environment?",
+      "options": {
+        "A": "Full virtualization",
+        "B": "Paravirtualization",
+        "C": "Containers",
+        "D": "Hybrid virtualization"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Full virtualization requires heavy hypervisor binary translation and separate complete guest operating systems.",
+        "B": "Paravirtualization modifies guest OS kernels to use hypercalls, adding development and maintenance overhead.",
+        "C": "Containers (like Docker and Kubernetes) use Linux cgroups and namespaces to isolate applications within a single lightweight operating system environment.",
+        "D": "'Hybrid virtualization' is not a primary application isolation technology."
+      }
+    },
+    {
+      "id": 37,
+      "question": "Which command is used to list all Docker containers running on a machine?",
+      "options": {
+        "A": "docker run",
+        "B": "docker ps",
+        "C": "docker start",
+        "D": "docker exec"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`docker run` creates and starts a new container instance from a Docker image.",
+        "B": "`docker ps` lists all currently active and running Docker containers on the host system (`docker ps -a` includes stopped ones).",
+        "C": "`docker start` boots an existing, stopped container.",
+        "D": "`docker exec` executes an interactive command inside an already running container."
+      }
+    },
+    {
+      "id": 38,
+      "question": "How would you create a new virtual machine in VMware using the CLI?",
+      "options": {
+        "A": "vmware create-vm",
+        "B": "vm create",
+        "C": "vmware-vmcreate",
+        "D": "vmware-cmd -s create"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "`vmware create-vm` is not a standard VMware CLI command.",
+        "B": "`vm create` is an incomplete generic command.",
+        "C": "`vmware-vmcreate` is not an authentic VMware command.",
+        "D": "`vmware-cmd -s create` is the legacy VMware command-line utility used to create and register virtual machines."
+      }
+    },
+    {
+      "id": 39,
+      "question": "What is the correct command to launch a container using Docker?",
+      "options": {
+        "A": "docker run [container_name]",
+        "B": "docker launch [container_name]",
+        "C": "docker exec [container_name]",
+        "D": "docker create [container_name]"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`docker run [image_name]` creates and immediately starts a container from the specified image in a single command.",
+        "B": "`docker launch` is not a valid Docker command.",
+        "C": "`docker exec` runs commands inside a container that is already running.",
+        "D": "`docker create` creates a writeable container layer over an image without starting it."
+      }
+    },
+    {
+      "id": 40,
+      "question": "How do you mount a virtual disk image (VDI) to a virtual machine in VirtualBox?",
+      "options": {
+        "A": "VBoxManage mount-disk",
+        "B": "VBoxManage attach-disk",
+        "C": "VBoxManage load-vdi",
+        "D": "VBoxManage add-storage"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`VBoxManage mount-disk` is not an authentic VirtualBox CLI syntax.",
+        "B": "`VBoxManage attach-disk` or `VBoxManage storageattach` connects a virtual hard disk file to a VM storage controller.",
+        "C": "`VBoxManage load-vdi` is not a recognized VirtualBox command.",
+        "D": "`VBoxManage add-storage` is invalid VirtualBox syntax."
+      }
+    },
+    {
+      "id": 41,
+      "question": "A virtual machine in your cloud environment is experiencing slow performance. What could be a likely cause?",
+      "options": {
+        "A": "Insufficient CPU allocation",
+        "B": "Network failure",
+        "C": "Disk corruption",
+        "D": "Over-provisioned RAM"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Insufficient vCPU allocation or high CPU overcommitment causes CPU throttling and sluggish execution for computational tasks.",
+        "B": "A total network failure would cause connection timeouts and complete unreachability, not simply slow processing.",
+        "C": "Disk corruption causes file read/write errors and system crashes, not general computational slowness.",
+        "D": "Over-provisioning RAM gives the VM excess memory headroom and does not degrade performance."
+      }
+    },
+    {
+      "id": 42,
+      "question": "A containerized application in a virtualized environment is not able to access the host network. What could be the issue?",
+      "options": {
+        "A": "Misconfigured network bridge",
+        "B": "Container not started",
+        "C": "Disk space issue",
+        "D": "Insufficient permissions"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "A misconfigured network bridge (e.g. Docker bridge or vSwitch) prevents container virtual interfaces from routing packets to the host network interface.",
+        "B": "If the container had not started, the application would be offline entirely rather than failing network access.",
+        "C": "Disk space shortages cause write failures and crashes, not network interface routing failures.",
+        "D": "Insufficient container permissions produce access denied errors on system files, not network route drops."
+      }
+    },
+    {
+      "id": 43,
+      "question": "A company using virtual machines is experiencing resource contention between the VMs. What could be the solution?",
+      "options": {
+        "A": "Add more physical servers",
+        "B": "Use better storage",
+        "C": "Optimize VM resource allocation",
+        "D": "Install security patches"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Adding physical servers increases capital costs without diagnosing resource contention on existing hypervisors.",
+        "B": "Storage upgrades will not resolve CPU or memory scheduling contention between co-located VMs.",
+        "C": "Optimizing VM resource allocation (setting CPU shares, memory reservations, and limits) prevents greedy VMs from starving neighbors.",
+        "D": "Security patches resolve software vulnerabilities, not hypervisor resource allocation contention."
+      }
+    },
+    {
+      "id": 44,
+      "question": "Which of the following is an example of object storage in the cloud?",
+      "options": {
+        "A": "Google Cloud Storage",
+        "B": "Amazon RDS",
+        "C": "Microsoft Azure Blob Storage",
+        "D": "Amazon S3"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Google Cloud Storage is an object storage platform, but option D is the primary AWS equivalent highlighted.",
+        "B": "Amazon RDS is a managed relational database service (SQL), not an object storage system.",
+        "C": "Azure Blob Storage is Microsoft's object store, but option D represents the seminal industry standard.",
+        "D": "Amazon S3 (Simple Storage Service) is the industry benchmark for scalable cloud object storage, storing data as objects in buckets."
+      }
+    },
+    {
+      "id": 45,
+      "question": "What is the main advantage of using cloud storage over traditional on-premise storage?",
+      "options": {
+        "A": "Higher security",
+        "B": "Faster access",
+        "C": "Scalability",
+        "D": "More control"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Cloud security depends on proper IAM and encryption configuration; it is not inherently superior to hardened on-premises vaults.",
+        "B": "Local on-premises NVMe/SAN storage frequently yields lower network latency than remote cloud storage over WAN links.",
+        "C": "Elastic scalability is the main advantage: cloud storage expands dynamically to petabytes on demand with no physical drive provisioning.",
+        "D": "On-premises storage provides total direct control over physical drives and firmware, unlike public cloud."
+      }
+    },
+    {
+      "id": 46,
+      "question": "Which type of cloud storage is best suited for storing frequently accessed data?",
+      "options": {
+        "A": "Cold storage",
+        "B": "Archival storage",
+        "C": "Object storage",
+        "D": "Block storage"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Cold storage is designed for rarely accessed archival data and incurs high per-GB access fees and retrieval delays.",
+        "B": "Archival storage (e.g. AWS Glacier) requires minutes to hours to retrieve data.",
+        "C": "Standard Object Storage provides immediate, low-latency GET/PUT access with high throughput for frequently accessed assets.",
+        "D": "Block storage is intended for attached VM OS filesystems and database volumes rather than general distributed data access."
+      }
+    },
+    {
+      "id": 47,
+      "question": "Which of the following cloud storage services is primarily designed for structured data?",
+      "options": {
+        "A": "Amazon S3",
+        "B": "Google Cloud Storage",
+        "C": "Amazon DynamoDB",
+        "D": "Azure Blob Storage"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Amazon S3 is designed for unstructured and semi-structured objects (media, logs, backups), not indexed tabular queries.",
+        "B": "Google Cloud Storage is an unstructured object storage repository.",
+        "C": "Amazon DynamoDB is a managed NoSQL database built specifically for structured key-value and document data models.",
+        "D": "Azure Blob Storage stores unstructured binary data."
+      }
+    },
+    {
+      "id": 48,
+      "question": "What is a common use case for block storage in cloud computing?",
+      "options": {
+        "A": "Large data archives",
+        "B": "Databases and boot volumes",
+        "C": "Backup of infrequent data",
+        "D": "Image hosting"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Large data archives are best stored in low-cost cold object storage like Amazon S3 Glacier.",
+        "B": "Block storage (such as AWS EBS) provides low-latency, raw block-level volumes required by relational databases and operating system boot drives.",
+        "C": "Infrequent data backups are economically suited for archival tiers, not expensive high-IOPS block storage.",
+        "D": "Image hosting is efficiently served using object storage backed by a Content Delivery Network (CDN)."
+      }
+    },
+    {
+      "id": 49,
+      "question": "Which cloud storage technology allows for high availability and automatic replication across multiple regions?",
+      "options": {
+        "A": "Object storage",
+        "B": "File storage",
+        "C": "Block storage",
+        "D": "Distributed storage"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Object storage is one implementation, but distributed storage is the broader architectural model enabling cross-region resilience.",
+        "B": "Traditional file storage (NAS) is typically restricted to local subnets or single Availability Zones.",
+        "C": "Block storage volumes are generally constrained to a single Availability Zone to ensure microsecond bus latency.",
+        "D": "Distributed storage architectures partition, replicate, and synchronize data across geographically dispersed regions for high availability and fault tolerance."
+      }
+    },
+    {
+      "id": 50,
+      "question": "Which command is used in AWS CLI to upload a file to an S3 bucket?",
+      "options": {
+        "A": "aws s3 upload",
+        "B": "aws s3 cp",
+        "C": "aws s3 put",
+        "D": "aws s3 send"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`aws s3 upload` is not a valid AWS CLI command.",
+        "B": "`aws s3 cp [source] s3://[bucket]/[target]` is the standard AWS CLI command used to copy and upload files into an S3 bucket.",
+        "C": "`aws s3 put` is not recognized; the low-level API is `aws s3api put-object`.",
+        "D": "`aws s3 send` is not an authentic AWS CLI command."
+      }
+    },
+    {
+      "id": 51,
+      "question": "In Google Cloud Storage, which command is used to list objects in a bucket?",
+      "options": {
+        "A": "gsutil ls",
+        "B": "gsutil list",
+        "C": "gcloud storage list",
+        "D": "gcloud storage ls"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`gsutil ls gs://[bucket_name]` is the standard command used to list files and objects in a Google Cloud Storage bucket.",
+        "B": "`gsutil list` is an invalid command in the Google Cloud SDK.",
+        "C": "`gcloud storage list` is incorrect syntax for bucket contents.",
+        "D": "`gcloud storage ls` is available in newer gcloud releases, but `gsutil ls` is the classic, canonical standard."
+      }
+    },
+    {
+      "id": 52,
+      "question": "How would you create a new storage bucket in AWS using the CLI?",
+      "options": {
+        "A": "aws s3 create-bucket",
+        "B": "aws s3 mb bucket",
+        "C": "aws s3 cp bucket",
+        "D": "aws s3 make-bucket"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`aws s3 create-bucket` is not an S3 high-level command; the S3 API command is `aws s3api create-bucket`.",
+        "B": "`aws s3 mb s3://[bucket-name]` (make bucket) is the high-level AWS CLI command to create an S3 bucket.",
+        "C": "`aws s3 cp` copies objects, it does not create buckets.",
+        "D": "`aws s3 make-bucket` is not a valid command; the abbreviation is `mb`."
+      }
+    },
+    {
+      "id": 53,
+      "question": "What is the correct command to copy a file from an Azure Blob Storage container to your local machine using the Azure CLI?",
+      "options": {
+        "A": "az storage blob download",
+        "B": "az storage cp",
+        "C": "az storage blob get",
+        "D": "az storage blob copy"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`az storage blob download` is the standard Azure CLI command used to download a blob from Azure Storage to a local destination.",
+        "B": "`az storage cp` is invalid syntax; copying between accounts uses `az storage blob copy start`.",
+        "C": "`az storage blob get` is not an authentic Azure CLI command.",
+        "D": "`az storage blob copy` handles server-side copy operations between blobs, not client downloads."
+      }
+    },
+    {
+      "id": 54,
+      "question": "A user is unable to access a file stored in Amazon S3. What could be the likely cause?",
+      "options": {
+        "A": "Incorrect bucket permissions",
+        "B": "File is corrupt",
+        "C": "The bucket is deleted",
+        "D": "Invalid file format"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Incorrect or overly restrictive S3 bucket policies and ACLs are the most frequent cause of 403 Access Denied errors.",
+        "B": "File corruption produces malformed data on download, not total access denial.",
+        "C": "A deleted bucket returns a 404 NoSuchBucket error, which is immediately recognizable.",
+        "D": "S3 is format-agnostic and stores raw bytes; file extensions do not prevent S3 object access."
+      }
+    },
+    {
+      "id": 55,
+      "question": "A company is experiencing slow retrieval times when accessing data stored in cold cloud storage. What could be the issue?",
+      "options": {
+        "A": "Bandwidth issues",
+        "B": "Cold storage retrieval latency",
+        "C": "Overloaded cloud servers",
+        "D": "Low disk space"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Bandwidth constraints cause ongoing slow transfers, whereas cold storage causes an initial retrieval delay before transfer starts.",
+        "B": "Cold storage tiers (e.g. AWS S3 Glacier, Azure Archive) store data offline on tape or powered-down drives, requiring retrieval delays of minutes to hours.",
+        "C": "Cold storage retrieval latency is an intentional architectural trade-off, not a server overload symptom.",
+        "D": "Disk space on client machines does not cause retrieval delays from the cloud provider."
+      }
+    },
+    {
+      "id": 56,
+      "question": "A cloud storage solution is reporting out-of-space errors even though it should have auto-scaling. What could be the problem?",
+      "options": {
+        "A": "Quota limits on storage",
+        "B": "Network issues",
+        "C": "Permission issues",
+        "D": "Data corruption"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Cloud storage accounts have service quotas and hard bucket capacity limits that block writes unless an increase is requested.",
+        "B": "Network issues result in socket disconnects or timeouts, not explicit out-of-space error responses.",
+        "C": "Permission issues trigger AccessDenied / 403 Forbidden errors, not storage capacity errors.",
+        "D": "Data corruption affects existing blocks without reporting that the storage volume is full."
+      }
+    },
+    {
+      "id": 57,
+      "question": "What is the most common security risk in cloud computing?",
+      "options": {
+        "A": "Data breaches",
+        "B": "Natural disasters",
+        "C": "Increased latency",
+        "D": "Hardware failures"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Data breaches and unauthorized exfiltration of sensitive information due to misconfigured access policies are the top security risk in cloud computing.",
+        "B": "Cloud providers mitigate natural disasters through redundant multi-zone, multi-region physical infrastructure.",
+        "C": "Increased latency is a performance consideration, not a cybersecurity vulnerability.",
+        "D": "Hardware failures are abstracted away and automatically remediated by cloud hypervisors and RAID arrays."
+      }
+    },
+    {
+      "id": 58,
+      "question": "Which of the following is a security feature commonly provided by cloud service providers?",
+      "options": {
+        "A": "Automated scaling",
+        "B": "Firewall protection",
+        "C": "Network acceleration",
+        "D": "Reduced storage costs"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Automated scaling is an infrastructure elasticity feature, not a cybersecurity control.",
+        "B": "Virtual firewall protection (Security Groups, Web Application Firewalls, Network ACLs) is a fundamental security control provided by cloud platforms.",
+        "C": "Network acceleration improves data transmission speed, not security posture.",
+        "D": "Reduced storage cost is a financial optimization, not a security mechanism."
+      }
+    },
+    {
+      "id": 59,
+      "question": "What is a key role of encryption in cloud security?",
+      "options": {
+        "A": "Increase storage",
+        "B": "Enhance user experience",
+        "C": "Protect data at rest and in transit",
+        "D": "Reduce latency"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Encryption does not expand storage capacity; it slightly increases ciphertext overhead.",
+        "B": "Encryption operates at the cryptographic layer without directly affecting user interface design.",
+        "C": "Encryption protects sensitive data by rendering it unreadable to unauthorized parties both while stored on disk (at rest) and while traveling over networks (in transit).",
+        "D": "Cryptographic operations add minor computational overhead rather than reducing latency."
+      }
+    },
+    {
+      "id": 60,
+      "question": "Which of the following is a shared responsibility between the cloud provider and the customer?",
+      "options": {
+        "A": "Securing physical infrastructure",
+        "B": "Data encryption",
+        "C": "Firewall configuration",
+        "D": "Network hardware maintenance"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Securing physical data centers and hardware facilities is solely the responsibility of the cloud provider.",
+        "B": "Data encryption is a shared responsibility: the cloud provider offers KMS and hardware modules, but the customer must configure keys and enable encryption.",
+        "C": "Firewall rules inside the guest OS or VPC are configured and managed solely by the customer.",
+        "D": "Network hardware maintenance in cloud facilities is exclusively managed by the cloud provider."
+      }
+    },
+    {
+      "id": 61,
+      "question": "In cloud environments, what is the purpose of identity and access management (IAM)?",
+      "options": {
+        "A": "Controlling user access to resources",
+        "B": "Reducing latency",
+        "C": "Managing storage",
+        "D": "Controlling physical security"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "IAM (Identity and Access Management) authenticates users and authorizes permissions, ensuring only validated entities access specific cloud resources.",
+        "B": "Network optimization services like CloudFront or Direct Connect reduce latency, not IAM.",
+        "C": "Storage volume lifecycle policies manage storage, not IAM identity systems.",
+        "D": "Physical data center security is maintained exclusively by the cloud provider's physical security staff."
+      }
+    },
+    {
+      "id": 62,
+      "question": "Which of the following cloud security models ensures that data is protected while being processed?",
+      "options": {
+        "A": "Encryption at rest",
+        "B": "Data masking",
+        "C": "Homomorphic encryption",
+        "D": "Symmetric encryption"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Encryption at rest protects data stored on persistent storage drives (SSDs, magnetic disks).",
+        "B": "Data masking obscures sensitive numbers (like credit card digits) in UI displays, but does not protect processing data.",
+        "C": "Homomorphic encryption enables computation and processing directly on encrypted ciphertext without requiring decryption first.",
+        "D": "Symmetric encryption uses a single shared secret key for bulk encryption, but requires plaintext decryption prior to computation."
+      }
+    },
+    {
+      "id": 63,
+      "question": "Which AWS service can be used to enable encryption for data stored in Amazon S3?",
+      "options": {
+        "A": "AWS Shield",
+        "B": "AWS CloudTrail",
+        "C": "AWS KMS",
+        "D": "AWS EC2"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "AWS Shield is a managed Distributed Denial of Service (DDoS) protection service.",
+        "B": "AWS CloudTrail audits API calls and records user activity logs across the AWS account.",
+        "C": "AWS KMS (Key Management Service) generates, manages, and integrates cryptographic keys to encrypt S3 buckets and EBS volumes.",
+        "D": "Amazon EC2 provides virtual compute instances, not centralized encryption key management."
+      }
+    },
+    {
+      "id": 64,
+      "question": "Which command would you use in AWS CLI to enable server-side encryption on an S3 bucket?",
+      "options": {
+        "A": "aws s3 enable-encryption",
+        "B": "aws s3api put-bucket-encryption",
+        "C": "aws s3api set-encryption",
+        "D": "aws s3 secure-bucket"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`aws s3 enable-encryption` is not an authentic AWS CLI command.",
+        "B": "`aws s3api put-bucket-encryption` is the exact AWS CLI command that configures default server-side encryption rules for an S3 bucket.",
+        "C": "`aws s3api set-encryption` is invalid syntax in the AWS CLI toolset.",
+        "D": "`aws s3 secure-bucket` is not a valid AWS command."
+      }
+    },
+    {
+      "id": 65,
+      "question": "What command would you use to retrieve the IAM policy for an AWS user using the AWS CLI?",
+      "options": {
+        "A": "aws iam get-user-policy",
+        "B": "aws iam describe-policy",
+        "C": "aws iam list-users",
+        "D": "aws iam get-user"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`aws iam get-user-policy --user-name [User] --policy-name [Policy]` retrieves the specified inline policy document for an IAM user.",
+        "B": "`aws iam describe-policy` is not an IAM command; customer-managed policies use `aws iam get-policy`.",
+        "C": "`aws iam list-users` lists all user accounts in the AWS organization, not policy documents.",
+        "D": "`aws iam get-user` returns metadata (ARN, creation date, user ID), not policy permissions."
+      }
+    },
+    {
+      "id": 66,
+      "question": "A cloud user is unable to access resources they previously had access to. What is the likely issue?",
+      "options": {
+        "A": "Incorrect IAM policy",
+        "B": "Network failure",
+        "C": "Hardware malfunction",
+        "D": "Server downtime"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "An altered, revoked, or misconfigured IAM policy directly results in access denial by revoking authorization permissions.",
+        "B": "A network failure would cause connection timeouts across all services, not targeted access denial to specific resources.",
+        "C": "Cloud hardware malfunctions are isolated by the hypervisor and transparently migrated.",
+        "D": "Server downtime reports 5xx server errors rather than 403 permission denied codes."
+      }
+    },
+    {
+      "id": 67,
+      "question": "A company notices unusual login activities in their cloud environment. What is the most immediate security action to take?",
+      "options": {
+        "A": "Disable all user accounts",
+        "B": "Reset all passwords",
+        "C": "Enable multi-factor authentication",
+        "D": "Shut down all services"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Disabling all user accounts completely shuts down company operations unnecessarily.",
+        "B": "Resetting passwords without MFA still leaves accounts vulnerable to ongoing credential stuffing and phishing.",
+        "C": "Enabling Multi-Factor Authentication (MFA) immediately blocks unauthorized attackers who possess stolen passwords by requiring a secondary verification token.",
+        "D": "Shutting down all services causes a catastrophic self-inflicted business outage."
+      }
+    },
+    {
+      "id": 68,
+      "question": "A company is facing a data breach in their cloud infrastructure. What is the first step in mitigating the breach?",
+      "options": {
+        "A": "Shut down the entire cloud system",
+        "B": "Notify customers",
+        "C": "Isolate the affected system",
+        "D": "Update software patches"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Terminating the entire cloud infrastructure destroys forensic volatile memory evidence and causes total business disruption.",
+        "B": "Customer notification is a legal compliance requirement that occurs after the breach is contained and investigated.",
+        "C": "Isolating affected instances (revoking security group ingress/egress, isolating VPCs) contains the attacker from pivoting across the network.",
+        "D": "Patching software while an active attacker maintains persistent access inside the perimeter does not eliminate the breach."
+      }
+    },
+    {
+      "id": 69,
+      "question": "What is the primary purpose of Identity and Access Management (IAM) in cloud computing?",
+      "options": {
+        "A": "Manage cloud costs",
+        "B": "Control access to resources",
+        "C": "Increase network speed",
+        "D": "Enhance data storage"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Cloud cost management is handled by billing tools like AWS Cost Explorer, not IAM.",
+        "B": "The primary purpose of IAM is to control authentication (who can log in) and authorization (what specific resources and actions they can perform).",
+        "C": "Network speed is managed by network bandwidth, CDN edge caching, and transit gateways.",
+        "D": "Data storage capacity is governed by cloud storage services (S3, EBS), not IAM."
+      }
+    },
+    {
+      "id": 70,
+      "question": "Which of the following is a core feature of IAM?",
+      "options": {
+        "A": "Network management",
+        "B": "Encryption",
+        "C": "User authentication",
+        "D": "Data storage"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Network routing and subnetting are handled by VPC services, not IAM.",
+        "B": "Encryption is handled by cryptographic key services (KMS) and cryptographic algorithms.",
+        "C": "User authentication (verifying credentials, passwords, and tokens) is a foundational pillar of IAM.",
+        "D": "Data storage is managed by persistent disk and object storage services."
+      }
+    },
+    {
+      "id": 71,
+      "question": "In cloud IAM, what is the purpose of role-based access control (RBAC)?",
+      "options": {
+        "A": "To allocate network bandwidth",
+        "B": "To limit data storage",
+        "C": "To assign permissions based on roles",
+        "D": "To increase computational power"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Network bandwidth is managed through traffic policies and network interface limits.",
+        "B": "Storage limits are enforced via disk quotas and bucket limits.",
+        "C": "RBAC (Role-Based Access Control) assigns permissions to organizational roles rather than individual users, streamlining privilege management.",
+        "D": "Computational power is governed by instance sizing (vCPU/RAM) and auto-scaling groups."
+      }
+    },
+    {
+      "id": 72,
+      "question": "Which of the following is NOT part of a typical IAM system?",
+      "options": {
+        "A": "User identities",
+        "B": "Resource access",
+        "C": "Bandwidth allocation",
+        "D": "Permission policies"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "User identities (usernames, service accounts, credentials) are central to IAM systems.",
+        "B": "Resource access rules define the actions allowed against specific targets in IAM.",
+        "C": "Bandwidth allocation is an infrastructure networking function, not a component of IAM.",
+        "D": "Permission policies (JSON permission documents) define authorized actions in IAM."
+      }
+    },
+    {
+      "id": 73,
+      "question": "What is the difference between an IAM user and an IAM role in cloud computing?",
+      "options": {
+        "A": "Roles are used for programmatic access",
+        "B": "Users require more permissions",
+        "C": "Users represent individuals, roles are assigned to entities",
+        "D": "Roles have no permissions"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Both users (via access keys) and roles can be used for programmatic API access.",
+        "B": "Permission scope is determined by attached policies, not by whether the entity is a user or role.",
+        "C": "An IAM user represents a permanent identity (person or application), whereas an IAM role is assumed temporarily by entities, services, or cross-account users.",
+        "D": "Roles have detailed permission policies defining what actions can be taken while assuming the role."
+      }
+    },
+    {
+      "id": 74,
+      "question": "Which AWS CLI command is used to create a new IAM user?",
+      "options": {
+        "A": "aws iam create-user",
+        "B": "aws iam add-user",
+        "C": "aws iam new-user",
+        "D": "aws iam make-user"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`aws iam create-user --user-name [UserName]` is the official AWS CLI command used to create a new IAM user.",
+        "B": "`aws iam add-user` is not a valid AWS CLI command.",
+        "C": "`aws iam new-user` is invalid syntax in the AWS SDK.",
+        "D": "`aws iam make-user` is not recognized by the AWS CLI."
+      }
+    },
+    {
+      "id": 75,
+      "question": "How would you assign a new IAM policy to a user using the AWS CLI?",
+      "options": {
+        "A": "aws iam assign-policy",
+        "B": "aws iam put-user-policy",
+        "C": "aws iam attach-user-policy",
+        "D": "aws iam set-policy"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "`aws iam assign-policy` is not an authentic AWS CLI command.",
+        "B": "`aws iam put-user-policy` embeds an inline policy, but attaching managed policies uses `attach-user-policy`.",
+        "C": "`aws iam attach-user-policy --user-name [User] --policy-arn [ARN]` is the standard command to attach a managed IAM policy to a user.",
+        "D": "`aws iam set-policy` is not a valid command in the AWS CLI."
+      }
+    },
+    {
+      "id": 76,
+      "question": "How would you create a new role with specific permissions in Google Cloud IAM using gcloud CLI?",
+      "options": {
+        "A": "gcloud iam create-role",
+        "B": "gcloud create-iam-role",
+        "C": "gcloud iam new-role",
+        "D": "gcloud iam define-role"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`gcloud iam roles create [ROLE_ID]` (or `gcloud iam create-role`) is the Google Cloud CLI command to define custom IAM roles.",
+        "B": "`gcloud create-iam-role` uses incorrect command hierarchy.",
+        "C": "`gcloud iam new-role` is not recognized by the gcloud CLI toolset.",
+        "D": "`gcloud iam define-role` is invalid GCP CLI syntax."
+      }
+    },
+    {
+      "id": 77,
+      "question": "A user is unable to access a cloud resource even though they have been granted permissions. What could be the cause?",
+      "options": {
+        "A": "Incorrect IAM policy",
+        "B": "Network issues",
+        "C": "Storage limit exceeded",
+        "D": "Software bugs"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "An incorrect or conflicting IAM policy (such as an explicit Deny statement or missing resource ARN) overrides Allow permissions and blocks access.",
+        "B": "General network issues prevent connection handshakes entirely, rather than producing authorization failures.",
+        "C": "Storage limits cause disk write errors, not permission denial on read/list actions.",
+        "D": "Software bugs cause crash exceptions rather than deterministic IAM permission denial."
+      }
+    },
+    {
+      "id": 78,
+      "question": "A user has been granted access to multiple cloud resources but is unable to perform actions in some of them. What is the likely issue?",
+      "options": {
+        "A": "Overlapping IAM policies",
+        "B": "Insufficient permissions",
+        "C": "Network latency",
+        "D": "Incorrect user role"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Overlapping policies grant unioned permissions unless an explicit Deny is present.",
+        "B": "The user has insufficient permissions on those specific resources because IAM policies must explicitly grant action rights for each target resource ARN.",
+        "C": "Network latency delays response times, but does not cause permission authorization failures.",
+        "D": "If the user role was invalid, all actions across all resources would fail uniformly."
+      }
+    },
+    {
+      "id": 79,
+      "question": "An organization is facing unauthorized access issues despite having IAM policies in place. What could be a potential solution?",
+      "options": {
+        "A": "Implement multi-factor authentication",
+        "B": "Increase user permissions",
+        "C": "Disable unused user accounts",
+        "D": "Enable network encryption"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Implementing Multi-Factor Authentication (MFA) ensures that compromised passwords alone cannot be used by unauthorized actors to gain access.",
+        "B": "Increasing user permissions expands the attack surface and violates the principle of least privilege.",
+        "C": "Disabling unused accounts is good hygiene, but does not protect active compromised accounts without MFA.",
+        "D": "Network encryption protects packets in transit, but does not prevent authenticated access using stolen credentials."
+      }
+    },
+    {
+      "id": 80,
+      "question": "What is the purpose of a Virtual Private Cloud (VPC) in cloud networking?",
+      "options": {
+        "A": "Provide physical storage",
+        "B": "Securely connect on-premise to cloud",
+        "C": "Manage identity access",
+        "D": "Increase processing speed"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Physical storage is managed by storage array SANs and object stores, not virtual network topologies.",
+        "B": "A VPC provides an isolated, private virtual network where cloud resources can securely connect to on-premises data centers via VPN or Direct Connect.",
+        "C": "Identity access is managed by IAM, not network VPC configurations.",
+        "D": "Processing speed is determined by compute hardware and CPU architecture, not VPC networking."
+      }
+    },
+    {
+      "id": 81,
+      "question": "Which of the following is a core component of cloud networking?",
+      "options": {
+        "A": "Virtual Machines",
+        "B": "Security Groups",
+        "C": "Load Balancers",
+        "D": "File Storage"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Virtual Machines are compute resources that attach to networks, rather than core networking components themselves.",
+        "B": "Security Groups act as virtual firewalls at the instance network interface level.",
+        "C": "Load Balancers are core cloud networking appliances that distribute incoming traffic across multiple backend targets to ensure high availability.",
+        "D": "File Storage (NFS/EFS) is a storage service, not a networking component."
+      }
+    },
+    {
+      "id": 82,
+      "question": "What role do subnets play in a cloud networking environment?",
+      "options": {
+        "A": "They route network traffic",
+        "B": "They isolate network segments",
+        "C": "They store user data",
+        "D": "They secure databases"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Routing tables and virtual routers direct traffic, whereas subnets define the IP address partitions.",
+        "B": "Subnets partition a VPC IP network into isolated segments (such as public subnets for web servers and private subnets for databases).",
+        "C": "Subnets do not store user data; they allocate IP address spaces.",
+        "D": "Database security is enforced via database credentials, encryption, and security groups."
+      }
+    },
+    {
+      "id": 83,
+      "question": "Which service allows for direct, private connectivity between a customer's data center and a cloud provider?",
+      "options": {
+        "A": "VPN",
+        "B": "Direct Connect",
+        "C": "Load Balancer",
+        "D": "NAT Gateway"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "A VPN (Virtual Private Network) connects over the public internet using encrypted IPsec tunnels.",
+        "B": "AWS Direct Connect (or Azure ExpressRoute) provides a dedicated, private physical connection between a customer's data center and the cloud, bypassing the public internet.",
+        "C": "A Load Balancer distributes application traffic across servers, not creating dedicated physical interconnects.",
+        "D": "A NAT Gateway enables outbound internet access for instances in private subnets."
+      }
+    },
+    {
+      "id": 84,
+      "question": "Which cloud networking model provides scalability by abstracting the network layer entirely?",
+      "options": {
+        "A": "Traditional Networking",
+        "B": "Cloud Networking",
+        "C": "Underlay Networking",
+        "D": "Overlay Networking"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Traditional networking relies on static physical switches, VLANs, and hardware routers.",
+        "B": "Cloud networking is the broad umbrella term for all cloud-based network services.",
+        "C": "Underlay networking refers to the physical routers, switches, and fiber cabling beneath the virtual layer.",
+        "D": "Overlay networking (such as VXLAN or NVGRE) encapsulates layer 2/3 traffic inside virtual packets, abstracting the physical network layer entirely."
+      }
+    },
+    {
+      "id": 85,
+      "question": "Which AWS command lists the available subnets in a specific region?",
+      "options": {
+        "A": "aws ec2 describe-subnets",
+        "B": "aws ec2 list-subnets",
+        "C": "aws vpc describe-subnets",
+        "D": "aws ec2 show-subnets"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`aws ec2 describe-subnets` is the official AWS CLI command used to list and describe subnets within a VPC and region.",
+        "B": "`aws ec2 list-subnets` is not a valid AWS CLI command.",
+        "C": "`aws vpc describe-subnets` is invalid; VPC networking commands reside under the `aws ec2` namespace.",
+        "D": "`aws ec2 show-subnets` is not recognized by the AWS CLI."
+      }
+    },
+    {
+      "id": 86,
+      "question": "How would you create a new Virtual Private Cloud (VPC) in AWS using the CLI?",
+      "options": {
+        "A": "aws vpc create-vpc",
+        "B": "aws ec2 create-vpc",
+        "C": "aws vpc new-vpc",
+        "D": "aws ec2 build-vpc"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`aws vpc create-vpc` uses an incorrect top-level command; VPC resources are managed under the `ec2` namespace.",
+        "B": "`aws ec2 create-vpc --cidr-block [CIDR]` is the correct AWS CLI command to create a new Virtual Private Cloud.",
+        "C": "`aws vpc new-vpc` is invalid AWS CLI syntax.",
+        "D": "`aws ec2 build-vpc` is not an authentic AWS CLI command."
+      }
+    },
+    {
+      "id": 87,
+      "question": "How would you attach an internet gateway to a VPC in AWS using the CLI?",
+      "options": {
+        "A": "aws ec2 attach-igw",
+        "B": "aws ec2 create-gateway",
+        "C": "aws ec2 attach-internet-gateway",
+        "D": "aws ec2 add-igw"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "`aws ec2 attach-igw` is not a valid AWS CLI command.",
+        "B": "`aws ec2 create-gateway` is invalid syntax.",
+        "C": "`aws ec2 attach-internet-gateway --internet-gateway-id [ID] --vpc-id [ID]` is the standard command to connect an IGW to a VPC.",
+        "D": "`aws ec2 add-igw` is not recognized by the AWS CLI toolset."
+      }
+    },
+    {
+      "id": 88,
+      "question": "In Google Cloud, what is the command to create a new VPC using the gcloud CLI?",
+      "options": {
+        "A": "gcloud compute networks create",
+        "B": "gcloud create-vpc",
+        "C": "gcloud compute new-vpc",
+        "D": "gcloud build-vpc"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`gcloud compute networks create [NAME]` is the official Google Cloud command to provision a new VPC network.",
+        "B": "`gcloud create-vpc` is not a valid gcloud command.",
+        "C": "`gcloud compute new-vpc` is invalid syntax in GCP.",
+        "D": "`gcloud build-vpc` is not an authentic Google Cloud command."
+      }
+    },
+    {
+      "id": 89,
+      "question": "A user is unable to access their cloud resource over the internet. What could be a possible reason?",
+      "options": {
+        "A": "The VPC is not created",
+        "B": "The internet gateway is not attached",
+        "C": "Insufficient storage",
+        "D": "Incorrect IAM policy"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "If the VPC was not created, the cloud resource could not have been provisioned inside it.",
+        "B": "An Internet Gateway (IGW) must be created and attached to the VPC, and referenced in the subnet route table, for resources to communicate with the internet.",
+        "C": "Storage capacity does not affect network packet routing to the internet.",
+        "D": "IAM policies govern API operations and resource access, but cannot establish network routing routes."
+      }
+    },
+    {
+      "id": 90,
+      "question": "A company is facing slow data transfers between their on-premise data center and the cloud. What could be the issue?",
+      "options": {
+        "A": "High network latency",
+        "B": "Data encryption",
+        "C": "Over-provisioned servers",
+        "D": "Incorrect IAM permissions"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "High network latency on long-distance WAN connections or congested lines causes severe data transfer delays between on-premises sites and cloud hubs.",
+        "B": "Hardware encryption acceleration handles encryption at line rate without causing severe transfer slowness.",
+        "C": "Over-provisioning servers provides surplus CPU/RAM and does not slow network data transmission.",
+        "D": "IAM permissions determine access authorization, not physical data transfer throughput."
+      }
+    },
+    {
+      "id": 91,
+      "question": "A company using cloud services is experiencing IP conflicts between their resources. What is a potential solution?",
+      "options": {
+        "A": "Increase server resources",
+        "B": "Use multiple VPCs",
+        "C": "Reduce security rules",
+        "D": "Switch to a public cloud model"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Increasing server resources (CPU/RAM) does not resolve IP address allocation overlap.",
+        "B": "Using multiple separate VPCs with distinct, non-overlapping CIDR blocks isolates subnets and eliminates IP address conflicts.",
+        "C": "Reducing security rules degrades firewall protection without resolving IP subnet collisions.",
+        "D": "Switching cloud models does not resolve network IP address allocation planning errors."
+      }
+    },
+    {
+      "id": 92,
+      "question": "Which of the following is a primary consideration when managing a cloud deployment?",
+      "options": {
+        "A": "CPU performance",
+        "B": "Security",
+        "C": "Backup frequency",
+        "D": "User authentication"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "CPU performance is an optimization detail, whereas security is the primary overarching architectural consideration.",
+        "B": "Security (protecting data, enforcing least privilege, and adhering to compliance regulations) is the primary concern in cloud management.",
+        "C": "Backup frequency is an operational policy, subordinated to overall cloud security and governance.",
+        "D": "User authentication is a subset of the broader security architecture."
+      }
+    },
+    {
+      "id": 93,
+      "question": "What does auto-scaling help achieve in cloud deployments?",
+      "options": {
+        "A": "Reduced storage",
+        "B": "Automatic billing",
+        "C": "Optimal resource usage",
+        "D": "Improved network speeds"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Auto-scaling adjusts compute instances, not object storage volume.",
+        "B": "Billing is based on consumed resources, but auto-scaling does not manage invoicing.",
+        "C": "Auto-scaling dynamically provisions resources during demand spikes and terminates idle instances during lulls, achieving optimal resource usage and cost efficiency.",
+        "D": "Network transmission speeds are determined by bandwidth and routing, not auto-scaling group capacity."
+      }
+    },
+    {
+      "id": 94,
+      "question": "What is a significant challenge in managing multi-cloud deployments?",
+      "options": {
+        "A": "Increased latency",
+        "B": "Complex identity management",
+        "C": "Limited scalability",
+        "D": "Reduced data privacy"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Latency depends on geographic proximity and Direct Connect links, not multi-cloud architecture itself.",
+        "B": "Managing identities, access permissions, and role federation across multiple disparate cloud providers (AWS, Azure, GCP) is a major operational complexity.",
+        "C": "Multi-cloud environments offer greater overall scalability by combining resource pools from multiple hyperscalers.",
+        "D": "Data privacy regulations are managed through encryption and compliance policies, not reduced by multi-cloud."
+      }
+    },
+    {
+      "id": 95,
+      "question": "In cloud deployment, what is the main advantage of Infrastructure as Code (IaC)?",
+      "options": {
+        "A": "Reduced manual errors",
+        "B": "Improved security",
+        "C": "Faster data transfer",
+        "D": "Better storage"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Infrastructure as Code (IaC) uses automated declarative code templates to provision resources, eliminating human configuration errors and inconsistencies.",
+        "B": "IaC automates deployment, but security still depends on the configuration rules defined in the templates.",
+        "C": "Data transfer speed is determined by network bandwidth, not template automation.",
+        "D": "IaC manages infrastructure provisioning, not the storage capacity of hard drives."
+      }
+    },
+    {
+      "id": 96,
+      "question": "Which of the following strategies is essential for managing disaster recovery in cloud deployments?",
+      "options": {
+        "A": "Regular testing",
+        "B": "Increased encryption",
+        "C": "Smaller virtual machines",
+        "D": "Low latency connections"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Regular disaster recovery testing (simulating failovers and restoring from backups) verifies that RTO and RPO targets can actually be met during a real emergency.",
+        "B": "Increasing encryption protects confidentiality, but does not restore failed application infrastructure.",
+        "C": "Virtual machine sizing has no direct bearing on disaster recovery failover readiness.",
+        "D": "Low latency connections improve normal throughput, but do not validate recovery procedures."
+      }
+    },
+    {
+      "id": 97,
+      "question": "In AWS, how would you update an existing CloudFormation stack to deploy new resources?",
+      "options": {
+        "A": "aws cloudformation update-stack",
+        "B": "aws cloudformation change-stack",
+        "C": "aws ec2 update-stack",
+        "D": "aws vpc update-stack"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "`aws cloudformation update-stack --stack-name [Name] --template-body [Template]` updates an existing CloudFormation stack with new template definitions.",
+        "B": "`aws cloudformation change-stack` is not a valid AWS command; change sets use `create-change-set`.",
+        "C": "`aws ec2 update-stack` is invalid; CloudFormation commands reside under the `cloudformation` namespace.",
+        "D": "`aws vpc update-stack` is not an authentic AWS command."
+      }
+    },
+    {
+      "id": 98,
+      "question": "How would you deploy an application to Google Kubernetes Engine (GKE) using the gcloud CLI?",
+      "options": {
+        "A": "gcloud app deploy",
+        "B": "gcloud container deploy",
+        "C": "kubectl apply",
+        "D": "gcloud kubernetes deploy"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "`gcloud app deploy` deploys applications to Google App Engine (PaaS), not Kubernetes.",
+        "B": "`gcloud container deploy` is invalid gcloud syntax.",
+        "C": "`kubectl apply -f [manifest.yaml]` is the universal standard command to deploy container workloads and services to a Kubernetes cluster (including GKE).",
+        "D": "`gcloud kubernetes deploy` is not a recognized gcloud command."
+      }
+    },
+    {
+      "id": 99,
+      "question": "What command in AWS CLI would you use to provision resources using Terraform?",
+      "options": {
+        "A": "terraform create",
+        "B": "terraform apply",
+        "C": "terraform start",
+        "D": "terraform deploy"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "`terraform create` is not a valid Terraform command.",
+        "B": "`terraform apply` executes the actions proposed in a Terraform plan to provision or update infrastructure on cloud providers.",
+        "C": "`terraform start` is not an authentic Terraform command.",
+        "D": "`terraform deploy` is invalid Terraform CLI syntax."
+      }
+    },
+    {
+      "id": 100,
+      "question": "How would you define a multi-cloud deployment using Terraform configuration?",
+      "options": {
+        "A": "Define multiple provider blocks",
+        "B": "Use the same provider block",
+        "C": "Define a single cloud block",
+        "D": "Use one cloud and multiple regions"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "In Terraform, multi-cloud deployments are configured by defining multiple `provider` blocks (e.g., `provider \"aws\"` and `provider \"azurerm\"`) in the configuration files.",
+        "B": "A single provider block can only connect to one specific cloud provider API.",
+        "C": "Terraform has no generic 'cloud' block; cloud providers require distinct provider plugins.",
+        "D": "Using multiple regions within one cloud is a multi-region deployment, not a multi-cloud deployment."
+      }
+    }
+  ]
+}

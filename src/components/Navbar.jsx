@@ -592,7 +592,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <FileSpreadsheet size={14} />
-                      <span>{bank.shortTitle} ({bank.questions.length} Qs)</span>
+                      <span>{bank.shortTitle} ({bank.questions.length} Qs • {bank.durationMinutes} min)</span>
                     </Link>
                   ))}
                 </div>

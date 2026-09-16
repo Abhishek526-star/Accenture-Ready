@@ -25,6 +25,8 @@ import msOfficePyqFull from './msOfficePyqFull.json';
 import networkSecurityCloudPyq from './networkSecurityCloudPyq.json';
 import computerNetworkPyq from './computerNetworkPyq.json';
 import dsaOsSqlMcq from './dsaOsSqlMcq.json';
+import cloudFundamentalsPyq from './cloudFundamentalsPyq.json';
+import mixedPyq from './mixedPyq.json';
 
 const LETTERS = 'ABCDEFGHIJ';
 
@@ -42,6 +44,20 @@ const SECTION_MAP = {
  */
 const classifyTopic = (text) => {
   const t = String(text || '').toLowerCase();
+
+  // --- DevOps & Containers ---
+  if (
+    t.includes('devops') ||
+    t.includes('container') ||
+    t.includes('docker') ||
+    t.includes('kubernetes') ||
+    t.includes('continuous deployment') ||
+    t.includes('continuous integration') ||
+    t.includes('ci/cd') ||
+    t.includes('microservice')
+  ) {
+    return 'devops';
+  }
 
   // --- Network Security ---
   if (
@@ -193,7 +209,8 @@ export const PYQ_TOPIC_LABELS = {
   networking: 'Networking',
   'mobile-wireless': 'Mobile & Wireless',
   'web-internet': 'Web & Internet',
-  fundamentals: 'Computer Fundamentals'
+  fundamentals: 'Computer Fundamentals',
+  devops: 'DevOps & Containers'
 };
 
 /**
@@ -285,15 +302,35 @@ const dsaOsSqlQuestions = normalizeQuestions(
   'Uploaded Accenture PYQ PDF (32 pages)'
 );
 
+const cloudFundamentalsQuestions = normalizeQuestions(
+  cloudFundamentalsPyq,
+  'Uploaded Accenture Cloud PDF (26 pages)'
+);
+
+const mixedPyqQuestions = normalizeQuestions(
+  mixedPyq,
+  'Uploaded Accenture Mixed PYQ PDF (16 pages)'
+);
+
 export const PYQ_BANKS = [
+  {
+    id: 'cloud-fundamentals',
+    title: 'Accenture Cloud Assessment – Cloud Computing Practice',
+    shortTitle: 'Cloud Computing, Virtualization & Security',
+    description:
+      'Cloud Computing, Virtualization, Cloud Storage, Cloud Security, IAM & Cloud Networking PYQ paper — 100 MCQs in exam and practice modes with detailed per-option explanations.',
+    badge: `${cloudFundamentalsQuestions.length} Qs`,
+    durationMinutes: cloudFundamentalsQuestions.length,
+    questions: cloudFundamentalsQuestions
+  },
   {
     id: 'ms-office-pyq',
     title: 'Accenture Cloud Assessment – MS Office PYQ Practice',
     shortTitle: 'MS Office & Computer Fundamentals',
     description:
       'Common Application & MS Office PYQ paper — Word, Excel, PowerPoint, Outlook & Computer Fundamentals with exam and practice modes.',
-    badge: '156 Qs',
-    durationMinutes: 156,
+    badge: `${msOfficeQuestions.length} Qs`,
+    durationMinutes: msOfficeQuestions.length,
     questions: msOfficeQuestions
   },
   {
@@ -302,8 +339,8 @@ export const PYQ_BANKS = [
     shortTitle: 'Network Security & Cloud',
     description:
       'Network Security & Cloud Computing PYQ paper — OSI/TCP-IP, attacks, firewalls, cryptography, cloud service & deployment models with exam and practice modes.',
-    badge: '120 Qs',
-    durationMinutes: 120,
+    badge: `${networkCloudQuestions.length} Qs`,
+    durationMinutes: networkCloudQuestions.length,
     questions: networkCloudQuestions
   },
   {
@@ -312,8 +349,8 @@ export const PYQ_BANKS = [
     shortTitle: 'Computer Networks & Mobile Computing',
     description:
       'Computer Networks PYQ paper — OSI/TCP-IP, routing (OSPF/BGP), Ethernet, HTTP/FTP, cryptography, Wi-Fi & mobile computing with exam and practice modes.',
-    badge: '120 Qs',
-    durationMinutes: 120,
+    badge: `${computerNetworkQuestions.length} Qs`,
+    durationMinutes: computerNetworkQuestions.length,
     questions: computerNetworkQuestions
   },
   {
@@ -322,9 +359,19 @@ export const PYQ_BANKS = [
     shortTitle: 'DSA, Operating Systems & SQL',
     description:
       'DSA, Operating Systems & SQL PYQ paper — 120 MCQs (40 DSA, 40 OS, 40 SQL) with detailed per-option explanations in exam and practice modes.',
-    badge: '120 Qs',
-    durationMinutes: 120,
+    badge: `${dsaOsSqlQuestions.length} Qs`,
+    durationMinutes: dsaOsSqlQuestions.length,
     questions: dsaOsSqlQuestions
+  },
+  {
+    id: 'mixed-pyq',
+    title: 'Accenture Mixed PYQs – Cloud, Networking, OS, Security, DevOps & MS Office',
+    shortTitle: 'Mixed PYQs (Full Paper)',
+    description:
+      'Full Accenture assessment paper — 42 high-frequency MCQs covering Cloud Storage, HTTP, Networking, Operating Systems, Cyber Security, DevOps, Containerization & MS Office with detailed per-option explanations.',
+    badge: `${mixedPyqQuestions.length} Qs`,
+    durationMinutes: mixedPyqQuestions.length,
+    questions: mixedPyqQuestions
   }
 ];
 

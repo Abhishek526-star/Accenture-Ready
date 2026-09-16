@@ -1,0 +1,722 @@
+{
+  "title": "Accenture Mixed PYQs – Cloud, Networking, OS, Security, DevOps & MS Office",
+  "category": "Cloud Computing, Networking, Operating Systems, Cyber Security, DevOps, MS Office",
+  "description": "42 high-frequency questions from an Accenture assessment paper covering Cloud, Networking, Operating Systems, Security, DevOps and MS Office. Every option has a concept-specific explanation.",
+  "source": "Uploaded PDF (16 pages)",
+  "questions": [
+    {
+      "id": 1,
+      "question": "In a cloud-based application where scalability is crucial, which cloud storage option allows dynamic scaling without the need for manual intervention?",
+      "options": {
+        "A": "Block storage",
+        "B": "File storage",
+        "C": "Object storage",
+        "D": "Table storage"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Block storage provides raw fixed-size volumes (like disks) attached to VMs. Scaling requires manually provisioning or resizing volumes; it does not self-expand automatically.",
+        "B": "Incorrect. File storage (NFS/SMB shares) organises data in a hierarchical file-and-folder structure. Scaling capacity requires administrator intervention or quota adjustments.",
+        "C": "Correct. Object storage (e.g., AWS S3, Azure Blob) stores data as objects in a flat namespace and scales virtually without limit. Cloud providers handle all infrastructure expansion automatically.",
+        "D": "Incorrect. Table storage is a NoSQL key-value/tabular store optimised for structured record access. It is not the general auto-scalable object-storage solution for unstructured data."
+      }
+    },
+    {
+      "id": 2,
+      "question": "A mobile application needs to retrieve a list of all available restaurants from a food delivery service's API. The application should only read data without making any changes to the server resources. Which HTTP method is most appropriate for this operation?",
+      "options": {
+        "A": "POST",
+        "B": "PUT",
+        "C": "DELETE",
+        "D": "GET"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Incorrect. POST submits data to the server, typically to create or process a resource. Using POST to only read data violates REST idempotency and safe-method conventions.",
+        "B": "Incorrect. PUT creates or completely replaces a resource at the specified URI. It is not safe (it modifies state) and is wrong for read-only data retrieval.",
+        "C": "Incorrect. DELETE requests the server to remove the specified resource. Using it to fetch restaurant listings would be semantically incorrect.",
+        "D": "Correct. GET is a safe, idempotent HTTP method designed exclusively for data retrieval. No server-side state is modified, making it the correct choice for listing restaurants."
+      }
+    },
+    {
+      "id": 3,
+      "question": "During application development, a developer encounters an error due to an incorrect or unavailable API endpoint, resulting in a \"Not Found\" response. Which HTTP status code most accurately represents this error?",
+      "options": {
+        "A": "404",
+        "B": "500",
+        "C": "403",
+        "D": "400"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. HTTP 404 Not Found is returned when the server cannot locate the requested resource or endpoint. An incorrect URL maps directly to this status.",
+        "B": "Incorrect. HTTP 500 Internal Server Error signals a server-side failure (e.g., unhandled exception), not a missing endpoint on the client's part.",
+        "C": "Incorrect. HTTP 403 Forbidden means the server understood the request but denies access based on authorisation rules, not that the endpoint is absent.",
+        "D": "Incorrect. HTTP 400 Bad Request indicates that the client sent malformed or invalid request syntax, not that the target endpoint does not exist."
+      }
+    },
+    {
+      "id": 4,
+      "question": "A developer writes a program that needs to create a new process and run a different executable file. Which pair of system calls fulfills this requirement in a Unix-like OS?",
+      "options": {
+        "A": "spawn() and load()",
+        "B": "fork() and exec()",
+        "C": "clone() and run()",
+        "D": "create() and execute()"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. spawn() and load() are not standard POSIX system calls used for process creation in Unix-like operating systems.",
+        "B": "Correct. fork() duplicates the calling process to create a child process, and exec() replaces that child's memory image with the specified executable, fulfilling both requirements.",
+        "C": "Incorrect. clone() is a Linux-specific lower-level call that creates threads or processes with shared resources; run() is not a standard system call.",
+        "D": "Incorrect. create() and execute() do not exist as standard POSIX system calls for process management in Unix-like environments."
+      }
+    },
+    {
+      "id": 5,
+      "question": "Which protocol is commonly used to secure data in transit over the internet by encrypting communication between systems?",
+      "options": {
+        "A": "HTTP",
+        "B": "MTP",
+        "C": "SSL/TLS",
+        "D": "SMTP"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. HTTP (HyperText Transfer Protocol) transmits data in plaintext without any encryption, making it vulnerable to eavesdropping.",
+        "B": "Incorrect. MTP (Message Transport Protocol) is not a recognised standard Internet protocol for encrypting data in transit.",
+        "C": "Correct. TLS (Transport Layer Security), and its predecessor SSL, uses asymmetric and symmetric cryptography to encrypt and authenticate data between communicating systems.",
+        "D": "Incorrect. SMTP (Simple Mail Transfer Protocol) is used to send email between servers. While it can be used over TLS, SMTP itself is not the encryption protocol."
+      }
+    },
+    {
+      "id": 6,
+      "question": "Assume that you have recently started working for an organization that is migrating to a cloud-based infrastructure. As part of IT governance, you are responsible for ensuring data security in the cloud environment. In the context of IT governance and cloud security, which cloud deployment model is typically the most secure choice for organizations with highly sensitive data?",
+      "options": {
+        "A": "Public cloud",
+        "B": "Private cloud",
+        "C": "Hybrid cloud",
+        "D": "Community cloud"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. A public cloud shares infrastructure with other tenants, reducing the level of control an organization has over data isolation and security policies.",
+        "B": "Correct. A private cloud is dedicated exclusively to one organization, giving it full control over hardware, configuration, and security policies — ideal for highly sensitive data.",
+        "C": "Incorrect. A hybrid cloud combines public and private environments. While flexible, it introduces integration complexities that can create security gaps between the two environments.",
+        "D": "Incorrect. A community cloud is shared among a group of organizations with similar compliance requirements. It offers less isolation and control compared to a fully private cloud."
+      }
+    },
+    {
+      "id": 7,
+      "question": "After initializing a connection attempt to a remote server, consider that a client application sends a SYN packet to indicate the request for establishing a reliable connection. What is the expected response from the server, assuming it is available and prepared to accept the connection from the client?",
+      "options": {
+        "A": "ACK",
+        "B": "SYN-ACK",
+        "C": "RST",
+        "D": "FIN"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. A bare ACK is sent by the client in step 3 of the TCP handshake to confirm the server's SYN-ACK. The server does not reply to the initial SYN with just an ACK.",
+        "B": "Correct. In the TCP three-way handshake, the server responds to the client's SYN with a SYN-ACK packet — it acknowledges the client's SYN (ACK) and sends its own sequence number (SYN).",
+        "C": "Incorrect. RST (Reset) is sent to abruptly terminate a connection or refuse an unwanted connection — not as a normal response to an initial SYN from a ready server.",
+        "D": "Incorrect. FIN (Finish) is used in the four-way TCP connection teardown phase to signal the end of data transmission, not during connection establishment."
+      }
+    },
+    {
+      "id": 8,
+      "question": "A network administrator is tasked with selecting a secure wireless encryption protocol. Which of the following is considered the most secure for Wi-Fi networks?",
+      "options": {
+        "A": "WEP",
+        "B": "WPA",
+        "C": "WPA2",
+        "D": "WPA3"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Incorrect. WEP (Wired Equivalent Privacy) is severely outdated and broken; its RC4 implementation can be cracked in minutes using freely available tools.",
+        "B": "Incorrect. WPA (Wi-Fi Protected Access) improved on WEP with TKIP but still has known vulnerabilities, including susceptibility to dictionary attacks on the PSK.",
+        "C": "Incorrect. WPA2 uses AES-CCMP and is still widely used, but it is vulnerable to KRACK attacks and offline dictionary attacks against the PSK handshake.",
+        "D": "Correct. WPA3 is the latest Wi-Fi security standard. It replaces PSK with SAE (Simultaneous Authentication of Equals), eliminating offline dictionary attacks, and offers 192-bit security in Enterprise mode."
+      }
+    },
+    {
+      "id": 9,
+      "question": "Assume your computer's data was stolen by hackers through your network by mentioning the route to be used by the packets. This is done by the hackers to avoid security measures due to non-analyzing of source information instead of using a Packet filter firewall. What is this type of attack called?",
+      "options": {
+        "A": "IP Spoofing Attack",
+        "B": "Source Routing Attack",
+        "C": "Man-in-the-Middle Attack",
+        "D": "DNS Poisoning Attack"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. IP Spoofing falsifies the source IP address in packet headers to impersonate another host but does not necessarily dictate the routing path of packets through the network.",
+        "B": "Correct. A Source Routing Attack uses the IP Strict/Loose Source Routing options to force packets along an attacker-specified path, bypassing firewalls that only inspect destination-based routes.",
+        "C": "Incorrect. A Man-in-the-Middle attack intercepts and possibly alters traffic between two parties, but the defining mechanism is position in the path rather than forcing a route through IP options.",
+        "D": "Incorrect. DNS Poisoning corrupts DNS cache records to redirect users to fraudulent servers. It targets name resolution, not the IP-level routing path of packets."
+      }
+    },
+    {
+      "id": 10,
+      "question": "Computer Architecture - Accumulator to Memory: As a computer architect, you are designing the control unit of a CPU. You need to specify how data is moved from the accumulator to the memory. Which of the following best describes this operation?",
+      "options": {
+        "A": "LOAD instruction",
+        "B": "FETCH instruction",
+        "C": "STORE instruction",
+        "D": "MOVE instruction"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. A LOAD instruction moves data from memory into a CPU register (the accumulator). It is the reverse direction — memory to register, not register to memory.",
+        "B": "Incorrect. FETCH refers to the instruction-fetch stage of the CPU pipeline where the control unit retrieves the next instruction from memory, not a data-transfer instruction.",
+        "C": "Correct. A STORE instruction transfers the contents of the accumulator (CPU register) into a specified memory address — exactly the described accumulator-to-memory operation.",
+        "D": "Incorrect. MOVE is a general register-to-register transfer in some architectures; it does not specifically denote moving the accumulator's value out to main memory."
+      }
+    },
+    {
+      "id": 11,
+      "question": "Hybrid Cloud Connectivity: An enterprise is adopting a hybrid cloud model where they combine on-premise infrastructure with public cloud services to securely connect these environments and ensure reliability. What solutions should they implement?",
+      "options": {
+        "A": "Public internet with strong firewall rules",
+        "B": "VPN or dedicated connectivity (e.g., AWS Direct Connect)",
+        "C": "Peer-to-peer file sharing between data centers",
+        "D": "Single-cloud deployment with no on-premise integration"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Routing hybrid cloud traffic over the public internet, even with firewalls, exposes sensitive data to eavesdropping and is not reliable enough for enterprise SLA requirements.",
+        "B": "Correct. A VPN encrypts traffic between on-premise and cloud environments, while dedicated links (AWS Direct Connect, Azure ExpressRoute) offer private, low-latency, high-reliability connectivity.",
+        "C": "Incorrect. Peer-to-peer file sharing introduces uncontrolled, unsecured data paths and is not a recognised solution for enterprise hybrid-cloud integration.",
+        "D": "Incorrect. This eliminates the hybrid model entirely. Moving entirely to a single cloud removes on-premise integration and negates the purpose of a hybrid architecture."
+      }
+    },
+    {
+      "id": 12,
+      "question": "VPN for Remote Access: Assume that an employee at a multinational organization is working from home and needs to access the company's internal network to retrieve some files. Which type of VPN will be best suitable for this case?",
+      "options": {
+        "A": "Site-to-Site VPN",
+        "B": "Remote Access VPN",
+        "C": "Extranet VPN",
+        "D": "Intranet VPN"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. A Site-to-Site VPN connects two entire networks (e.g., two office locations). It is not designed for individual employees connecting from home devices.",
+        "B": "Correct. A Remote Access VPN allows individual users to securely connect their personal/home device to the corporate network over the internet, as if they were in the office.",
+        "C": "Incorrect. An Extranet VPN connects the organisation's network to external partner or supplier networks, not to individual remote employees.",
+        "D": "Incorrect. An Intranet VPN links different internal sites or segments of the same organisation's network, not an individual remote worker's home connection."
+      }
+    },
+    {
+      "id": 13,
+      "question": "DevOps - Continuous Deployment: An e-commerce company updates its website weekly with new features and fixes. Using an Agile development approach, after each update, the new version is automatically deployed to the live environment. Which practice is being implemented?",
+      "options": {
+        "A": "Continuous Deployment — automates frequent and reliable releases to production",
+        "B": "Continuous Integration — focuses on merging code changes regularly to prevent integration issues",
+        "C": "Continuous Testing — ensures automated tests are run continually to validate code quality",
+        "D": "Monitoring — tracks application performance and user activity after deployment"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. Continuous Deployment (CD) is the practice where every code change that passes automated testing is automatically deployed to the production environment without manual intervention.",
+        "B": "Incorrect. Continuous Integration (CI) focuses on automatically building and testing every code commit to detect integration errors early. Deployment to production is a separate step beyond CI.",
+        "C": "Incorrect. Continuous Testing means running automated tests throughout the development lifecycle. It validates code quality but does not by itself deploy to production.",
+        "D": "Incorrect. Monitoring observes a live system's health, performance, and user behaviour after deployment. It is a post-deployment activity, not the practice being described."
+      }
+    },
+    {
+      "id": 14,
+      "question": "Routing Manipulation Attack: Hackers can manipulate data packets traveling across a network by inserting malicious routing information, allowing them to redirect traffic through their own systems. This method enables them to pull, extract, or edit data without detection. What type of attack is this called?",
+      "options": {
+        "A": "Denial of Service (DoS) Attack",
+        "B": "Man-in-the-Middle (MITM) Attack",
+        "C": "SQL Injection Attack",
+        "D": "Cross-Site Scripting (XSS) Attack"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. A Denial of Service (DoS) attack overwhelms a target with traffic to make it unavailable. It does not involve silently redirecting traffic to intercept or modify it.",
+        "B": "Correct. A Man-in-the-Middle (MITM) attack positions the attacker between communicating parties, allowing interception and modification of traffic without either party's knowledge.",
+        "C": "Incorrect. SQL Injection exploits improperly sanitised database queries in web applications. It targets database layers, not network-level routing or packet interception.",
+        "D": "Incorrect. Cross-Site Scripting (XSS) injects malicious scripts into web pages viewed by other users. It is a web application attack and is unrelated to routing manipulation."
+      }
+    },
+    {
+      "id": 15,
+      "question": "OS Context Switching: During a context switch, consider that the operating system saves the state of the currently running process and loads the state of the next process to be executed. Which crucial CPU register responsible for loading the address of the next instruction to be fetched must be saved and restored during this operation?",
+      "options": {
+        "A": "Accumulator Register",
+        "B": "Stack Pointer",
+        "C": "Program Counter (PC)",
+        "D": "Instruction Register (IR)"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. The Accumulator holds intermediate arithmetic/logic results. While it is saved in the Process Control Block during a context switch, it is not the register specifically responsible for the address of the next instruction.",
+        "B": "Incorrect. The Stack Pointer tracks the top of the current call stack. It is also saved during a context switch but does not hold the address of the next instruction to fetch.",
+        "C": "Correct. The Program Counter (PC) holds the memory address of the next instruction to execute. Saving and restoring it is critical so each process resumes exactly where it left off.",
+        "D": "Incorrect. The Instruction Register (IR) holds the instruction currently being decoded and executed. It stores the current instruction, not the address of the next one to be fetched."
+      }
+    },
+    {
+      "id": 16,
+      "question": "Suppose you want to design a bus system where input-output devices are connected to the computer via wires, and data transfer is handled electronically. The host controller sends messages to the device controller, which performs the operation. If the device controllers have a built-in cache for faster data transfer, which device will you choose?",
+      "options": {
+        "A": "Enhanced Integrated Device Electronics A (EIDE-A)",
+        "B": "Enhanced Integrated Device Electronics B (EIDE-B)",
+        "C": "Enhanced Integrated Device Electronics C (EIDE-C)",
+        "D": "Enhanced Integrated Hard Driver (EIHD)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. EIDE-A is not the variant identified in the source as including the built-in controller cache described in the question.",
+        "B": "Correct. The source identifies EIDE-B as the device controller with a built-in cache, providing faster buffered data transfer between the device and the host.",
+        "C": "Incorrect. EIDE-C is not the variant identified in the source as the controller with an integrated cache for the described bus scenario.",
+        "D": "Incorrect. EIHD (Enhanced Integrated Hard Driver) is not identified as the controller type selected for the built-in cache feature in the source."
+      }
+    },
+    {
+      "id": 17,
+      "question": "Each party encrypts messages before sending them using a shared secret key, and messages are decrypted by the receiving party using the same key. If an attacker can send a specially crafted message to one party and analyze the resulting encrypted output, which technique is most likely to compromise the secret key in this symmetric encryption system?",
+      "options": {
+        "A": "Analyzing patterns in intercepted encrypted messages (Ciphertext-only attack)",
+        "B": "Comparing the crafted message's encrypted output with previously encrypted messages (Chosen-plaintext attack)",
+        "C": "Performing a brute-force attack on intercepted messages",
+        "D": "Matching message lengths to guess the content"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. A ciphertext-only attack relies on analyzing intercepted ciphertexts without the ability to craft specific plaintexts. The scenario explicitly allows the attacker to send chosen inputs.",
+        "B": "Correct. This is a Chosen-Plaintext Attack (CPA). The attacker selects specific plaintexts, obtains their ciphertexts, and uses the paired data to deduce the key or break the cipher.",
+        "C": "Incorrect. Brute-force exhaustively tries every possible key. While effective against weak keys, it does not exploit the attacker's special ability to submit crafted plaintexts and observe outputs.",
+        "D": "Incorrect. Message-length analysis (traffic analysis) can reveal conversation patterns but provides no direct cryptanalytic path to recovering the secret key from plaintext-ciphertext pairs."
+      }
+    },
+    {
+      "id": 18,
+      "question": "A software development team is implementing containerization to streamline application deployment by encapsulating applications and their dependencies. Which characteristic defines containers in the context of software development and deployment?",
+      "options": {
+        "A": "Virtual machines with a dedicated Hypervisor",
+        "B": "A logical separate network within the server",
+        "C": "Isolated processes sharing the same host OS instance",
+        "D": "Virtual computers running under a Hypervisor"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Virtual machines use a hypervisor to emulate hardware and run a full guest OS for each instance. Containers do not require a separate OS or hypervisor per instance.",
+        "B": "Incorrect. A logical separate network (VLAN/virtual network) is a networking abstraction. It describes network segmentation, not the defining characteristic of application containers.",
+        "C": "Correct. Containers are isolated user-space processes that share the host operating system's kernel. This makes them lightweight and fast to start compared to full VMs.",
+        "D": "Incorrect. Virtual computers under a hypervisor describes virtual machines. Each VM has its own OS; containers share the host OS, which is a fundamental architectural distinction."
+      }
+    },
+    {
+      "id": 19,
+      "question": "WPA3 Configuration (Android): Assume that a developer is tasked with configuring a high-security Wi-Fi environment for a sensitive government project using Android devices. The configuration includes Config SAE = Y, Config SUITEB = Y, and Configure SUITEB192 = Y. In the given scenario, which configuration line is incorrect or redundant and might potentially weaken the desired security level?",
+      "options": {
+        "A": "Config SAE = Y",
+        "B": "Config SUITEB = Y",
+        "C": "Configure SUITEB192 = Y",
+        "D": "None — all three are required"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. SAE (Simultaneous Authentication of Equals) is the WPA3 replacement for PSK, providing forward secrecy. Enabling SAE is a correct and necessary setting for WPA3.",
+        "B": "Incorrect. Config SUITEB enables WPA3-Enterprise Suite B cryptography (AES-256, SHA-384), which is appropriate for high-security environments.",
+        "C": "Correct. SUITEB192 extends Suite B to 192-bit security. Adding it on top of SUITEB is redundant in this context and may reduce device compatibility without a meaningful security gain.",
+        "D": "Incorrect. The source specifically identifies one configuration as redundant/problematic, so not all three settings are equivalently required."
+      }
+    },
+    {
+      "id": 20,
+      "question": "Cloud Elasticity / Resource Pooling: As part of a data center modernization initiative, the IT team is tasked with addressing storage challenges. The goal is to leverage existing storage devices from various vendors and integrate them with a next-generation storage solution. How does resource pooling play a crucial role in achieving elasticity in storage solutions for cloud computing?",
+      "options": {
+        "A": "It assigns dedicated storage hardware to each user permanently",
+        "B": "It aggregates storage from multiple devices and allocates capacity dynamically",
+        "C": "It replicates all data to multiple cloud regions simultaneously",
+        "D": "It compresses data to reduce storage requirements"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Permanently dedicating hardware to each user is the opposite of pooling. It prevents dynamic reallocation and creates underutilised silos rather than elastic shared capacity.",
+        "B": "Correct. Resource pooling aggregates storage from disparate devices into a shared pool. The cloud provider then allocates and deallocates capacity dynamically based on actual demand, enabling elasticity.",
+        "C": "Incorrect. Replicating data across regions addresses redundancy and geographic resilience. While useful, it is a data-protection strategy rather than the core mechanism of resource pooling for elasticity.",
+        "D": "Incorrect. Data compression reduces the space consumed by individual files. It does not represent the pooling and dynamic allocation of underlying storage resources."
+      }
+    },
+    {
+      "id": 21,
+      "question": "OS Property - Application Compatibility: Consider you are a software developer working on a new application for a large corporation. Your application is expected to run on a variety of different computers with varying hardware specifications and operating systems. Which property of an operating system is most important for you to consider?",
+      "options": {
+        "A": "Batch processing",
+        "B": "Resource allocation",
+        "C": "Real-time processing",
+        "D": "Distributed computing"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Batch processing executes a set of jobs without user interaction in sequence. It is an execution model, not an OS property that directly governs running applications across varied hardware.",
+        "B": "Correct. Resource allocation is the OS property that manages distribution of CPU, memory, I/O, and storage to processes. Proper resource management ensures an application runs smoothly regardless of hardware variation.",
+        "C": "Incorrect. Real-time processing concerns deterministic timing guarantees for time-critical tasks (e.g., embedded systems). It is not the primary property for general cross-hardware application compatibility.",
+        "D": "Incorrect. Distributed computing involves coordination across multiple networked nodes. While important in some contexts, it is not the OS property most relevant to running a single application across varied hardware."
+      }
+    },
+    {
+      "id": 22,
+      "question": "Cloud Traffic Spike Handling: An e-commerce website experiences sudden traffic spikes during a flash sale. The platform needs to access resources to handle the increase without manual intervention. Which cloud features should be prioritized?",
+      "options": {
+        "A": "Manual server provisioning and static IP allocation",
+        "B": "Auto-scaling and load balancing",
+        "C": "Data archiving and cold storage",
+        "D": "Virtual private networking and dedicated hosts"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Manual server provisioning requires human intervention and cannot react fast enough to sudden flash-sale spikes. Static IP allocation addresses network routing, not capacity scaling.",
+        "B": "Correct. Auto-scaling automatically adds or removes compute instances based on real-time demand. Load balancing distributes incoming traffic across available instances to prevent any single server from becoming a bottleneck.",
+        "C": "Incorrect. Data archiving and cold storage are cost optimisation strategies for infrequently accessed data. They do not address serving increased live traffic during a spike.",
+        "D": "Incorrect. VPN and dedicated hosts improve security and isolation. They do not provide the dynamic capacity expansion needed to handle sudden traffic increases automatically."
+      }
+    },
+    {
+      "id": 23,
+      "question": "Shared Responsibility Model: Assume that a company migrates its application to a cloud-connected environment where the cloud provider handles infrastructure services while the customer develops and deploys the application. How does the shared responsibility model impact security management in this scenario?",
+      "options": {
+        "A": "The cloud provider is solely responsible for all security",
+        "B": "The customer is solely responsible for all security",
+        "C": "Both the provider and customer share security responsibilities at different layers",
+        "D": "Security is managed by a third-party auditor"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Cloud providers secure the physical infrastructure, network, and hypervisor layer ('security of the cloud'), but customers remain responsible for their own data, access controls, and application security.",
+        "B": "Incorrect. Customers do not own responsibility for physical hardware security, network infrastructure, or the cloud platform itself — those remain with the provider.",
+        "C": "Correct. The shared responsibility model explicitly divides security: the cloud provider handles infrastructure security ('of the cloud') while the customer manages security 'in the cloud' (data, identity, application config).",
+        "D": "Incorrect. Third-party auditors may perform compliance assessments, but actual security responsibility is divided between provider and customer — not delegated to an auditor."
+      }
+    },
+    {
+      "id": 24,
+      "question": "You are building a training module in MS PowerPoint and want to restrict navigation so that users must view each slide sequentially with narration, without freely skipping slides. Which setting provides the strictest control over slide navigation?",
+      "options": {
+        "A": "Add hyperlinks between slides",
+        "B": "Use normal Slide Show mode",
+        "C": "Set up Slide Show as Browsed at a kiosk (full screen)",
+        "D": "Enable Presenter View"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Hyperlinks can be set to navigate to the next slide but do not prevent users from pressing arrow keys or clicking to skip slides freely.",
+        "B": "Incorrect. Normal Slide Show mode allows the presenter or viewer to click or press keys to navigate freely forward and backward without restriction.",
+        "C": "Correct. Kiosk mode (Browsed at a kiosk) disables manual keyboard navigation and restricts the show to auto-advancing or hyperlink-only navigation, providing the strictest sequential control.",
+        "D": "Incorrect. Presenter View splits the display so the presenter sees notes and upcoming slides. It does not restrict the audience from skipping slides."
+      }
+    },
+    {
+      "id": 25,
+      "question": "If a company wants to ensure secure and reliable email transmission for its cloud-based email service, which protocol should they implement?",
+      "options": {
+        "A": "HTTP",
+        "B": "FTP",
+        "C": "SMTP",
+        "D": "POP3"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. HTTP (HyperText Transfer Protocol) is designed for web page delivery. It is not used for sending email between mail servers or clients.",
+        "B": "Incorrect. FTP (File Transfer Protocol) transfers files between hosts. It has no role in the email transmission pipeline.",
+        "C": "Correct. SMTP (Simple Mail Transfer Protocol) is the standard protocol for sending and relaying email between mail clients and servers. It can be secured with STARTTLS or SMTPS.",
+        "D": "Incorrect. POP3 (Post Office Protocol v3) is used by clients to download email from a mail server. It is a retrieval protocol, not a transmission/sending protocol."
+      }
+    },
+    {
+      "id": 26,
+      "question": "To create a document template for repeated use, which file format should you save the document in?",
+      "options": {
+        "A": ".docx",
+        "B": ".pdf",
+        "C": ".dotx",
+        "D": ".txt"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. .docx is the standard editable Word document format. Opening it creates a copy of that specific document, not a new document based on a template.",
+        "B": "Incorrect. .pdf is a fixed-layout, read-only presentation format. It cannot be used as a Microsoft Word template for generating new editable documents.",
+        "C": "Correct. .dotx (or .dot for older formats) is the Microsoft Word template format. When opened, it creates a new untitled document based on the template while keeping the original unchanged.",
+        "D": "Incorrect. .txt is a plain-text format with no formatting, styles, or template functionality. It cannot store Word formatting or act as a reusable document template."
+      }
+    },
+    {
+      "id": 27,
+      "question": "An application relies on multiple hardware peripherals and requires strict isolation from other running containers to maintain data integrity and operational security. The development team uses a kernel-level configuration to allocate specific hardware resources to each container and restrict access to non-allocated devices. What is the most critical factor in maintaining operational security and preventing resource contention among containers?",
+      "options": {
+        "A": "Ensuring that the host OS scheduler allocates CPU cycles equally to all containers",
+        "B": "Configuring the kernel to enforce strict resource isolation and limit peripheral access to only allocated devices",
+        "C": "Allowing virtualization software to dynamically allocate additional memory as required",
+        "D": "Allowing containers to share network interfaces with individual access control lists"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Equal CPU scheduling ensures fair processing time but does not control peripheral hardware access or provide the strict security isolation described in the question.",
+        "B": "Correct. Kernel-level resource isolation (using cgroups and namespaces) limits each container's access to only its allocated hardware peripherals, preventing resource contention and unauthorised device access.",
+        "C": "Incorrect. Dynamic memory allocation improves resource utilisation but does not restrict peripheral device access or enforce the hardware-level security isolation required for the scenario.",
+        "D": "Incorrect. Sharing network interfaces with ACLs addresses network-layer access control but does not provide the kernel-level hardware peripheral isolation critical for the described multi-device application."
+      }
+    },
+    {
+      "id": 28,
+      "question": "Data is transferred between the CPU and a peripheral device through a shared bus controlled by device controllers to improve data transfer speed and reduce latency. The system uses controllers with dedicated high-speed buffers. Which of the following device controllers is most suitable for this purpose?",
+      "options": {
+        "A": "Wireless Controller",
+        "B": "USB Controller",
+        "C": "SATA Controller",
+        "D": "Ethernet Controller"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. A Wireless Controller manages wireless network adapters (Wi-Fi/Bluetooth). It is a networking component, not a high-speed storage device controller with dedicated buffers.",
+        "B": "Incorrect. A USB Controller manages USB port communication. While USB 3.x has reasonable throughput, the source specifically identifies SATA for the described buffered storage-device scenario.",
+        "C": "Correct. The SATA Controller manages storage devices (HDDs/SSDs) using the SATA interface with internal buffers to optimise transfers between the CPU bus and storage peripherals.",
+        "D": "Incorrect. An Ethernet Controller manages network interface cards for LAN connectivity. It is a networking component and is not the appropriate controller for CPU-to-storage-peripheral transfers."
+      }
+    },
+    {
+      "id": 29,
+      "question": "Hackers attempt to intercept and manipulate data packets traveling across a network by inserting malicious code or routing information, allowing them to redirect traffic through their own system. This enables them to eavesdrop or alter data without detection. What type of attack is this called?",
+      "options": {
+        "A": "Packet Sniffing",
+        "B": "IP Spoofing",
+        "C": "Routing Table Poisoning",
+        "D": "DNS Spoofing"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Packet Sniffing passively captures network traffic for analysis. It does not actively inject malicious routing information or redirect packets through an attacker's system.",
+        "B": "Incorrect. IP Spoofing forges source IP addresses to impersonate another host or bypass filters. It does not inherently manipulate routing tables to redirect traffic paths.",
+        "C": "Correct. Routing Table Poisoning injects false routing entries into routers or routing protocols, causing legitimate traffic to be redirected through attacker-controlled nodes for interception or modification.",
+        "D": "Incorrect. DNS Spoofing corrupts DNS resolver caches to redirect domain name lookups to attacker-controlled IP addresses. It targets name resolution, not the IP routing infrastructure."
+      }
+    },
+    {
+      "id": 30,
+      "question": "You are employed by a company that has recently suffered a security breach. As the IT manager, you are responsible for enhancing the security of the computer's operating system. Which property of an operating system should you prioritize to achieve this goal?",
+      "options": {
+        "A": "Access Control",
+        "B": "User Interface",
+        "C": "Multitasking",
+        "D": "Virtual Memory"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. Access Control defines who can access which resources and under what conditions. Strengthening access control (authentication, authorisation, privilege management) directly addresses and prevents security breaches.",
+        "B": "Incorrect. The User Interface governs how users interact with the OS (GUI vs CLI). Improving the UI does not inherently reduce unauthorised access or harden security post-breach.",
+        "C": "Incorrect. Multitasking allows multiple processes to run concurrently. While important for performance, it is unrelated to restricting unauthorised access after a security breach.",
+        "D": "Incorrect. Virtual Memory extends apparent RAM using disk space via paging. It manages memory availability but does not control authorisation or authentication, the core of security hardening."
+      }
+    },
+    {
+      "id": 31,
+      "question": "Jane wants to create a slide that illustrates a progression over time using icons, text, and blanks. She wants it to appear visually dynamic without manually animating each step. Which MS PowerPoint feature can help speed up this process?",
+      "options": {
+        "A": "Use Slide Zoom feature to create dynamic progression",
+        "B": "Use a SmartArt process layout",
+        "C": "Apply the Morph transition across duplicated slides for a smooth effect",
+        "D": "Create a custom layout with background images and animation triggers"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Slide Zoom creates interactive navigation links within a presentation. It does not automatically animate object movement or progression between slides.",
+        "B": "Incorrect. SmartArt can create process diagrams but requires manual configuration of each element. It does not automatically animate progression across slides without additional animation work.",
+        "C": "Correct. The Morph transition automatically detects and animates matching objects between duplicate slides, creating smooth movement without manually setting up individual animations.",
+        "D": "Incorrect. Custom layouts with animation triggers require significant manual configuration for each animated element — the opposite of the quick, automatic approach Jane needs."
+      }
+    },
+    {
+      "id": 32,
+      "question": "During a context switch, the operating system saves the state of the currently running process and loads the state of the next process to be executed. Which CPU register, responsible for holding the address of the next instruction to be fetched, must be saved and restored during this operation?",
+      "options": {
+        "A": "Stack Pointer",
+        "B": "General Purpose Register",
+        "C": "Program Counter",
+        "D": "Instruction Register"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. The Stack Pointer (SP) tracks the current top of the call stack and is saved during a context switch, but it does not store the address of the next instruction to be fetched.",
+        "B": "Incorrect. General Purpose Registers (e.g., EAX, EBX) hold operands and temporary computation results. They are saved during a context switch but are not specifically responsible for the next instruction address.",
+        "C": "Correct. The Program Counter (PC/IP) always holds the memory address of the next instruction to execute. Saving and restoring it ensures each process resumes execution from exactly where it was suspended.",
+        "D": "Incorrect. The Instruction Register (IR) holds the currently executing instruction fetched from memory. It stores the current instruction being decoded, not the address of the next instruction."
+      }
+    },
+    {
+      "id": 33,
+      "question": "Two geographically separate offices, Office A and Office B, need to allow all users in Office A to securely access resources in Office B and vice versa, as if they were on the same local network. Which VPN topology is most appropriate for this scenario?",
+      "options": {
+        "A": "Remote Access VPN",
+        "B": "Site-to-Site VPN",
+        "C": "Client-to-Server VPN",
+        "D": "Peer-to-Peer VPN"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Remote Access VPN connects individual users to a network from remote locations. It is not designed to link two entire office networks together transparently.",
+        "B": "Correct. A Site-to-Site VPN (also called LAN-to-LAN VPN) creates a secure encrypted tunnel between two network gateways, allowing all users in both offices to communicate as if on the same network.",
+        "C": "Incorrect. Client-to-Server VPN is essentially a remote access model where individual clients connect to a VPN server. It does not represent the network-to-network topology described.",
+        "D": "Incorrect. Peer-to-Peer VPN describes direct device-to-device tunnels and is not the standard enterprise topology for connecting two complete office networks."
+      }
+    },
+    {
+      "id": 34,
+      "question": "A development team is designing a new RESTful API to manage a product catalog for their e-commerce platform. They need to create an endpoint that retrieves details of a specific product using its unique product ID. Which HTTP method and URL structure best align with RESTful principles for this operation?",
+      "options": {
+        "A": "POST /products/{productId}",
+        "B": "GET /products/{productId}",
+        "C": "PUT /products/{productId}",
+        "D": "DELETE /products/{productId}"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. POST is used to create a new resource or submit data for processing. Using POST to retrieve an existing product violates REST's safe-method semantics.",
+        "B": "Correct. GET /products/{productId} follows RESTful conventions: GET is safe and idempotent for retrieval, and the product ID in the URL path identifies the specific resource to fetch.",
+        "C": "Incorrect. PUT replaces (or creates) the entire resource at the given URI. It modifies state and is not appropriate for a read-only product detail retrieval.",
+        "D": "Incorrect. DELETE requests removal of the resource at the specified URI. Using it to retrieve product details would destroy the product rather than fetching its information."
+      }
+    },
+    {
+      "id": 35,
+      "question": "A containerized application is consuming massive memory, causing performance issues. What is the recommended approach to address this problem effectively?",
+      "options": {
+        "A": "Increase the memory limit for the container",
+        "B": "Use a larger base image for the container",
+        "C": "Reduce the number of replicas of the container",
+        "D": "Analyze the application code for memory leaks"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Incorrect. Increasing the memory limit only postpones the problem. If the root cause is a memory leak, consumption will continue growing until it exhausts the new limit too.",
+        "B": "Incorrect. A larger base image increases the image size and may add more packages, but it does not fix a memory leak inside the application logic causing the excessive consumption.",
+        "C": "Incorrect. Reducing replicas decreases overall application capacity and availability. It lowers total memory used system-wide but leaves each instance with the same leak, worsening per-instance performance.",
+        "D": "Correct. Profiling and fixing memory leaks in the application code addresses the root cause. Tools like heap profilers (JVM, Node.js heap dumps) identify objects that are retained unnecessarily."
+      }
+    },
+    {
+      "id": 36,
+      "question": "A cloud infrastructure requires running multiple isolated environments on a single physical server. Which technology is primarily used to achieve this?",
+      "options": {
+        "A": "Containers",
+        "B": "Virtual Machines (VMs)",
+        "C": "Serverless computing",
+        "D": "Software-Defined Networking (SDN)"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. Containers provide lightweight process-level isolation while sharing the host OS kernel. They are not full isolated environments — multiple containers on a host share the same OS, reducing isolation.",
+        "B": "Correct. Virtual Machines run a full guest OS on a hypervisor, providing complete hardware-level isolation. Multiple VMs can run simultaneously on one physical server, each appearing as a dedicated machine.",
+        "C": "Incorrect. Serverless computing abstracts all infrastructure management, executing code in response to events. It does not directly represent the technology for running isolated environments on a physical host.",
+        "D": "Incorrect. SDN decouples the network control plane from data plane for programmable networking management. It is a networking technology, not the mechanism for creating isolated compute environments."
+      }
+    },
+    {
+      "id": 37,
+      "question": "An internet connection is established by a user, connecting devices like a computer, smartphone, and smart TV to a router. Which OSI model layer is responsible for transmitting Ethernet, cable, and Wi-Fi signals between these devices?",
+      "options": {
+        "A": "Physical Layer",
+        "B": "Network Layer",
+        "C": "Data Link Layer",
+        "D": "Application Layer"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. The Physical Layer (OSI Layer 1) is responsible for the actual transmission of raw bits over physical media — electrical signals on Ethernet cables, light pulses in fiber, and radio waves for Wi-Fi.",
+        "B": "Incorrect. The Network Layer (OSI Layer 3) handles logical addressing (IP) and routing of packets between different networks. It operates above the physical signal transmission layer.",
+        "C": "Incorrect. The Data Link Layer (OSI Layer 2) provides node-to-node framing, MAC addressing, and error detection within a single network link — it sits above the raw physical transmission.",
+        "D": "Incorrect. The Application Layer (OSI Layer 7) provides network services directly to user applications (HTTP, FTP, DNS). It is the topmost layer, far removed from physical signal transmission."
+      }
+    },
+    {
+      "id": 39,
+      "question": "In a PivotTable, which feature allows you to create custom calculations and summaries based on the existing data?",
+      "options": {
+        "A": "Calculated Fields",
+        "B": "Calculated Items",
+        "C": "Slicers",
+        "D": "Grouping"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. Calculated Fields in a PivotTable allow you to define custom formulas that operate on the values of existing fields, adding a new virtual data column to the PivotTable.",
+        "B": "Incorrect. Calculated Items apply custom formulas to specific items within an existing PivotTable field (rows/columns), not across the entire data set's numeric values like Calculated Fields do.",
+        "C": "Incorrect. Slicers are interactive visual filter controls that allow users to filter PivotTable data by selecting categories. They do not create custom calculations.",
+        "D": "Incorrect. Grouping combines data items (e.g., dates into months, numbers into ranges) for easier summarisation. It reorganises how data is displayed rather than defining new calculations."
+      }
+    },
+    {
+      "id": 40,
+      "question": "Data packets are transmitted between routers and switches to ensure proper delivery across different network segments. Which OSI model layer is responsible for establishing logical paths and routing data packets between different network segments?",
+      "options": {
+        "A": "Data Link Layer",
+        "B": "Network Layer",
+        "C": "Transport Layer",
+        "D": "Session Layer"
+      },
+      "correctAnswer": "B",
+      "explanations": {
+        "A": "Incorrect. The Data Link Layer (Layer 2) handles frame delivery within the same local network segment using MAC addresses. It does not perform routing between different network segments.",
+        "B": "Correct. The Network Layer (Layer 3) uses IP addresses to establish logical paths and route packets between different networks. Routers operate at this layer to forward packets across network boundaries.",
+        "C": "Incorrect. The Transport Layer (Layer 4) manages end-to-end communication between applications, including flow control, error recovery (TCP), and multiplexing — not inter-network routing.",
+        "D": "Incorrect. The Session Layer (Layer 5) establishes, maintains, and terminates communication sessions between applications. It manages dialogue control, not packet routing between network segments."
+      }
+    },
+    {
+      "id": 41,
+      "question": "In a cloud computing environment, which security measure helps protect user accounts by requiring two different types of identification before granting access?",
+      "options": {
+        "A": "Firewalls",
+        "B": "Encryption",
+        "C": "Multi-Factor Authentication (MFA)",
+        "D": "Antivirus Software"
+      },
+      "correctAnswer": "C",
+      "explanations": {
+        "A": "Incorrect. Firewalls filter network traffic based on rules to block unauthorised connections. They operate at the network perimeter and do not manage user identity verification with multiple factors.",
+        "B": "Incorrect. Encryption encodes data so only authorised parties with the decryption key can read it. It protects data confidentiality but is not an account-access verification mechanism.",
+        "C": "Correct. Multi-Factor Authentication (MFA) requires users to provide two or more distinct verification factors (e.g., password + OTP, biometric + PIN), making account compromise significantly harder.",
+        "D": "Incorrect. Antivirus Software detects, quarantines, and removes malicious software. It protects the system from malware but does not add authentication factors to the login process."
+      }
+    },
+    {
+      "id": 42,
+      "question": "A small business uses ring network topology. If a single workstation goes down, what impact will it have on the network?",
+      "options": {
+        "A": "Minimal impact — network reroutes traffic automatically",
+        "B": "Network becomes partially isolated to adjacent nodes",
+        "C": "Network slows down proportionally",
+        "D": "Network breaks completely"
+      },
+      "correctAnswer": "D",
+      "explanations": {
+        "A": "Incorrect. Standard (unidirectional) ring topology has no alternative path. A failed node cannot be automatically bypassed — traffic cannot continue around the ring without passing through the failed workstation.",
+        "B": "Incorrect. In a ring topology, all nodes are part of a single continuous loop. A break anywhere affects the entire ring, not just adjacent nodes.",
+        "C": "Incorrect. The ring topology does not degrade gracefully. A single node failure interrupts the loop entirely rather than causing proportional slowdown.",
+        "D": "Correct. In a unidirectional ring topology, each workstation acts as a relay for the next. If one workstation fails, the ring is broken and all communication around the loop is disrupted."
+      }
+    },
+    {
+      "id": 43,
+      "question": "What is the process of converting data into a secure format to prevent unauthorized access?",
+      "options": {
+        "A": "Encryption",
+        "B": "Authentication",
+        "C": "Authorization",
+        "D": "Compression"
+      },
+      "correctAnswer": "A",
+      "explanations": {
+        "A": "Correct. Encryption transforms readable plaintext into ciphertext using an algorithm and key. Only parties with the correct decryption key can reverse the process and access the original data.",
+        "B": "Incorrect. Authentication is the process of verifying the identity of a user or system (e.g., via passwords, biometrics). It confirms who you are but does not convert data into a secure encoded format.",
+        "C": "Incorrect. Authorization determines what an authenticated user is permitted to access or do within a system. It controls access rights, not data encoding.",
+        "D": "Incorrect. Compression reduces data size by encoding redundant information more efficiently. It improves storage/bandwidth efficiency but does not provide confidentiality or protect against unauthorised access."
+      }
+    }
+  ]
+}
