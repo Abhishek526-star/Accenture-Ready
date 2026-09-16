@@ -412,7 +412,11 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             passed = false;
           } else {
             if (Array.isArray(rawVal)) {
-              actualOutput = `[${rawVal.join(', ')}]`;
+              if (rawVal.some(item => Array.isArray(item))) {
+                actualOutput = `[${rawVal.map(r => Array.isArray(r) ? `[${r.join(', ')}]` : String(r)).join(', ')}]`;
+              } else {
+                actualOutput = `[${rawVal.join(', ')}]`;
+              }
             } else if (rawVal !== null && typeof rawVal === 'object') {
               actualOutput = JSON.stringify(rawVal);
             } else {
@@ -444,7 +448,11 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               }
               
               if (Array.isArray(simRet)) {
-                actualOutput = `[${simRet.join(', ')}]`;
+                if (simRet.some(item => Array.isArray(item))) {
+                  actualOutput = `[${simRet.map(r => Array.isArray(r) ? `[${r.join(', ')}]` : String(r)).join(', ')}]`;
+                } else {
+                  actualOutput = `[${simRet.join(', ')}]`;
+                }
               } else if (simRet !== null && typeof simRet === 'object') {
                 actualOutput = JSON.stringify(simRet);
               } else {
@@ -468,8 +476,10 @@ export default function DsaPracticePage({ theme = 'dark' }) {
           id: tc.id,
           name: tc.name,
           input: tc.input,
-          expected: expectedVal,
-          actual: actualOutput || 'No output',
+          expected: expectedVal === '' ? '""' : expectedVal,
+          actual: actualOutput !== '' && actualOutput !== null && actualOutput !== undefined
+            ? actualOutput
+            : (actualOutput === '' ? '""' : "No output"),
           explanation: tc.explanation,
           passed,
           latency: jLatency || `${12 + idx * 4}ms`

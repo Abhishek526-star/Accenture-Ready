@@ -143,7 +143,7 @@ for x1, y1, x2, y2, x3, y3 in tests:
 
     if (questionId === 'dsa-p-12') {
       return `${cleanCode}
-tests = [[10, 5, 10, 15, 10, 5], [1, 2, 3, 4], [7, 7, 7, 7], [42], [-1, 2, -1, 3, 2]]
+tests = [[10, 5, 10, 15, 10, 5], [1, 2, 3, 4], [5, 5, 5, 5], [42], [-1, -2, -1, 0]]
 for arr in tests:
     try:
         print("TEST_RES:" + str(count_occurrences(arr)))
@@ -154,10 +154,10 @@ for arr in tests:
 
     if (questionId === 'dsa-p-13') {
       return `${cleanCode}
-tests = [[1, 2, 3, 4, 9, 8, 7], [10, 20, 30, 40, 50], [99, 80, 70, 60], [42], [-5, -2, -8, -1]]
-for arr in tests:
+tests = [([1, 2, 3, 4, 3, 2, 1], 7), ([5, 3], 2), ([1, 5, 3, 2], 4), ([10], 1), ([-10, -5, -2, -8], 4)]
+for arr, n in tests:
     try:
-        print("TEST_RES:" + str(find_elevation_point(arr)))
+        print("TEST_RES:" + str(elevation_point(arr, n)))
     except Exception as e:
         print("TEST_ERR:" + str(e))
 `;
@@ -165,7 +165,7 @@ for arr in tests:
 
     if (questionId === 'dsa-p-14') {
       return `${cleanCode}
-tests = [34, 9, 0, 123, 508]
+tests = [34, 12, 25, 99, 10]
 for n in tests:
     try:
         print("TEST_RES:" + str(encode_number(n)))
@@ -176,10 +176,10 @@ for n in tests:
 
     if (questionId === 'dsa-p-15') {
       return `${cleanCode}
-tests = [[-7, 1, 5, 2, -4, 3, 0], [1, 2, 3], [20], [0, 0, 0, 0], [1, -1, 4]]
-for arr in tests:
+tests = [([3, 4, 3, 1, 6], 5), ([1, 2, 3], 3), ([1, 2, 3, 3], 4), ([5], 1), ([2, 0, 2], 3)]
+for arr, n in tests:
     try:
-        print("TEST_RES:" + str(find_equilibrium_index(arr)))
+        print("TEST_RES:" + str(equilibrium_index(arr, n)))
     except Exception as e:
         print("TEST_ERR:" + str(e))
 `;
@@ -187,10 +187,10 @@ for arr in tests:
 
     if (questionId === 'dsa-p-16') {
       return `${cleanCode}
-tests = [([1, 2, 4, 5, 6], 6), ([2, 3, 4, 5], 5), ([1, 2, 3, 4], 5), ([1], 2), ([2], 2)]
+tests = [([1, 2, 4, 5, 6], 6), ([1, 2, 3, 5], 5), ([2, 3, 4, 5], 5), ([1], 2), ([1, 2, 3, 4, 5, 6, 7, 8, 10], 10)]
 for arr, n in tests:
     try:
-        print("TEST_RES:" + str(find_missing_number(arr, n)))
+        print("TEST_RES:" + str(missing_number(arr, n)))
     except Exception as e:
         print("TEST_ERR:" + str(e))
 `;
@@ -198,7 +198,7 @@ for arr, n in tests:
 
     if (questionId === 'dsa-p-17') {
       return `${cleanCode}
-tests = [("Coding in Python is fun and powerful", 4), ("Hello world this is a test", 2), ("OneWordOnly", 3), ("Accenture Coding Assessment", 1), ("All words should be included", 5)]
+tests = [("Hello I am a passionate developer", 4), ("I love coding", 2), ("One two three", 5), ("Accenture", 1), ("The quick brown fox jumps", 3)]
 for s, k in tests:
     try:
         print("TEST_RES:" + str(first_k_words(s, k)))
@@ -209,10 +209,12 @@ for s, k in tests:
 
     if (questionId === 'dsa-p-18') {
       return `${cleanCode}
-tests = [4, 1, 2, 3, 5]
+tests = [4, 1, 3, 2, 5]
 for n in tests:
     try:
-        print("TEST_RES:" + str(floyd_triangle(n)))
+        print("---START_TC---")
+        print(floyd_triangle(n))
+        print("---END_TC---")
     except Exception as e:
         print("TEST_ERR:" + str(e))
 `;
@@ -220,10 +222,10 @@ for n in tests:
 
     if (questionId === 'dsa-p-19') {
       return `${cleanCode}
-tests = [43, 123, 11, 10, 997]
+tests = [43, 123, 11, 100, 29]
 for n in tests:
     try:
-        print("TEST_RES:" + str(is_googly_prime(n)))
+        print("TEST_RES:" + str(googly_prime(n)))
     except Exception as e:
         print("TEST_ERR:" + str(e))
 `;
@@ -231,7 +233,7 @@ for n in tests:
 
     if (questionId === 'dsa-p-20') {
       return `${cleanCode}
-tests = [([1, 2, 2, 3, 4], [2, 2, 4, 6, 7, 8]), ([1, 2, 3], [4, 5, 6]), ([5, 5, 5], [5, 5]), ([1, 3, 5, 7, 9], [3, 9]), ([10, 20, 30], [20, 10, 40])]
+tests = [([1, 2, 2, 1], [2, 2]), ([4, 9, 5], [9, 4, 9, 8, 4]), ([1, 2, 3], [4, 5, 6]), ([7, 7, 7], [7]), ([10, 20, 30, 40], [30, 40, 50])]
 for arr1, arr2 in tests:
     try:
         print("TEST_RES:" + str(intersection_of_arrays(arr1, arr2)))
@@ -934,9 +936,9 @@ for arr in tests:
         int[][] tests = {
             {10, 5, 10, 15, 10, 5},
             {1, 2, 3, 4},
-            {7, 7, 7, 7},
+            {5, 5, 5, 5},
             {42},
-            {-1, 2, -1, 3, 2}
+            {-1, -2, -1, 0}
         };
         for (int[] arr : tests) {
             System.out.println("TEST_RES:" + countOccurrences(arr));
@@ -949,15 +951,16 @@ for arr in tests:
     if (questionId === 'dsa-p-13') {
       return `${cleanCode}
     public static void main(String[] args) {
-        int[][] tests = {
-            {1, 2, 3, 4, 9, 8, 7},
-            {10, 20, 30, 40, 50},
-            {99, 80, 70, 60},
-            {42},
-            {-5, -2, -8, -1}
+        int[][] arrs = {
+            {1, 2, 3, 4, 3, 2, 1},
+            {5, 3},
+            {1, 5, 3, 2},
+            {10},
+            {-10, -5, -2, -8}
         };
-        for (int[] arr : tests) {
-            System.out.println("TEST_RES:" + findElevationPoint(arr));
+        int[] ns = {7, 2, 4, 1, 4};
+        for (int i = 0; i < ns.length; i++) {
+            System.out.println("TEST_RES:" + elevationPoint(arrs[i], ns[i]));
         }
     }
 }
@@ -967,7 +970,7 @@ for arr in tests:
     if (questionId === 'dsa-p-14') {
       return `${cleanCode}
     public static void main(String[] args) {
-        int[] tests = {34, 9, 0, 123, 508};
+        int[] tests = {34, 12, 25, 99, 10};
         for (int n : tests) {
             System.out.println("TEST_RES:" + encodeNumber(n));
         }
@@ -979,15 +982,16 @@ for arr in tests:
     if (questionId === 'dsa-p-15') {
       return `${cleanCode}
     public static void main(String[] args) {
-        int[][] tests = {
-            {-7, 1, 5, 2, -4, 3, 0},
+        int[][] arrs = {
+            {3, 4, 3, 1, 6},
             {1, 2, 3},
-            {20},
-            {0, 0, 0, 0},
-            {1, -1, 4}
+            {1, 2, 3, 3},
+            {5},
+            {2, 0, 2}
         };
-        for (int[] arr : tests) {
-            System.out.println("TEST_RES:" + findEquilibriumIndex(arr));
+        int[] ns = {5, 3, 4, 1, 3};
+        for (int i = 0; i < ns.length; i++) {
+            System.out.println("TEST_RES:" + equilibriumIndex(arrs[i], ns[i]));
         }
     }
 }
@@ -999,14 +1003,14 @@ for arr in tests:
     public static void main(String[] args) {
         int[][] arrs = {
             {1, 2, 4, 5, 6},
+            {1, 2, 3, 5},
             {2, 3, 4, 5},
-            {1, 2, 3, 4},
             {1},
-            {2}
+            {1, 2, 3, 4, 5, 6, 7, 8, 10}
         };
-        int[] ns = {6, 5, 5, 2, 2};
+        int[] ns = {6, 5, 5, 2, 10};
         for (int i = 0; i < ns.length; i++) {
-            System.out.println("TEST_RES:" + findMissingNumber(arrs[i], ns[i]));
+            System.out.println("TEST_RES:" + missingNumber(arrs[i], ns[i]));
         }
     }
 }
@@ -1017,13 +1021,13 @@ for arr in tests:
       return `${cleanCode}
     public static void main(String[] args) {
         String[] strs = {
-            "Coding in Python is fun and powerful",
-            "Hello world this is a test",
-            "OneWordOnly",
-            "Accenture Coding Assessment",
-            "All words should be included"
+            "Hello I am a passionate developer",
+            "I love coding",
+            "One two three",
+            "Accenture",
+            "The quick brown fox jumps"
         };
-        int[] ks = {4, 2, 3, 1, 5};
+        int[] ks = {4, 2, 5, 1, 3};
         for (int i = 0; i < ks.length; i++) {
             System.out.println("TEST_RES:" + firstKWords(strs[i], ks[i]));
         }
@@ -1035,9 +1039,11 @@ for arr in tests:
     if (questionId === 'dsa-p-18') {
       return `${cleanCode}
     public static void main(String[] args) {
-        int[] tests = {4, 1, 2, 3, 5};
+        int[] tests = {4, 1, 3, 2, 5};
         for (int n : tests) {
-            System.out.println("TEST_RES:" + floydTriangle(n));
+            System.out.println("---START_TC---");
+            System.out.println(floydTriangle(n));
+            System.out.println("---END_TC---");
         }
     }
 }
@@ -1047,9 +1053,9 @@ for arr in tests:
     if (questionId === 'dsa-p-19') {
       return `${cleanCode}
     public static void main(String[] args) {
-        int[] tests = {43, 123, 11, 10, 997};
+        int[] tests = {43, 123, 11, 100, 29};
         for (int n : tests) {
-            System.out.println("TEST_RES:" + isGooglyPrime(n));
+            System.out.println("TEST_RES:" + googlyPrime(n));
         }
     }
 }
@@ -1060,18 +1066,18 @@ for arr in tests:
       return `${cleanCode}
     public static void main(String[] args) {
         int[][] a1 = {
-            {1, 2, 2, 3, 4},
+            {1, 2, 2, 1},
+            {4, 9, 5},
             {1, 2, 3},
-            {5, 5, 5},
-            {1, 3, 5, 7, 9},
-            {10, 20, 30}
+            {7, 7, 7},
+            {10, 20, 30, 40}
         };
         int[][] a2 = {
-            {2, 2, 4, 6, 7, 8},
+            {2, 2},
+            {9, 4, 9, 8, 4},
             {4, 5, 6},
-            {5, 5},
-            {3, 9},
-            {20, 10, 40}
+            {7},
+            {30, 40, 50}
         };
         for (int i = 0; i < a1.length; i++) {
             System.out.println("TEST_RES:" + intersectionOfArrays(a1[i], a2[i]));
@@ -1867,9 +1873,9 @@ int main() {
     std::vector<std::vector<int>> tests = {
         {10, 5, 10, 15, 10, 5},
         {1, 2, 3, 4},
-        {7, 7, 7, 7},
+        {5, 5, 5, 5},
         {42},
-        {-1, 2, -1, 3, 2}
+        {-1, -2, -1, 0}
     };
     for (auto& arr : tests) {
         std::cout << "TEST_RES:" << countOccurrences(arr) << std::endl;
@@ -1882,16 +1888,11 @@ int main() {
     if (questionId === 'dsa-p-13') {
       return `${cleanCode}
 int main() {
-    std::vector<std::vector<int>> tests = {
-        {1, 2, 3, 4, 9, 8, 7},
-        {10, 20, 30, 40, 50},
-        {99, 80, 70, 60},
-        {42},
-        {-5, -2, -8, -1}
-    };
-    for (auto& arr : tests) {
-        std::cout << "TEST_RES:" << findElevationPoint(arr) << std::endl;
-    }
+    std::vector<int> a1 = {1, 2, 3, 4, 3, 2, 1}; std::cout << "TEST_RES:" << elevationPoint(a1, 7) << std::endl;
+    std::vector<int> a2 = {5, 3}; std::cout << "TEST_RES:" << elevationPoint(a2, 2) << std::endl;
+    std::vector<int> a3 = {1, 5, 3, 2}; std::cout << "TEST_RES:" << elevationPoint(a3, 4) << std::endl;
+    std::vector<int> a4 = {10}; std::cout << "TEST_RES:" << elevationPoint(a4, 1) << std::endl;
+    std::vector<int> a5 = {-10, -5, -2, -8}; std::cout << "TEST_RES:" << elevationPoint(a5, 4) << std::endl;
     return 0;
 }
 `;
@@ -1900,7 +1901,7 @@ int main() {
     if (questionId === 'dsa-p-14') {
       return `${cleanCode}
 int main() {
-    int tests[] = {34, 9, 0, 123, 508};
+    int tests[] = {34, 12, 25, 99, 10};
     for (int n : tests) {
         std::cout << "TEST_RES:" << encodeNumber(n) << std::endl;
     }
@@ -1912,16 +1913,11 @@ int main() {
     if (questionId === 'dsa-p-15') {
       return `${cleanCode}
 int main() {
-    std::vector<std::vector<int>> tests = {
-        {-7, 1, 5, 2, -4, 3, 0},
-        {1, 2, 3},
-        {20},
-        {0, 0, 0, 0},
-        {1, -1, 4}
-    };
-    for (auto& arr : tests) {
-        std::cout << "TEST_RES:" << findEquilibriumIndex(arr) << std::endl;
-    }
+    int a1[] = {3, 4, 3, 1, 6}; std::cout << "TEST_RES:" << equilibriumIndex(a1, 5) << std::endl;
+    int a2[] = {1, 2, 3}; std::cout << "TEST_RES:" << equilibriumIndex(a2, 3) << std::endl;
+    int a3[] = {1, 2, 3, 3}; std::cout << "TEST_RES:" << equilibriumIndex(a3, 4) << std::endl;
+    int a4[] = {5}; std::cout << "TEST_RES:" << equilibriumIndex(a4, 1) << std::endl;
+    int a5[] = {2, 0, 2}; std::cout << "TEST_RES:" << equilibriumIndex(a5, 3) << std::endl;
     return 0;
 }
 `;
@@ -1930,11 +1926,11 @@ int main() {
     if (questionId === 'dsa-p-16') {
       return `${cleanCode}
 int main() {
-    std::vector<int> a1 = {1, 2, 4, 5, 6}; std::cout << "TEST_RES:" << findMissingNumber(a1, 6) << std::endl;
-    std::vector<int> a2 = {2, 3, 4, 5}; std::cout << "TEST_RES:" << findMissingNumber(a2, 5) << std::endl;
-    std::vector<int> a3 = {1, 2, 3, 4}; std::cout << "TEST_RES:" << findMissingNumber(a3, 5) << std::endl;
-    std::vector<int> a4 = {1}; std::cout << "TEST_RES:" << findMissingNumber(a4, 2) << std::endl;
-    std::vector<int> a5 = {2}; std::cout << "TEST_RES:" << findMissingNumber(a5, 2) << std::endl;
+    int a1[] = {1, 2, 4, 5, 6}; std::cout << "TEST_RES:" << missingNumber(a1, 6) << std::endl;
+    int a2[] = {1, 2, 3, 5}; std::cout << "TEST_RES:" << missingNumber(a2, 5) << std::endl;
+    int a3[] = {2, 3, 4, 5}; std::cout << "TEST_RES:" << missingNumber(a3, 5) << std::endl;
+    int a4[] = {1}; std::cout << "TEST_RES:" << missingNumber(a4, 2) << std::endl;
+    int a5[] = {1, 2, 3, 4, 5, 6, 7, 8, 10}; std::cout << "TEST_RES:" << missingNumber(a5, 10) << std::endl;
     return 0;
 }
 `;
@@ -1943,11 +1939,11 @@ int main() {
     if (questionId === 'dsa-p-17') {
       return `${cleanCode}
 int main() {
-    std::cout << "TEST_RES:" << firstKWords("Coding in Python is fun and powerful", 4) << std::endl;
-    std::cout << "TEST_RES:" << firstKWords("Hello world this is a test", 2) << std::endl;
-    std::cout << "TEST_RES:" << firstKWords("OneWordOnly", 3) << std::endl;
-    std::cout << "TEST_RES:" << firstKWords("Accenture Coding Assessment", 1) << std::endl;
-    std::cout << "TEST_RES:" << firstKWords("All words should be included", 5) << std::endl;
+    std::cout << "TEST_RES:" << firstKWords("Hello I am a passionate developer", 4) << std::endl;
+    std::cout << "TEST_RES:" << firstKWords("I love coding", 2) << std::endl;
+    std::cout << "TEST_RES:" << firstKWords("One two three", 5) << std::endl;
+    std::cout << "TEST_RES:" << firstKWords("Accenture", 1) << std::endl;
+    std::cout << "TEST_RES:" << firstKWords("The quick brown fox jumps", 3) << std::endl;
     return 0;
 }
 `;
@@ -1956,9 +1952,11 @@ int main() {
     if (questionId === 'dsa-p-18') {
       return `${cleanCode}
 int main() {
-    int tests[] = {4, 1, 2, 3, 5};
+    int tests[] = {4, 1, 3, 2, 5};
     for (int n : tests) {
-        std::cout << "TEST_RES:" << floydTriangle(n) << std::endl;
+        std::cout << "---START_TC---" << std::endl;
+        std::cout << floydTriangle(n) << std::endl;
+        std::cout << "---END_TC---" << std::endl;
     }
     return 0;
 }
@@ -1968,9 +1966,9 @@ int main() {
     if (questionId === 'dsa-p-19') {
       return `${cleanCode}
 int main() {
-    int tests[] = {43, 123, 11, 10, 997};
+    int tests[] = {43, 123, 11, 100, 29};
     for (int n : tests) {
-        std::cout << "TEST_RES:" << isGooglyPrime(n) << std::endl;
+        std::cout << "TEST_RES:" << googlyPrime(n) << std::endl;
     }
     return 0;
 }
@@ -1980,15 +1978,15 @@ int main() {
     if (questionId === 'dsa-p-20') {
       return `${cleanCode}
 int main() {
-    std::vector<int> a1 = {1, 2, 2, 3, 4}, b1 = {2, 2, 4, 6, 7, 8};
+    std::vector<int> a1 = {1, 2, 2, 1}, b1 = {2, 2};
     std::cout << "TEST_RES:" << intersectionOfArrays(a1, b1) << std::endl;
-    std::vector<int> a2 = {1, 2, 3}, b2 = {4, 5, 6};
+    std::vector<int> a2 = {4, 9, 5}, b2 = {9, 4, 9, 8, 4};
     std::cout << "TEST_RES:" << intersectionOfArrays(a2, b2) << std::endl;
-    std::vector<int> a3 = {5, 5, 5}, b3 = {5, 5};
+    std::vector<int> a3 = {1, 2, 3}, b3 = {4, 5, 6};
     std::cout << "TEST_RES:" << intersectionOfArrays(a3, b3) << std::endl;
-    std::vector<int> a4 = {1, 3, 5, 7, 9}, b4 = {3, 9};
+    std::vector<int> a4 = {7, 7, 7}, b4 = {7};
     std::cout << "TEST_RES:" << intersectionOfArrays(a4, b4) << std::endl;
-    std::vector<int> a5 = {10, 20, 30}, b5 = {20, 10, 40};
+    std::vector<int> a5 = {10, 20, 30, 40}, b5 = {30, 40, 50};
     std::cout << "TEST_RES:" << intersectionOfArrays(a5, b5) << std::endl;
     return 0;
 }
@@ -2798,9 +2796,9 @@ int main() {
         int[][] tests = new int[][] {
             new int[] {10, 5, 10, 15, 10, 5},
             new int[] {1, 2, 3, 4},
-            new int[] {7, 7, 7, 7},
+            new int[] {5, 5, 5, 5},
             new int[] {42},
-            new int[] {-1, 2, -1, 3, 2}
+            new int[] {-1, -2, -1, 0}
         };
         foreach (var arr in tests) {
             Console.WriteLine("TEST_RES:" + CountOccurrences(arr));
@@ -2813,15 +2811,16 @@ int main() {
     if (questionId === 'dsa-p-13') {
       return `${cleanCode}
     public static void Main() {
-        int[][] tests = new int[][] {
-            new int[] {1, 2, 3, 4, 9, 8, 7},
-            new int[] {10, 20, 30, 40, 50},
-            new int[] {99, 80, 70, 60},
-            new int[] {42},
-            new int[] {-5, -2, -8, -1}
+        int[][] arrs = new int[][] {
+            new int[] {1, 2, 3, 4, 3, 2, 1},
+            new int[] {5, 3},
+            new int[] {1, 5, 3, 2},
+            new int[] {10},
+            new int[] {-10, -5, -2, -8}
         };
-        foreach (var arr in tests) {
-            Console.WriteLine("TEST_RES:" + FindElevationPoint(arr));
+        int[] ns = new int[] {7, 2, 4, 1, 4};
+        for (int i = 0; i < ns.Length; i++) {
+            Console.WriteLine("TEST_RES:" + ElevationPoint(arrs[i], ns[i]));
         }
     }
 }
@@ -2831,7 +2830,7 @@ int main() {
     if (questionId === 'dsa-p-14') {
       return `${cleanCode}
     public static void Main() {
-        int[] tests = new int[] {34, 9, 0, 123, 508};
+        int[] tests = new int[] {34, 12, 25, 99, 10};
         foreach (var n in tests) {
             Console.WriteLine("TEST_RES:" + EncodeNumber(n));
         }
@@ -2843,15 +2842,16 @@ int main() {
     if (questionId === 'dsa-p-15') {
       return `${cleanCode}
     public static void Main() {
-        int[][] tests = new int[][] {
-            new int[] {-7, 1, 5, 2, -4, 3, 0},
+        int[][] arrs = new int[][] {
+            new int[] {3, 4, 3, 1, 6},
             new int[] {1, 2, 3},
-            new int[] {20},
-            new int[] {0, 0, 0, 0},
-            new int[] {1, -1, 4}
+            new int[] {1, 2, 3, 3},
+            new int[] {5},
+            new int[] {2, 0, 2}
         };
-        foreach (var arr in tests) {
-            Console.WriteLine("TEST_RES:" + FindEquilibriumIndex(arr));
+        int[] ns = new int[] {5, 3, 4, 1, 3};
+        for (int i = 0; i < ns.Length; i++) {
+            Console.WriteLine("TEST_RES:" + EquilibriumIndex(arrs[i], ns[i]));
         }
     }
 }
@@ -2863,14 +2863,14 @@ int main() {
     public static void Main() {
         int[][] arrs = new int[][] {
             new int[] {1, 2, 4, 5, 6},
+            new int[] {1, 2, 3, 5},
             new int[] {2, 3, 4, 5},
-            new int[] {1, 2, 3, 4},
             new int[] {1},
-            new int[] {2}
+            new int[] {1, 2, 3, 4, 5, 6, 7, 8, 10}
         };
-        int[] ns = new int[] {6, 5, 5, 2, 2};
+        int[] ns = new int[] {6, 5, 5, 2, 10};
         for (int i = 0; i < ns.Length; i++) {
-            Console.WriteLine("TEST_RES:" + FindMissingNumber(arrs[i], ns[i]));
+            Console.WriteLine("TEST_RES:" + MissingNumber(arrs[i], ns[i]));
         }
     }
 }
@@ -2881,13 +2881,13 @@ int main() {
       return `${cleanCode}
     public static void Main() {
         string[] strs = new string[] {
-            "Coding in Python is fun and powerful",
-            "Hello world this is a test",
-            "OneWordOnly",
-            "Accenture Coding Assessment",
-            "All words should be included"
+            "Hello I am a passionate developer",
+            "I love coding",
+            "One two three",
+            "Accenture",
+            "The quick brown fox jumps"
         };
-        int[] ks = new int[] {4, 2, 3, 1, 5};
+        int[] ks = new int[] {4, 2, 5, 1, 3};
         for (int i = 0; i < ks.Length; i++) {
             Console.WriteLine("TEST_RES:" + FirstKWords(strs[i], ks[i]));
         }
@@ -2899,9 +2899,11 @@ int main() {
     if (questionId === 'dsa-p-18') {
       return `${cleanCode}
     public static void Main() {
-        int[] tests = new int[] {4, 1, 2, 3, 5};
+        int[] tests = new int[] {4, 1, 3, 2, 5};
         foreach (var n in tests) {
-            Console.WriteLine("TEST_RES:" + FloydTriangle(n));
+            Console.WriteLine("---START_TC---");
+            Console.WriteLine(FloydTriangle(n));
+            Console.WriteLine("---END_TC---");
         }
     }
 }
@@ -2911,9 +2913,9 @@ int main() {
     if (questionId === 'dsa-p-19') {
       return `${cleanCode}
     public static void Main() {
-        int[] tests = new int[] {43, 123, 11, 10, 997};
+        int[] tests = new int[] {43, 123, 11, 100, 29};
         foreach (var n in tests) {
-            Console.WriteLine("TEST_RES:" + IsGooglyPrime(n));
+            Console.WriteLine("TEST_RES:" + GooglyPrime(n));
         }
     }
 }
@@ -2924,18 +2926,18 @@ int main() {
       return `${cleanCode}
     public static void Main() {
         int[][] a1 = new int[][] {
-            new int[] {1, 2, 2, 3, 4},
+            new int[] {1, 2, 2, 1},
+            new int[] {4, 9, 5},
             new int[] {1, 2, 3},
-            new int[] {5, 5, 5},
-            new int[] {1, 3, 5, 7, 9},
-            new int[] {10, 20, 30}
+            new int[] {7, 7, 7},
+            new int[] {10, 20, 30, 40}
         };
         int[][] a2 = new int[][] {
-            new int[] {2, 2, 4, 6, 7, 8},
+            new int[] {2, 2},
+            new int[] {9, 4, 9, 8, 4},
             new int[] {4, 5, 6},
-            new int[] {5, 5},
-            new int[] {3, 9},
-            new int[] {20, 10, 40}
+            new int[] {7},
+            new int[] {30, 40, 50}
         };
         for (int i = 0; i < a1.Length; i++) {
             Console.WriteLine("TEST_RES:" + IntersectionOfArrays(a1[i], a2[i]));
@@ -3749,9 +3751,9 @@ for (const [x1, y1, x2, y2, x3, y3] of tests) {
 const tests = [
     [10, 5, 10, 15, 10, 5],
     [1, 2, 3, 4],
-    [7, 7, 7, 7],
+    [5, 5, 5, 5],
     [42],
-    [-1, 2, -1, 3, 2]
+    [-1, -2, -1, 0]
 ];
 for (const arr of tests) {
     try {
@@ -3766,15 +3768,15 @@ for (const arr of tests) {
     if (questionId === 'dsa-p-13') {
       return `${cleanCode}
 const tests = [
-    [1, 2, 3, 4, 9, 8, 7],
-    [10, 20, 30, 40, 50],
-    [99, 80, 70, 60],
-    [42],
-    [-5, -2, -8, -1]
+    [[1, 2, 3, 4, 3, 2, 1], 7],
+    [[5, 3], 2],
+    [[1, 5, 3, 2], 4],
+    [[10], 1],
+    [[-10, -5, -2, -8], 4]
 ];
-for (const arr of tests) {
+for (const [arr, n] of tests) {
     try {
-        console.log("TEST_RES:" + findElevationPoint(arr));
+        console.log("TEST_RES:" + elevationPoint(arr, n));
     } catch (e) {
         console.log("TEST_ERR:" + e.message);
     }
@@ -3784,7 +3786,7 @@ for (const arr of tests) {
 
     if (questionId === 'dsa-p-14') {
       return `${cleanCode}
-const tests = [34, 9, 0, 123, 508];
+const tests = [34, 12, 25, 99, 10];
 for (const n of tests) {
     try {
         console.log("TEST_RES:" + encodeNumber(n));
@@ -3798,15 +3800,15 @@ for (const n of tests) {
     if (questionId === 'dsa-p-15') {
       return `${cleanCode}
 const tests = [
-    [-7, 1, 5, 2, -4, 3, 0],
-    [1, 2, 3],
-    [20],
-    [0, 0, 0, 0],
-    [1, -1, 4]
+    [[3, 4, 3, 1, 6], 5],
+    [[1, 2, 3], 3],
+    [[1, 2, 3, 3], 4],
+    [[5], 1],
+    [[2, 0, 2], 3]
 ];
-for (const arr of tests) {
+for (const [arr, n] of tests) {
     try {
-        console.log("TEST_RES:" + findEquilibriumIndex(arr));
+        console.log("TEST_RES:" + equilibriumIndex(arr, n));
     } catch (e) {
         console.log("TEST_ERR:" + e.message);
     }
@@ -3818,14 +3820,14 @@ for (const arr of tests) {
       return `${cleanCode}
 const tests = [
     [[1, 2, 4, 5, 6], 6],
+    [[1, 2, 3, 5], 5],
     [[2, 3, 4, 5], 5],
-    [[1, 2, 3, 4], 5],
     [[1], 2],
-    [[2], 2]
+    [[1, 2, 3, 4, 5, 6, 7, 8, 10], 10]
 ];
 for (const [arr, n] of tests) {
     try {
-        console.log("TEST_RES:" + findMissingNumber(arr, n));
+        console.log("TEST_RES:" + missingNumber(arr, n));
     } catch (e) {
         console.log("TEST_ERR:" + e.message);
     }
@@ -3836,11 +3838,11 @@ for (const [arr, n] of tests) {
     if (questionId === 'dsa-p-17') {
       return `${cleanCode}
 const tests = [
-    ["Coding in Python is fun and powerful", 4],
-    ["Hello world this is a test", 2],
-    ["OneWordOnly", 3],
-    ["Accenture Coding Assessment", 1],
-    ["All words should be included", 5]
+    ["Hello I am a passionate developer", 4],
+    ["I love coding", 2],
+    ["One two three", 5],
+    ["Accenture", 1],
+    ["The quick brown fox jumps", 3]
 ];
 for (const [s, k] of tests) {
     try {
@@ -3854,10 +3856,12 @@ for (const [s, k] of tests) {
 
     if (questionId === 'dsa-p-18') {
       return `${cleanCode}
-const tests = [4, 1, 2, 3, 5];
+const tests = [4, 1, 3, 2, 5];
 for (const n of tests) {
     try {
-        console.log("TEST_RES:" + floydTriangle(n));
+        console.log("---START_TC---");
+        console.log(floydTriangle(n));
+        console.log("---END_TC---");
     } catch (e) {
         console.log("TEST_ERR:" + e.message);
     }
@@ -3867,10 +3871,10 @@ for (const n of tests) {
 
     if (questionId === 'dsa-p-19') {
       return `${cleanCode}
-const tests = [43, 123, 11, 10, 997];
+const tests = [43, 123, 11, 100, 29];
 for (const n of tests) {
     try {
-        console.log("TEST_RES:" + isGooglyPrime(n));
+        console.log("TEST_RES:" + googlyPrime(n));
     } catch (e) {
         console.log("TEST_ERR:" + e.message);
     }
@@ -3881,11 +3885,11 @@ for (const n of tests) {
     if (questionId === 'dsa-p-20') {
       return `${cleanCode}
 const tests = [
-    [[1, 2, 2, 3, 4], [2, 2, 4, 6, 7, 8]],
+    [[1, 2, 2, 1], [2, 2]],
+    [[4, 9, 5], [9, 4, 9, 8, 4]],
     [[1, 2, 3], [4, 5, 6]],
-    [[5, 5, 5], [5, 5]],
-    [[1, 3, 5, 7, 9], [3, 9]],
-    [[10, 20, 30], [20, 10, 40]]
+    [[7, 7, 7], [7]],
+    [[10, 20, 30, 40], [30, 40, 50]]
 ];
 for (const [arr1, arr2] of tests) {
     try {

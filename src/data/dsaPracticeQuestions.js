@@ -3297,7 +3297,7 @@ public class Solution {
 
 public class Solution {
     public static String firstKWords(String s, int k) {
-        String[] words = s.trim().split("\\s+");
+        String[] words = s.trim().split("\\\\s+");
         int count = Math.min(k, words.length);
         List<String> list = new ArrayList<>();
         for (int i = 0; i < count; i++) list.add(words[i]);
@@ -3332,7 +3332,7 @@ public class Solution {
 }
 `,
       javascript: `function firstKWords(s, k) {
-  return s.trim().split(/\s+/).slice(0, k).join(' ');
+  return s.trim().split(/\\s+/).slice(0, k).join(' ');
 }
 `
     },
@@ -3471,7 +3471,7 @@ public class Solution {
         row = [str(num + j) for j in range(i)]
         lines.append(" ".join(row))
         num += i
-    return "\n".join(lines)
+    return "\\n".join(lines)
 `,
       java: `import java.util.*;
 
@@ -3480,7 +3480,7 @@ public class Solution {
         StringBuilder sb = new StringBuilder();
         int num = 1;
         for (int i = 1; i <= n; i++) {
-            if (i > 1) sb.append("\n");
+            if (i > 1) sb.append("\\n");
             for (int j = 1; j <= i; j++) {
                 if (j > 1) sb.append(" ");
                 sb.append(num++);
@@ -3497,7 +3497,7 @@ std::string floydTriangle(int n) {
     std::string res = "";
     int num = 1;
     for (int i = 1; i <= n; i++) {
-        if (i > 1) res += "\n";
+        if (i > 1) res += "\\n";
         for (int j = 1; j <= i; j++) {
             if (j > 1) res += " ";
             res += std::to_string(num++);
@@ -3514,7 +3514,7 @@ public class Solution {
         StringBuilder sb = new StringBuilder();
         int num = 1;
         for (int i = 1; i <= n; i++) {
-            if (i > 1) sb.Append("\n");
+            if (i > 1) sb.Append("\\n");
             for (int j = 1; j <= i; j++) {
                 if (j > 1) sb.Append(" ");
                 sb.Append(num++);
@@ -3534,7 +3534,7 @@ public class Solution {
     }
     lines.push(row.join(' '));
   }
-  return lines.join('\n');
+  return lines.join('\\n');
 }
 `
     },

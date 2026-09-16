@@ -64,8 +64,24 @@ export function outputsMatch(actual, expected) {
   const normActual = normalizeOutput(actual);
   const normExpected = normalizeOutput(expected);
 
-  if (normActual === '' || normExpected === '') return false;
+  // Exact normalized match
   if (normActual === normExpected) return true;
+
+  // Empty string equivalence: "" vs "" or ''
+  const isActualEmpty = normActual === '' || normActual === '""' || normActual === "''";
+  const isExpectedEmpty = normExpected === '' || normExpected === '""' || normExpected === "''";
+  if (isActualEmpty && isExpectedEmpty) return true;
+
+  if (normActual === '' || normExpected === '') return false;
+
+  // Structural JSON comparison (for arrays, 2D arrays, objects with formatting differences)
+  try {
+    const parsedA = typeof actual === 'object' ? actual : JSON.parse(actual);
+    const parsedE = typeof expected === 'object' ? expected : JSON.parse(expected);
+    if (parsedA !== null && parsedE !== null && JSON.stringify(parsedA) === JSON.stringify(parsedE)) {
+      return true;
+    }
+  } catch {}
 
   const a = stripBrackets(normActual);
   const e = stripBrackets(normExpected);
