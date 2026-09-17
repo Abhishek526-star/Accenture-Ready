@@ -8,10 +8,12 @@ export default function Navigation({
   onPrevious,
   onNext,
   onRunCode,
-  isRunning
+  isRunning,
+  isFirst: isFirstProp,
+  isLast: isLastProp
 }) {
-  const isFirst = currentQuestionId === 1;
-  const isLast = currentQuestionId === totalQuestions;
+  const isFirst = isFirstProp !== undefined ? isFirstProp : (currentQuestionId === 1);
+  const isLast = isLastProp !== undefined ? isLastProp : (currentQuestionId === totalQuestions);
 
   return (
     <footer className="assessment-navigation-bar">

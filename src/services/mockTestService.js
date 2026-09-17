@@ -15,8 +15,8 @@ export function initializeMockSession() {
   // Assemble balanced mock assessment test bundle
   // 1. Frontend Coding (2 questions: 1 Easy, 1 Medium)
   const codingSubset = [
-    questions[0] || { id: 1, title: 'Shopping Cart Total', category: 'Frontend' },
-    questions[1] || { id: 2, title: 'Grade Calculator & Filter', category: 'Frontend' }
+    questions[0] || { id: 1, title: 'Tab Switcher & Badge', category: 'Frontend' },
+    questions[1] || { id: 2, title: 'Char Limit & Progress', category: 'Frontend' }
   ];
 
   // 2. SQL Assessment (3 questions)

@@ -17,7 +17,7 @@ import { mistakesStorage } from './mistakesStorage.js';
 
 export function calculateReadinessScore() {
   // 1. Coding Section (25%)
-  // Aggregate unique solves across Frontend Coding (20), DSA Practice (61), and Recent PYQs (8)
+  // Aggregate unique solves across Frontend Coding (12), DSA Practice (61), and Recent PYQs (8)
   const completedFeCoding = storage.getCompletedQuestions();
   let completedDsaPractice = [];
   try {
@@ -36,7 +36,7 @@ export function calculateReadinessScore() {
     ...completedRecentCoding.map(String)
   ]);
 
-  const totalCodingQuestions = (questions.length || 20) + (DSA_PRACTICE_QUESTIONS.length || 61) + 8;
+  const totalCodingQuestions = (questions.length || 12) + (DSA_PRACTICE_QUESTIONS.length || 61) + 8;
   const codingSolvedCount = uniqueCodingSolvedSet.size;
   const codingPercent = Math.min(100, Math.round((codingSolvedCount / totalCodingQuestions) * 100));
 

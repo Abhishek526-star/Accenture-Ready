@@ -107,7 +107,7 @@ export default function Home() {
             </Link>
             <Link to="/practice" className="btn btn-secondary btn-lg" style={{ gridColumn: 'span 2' }}>
               <Code2 size={18} />
-              <span>Frontend Coding Round (10 Tasks)</span>
+              <span>Frontend Coding Round (12 Tasks)</span>
             </Link>
           </div>
 
@@ -541,10 +541,10 @@ export default function Home() {
               </div>
               <h3 style={{ margin: 0, fontSize: '1.35rem', color: '#f8fafc' }}>DOM & UI Coding Assessment</h3>
               <p style={{ margin: '0.5rem 0 0 0', color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                Solve 10 practical DOM manipulation, event handling, and form validation challenges with Monaco editor, sandboxed preview, and automated test runners.
+                Solve 12 practical DOM manipulation, event handling, and form validation challenges with Monaco editor, sandboxed preview, and automated test runners.
               </p>
               <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <span className="badge badge-medium">10 Tasks</span>
+                <span className="badge badge-medium">12 Tasks</span>
                 <span className="badge" style={{ background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>Automated DOM Tests</span>
               </div>
             </div>
@@ -672,7 +672,7 @@ export default function Home() {
         <div className="section-header-flex">
           <div>
             <h2>Practice Question Set</h2>
-            <p>Work through the 10 assessment questions in order or jump to any task.</p>
+            <p>Work through the 12 assessment questions in order or jump to any task.</p>
           </div>
           <Link to="/practice" className="btn btn-primary">
             <span>Open Practice Workspace</span>

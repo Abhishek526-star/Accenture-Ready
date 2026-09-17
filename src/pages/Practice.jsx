@@ -26,7 +26,7 @@ export default function Practice({ theme }) {
   // Determine active question ID
   const qParam = searchParams.get('q');
   const initialId = qParam ? parseInt(qParam, 10) : storage.getActiveQuestionId();
-  const validId = questions.some((q) => q.id === initialId) ? initialId : 1;
+  const validId = questions.some((q) => q.id === initialId) ? initialId : (questions[0]?.id || 1);
 
   const [currentId, setCurrentId] = useState(validId);
   const currentQuestion = questions.find((q) => q.id === currentId) || questions[0];
@@ -290,16 +290,18 @@ export default function Practice({ theme }) {
     setPreviewSrcDoc(doc);
   };
 
-  // Navigation handlers
+  // Navigation handlers (index-based)
+  const currentIndex = Math.max(0, questions.findIndex((q) => q.id === currentId));
+
   const handlePrevious = () => {
-    if (currentId > 1) {
-      setCurrentId((prev) => prev - 1);
+    if (currentIndex > 0) {
+      setCurrentId(questions[currentIndex - 1].id);
     }
   };
 
   const handleNext = () => {
-    if (currentId < questions.length) {
-      setCurrentId((prev) => prev + 1);
+    if (currentIndex < questions.length - 1) {
+      setCurrentId(questions[currentIndex + 1].id);
     }
   };
 
@@ -402,6 +404,8 @@ export default function Practice({ theme }) {
       <Navigation
         currentQuestionId={currentId}
         totalQuestions={questions.length}
+        isFirst={currentIndex === 0}
+        isLast={currentIndex === questions.length - 1}
         onPrevious={handlePrevious}
         onNext={handleNext}
         onRunCode={handleRunCode}
