@@ -48,6 +48,21 @@ export default function Dashboard({ theme = 'dark' }) {
     setGamify(gamificationService.getState());
   }, [refreshKey]);
 
+  // Real-time synchronization: listen for activity updates
+  useEffect(() => {
+    const handleActivity = () => {
+      setRefreshKey((k) => k + 1);
+    };
+
+    window.addEventListener('accenture-activity-updated', handleActivity);
+    window.addEventListener('storage', handleActivity);
+
+    return () => {
+      window.removeEventListener('accenture-activity-updated', handleActivity);
+      window.removeEventListener('storage', handleActivity);
+    };
+  }, []);
+
   const { overallScore, breakdown, rawCounts } = readinessData;
 
   // Continue Learning derivation
@@ -61,8 +76,17 @@ export default function Dashboard({ theme = 'dark' }) {
       () => {
         storage.set('completed-questions', []);
         sqlStorage.set('completed-questions', []);
+        localStorage.removeItem('sql-completed-questions');
+        localStorage.removeItem('dsa-practice-solved');
+        localStorage.removeItem('recent-solved');
+        localStorage.removeItem('accenture_telemetry_attempts_v1');
+        localStorage.removeItem('accenture_telemetry_time_v1');
+        localStorage.removeItem('accenture_mistakes_v1');
         javaStorage.resetAllProgress(javaTopics);
         setRefreshKey(k => k + 1);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('accenture-activity-updated'));
+        }
       },
       { icon: '⚠️', confirmLabel: 'Yes, reset everything', type: 'danger' }
     );

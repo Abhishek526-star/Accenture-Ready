@@ -9,15 +9,20 @@ export function getWeakAreas() {
   const topicStats = getTopicAnalytics();
   const mistakes = mistakesStorage.getActiveMistakes();
 
-  // Find topics under 60% accuracy or with unresolved mistakes
-  const weakTopics = topicStats.filter(t => t.accuracy < 60 || mistakes.some(m => m.category.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])));
+  // Find topics that user actually struggled on (isWeak = true, or active mistakes)
+  const genuineWeak = topicStats.filter(t => t.isWeak || mistakes.some(m => m.category?.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])));
 
-  // If user hasn't practiced much or everything is high, provide the lowest 3
-  if (weakTopics.length === 0) {
-    return topicStats.sort((a, b) => a.accuracy - b.accuracy).slice(0, 3);
+  if (genuineWeak.length > 0) {
+    return genuineWeak.sort((a, b) => a.accuracy - b.accuracy).slice(0, 4);
   }
 
-  return weakTopics.sort((a, b) => a.accuracy - b.accuracy).slice(0, 4);
+  // If no mistakes yet, recommend unstarted / priority topics for initial focus
+  const unstarted = topicStats.filter(t => t.status === 'not_started');
+  if (unstarted.length > 0) {
+    return unstarted.slice(0, 3);
+  }
+
+  return topicStats.sort((a, b) => a.accuracy - b.accuracy).slice(0, 3);
 }
 
 export function getSmartRecommendations() {

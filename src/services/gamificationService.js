@@ -153,6 +153,10 @@ export const gamificationService = {
         localStorage.setItem(GAMIFICATION_KEY, JSON.stringify(state));
       }
       this.checkAchievements();
+
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('accenture-activity-updated', { detail: { type: 'gamification' } }));
+      }
     } catch (e) {
       console.error('Failed to record gamification activity', e);
     }
@@ -165,6 +169,10 @@ export const gamificationService = {
       this.recordActivity();
       localStorage.setItem(GAMIFICATION_KEY, JSON.stringify(state));
       this.checkAchievements();
+
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('accenture-activity-updated', { detail: { type: 'xp', amount, reason } }));
+      }
       return state.xp;
     } catch (e) {
       return 0;
@@ -216,19 +224,38 @@ export const gamificationService = {
         newlyUnlocked.push('clean_streak');
       }
 
-      // Check storage stats
-      const completedCoding = JSON.parse(localStorage.getItem('frontend-assessment-completed-questions') || '[]');
-      const completedSQL = JSON.parse(localStorage.getItem('accenture-sql-completed-questions') || '[]');
-      const completedJava = JSON.parse(localStorage.getItem('accenture_java_completed_topics') || '[]');
-      const cognitiveHistory = JSON.parse(localStorage.getItem('cognitive-assessment-sessions') || '[]');
+      // Check storage stats across all actual keys
+      const completedFeCoding = JSON.parse(localStorage.getItem('frontend-assessment-completed-questions') || '[]');
+      const completedDsaPractice = JSON.parse(localStorage.getItem('dsa-practice-solved') || '[]');
+      const completedRecent = JSON.parse(localStorage.getItem('recent-solved') || '[]');
+      const totalCodingCount = new Set([...completedFeCoding, ...completedDsaPractice, ...completedRecent]).size;
+
+      const completedSQL = JSON.parse(
+        localStorage.getItem('sql-completed-questions') ||
+        localStorage.getItem('accenture-sql-completed-questions') ||
+        '[]'
+      );
+      const recentSqlCount = completedRecent.filter(id => String(id).includes('sql')).length;
+      const totalSqlCount = new Set([...completedSQL, ...completedRecent.filter(id => String(id).includes('sql'))]).size;
+
+      const completedJava = JSON.parse(
+        localStorage.getItem('java-learning-completed-topics') ||
+        localStorage.getItem('accenture_java_completed_topics') ||
+        '[]'
+      );
+      const cognitiveHistory = JSON.parse(
+        localStorage.getItem('frontend-assessment-cognitive-sessions-history') ||
+        localStorage.getItem('cognitive-assessment-sessions') ||
+        '[]'
+      );
       const mockHistory = JSON.parse(localStorage.getItem('accenture_mock_history_v1') || '[]');
 
-      if ((completedCoding.length > 0 || completedSQL.length > 0) && !unlocked.has('first_solve')) {
+      if ((totalCodingCount > 0 || totalSqlCount > 0) && !unlocked.has('first_solve')) {
         unlocked.add('first_solve');
         newlyUnlocked.push('first_solve');
       }
 
-      if (completedSQL.length >= 10 && !unlocked.has('sql_master')) {
+      if (totalSqlCount >= 10 && !unlocked.has('sql_master')) {
         unlocked.add('sql_master');
         newlyUnlocked.push('sql_master');
       }

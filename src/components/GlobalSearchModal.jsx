@@ -185,6 +185,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
       onClick={onClose}
     >
       <div
+        className="global-search-modal-container"
         style={{
           width: '100%',
           maxWidth: '680px',
@@ -192,7 +193,8 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
           border: '1px solid #334155',
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          boxSizing: 'border-box'
         }}
         onClick={(e) => e.stopPropagation()}
       >

@@ -1,5 +1,4 @@
-// src/pages/AnalyticsPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   BarChart3,
@@ -17,11 +16,13 @@ import {
 } from 'lucide-react';
 import { calculateReadinessScore, getTopicAnalytics } from '../services/readinessEngine.js';
 import { getWeakAreas } from '../services/recommendationEngine.js';
+import { telemetryService } from '../services/telemetryService.js';
 
 export default function AnalyticsPage({ theme = 'dark' }) {
   const [readinessData, setReadinessData] = useState(() => calculateReadinessScore());
   const [topicStats, setTopicStats] = useState(() => getTopicAnalytics());
   const [weakTopics, setWeakTopics] = useState(() => getWeakAreas());
+  const [avgTimeData, setAvgTimeData] = useState(() => telemetryService.getAverageSolutionTime());
 
   const { overallScore, breakdown, rawCounts } = readinessData;
 
@@ -29,9 +30,29 @@ export default function AnalyticsPage({ theme = 'dark' }) {
     setReadinessData(calculateReadinessScore());
     setTopicStats(getTopicAnalytics());
     setWeakTopics(getWeakAreas());
+    setAvgTimeData(telemetryService.getAverageSolutionTime());
   };
 
-  const totalAttempted = rawCounts.codingSolved + rawCounts.sqlSolved + rawCounts.javaSolved + (rawCounts.aptitudeAttempted || 0);
+  // Real-time synchronization: listen for activity updates from problem solving,
+  // game completions, and assessment submissions
+  useEffect(() => {
+    const handleActivity = () => {
+      handleRefresh();
+    };
+
+    window.addEventListener('accenture-activity-updated', handleActivity);
+    window.addEventListener('storage', handleActivity);
+
+    return () => {
+      window.removeEventListener('accenture-activity-updated', handleActivity);
+      window.removeEventListener('storage', handleActivity);
+    };
+  }, []);
+
+  const totalAttempted = (rawCounts.codingAttempted || rawCounts.codingSolved) +
+                         (rawCounts.sqlAttempted || rawCounts.sqlSolved) +
+                         rawCounts.javaSolved +
+                         (rawCounts.aptitudeAttempted || 0);
   const totalSolved = rawCounts.codingSolved + rawCounts.sqlSolved + rawCounts.javaSolved + (rawCounts.aptitudeSolved || 0);
   const overallAccuracy = totalAttempted > 0 ? Math.round((totalSolved / totalAttempted) * 100) : 0;
 
@@ -112,9 +133,9 @@ export default function AnalyticsPage({ theme = 'dark' }) {
         <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '14px', padding: '1.5rem' }}>
           <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Avg Solution Time</span>
           <div style={{ fontSize: '2rem', fontWeight: 800, color: '#38bdf8', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
-            4m 12s
+            {avgTimeData.formatted}
           </div>
-          <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Well within test budget</span>
+          <span style={{ fontSize: '0.8rem', color: '#64748b' }}>{avgTimeData.label}</span>
         </div>
 
         {/* Active Streak */}
@@ -237,13 +258,14 @@ export default function AnalyticsPage({ theme = 'dark' }) {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
           {topicStats.map((topic, idx) => {
-            const isWeak = topic.accuracy < 60;
+            const isNotStarted = topic.status === 'not_started';
+            const isWeak = topic.isWeak;
             return (
               <div
                 key={idx}
                 style={{
                   background: '#0f172a',
-                  border: isWeak ? '1px solid rgba(239, 68, 68, 0.4)' : '1px solid #334155',
+                  border: isWeak ? '1px solid rgba(239, 68, 68, 0.4)' : (isNotStarted ? '1px solid #334155' : '1px solid rgba(56, 189, 248, 0.3)'),
                   borderRadius: '12px',
                   padding: '1.25rem',
                   display: 'flex',
@@ -259,22 +281,34 @@ export default function AnalyticsPage({ theme = 'dark' }) {
                       padding: '2px 8px',
                       borderRadius: '10px',
                       fontWeight: 700,
-                      background: isWeak ? 'rgba(239, 68, 68, 0.2)' : 'rgba(34, 197, 94, 0.2)',
-                      color: isWeak ? '#ef4444' : '#4ade80'
+                      background: isNotStarted
+                        ? 'rgba(148, 163, 184, 0.15)'
+                        : isWeak
+                        ? 'rgba(239, 68, 68, 0.2)'
+                        : 'rgba(34, 197, 94, 0.2)',
+                      color: isNotStarted
+                        ? '#94a3b8'
+                        : isWeak
+                        ? '#ef4444'
+                        : '#4ade80'
                     }}>
-                      {isWeak ? '⚠ Weak Area' : '✓ Mastered'}
+                      {isNotStarted ? '○ Not Started' : (isWeak ? '⚠ Weak Area' : '✓ Mastered')}
                     </span>
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem' }}>
-                    <span>Accuracy</span>
-                    <span style={{ fontWeight: 700, color: isWeak ? '#ef4444' : '#4ade80', fontFamily: 'JetBrains Mono' }}>
-                      {topic.accuracy}%
+                    <span>{topic.solved} / {topic.total} Solved</span>
+                    <span style={{ fontWeight: 700, color: isNotStarted ? '#94a3b8' : (isWeak ? '#ef4444' : '#4ade80'), fontFamily: 'JetBrains Mono' }}>
+                      {isNotStarted ? '0%' : `${topic.accuracy}%`}
                     </span>
                   </div>
 
                   <div style={{ height: '6px', background: '#1e293b', borderRadius: '3px', overflow: 'hidden', marginBottom: '1rem' }}>
-                    <div style={{ height: '100%', width: `${topic.accuracy}%`, background: isWeak ? '#ef4444' : '#4ade80' }} />
+                    <div style={{
+                      height: '100%',
+                      width: isNotStarted ? `${Math.round((topic.solved / topic.total) * 100)}%` : `${topic.accuracy}%`,
+                      background: isNotStarted ? '#475569' : (isWeak ? '#ef4444' : '#4ade80')
+                    }} />
                   </div>
                 </div>
 
@@ -285,16 +319,16 @@ export default function AnalyticsPage({ theme = 'dark' }) {
                       flex: 1,
                       textAlign: 'center',
                       padding: '6px 10px',
-                      background: isWeak ? '#ef444420' : '#334155',
-                      color: isWeak ? '#ef4444' : '#f8fafc',
+                      background: isWeak ? '#ef444420' : (isNotStarted ? '#1e293b' : '#0284c720'),
+                      color: isWeak ? '#ef4444' : (isNotStarted ? '#f8fafc' : '#38bdf8'),
                       borderRadius: '6px',
                       fontSize: '0.75rem',
                       fontWeight: 600,
                       textDecoration: 'none',
-                      border: isWeak ? '1px solid #ef444440' : 'none'
+                      border: isWeak ? '1px solid #ef444440' : (isNotStarted ? '1px solid #334155' : '1px solid #0284c740')
                     }}
                   >
-                    {isWeak ? `Target Drill` : 'Practice'}
+                    {isWeak ? `Target Drill` : (isNotStarted ? 'Start Practicing' : 'Review & Practice')}
                   </Link>
                 </div>
               </div>

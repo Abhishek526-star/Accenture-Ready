@@ -14,6 +14,7 @@ import Navigation from '../components/Navigation.jsx';
 import ResetModal from '../components/ResetModal.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
+import { telemetryService } from '../services/telemetryService.js';
 
 import { BookOpen, Code, Eye, CheckCircle2 } from 'lucide-react';
 import SEO from '../components/SEO.jsx';
@@ -104,6 +105,9 @@ export default function Practice({ theme }) {
         setRuntimeError(null);
         if (data.logs) setConsoleLogs(data.logs);
 
+        // Check if already completed to prevent duplicate XP
+        const wasAlreadyCompleted = storage.isQuestionCompleted(currentQuestion.id);
+
         // Store results in localStorage
         storage.setQuestionResults(currentQuestion.id, {
           results: data.results,
@@ -112,9 +116,19 @@ export default function Practice({ theme }) {
           totalCount: data.totalCount
         });
 
+        // Record telemetry attempt
+        telemetryService.recordProblemAttempt(
+          currentQuestion.id,
+          'coding',
+          data.allPassed,
+          { category: currentQuestion.category }
+        );
+
         if (data.allPassed) {
           mistakesStorage.resolveMistake(currentQuestion.id, 'coding');
-          gamificationService.addXP(50, 'Solved Coding Question');
+          if (!wasAlreadyCompleted) {
+            gamificationService.addXP(50, 'Solved Coding Question');
+          }
         } else {
           mistakesStorage.recordMistake({
             id: currentQuestion.id,
@@ -126,11 +140,19 @@ export default function Practice({ theme }) {
             errorSummary: `${data.passedCount || 0}/${data.totalCount || 0} DOM test cases passed`
           });
         }
+        telemetryService.broadcastActivityUpdate();
       } else if (data.type === 'RUNTIME_ERROR' && data.questionId === currentQuestion.id) {
         if (watchdogRef.current) clearTimeout(watchdogRef.current);
         setIsRunning(false);
         setRuntimeError(data.error || 'A runtime error occurred in candidate code.');
         if (data.logs) setConsoleLogs(data.logs);
+
+        telemetryService.recordProblemAttempt(
+          currentQuestion.id,
+          'coding',
+          false,
+          { category: currentQuestion.category }
+        );
 
         mistakesStorage.recordMistake({
           id: currentQuestion.id,
@@ -141,6 +163,7 @@ export default function Practice({ theme }) {
           route: `/practice?q=${currentQuestion.id}`,
           errorSummary: data.error || 'JavaScript execution runtime error'
         });
+        telemetryService.broadcastActivityUpdate();
       } else if (data.type === 'PREVIEW_READY' && data.questionId === currentQuestion.id) {
         if (data.logs) setConsoleLogs(data.logs);
       }

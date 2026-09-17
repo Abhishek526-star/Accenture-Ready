@@ -126,9 +126,18 @@ export function getCognitiveStats() {
   const streak = cognitiveStorage.getStreak();
 
   const totalXP = history.reduce((sum, s) => sum + (s.score || 0), 0);
+  const gamesPlayed = history.length;
+
+  // Calculate average accuracy across sessions that track accuracy
+  const sessionsWithAcc = history.filter(s => typeof s.accuracy === 'number' && !isNaN(s.accuracy));
+  const avgAccuracy = sessionsWithAcc.length > 0
+    ? Math.round(sessionsWithAcc.reduce((sum, s) => sum + s.accuracy, 0) / sessionsWithAcc.length)
+    : (gamesPlayed > 0 ? 80 : 0);
 
   return {
     totalXP,
+    gamesPlayed,
+    accuracy: avgAccuracy,
     bestScores: {
       memory_maze: best.memoryMaze || best.memory_maze || 0,
       math_bubble: best.mathBubble || best.math_bubble || 0,
@@ -157,6 +166,13 @@ export function saveSessionResult(session) {
   } else if (session.gameType === 'full_assessment' || session.gameType === 'full_cognitive_mock') {
     cognitiveStorage.updateBestScore('fullAssessment', session.score);
   }
+
+  // Notify listeners that an activity has completed
+  try {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('accenture-activity-updated', { detail: { type: 'cognitive', session: saved } }));
+    }
+  } catch {}
 
   return saved;
 }

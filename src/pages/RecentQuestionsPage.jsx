@@ -38,6 +38,7 @@ import {
 import { recentQuestions, RECENT_TRACKS } from '../data/recentQuestions.js';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
+import { telemetryService } from '../services/telemetryService.js';
 import { executeDsaOnJudge0 } from '../services/judge0Service.js';
 import { runQueryOnDataset, runAssessmentTests } from '../utils/sqlEngine.js';
 import SQLResultPanel from '../components/sql/SQLResultPanel.jsx';
@@ -1077,6 +1078,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [solutionTabLang, setSolutionTabLang] = useState('python');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedSolution, setCopiedSolution] = useState(false);
+  const [mobileWorkspaceTab, setMobileWorkspaceTab] = useState('both'); // 'both' | 'problem' | 'editor'
 
   // Per-question and per-language code map for DSA with starter templates
   const [codeMap, setCodeMap] = useState(() => {
@@ -1225,6 +1227,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     try {
       const res = await runAssessmentTests(activeSqlQuestion, normalizeSqlQuery(activeSqlCode));
       setSqlTestResults(res);
+
+      telemetryService.recordProblemAttempt(
+        activeSqlQuestion.id,
+        'sql',
+        res.allPassed,
+        { category: activeSqlQuestion.category || 'Recent SQL' }
+      );
+
       if (res.allPassed) {
         if (!solvedSet.includes(activeSqlQuestion.id)) {
           toggleSolved(activeSqlQuestion.id);
@@ -1242,6 +1252,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           errorSummary: `${res.passedCount || 0}/${res.totalCount || 0} test cases passed`
         });
       }
+      telemetryService.broadcastActivityUpdate();
     } catch (err) {
       setSqlTestResults({
         allPassed: false,
@@ -2504,6 +2515,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
         results
       });
 
+      // Record telemetry attempt
+      telemetryService.recordProblemAttempt(
+        q.id,
+        'dsa',
+        allPassed,
+        { category: q.category || 'Recent DSA' }
+      );
+
       if (allPassed) {
         if (!solvedSet.includes(q.id)) {
           toggleSolved(q.id);
@@ -2519,6 +2538,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           return prev;
         });
       }
+      telemetryService.broadcastActivityUpdate();
     } catch (err) {
       setTestResults({
         allPassed: false,
@@ -2774,6 +2794,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           results
         });
 
+        // Record telemetry attempt
+        telemetryService.recordProblemAttempt(
+          'recent-fe-001',
+          'coding',
+          allPassed,
+          { category: 'Recent Frontend' }
+        );
+
         if (allPassed) {
           if (!solvedSet.includes('recent-fe-001')) {
             toggleSolved('recent-fe-001');
@@ -2790,6 +2818,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             return prev;
           });
         }
+        telemetryService.broadcastActivityUpdate();
       } catch (err) {
         setFeTestResults({
           allPassed: false,
@@ -2901,7 +2930,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       {activeTrack === 'dsa' && (
         <div>
           {/* Question Selector Bar with Dropdown & Quick Navigation */}
-          <div style={{
+          <div className="dsa-question-selector-bar" style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -2917,7 +2946,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             width: '100%'
           }}>
             {/* Left: Rich Question Dropdown */}
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
+            <div className="dsa-question-dropdown-container" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
               <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Question:
               </span>
@@ -3104,7 +3133,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               </button>
 
               {/* Compact Q1 - Q7 Pills */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <div className="dsa-quick-pills-bar" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 {dsaQuestions.map((q, idx) => {
                   const isSelected = q.id === activeDsaQuestion.id;
                   const isSolved = solvedSet.includes(q.id);
@@ -3164,7 +3193,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           </div>
 
           {/* Top Curated Hero Card for Active DSA Question */}
-          <div style={{
+          <div className="dsa-active-question-card" style={{
             background: '#1e293b',
             border: '1px solid #334155',
             borderRadius: '16px',
@@ -3198,22 +3227,23 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 fontWeight: 800,
                 color: '#f8fafc',
                 margin: '0 0 0.6rem 0',
-                letterSpacing: '-0.5px'
+                letterSpacing: '-0.02em'
               }}>
                 {activeDsaQuestion.title}
               </h2>
 
-              <div style={{
+              {/* Badges and metadata */}
+              <div className="dsa-active-card-meta" style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
-                fontSize: '0.85rem',
-                color: '#94a3b8',
-                flexWrap: 'wrap'
+                flexWrap: 'wrap',
+                fontSize: '0.82rem',
+                color: '#94a3b8'
               }}>
                 <span style={{
-                  background: 'rgba(250, 204, 21, 0.15)',
-                  color: '#facc15',
+                  background: activeDsaQuestion.difficulty === 'Easy' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                  color: activeDsaQuestion.difficulty === 'Easy' ? '#4ade80' : '#fbbf24',
                   padding: '2px 10px',
                   borderRadius: '6px',
                   fontWeight: 700,
@@ -3226,18 +3256,22 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   Category: {activeDsaQuestion.category}
                 </span>
                 <span>•</span>
+                <span style={{ color: '#c084fc', fontWeight: 600 }}>
+                  Pattern: {activeDsaQuestion.pattern}
+                </span>
+                <span>•</span>
                 <span style={{ color: '#fb923c', fontWeight: 600 }}>
-                  Reward: +50 XP
+                  Reward: +{activeDsaQuestion.rewardXp} XP
                 </span>
                 <span>•</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Clock size={14} /> Target: 15 Mins
+                  <Clock size={14} /> Target: {activeDsaQuestion.targetMins} Mins
                 </span>
               </div>
             </div>
 
             {/* Right Action Buttons */}
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="dsa-active-card-actions" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
               <button
                 onClick={() => {
                   setSolutionTabLang(selectedLang);
@@ -3301,8 +3335,36 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             </div>
           </div>
 
+          {/* Mobile-Only Tabs for Split Workspace */}
+          <div className="workspace-mobile-tabs">
+            <button
+              type="button"
+              className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'problem' ? 'active' : ''}`}
+              onClick={() => setMobileWorkspaceTab('problem')}
+            >
+              <BookOpen size={15} />
+              <span>Problem & Cases</span>
+            </button>
+            <button
+              type="button"
+              className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'editor' ? 'active' : ''}`}
+              onClick={() => setMobileWorkspaceTab('editor')}
+            >
+              <Code2 size={15} />
+              <span>Editor & Run</span>
+            </button>
+            <button
+              type="button"
+              className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'both' ? 'active' : ''}`}
+              onClick={() => setMobileWorkspaceTab('both')}
+            >
+              <Sparkles size={15} />
+              <span>All in One</span>
+            </button>
+          </div>
+
           {/* Two Column Area (Problem & Editor) - 50% / 50% Split */}
-          <div style={{
+          <div className="recent-dsa-grid" style={{
             display: 'grid',
             gridTemplateColumns: isEditorExpanded ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr)',
             gap: '1.5rem',
@@ -3311,7 +3373,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             boxSizing: 'border-box'
           }}>
             {/* Left Column: Problem Details & Examples */}
-            {!isEditorExpanded && (
+            {!isEditorExpanded && (mobileWorkspaceTab === 'both' || mobileWorkspaceTab === 'problem') && (
               <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {/* Beautified DSA Problem Statement Card */}
                 <div style={{
@@ -3514,6 +3576,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             )}
 
             {/* Right Column: Code Editor & Execution */}
+            {(mobileWorkspaceTab === 'both' || mobileWorkspaceTab === 'editor') && (
             <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{
                 background: '#1e293b',
@@ -3523,7 +3586,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
               }}>
                 {/* Top Editor Toolbar */}
-                <div style={{
+                <div className="dsa-editor-toolbar" style={{
                   background: '#0f172a',
                   borderBottom: '1px solid #334155',
                   padding: '0.75rem 1.25rem',
@@ -3533,14 +3596,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   flexWrap: 'wrap',
                   gap: '0.75rem'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+                  <div className="dsa-editor-lang-group" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '0.8rem', color: '#94a3b8', marginRight: '4px', fontWeight: 600 }}>Language:</span>
                     {DSA_LANGUAGES.map(lang => {
                       const isActive = selectedLang === lang.id;
                       return (
                         <button
                           key={lang.id}
-                          onClick={() => handleSelectDsaLanguage(lang.id)}
+                          onClick={() => handleSelectLanguage(lang.id)}
                           style={{
                             padding: '5px 12px',
                             borderRadius: '8px',
@@ -3563,7 +3626,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     })}
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div className="dsa-editor-actions-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <button
                       onClick={() => {
                         setSolutionTabLang(selectedLang);
@@ -3730,7 +3793,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 </div>
 
                 {/* Monaco Editor */}
-                <div style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
+                <div className="dsa-monaco-wrapper" style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
                   {isDsaResetDone && (
                     <div style={{
                       position: 'absolute',
@@ -3913,11 +3976,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 </div>
               )}
             </div>
+            )}
           </div>
 
           {/* Solution Modal for DSA Question */}
           {showSolutionModal && (
-            <div style={{
+            <div className="responsive-modal-overlay" style={{
               position: 'fixed',
               top: 0,
               left: 0,
@@ -3929,9 +3993,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 9999,
-              padding: '1.5rem'
+              padding: '1rem',
+              boxSizing: 'border-box'
             }}>
-              <div style={{
+              <div className="responsive-modal-container" style={{
                 background: '#1e293b',
                 border: '1px solid #38bdf8',
                 borderRadius: '16px',

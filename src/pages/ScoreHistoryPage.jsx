@@ -16,18 +16,11 @@ import { mockTestService } from '../services/mockTestService.js';
 
 export default function ScoreHistoryPage({ theme = 'dark' }) {
   const [history, setHistory] = useState(() => {
-    const raw = mockTestService.getHistory();
-    if (raw && raw.length > 0) return raw;
-    // Default demonstration historical assessments if none taken yet
-    return [
-      { id: 'mock-1', completedAt: '2026-09-02T10:00:00Z', score: 61, codingScore: 50, sqlScore: 60, mcqScore: 65, accuracy: 64, timeUsedFormatted: '82:15' },
-      { id: 'mock-2', completedAt: '2026-09-05T14:30:00Z', score: 67, codingScore: 65, sqlScore: 66, mcqScore: 70, accuracy: 71, timeUsedFormatted: '76:40' },
-      { id: 'mock-3', completedAt: '2026-09-08T16:00:00Z', score: 72, codingScore: 75, sqlScore: 70, mcqScore: 72, accuracy: 78, timeUsedFormatted: '71:10' },
-      { id: 'mock-4', completedAt: '2026-09-10T11:20:00Z', score: 78, codingScore: 85, sqlScore: 72, mcqScore: 80, accuracy: 82, timeUsedFormatted: '67:32' }
-    ];
+    return mockTestService.getHistory() || [];
   });
 
-  const latest = history[history.length - 1] || history[0];
+  const hasHistory = history.length > 0;
+  const latest = hasHistory ? history[0] : null;
 
   return (
     <div className="history-page-container">
@@ -53,18 +46,22 @@ export default function ScoreHistoryPage({ theme = 'dark' }) {
       }}>
         <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '1.5rem' }}>
           <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Accuracy Classification</span>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#4ade80', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
-            {latest?.accuracy || 82}%
+          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: hasHistory ? (latest.accuracy >= 75 ? '#4ade80' : '#facc15') : '#94a3b8', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
+            {hasHistory ? `${latest.accuracy}%` : '--'}
           </div>
-          <span style={{ fontSize: '0.8rem', color: '#4ade80', fontWeight: 600 }}>🎯 Status: Good & Candidate Ready</span>
+          <span style={{ fontSize: '0.8rem', color: hasHistory ? '#4ade80' : '#64748b', fontWeight: 600 }}>
+            {hasHistory ? '🎯 Status: Real Exam Recorded' : 'No mock assessments attempted yet'}
+          </span>
         </div>
 
         <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '1.5rem' }}>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Average Time per Section</span>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#38bdf8', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
-            {latest?.timeUsedFormatted || '67:32'}
+          <span style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Latest Completion Time</span>
+          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: hasHistory ? '#38bdf8' : '#94a3b8', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
+            {hasHistory ? latest.timeUsedFormatted : '--'}
           </div>
-          <span style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>⚡ Speed: Optimal (23m buffer remaining)</span>
+          <span style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>
+            {hasHistory ? '⚡ Total time across all sections' : '90 minute test budget'}
+          </span>
         </div>
 
         <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '1.5rem' }}>
@@ -72,7 +69,9 @@ export default function ScoreHistoryPage({ theme = 'dark' }) {
           <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#facc15', margin: '0.25rem 0', fontFamily: 'JetBrains Mono' }}>
             {history.length} Finished
           </div>
-          <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Consistent +17% net gain</span>
+          <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+            {history.length > 0 ? 'Full timed assessments' : 'Target at least 1 mock before exam'}
+          </span>
         </div>
       </div>
 
@@ -82,7 +81,36 @@ export default function ScoreHistoryPage({ theme = 'dark' }) {
           Mock Assessment Trend Line
         </h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {!hasHistory ? (
+          <div style={{ padding: '2.5rem 1rem', textAlign: 'center', background: '#0f172a', borderRadius: '12px', border: '1px dashed #334155' }}>
+            <p style={{ fontSize: '1.05rem', color: '#f8fafc', fontWeight: 700, margin: '0 0 0.5rem 0' }}>
+              No full mock assessments completed yet
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#94a3b8', margin: '0 auto 1.5rem auto', maxWidth: '480px' }}>
+              Launch a timed 90-minute assessment to simulate the actual Accenture test experience across Coding, SQL, and Technical MCQs.
+            </p>
+            <Link
+              to="/mock-test"
+              className="btn btn-primary"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '10px 20px',
+                background: 'linear-gradient(135deg, #0284c7, #0369a1)',
+                border: 'none',
+                color: '#ffffff',
+                fontWeight: 700,
+                borderRadius: '8px',
+                textDecoration: 'none'
+              }}
+            >
+              <span>Launch First Mock Test</span>
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {history.map((mock, idx) => (
             <div key={mock.id || idx} style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '12px', padding: '1.25rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -112,6 +140,7 @@ export default function ScoreHistoryPage({ theme = 'dark' }) {
             </div>
           ))}
         </div>
+        )}
       </div>
 
       <div style={{ textAlign: 'center' }}>

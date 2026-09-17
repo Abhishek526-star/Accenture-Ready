@@ -31,6 +31,8 @@ import {
 import { DSA_PRACTICE_QUESTIONS } from '../data/dsaPracticeQuestions.js';
 import { gamificationService } from '../services/gamificationService.js';
 import { executeDsaOnJudge0, outputsMatch } from '../services/judge0Service.js';
+import { telemetryService } from '../services/telemetryService.js';
+import { mistakesStorage } from '../services/mistakesStorage.js';
 import SEO from '../components/SEO.jsx';
 
 const DSA_LANGUAGES = [
@@ -217,6 +219,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedSolution, setCopiedSolution] = useState(false);
   const [isResetDone, setIsResetDone] = useState(false);
+  const [mobileWorkspaceTab, setMobileWorkspaceTab] = useState('both'); // 'both' | 'problem' | 'editor'
 
   // Per-question code map
   const [codeMap, setCodeMap] = useState(() => {
@@ -497,15 +500,57 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         results
       });
 
-      if (allPassed && !solvedSet.includes(q.id)) {
-        toggleSolved(q.id);
+      // Record telemetry attempt
+      telemetryService.recordProblemAttempt(
+        q.id,
+        'dsa',
+        allPassed,
+        { category: q.category || 'DSA Practice' }
+      );
+
+      if (allPassed) {
+        mistakesStorage.resolveMistake(q.id, 'dsa');
+        if (!solvedSet.includes(q.id)) {
+          toggleSolved(q.id);
+        }
+      } else {
+        mistakesStorage.recordMistake({
+          id: q.id,
+          type: 'dsa',
+          title: q.title,
+          category: q.category || 'DSA',
+          difficulty: q.difficulty || 'Medium',
+          route: `/dsa-practice?q=${q.id}`,
+          errorSummary: `${results.filter(r => r.passed).length}/${results.length} test cases passed`
+        });
       }
+
+      telemetryService.broadcastActivityUpdate();
     } catch (err) {
       setTestResults({
         allPassed: false,
         error: `Execution error: ${err.message}`,
         results: []
       });
+
+      telemetryService.recordProblemAttempt(
+        q.id,
+        'dsa',
+        false,
+        { category: q.category || 'DSA Practice' }
+      );
+
+      mistakesStorage.recordMistake({
+        id: q.id,
+        type: 'dsa',
+        title: q.title,
+        category: q.category || 'DSA',
+        difficulty: q.difficulty || 'Medium',
+        route: `/dsa-practice?q=${q.id}`,
+        errorSummary: `Execution error: ${err.message}`
+      });
+
+      telemetryService.broadcastActivityUpdate();
     } finally {
       setIsRunning(false);
     }
@@ -597,7 +642,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
       </header>
 
       {/* Question Selector Bar with Dropdown & Quick Navigation */}
-      <div style={{
+      <div className="dsa-question-selector-bar" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -613,7 +658,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         width: '100%'
       }}>
         {/* Left: Rich Question Dropdown */}
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
+        <div className="dsa-question-dropdown-container" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
           <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             QUESTION:
           </span>
@@ -777,8 +822,8 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             <ChevronLeft size={16} />
           </button>
 
-          {/* Compact Q1 - Q10 Pills */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+          {/* Compact Q1 - Q61 Pills */}
+          <div className="dsa-quick-pills-bar" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
             {DSA_PRACTICE_QUESTIONS.map((q, idx) => {
               const isSelected = q.id === activeQuestion.id;
               const isSolved = solvedSet.includes(q.id);
@@ -835,7 +880,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
       </div>
 
       {/* Top Curated Hero Card for Active Question */}
-      <div style={{
+      <div className="dsa-active-question-card" style={{
         background: '#1e293b',
         border: '1px solid #334155',
         borderRadius: '16px',
@@ -912,7 +957,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         </div>
 
         {/* Right Action Buttons */}
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className="dsa-active-card-actions" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <button
             onClick={() => {
               setSolutionTabLang(selectedLang);
@@ -976,8 +1021,36 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         </div>
       </div>
 
+      {/* Mobile-Only Tabs for Split Workspace */}
+      <div className="workspace-mobile-tabs">
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'problem' ? 'active' : ''}`}
+          onClick={() => setMobileWorkspaceTab('problem')}
+        >
+          <BookOpen size={15} />
+          <span>Problem & Cases</span>
+        </button>
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'editor' ? 'active' : ''}`}
+          onClick={() => setMobileWorkspaceTab('editor')}
+        >
+          <Code2 size={15} />
+          <span>Editor & Run</span>
+        </button>
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileWorkspaceTab === 'both' ? 'active' : ''}`}
+          onClick={() => setMobileWorkspaceTab('both')}
+        >
+          <Sparkles size={15} />
+          <span>All in One</span>
+        </button>
+      </div>
+
       {/* Two Column Layout (Problem & Editor) - 50% / 50% Split */}
-      <div style={{
+      <div className="dsa-workspace-grid" style={{
         display: 'grid',
         gridTemplateColumns: isEditorExpanded ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr)',
         gap: '1.5rem',
@@ -986,7 +1059,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         boxSizing: 'border-box'
       }}>
         {/* Left Column: Problem Details & 5 Test Cases */}
-        {!isEditorExpanded && (
+        {!isEditorExpanded && (mobileWorkspaceTab === 'both' || mobileWorkspaceTab === 'problem') && (
           <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {/* Problem Statement Card */}
             <div style={{
@@ -1185,6 +1258,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
         )}
 
         {/* Right Column: Code Editor & Execution */}
+        {(mobileWorkspaceTab === 'both' || mobileWorkspaceTab === 'editor') && (
         <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div style={{
             background: '#1e293b',
@@ -1194,7 +1268,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
           }}>
             {/* Top Editor Toolbar */}
-            <div style={{
+            <div className="dsa-editor-toolbar" style={{
               background: '#0f172a',
               borderBottom: '1px solid #334155',
               padding: '0.75rem 1.25rem',
@@ -1204,7 +1278,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               flexWrap: 'wrap',
               gap: '0.75rem'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+              <div className="dsa-editor-lang-group" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '0.8rem', color: '#94a3b8', marginRight: '4px', fontWeight: 600 }}>Language:</span>
                 {DSA_LANGUAGES.map(lang => {
                   const isActive = selectedLang === lang.id;
@@ -1213,18 +1287,18 @@ export default function DsaPracticePage({ theme = 'dark' }) {
                       key={lang.id}
                       onClick={() => handleSelectLanguage(lang.id)}
                       style={{
-                        padding: '5px 12px',
+                        padding: '6px 12px',
                         borderRadius: '8px',
-                        border: isActive ? '1px solid #f97316' : '1px solid #334155',
-                        background: isActive ? 'rgba(249, 115, 22, 0.2)' : '#1e293b',
-                        color: isActive ? '#fb923c' : '#cbd5e1',
+                        border: isActive ? '1px solid #38bdf8' : '1px solid #334155',
+                        background: isActive ? '#0284c7' : '#1e293b',
+                        color: isActive ? '#ffffff' : '#94a3b8',
                         fontSize: '0.8rem',
-                        fontWeight: isActive ? 700 : 500,
+                        fontWeight: 600,
                         cursor: 'pointer',
-                        display: 'inline-flex',
+                        display: 'flex',
                         alignItems: 'center',
-                        gap: '5px',
-                        transition: 'all 0.15s'
+                        gap: '6px',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <span>{lang.icon}</span>
@@ -1234,7 +1308,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
                 })}
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="dsa-editor-actions-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => {
                     setSolutionTabLang(selectedLang);
@@ -1401,7 +1475,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             </div>
 
             {/* Monaco Editor */}
-            <div style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
+            <div className="dsa-monaco-wrapper" style={{ height: isEditorExpanded ? '640px' : '520px', position: 'relative' }}>
               {isResetDone && (
                 <div style={{
                   position: 'absolute',
@@ -1577,11 +1651,12 @@ export default function DsaPracticePage({ theme = 'dark' }) {
             </div>
           )}
         </div>
+        )}
       </div>
 
       {/* Solution Modal with Language Tabs */}
       {showSolutionModal && (
-        <div style={{
+        <div className="responsive-modal-overlay" style={{
           position: 'fixed',
           top: 0,
           left: 0,
@@ -1592,10 +1667,11 @@ export default function DsaPracticePage({ theme = 'dark' }) {
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 1000,
-          padding: '1.5rem',
-          backdropFilter: 'blur(5px)'
+          padding: '1rem',
+          backdropFilter: 'blur(5px)',
+          boxSizing: 'border-box'
         }}>
-          <div style={{
+          <div className="responsive-modal-container" style={{
             background: '#1e293b',
             border: '1px solid #38bdf8',
             borderRadius: '16px',

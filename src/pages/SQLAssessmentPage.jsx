@@ -30,6 +30,7 @@ import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SQLResultsModal from '../components/sql/SQLResultsModal.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
+import { telemetryService } from '../services/telemetryService.js';
 import { confirmToast } from '../utils/confirmToast.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
@@ -72,6 +73,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   // Active Bottom Tab: 'output' | 'tests'
   const [activeTab, setActiveTab] = useState('output');
+  const [mobileSqlTab, setMobileSqlTab] = useState('both'); // 'both' | 'question' | 'editor'
 
   // Execution States
   const [isExecuting, setIsExecuting] = useState(false);
@@ -209,11 +211,23 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
           }
         };
 
+        const wasAlreadySolved = sqlStorage.getCompletedQuestions().includes(currentQuestion.id);
+
+        // Record telemetry attempt
+        telemetryService.recordProblemAttempt(
+          currentQuestion.id,
+          'sql',
+          suiteRes.allPassed,
+          { category: currentQuestion.category || 'SQL' }
+        );
+
         if (suiteRes.allPassed) {
           sqlStorage.markQuestionCompleted(currentQuestion.id, code);
           sqlStorage.saveUserSolution(currentQuestion.id, code);
           mistakesStorage.resolveMistake(currentQuestion.id, 'sql');
-          gamificationService.addXP(40, 'Solved SQL Challenge');
+          if (!wasAlreadySolved) {
+            gamificationService.addXP(40, 'Solved SQL Challenge');
+          }
         } else {
           mistakesStorage.recordMistake({
             id: currentQuestion.id,
@@ -226,6 +240,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
           });
         }
 
+        telemetryService.broadcastActivityUpdate();
         return updated;
       });
     } catch (err) {
@@ -385,17 +400,48 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
         </div>
       </header>
 
+      {/* Mobile Workspace Tabs for SQL Assessment */}
+      <div className="workspace-mobile-tabs" style={{ margin: '0.75rem 1rem' }}>
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileSqlTab === 'question' ? 'active' : ''}`}
+          onClick={() => setMobileSqlTab('question')}
+        >
+          <Database size={15} />
+          <span>Question & Schema</span>
+        </button>
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileSqlTab === 'editor' ? 'active' : ''}`}
+          onClick={() => setMobileSqlTab('editor')}
+        >
+          <Terminal size={15} />
+          <span>Editor & Output</span>
+        </button>
+        <button
+          type="button"
+          className={`workspace-mobile-tab-btn ${mobileSqlTab === 'both' ? 'active' : ''}`}
+          onClick={() => setMobileSqlTab('both')}
+        >
+          <Sparkles size={15} />
+          <span>All in One</span>
+        </button>
+      </div>
+
       {/* Main Two-Panel Workspace */}
       <main className="sql-workspace-grid">
         {/* LEFT PANEL: Question Details & Schema */}
-        <div className="sql-panel-left">
-          <SQLQuestionPanel
-            question={currentQuestion}
-            onApplySolution={handleCodeChange}
-          />
-        </div>
+        {(mobileSqlTab === 'both' || mobileSqlTab === 'question') && (
+          <div className="sql-panel-left">
+            <SQLQuestionPanel
+              question={currentQuestion}
+              onApplySolution={handleCodeChange}
+            />
+          </div>
+        )}
 
         {/* RIGHT PANEL: Editor + Actions + Results */}
+        {(mobileSqlTab === 'both' || mobileSqlTab === 'editor') && (
         <div className="sql-panel-right">
           {/* Editor Header / Action Bar */}
           <div className="editor-control-bar">
@@ -485,6 +531,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
             </div>
           </div>
         </div>
+        )}
       </main>
 
       {/* Assessment Final Completion Scorecard Modal */}
