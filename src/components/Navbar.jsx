@@ -38,6 +38,7 @@ import {
   Terminal
 } from 'lucide-react';
 import { PYQ_BANKS } from '../data/pyqBanks.js';
+import LiveViewer from './LiveViewer.jsx';
 
 export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
   const location = useLocation();
@@ -445,6 +446,11 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
       </div>
 
       <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        {/* Real-Time Live Learners Online Badge */}
+        <div className="nav-live-viewer-wrap nav-live-viewer-desktop">
+          <LiveViewer />
+        </div>
+
         {/* Global Search Trigger */}
         <button
           onClick={onOpenSearch}
@@ -495,6 +501,11 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
       {isMobileMenuOpen && (
         <div className="mobile-nav-drawer" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-nav-inner">
+            {/* Live Viewer for Mobile Drawer */}
+            <div style={{ padding: '0.6rem 0.5rem 0.2rem 0.5rem', display: 'flex', justifyContent: 'center' }}>
+              <LiveViewer style={{ width: '100%' }} />
+            </div>
+
             {/* Quick Actions */}
             <div className="mobile-nav-quick-bar">
               <button

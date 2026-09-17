@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: accenture-ready
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm run server
+    envVars:
+      - key: NODE_ENV
+        value: production

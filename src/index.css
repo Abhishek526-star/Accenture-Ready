@@ -11000,4 +11000,23 @@ html, body {
   }
 }
 
+/* =========================================================================
+   Live Viewer Presence Badge Styles
+   ========================================================================= */
+.nav-live-viewer-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.nav-right .live-viewer-badge span {
+  display: inline-flex !important;
+}
+
+@media (max-width: 580px) {
+  .nav-live-viewer-desktop {
+    display: none !important;
+  }
+}
+
+
 

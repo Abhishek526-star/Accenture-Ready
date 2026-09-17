@@ -7,17 +7,21 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node server/index.js",
+    "start": "node server/index.js"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "express": "^5.2.1",
     "lucide-react": "^1.42.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-helmet-async": "^3.0.0",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.18.3",
-    "sql.js": "^1.14.2"
+    "sql.js": "^1.14.2",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
