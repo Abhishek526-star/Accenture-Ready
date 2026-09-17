@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import GameHeader from '../components/cognitive/GameHeader';
 import GameInstructions from '../components/cognitive/GameInstructions';
 import MathBubble from '../games/MathBubble/MathBubble';
-import { generateQuestionSet } from '../games/MathBubble/generator';
+import { generateQuestionSet, getSetTotalQuestions, getSetTimeLimit } from '../games/MathBubble/generator';
 import { saveSessionResult, updateDailyChallenge, cognitiveStorage } from '../utils/cognitiveStorage';
 import { checkAchievements } from '../utils/achievements';
 import {
@@ -17,14 +17,14 @@ import {
   Clock,
   ArrowRight,
   ChevronRight,
-  Layers
+  Layers,
+  Zap
 } from 'lucide-react';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 import '../components/cognitive/cognitive.css';
 
-const TOTAL_SET_QUESTIONS = 15;
-const TOTAL_SETS = 5;
+const TOTAL_SETS = 7;
 
 export default function MathBubblePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,11 +36,13 @@ export default function MathBubblePage() {
     initialSet >= 1 && initialSet <= TOTAL_SETS ? initialSet : 1
   );
 
-  // Pre-generate the 15 questions for the current set
+  const currentTotalQuestions = getSetTotalQuestions(activeSetNumber);
+
+  // Pre-generate questions for the current set
   const [questionSet, setQuestionSet] = useState(() =>
-    generateQuestionSet(activeSetNumber, TOTAL_SET_QUESTIONS)
+    generateQuestionSet(activeSetNumber)
   );
-  const [currentQIndex, setCurrentQIndex] = useState(0); // 0-indexed (0 to 14)
+  const [currentQIndex, setCurrentQIndex] = useState(0);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showInstructions, setShowInstructions] = useState(false);
 
@@ -55,7 +57,7 @@ export default function MathBubblePage() {
     setCurrentQIndex(0);
     setSetResults([]);
     setIsSetComplete(false);
-    setQuestionSet(generateQuestionSet(setNum, TOTAL_SET_QUESTIONS));
+    setQuestionSet(generateQuestionSet(setNum));
     setSearchParams({ set: setNum.toString() });
   };
 
@@ -64,8 +66,8 @@ export default function MathBubblePage() {
     const nextResults = [...setResults, result];
     setSetResults(nextResults);
 
-    if (currentQIndex + 1 >= TOTAL_SET_QUESTIONS) {
-      // Entire set of 15 questions finished! Calculate final results!
+    if (currentQIndex + 1 >= currentTotalQuestions) {
+      // Entire set finished! Calculate final results!
       finishSet(nextResults);
     } else {
       setCurrentQIndex((prev) => prev + 1);
@@ -75,11 +77,12 @@ export default function MathBubblePage() {
   const finishSet = (allResults) => {
     setIsSetComplete(true);
 
+    const totalQs = getSetTotalQuestions(activeSetNumber);
     const correctCount = allResults.filter((r) => r.isCorrect).length;
-    const accuracy = Math.round((correctCount / TOTAL_SET_QUESTIONS) * 100);
+    const accuracy = Math.round((correctCount / totalQs) * 100);
     const totalScore = allResults.reduce((sum, r) => sum + (r.scoreData?.totalScore || 0), 0);
     const avgTime = (
-      allResults.reduce((sum, r) => sum + (r.timeTaken || 0), 0) / TOTAL_SET_QUESTIONS
+      allResults.reduce((sum, r) => sum + (r.timeTaken || 0), 0) / totalQs
     ).toFixed(1);
 
     // Save session
@@ -89,7 +92,7 @@ export default function MathBubblePage() {
       score: totalScore,
       accuracy,
       correctCount,
-      totalQuestions: TOTAL_SET_QUESTIONS,
+      totalQuestions: totalQs,
       avgTime: parseFloat(avgTime),
       isDaily
     });
@@ -114,7 +117,7 @@ export default function MathBubblePage() {
 
   // Summary metrics for the completed set
   const correctCount = setResults.filter((r) => r.isCorrect).length;
-  const accuracy = Math.round((correctCount / TOTAL_SET_QUESTIONS) * 100);
+  const accuracy = Math.round((correctCount / currentTotalQuestions) * 100);
   const totalScore = setResults.reduce((sum, r) => sum + (r.scoreData?.totalScore || 0), 0);
   const avgTime = setResults.length > 0
     ? (setResults.reduce((sum, r) => sum + (r.timeTaken || 0), 0) / setResults.length).toFixed(1)
@@ -127,7 +130,7 @@ export default function MathBubblePage() {
       <SEO {...seoConfig.quickFireMath} />
       <GameHeader
         title="Quick Math Assessment Game – Speed & Accuracy Practice"
-        subtitle={`Accenture-Style Cognitive Round • Quick-Fire Math • Set ${activeSetNumber} of ${TOTAL_SETS}`}
+        subtitle={`Accenture-Style Cognitive Round • Quick-Fire Math • Set ${activeSetNumber} of ${TOTAL_SETS} (${currentTotalQuestions} Questions • ${getSetTimeLimit(activeSetNumber)}s Timer)`}
         score={isSetComplete ? totalScore : 0}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled((prev) => !prev)}
@@ -140,39 +143,60 @@ export default function MathBubblePage() {
         onStart={() => setShowInstructions(false)}
       />
 
-      {/* 5 Sets Navigation Bar */}
+      {/* Sets Navigation Bar (Sets 1 to 7) */}
       {!isSetComplete && (
         <div style={{ marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-              Practice Sets (15 Questions Each):
+              Practice Sets:
             </span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Contains +, -, *, /, decimals & fractions
+              Sets 1–5: 15 Qs (15s) • Sets 6–7: 24 Qs (14s • Progressive Difficulty)
             </span>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {[1, 2, 3, 4, 5].map((sNum) => {
+            {Array.from({ length: TOTAL_SETS }, (_, i) => i + 1).map((sNum) => {
               const isActive = activeSetNumber === sNum;
+              const is24Q = sNum >= 6;
               return (
                 <button
                   key={sNum}
                   onClick={() => startSet(sNum)}
                   style={{
-                    flex: '1 1 80px',
-                    padding: '0.5rem 0.85rem',
+                    flex: '1 1 95px',
+                    padding: '0.5rem 0.75rem',
                     borderRadius: '10px',
-                    fontSize: '0.85rem',
+                    fontSize: '0.83rem',
                     fontWeight: 700,
                     cursor: 'pointer',
-                    background: isActive ? '#0284c7' : 'var(--bg-surface-elevated, #1e293b)',
-                    color: isActive ? '#ffffff' : 'var(--text-secondary, #94a3b8)',
-                    border: isActive ? '1px solid #38bdf8' : '1px solid var(--border-color, #334155)',
-                    transition: 'all 0.2s ease'
+                    background: isActive
+                      ? (is24Q ? 'linear-gradient(135deg, #0284c7, #2563eb)' : '#0284c7')
+                      : 'var(--bg-surface-elevated, #1e293b)',
+                    color: isActive ? '#ffffff' : (is24Q ? '#38bdf8' : 'var(--text-secondary, #94a3b8)'),
+                    border: isActive
+                      ? '1px solid #38bdf8'
+                      : (is24Q ? '1px dashed rgba(56, 189, 248, 0.4)' : '1px solid var(--border-color, #334155)'),
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.35rem'
                   }}
+                  title={is24Q ? `Set ${sNum}: 24 Questions with 14s Timer & Progressive Difficulty` : `Set ${sNum}: 15 Questions`}
                 >
-                  Set {sNum}
+                  {is24Q && <Zap size={13} className={isActive ? 'text-amber-300' : 'text-sky-400'} />}
+                  <span>Set {sNum}</span>
+                  {is24Q && (
+                    <span style={{
+                      fontSize: '0.68rem',
+                      background: isActive ? 'rgba(255,255,255,0.2)' : 'rgba(56,189,248,0.15)',
+                      padding: '1px 5px',
+                      borderRadius: '4px'
+                    }}>
+                      24Q
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -187,7 +211,7 @@ export default function MathBubblePage() {
           question={currentQuestion}
           setNumber={activeSetNumber}
           questionNumber={currentQIndex + 1}
-          totalQuestions={TOTAL_SET_QUESTIONS}
+          totalQuestions={currentTotalQuestions}
           soundEnabled={soundEnabled}
           onComplete={handleQuestionComplete}
         />
@@ -203,7 +227,7 @@ export default function MathBubblePage() {
               </div>
               <h2 className="cmc-title">Set {activeSetNumber} Completed!</h2>
               <p className="cmc-subtitle">
-                15 Questions Finished • Results & Sequence Breakdown
+                {currentTotalQuestions} Questions Finished • {activeSetNumber >= 6 ? '14s Speed Mode • ' : ''}Results & Sequence Breakdown
               </p>
             </div>
 
@@ -218,7 +242,7 @@ export default function MathBubblePage() {
               <div className="transition-stat-card">
                 <CheckCircle2 size={22} className="text-emerald-400" />
                 <div className="transition-stat-val">
-                  {correctCount} / {TOTAL_SET_QUESTIONS}
+                  {correctCount} / {currentTotalQuestions}
                 </div>
                 <div className="transition-stat-label">Accuracy ({accuracy}%)</div>
               </div>

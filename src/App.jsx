@@ -28,6 +28,7 @@ import ImportantQuestionsSet2Page from './pages/ImportantQuestionsSet2Page.jsx';
 import RecentQuestionsPage from './pages/RecentQuestionsPage.jsx';
 import DsaPracticePage from './pages/DsaPracticePage.jsx';
 import LearningHubPage from './pages/LearningHubPage.jsx';
+import TechnicalAssessmentPage from './pages/TechnicalAssessmentPage.jsx';
 import DsaPatternsPage from './pages/DsaPatternsPage.jsx';
 import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
 import BookmarksPage from './pages/BookmarksPage.jsx';
@@ -131,6 +132,12 @@ export default function App() {
               <Route path="/msoffice" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/ms-office" element={<Navigate to="/ms-office-assessment" replace />} />
               <Route path="/excel" element={<Navigate to="/ms-office-assessment" replace />} />
+
+              {/* 45-Question Technical MCQ Assessment (Accenture PYQs) */}
+              <Route path="/technical-assessment" element={<TechnicalAssessmentPage theme={theme} />} />
+              <Route path="/assessment/technical-mcq" element={<TechnicalAssessmentPage theme={theme} />} />
+              <Route path="/technical-mcq" element={<Navigate to="/technical-assessment" replace />} />
+              <Route path="/assessment/technical" element={<Navigate to="/technical-assessment" replace />} />
 
               {/* PYQ Question Papers (exam-style interface) */}
               <Route path="/pyq/:bankId" element={<PYQExamPage theme={theme} />} />

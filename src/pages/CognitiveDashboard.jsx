@@ -261,28 +261,32 @@ export default function CognitiveDashboard() {
 
             <div style={{ marginTop: '1rem' }}>
               <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }}>
-                Select Practice Set (15 Questions Each):
+                Select Practice Set (Sets 1–5: 15 Qs • Sets 6–7: 24 Qs • 14s):
               </div>
               <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Link
-                    key={s}
-                    to={`/cognitive/quick-fire-math?set=${s}`}
-                    style={{
-                      padding: '0.35rem 0.65rem',
-                      background: 'rgba(56, 189, 248, 0.12)',
-                      border: '1px solid rgba(56, 189, 248, 0.3)',
-                      color: '#38bdf8',
-                      borderRadius: '8px',
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      textDecoration: 'none',
-                      transition: 'all 0.15s ease'
-                    }}
-                  >
-                    Set {s}
-                  </Link>
-                ))}
+                {[1, 2, 3, 4, 5, 6, 7].map((s) => {
+                  const is24Q = s >= 6;
+                  return (
+                    <Link
+                      key={s}
+                      to={`/cognitive/quick-fire-math?set=${s}`}
+                      style={{
+                        padding: '0.35rem 0.65rem',
+                        background: is24Q ? 'rgba(2, 132, 199, 0.25)' : 'rgba(56, 189, 248, 0.12)',
+                        border: is24Q ? '1px solid #38bdf8' : '1px solid rgba(56, 189, 248, 0.3)',
+                        color: is24Q ? '#ffffff' : '#38bdf8',
+                        borderRadius: '8px',
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                        transition: 'all 0.15s ease'
+                      }}
+                      title={is24Q ? `Set ${s}: 24 Questions • 14s Timer` : `Set ${s}: 15 Questions`}
+                    >
+                      Set {s}{is24Q ? ' (24Q)' : ''}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 

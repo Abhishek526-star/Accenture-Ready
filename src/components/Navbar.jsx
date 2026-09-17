@@ -316,6 +316,62 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 400 }}>DSA (8th Sept) • SQL • Frontend</span>
                 </div>
               </Link>
+              {/* 45-Question Technical MCQ Assessment — Set 1 */}
+              <Link
+                to="/technical-assessment?set=1"
+                className="dropdown-link"
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  color: '#10b981',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)'
+                }}
+              >
+                <Award size={14} className="text-emerald-400" />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>Technical MCQ Assessment — Set 1</span>
+                    <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '4px', background: '#10b981', color: '#fff', fontWeight: 800 }}>45 Qs</span>
+                  </div>
+                  <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 400 }}>Accenture PYQs • 45 Mins • 4 Topics</span>
+                </div>
+              </Link>
+
+              {/* 45-Question Technical MCQ Assessment — Set 2 */}
+              <Link
+                to="/technical-assessment?set=2"
+                className="dropdown-link"
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  color: '#38bdf8',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'rgba(56, 189, 248, 0.12)',
+                  border: '1px solid rgba(56, 189, 248, 0.35)'
+                }}
+              >
+                <Layers size={14} className="text-sky-400" />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>Technical MCQ Assessment — Set 2</span>
+                    <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '4px', background: '#0284c7', color: '#fff', fontWeight: 800 }}>45 Qs</span>
+                  </div>
+                  <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 400 }}>Accenture PYQs • 45 Mins • 4 Topics</span>
+                </div>
+              </Link>
+
               <Link to="/mock-test" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Target size={14} />
                 <span>Full 90-Min Mock Test</span>
@@ -640,6 +696,24 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   >
                     <Layers size={14} />
                     <span>Most Important PYQs — Set 2 (61 Qs)</span>
+                  </Link>
+                  <Link
+                    to="/technical-assessment?set=1"
+                    className="mobile-sublink highlight-amber"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.35)', fontWeight: 700, color: '#10b981' }}
+                  >
+                    <Award size={14} className="text-emerald-400" />
+                    <span>Technical Assessment — Set 1 (45 Qs)</span>
+                  </Link>
+                  <Link
+                    to="/technical-assessment?set=2"
+                    className="mobile-sublink highlight-sky"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.35)', fontWeight: 700, color: '#38bdf8' }}
+                  >
+                    <Layers size={14} className="text-sky-400" />
+                    <span>Technical Assessment — Set 2 (45 Qs)</span>
                   </Link>
                   <Link to="/mock-test" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Full 90-Min Mock Test</span>
