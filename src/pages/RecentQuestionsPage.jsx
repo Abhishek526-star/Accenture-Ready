@@ -59,6 +59,8 @@ function normalizeSqlQuery(query) {
   q = q.replace(/::text\b/gi, '');
   q = q.replace(/EXTRACT\s*\(\s*DAY\s+FROM\s+\(\s*([a-zA-Z0-9_.]+)(?:::timestamp)?\s*-\s*([a-zA-Z0-9_.]+)(?:::timestamp)?\s*\)\s*\)/gi, '(julianday($1) - julianday($2))');
   q = q.replace(/::timestamp\b/gi, '');
+  // Quote SQLite reserved keyword table 'transaction' when referenced in FROM, JOIN, INTO, UPDATE
+  q = q.replace(/\b(from|join|into|update)\s+transaction\b/gi, '$1 "transaction"');
   return q;
 }
 
@@ -1015,6 +1017,14 @@ class Solution {
     };
   }
 
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016') {
+    if (question.starterCode) return question.starterCode;
+  }
+
+  if (question.starterCode) {
+    return question.starterCode;
+  }
+
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
     java: `public class Solution {\n    public static void solve() {}\n}\n`,
@@ -1046,7 +1056,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const questionDropdownRef = useRef(null);
 
   // Active DSA Question when track === 'dsa'
-  const dsaQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'dsa'), []);
+  const dsaQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'dsa'), [recentQuestions]);
   const [activeDsaId, setActiveDsaId] = useState(dsaQuestions[0]?.id || 'recent-dsa-001');
 
   const activeDsaQuestion = useMemo(() => {
@@ -1089,6 +1099,21 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     return initialMap;
   });
 
+  // Sync codeMap when new questions are added or when active question changes, and clean any stale main test prints
+  useEffect(() => {
+    if (!activeDsaQuestion?.id) return;
+    setCodeMap(prev => {
+      const existing = prev[activeDsaQuestion.id];
+      const hasStaleMain = existing?.java && existing.java.includes('public static void main');
+      const hasStalePython = existing?.python && existing.python.includes('list[int]');
+      if (existing && !hasStaleMain && !hasStalePython) return prev;
+      return {
+        ...prev,
+        [activeDsaQuestion.id]: getRecentDsaStarters(activeDsaQuestion)
+      };
+    });
+  }, [activeDsaQuestion?.id]);
+
   // Direct ref to DSA Monaco Editor instance
   const dsaEditorRef = useRef(null);
   const [isDsaResetDone, setIsDsaResetDone] = useState(false);
@@ -1104,19 +1129,61 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [testResults, setTestResults] = useState(null);
 
   // =========================================================================
-  // FRONTEND CODE EDITOR & SANDBOX STATE (10th Sept Shift 1 Quote Generator)
+  // FRONTEND CODE EDITOR & SANDBOX STATE (Multi-Question: Quote Gen, BMI Calc & Notification Center)
   // =========================================================================
-  const feQuestion = useMemo(() => {
-    return recentQuestions.find(q => q.id === 'recent-fe-001') || recentQuestions.find(q => q.track === 'frontend') || {};
-  }, []);
-
-  const [feCode, setFeCode] = useState(() => {
-    return {
-      html: feQuestion.starterHTML || '',
-      css: feQuestion.starterCSS || '',
-      js: feQuestion.starterJS || ''
-    };
+  const feQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'frontend'), [recentQuestions]);
+  const [activeFeId, setActiveFeId] = useState(() => {
+    const qParam = searchParams.get('q');
+    if (qParam && feQuestions.some(q => q.id === qParam)) return qParam;
+    return feQuestions[0]?.id || 'recent-fe-001';
   });
+
+  const activeFeQuestion = useMemo(() => {
+    return feQuestions.find(q => q.id === activeFeId) || feQuestions[0] || {};
+  }, [activeFeId, feQuestions]);
+
+  const currentFeIndex = useMemo(() => {
+    return feQuestions.findIndex(q => q.id === activeFeQuestion?.id);
+  }, [feQuestions, activeFeQuestion?.id]);
+
+  const [feCodeMap, setFeCodeMap] = useState(() => {
+    const initialMap = {};
+    feQuestions.forEach(q => {
+      initialMap[q.id] = {
+        html: q.starterHTML || '',
+        css: q.starterCSS || '',
+        js: q.starterJS || ''
+      };
+    });
+    return initialMap;
+  });
+
+  // Sync feCodeMap when a new question is activated or when starter code is updated
+  useEffect(() => {
+    if (!activeFeQuestion?.id) return;
+    setFeCodeMap(prev => {
+      // If the question is not in the map, add it
+      if (!prev[activeFeQuestion.id]) {
+        return {
+          ...prev,
+          [activeFeQuestion.id]: {
+            html: activeFeQuestion.starterHTML || '',
+            css: activeFeQuestion.starterCSS || '',
+            js: activeFeQuestion.starterJS || ''
+          }
+        };
+      }
+      return prev;
+    });
+  }, [activeFeQuestion?.id, activeFeQuestion?.starterHTML, activeFeQuestion?.starterCSS, activeFeQuestion?.starterJS]);
+
+  const feCode = useMemo(() => {
+    return feCodeMap[activeFeQuestion?.id] || {
+      html: activeFeQuestion?.starterHTML || '',
+      css: activeFeQuestion?.starterCSS || '',
+      js: activeFeQuestion?.starterJS || ''
+    };
+  }, [feCodeMap, activeFeQuestion]);
 
   const [activeFeEditorTab, setActiveFeEditorTab] = useState('js'); // 'html' | 'css' | 'js'
   const [showFeSolutionModal, setShowFeSolutionModal] = useState(false);
@@ -1126,6 +1193,20 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [feTestResults, setFeTestResults] = useState(null);
   const [isFeRunning, setIsFeRunning] = useState(false);
   const [isFeResetDone, setIsFeResetDone] = useState(false);
+
+  const handlePrevFeQuestion = () => {
+    if (currentFeIndex > 0) {
+      setActiveFeId(feQuestions[currentFeIndex - 1].id);
+      setFeTestResults(null);
+    }
+  };
+
+  const handleNextFeQuestion = () => {
+    if (currentFeIndex < feQuestions.length - 1) {
+      setActiveFeId(feQuestions[currentFeIndex + 1].id);
+      setFeTestResults(null);
+    }
+  };
 
   // =========================================================================
   // SQL TRACK STATES & REFS
@@ -1367,6 +1448,8 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     isDsaProgrammaticUpdate.current = false;
   };
 
+  const handleSelectLanguage = handleSelectDsaLanguage;
+
   // Re-sync editor when switching recent DSA questions
   useEffect(() => {
     const starters = getRecentDsaStarters(activeDsaQuestion);
@@ -1494,7 +1577,9 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             typeof minimumHouses === 'function' ? minimumHouses : (typeof minimum_houses === 'function' ? minimum_houses : null),
             typeof findMostFrequent === 'function' ? findMostFrequent : (typeof find_most_frequent === 'function' ? find_most_frequent : null),
             typeof countUniform === 'function' ? countUniform : (typeof count_uniform === 'function' ? count_uniform : null),
-            typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null))
+            typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null)),
+            typeof countBlocks === 'function' ? countBlocks : (typeof count_blocks === 'function' ? count_blocks : (typeof CountBlocks === 'function' ? CountBlocks : null)),
+            typeof totalEnergy === 'function' ? totalEnergy : (typeof total_energy === 'function' ? total_energy : (typeof TotalEnergy === 'function' ? TotalEnergy : null))
           ].filter(Boolean);
 
           if (candidates.length === 0) throw new Error('Algorithm function declaration not found in code.');
@@ -1645,6 +1730,20 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasModulo || !hasDivision) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_digit_extraction';
+      }
+    } else if (question.id === 'recent-dsa-015') {
+      const hasLoop = code.includes('while') || code.includes('for');
+      const hasLengthOrCount = code.includes('length') || code.includes('count') || code.includes('j - i') || code.includes('j-i');
+      if (!hasLoop || !hasLengthOrCount) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_consecutive_grouping';
+      }
+    } else if (question.id === 'recent-dsa-016') {
+      const hasMult = code.includes('*') || code.includes('i + 1') || code.includes('i+1');
+      const hasSum = code.includes('+') || code.includes('total') || code.includes('sum');
+      if (!hasMult || !hasSum) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_weighted_sum';
       }
     }
 
@@ -2503,6 +2602,125 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-015') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (N=4, A=[2, 2, 3, 3])', N: 4, A: [2, 2, 3, 3], exp: 1, expStr: 'Valid Blocks: 1 ([2, 2])', latency: '3ms' },
+          { id: 2, name: 'Exam Test Case 2 (N=4, A=[4, 4, 4, 4])', N: 4, A: [4, 4, 4, 4], exp: 1, expStr: 'Valid Blocks: 1 ([4, 4, 4, 4])', latency: '3ms' },
+          { id: 3, name: 'Exam Test Case 3 (N=5, A=[2, 2, 2, 3, 3])', N: 5, A: [2, 2, 2, 3, 3], exp: 0, expStr: 'Valid Blocks: 0 (No block length matches value)', latency: '3ms' },
+          { id: 4, name: 'Exam Test Case 4 (N=7, A=[2, 2, 3, 3, 3, 4, 4])', N: 7, A: [2, 2, 3, 3, 3, 4, 4], exp: 2, expStr: 'Valid Blocks: 2 ([2, 2] & [3, 3, 3])', latency: '4ms' },
+          { id: 5, name: 'Exam Test Case 5 (N=6, A=[2, 2, 4, 4, 4, 4])', N: 6, A: [2, 2, 4, 4, 4, 4], exp: 2, expStr: 'Valid Blocks: 2 ([2, 2] & [4, 4, 4, 4])', latency: '4ms' },
+          { id: 6, name: 'Exam Test Case 6 (Exam Specimen: 10 Elements)', N: 10, A: [2, 3, 3, 2, 2, 6, 4, 4, 4, 4], exp: 2, expStr: 'Valid Blocks: 2 ([2, 2] & [4, 4, 4, 4])', latency: '5ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Valid Blocks: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.N, t.A]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Valid Blocks: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Valid Blocks: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Valid Blocks: 0 (Flawed consecutive grouping)`;
+            passed = t.exp === 0;
+          } else {
+            let cnt = 0, i = 0;
+            while (i < t.N) {
+              const v = t.A[i];
+              let j = i;
+              while (j < t.N && t.A[j] === v) j++;
+              if (j - i === v) cnt++;
+              i = j;
+            }
+            actualStr = `Valid Blocks: ${cnt}`;
+            passed = cnt === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.N}, A = [${t.A.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-016') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: [2, 3, 1])', N: 3, A: [2, 3, 1], exp: 11, expStr: 'Total Energy: 11 (2*1 + 3*2 + 1*3)', latency: '3ms' },
+          { id: 2, name: 'Exam Test Case 2 (Single Cave: [5])', N: 1, A: [5], exp: 5, expStr: 'Total Energy: 5 (5*1)', latency: '2ms' },
+          { id: 3, name: 'Exam Test Case 3 (N=4, A=[1, 2, 3, 4])', N: 4, A: [1, 2, 3, 4], exp: 30, expStr: 'Total Energy: 30 (1*1 + 2*2 + 3*3 + 4*4)', latency: '3ms' },
+          { id: 4, name: 'Exam Test Case 4 (Identical Energies: [5, 5, 5])', N: 3, A: [5, 5, 5], exp: 30, expStr: 'Total Energy: 30 (5*1 + 5*2 + 5*3)', latency: '3ms' },
+          { id: 5, name: 'Exam Test Case 5 (N=5, A=[2, 1, 3, 2, 4])', N: 5, A: [2, 1, 3, 2, 4], exp: 41, expStr: 'Total Energy: 41 (2*1 + 1*2 + 3*3 + 2*4 + 4*5)', latency: '4ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Total Energy: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.N, t.A]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Total Energy: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Total Energy: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Total Energy: 0 (Flawed weighted sum)`;
+            passed = t.exp === 0;
+          } else {
+            let tot = 0;
+            for (let i = 0; i < t.N; i++) tot += t.A[i] * (i + 1);
+            actualStr = `Total Energy: ${tot}`;
+            passed = tot === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.N}, A = [${t.A.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -2562,25 +2780,37 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   // FRONTEND CODE HANDLERS
   // =========================================================================
   const handleFeCodeChange = (newVal) => {
-    setFeCode(prev => ({
+    if (!activeFeQuestion?.id) return;
+    setFeCodeMap(prev => ({
       ...prev,
-      [activeFeEditorTab]: newVal || ''
+      [activeFeQuestion.id]: {
+        ...(prev[activeFeQuestion.id] || {
+          html: activeFeQuestion.starterHTML || '',
+          css: activeFeQuestion.starterCSS || '',
+          js: activeFeQuestion.starterJS || ''
+        }),
+        [activeFeEditorTab]: newVal || ''
+      }
     }));
   };
 
   const handleResetFeCode = () => {
-    setFeCode({
-      html: feQuestion.starterHTML || '',
-      css: feQuestion.starterCSS || '',
-      js: feQuestion.starterJS || ''
-    });
+    if (!activeFeQuestion?.id) return;
+    setFeCodeMap(prev => ({
+      ...prev,
+      [activeFeQuestion.id]: {
+        html: activeFeQuestion.starterHTML || '',
+        css: activeFeQuestion.starterCSS || '',
+        js: activeFeQuestion.starterJS || ''
+      }
+    }));
     setFeTestResults(null);
     setIsFeResetDone(true);
     setTimeout(() => setIsFeResetDone(false), 2000);
 
     // Unmark solved state when resetting to starter code
     setSolvedSet(prev => {
-      const updated = prev.filter(id => id !== 'recent-fe-001');
+      const updated = prev.filter(id => id !== activeFeQuestion.id);
       localStorage.setItem('recent-solved', JSON.stringify(updated));
       return updated;
     });
@@ -2593,11 +2823,15 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   };
 
   const handleInsertFeSolution = () => {
-    setFeCode({
-      html: feQuestion.solutionHTML || '',
-      css: feQuestion.solutionCSS || '',
-      js: feQuestion.solutionJS || ''
-    });
+    if (!activeFeQuestion?.id) return;
+    setFeCodeMap(prev => ({
+      ...prev,
+      [activeFeQuestion.id]: {
+        html: activeFeQuestion.solutionHTML || '',
+        css: activeFeQuestion.solutionCSS || '',
+        js: activeFeQuestion.solutionJS || ''
+      }
+    }));
     setFeTestResults(null);
     setShowFeSolutionModal(false);
   };
@@ -2660,7 +2894,319 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           .replace(/\/\/.*/g, '')
           .trim();
 
-        const starterJsTrimmed = (feQuestion.starterJS || '')
+        // Branch 1: BMI Calculator (recent-fe-002)
+        if (activeFeQuestion.id === 'recent-fe-002') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Weight placeholder
+          const weightInput = doc.getElementById('weight');
+          const weightPlaceholder = weightInput ? (weightInput.getAttribute('placeholder') || '').trim() : '';
+          const hasWeightPlaceholder = weightPlaceholder.toLowerCase() === 'weight in kg';
+
+          // 2. HTML Verification - Height placeholder
+          const heightInput = doc.getElementById('height');
+          const heightPlaceholder = heightInput ? (heightInput.getAttribute('placeholder') || '').trim() : '';
+          const hasHeightPlaceholder = heightPlaceholder.toLowerCase() === 'height in cm';
+
+          // 3. CSS Verification - Button background color #4CAF50
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasButtonBg = cssClean.includes('#4caf50') ||
+                              cssClean.includes('rgb(76,175,80)') ||
+                              cssClean.includes('hsl(122,39%,49%)');
+
+          // 4. JavaScript Verification - BMI calculation and rounding on click
+          let jsPassedCase1 = false;
+          let jsMsgCase1 = '';
+          let jsPassedCase2 = false;
+          let jsMsgCase2 = '';
+
+          try {
+            // Test Case 1: Weight = 70, Height = 175 -> BMI = 22.86
+            const sandbox1 = document.createElement('div');
+            sandbox1.innerHTML = html;
+            const wInput1 = sandbox1.querySelector('#weight');
+            const hInput1 = sandbox1.querySelector('#height');
+            const calcBtn1 = sandbox1.querySelector('#calculate');
+            const resultEl1 = sandbox1.querySelector('#result');
+
+            if (!wInput1 || !hInput1 || !calcBtn1 || !resultEl1) {
+              jsMsgCase1 = 'Missing required elements (#weight, #height, #calculate, #result) in HTML.';
+            } else {
+              wInput1.value = '70';
+              hInput1.value = '175';
+
+              const mockDoc1 = {
+                getElementById: (id) => sandbox1.querySelector('#' + id),
+                querySelector: (sel) => sandbox1.querySelector(sel),
+                querySelectorAll: (sel) => sandbox1.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              const runFn1 = new Function('document', 'window', `
+                ${js}
+              `);
+              runFn1(mockDoc1, window);
+
+              // Click calculate
+              calcBtn1.click();
+
+              const resText1 = (resultEl1.innerText || resultEl1.textContent || '').trim();
+              if (resText1.includes('22.86')) {
+                jsPassedCase1 = true;
+                jsMsgCase1 = `Verified: Weight 70kg, Height 175cm -> Output "${resText1}" (matches 22.86).`;
+              } else if (!resText1) {
+                jsMsgCase1 = 'Clicking #calculate did not update #result. Check your click listener and calculation.';
+              } else {
+                jsMsgCase1 = `Expected 22.86 in #result, got "${resText1}". Formula: weight / (heightInMeters * heightInMeters) rounded to 2 decimals.`;
+              }
+            }
+
+            // Test Case 2: Weight = 60, Height = 160 -> BMI = 23.44
+            const sandbox2 = document.createElement('div');
+            sandbox2.innerHTML = html;
+            const wInput2 = sandbox2.querySelector('#weight');
+            const hInput2 = sandbox2.querySelector('#height');
+            const calcBtn2 = sandbox2.querySelector('#calculate');
+            const resultEl2 = sandbox2.querySelector('#result');
+
+            if (wInput2 && hInput2 && calcBtn2 && resultEl2) {
+              wInput2.value = '60';
+              hInput2.value = '160';
+
+              const mockDoc2 = {
+                getElementById: (id) => sandbox2.querySelector('#' + id),
+                querySelector: (sel) => sandbox2.querySelector(sel),
+                querySelectorAll: (sel) => sandbox2.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              const runFn2 = new Function('document', 'window', `
+                ${js}
+              `);
+              runFn2(mockDoc2, window);
+
+              calcBtn2.click();
+
+              const resText2 = (resultEl2.innerText || resultEl2.textContent || '').trim();
+              if (resText2.includes('23.44')) {
+                jsPassedCase2 = true;
+                jsMsgCase2 = `Verified: Weight 60kg, Height 160cm -> Output "${resText2}" (matches 23.44).`;
+              } else {
+                jsMsgCase2 = `Dynamic test failed: expected 23.44 in #result, got "${resText2}".`;
+              }
+            }
+          } catch (runtimeErr) {
+            jsMsgCase1 = `JavaScript runtime error: ${runtimeErr.message}`;
+            jsMsgCase2 = `JavaScript runtime error: ${runtimeErr.message}`;
+          }
+
+          const results = [
+            {
+              id: 1,
+              name: 'HTML: Weight input placeholder "Weight in kg"',
+              passed: hasWeightPlaceholder,
+              message: hasWeightPlaceholder
+                ? 'Placeholder "Weight in kg" verified on #weight'
+                : `Missing placeholder="Weight in kg" on #weight (found: "${weightPlaceholder || 'none'}")`
+            },
+            {
+              id: 2,
+              name: 'HTML: Height input placeholder "Height in cm"',
+              passed: hasHeightPlaceholder,
+              message: hasHeightPlaceholder
+                ? 'Placeholder "Height in cm" verified on #height'
+                : `Missing placeholder="Height in cm" on #height (found: "${heightPlaceholder || 'none'}")`
+            },
+            {
+              id: 3,
+              name: "CSS: Button background-color set to #4CAF50",
+              passed: hasButtonBg,
+              message: hasButtonBg
+                ? 'Button background-color #4CAF50 verified in CSS'
+                : 'Missing background-color: #4CAF50 in CSS for button or #calculate'
+            },
+            {
+              id: 4,
+              name: 'JavaScript: Calculate BMI (Weight: 70kg, Height: 175cm -> 22.86)',
+              passed: jsPassedCase1,
+              message: jsMsgCase1
+            },
+            {
+              id: 5,
+              name: 'JavaScript: Dynamic Precision (Weight: 60kg, Height: 160cm -> 23.44)',
+              passed: jsPassedCase2,
+              message: jsMsgCase2
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-002',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-002')) {
+              toggleSolved('recent-fe-002');
+              gamificationService.addXP(50, 'Solved BMI Calculator');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-002')) {
+                const updated = prev.filter(id => id !== 'recent-fe-002');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Notification Center (recent-fe-003)
+        if (activeFeQuestion?.id === 'recent-fe-003') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          const titleEl = doc.querySelector('.notification .title') || doc.querySelector('.title');
+          const messageEl = doc.querySelector('.notification .message') || doc.querySelector('.message');
+          const timeEl = doc.querySelector('.notification .time') || doc.querySelector('.time');
+
+          const hasTitle = !!titleEl && (titleEl.textContent || '').trim() === 'Account Alert';
+          const hasMessage = !!messageEl && (messageEl.textContent || '').trim().includes('Your account password was updated successfully 5 mins ago');
+          const hasTime = !!timeEl && (timeEl.textContent || '').trim() === '5 mins ago';
+
+          // CSS check: background-color removed from .notification-list
+          const notificationListCssBlock = (css.match(/\.notification-list\s*\{([^}]*)\}/) || [])[1] || '';
+          const hasBgColorInList = /background(?:-color)?\s*:/i.test(notificationListCssBlock);
+
+          // JS check: .notification removed on close button click
+          let jsPassed = false;
+          let jsMessage = '';
+          const hasRemoveCall = codeWithoutComments.includes('.remove()') || codeWithoutComments.includes('removeChild');
+
+          if (!hasRemoveCall) {
+            jsPassed = false;
+            jsMessage = 'Missing DOM removal call. Use notification.remove() or parentNode.removeChild(notification).';
+          } else {
+            try {
+              const sandboxDiv = document.createElement('div');
+              sandboxDiv.innerHTML = html;
+              const notifBefore = sandboxDiv.querySelector('.notification');
+              const closeBtn = sandboxDiv.querySelector('#close-btn');
+
+              if (!notifBefore || !closeBtn) {
+                jsPassed = false;
+                jsMessage = 'Required HTML elements (.notification or #close-btn) not found in markup.';
+              } else {
+                const mockDoc = {
+                  getElementById: (id) => sandboxDiv.querySelector('#' + id),
+                  querySelector: (sel) => sandboxDiv.querySelector(sel),
+                  querySelectorAll: (sel) => sandboxDiv.querySelectorAll(sel),
+                  createElement: (tag) => document.createElement(tag)
+                };
+
+                const runFn = new Function('document', 'window', `
+                  ${js}
+                `);
+                runFn(mockDoc, window);
+
+                // Simulate clicking close button
+                closeBtn.click();
+
+                const notifAfter = sandboxDiv.querySelector('.notification');
+                if (!notifAfter) {
+                  jsPassed = true;
+                  jsMessage = 'Verified: .notification element was completely removed from the DOM on button click!';
+                } else {
+                  jsPassed = false;
+                  jsMessage = 'The .notification element still exists in the DOM after clicking Close. Ensure notification.remove() is invoked.';
+                }
+              }
+            } catch (err) {
+              jsPassed = false;
+              jsMessage = `Execution error: ${err.message}`;
+            }
+          }
+
+          const results = [
+            {
+              id: 1,
+              name: 'HTML: <div class="title">Account Alert</div> inside .notification',
+              passed: hasTitle,
+              message: hasTitle
+                ? 'Title element verified with text "Account Alert"'
+                : `Missing <div class="title">Account Alert</div> inside .notification (found: "${titleEl ? titleEl.textContent.trim() : 'none'}")`
+            },
+            {
+              id: 2,
+              name: 'HTML: <div class="message">Your account password was updated successfully 5 mins ago</div>',
+              passed: hasMessage,
+              message: hasMessage
+                ? 'Message element verified'
+                : 'Missing or incorrect text in <div class="message">'
+            },
+            {
+              id: 3,
+              name: 'HTML: <div class="time">5 mins ago</div> inside .notification',
+              passed: hasTime,
+              message: hasTime
+                ? 'Time element verified with text "5 mins ago"'
+                : `Missing <div class="time">5 mins ago</div> (found: "${timeEl ? timeEl.textContent.trim() : 'none'}")`
+            },
+            {
+              id: 4,
+              name: 'CSS: Remove background-color from .notification-list',
+              passed: !hasBgColorInList,
+              message: !hasBgColorInList
+                ? 'Verified: background-color successfully removed from .notification-list'
+                : 'background-color is still present in .notification-list. Please delete it.'
+            },
+            {
+              id: 5,
+              name: 'JavaScript: Completely remove .notification from DOM on #close-btn click',
+              passed: jsPassed,
+              message: jsMessage
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-003',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-003')) {
+              toggleSolved('recent-fe-003');
+              gamificationService.addXP(50, 'Solved Notification Center');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-003')) {
+                const updated = prev.filter(id => id !== 'recent-fe-003');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch 2: Random Quote Generator (recent-fe-001)
+        const starterJsTrimmed = (activeFeQuestion.starterJS || '')
           .replace(/\/\*[\s\S]*?\*\//g, '')
           .replace(/\/\/.*/g, '')
           .trim();
@@ -3603,7 +4149,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       return (
                         <button
                           key={lang.id}
-                          onClick={() => handleSelectLanguage(lang.id)}
+                          onClick={() => handleSelectDsaLanguage(lang.id)}
                           style={{
                             padding: '5px 12px',
                             borderRadius: '8px',
@@ -4148,11 +4694,126 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       )}
 
       {/* ========================================================================= */}
-      {/* FRONTEND TRACK: INTERACTIVE MONACO IDE WORKSPACE (10th Sept Shift 1) */}
+      {/* FRONTEND TRACK: INTERACTIVE MONACO IDE WORKSPACE */}
       {/* ========================================================================= */}
-      {activeTrack === 'frontend' && (
+      {activeTrack === 'frontend' && activeFeQuestion && (
         <div>
-          {/* Top Curated Hero Card for Frontend Question */}
+          {/* Question Selector Bar with Dropdown & Quick Navigation */}
+          <div className="fe-question-selector-bar" style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            marginBottom: '1.25rem',
+            flexWrap: 'wrap',
+            background: 'linear-gradient(135deg, #131e33, #0f172a)',
+            border: '1px solid #334155',
+            borderRadius: '14px',
+            padding: '0.75rem 1rem',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
+            boxSizing: 'border-box',
+            width: '100%'
+          }}>
+            {/* Left: Rich Question Dropdown */}
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }}>
+              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Question:
+              </span>
+              <QuestionDropdown
+                questions={feQuestions}
+                currentIndex={currentFeIndex}
+                onSelectQuestion={(idx) => {
+                  setActiveFeId(feQuestions[idx].id);
+                  setFeTestResults(null);
+                }}
+                isSolvedFn={(q) => solvedSet.includes(q.id)}
+                menuTitle="SELECT RECENT ACCENTURE FRONTEND QUESTION"
+              />
+            </div>
+
+            {/* Right: Quick-Pill Badges & Prev/Next Arrows */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={handlePrevFeQuestion}
+                disabled={currentFeIndex === 0}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  border: '1px solid #334155',
+                  background: currentFeIndex === 0 ? '#0f172a' : '#1e293b',
+                  color: currentFeIndex === 0 ? '#475569' : '#cbd5e1',
+                  cursor: currentFeIndex === 0 ? 'not-allowed' : 'pointer'
+                }}
+                title="Previous Question"
+              >
+                <ChevronLeft size={16} />
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                {feQuestions.map((q, idx) => {
+                  const isSelected = idx === currentFeIndex;
+                  const isSolved = solvedSet.includes(q.id);
+
+                  return (
+                    <button
+                      key={q.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveFeId(q.id);
+                        setFeTestResults(null);
+                      }}
+                      style={{
+                        padding: '5px 11px',
+                        borderRadius: '8px',
+                        border: isSelected ? '1px solid #38bdf8' : '1px solid #334155',
+                        background: isSelected ? '#0284c7' : '#0f172a',
+                        color: isSelected ? '#ffffff' : '#94a3b8',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        transition: 'all 0.15s'
+                      }}
+                      title={`${q.title} (${q.dateTag})`}
+                    >
+                      <span>Q{idx + 1}</span>
+                      {isSolved && <span style={{ color: isSelected ? '#a7f3d0' : '#4ade80', fontSize: '0.75rem' }}>✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleNextFeQuestion}
+                disabled={currentFeIndex === feQuestions.length - 1}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  border: '1px solid #334155',
+                  background: currentFeIndex === feQuestions.length - 1 ? '#0f172a' : '#1e293b',
+                  color: currentFeIndex === feQuestions.length - 1 ? '#475569' : '#cbd5e1',
+                  cursor: currentFeIndex === feQuestions.length - 1 ? 'not-allowed' : 'pointer'
+                }}
+                title="Next Question"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Top Curated Hero Card for Active Frontend Question */}
           <div style={{
             background: '#1e293b',
             border: '1px solid #334155',
@@ -4179,7 +4840,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 marginBottom: '0.4rem'
               }}>
                 <Calendar size={14} />
-                <span>ACCENTURE RECENT EXAM ARCHIVE • {feQuestion.dateTag || '10th Sept Shift 1'}</span>
+                <span>ACCENTURE RECENT EXAM ARCHIVE • {activeFeQuestion.dateTag || '18th Sept Shift 2'}</span>
               </div>
 
               <h2 style={{
@@ -4189,7 +4850,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 margin: '0 0 0.6rem 0',
                 letterSpacing: '-0.5px'
               }}>
-                {feQuestion.title || 'Random Quote Generator'}
+                {activeFeQuestion.title || 'BMI Calculator'}
               </h2>
 
               <div style={{
@@ -4208,7 +4869,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   fontWeight: 700,
                   fontSize: '0.75rem'
                 }}>
-                  Easy
+                  {activeFeQuestion.difficulty || 'Easy'}
                 </span>
                 <span>•</span>
                 <span style={{ color: '#a855f7', fontWeight: 600 }}>
@@ -4216,7 +4877,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 </span>
                 <span>•</span>
                 <span style={{ color: '#38bdf8', fontWeight: 600 }}>
-                  DOM Manipulation & Event Handling
+                  {activeFeQuestion.category || 'DOM Manipulation & Event Handling'}
                 </span>
                 <span>•</span>
                 <span style={{ color: '#fb923c', fontWeight: 600 }}>
@@ -4258,38 +4919,38 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
               </button>
 
               <button
-                onClick={() => toggleSolved('recent-fe-001')}
+                onClick={() => toggleSolved(activeFeQuestion.id)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.4rem',
                   padding: '9px 16px',
                   borderRadius: '12px',
-                  border: solvedSet.includes('recent-fe-001') ? '1px solid #22c55e' : '1px solid #334155',
-                  background: solvedSet.includes('recent-fe-001') ? 'rgba(34, 197, 94, 0.15)' : '#0f172a',
-                  color: solvedSet.includes('recent-fe-001') ? '#4ade80' : '#cbd5e1',
+                  border: solvedSet.includes(activeFeQuestion.id) ? '1px solid #22c55e' : '1px solid #334155',
+                  background: solvedSet.includes(activeFeQuestion.id) ? 'rgba(34, 197, 94, 0.15)' : '#0f172a',
+                  color: solvedSet.includes(activeFeQuestion.id) ? '#4ade80' : '#cbd5e1',
                   fontSize: '0.85rem',
                   fontWeight: 700,
                   cursor: 'pointer'
                 }}
               >
                 <CheckCircle2 size={16} />
-                <span>{solvedSet.includes('recent-fe-001') ? 'Solved' : 'Mark Solved'}</span>
+                <span>{solvedSet.includes(activeFeQuestion.id) ? 'Solved' : 'Mark Solved'}</span>
               </button>
 
               <button
-                onClick={() => toggleBookmark('recent-fe-001')}
+                onClick={() => toggleBookmark(activeFeQuestion.id)}
                 style={{
                   padding: '9px 12px',
                   borderRadius: '12px',
                   border: '1px solid #334155',
                   background: '#0f172a',
-                  color: bookmarks.includes('recent-fe-001') ? '#f97316' : '#94a3b8',
+                  color: bookmarks.includes(activeFeQuestion.id) ? '#f97316' : '#94a3b8',
                   cursor: 'pointer'
                 }}
                 title="Bookmark Question"
               >
-                {bookmarks.includes('recent-fe-001') ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
+                {bookmarks.includes(activeFeQuestion.id) ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
               </button>
             </div>
           </div>
@@ -4334,7 +4995,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       </h3>
                     </div>
                     <span style={{ fontSize: '0.75rem', color: '#c084fc', background: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '3px 10px', borderRadius: '6px', fontWeight: 700 }}>
-                      Accenture 10th Sept Shift 1 • Verified
+                      {activeFeQuestion.source || 'Accenture Exam • Verified'}
                     </span>
                   </div>
 
@@ -4347,9 +5008,30 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: 0 }}>
-                      Create a fully responsive <strong style={{ color: '#f8fafc' }}>Random Quote Generator</strong> web component using vanilla HTML, CSS, and JavaScript. On clicking the action button, the application must select an inspiring quote from an internal array using pseudo-random math generation and update the live DOM container.
-                    </p>
+                    {activeFeQuestion.id === 'recent-fe-003' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are creating a <strong style={{ color: '#f8fafc' }}>Notification Center</strong> for a new website. The project is partially completed. Complete the missing HTML, CSS, and JavaScript code to implement the required notification functionality.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Note: The notification element must be removed from the DOM, not merely hidden.
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          Build a <strong style={{ color: '#f8fafc' }}>BMI calculator</strong> web component using vanilla HTML, CSS, and JavaScript that allows users to enter their weight in kilograms and height in centimeters, and calculates their Body Mass Index on clicking Calculate.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          height in meters = height in cm / 100<br />
+                          BMI = weight / (height in meters × height in meters)
+                        </div>
+                      </div>
+                    ) : (
+                      <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: 0 }}>
+                        Create a fully responsive <strong style={{ color: '#f8fafc' }}>Random Quote Generator</strong> web component using vanilla HTML, CSS, and JavaScript. On clicking the action button, the application must select an inspiring quote from an internal array using pseudo-random math generation and update the live DOM container.
+                      </p>
+                    )}
                   </div>
 
                   {/* Requirements & Objectives Breakdown (HTML, CSS, JS) */}
@@ -4375,13 +5057,27 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           }}>
                             <FileCode2 size={13} /> HTML5 Markup
                           </span>
-                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Element IDs</span>
+                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
-                          <li>Provide a container wrapper (e.g. <code>.quote-box</code> or <code>.card</code>) for centering.</li>
-                          <li>Render paragraph element with <strong style={{ color: '#f8fafc' }}><code>id="quoteDisplay"</code></strong> and class <code>.quote-text</code>.</li>
-                          <li>Include an action button with <strong style={{ color: '#f8fafc' }}><code>id="quoteBtn"</code></strong> labeled "New Quote".</li>
-                        </ul>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add <code style={{ color: '#fb923c' }}>&lt;div class="title"&gt;Account Alert&lt;/div&gt;</code> inside <strong style={{ color: '#f8fafc' }}><code>.notification</code></strong>.</li>
+                            <li>Add <code style={{ color: '#fb923c' }}>&lt;div class="message"&gt;Your account password was updated successfully 5 mins ago&lt;/div&gt;</code>.</li>
+                            <li>Add <code style={{ color: '#fb923c' }}>&lt;div class="time"&gt;5 mins ago&lt;/div&gt;</code>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add the placeholder <code style={{ color: '#fb923c' }}>"Weight in kg"</code> to the <strong style={{ color: '#f8fafc' }}><code>#weight</code></strong> input.</li>
+                            <li>Add the placeholder <code style={{ color: '#fb923c' }}>"Height in cm"</code> to the <strong style={{ color: '#f8fafc' }}><code>#height</code></strong> input.</li>
+                            <li>Keep existing structure: <strong style={{ color: '#f8fafc' }}><code>&lt;button id="calculate"&gt;</code></strong> and <strong style={{ color: '#f8fafc' }}><code>&lt;p id="result"&gt;</code></strong>.</li>
+                          </ul>
+                        ) : (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Provide a container wrapper (e.g. <code>.quote-box</code> or <code>.card</code>) for centering.</li>
+                            <li>Render paragraph element with <strong style={{ color: '#f8fafc' }}><code>id="quoteDisplay"</code></strong> and class <code>.quote-text</code>.</li>
+                            <li>Include an action button with <strong style={{ color: '#f8fafc' }}><code>id="quoteBtn"</code></strong> labeled "New Quote".</li>
+                          </ul>
+                        )}
                       </div>
 
                       {/* CSS Objective Card */}
@@ -4400,13 +5096,25 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           }}>
                             <Paintbrush size={13} /> CSS3 Styling Tokens
                           </span>
-                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Visual Polish & Micro-interactions</span>
+                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
-                          <li>Quote box accentuation with <code style={{ color: '#38bdf8' }}>border-left: 4px solid #2563eb</code> and rounded box shadow.</li>
-                          <li>Typographic hierarchy with italic quote text (<code style={{ color: '#38bdf8' }}>font-style: italic</code>) and ample line-height.</li>
-                          <li>Interactive button state with subtle hover micro-animations and contrast color.</li>
-                        </ul>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Remove the <code style={{ color: '#f87171' }}>background-color: #f2f2f2;</code> property from <strong style={{ color: '#f8fafc' }}><code>.notification-list</code></strong>.</li>
+                            <li>Preserve existing fonts, width, and button styles.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set Calculate button's background color to <code style={{ color: '#4ade80' }}>#4CAF50</code>.</li>
+                            <li>Preserve button padding, cursor, and container margin layout.</li>
+                          </ul>
+                        ) : (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Quote box accentuation with <code style={{ color: '#38bdf8' }}>border-left: 4px solid #2563eb</code> and rounded box shadow.</li>
+                            <li>Typographic hierarchy with italic quote text (<code style={{ color: '#38bdf8' }}>font-style: italic</code>) and ample line-height.</li>
+                            <li>Interactive button state with subtle hover micro-animations and contrast color.</li>
+                          </ul>
+                        )}
                       </div>
 
                       {/* JS Objective Card */}
@@ -4425,13 +5133,27 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           }}>
                             <Terminal size={13} /> JavaScript Algorithm
                           </span>
-                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & Math Engine</span>
+                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Removal</span>
                         </div>
-                        <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
-                          <li>Maintain a pool of at least 4 inspiring quote strings in an Array.</li>
-                          <li>Compute random index via <code style={{ color: '#facc15' }}>Math.floor(Math.random() * quotes.length)</code>.</li>
-                          <li>Attach click listener to <strong style={{ color: '#f8fafc' }}><code>#quoteBtn</code></strong> and assign value into <strong style={{ color: '#f8fafc' }}><code>#quoteDisplay.innerText</code></strong> enclosed in quotes.</li>
-                        </ul>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add click listener to <strong style={{ color: '#f8fafc' }}><code>#close-btn</code></strong>.</li>
+                            <li>Completely remove <strong style={{ color: '#f8fafc' }}><code>.notification</code></strong> from the DOM via <code style={{ color: '#facc15' }}>notification.remove()</code>.</li>
+                            <li>Note: Do not simply hide the element with CSS; it must be detached from the DOM tree.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Convert height from centimeters to meters: <code style={{ color: '#facc15' }}>heightInCm / 100</code>.</li>
+                            <li>Calculate BMI: <code style={{ color: '#facc15' }}>weight / (heightInMeters * heightInMeters)</code>.</li>
+                            <li>Display BMI rounded to two decimal places in <strong style={{ color: '#f8fafc' }}><code>#result</code></strong> via <code style={{ color: '#facc15' }}>bmi.toFixed(2)</code>.</li>
+                          </ul>
+                        ) : (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Maintain a pool of at least 4 inspiring quote strings in an Array.</li>
+                            <li>Compute random index via <code style={{ color: '#facc15' }}>Math.floor(Math.random() * quotes.length)</code>.</li>
+                            <li>Attach click listener to <strong style={{ color: '#f8fafc' }}><code>#quoteBtn</code></strong> and assign value into <strong style={{ color: '#f8fafc' }}><code>#quoteDisplay.innerText</code></strong> enclosed in quotes.</li>
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -4442,12 +5164,29 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {[
-                        { title: 'DOM Elements Bound', desc: 'Element IDs #quoteDisplay and #quoteBtn must exist and be accessible via querySelector/getElementById.' },
-                        { title: 'Dynamic Event Trigger', desc: 'Clicking the button must immediately update innerText without refreshing the webpage.' },
-                        { title: 'Quotation Enclosure', desc: 'Output strings must format as valid quotes with double quotation marks e.g. "Stay curious, keep coding."' },
-                        { title: 'Uniform Randomness', desc: 'Repeated clicks must randomly sample across all array items according to Math.random.' }
-                      ].map((item, idx) => (
+                      {(activeFeQuestion.id === 'recent-fe-003'
+                        ? [
+                            { title: 'Title Element Bound', desc: '<div class="title">Account Alert</div> inside .notification' },
+                            { title: 'Message Element Bound', desc: '<div class="message">Your account password was updated successfully 5 mins ago</div>' },
+                            { title: 'Time Element Bound', desc: '<div class="time">5 mins ago</div> inside .notification' },
+                            { title: 'CSS Background Removed', desc: '.notification-list background-color property is removed' },
+                            { title: 'Complete DOM Removal', desc: 'Clicking #close-btn removes .notification node completely from DOM' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-002'
+                        ? [
+                            { title: 'Weight Placeholder Bound', desc: 'Input #weight has placeholder "Weight in kg".' },
+                            { title: 'Height Placeholder Bound', desc: 'Input #height has placeholder "Height in cm".' },
+                            { title: 'Button Background Color', desc: 'Button background color is set to #4CAF50 in CSS.' },
+                            { title: 'BMI Calculation & Rounding', desc: 'Weight 70, Height 175 produces 22.86 in #result on click.' },
+                            { title: 'Dynamic Multi-Case Precision', desc: 'Formula dynamically computes correct 2-decimal output for any input.' }
+                          ]
+                        : [
+                            { title: 'DOM Elements Bound', desc: 'Element IDs #quoteDisplay and #quoteBtn must exist and be accessible via querySelector/getElementById.' },
+                            { title: 'Dynamic Event Trigger', desc: 'Clicking the button must immediately update innerText without refreshing the webpage.' },
+                            { title: 'Quotation Enclosure', desc: 'Output strings must format as valid quotes with double quotation marks e.g. "Stay curious, keep coding."' },
+                            { title: 'Uniform Randomness', desc: 'Repeated clicks must randomly sample across all array items according to Math.random.' }
+                          ]
+                      ).map((item, idx) => (
                         <div key={idx} style={{
                           background: '#0f172a',
                           border: '1px solid #334155',
@@ -4477,13 +5216,32 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {[
-                        'HTML5 Standard',
-                        'CSS3 Box Model',
-                        'Vanilla ES6 JavaScript',
-                        'Zero External Libraries',
-                        'DOM Event Listener'
-                      ].map((tag, idx) => (
+                      {(activeFeQuestion.id === 'recent-fe-003'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 Box Model',
+                            'Vanilla ES6 JavaScript',
+                            'DOM Node Removal',
+                            'notification.remove()',
+                            'Zero Extra Libraries'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-002'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 Box Model',
+                            'Vanilla ES6 JavaScript',
+                            'Button: #4CAF50',
+                            'Precision: toFixed(2)',
+                            'Event: click'
+                          ]
+                        : [
+                            'HTML5 Standard',
+                            'CSS3 Box Model',
+                            'Vanilla ES6 JavaScript',
+                            'Zero External Libraries',
+                            'DOM Event Listener'
+                          ]
+                      ).map((tag, idx) => (
                         <span key={idx} style={{
                           background: '#0f172a',
                           border: '1px solid #334155',
@@ -4743,6 +5501,8 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     </div>
                   )}
                   <Editor
+                    key={`fe_${activeFeQuestion?.id}_${activeFeEditorTab}`}
+                    path={`fe_${activeFeQuestion?.id}_${activeFeEditorTab}`}
                     height="100%"
                     language={activeFeEditorTab === 'js' ? 'javascript' : activeFeEditorTab}
                     theme="vs-dark"
@@ -4923,7 +5683,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Lightbulb size={22} className="text-amber-400" />
                     <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
-                      Official Solution: Random Quote Generator (10th Sept Shift 1)
+                      Official Solution: {activeFeQuestion.title} ({activeFeQuestion.dateTag || 'Accenture Exam'})
                     </h2>
                   </div>
                   <button
@@ -4979,7 +5739,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                             Approach & Formula Breakdown
                           </h3>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                            Accenture 10th Sept Shift 1 • Authentic Exam Specification
+                            Accenture {activeFeQuestion.dateTag || 'Exam Archive'} • Authentic Exam Specification
                           </span>
                         </div>
                       </div>
@@ -5027,17 +5787,43 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
-                          <li style={{ marginBottom: '0.4rem' }}>
-                            Container: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="quote-container"&gt;</code> wraps card.
-                          </li>
-                          <li style={{ marginBottom: '0.4rem' }}>
-                            Quote Display: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;p id="quoteDisplay"&gt;</code> renders text with quotation marks.
-                          </li>
-                          <li>
-                            Trigger Button: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;button id="quoteBtn"&gt;</code> triggers <code style={{ color: '#4ade80' }}>generateQuote()</code> on click.
-                          </li>
-                        </ul>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Title: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="title"&gt;Account Alert&lt;/div&gt;</code>
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Message: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="message"&gt;Your account...&lt;/div&gt;</code>
+                            </li>
+                            <li>
+                              Time: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="time"&gt;5 mins ago&lt;/div&gt;</code>
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Weight: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>placeholder="Weight in kg"</code> added to input.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Height: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>placeholder="Height in cm"</code> added to input.
+                            </li>
+                            <li>
+                              Buttons & IDs: Kept intact without altering tag structure.
+                            </li>
+                          </ul>
+                        ) : (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Container: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="quote-container"&gt;</code> wraps card.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Quote Display: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;p id="quoteDisplay"&gt;</code> renders text with quotation marks.
+                            </li>
+                            <li>
+                              Trigger Button: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;button id="quoteBtn"&gt;</code> triggers <code style={{ color: '#4ade80' }}>generateQuote()</code> on click.
+                            </li>
+                          </ul>
+                        )}
                       </div>
 
                       {/* 2. CSS Styling */}
@@ -5062,17 +5848,43 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
-                          <li style={{ marginBottom: '0.4rem' }}>
-                            Left Accent: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>border-left: 4px solid #2563eb</code> creates the iconic quote accent.
-                          </li>
-                          <li style={{ marginBottom: '0.4rem' }}>
-                            Typography: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>font-style: italic</code> and color <code style={{ color: '#cbd5e1' }}>#334155</code>.
-                          </li>
-                          <li>
-                            Button Accent: Royal blue <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>#2563eb</code> with padding and <code style={{ color: '#cbd5e1' }}>border-radius: 4px</code>.
-                          </li>
-                        </ul>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Remove Background: Deleted <code style={{ color: '#f87171', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>background-color: #f2f2f2;</code> from <code style={{ color: '#38bdf8' }}>.notification-list</code>.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Layout: Preserved width: 400px and margin: 50px auto.
+                            </li>
+                            <li>
+                              Notification Card: Border #ddd and padding: 20px intact.
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Button Color: <code style={{ color: '#4ade80', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>background-color: #4CAF50;</code> sets the green CTA.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Layout: Preserves container margin and centered alignment.
+                            </li>
+                            <li>
+                              Inputs: Box-sizing border-box with full width.
+                            </li>
+                          </ul>
+                        ) : (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Left Accent: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>border-left: 4px solid #2563eb</code> creates the iconic quote accent.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Typography: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>font-style: italic</code> and color <code style={{ color: '#cbd5e1' }}>#334155</code>.
+                            </li>
+                            <li>
+                              Button Accent: Royal blue <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>#2563eb</code> with padding and <code style={{ color: '#cbd5e1' }}>border-radius: 4px</code>.
+                            </li>
+                          </ul>
+                        )}
                       </div>
 
                       {/* 3. JavaScript Math & Formula */}
@@ -5089,7 +5901,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Terminal size={16} className="text-emerald-400" />
                             <span style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.85rem' }}>
-                              3. Math & DOM Formula
+                              3. DOM Manipulation & Removal
                             </span>
                           </div>
                           <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', fontWeight: 700 }}>
@@ -5098,30 +5910,76 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         </div>
 
                         {/* Interactive Formula Trace Box */}
-                        <div style={{
-                          background: '#070b14',
-                          border: '1px solid rgba(34, 197, 94, 0.3)',
-                          borderRadius: '8px',
-                          padding: '8px 10px',
-                          fontSize: '0.75rem',
-                          fontFamily: 'JetBrains Mono',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '3px'
-                        }}>
-                          <div style={{ color: '#94a3b8' }}>
-                            1. <span style={{ color: '#38bdf8' }}>Math.random()</span> &rarr; <span style={{ color: '#facc15' }}>[0.0, 1.0)</span>
+                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                          <div style={{
+                            background: '#070b14',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            borderRadius: '8px',
+                            padding: '8px 10px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'JetBrains Mono',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px'
+                          }}>
+                            <div style={{ color: '#94a3b8' }}>
+                              1. <span style={{ color: '#38bdf8' }}>click event</span> &rarr; #close-btn
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              2. <span style={{ color: '#facc15' }}>notification.remove()</span>
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              3. <span style={{ color: '#4ade80' }}>DOM state</span> = node completely detached
+                            </div>
                           </div>
-                          <div style={{ color: '#94a3b8' }}>
-                            2. <span style={{ color: '#cbd5e1' }}>* quotes.length (4)</span> &rarr; <span style={{ color: '#facc15' }}>[0.0, 4.0)</span>
+                        ) : activeFeQuestion.id === 'recent-fe-002' ? (
+                          <div style={{
+                            background: '#070b14',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            borderRadius: '8px',
+                            padding: '8px 10px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'JetBrains Mono',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px'
+                          }}>
+                            <div style={{ color: '#94a3b8' }}>
+                              1. <span style={{ color: '#38bdf8' }}>heightInM</span> = heightInCm / 100
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              2. <span style={{ color: '#facc15' }}>bmi</span> = weight / (heightInM * heightInM)
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              3. <span style={{ color: '#4ade80' }}>output</span> = bmi.toFixed(2)
+                            </div>
                           </div>
-                          <div style={{ color: '#94a3b8' }}>
-                            3. <span style={{ color: '#4ade80' }}>Math.floor(...)</span> &rarr; <span style={{ color: '#4ade80', fontWeight: 700 }}>0, 1, 2, or 3</span>
+                        ) : (
+                          <div style={{
+                            background: '#070b14',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            borderRadius: '8px',
+                            padding: '8px 10px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'JetBrains Mono',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px'
+                          }}>
+                            <div style={{ color: '#94a3b8' }}>
+                              1. <span style={{ color: '#38bdf8' }}>Math.random()</span> &rarr; <span style={{ color: '#facc15' }}>[0.0, 1.0)</span>
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              2. <span style={{ color: '#cbd5e1' }}>* quotes.length (4)</span> &rarr; <span style={{ color: '#facc15' }}>[0.0, 4.0)</span>
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              3. <span style={{ color: '#4ade80' }}>Math.floor(...)</span> &rarr; <span style={{ color: '#4ade80', fontWeight: 700 }}>0, 1, 2, or 3</span>
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         <div style={{ fontSize: '0.78rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                          Update DOM: <code style={{ color: '#4ade80', fontSize: '0.75rem' }}>{"quoteEl.innerText = `\"${quotes[randomIndex]}\"`"}</code>
+                          Update DOM: <code style={{ color: '#4ade80', fontSize: '0.75rem' }}>{activeFeQuestion.id === 'recent-fe-003' ? 'notification.remove()' : activeFeQuestion.id === 'recent-fe-002' ? 'result.textContent = bmi.toFixed(2)' : 'quoteEl.innerText = `"${quotes[randomIndex]}"`'}</code>
                         </div>
                       </div>
                     </div>
@@ -5154,7 +6012,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <button
                           onClick={() => {
-                            const code = feSolutionTab === 'html' ? feQuestion.solutionHTML : feSolutionTab === 'css' ? feQuestion.solutionCSS : feQuestion.solutionJS;
+                            const code = feSolutionTab === 'html' ? activeFeQuestion.solutionHTML : feSolutionTab === 'css' ? activeFeQuestion.solutionCSS : activeFeQuestion.solutionJS;
                             handleCopyFeSolution(code || '');
                           }}
                           style={{
@@ -5211,10 +6069,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     }}>
                       <code>
                         {feSolutionTab === 'html'
-                          ? feQuestion.solutionHTML
+                          ? activeFeQuestion.solutionHTML
                           : feSolutionTab === 'css'
-                          ? feQuestion.solutionCSS
-                          : feQuestion.solutionJS}
+                          ? activeFeQuestion.solutionCSS
+                          : activeFeQuestion.solutionJS}
                       </code>
                     </pre>
                   </div>

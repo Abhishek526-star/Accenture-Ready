@@ -109,6 +109,9 @@ export function buildJudge0Harness(questionId, userCode, lang) {
 
   if (lang === 'python') {
     cleanUserCode = cleanUserCode.split(/if\s+__name__\s*==/)[0].trim();
+    if (!cleanUserCode.includes('from __future__ import annotations')) {
+      cleanUserCode = 'from __future__ import annotations\n' + cleanUserCode;
+    }
 
     if (questionId === 'recent-dsa-001') {
       return `${cleanUserCode}
@@ -331,6 +334,45 @@ for _n1, _n2 in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-015') {
+      return `${cleanUserCode}
+
+_tests = [
+    (4, [2, 2, 3, 3]),
+    (4, [4, 4, 4, 4]),
+    (5, [2, 2, 2, 3, 3]),
+    (7, [2, 2, 3, 3, 3, 4, 4]),
+    (6, [2, 2, 4, 4, 4, 4]),
+    (10, [2, 3, 3, 2, 2, 6, 4, 4, 4, 4])
+]
+for _n, _a in _tests:
+    try:
+        fn = globals().get('countBlocks') or globals().get('count_blocks') or globals().get('CountBlocks') or countBlocks
+        print("TEST_RES:" + str(fn(_n, _a)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-016') {
+      return `${cleanUserCode}
+
+_tests = [
+    (3, [2, 3, 1]),
+    (1, [5]),
+    (4, [1, 2, 3, 4]),
+    (3, [5, 5, 5]),
+    (5, [2, 1, 3, 2, 4])
+]
+for _n, _a in _tests:
+    try:
+        fn = globals().get('totalEnergy') or globals().get('total_energy') or globals().get('TotalEnergy') or totalEnergy
+        print("TEST_RES:" + str(fn(_n, _a)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -433,8 +475,10 @@ except Exception as _e:
   }
 
   if (lang === 'java') {
-    // Strip existing main
-    cleanUserCode = cleanUserCode.replace(/(?:public\s+|static\s+|private\s+|protected\s+)*(?:void|int)\s+(?:main|Main)\s*\([^)]*\)\s*\{[\s\S]*?\n\s*\}/g, '');
+    // Strip existing main if present
+    if (/(?:public\s+|static\s+)*(?:void|int)\s+(?:main|Main)\s*\(/.test(cleanUserCode)) {
+      cleanUserCode = cleanUserCode.split(/(?:public\s+|static\s+)*(?:void|int)\s+(?:main|Main)\s*\(/)[0].trim();
+    }
     // Ensure class name is Main for Judge0
     cleanUserCode = cleanUserCode.replace(/public\s+class\s+\w+/g, 'public class Main').replace(/class\s+\w+/g, 'class Main');
     const lastBrace = cleanUserCode.lastIndexOf('}');
@@ -747,6 +791,53 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-015') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {
+            {2, 2, 3, 3},
+            {4, 4, 4, 4},
+            {2, 2, 2, 3, 3},
+            {2, 2, 3, 3, 3, 4, 4},
+            {2, 2, 4, 4, 4, 4},
+            {2, 3, 3, 2, 2, 6, 4, 4, 4, 4}
+        };
+        for (int[] a : tests) {
+            try {
+                System.out.println("TEST_RES:" + countBlocks(a.length, a));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-016') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {
+            {2, 3, 1},
+            {5},
+            {1, 2, 3, 4},
+            {5, 5, 5},
+            {2, 1, 3, 2, 4}
+        };
+        for (int[] a : tests) {
+            try {
+                System.out.println("TEST_RES:" + totalEnergy(a.length, a));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -874,6 +965,12 @@ except Exception as _e:
 
   if (lang === 'cpp') {
     cleanUserCode = cleanUserCode.split(/(?:int|void)\s+main\s*\(/)[0].trim();
+    if (!cleanUserCode.includes('<iostream>')) {
+      cleanUserCode = '#include <iostream>\n' + cleanUserCode;
+    }
+    if (!cleanUserCode.includes('<vector>')) {
+      cleanUserCode = '#include <vector>\n' + cleanUserCode;
+    }
 
     if (questionId === 'recent-dsa-001') {
       return `${cleanUserCode}
@@ -1082,6 +1179,45 @@ int main() {
     std::cout << "TEST_RES:" << ${fnCall}(999, 1) << std::endl;
     std::cout << "TEST_RES:" << ${fnCall}(123, 0) << std::endl;
     std::cout << "TEST_RES:" << ${fnCall}(0, 0) << std::endl;
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-015') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::vector<int>> tests = {
+        {2, 2, 3, 3},
+        {4, 4, 4, 4},
+        {2, 2, 2, 3, 3},
+        {2, 2, 3, 3, 3, 4, 4},
+        {2, 2, 4, 4, 4, 4},
+        {2, 3, 3, 2, 2, 6, 4, 4, 4, 4}
+    };
+    for (auto& a : tests) {
+        std::cout << "TEST_RES:" << countBlocks((int)a.size(), a) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-016') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::vector<int>> tests = {
+        {2, 3, 1},
+        {5},
+        {1, 2, 3, 4},
+        {5, 5, 5},
+        {2, 1, 3, 2, 4}
+    };
+    for (auto& a : tests) {
+        std::cout << "TEST_RES:" << totalEnergy((int)a.size(), a) << std::endl;
+    }
     return 0;
 }
 `;
@@ -1411,6 +1547,45 @@ int main() {
         };
         foreach (var t in tests) {
             Console.WriteLine("TEST_RES:" + ${fnCall}(t[0], t[1]));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-015') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new List<List<int>> {
+            new List<int> {2, 2, 3, 3},
+            new List<int> {4, 4, 4, 4},
+            new List<int> {2, 2, 2, 3, 3},
+            new List<int> {2, 2, 3, 3, 3, 4, 4},
+            new List<int> {2, 2, 4, 4, 4, 4},
+            new List<int> {2, 3, 3, 2, 2, 6, 4, 4, 4, 4}
+        };
+        foreach (var a in tests) {
+            Console.WriteLine("TEST_RES:" + CountBlocks(a.Count, a));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-016') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new List<List<int>> {
+            new List<int> {2, 3, 1},
+            new List<int> {5},
+            new List<int> {1, 2, 3, 4},
+            new List<int> {5, 5, 5},
+            new List<int> {2, 1, 3, 2, 4}
+        };
+        foreach (var a in tests) {
+            Console.WriteLine("TEST_RES:" + TotalEnergy(a.Count, a));
         }
     }
 }
@@ -1749,6 +1924,49 @@ for (const [_n1, _n2] of _tests) {
     try {
         const fn = typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null));
         console.log("TEST_RES:" + JSON.stringify(fn(_n1, _n2)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-015') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [4, [2, 2, 3, 3]],
+  [4, [4, 4, 4, 4]],
+  [5, [2, 2, 2, 3, 3]],
+  [7, [2, 2, 3, 3, 3, 4, 4]],
+  [6, [2, 2, 4, 4, 4, 4]],
+  [10, [2, 3, 3, 2, 2, 6, 4, 4, 4, 4]]
+];
+for (const [_n, _a] of _tests) {
+    try {
+        const fn = typeof countBlocks === 'function' ? countBlocks : (typeof count_blocks === 'function' ? count_blocks : (typeof CountBlocks === 'function' ? CountBlocks : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_n, _a)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-016') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [3, [2, 3, 1]],
+  [1, [5]],
+  [4, [1, 2, 3, 4]],
+  [3, [5, 5, 5]],
+  [5, [2, 1, 3, 2, 4]]
+];
+for (const [_n, _a] of _tests) {
+    try {
+        const fn = typeof totalEnergy === 'function' ? totalEnergy : (typeof total_energy === 'function' ? total_energy : (typeof TotalEnergy === 'function' ? TotalEnergy : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_n, _a)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }
