@@ -276,19 +276,20 @@ export function renderFormattedContent(rawText) {
           }
         };
 
-        lines.forEach((line, lineIdx) => {
+        for (let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+          const line = lines[lineIdx];
           const trimmed = line.trim();
           if (!trimmed) {
             flushNumberedList();
             flushTable();
-            return;
+            continue;
           }
 
           // Markdown Table detection (| col1 | col2 |)
           if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
             flushNumberedList();
             currentTable.push(trimmed);
-            return;
+            continue;
           }
 
           flushTable();
@@ -297,7 +298,7 @@ export function renderFormattedContent(rawText) {
           const numMatch = trimmed.match(/^(\d+)[\.\)]\s+(.*)$/);
           if (numMatch) {
             currentNumberedList.push({ num: numMatch[1], text: numMatch[2] });
-            return;
+            continue;
           }
 
           flushNumberedList();
@@ -314,7 +315,7 @@ export function renderFormattedContent(rawText) {
                 }}
               />
             );
-            return;
+            continue;
           }
 
           // Markdown Headings (### Header, ## Header, # Header)
@@ -322,6 +323,263 @@ export function renderFormattedContent(rawText) {
           if (headingMatch) {
             const level = headingMatch[1].length;
             const text = headingMatch[2];
+
+            // SPECIAL CASE: "💡 Mathematical Formula:"
+            if (text.includes('Mathematical Formula')) {
+              // Check if subsequent non-empty line is a LaTeX formula block ($$ ... $$)
+              let formulaLine = null;
+              let lookaheadIdx = lineIdx + 1;
+              while (lookaheadIdx < lines.length && !lines[lookaheadIdx].trim()) {
+                lookaheadIdx++;
+              }
+              if (lookaheadIdx < lines.length && lines[lookaheadIdx].trim().startsWith('$$')) {
+                formulaLine = lines[lookaheadIdx].trim();
+                lineIdx = lookaheadIdx; // Advance line index to avoid rendering raw $$ line
+              }
+
+              elements.push(
+                <div
+                  key={`math-formula-card-${lineIdx}`}
+                  style={{
+                    margin: '1.25rem 0',
+                    padding: '1.35rem 1.45rem',
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(26, 16, 51, 0.9) 50%, rgba(15, 23, 42, 0.95) 100%)',
+                    border: '1px solid rgba(168, 85, 247, 0.45)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45), 0 0 24px rgba(168, 85, 247, 0.18)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1.1rem',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* Subtle ambient glow badge */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '-40px',
+                      right: '-40px',
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+
+                  {/* Header Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(168, 85, 247, 0.22)', paddingBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                      <span style={{
+                        fontSize: '1.1rem',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'rgba(234, 179, 8, 0.15)',
+                        border: '1px solid rgba(234, 179, 8, 0.35)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 2px 8px rgba(234, 179, 8, 0.2)'
+                      }}>
+                        💡
+                      </span>
+                      <div>
+                        <span style={{
+                          color: '#ffffff',
+                          fontWeight: 800,
+                          fontSize: '0.98rem',
+                          letterSpacing: '0.3px',
+                          display: 'block'
+                        }}>
+                          Mathematical Formula
+                        </span>
+                        <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                          Closed-Form Weighted Summation Model
+                        </span>
+                      </div>
+                    </div>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 800,
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                      background: 'rgba(168, 85, 247, 0.18)',
+                      border: '1px solid rgba(168, 85, 247, 0.45)',
+                      color: '#c084fc',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.6px',
+                      boxShadow: '0 2px 8px rgba(168, 85, 247, 0.25)'
+                    }}>
+                      Weighted Summation
+                    </span>
+                  </div>
+
+                  {/* High-Fidelity Equation Box */}
+                  <div style={{
+                    background: '#030712',
+                    borderRadius: '12px',
+                    padding: '1.25rem 1.5rem',
+                    border: '1px solid rgba(56, 189, 248, 0.28)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    gap: '0.9rem',
+                    boxShadow: 'inset 0 3px 12px rgba(0, 0, 0, 0.75)'
+                  }}>
+                    {/* Left Hand Side */}
+                    <span style={{
+                      color: '#38bdf8',
+                      fontWeight: 800,
+                      fontSize: '1.22rem',
+                      fontFamily: "'JetBrains Mono', Consolas, monospace",
+                      textShadow: '0 0 14px rgba(56, 189, 248, 0.45)',
+                      letterSpacing: '0.3px'
+                    }}>
+                      Total Energy
+                    </span>
+
+                    <span style={{ color: '#94a3b8', fontSize: '1.4rem', fontWeight: 600 }}>=</span>
+
+                    {/* Sigma Summation Notation with Limits */}
+                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', margin: '0 6px', lineHeight: 1 }}>
+                      <span style={{
+                        fontSize: '0.76rem',
+                        color: '#c084fc',
+                        fontWeight: 800,
+                        fontFamily: "'JetBrains Mono', monospace",
+                        letterSpacing: '0.5px'
+                      }}>
+                        N - 1
+                      </span>
+                      <span style={{
+                        fontSize: '2.5rem',
+                        color: '#a855f7',
+                        fontFamily: "'Times New Roman', Georgia, serif",
+                        lineHeight: 0.95,
+                        margin: '2px 0',
+                        textShadow: '0 0 16px rgba(168, 85, 247, 0.55)'
+                      }}>
+                        &sum;
+                      </span>
+                      <span style={{
+                        fontSize: '0.76rem',
+                        color: '#c084fc',
+                        fontWeight: 800,
+                        fontFamily: "'JetBrains Mono', monospace",
+                        letterSpacing: '0.5px'
+                      }}>
+                        i = 0
+                      </span>
+                    </div>
+
+                    {/* Expression inside Sigma */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem', fontFamily: "'JetBrains Mono', Consolas, monospace" }}>
+                      <span style={{
+                        background: 'rgba(250, 204, 21, 0.12)',
+                        border: '1px solid rgba(250, 204, 21, 0.4)',
+                        color: '#facc15',
+                        padding: '4px 10px',
+                        borderRadius: '8px',
+                        fontWeight: 800,
+                        boxShadow: '0 2px 8px rgba(250, 204, 21, 0.15)'
+                      }}>
+                        A[i]
+                      </span>
+                      <span style={{ color: '#64748b', fontWeight: 700 }}>&times;</span>
+                      <span style={{
+                        background: 'rgba(74, 222, 128, 0.12)',
+                        border: '1px solid rgba(74, 222, 128, 0.4)',
+                        color: '#4ade80',
+                        padding: '4px 10px',
+                        borderRadius: '8px',
+                        fontWeight: 800,
+                        boxShadow: '0 2px 8px rgba(74, 222, 128, 0.15)'
+                      }}>
+                        (i + 1)
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Variable Breakdown Chips */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+                    <div style={{
+                      background: 'rgba(15, 23, 42, 0.75)',
+                      border: '1px solid rgba(250, 204, 21, 0.25)',
+                      borderRadius: '8px',
+                      padding: '9px 12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#facc15' }} />
+                        <span style={{ color: '#facc15', fontWeight: 800, fontFamily: 'JetBrains Mono', fontSize: '0.85rem' }}>A[i]</span>
+                      </div>
+                      <span style={{ color: '#cbd5e1', fontSize: '0.76rem' }}>Cave energy value at 0-based index i</span>
+                    </div>
+
+                    <div style={{
+                      background: 'rgba(15, 23, 42, 0.75)',
+                      border: '1px solid rgba(74, 222, 128, 0.25)',
+                      borderRadius: '8px',
+                      padding: '9px 12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }} />
+                        <span style={{ color: '#4ade80', fontWeight: 800, fontFamily: 'JetBrains Mono', fontSize: '0.85rem' }}>(i + 1)</span>
+                      </div>
+                      <span style={{ color: '#cbd5e1', fontSize: '0.76rem' }}>1-based cave position weight multiplier</span>
+                    </div>
+
+                    <div style={{
+                      background: 'rgba(15, 23, 42, 0.75)',
+                      border: '1px solid rgba(168, 85, 247, 0.25)',
+                      borderRadius: '8px',
+                      padding: '9px 12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#a855f7' }} />
+                        <span style={{ color: '#c084fc', fontWeight: 800, fontFamily: 'JetBrains Mono', fontSize: '0.85rem' }}>&sum; (Sigma)</span>
+                      </div>
+                      <span style={{ color: '#cbd5e1', fontSize: '0.76rem' }}>Cumulative summation for all caves 0 to N - 1</span>
+                    </div>
+                  </div>
+
+                  {/* Live Example Calculation Trace Strip */}
+                  <div style={{
+                    background: 'rgba(30, 41, 59, 0.55)',
+                    border: '1px dashed rgba(148, 163, 184, 0.3)',
+                    borderRadius: '9px',
+                    padding: '9px 14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '0.6rem',
+                    fontSize: '0.82rem'
+                  }}>
+                    <span style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>📌</span>
+                      <span>Formula Trace for <code style={{ color: '#38bdf8', fontWeight: 700 }}>A = [2, 3, 1]</code>:</span>
+                    </span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", color: '#e2e8f0' }}>
+                      (<span style={{ color: '#facc15', fontWeight: 700 }}>2</span> &times; <span style={{ color: '#4ade80', fontWeight: 700 }}>1</span>) + (<span style={{ color: '#facc15', fontWeight: 700 }}>3</span> &times; <span style={{ color: '#4ade80', fontWeight: 700 }}>2</span>) + (<span style={{ color: '#facc15', fontWeight: 700 }}>1</span> &times; <span style={{ color: '#4ade80', fontWeight: 700 }}>3</span>) = <strong style={{ color: '#38bdf8', fontSize: '0.95rem' }}>11</strong>
+                    </span>
+                  </div>
+                </div>
+              );
+              continue;
+            }
+
             elements.push(
               <div
                 key={`h-${lineIdx}`}
@@ -338,7 +596,35 @@ export function renderFormattedContent(rawText) {
                 {renderInlineFormatted(text)}
               </div>
             );
-            return;
+            continue;
+          }
+
+          // Standalone LaTeX equation block ($$ ... $$)
+          if (trimmed.startsWith('$$') && trimmed.endsWith('$$') && trimmed.length > 4) {
+            const rawFormula = trimmed.slice(2, -2).trim();
+            elements.push(
+              <div
+                key={`eq-block-${lineIdx}`}
+                style={{
+                  margin: '0.9rem 0',
+                  padding: '1rem 1.25rem',
+                  borderRadius: '10px',
+                  background: '#030712',
+                  border: '1px solid rgba(168, 85, 247, 0.4)',
+                  boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.7), 0 2px 12px rgba(168, 85, 247, 0.12)',
+                  fontFamily: "'JetBrains Mono', Consolas, monospace",
+                  fontSize: '0.95rem',
+                  color: '#38bdf8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+              >
+                {rawFormula}
+              </div>
+            );
+            continue;
           }
 
           // Callout blocks (⚠️, 💡, 📌, 🧠, ⚡, > )
@@ -363,7 +649,7 @@ export function renderFormattedContent(rawText) {
                 {renderInlineFormatted(textContent)}
               </div>
             );
-            return;
+            continue;
           }
 
           // Bullet points (- or •)
@@ -385,7 +671,7 @@ export function renderFormattedContent(rawText) {
                 <span style={{ lineHeight: 1.6 }}>{renderInlineFormatted(bulletText)}</span>
               </div>
             );
-            return;
+            continue;
           }
 
           const isHighlightLine = trimmed.toLowerCase().startsWith('return ') || trimmed.toLowerCase().startsWith('**goal');
@@ -406,7 +692,7 @@ export function renderFormattedContent(rawText) {
               {renderInlineFormatted(trimmed)}
             </p>
           );
-        });
+        }
 
         flushNumberedList();
         flushTable();
