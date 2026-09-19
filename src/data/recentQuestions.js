@@ -1401,6 +1401,122 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-017",
+    "track": "dsa",
+    "dateTag": "19th Sept 2026 • Shift 1",
+    "examDate": "2026-09-19",
+    "shift": "Shift 1",
+    "title": "Count Numbers Whose Square Ends With D",
+    "difficulty": "Easy",
+    "category": "Mathematics / Number Theory & Modulo Arithmetic",
+    "pattern": "Loop + Square + Last Digit",
+    "rewardXp": 50,
+    "targetMins": 15,
+    "source": "Accenture Assessment 19th Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given two integers `N` and `D`.\n\nYour task is to consider every integer from `1` to `N`, calculate its square, and check whether the last digit of the square is equal to `D`.\n\nReturn the count of numbers whose square ends with digit `D`.\n\n---\n\n### 📝 Function Declaration:\n```cpp\nint countMatchingSquares(int N, int D);\n```\n- **Input Specification**:\n  - `input1 (N)`: An integer representing the upper limit (1 to N).\n  - `input2 (D)`: An integer representing the digit to be matched (0 to 9).\n- **Output Specification**:\n  - Return an integer representing the count of numbers from `1` to `N` whose square has `D` as its last digit.\n\n---\n\n### 📌 Given Example:\n**Input**: `N = 5, D = 9`  \n**Output**: `1`  \n\n**Explanation**:\nWe check every number from 1 to 5:\n\n| Number | Square | Last Digit (`square % 10`) | Matches D = 9 |\n| :---: | :---: | :---: | :---: |\n| 1 | 1 | 1 | ❌ |\n| 2 | 4 | 4 | ❌ |\n| 3 | 9 | 9 | ✅ |\n| 4 | 16 | 6 | ❌ |\n| 5 | 25 | 5 | ❌ |\n\nOnly 3^2 = 9 ends with 9.\nTherefore, the output is `1`.\n\n---\n\n### 💡 Mathematical Walkthrough & `% 10` Property:\n- The remainder when any integer is divided by 10 (`square % 10`) extracts its unit / last digit.\n  - `16 % 10 = 6`\n  - `25 % 10 = 5`\n  - `49 % 10 = 9`\n  - `100 % 10 = 0`\n- **Note**: The question checks the **last digit of the square**, not whether the square itself is equal to D. For example, when D = 6, 4^2 = 16 is counted because its last digit is 6.\n- **Overflow Prevention**: For large i, i \\times i can exceed standard 32-bit signed integer limits (2 \\times 10^9). Use a 64-bit integer (`1LL * i * i` in C++, `long` in Java/C#, native big-number support in Python/JS) before taking modulo 10.\n\n---\n\n### ⚡ Complexity:\n- **Time Complexity**: O(N) — a single linear loop from 1 to N.\n- **Space Complexity**: O(1) — constant accumulator variable.",
+    "rules": [
+      "1. Initialize count = 0.",
+      "2. Iterate integer i from 1 up to N (inclusive).",
+      "3. Compute square = i * i (using 64-bit to prevent overflow).",
+      "4. Extract last digit = square % 10.",
+      "5. If last digit equals D, increment count.",
+      "6. Return the total count."
+    ],
+    "constraints": [
+      "1 <= N <= 10^5",
+      "0 <= D <= 9",
+      "Time Complexity: O(N)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "N = 5, D = 9",
+        "inputRaw": {
+          "N": 5,
+          "D": 9
+        },
+        "expectedOutput": "1",
+        "explanation": "Numbers 1 to 5: only 3² = 9 ends with digit 9. Total count = 1."
+      },
+      {
+        "id": "tc-2",
+        "input": "N = 10, D = 6",
+        "inputRaw": {
+          "N": 10,
+          "D": 6
+        },
+        "expectedOutput": "2",
+        "explanation": "Numbers 1 to 10: 4² = 16 (ends in 6) and 6² = 36 (ends in 6). Total count = 2."
+      },
+      {
+        "id": "tc-3",
+        "input": "N = 10, D = 5",
+        "inputRaw": {
+          "N": 10,
+          "D": 5
+        },
+        "expectedOutput": "1",
+        "explanation": "Numbers 1 to 10: only 5² = 25 ends with digit 5. Total count = 1."
+      },
+      {
+        "id": "tc-4",
+        "input": "N = 10, D = 0",
+        "inputRaw": {
+          "N": 10,
+          "D": 0
+        },
+        "expectedOutput": "1",
+        "explanation": "Numbers 1 to 10: only 10² = 100 ends with digit 0. Total count = 1."
+      },
+      {
+        "id": "tc-5",
+        "input": "N = 10, D = 1",
+        "inputRaw": {
+          "N": 10,
+          "D": 1
+        },
+        "expectedOutput": "2",
+        "explanation": "Numbers 1 to 10: 1² = 1 and 9² = 81 both end with digit 1. Total count = 2."
+      },
+      {
+        "id": "tc-6",
+        "input": "N = 5, D = 6",
+        "inputRaw": {
+          "N": 5,
+          "D": 6
+        },
+        "expectedOutput": "1",
+        "explanation": "Numbers 1 to 5: only 4² = 16 ends with digit 6. Total count = 1."
+      },
+      {
+        "id": "tc-7",
+        "input": "N = 25, D = 4",
+        "inputRaw": {
+          "N": 25,
+          "D": 4
+        },
+        "expectedOutput": "5",
+        "explanation": "Numbers with square ending in 4 are numbers ending in 2 or 8: 2 (4), 8 (64), 12 (144), 18 (324), 22 (484). Total count = 5."
+      }
+    ],
+    "starterCode": {
+      "python": "def countMatchingSquares(N, D):\n    # TODO: Return count of numbers from 1 to N whose square ends with digit D\n    return 0",
+      "java": "public class Solution {\n    public static int countMatchingSquares(int N, int D) {\n        // TODO: Return count of numbers from 1 to N whose square ends with digit D\n        return 0;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\n\nint countMatchingSquares(int N, int D) {\n    // TODO: Return count of numbers from 1 to N whose square ends with digit D\n    return 0;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountMatchingSquares(int N, int D) {\n        // TODO: Return count of numbers from 1 to N whose square ends with digit D\n        return 0;\n    }\n}",
+      "javascript": "function countMatchingSquares(N, D) {\n  // TODO: Return count of numbers from 1 to N whose square ends with digit D\n  return 0;\n}"
+    },
+    "solutions": {
+      "python": "def countMatchingSquares(N, D):\n    count = 0\n    for i in range(1, N + 1):\n        square = i * i\n        if square % 10 == D:\n            count += 1\n    return count",
+      "java": "public class Solution {\n    public static int countMatchingSquares(int N, int D) {\n        int count = 0;\n        for (int i = 1; i <= N; i++) {\n            long square = (long) i * i;\n            if (square % 10 == D) {\n                count++;\n            }\n        }\n        return count;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\n\nint countMatchingSquares(int N, int D) {\n    int count = 0;\n    for (int i = 1; i <= N; i++) {\n        long long square = 1LL * i * i;\n        if (square % 10 == D) {\n            count++;\n        }\n    }\n    return count;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountMatchingSquares(int N, int D) {\n        int count = 0;\n        for (int i = 1; i <= N; i++) {\n            long square = (long) i * i;\n            if (square % 10 == D) {\n                count++;\n            }\n        }\n        return count;\n    }\n}",
+      "javascript": "function countMatchingSquares(N, D) {\n  let count = 0;\n  for (let i = 1; i <= N; i++) {\n    const square = i * i;\n    if (square % 10 === D) {\n      count++;\n    }\n  }\n  return count;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -1491,6 +1607,39 @@ export const recentQuestions = [
     "solutionCSS": "body {\n    font-family: Arial, sans-serif;\n}\n\n.notification-list {\n    width: 400px;\n    margin: 50px auto;\n}\n\n.notification {\n    padding: 20px;\n    background: #ffffff;\n    border: 1px solid #e2e8f0;\n    border-left: 5px solid #3b82f6;\n    border-radius: 12px;\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);\n    display: flex;\n    flex-direction: column;\n}\n\n.title {\n    font-size: 18px;\n    font-weight: bold;\n    color: #1e293b;\n}\n\n.message {\n    margin: 10px 0;\n    color: #475569;\n    font-size: 14px;\n    line-height: 1.5;\n}\n\n.time {\n    color: #94a3b8;\n    font-size: 12px;\n    margin-bottom: 12px;\n}\n\nbutton {\n    align-self: flex-end;\n    padding: 6px 14px;\n    cursor: pointer;\n    background: #f1f5f9;\n    border: 1px solid #cbd5e1;\n    border-radius: 6px;\n    font-weight: 600;\n    color: #475569;\n    transition: all 0.15s;\n}\n\nbutton:hover {\n    background: #e2e8f0;\n    color: #0f172a;\n}",
     "solutionJS": "const closeButton = document.getElementById(\"close-btn\");\nconst notification = document.querySelector(\".notification\");\n\ncloseButton.addEventListener(\"click\", function () {\n    notification.remove();\n});",
     "solutionExplanation": "### Solution Breakdown: Notification Center (Accenture 18th Sept Shift 1)\n\n1. **HTML Architecture**:\n   - Inside `<div class=\"notification\">`, add:\n     - `<div class=\"title\">Account Alert</div>`\n     - `<div class=\"message\">Your account password was updated successfully 5 mins ago</div>`\n     - `<div class=\"time\">5 mins ago</div>`\n\n2. **CSS Modification**:\n   - Remove the line `background-color: #f2f2f2;` from the `.notification-list` selector.\n\n3. **JavaScript DOM Removal**:\n   - Call `notification.remove()` inside the `#close-btn` click event listener.\n   - Alternatively, `notification.parentNode.removeChild(notification)` removes the node from the DOM tree completely, satisfying the constraint that it is not merely hidden with CSS.",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-004",
+    "track": "frontend",
+    "dateTag": "19th Sept 2026 • Shift 1",
+    "examDate": "2026-09-19",
+    "shift": "Shift 1",
+    "title": "Countdown Timer",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / setInterval, CSS & Event Handling",
+    "source": "Accenture Assessment 19th Sept Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given a partially completed **Countdown Timer** webpage. The timer should start when the user clicks the **Start Timer** button and count down from **10 to 0**. When the timer reaches 0, a pop-up message should be displayed.\n\nThe question has three parts: **CSS**, **HTML**, and **JavaScript**.\n\n### Part 1 — CSS\nChange the text color of the timer in `.timer` using the given hexadecimal color code:\n```css\n#4CAF50\n```\n- Change only the required CSS property (approx. 1 line).\n\n### Part 2 — HTML\nAdd a `<span>` element inside `<div class=\"timer\">` to display the timer value:\n- Element: `<span id=\"timer\">10</span>`\n- Initial value: `10`\n- Expected change: approximately 1 line.\n\n### Part 3 — JavaScript\nComplete the JavaScript so that the countdown starts when the **Start Timer** button (`#startBtn`) is clicked:\n- When the user clicks Start Timer, the timer should start from 10.\n- It should decrease every second: `10 → 9 → 8 → ... → 1 → 0`.\n- The timer value should be updated inside the span (`#timer`).\n- When the timer reaches 0, display a pop-up: `Time's Up!`.\n- The countdown should not continue after reaching 0 (clear the interval).",
+    "objectives": [
+      "Part 1 (CSS): Change the text color of .timer to #4CAF50.",
+      "Part 2 (HTML): Add a span element with id \"timer\" and initial value 10 inside .timer.",
+      "Part 3 (JavaScript): Start the countdown from 10 down to 0 on clicking #startBtn.",
+      "Part 3 (Alert): When the timer reaches 0, display alert(\"Time's Up!\") and stop the countdown."
+    ],
+    "constraints": [
+      "Change only the required CSS property in .timer.",
+      "Add a span element with id=\"timer\" and initial value 10.",
+      "Decrease timer every second (1000ms).",
+      "When countdown finishes at 0, display pop-up alert(\"Time's Up!\") and stop."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Countdown Timer</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"timer-card\">\n        <h2>Countdown Timer</h2>\n\n        <div class=\"timer\">\n            <!-- TODO: Add a span element with id \"timer\" -->\n        </div>\n\n        <div class=\"timer-bar-container\">\n            <div id=\"timerBar\" class=\"timer-bar\"></div>\n        </div>\n\n        <button id=\"startBtn\">Start Timer</button>\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "body {\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n    background: #0f172a;\n    color: #f8fafc;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n    margin: 0;\n}\n\n.timer-card {\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 16px;\n    padding: 32px 28px;\n    width: 320px;\n    text-align: center;\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);\n}\n\nh2 {\n    margin: 0 0 16px 0;\n    font-size: 22px;\n    letter-spacing: -0.5px;\n}\n\n.timer {\n    font-size: 56px;\n    font-weight: 700;\n    margin: 10px 0;\n    /* TODO: Change the text color */\n}\n\n.timer-bar-container {\n    width: 100%;\n    height: 8px;\n    background: #334155;\n    border-radius: 999px;\n    overflow: hidden;\n    margin: 20px 0 24px 0;\n}\n\n.timer-bar {\n    width: 100%;\n    height: 100%;\n    background: linear-gradient(90deg, #4CAF50, #81C784);\n    border-radius: 999px;\n    transition: width 1s linear;\n}\n\nbutton {\n    background: #2563eb;\n    color: #ffffff;\n    border: none;\n    padding: 12px 24px;\n    font-size: 15px;\n    font-weight: 600;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: background 0.2s, transform 0.1s;\n    width: 100%;\n}\n\nbutton:hover {\n    background: #1d4ed8;\n}\n\nbutton:active {\n    transform: scale(0.98);\n}",
+    "starterJS": "const startButton = document.getElementById(\"startBtn\");\nconst timerElement = document.getElementById(\"timer\");\nconst timerBar = document.getElementById(\"timerBar\");\n\nlet timeLeft = 10;\nconst totalTime = 10;\n\nstartButton.addEventListener(\"click\", function () {\n\n    // TODO: Start the countdown\n\n});",
+    "solutionHTML": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Countdown Timer</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"timer-card\">\n        <h2>Countdown Timer</h2>\n\n        <div class=\"timer\">\n            <span id=\"timer\">10</span>\n        </div>\n\n        <div class=\"timer-bar-container\">\n            <div id=\"timerBar\" class=\"timer-bar\"></div>\n        </div>\n\n        <button id=\"startBtn\">Start Timer</button>\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "body {\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n    background: #0f172a;\n    color: #f8fafc;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n    margin: 0;\n}\n\n.timer-card {\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 16px;\n    padding: 32px 28px;\n    width: 320px;\n    text-align: center;\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);\n}\n\nh2 {\n    margin: 0 0 16px 0;\n    font-size: 22px;\n    letter-spacing: -0.5px;\n}\n\n.timer {\n    font-size: 56px;\n    font-weight: 700;\n    margin: 10px 0;\n    color: #4CAF50;\n}\n\n.timer-bar-container {\n    width: 100%;\n    height: 8px;\n    background: #334155;\n    border-radius: 999px;\n    overflow: hidden;\n    margin: 20px 0 24px 0;\n}\n\n.timer-bar {\n    width: 100%;\n    height: 100%;\n    background: linear-gradient(90deg, #4CAF50, #81C784);\n    border-radius: 999px;\n    transition: width 1s linear;\n}\n\nbutton {\n    background: #2563eb;\n    color: #ffffff;\n    border: none;\n    padding: 12px 24px;\n    font-size: 15px;\n    font-weight: 600;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: background 0.2s, transform 0.1s;\n    width: 100%;\n}\n\nbutton:hover {\n    background: #1d4ed8;\n}\n\nbutton:active {\n    transform: scale(0.98);\n}",
+    "solutionJS": "const startButton = document.getElementById(\"startBtn\");\nconst timerElement = document.getElementById(\"timer\");\nconst timerBar = document.getElementById(\"timerBar\");\n\nlet timeLeft = 10;\nconst totalTime = 10;\n\nstartButton.addEventListener(\"click\", function () {\n    if (timeLeft <= 0) {\n        timeLeft = 10;\n        timerElement.textContent = 10;\n        if (timerBar) timerBar.style.width = \"100%\";\n    }\n\n    const countdown = setInterval(function () {\n        timeLeft--;\n        timerElement.textContent = timeLeft;\n\n        if (timerBar) {\n            timerBar.style.width = (timeLeft / totalTime * 100) + \"%\";\n        }\n\n        if (timeLeft <= 0) {\n            clearInterval(countdown);\n            if (timerBar) timerBar.style.width = \"0%\";\n            alert(\"Time's Up!\");\n        }\n    }, 1000);\n});",
+    "solutionExplanation": "### Solution Breakdown: Countdown Timer (Accenture 19th Sept Shift 1)\n\n1. **Part 1 — CSS Styling**:\n   - Set `color: #4CAF50;` inside the `.timer` selector to style the countdown numerals in the designated shade of green.\n   - Enhanced with modern card styling, typography, and animated progress track.\n\n2. **Part 2 — HTML Structure**:\n   - Add `<span id=\"timer\">10</span>` inside `<div class=\"timer\">`.\n   - Setting `id=\"timer\"` allows JavaScript to reference the target element via `document.getElementById(\"timer\")`.\n   - The initial text content `10` is displayed immediately before the user clicks the button.\n   - Includes a sleek `<div class=\"timer-bar-container\"><div id=\"timerBar\" class=\"timer-bar\"></div></div>`.\n\n3. **Part 3 — JavaScript Timer Logic**:\n   - In the `#startBtn` click listener, start a periodic timer using `setInterval(callback, 1000)`.\n   - Every 1000 milliseconds (1 second), decrement `timeLeft--` and update `timerElement.textContent = timeLeft`.\n   - Simultaneously sync the progress bar: `timerBar.style.width = (timeLeft / totalTime * 100) + \"%\"`.\n   - Check if `timeLeft <= 0`: if so, stop further execution with `clearInterval(countdown)` and display `alert(\"Time's Up!\")`.",
     "liveSandbox": true
   },
   {
@@ -4494,6 +4643,286 @@ export const recentQuestions = [
             "ROLE DESCRIPTION": "Community Member",
             "TOTAL USERS": 5
           }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "recent-sql-009",
+    "track": "sql",
+    "dateTag": "19th Sept 2026 • Shift 1",
+    "examDate": "2026-09-19",
+    "shift": "Shift 1",
+    "title": "Animals Stolen by Thieves with Theft Value Greater Than 15",
+    "difficulty": "Easy",
+    "category": "Joins / Multiple-Table INNER JOIN & WHERE",
+    "source": "Accenture Assessment 19th Sept 2026 (Shift 1 Verified Exam Paper)",
+    "isVerified": true,
+    "description": "Write an SQL query to display the **Animal Name**, **Species**, **Thief Name**, and **Theft Value** for all animals stolen by thieves where the theft value is **strictly greater than 15**.\n\n### 📝 Required Output Column Aliases:\n- `Animal Name`\n- `Species`\n- `Thief Name`\n- `Theft Value`\n\n---\n\n### 📌 Relational Model & Walkthrough:\n1. Join the `Animal` table with the `Theft` table using `Animal_ID`.\n2. Join the `Theft` table with the `Thief` table using `Thief_ID`.\n3. Join the `Animal` table with the `Habitat` table using `Habitat_ID`.\n4. Apply the filter `WHERE tr.Theft_Value > 15`.\n5. Select `a.Animal_Name`, `a.Species`, `t.Thief_Name`, and `tr.Theft_Value` with the specified column aliases.\n\n> **⚠️ Important Condition**: The threshold is strictly greater than 15 (`> 15`), so any records where `Theft_Value = 15` must be excluded.",
+    "rules": [
+      "1. Join Animal and Theft on Animal_ID.",
+      "2. Join Theft and Thief on Thief_ID.",
+      "3. Join Animal and Habitat on Habitat_ID.",
+      "4. Filter using tr.Theft_Value > 15 (strictly greater than 15).",
+      "5. Use exact output column aliases: \"Animal Name\", \"Species\", \"Thief Name\", \"Theft Value\"."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "Multiple-table JOIN",
+      "WHERE Clause",
+      "Comparison Operator >",
+      "Column Aliases"
+    ],
+    "tableSchema": [
+      {
+        "name": "Animal",
+        "columns": [
+          { "name": "Animal_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "Animal_Name", "type": "TEXT", "primaryKey": false },
+          { "name": "Species", "type": "TEXT", "primaryKey": false },
+          { "name": "Age", "type": "INTEGER", "primaryKey": false },
+          { "name": "Habitat_ID", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Thief",
+        "columns": [
+          { "name": "Thief_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "Thief_Name", "type": "TEXT", "primaryKey": false },
+          { "name": "Contact", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Theft",
+        "columns": [
+          { "name": "Theft_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "Animal_ID", "type": "INTEGER", "primaryKey": false },
+          { "name": "Thief_ID", "type": "INTEGER", "primaryKey": false },
+          { "name": "Theft_Value", "type": "INTEGER", "primaryKey": false },
+          { "name": "Theft_Date", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Habitat",
+        "columns": [
+          { "name": "Habitat_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "Habitat_Name", "type": "TEXT", "primaryKey": false },
+          { "name": "Location", "type": "TEXT", "primaryKey": false }
+        ]
+      }
+    ],
+    "viewSchema": {
+      "title": "View Schema",
+      "tableCount": 4,
+      "tables": [
+        {
+          "name": "Animal",
+          "columns": [
+            { "name": "Animal_ID", "type": "INTEGER", "primaryKey": true },
+            { "name": "Animal_Name", "type": "TEXT", "primaryKey": false },
+            { "name": "Species", "type": "TEXT", "primaryKey": false },
+            { "name": "Age", "type": "INTEGER", "primaryKey": false },
+            { "name": "Habitat_ID", "type": "INTEGER", "primaryKey": false }
+          ]
+        },
+        {
+          "name": "Thief",
+          "columns": [
+            { "name": "Thief_ID", "type": "INTEGER", "primaryKey": true },
+            { "name": "Thief_Name", "type": "TEXT", "primaryKey": false },
+            { "name": "Contact", "type": "TEXT", "primaryKey": false }
+          ]
+        },
+        {
+          "name": "Theft",
+          "columns": [
+            { "name": "Theft_ID", "type": "INTEGER", "primaryKey": true },
+            { "name": "Animal_ID", "type": "INTEGER", "primaryKey": false },
+            { "name": "Thief_ID", "type": "INTEGER", "primaryKey": false },
+            { "name": "Theft_Value", "type": "INTEGER", "primaryKey": false },
+            { "name": "Theft_Date", "type": "TEXT", "primaryKey": false }
+          ]
+        },
+        {
+          "name": "Habitat",
+          "columns": [
+            { "name": "Habitat_ID", "type": "INTEGER", "primaryKey": true },
+            { "name": "Habitat_Name", "type": "TEXT", "primaryKey": false },
+            { "name": "Location", "type": "TEXT", "primaryKey": false }
+          ]
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Example 1 (Values above and below 15)",
+        "input": {
+          "Animal": [
+            { "Animal_ID": 1, "Animal_Name": "Tiger", "Species": "Mammal", "Age": 12, "Habitat_ID": 101 },
+            { "Animal_ID": 2, "Animal_Name": "Elephant", "Species": "Mammal", "Age": 25, "Habitat_ID": 102 },
+            { "Animal_ID": 3, "Animal_Name": "Deer", "Species": "Mammal", "Age": 8, "Habitat_ID": 101 }
+          ],
+          "Thief": [
+            { "Thief_ID": 201, "Thief_Name": "Ramesh", "Contact": "9000000001" },
+            { "Thief_ID": 202, "Thief_Name": "Suresh", "Contact": "9000000002" },
+            { "Thief_ID": 203, "Thief_Name": "Amit", "Contact": "9000000003" }
+          ],
+          "Theft": [
+            { "Theft_ID": 301, "Animal_ID": 1, "Thief_ID": 201, "Theft_Value": 20, "Theft_Date": "2025-01-10" },
+            { "Theft_ID": 302, "Animal_ID": 2, "Thief_ID": 202, "Theft_Value": 10, "Theft_Date": "2025-01-11" },
+            { "Theft_ID": 303, "Animal_ID": 3, "Thief_ID": 203, "Theft_Value": 30, "Theft_Date": "2025-01-12" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 101, "Habitat_Name": "Forest", "Location": "India" },
+            { "Habitat_ID": 102, "Habitat_Name": "Sanctuary", "Location": "India" }
+          ]
+        },
+        "output": [
+          { "Animal Name": "Tiger", "Species": "Mammal", "Thief Name": "Ramesh", "Theft Value": 20 },
+          { "Animal Name": "Deer", "Species": "Mammal", "Thief Name": "Amit", "Theft Value": 30 }
+        ],
+        "explanation": "Thefts with values 20 and 30 are strictly greater than 15, while the theft with value 10 is excluded."
+      }
+    ],
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT\n  a.Animal_Name AS \"Animal Name\",\n  a.Species AS \"Species\",\n  t.Thief_Name AS \"Thief Name\",\n  tr.Theft_Value AS \"Theft Value\"\nFROM Animal a\nJOIN Theft tr ON a.Animal_ID = tr.Animal_ID\nJOIN Thief t ON tr.Thief_ID = t.Thief_ID\nJOIN Habitat h ON a.Habitat_ID = h.Habitat_ID\nWHERE tr.Theft_Value > 15;",
+    "explanation": "### Query Breakdown:\n1. **Four-table Relational Join**:\n   - `Animal a JOIN Theft tr ON a.Animal_ID = tr.Animal_ID`: Links each theft event to the corresponding animal.\n   - `JOIN Thief t ON tr.Thief_ID = t.Thief_ID`: Retrieves the thief identity associated with the theft record.\n   - `JOIN Habitat h ON a.Habitat_ID = h.Habitat_ID`: Connects animal records to their habitat.\n2. **Filtering Condition**:\n   - `WHERE tr.Theft_Value > 15`: Filters only records whose theft value strictly exceeds 15 (records where `Theft_Value = 15` are not included).\n3. **Column Projection & Aliases**:\n   - Selects `a.Animal_Name AS \"Animal Name\"`, `a.Species AS \"Species\"`, `t.Thief_Name AS \"Thief Name\"`, and `tr.Theft_Value AS \"Theft Value\"` matching the required exam column headers.",
+    "expectedColumns": [
+      "Animal Name",
+      "Species",
+      "Thief Name",
+      "Theft Value"
+    ],
+    "orderSensitive": false,
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Values above and below 15",
+        "isHidden": false,
+        "data": {
+          "Animal": [
+            { "Animal_ID": 1, "Animal_Name": "Tiger", "Species": "Mammal", "Age": 12, "Habitat_ID": 101 },
+            { "Animal_ID": 2, "Animal_Name": "Elephant", "Species": "Mammal", "Age": 25, "Habitat_ID": 102 },
+            { "Animal_ID": 3, "Animal_Name": "Deer", "Species": "Mammal", "Age": 8, "Habitat_ID": 101 }
+          ],
+          "Thief": [
+            { "Thief_ID": 201, "Thief_Name": "Ramesh", "Contact": "9000000001" },
+            { "Thief_ID": 202, "Thief_Name": "Suresh", "Contact": "9000000002" },
+            { "Thief_ID": 203, "Thief_Name": "Amit", "Contact": "9000000003" }
+          ],
+          "Theft": [
+            { "Theft_ID": 301, "Animal_ID": 1, "Thief_ID": 201, "Theft_Value": 20, "Theft_Date": "2025-01-10" },
+            { "Theft_ID": 302, "Animal_ID": 2, "Thief_ID": 202, "Theft_Value": 10, "Theft_Date": "2025-01-11" },
+            { "Theft_ID": 303, "Animal_ID": 3, "Thief_ID": 203, "Theft_Value": 30, "Theft_Date": "2025-01-12" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 101, "Habitat_Name": "Forest", "Location": "India" },
+            { "Habitat_ID": 102, "Habitat_Name": "Sanctuary", "Location": "India" }
+          ]
+        },
+        "expected": [
+          { "Animal Name": "Tiger", "Species": "Mammal", "Thief Name": "Ramesh", "Theft Value": 20 },
+          { "Animal Name": "Deer", "Species": "Mammal", "Thief Name": "Amit", "Theft Value": 30 }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — Boundary value exactly 15 (Strict Threshold)",
+        "isHidden": false,
+        "data": {
+          "Animal": [
+            { "Animal_ID": 1, "Animal_Name": "Lion", "Species": "Mammal", "Age": 14, "Habitat_ID": 101 }
+          ],
+          "Thief": [
+            { "Thief_ID": 201, "Thief_Name": "Raj", "Contact": "9000000010" }
+          ],
+          "Theft": [
+            { "Theft_ID": 301, "Animal_ID": 1, "Thief_ID": 201, "Theft_Value": 15, "Theft_Date": "2025-02-01" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 101, "Habitat_Name": "Grassland", "Location": "India" }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Just above the threshold (Value 16)",
+        "isHidden": false,
+        "data": {
+          "Animal": [
+            { "Animal_ID": 1, "Animal_Name": "Leopard", "Species": "Mammal", "Age": 10, "Habitat_ID": 101 }
+          ],
+          "Thief": [
+            { "Thief_ID": 201, "Thief_Name": "Vijay", "Contact": "9000000011" }
+          ],
+          "Theft": [
+            { "Theft_ID": 301, "Animal_ID": 1, "Thief_ID": 201, "Theft_Value": 16, "Theft_Date": "2025-03-01" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 101, "Habitat_Name": "Forest", "Location": "India" }
+          ]
+        },
+        "expected": [
+          { "Animal Name": "Leopard", "Species": "Mammal", "Thief Name": "Vijay", "Theft Value": 16 }
+        ]
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — Multiple qualifying thefts for an animal",
+        "isHidden": false,
+        "data": {
+          "Animal": [
+            { "Animal_ID": 1, "Animal_Name": "Rhino", "Species": "Mammal", "Age": 18, "Habitat_ID": 101 }
+          ],
+          "Thief": [
+            { "Thief_ID": 201, "Thief_Name": "Amit", "Contact": "9000000020" },
+            { "Thief_ID": 202, "Thief_Name": "Rahul", "Contact": "9000000021" }
+          ],
+          "Theft": [
+            { "Theft_ID": 301, "Animal_ID": 1, "Thief_ID": 201, "Theft_Value": 25, "Theft_Date": "2025-04-01" },
+            { "Theft_ID": 302, "Animal_ID": 1, "Thief_ID": 202, "Theft_Value": 40, "Theft_Date": "2025-04-05" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 101, "Habitat_Name": "Reserve", "Location": "India" }
+          ]
+        },
+        "expected": [
+          { "Animal Name": "Rhino", "Species": "Mammal", "Thief Name": "Amit", "Theft Value": 25 },
+          { "Animal Name": "Rhino", "Species": "Mammal", "Thief Name": "Rahul", "Theft Value": 40 }
+        ]
+      },
+      {
+        "id": "tc-5",
+        "name": "Hidden Test Case 5 — Multi-Species Habitat Cross Join & Filtering",
+        "isHidden": true,
+        "data": {
+          "Animal": [
+            { "Animal_ID": 10, "Animal_Name": "Peacock", "Species": "Aves", "Age": 4, "Habitat_ID": 501 },
+            { "Animal_ID": 20, "Animal_Name": "Python", "Species": "Reptilia", "Age": 6, "Habitat_ID": 502 },
+            { "Animal_ID": 30, "Animal_Name": "Otter", "Species": "Mammal", "Age": 3, "Habitat_ID": 503 },
+            { "Animal_ID": 40, "Animal_Name": "Falcon", "Species": "Aves", "Age": 5, "Habitat_ID": 501 }
+          ],
+          "Thief": [
+            { "Thief_ID": 1001, "Thief_Name": "Vikram", "Contact": "9876543210" },
+            { "Thief_ID": 1002, "Thief_Name": "Sunil", "Contact": "9876543211" },
+            { "Thief_ID": 1003, "Thief_Name": "Deepak", "Contact": "9876543212" }
+          ],
+          "Theft": [
+            { "Theft_ID": 701, "Animal_ID": 10, "Thief_ID": 1001, "Theft_Value": 15, "Theft_Date": "2025-05-01" },
+            { "Theft_ID": 702, "Animal_ID": 20, "Thief_ID": 1002, "Theft_Value": 18, "Theft_Date": "2025-05-02" },
+            { "Theft_ID": 703, "Animal_ID": 30, "Thief_ID": 1003, "Theft_Value": 14, "Theft_Date": "2025-05-03" },
+            { "Theft_ID": 704, "Animal_ID": 40, "Thief_ID": 1001, "Theft_Value": 55, "Theft_Date": "2025-05-04" }
+          ],
+          "Habitat": [
+            { "Habitat_ID": 501, "Habitat_Name": "Bird Sanctuary", "Location": "North India" },
+            { "Habitat_ID": 502, "Habitat_Name": "Wetland Reserve", "Location": "South India" },
+            { "Habitat_ID": 503, "Habitat_Name": "River Basin", "Location": "East India" }
+          ]
+        },
+        "expected": [
+          { "Animal Name": "Python", "Species": "Reptilia", "Thief Name": "Sunil", "Theft Value": 18 },
+          { "Animal Name": "Falcon", "Species": "Aves", "Thief Name": "Vikram", "Theft Value": 55 }
         ]
       }
     ]

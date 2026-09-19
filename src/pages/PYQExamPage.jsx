@@ -444,6 +444,16 @@ export default function PYQExamPage({ theme = 'dark' }) {
                   <span
                     className="cloud-badge"
                     style={{
+                      background: 'rgba(56, 189, 248, 0.15)',
+                      color: '#38bdf8',
+                      borderColor: 'rgba(56, 189, 248, 0.3)'
+                    }}
+                  >
+                    ⏱️ {bank?.durationMinutes || totalCount} Mins (1 min / Q)
+                  </span>
+                  <span
+                    className="cloud-badge"
+                    style={{
                       background: 'rgba(16, 185, 129, 0.15)',
                       color: '#34d399',
                       borderColor: 'rgba(16, 185, 129, 0.3)'

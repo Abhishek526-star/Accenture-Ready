@@ -75,7 +75,7 @@ export default function PreviewPanel({ srcDoc, onReload }) {
           <iframe
             title="Candidate Assessment Sandbox"
             srcDoc={srcDoc}
-            sandbox="allow-scripts"
+            sandbox="allow-scripts allow-modals"
             className="sandbox-iframe"
           />
         </div>

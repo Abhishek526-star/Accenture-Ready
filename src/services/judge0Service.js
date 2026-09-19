@@ -373,6 +373,27 @@ for _n, _a in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-017') {
+      return `${cleanUserCode}
+
+_tests = [
+    (5, 9),
+    (10, 6),
+    (10, 5),
+    (10, 0),
+    (10, 1),
+    (5, 6),
+    (25, 4)
+]
+for _n, _d in _tests:
+    try:
+        fn = globals().get('countMatchingSquares') or globals().get('count_matching_squares') or globals().get('CountMatchingSquares') or countMatchingSquares
+        print("TEST_RES:" + str(fn(_n, _d)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -838,6 +859,31 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-017') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {
+            {5, 9},
+            {10, 6},
+            {10, 5},
+            {10, 0},
+            {10, 1},
+            {5, 6},
+            {25, 4}
+        };
+        for (int[] t : tests) {
+            try {
+                System.out.println("TEST_RES:" + countMatchingSquares(t[0], t[1]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1223,6 +1269,27 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-017') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::pair<int, int>> tests = {
+        {5, 9},
+        {10, 6},
+        {10, 5},
+        {10, 0},
+        {10, 1},
+        {5, 6},
+        {25, 4}
+    };
+    for (auto& t : tests) {
+        std::cout << "TEST_RES:" << countMatchingSquares(t.first, t.second) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1586,6 +1653,27 @@ int main() {
         };
         foreach (var a in tests) {
             Console.WriteLine("TEST_RES:" + TotalEnergy(a.Count, a));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-017') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new List<(int, int)> {
+            (5, 9),
+            (10, 6),
+            (10, 5),
+            (10, 0),
+            (10, 1),
+            (5, 6),
+            (25, 4)
+        };
+        foreach (var t in tests) {
+            Console.WriteLine("TEST_RES:" + CountMatchingSquares(t.Item1, t.Item2));
         }
     }
 }
@@ -1967,6 +2055,29 @@ for (const [_n, _a] of _tests) {
     try {
         const fn = typeof totalEnergy === 'function' ? totalEnergy : (typeof total_energy === 'function' ? total_energy : (typeof TotalEnergy === 'function' ? TotalEnergy : null));
         console.log("TEST_RES:" + JSON.stringify(fn(_n, _a)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-017') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [5, 9],
+  [10, 6],
+  [10, 5],
+  [10, 0],
+  [10, 1],
+  [5, 6],
+  [25, 4]
+];
+for (const [_n, _d] of _tests) {
+    try {
+        const fn = typeof countMatchingSquares === 'function' ? countMatchingSquares : (typeof count_matching_squares === 'function' ? count_matching_squares : (typeof CountMatchingSquares === 'function' ? CountMatchingSquares : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_n, _d)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

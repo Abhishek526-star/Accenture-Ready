@@ -1303,7 +1303,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2030,6 +2030,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasMult || !hasSum) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_weighted_sum';
+      }
+    } else if (question.id === 'recent-dsa-017') {
+      const hasLoop = code.includes('for') || code.includes('while');
+      const hasSquareOrMult = code.includes('*') || code.includes('pow') || code.includes('Math.pow');
+      const hasModulo = code.includes('% 10') || code.includes('%10');
+      if (!hasLoop || !hasSquareOrMult || !hasModulo) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_square_modulo';
       }
     }
 
@@ -3007,6 +3015,66 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-017') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: N=5, D=9)', N: 5, D: 9, exp: 1, expStr: 'Count: 1 (3² = 9)', latency: '3ms' },
+          { id: 2, name: 'Exam Test Case 2 (N=10, D=6)', N: 10, D: 6, exp: 2, expStr: 'Count: 2 (4² = 16, 6² = 36)', latency: '3ms' },
+          { id: 3, name: 'Exam Test Case 3 (N=10, D=5)', N: 10, D: 5, exp: 1, expStr: 'Count: 1 (5² = 25)', latency: '2ms' },
+          { id: 4, name: 'Exam Test Case 4 (N=10, D=0)', N: 10, D: 0, exp: 1, expStr: 'Count: 1 (10² = 100)', latency: '3ms' },
+          { id: 5, name: 'Exam Test Case 5 (N=10, D=1)', N: 10, D: 1, exp: 2, expStr: 'Count: 2 (1² = 1, 9² = 81)', latency: '3ms' },
+          { id: 6, name: 'Exam Test Case 6 (Boundary: N=5, D=6)', N: 5, D: 6, exp: 1, expStr: 'Count: 1 (4² = 16)', latency: '2ms' },
+          { id: 7, name: 'Exam Test Case 7 (Multi-Digit Range: N=25, D=4)', N: 25, D: 4, exp: 5, expStr: 'Count: 5 (2, 8, 12, 18, 22)', latency: '4ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Count: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.N, t.D]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Count: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Count: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Count: 0 (Flawed modulo / square logic)`;
+            passed = t.exp === 0;
+          } else {
+            let count = 0;
+            for (let i = 1; i <= t.N; i++) {
+              if ((i * i) % 10 === t.D) count++;
+            }
+            actualStr = `Count: ${count}`;
+            passed = count === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.N}, D = ${t.D}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -3146,13 +3214,102 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       align-items: center;
       min-height: 180px;
       box-sizing: border-box;
+      position: relative;
     }
     ${feCode.css}
+
+    /* In-sandbox Visual Modal Alert Overlay */
+    .sandbox-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      animation: sbModalFade 0.2s ease-out forwards;
+    }
+    .sandbox-modal-card {
+      background: #1e293b;
+      border: 1px solid #3b82f6;
+      border-radius: 12px;
+      padding: 20px 24px;
+      max-width: 280px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      animation: sbModalScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .sandbox-modal-card h3 {
+      margin: 0 0 8px 0;
+      color: #f8fafc;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .sandbox-modal-card p {
+      margin: 0 0 16px 0;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .sandbox-modal-card button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sandbox-modal-card button:hover {
+      background: #1d4ed8;
+    }
+    @keyframes sbModalFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes sbModalScale {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
   ${feCode.html}
   <script>
+    (function() {
+      const _nativeAlert = window.alert;
+      window.alert = function(msg) {
+        try {
+          const overlay = document.createElement('div');
+          overlay.className = 'sandbox-modal-overlay';
+          overlay.innerHTML = '<div class="sandbox-modal-card">' +
+            '<h3>⏰ Alert</h3>' +
+            '<p>' + (msg || '') + '</p>' +
+            '<button id="sbModalOkBtn">OK</button>' +
+          '</div>';
+          document.body.appendChild(overlay);
+          const okBtn = overlay.querySelector('#sbModalOkBtn');
+          if (okBtn) {
+            okBtn.focus();
+            okBtn.onclick = function() { overlay.remove(); };
+          }
+        } catch(e) {}
+
+        try {
+          if (typeof _nativeAlert === 'function') {
+            _nativeAlert.call(window, msg);
+          }
+        } catch(e) {}
+      };
+    })();
+
     try {
       ${feCode.js}
     } catch(err) {
@@ -3345,6 +3502,200 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-002')) {
                 const updated = prev.filter(id => id !== 'recent-fe-002');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Countdown Timer (recent-fe-004)
+        if (activeFeQuestion?.id === 'recent-fe-004') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification: <span id="timer">10</span> inside .timer
+          const timerDiv = doc.querySelector('.timer');
+          const timerSpan = doc.querySelector('#timer');
+          const isInsideTimerDiv = !!(timerDiv && timerSpan && timerDiv.contains(timerSpan));
+          const spanInitialText = timerSpan ? (timerSpan.textContent || timerSpan.innerText || '').trim() : '';
+          const hasValidSpan = !!timerSpan && spanInitialText === '10' && isInsideTimerDiv;
+
+          // 2. CSS Verification: .timer has color #4CAF50
+          const timerCssBlock = (css.match(/\.timer\s*\{([^}]*)\}/i) || [])[1] || '';
+          const hasTimerColor = /color\s*:\s*(?:#4caf50|rgb\(\s*76\s*,\s*175\s*,\s*80\s*\))/i.test(timerCssBlock);
+
+          // 3 & 4. JavaScript Verification
+          let jsIntervalPassed = false;
+          let jsIntervalMsg = '';
+          let jsAlertPassed = false;
+          let jsAlertMsg = '';
+
+          const hasSetInterval = codeWithoutComments.includes('setInterval');
+          if (!hasSetInterval) {
+            jsIntervalPassed = false;
+            jsIntervalMsg = 'Missing setInterval call. The countdown must decrease every second using setInterval.';
+            jsAlertPassed = false;
+            jsAlertMsg = 'Cannot verify alert until countdown interval is implemented.';
+          } else {
+            try {
+              const sandboxDiv = document.createElement('div');
+              sandboxDiv.innerHTML = html;
+              const startBtn = sandboxDiv.querySelector('#startBtn');
+              const timerEl = sandboxDiv.querySelector('#timer');
+
+              if (!startBtn || !timerEl) {
+                jsIntervalPassed = false;
+                jsIntervalMsg = 'HTML is missing #startBtn or #timer element.';
+                jsAlertPassed = false;
+                jsAlertMsg = 'HTML is missing required elements.';
+              } else {
+                const mockDoc = {
+                  getElementById: (id) => sandboxDiv.querySelector('#' + id),
+                  querySelector: (sel) => sandboxDiv.querySelector(sel),
+                  querySelectorAll: (sel) => sandboxDiv.querySelectorAll(sel),
+                  createElement: (tag) => document.createElement(tag)
+                };
+
+                let intervalCallbacks = [];
+                let clearedIntervalIds = new Set();
+                let intervalCounter = 1;
+                let alertMessages = [];
+
+                const mockWindow = {
+                  setInterval: (fn, delay) => {
+                    const id = intervalCounter++;
+                    intervalCallbacks.push({ id, fn, delay });
+                    return id;
+                  },
+                  clearInterval: (id) => {
+                    clearedIntervalIds.add(id);
+                  },
+                  alert: (msg) => {
+                    alertMessages.push(String(msg));
+                  }
+                };
+
+                const runFn = new Function('document', 'window', 'setInterval', 'clearInterval', 'alert', `
+                  ${js}
+                `);
+                runFn(mockDoc, mockWindow, mockWindow.setInterval, mockWindow.clearInterval, mockWindow.alert);
+
+                // Click start button
+                startBtn.click();
+
+                if (intervalCallbacks.length === 0) {
+                  jsIntervalPassed = false;
+                  jsIntervalMsg = 'Clicking #startBtn did not invoke setInterval.';
+                  jsAlertPassed = false;
+                  jsAlertMsg = 'No interval registered on button click.';
+                } else {
+                  const registered = intervalCallbacks[0];
+                  const trackedValues = [];
+
+                  // Step through 10 iterations
+                  for (let step = 1; step <= 10; step++) {
+                    if (!clearedIntervalIds.has(registered.id)) {
+                      registered.fn();
+                      const currentVal = (timerEl.textContent || timerEl.innerText || '').trim();
+                      trackedValues.push(currentVal);
+                    }
+                  }
+
+                  // Check if it counted down properly (should reach 0)
+                  const lastVal = (timerEl.textContent || timerEl.innerText || '').trim();
+                  if (lastVal === '0' || trackedValues.includes('0')) {
+                    jsIntervalPassed = true;
+                    jsIntervalMsg = `Countdown verified: progressed from 10 down to 0 (${trackedValues.slice(0, 3).join(', ')} ... ${lastVal}).`;
+                  } else {
+                    jsIntervalPassed = false;
+                    jsIntervalMsg = `Countdown did not reach 0 after 10 ticks. Values recorded: [${trackedValues.join(', ')}]. Expected 10 → 9 → ... → 0.`;
+                  }
+
+                  // Verify alert was called with "Time's Up!" and interval was cleared
+                  const alertFound = alertMessages.some(m => m.toLowerCase().includes("time's up"));
+                  const isCleared = clearedIntervalIds.has(registered.id);
+
+                  if (alertFound && isCleared) {
+                    jsAlertPassed = true;
+                    jsAlertMsg = 'Verified: alert("Time\'s Up!") displayed and interval cleared at 0.';
+                  } else if (alertFound && !isCleared) {
+                    jsAlertPassed = false;
+                    jsAlertMsg = 'alert("Time\'s Up!") was triggered, but clearInterval was not called; countdown continued past 0.';
+                  } else if (!alertFound && isCleared) {
+                    jsAlertPassed = false;
+                    jsAlertMsg = 'clearInterval was called, but alert("Time\'s Up!") was not displayed when reaching 0.';
+                  } else {
+                    jsAlertPassed = false;
+                    jsAlertMsg = 'Missing alert("Time\'s Up!") and clearInterval call when countdown finishes at 0.';
+                  }
+                }
+              }
+            } catch (err) {
+              jsIntervalPassed = false;
+              jsIntervalMsg = `Runtime error: ${err.message}`;
+              jsAlertPassed = false;
+              jsAlertMsg = `Execution halted: ${err.message}`;
+            }
+          }
+
+          const results = [
+            {
+              id: 1,
+              name: 'CSS: Set text color of .timer to #4CAF50',
+              passed: hasTimerColor,
+              message: hasTimerColor
+                ? 'Verified: .timer color is set to #4CAF50'
+                : 'Missing or incorrect color in .timer. Expected color: #4CAF50;'
+            },
+            {
+              id: 2,
+              name: 'HTML: Add <span id="timer">10</span> inside .timer',
+              passed: hasValidSpan,
+              message: hasValidSpan
+                ? 'Verified: <span id="timer">10</span> properly nested inside .timer'
+                : (!timerSpan
+                    ? 'Missing <span id="timer"> element.'
+                    : (!isInsideTimerDiv
+                        ? '#timer element must be placed inside <div class="timer">.'
+                        : `Initial value must be 10 (found: "${spanInitialText}")`))
+            },
+            {
+              id: 3,
+              name: 'JavaScript: Start countdown from 10 to 0 on #startBtn click',
+              passed: jsIntervalPassed,
+              message: jsIntervalMsg
+            },
+            {
+              id: 4,
+              name: 'JavaScript: Pop-up alert("Time\'s Up!") and stop countdown at 0',
+              passed: jsAlertPassed,
+              message: jsAlertMsg
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-004',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-004')) {
+              toggleSolved('recent-fe-004');
+              gamificationService.addXP(50, 'Solved Countdown Timer');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-004')) {
+                const updated = prev.filter(id => id !== 'recent-fe-004');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -5294,7 +5645,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-003' ? (
+                    {activeFeQuestion.id === 'recent-fe-004' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given a partially completed <strong style={{ color: '#f8fafc' }}>Countdown Timer</strong> webpage. The timer should start when the user clicks the Start Timer button and count down from 10 to 0. When the timer reaches 0, a pop-up message should be displayed.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: CSS color #4CAF50 • Part 2: HTML &lt;span id="timer"&gt;10&lt;/span&gt; • Part 3: JS setInterval countdown &amp; alert("Time's Up!")
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-003' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are creating a <strong style={{ color: '#f8fafc' }}>Notification Center</strong> for a new website. The project is partially completed. Complete the missing HTML, CSS, and JavaScript code to implement the required notification functionality.
@@ -5345,7 +5705,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add <code style={{ color: '#fb923c' }}>&lt;span id="timer"&gt;10&lt;/span&gt;</code> inside <strong style={{ color: '#f8fafc' }}><code>.timer</code></strong>.</li>
+                            <li>Initial value must be set to <strong style={{ color: '#f8fafc' }}><code>10</code></strong>.</li>
+                            <li>Preserve button element with <strong style={{ color: '#f8fafc' }}><code>id="startBtn"</code></strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add <code style={{ color: '#fb923c' }}>&lt;div class="title"&gt;Account Alert&lt;/div&gt;</code> inside <strong style={{ color: '#f8fafc' }}><code>.notification</code></strong>.</li>
                             <li>Add <code style={{ color: '#fb923c' }}>&lt;div class="message"&gt;Your account password was updated successfully 5 mins ago&lt;/div&gt;</code>.</li>
@@ -5384,7 +5750,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set timer text color to <code style={{ color: '#4ade80' }}>#4CAF50</code> inside <strong style={{ color: '#f8fafc' }}><code>.timer</code></strong>.</li>
+                            <li>Change only the required CSS property (approx. 1 line).</li>
+                            <li>Preserve button and body styles.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Remove the <code style={{ color: '#f87171' }}>background-color: #f2f2f2;</code> property from <strong style={{ color: '#f8fafc' }}><code>.notification-list</code></strong>.</li>
                             <li>Preserve existing fonts, width, and button styles.</li>
@@ -5419,9 +5791,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           }}>
                             <Terminal size={13} /> JavaScript Algorithm
                           </span>
-                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Removal</span>
+                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add click listener to <strong style={{ color: '#f8fafc' }}><code>#startBtn</code></strong>.</li>
+                            <li>Use <code style={{ color: '#facc15' }}>setInterval</code> to decrement <code style={{ color: '#facc15' }}>timeLeft</code> every 1000ms.</li>
+                            <li>Update <strong style={{ color: '#f8fafc' }}><code>#timer</code></strong> span text on each interval tick.</li>
+                            <li>When <code style={{ color: '#facc15' }}>timeLeft &lt;= 0</code>, call <code style={{ color: '#facc15' }}>clearInterval</code> and display <code style={{ color: '#facc15' }}>alert("Time's Up!")</code>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add click listener to <strong style={{ color: '#f8fafc' }}><code>#close-btn</code></strong>.</li>
                             <li>Completely remove <strong style={{ color: '#f8fafc' }}><code>.notification</code></strong> from the DOM via <code style={{ color: '#facc15' }}>notification.remove()</code>.</li>
@@ -5450,7 +5829,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-003'
+                      {(activeFeQuestion.id === 'recent-fe-004'
+                        ? [
+                            { title: 'CSS Timer Color', desc: '.timer color property is set to #4CAF50' },
+                            { title: 'HTML Timer Span', desc: '<span id="timer">10</span> properly added inside .timer' },
+                            { title: 'Countdown Timer Progression', desc: 'Clicking #startBtn starts countdown from 10 down to 0 every second' },
+                            { title: 'Time\'s Up Pop-up & Stop', desc: 'When timer reaches 0, alert("Time\'s Up!") is displayed and interval stops' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-003'
                         ? [
                             { title: 'Title Element Bound', desc: '<div class="title">Account Alert</div> inside .notification' },
                             { title: 'Message Element Bound', desc: '<div class="message">Your account password was updated successfully 5 mins ago</div>' },
@@ -5502,7 +5888,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-003'
+                      {(activeFeQuestion.id === 'recent-fe-004'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 #4CAF50',
+                            'Vanilla ES6 JavaScript',
+                            'setInterval / clearInterval',
+                            'alert("Time\'s Up!")',
+                            '1 Second Decrement'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-003'
                         ? [
                             'HTML5 Standard',
                             'CSS3 Box Model',
@@ -5846,7 +6241,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       border: 'none',
                       display: 'block'
                     }}
-                    sandbox="allow-scripts"
+                    sandbox="allow-scripts allow-modals"
                   />
                 </div>
               </div>
@@ -6073,7 +6468,19 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Span Element: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;span id="timer"&gt;10&lt;/span&gt;</code> added inside <code style={{ color: '#38bdf8' }}>.timer</code>.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Initial Display: Starts with text <strong style={{ color: '#f8fafc' }}>10</strong>.
+                            </li>
+                            <li>
+                              Button: Preserved with <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>id="startBtn"</code>.
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
                             <li style={{ marginBottom: '0.4rem' }}>
                               Title: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;div class="title"&gt;Account Alert&lt;/div&gt;</code>
@@ -6134,7 +6541,19 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Timer Color: <code style={{ color: '#4ade80', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>color: #4CAF50;</code> sets timer to green.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Typography: font-size 40px preserved.
+                            </li>
+                            <li>
+                              Button: Padding 10px 20px and pointer cursor preserved.
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
                             <li style={{ marginBottom: '0.4rem' }}>
                               Remove Background: Deleted <code style={{ color: '#f87171', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>background-color: #f2f2f2;</code> from <code style={{ color: '#38bdf8' }}>.notification-list</code>.
@@ -6187,7 +6606,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Terminal size={16} className="text-emerald-400" />
                             <span style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.85rem' }}>
-                              3. DOM Manipulation & Removal
+                              3. DOM Manipulation &amp; Interval
                             </span>
                           </div>
                           <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', fontWeight: 700 }}>
@@ -6196,7 +6615,29 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         </div>
 
                         {/* Interactive Formula Trace Box */}
-                        {activeFeQuestion.id === 'recent-fe-003' ? (
+                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                          <div style={{
+                            background: '#070b14',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            borderRadius: '8px',
+                            padding: '8px 10px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'JetBrains Mono',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px'
+                          }}>
+                            <div style={{ color: '#94a3b8' }}>
+                              1. <span style={{ color: '#38bdf8' }}>click</span> &rarr; #startBtn starts setInterval(..., 1000)
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              2. <span style={{ color: '#facc15' }}>tick</span> &rarr; timeLeft-- and updates #timer &amp; #timerBar
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              3. <span style={{ color: '#4ade80' }}>at 0</span> &rarr; clearInterval(), width 0% &amp; alert("Time's Up!")
+                            </div>
+                          </div>
+                        ) : activeFeQuestion.id === 'recent-fe-003' ? (
                           <div style={{
                             background: '#070b14',
                             border: '1px solid rgba(34, 197, 94, 0.3)',
@@ -6265,7 +6706,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         )}
 
                         <div style={{ fontSize: '0.78rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                          Update DOM: <code style={{ color: '#4ade80', fontSize: '0.75rem' }}>{activeFeQuestion.id === 'recent-fe-003' ? 'notification.remove()' : activeFeQuestion.id === 'recent-fe-002' ? 'result.textContent = bmi.toFixed(2)' : 'quoteEl.innerText = `"${quotes[randomIndex]}"`'}</code>
+                          Update DOM: <code style={{ color: '#4ade80', fontSize: '0.75rem' }}>{activeFeQuestion.id === 'recent-fe-004' ? 'timerEl.textContent = timeLeft; timerBar.style.width = ...' : activeFeQuestion.id === 'recent-fe-003' ? 'notification.remove()' : activeFeQuestion.id === 'recent-fe-002' ? 'result.textContent = bmi.toFixed(2)' : 'quoteEl.innerText = `"${quotes[randomIndex]}"`'}</code>
                         </div>
                       </div>
                     </div>
