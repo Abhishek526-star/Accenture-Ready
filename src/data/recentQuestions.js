@@ -1517,6 +1517,119 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-018",
+    "track": "dsa",
+    "dateTag": "23rd Sept 2026 • Shift 1",
+    "examDate": "2026-09-23",
+    "shift": "Shift 1",
+    "title": "Alternating String Substrings",
+    "difficulty": "Medium",
+    "category": "Strings / Substring Search & Pattern Matching",
+    "pattern": "Alternating Parity + Substring Search",
+    "rewardXp": 75,
+    "targetMins": 20,
+    "source": "Accenture Assessment 23rd Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given two equal-length strings `s1` and `s2`, and an integer `K`.\n\nYou have to build strings `T` of length `K` by:\n1. Starting from any valid index `i` (where `0 <= i <= length - K`).\n2. Taking characters alternately from `s1` and `s2` (even relative offset from `s1`, odd relative offset from `s2`).\n3. Continuing until the length of `T` becomes `K`.\n\nYour task is to find and return the count of these `T` strings which appear as a substring in either `s1` or `s2`.\n\n---\n\n### 📝 Function Declaration:\n```cpp\nint countAlternatingStrings(int K, string s1, string s2);\n```\n\n- **Input Specification:**\n  - `input1 (K)`: An integer representing the length of string `T`.\n  - `input2 (s1)`: A string containing lowercase English alphabets (a-z).\n  - `input3 (s2)`: A string containing lowercase English alphabets (a-z), equal in length to `s1`.\n\n- **Output Specification:**\n  - Return an integer representing the count of generated `T` strings that appear as a substring in either `s1` or `s2`.\n\n---\n\n### 📌 Given Example:\n**Input:**\n```text\nK = 3\ns1 = \"abcdebrd\"\ns2 = \"pqrstcse\"\n```\n\n**Output:** `2`\n\n**Explanation:**\nFor `K = 3`, we check all starting indices `0 <= i <= n - K`:\n\n| Start Index | Generated T | Found in s1? | Found in s2? | Counted? |\n| :---: | :---: | :---: | :---: | :---: |\n| 0 | `\"aqc\"` | ❌ No | ❌ No | ❌ No |\n| 1 | `\"brd\"` | ✅ Yes | ❌ No | ✅ Count = 1 |\n| 2 | `\"cse\"` | ❌ No | ✅ Yes | ✅ Count = 2 |\n| 3 | `\"dtb\"` | ❌ No | ❌ No | ❌ No |\n| 4 | `\"ecr\"` | ❌ No | ❌ No | ❌ No |\n| 5 | `\"bsd\"` | ❌ No | ❌ No | ❌ No |\n\nTotal count of matching alternating substrings = **2** (`\"brd\"` and `\"cse\"`).\n\n---\n\n### 💡 Algorithm & Parity Rule:\n1. For every starting index `start` from `0` to `n - K`.\n2. Construct string `T` of length `K`.\n3. For each `j` from `0` to `K - 1`:\n   - If `j % 2 == 0`, take `s1[start + j]`.\n   - If `j % 2 == 1`, take `s2[start + j]`.\n4. Check if `T` exists in `s1` or `s2`.\n5. If `T` is present in either string, increment `count`.\n6. Return `count`.\n\n---\n\n### ⚡ Complexity:\nWe check all starting indices `0 <= i <= N - K`, so there are `N - K + 1` valid starting positions. **Time Complexity:** `O((N - K + 1) x (K + N))`, which is at most `O(N²K)` in the worst case using naive substring search, or approximately `O(NK)` using KMP/Rolling Hash. **Space Complexity:** `O(K)` auxiliary space for storing the candidate string `T`.",
+    "rules": [
+      "1. Initialize count = 0 and n = length of s1.",
+      "2. Iterate start index from 0 to n - K.",
+      "3. Construct candidate string T of length K: for j in 0..K-1, append s1[start + j] if j is even, else s2[start + j].",
+      "4. Check if T is a substring in s1 OR s2.",
+      "5. If yes, increment count.",
+      "6. Return the total count."
+    ],
+    "constraints": [
+      "1 <= K <= length(s1)",
+      "1 <= length(s1) = length(s2) <= 10^4",
+      "s1 and s2 contain lowercase English letters ('a'-'z')",
+      "Time Complexity: O(N^2)",
+      "Space Complexity: O(K)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "K = 3, s1 = \"abcdebrd\", s2 = \"pqrstcse\"",
+        "inputRaw": {
+          "K": 3,
+          "s1": "abcdebrd",
+          "s2": "pqrstcse"
+        },
+        "expectedOutput": "2",
+        "explanation": "Valid starts generate: index 1 -> 'brd' (in s1), index 2 -> 'cse' (in s2). Total matching count = 2."
+      },
+      {
+        "id": "tc-2",
+        "input": "K = 1, s1 = \"abc\", s2 = \"xyz\"",
+        "inputRaw": {
+          "K": 1,
+          "s1": "abc",
+          "s2": "xyz"
+        },
+        "expectedOutput": "3",
+        "explanation": "K = 1 gives single characters from s1: 'a', 'b', 'c'. All three occur as substrings in s1. Total count = 3."
+      },
+      {
+        "id": "tc-3",
+        "input": "K = 2, s1 = \"abcd\", s2 = \"xyza\"",
+        "inputRaw": {
+          "K": 2,
+          "s1": "abcd",
+          "s2": "xyza"
+        },
+        "expectedOutput": "0",
+        "explanation": "Generated strings: 'ay', 'bz', 'ca'. None of them appear in either s1 or s2. Total count = 0."
+      },
+      {
+        "id": "tc-4",
+        "input": "K = 2, s1 = \"abcd\", s2 = \"bcda\"",
+        "inputRaw": {
+          "K": 2,
+          "s1": "abcd",
+          "s2": "bcda"
+        },
+        "expectedOutput": "0",
+        "explanation": "Generated strings: 'ac', 'bd', 'ca'. Since substrings are non-circular, none of them appear in s1 ('ab', 'bc', 'cd') or s2 ('bc', 'cd', 'da'). Total count = 0."
+      },
+      {
+        "id": "tc-5",
+        "input": "K = 3, s1 = \"abcabc\", s2 = \"xyzabc\"",
+        "inputRaw": {
+          "K": 3,
+          "s1": "abcabc",
+          "s2": "xyzabc"
+        },
+        "expectedOutput": "2",
+        "explanation": "Alternating generated strings tested against s1 and s2 yield 2 matching substrings."
+      },
+      {
+        "id": "tc-6",
+        "input": "K = 2, s1 = \"aaaa\", s2 = \"aaaa\"",
+        "inputRaw": {
+          "K": 2,
+          "s1": "aaaa",
+          "s2": "aaaa"
+        },
+        "expectedOutput": "3",
+        "explanation": "Every valid starting index 0, 1, 2 produces 'aa', which exists in both s1 and s2. Total count = 3."
+      }
+    ],
+    "starterCode": {
+      "python": "def countAlternatingStrings(K, s1, s2):\n    # TODO: Return count of generated T strings of length K that appear in s1 or s2\n    return 0",
+      "java": "public class Solution {\n    public static int countAlternatingStrings(int K, String s1, String s2) {\n        // TODO: Return count of generated T strings of length K that appear in s1 or s2\n        return 0;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countAlternatingStrings(int K, string s1, string s2) {\n    // TODO: Return count of generated T strings of length K that appear in s1 or s2\n    return 0;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountAlternatingStrings(int K, string s1, string s2) {\n        // TODO: Return count of generated T strings of length K that appear in s1 or s2\n        return 0;\n    }\n}",
+      "javascript": "function countAlternatingStrings(K, s1, s2) {\n  // TODO: Return count of generated T strings of length K that appear in s1 or s2\n  return 0;\n}"
+    },
+    "solutions": {
+      "python": "def countAlternatingStrings(K, s1, s2):\n    n = len(s1)\n    count = 0\n    for start in range(n - K + 1):\n        T = \"\".join(s1[start + j] if j % 2 == 0 else s2[start + j] for j in range(K))\n        if T in s1 or T in s2:\n            count += 1\n    return count",
+      "java": "public class Solution {\n    public static int countAlternatingStrings(int K, String s1, String s2) {\n        int n = s1.length();\n        int count = 0;\n        for (int start = 0; start + K <= n; start++) {\n            StringBuilder sb = new StringBuilder();\n            for (int j = 0; j < K; j++) {\n                if (j % 2 == 0) {\n                    sb.append(s1.charAt(start + j));\n                } else {\n                    sb.append(s2.charAt(start + j));\n                }\n            }\n            String T = sb.toString();\n            if (s1.contains(T) || s2.contains(T)) {\n                count++;\n            }\n        }\n        return count;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countAlternatingStrings(int K, string s1, string s2) {\n    int n = s1.length();\n    int count = 0;\n    for (int start = 0; start + K <= n; start++) {\n        string T = \"\";\n        for (int j = 0; j < K; j++) {\n            if (j % 2 == 0) {\n                T += s1[start + j];\n            } else {\n                T += s2[start + j];\n            }\n        }\n        if (s1.find(T) != string::npos || s2.find(T) != string::npos) {\n            count++;\n        }\n    }\n    return count;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountAlternatingStrings(int K, string s1, string s2) {\n        int n = s1.Length;\n        int count = 0;\n        for (int start = 0; start + K <= n; start++) {\n            char[] arr = new char[K];\n            for (int j = 0; j < K; j++) {\n                arr[j] = (j % 2 == 0) ? s1[start + j] : s2[start + j];\n            }\n            string T = new string(arr);\n            if (s1.Contains(T) || s2.Contains(T)) {\n                count++;\n            }\n        }\n        return count;\n    }\n}",
+      "javascript": "function countAlternatingStrings(K, s1, s2) {\n  const n = s1.length;\n  let count = 0;\n  for (let start = 0; start + K <= n; start++) {\n    let T = '';\n    for (let j = 0; j < K; j++) {\n      T += (j % 2 === 0) ? s1[start + j] : s2[start + j];\n    }\n    if (s1.includes(T) || s2.includes(T)) {\n      count++;\n    }\n  }\n  return count;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -1640,6 +1753,40 @@ export const recentQuestions = [
     "solutionCSS": "body {\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n    background: #0f172a;\n    color: #f8fafc;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n    margin: 0;\n}\n\n.timer-card {\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 16px;\n    padding: 32px 28px;\n    width: 320px;\n    text-align: center;\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);\n}\n\nh2 {\n    margin: 0 0 16px 0;\n    font-size: 22px;\n    letter-spacing: -0.5px;\n}\n\n.timer {\n    font-size: 56px;\n    font-weight: 700;\n    margin: 10px 0;\n    color: #4CAF50;\n}\n\n.timer-bar-container {\n    width: 100%;\n    height: 8px;\n    background: #334155;\n    border-radius: 999px;\n    overflow: hidden;\n    margin: 20px 0 24px 0;\n}\n\n.timer-bar {\n    width: 100%;\n    height: 100%;\n    background: linear-gradient(90deg, #4CAF50, #81C784);\n    border-radius: 999px;\n    transition: width 1s linear;\n}\n\nbutton {\n    background: #2563eb;\n    color: #ffffff;\n    border: none;\n    padding: 12px 24px;\n    font-size: 15px;\n    font-weight: 600;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: background 0.2s, transform 0.1s;\n    width: 100%;\n}\n\nbutton:hover {\n    background: #1d4ed8;\n}\n\nbutton:active {\n    transform: scale(0.98);\n}",
     "solutionJS": "const startButton = document.getElementById(\"startBtn\");\nconst timerElement = document.getElementById(\"timer\");\nconst timerBar = document.getElementById(\"timerBar\");\n\nlet timeLeft = 10;\nconst totalTime = 10;\n\nstartButton.addEventListener(\"click\", function () {\n    if (timeLeft <= 0) {\n        timeLeft = 10;\n        timerElement.textContent = 10;\n        if (timerBar) timerBar.style.width = \"100%\";\n    }\n\n    const countdown = setInterval(function () {\n        timeLeft--;\n        timerElement.textContent = timeLeft;\n\n        if (timerBar) {\n            timerBar.style.width = (timeLeft / totalTime * 100) + \"%\";\n        }\n\n        if (timeLeft <= 0) {\n            clearInterval(countdown);\n            if (timerBar) timerBar.style.width = \"0%\";\n            alert(\"Time's Up!\");\n        }\n    }, 1000);\n});",
     "solutionExplanation": "### Solution Breakdown: Countdown Timer (Accenture 19th Sept Shift 1)\n\n1. **Part 1 — CSS Styling**:\n   - Set `color: #4CAF50;` inside the `.timer` selector to style the countdown numerals in the designated shade of green.\n   - Enhanced with modern card styling, typography, and animated progress track.\n\n2. **Part 2 — HTML Structure**:\n   - Add `<span id=\"timer\">10</span>` inside `<div class=\"timer\">`.\n   - Setting `id=\"timer\"` allows JavaScript to reference the target element via `document.getElementById(\"timer\")`.\n   - The initial text content `10` is displayed immediately before the user clicks the button.\n   - Includes a sleek `<div class=\"timer-bar-container\"><div id=\"timerBar\" class=\"timer-bar\"></div></div>`.\n\n3. **Part 3 — JavaScript Timer Logic**:\n   - In the `#startBtn` click listener, start a periodic timer using `setInterval(callback, 1000)`.\n   - Every 1000 milliseconds (1 second), decrement `timeLeft--` and update `timerElement.textContent = timeLeft`.\n   - Simultaneously sync the progress bar: `timerBar.style.width = (timeLeft / totalTime * 100) + \"%\"`.\n   - Check if `timeLeft <= 0`: if so, stop further execution with `clearInterval(countdown)` and display `alert(\"Time's Up!\")`.",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-005",
+    "track": "frontend",
+    "dateTag": "23rd Sept 2026 • Shift 1",
+    "examDate": "2026-09-23",
+    "shift": "Shift 1",
+    "title": "Product Price Filter",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Range Sliders, Accessibility & CSS",
+    "source": "Accenture Assessment 23rd Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are building a **Product Price Filter** that allows users to select a minimum and maximum price using a range slider.\n\nThe project structure and styling are already provided. You need to complete three small tasks involving **HTML**, **CSS**, and **JavaScript**.\n\n### Objectives:\n1. **HTML**: Add the attribute `aria-valuetext=\"$0-$1000\"` to the `.slider-container` element.\n2. **CSS**: Set the `background-color` of `.range-progress` to `#3498db`.\n3. **JavaScript**: Complete the `updateRangeBar()` function so that the range progress bar width represents the selected price range.\n\n### Constraints:\n- Do not modify the existing HTML structure.\n- Do not change any existing `id` or `class` attributes.\n- Do not modify the existing slider styling.\n- Make only the required changes.\n- The range progress bar should update whenever either slider is moved.",
+    "objectives": [
+      "HTML: Add aria-valuetext=\"$0-$1000\" to .slider-container.",
+      "CSS: Set background-color of .range-progress to #3498db.",
+      "JavaScript: Calculate selected range percentage and update rangeProgress.style.width."
+    ],
+    "constraints": [
+      "Do not modify the existing HTML structure or element IDs.",
+      "Change only background-color in .range-progress.",
+      "Do not change existing event listeners in script.js.",
+      "Calculate range percentage: (max - min) / totalRange * 100."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Product Price Filter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"price-filter\">\n\n        <h2>Product Price Filter</h2>\n\n        <div class=\"slider-container\">\n            <!-- TODO: Add aria-valuetext=\"$0-$1000\" -->\n\n            <div class=\"range-progress\"></div>\n\n            <input\n                type=\"range\"\n                id=\"minPrice\"\n                min=\"0\"\n                max=\"1000\"\n                value=\"0\"\n            >\n\n            <input\n                type=\"range\"\n                id=\"maxPrice\"\n                min=\"0\"\n                max=\"1000\"\n                value=\"1000\"\n            >\n        </div>\n\n        <div class=\"price-values\">\n            <span>$<span id=\"minValue\">0</span></span>\n            <span>$<span id=\"maxValue\">1000</span></span>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f5f7fa;\n    min-height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.price-filter {\n    width: 500px;\n    max-width: 100%;\n    padding: 30px;\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #1e293b;\n}\n\n.price-filter h2 {\n    text-align: center;\n    margin-bottom: 35px;\n    color: #1e293b;\n}\n\n.slider-container {\n    position: relative;\n    width: 100%;\n    height: 40px;\n}\n\n/* Background track */\n.slider-container::before {\n    content: \"\";\n    position: absolute;\n    top: 17px;\n    left: 0;\n    width: 100%;\n    height: 6px;\n    background: #ddd;\n    border-radius: 5px;\n}\n\n/* Selected range */\n.range-progress {\n    position: absolute;\n    top: 17px;\n    left: 0;\n    height: 6px;\n    border-radius: 5px;\n\n    /* TODO: Set background-color to #3498db */\n\n    width: 0%;\n}\n\n/* Range sliders */\ninput[type=\"range\"] {\n    position: absolute;\n    left: 0;\n    top: 5px;\n    width: 100%;\n    height: 25px;\n    appearance: none;\n    background: transparent;\n    pointer-events: none;\n}\n\ninput[type=\"range\"]::-webkit-slider-thumb {\n    appearance: none;\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\ninput[type=\"range\"]::-moz-range-thumb {\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border: none;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\n.price-values {\n    display: flex;\n    justify-content: space-between;\n    margin-top: 15px;\n    font-size: 18px;\n    font-weight: bold;\n    color: #1e293b;\n}",
+    "starterJS": "const minPrice = document.getElementById(\"minPrice\");\nconst maxPrice = document.getElementById(\"maxPrice\");\n\nconst minValue = document.getElementById(\"minValue\");\nconst maxValue = document.getElementById(\"maxValue\");\n\nconst rangeProgress = document.querySelector(\".range-progress\");\n\nfunction updateRangeBar() {\n    \n    // TODO:\n    // Calculate the selected range percentage\n    // and set the width of rangeProgress\n}\n\nminPrice.addEventListener(\"input\", function () {\n    minValue.textContent = minPrice.value;\n    updateRangeBar();\n});\n\nmaxPrice.addEventListener(\"input\", function () {\n    maxValue.textContent = maxPrice.value;\n    updateRangeBar();\n});\n\nupdateRangeBar();",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Product Price Filter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"price-filter\">\n\n        <h2>Product Price Filter</h2>\n\n        <div class=\"slider-container\" aria-valuetext=\"$0-$1000\">\n\n            <div class=\"range-progress\"></div>\n\n            <input\n                type=\"range\"\n                id=\"minPrice\"\n                min=\"0\"\n                max=\"1000\"\n                value=\"0\"\n            >\n\n            <input\n                type=\"range\"\n                id=\"maxPrice\"\n                min=\"0\"\n                max=\"1000\"\n                value=\"1000\"\n            >\n        </div>\n\n        <div class=\"price-values\">\n            <span>$<span id=\"minValue\">0</span></span>\n            <span>$<span id=\"maxValue\">1000</span></span>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f5f7fa;\n    min-height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.price-filter {\n    width: 500px;\n    padding: 30px;\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #1e293b;\n}\n\n.price-filter h2 {\n    text-align: center;\n    margin-bottom: 35px;\n    color: #1e293b;\n}\n\n.slider-container {\n    position: relative;\n    width: 100%;\n    height: 40px;\n}\n\n/* Background track */\n.slider-container::before {\n    content: \"\";\n    position: absolute;\n    top: 17px;\n    left: 0;\n    width: 100%;\n    height: 6px;\n    background: #ddd;\n    border-radius: 5px;\n}\n\n/* Selected range */\n.range-progress {\n    position: absolute;\n    top: 17px;\n    left: 0;\n    height: 6px;\n    border-radius: 5px;\n    background-color: #3498db;\n    width: 100%;\n}\n\n/* Range sliders */\ninput[type=\"range\"] {\n    position: absolute;\n    left: 0;\n    top: 5px;\n    width: 100%;\n    height: 25px;\n    appearance: none;\n    background: transparent;\n    pointer-events: none;\n}\n\ninput[type=\"range\"]::-webkit-slider-thumb {\n    appearance: none;\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\ninput[type=\"range\"]::-moz-range-thumb {\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border: none;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\n.price-values {\n    display: flex;\n    justify-content: space-between;\n    margin-top: 15px;\n    font-size: 18px;\n    font-weight: bold;\n    color: #1e293b;\n}",
+    "solutionJS": "const minPrice = document.getElementById(\"minPrice\");\nconst maxPrice = document.getElementById(\"maxPrice\");\n\nconst minValue = document.getElementById(\"minValue\");\nconst maxValue = document.getElementById(\"maxValue\");\n\nconst rangeProgress = document.querySelector(\".range-progress\");\n\nfunction updateRangeBar() {\n    const min = parseFloat(minPrice.value) || 0;\n    const max = parseFloat(maxPrice.value) || 0;\n    const totalRange = parseFloat(maxPrice.max) - parseFloat(minPrice.min) || 1000;\n\n    // Calculate selected range percentage\n    const selectedRange = max - min;\n    const widthPercentage = (selectedRange / totalRange) * 100;\n    const leftPercentage = (min / totalRange) * 100;\n\n    rangeProgress.style.left = leftPercentage + \"%\";\n    rangeProgress.style.width = widthPercentage + \"%\";\n}\n\nminPrice.addEventListener(\"input\", function () {\n    minValue.textContent = minPrice.value;\n    updateRangeBar();\n});\n\nmaxPrice.addEventListener(\"input\", function () {\n    maxValue.textContent = maxPrice.value;\n    updateRangeBar();\n});\n\nupdateRangeBar();",
+    "solutionExplanation": "### Solution Breakdown: Product Price Filter (Accenture 23rd Sept Shift 1)\n\n1. **Part 1 — HTML Accessibility (ARIA)**:\n   - Add `aria-valuetext=\"$0-$1000\"` directly to `.slider-container`:\n     ```html\n     <div class=\"slider-container\" aria-valuetext=\"$0-$1000\">\n     ```\n   - This announces the selected price range clearly to assistive screen reader technologies.\n\n2. **Part 2 — CSS Progress Bar Color**:\n   - Set `background-color: #3498db;` inside `.range-progress`.\n   - This provides the iconic brand blue fill connecting the minimum and maximum range thumb handles.\n\n3. **Part 3 — JavaScript Range Math**:\n   - Extract the current slider values:\n     ```javascript\n     const min = parseFloat(minPrice.value) || 0;\n     const max = parseFloat(maxPrice.value) || 0;\n     const totalRange = (parseFloat(maxPrice.max) || 1000) - (parseFloat(minPrice.min) || 0);\n     ```\n   - Compute the selected percentage: `(max - min) / totalRange * 100`.\n   - Set `rangeProgress.style.width = widthPercentage + \"%\"` (and optionally `left = (min / totalRange * 100) + \"%\"` for dual slider alignment).",
     "liveSandbox": true
   },
   {
@@ -4923,6 +5070,361 @@ export const recentQuestions = [
         "expected": [
           { "Animal Name": "Python", "Species": "Reptilia", "Thief Name": "Sunil", "Theft Value": 18 },
           { "Animal Name": "Falcon", "Species": "Aves", "Thief Name": "Vikram", "Theft Value": 55 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "recent-sql-010",
+    "track": "sql",
+    "dateTag": "23rd Sept 2026 • Shift 1",
+    "examDate": "2026-09-23",
+    "shift": "Shift 1",
+    "title": "Orders with customer, payment method and delivery status",
+    "difficulty": "Medium",
+    "category": "Joins / Multiple-Table INNER JOIN & CONCAT",
+    "source": "Accenture Assessment 23rd Sept 2026 (Shift 1 Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 60,
+    "targetMins": 15,
+    "description": "Write an SQL query to display: List each order along with the customer's name, payment method, and delivery status.\n\n### 📝 Required Output Column Aliases:\n- `ORDER ID`\n- `NAME`\n- `PAYMENT METHOD`\n- `DELIVERY STATUS`\n\n---\n\n### 📌 Relational Model & Walkthrough:\n1. Join `orders` with `customer` using `CUSTOMER_ID`.\n2. Join `customer` with `customer_address` using `CUSTOMER_ID` to obtain the customer's first and last name.\n3. Join `orders` with `payment` using `ORDER_ID`.\n4. Join `orders` with `order_delivery` using `ORDER_ID`.\n5. Combine `FIRST_NAME` and `LAST_NAME` separated by a space using `CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME)`.\n6. Select the four requested columns with exact column aliases.\n\n> **⚠️ Important Schema Distractor Tip**: Several columns look relevant but are not required. For example, `orders.ORDER_STATUS` is different from `order_delivery.STATUS`, and `payment.STATUS` is different from `payment.PAYMENT_METHOD`. Use the columns requested by the question and follow the correct foreign-key relationships.",
+    "rules": [
+      "1. Join orders with customer on CUSTOMER_ID.",
+      "2. Join customer with customer_address on CUSTOMER_ID.",
+      "3. Join orders with payment on ORDER_ID.",
+      "4. Join orders with order_delivery on ORDER_ID.",
+      "5. Use CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME) to produce the customer's full name.",
+      "6. Use exact column aliases: \"ORDER ID\", \"NAME\", \"PAYMENT METHOD\", \"DELIVERY STATUS\"."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "Multiple-table JOIN",
+      "CONCAT",
+      "Column aliases"
+    ],
+    "viewSchema": {
+      "title": "View Schema",
+      "tableCount": 5,
+      "tables": [
+        {
+          "name": "orders",
+          "columns": [
+            "ORDER_ID",
+            "CUSTOMER_ID",
+            "ORDER_DATE",
+            "TOTAL_AMOUNT",
+            "ORDER_STATUS"
+          ],
+          "requiredColumns": [
+            "ORDER_ID",
+            "CUSTOMER_ID"
+          ],
+          "extraColumns": [
+            "ORDER_DATE",
+            "TOTAL_AMOUNT",
+            "ORDER_STATUS"
+          ]
+        },
+        {
+          "name": "customer",
+          "columns": [
+            "CUSTOMER_ID",
+            "USERNAME",
+            "EMAIL",
+            "PHONE"
+          ],
+          "requiredColumns": [
+            "CUSTOMER_ID"
+          ],
+          "extraColumns": [
+            "USERNAME",
+            "EMAIL",
+            "PHONE"
+          ]
+        },
+        {
+          "name": "customer_address",
+          "columns": [
+            "CUSTOMER_ID",
+            "FIRST_NAME",
+            "LAST_NAME",
+            "CITY",
+            "PINCODE"
+          ],
+          "requiredColumns": [
+            "CUSTOMER_ID",
+            "FIRST_NAME",
+            "LAST_NAME"
+          ],
+          "extraColumns": [
+            "CITY",
+            "PINCODE"
+          ]
+        },
+        {
+          "name": "payment",
+          "columns": [
+            "PAYMENT_ID",
+            "ORDER_ID",
+            "PAYMENT_METHOD",
+            "STATUS",
+            "PAYMENT_DATE"
+          ],
+          "requiredColumns": [
+            "ORDER_ID",
+            "PAYMENT_METHOD"
+          ],
+          "extraColumns": [
+            "PAYMENT_ID",
+            "STATUS",
+            "PAYMENT_DATE"
+          ]
+        },
+        {
+          "name": "order_delivery",
+          "columns": [
+            "ORDER_DELIVERY_ID",
+            "ORDER_ID",
+            "STATUS",
+            "TRACKING_NO",
+            "COURIER_NAME"
+          ],
+          "requiredColumns": [
+            "ORDER_ID",
+            "STATUS"
+          ],
+          "extraColumns": [
+            "ORDER_DELIVERY_ID",
+            "TRACKING_NO",
+            "COURIER_NAME"
+          ]
+        }
+      ],
+      "difficultyNote": "Each table contains the columns required to solve the question plus 2–3 additional realistic columns. The extra columns are intentional distractors for schema-reading practice."
+    },
+    "tableSchema": [
+      {
+        "name": "orders",
+        "columns": [
+          { "name": "ORDER_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "CUSTOMER_ID", "type": "INTEGER" },
+          { "name": "ORDER_DATE", "type": "TEXT" },
+          { "name": "TOTAL_AMOUNT", "type": "REAL" },
+          { "name": "ORDER_STATUS", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "customer",
+        "columns": [
+          { "name": "CUSTOMER_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "USERNAME", "type": "TEXT" },
+          { "name": "EMAIL", "type": "TEXT" },
+          { "name": "PHONE", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "customer_address",
+        "columns": [
+          { "name": "CUSTOMER_ID", "type": "INTEGER" },
+          { "name": "FIRST_NAME", "type": "TEXT" },
+          { "name": "LAST_NAME", "type": "TEXT" },
+          { "name": "CITY", "type": "TEXT" },
+          { "name": "PINCODE", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "payment",
+        "columns": [
+          { "name": "PAYMENT_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "ORDER_ID", "type": "INTEGER" },
+          { "name": "PAYMENT_METHOD", "type": "TEXT" },
+          { "name": "STATUS", "type": "TEXT" },
+          { "name": "PAYMENT_DATE", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "order_delivery",
+        "columns": [
+          { "name": "ORDER_DELIVERY_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "ORDER_ID", "type": "INTEGER" },
+          { "name": "STATUS", "type": "TEXT" },
+          { "name": "TRACKING_NO", "type": "TEXT" },
+          { "name": "COURIER_NAME", "type": "TEXT" }
+        ]
+      }
+    ],
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT o.ORDER_ID AS `ORDER ID`, CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME) AS `NAME`, p.PAYMENT_METHOD AS `PAYMENT METHOD`, od.STATUS AS `DELIVERY STATUS` FROM orders o JOIN customer c ON o.CUSTOMER_ID = c.CUSTOMER_ID JOIN customer_address ca ON c.CUSTOMER_ID = ca.CUSTOMER_ID JOIN payment p ON o.ORDER_ID = p.ORDER_ID JOIN order_delivery od ON o.ORDER_ID = od.ORDER_ID;",
+    "explanation": "### Solution Explanation:\n1. **JOIN orders & customer**: Connect each order to its customer via `o.CUSTOMER_ID = c.CUSTOMER_ID`.\n2. **JOIN customer_address**: Link `c.CUSTOMER_ID = ca.CUSTOMER_ID` to access `FIRST_NAME` and `LAST_NAME`.\n3. **JOIN payment**: Link `o.ORDER_ID = p.ORDER_ID` to obtain `PAYMENT_METHOD`.\n4. **JOIN order_delivery**: Link `o.ORDER_ID = od.ORDER_ID` to obtain delivery `STATUS`.\n5. **Name Concatenation**: `CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME) AS `NAME``.\n6. **Aliases**: Ensure backticks or double quotes are used for column aliases with spaces.",
+    "expectedColumns": [
+      "ORDER ID",
+      "NAME",
+      "PAYMENT METHOD",
+      "DELIVERY STATUS"
+    ],
+    "orderSensitive": false,
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Multiple Orders with Different Payment & Delivery Statuses",
+        "isHidden": false,
+        "data": {
+          "orders": [
+            { "ORDER_ID": 1001, "CUSTOMER_ID": 1, "ORDER_DATE": "2026-09-20", "TOTAL_AMOUNT": 2500.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 1002, "CUSTOMER_ID": 2, "ORDER_DATE": "2026-09-21", "TOTAL_AMOUNT": 1200.0, "ORDER_STATUS": "Shipped" },
+            { "ORDER_ID": 1003, "CUSTOMER_ID": 3, "ORDER_DATE": "2026-09-22", "TOTAL_AMOUNT": 850.0, "ORDER_STATUS": "Processing" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 1, "USERNAME": "amit_s", "EMAIL": "amit@example.com", "PHONE": "9876543210" },
+            { "CUSTOMER_ID": 2, "USERNAME": "riya_v", "EMAIL": "riya@example.com", "PHONE": "9876543211" },
+            { "CUSTOMER_ID": 3, "USERNAME": "neha_s", "EMAIL": "neha@example.com", "PHONE": "9876543212" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 1, "FIRST_NAME": "Amit", "LAST_NAME": "Sharma", "CITY": "Mumbai", "PINCODE": "400001" },
+            { "CUSTOMER_ID": 2, "FIRST_NAME": "Riya", "LAST_NAME": "Verma", "CITY": "Delhi", "PINCODE": "110001" },
+            { "CUSTOMER_ID": 3, "FIRST_NAME": "Neha", "LAST_NAME": "Singh", "CITY": "Bangalore", "PINCODE": "560001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 501, "ORDER_ID": 1001, "PAYMENT_METHOD": "Credit Card", "STATUS": "Paid", "PAYMENT_DATE": "2026-09-20" },
+            { "PAYMENT_ID": 502, "ORDER_ID": 1002, "PAYMENT_METHOD": "UPI", "STATUS": "Paid", "PAYMENT_DATE": "2026-09-21" },
+            { "PAYMENT_ID": 503, "ORDER_ID": 1003, "PAYMENT_METHOD": "Cash on Delivery", "STATUS": "Pending", "PAYMENT_DATE": "2026-09-22" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 801, "ORDER_ID": 1001, "STATUS": "Delivered", "TRACKING_NO": "TRK1001", "COURIER_NAME": "BlueDart" },
+            { "ORDER_DELIVERY_ID": 802, "ORDER_ID": 1002, "STATUS": "In Transit", "TRACKING_NO": "TRK1002", "COURIER_NAME": "Delhivery" },
+            { "ORDER_DELIVERY_ID": 803, "ORDER_ID": 1003, "STATUS": "Pending", "TRACKING_NO": "TRK1003", "COURIER_NAME": "Shadowfax" }
+          ]
+        },
+        "expected": [
+          { "ORDER ID": 1001, "NAME": "Amit Sharma", "PAYMENT METHOD": "Credit Card", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 1002, "NAME": "Riya Verma", "PAYMENT METHOD": "UPI", "DELIVERY STATUS": "In Transit" },
+          { "ORDER ID": 1003, "NAME": "Neha Singh", "PAYMENT METHOD": "Cash on Delivery", "DELIVERY STATUS": "Pending" }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — One Customer with Multiple Orders",
+        "isHidden": false,
+        "data": {
+          "orders": [
+            { "ORDER_ID": 2001, "CUSTOMER_ID": 10, "ORDER_DATE": "2026-09-15", "TOTAL_AMOUNT": 1500.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 2002, "CUSTOMER_ID": 10, "ORDER_DATE": "2026-09-18", "TOTAL_AMOUNT": 3200.0, "ORDER_STATUS": "Shipped" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 10, "USERNAME": "amit_sharma", "EMAIL": "amit.sharma@example.com", "PHONE": "9811122233" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 10, "FIRST_NAME": "Amit", "LAST_NAME": "Sharma", "CITY": "Pune", "PINCODE": "411001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 601, "ORDER_ID": 2001, "PAYMENT_METHOD": "UPI", "STATUS": "Success", "PAYMENT_DATE": "2026-09-15" },
+            { "PAYMENT_ID": 602, "ORDER_ID": 2002, "PAYMENT_METHOD": "Credit Card", "STATUS": "Success", "PAYMENT_DATE": "2026-09-18" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 901, "ORDER_ID": 2001, "STATUS": "Delivered", "TRACKING_NO": "TRK2001", "COURIER_NAME": "DTDC" },
+            { "ORDER_DELIVERY_ID": 902, "ORDER_ID": 2002, "STATUS": "In Transit", "TRACKING_NO": "TRK2002", "COURIER_NAME": "FedEx" }
+          ]
+        },
+        "expected": [
+          { "ORDER ID": 2001, "NAME": "Amit Sharma", "PAYMENT METHOD": "UPI", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 2002, "NAME": "Amit Sharma", "PAYMENT METHOD": "Credit Card", "DELIVERY STATUS": "In Transit" }
+        ]
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Pending Payment and Delivery",
+        "isHidden": false,
+        "data": {
+          "orders": [
+            { "ORDER_ID": 3001, "CUSTOMER_ID": 20, "ORDER_DATE": "2026-09-22", "TOTAL_AMOUNT": 999.0, "ORDER_STATUS": "Placed" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 20, "USERNAME": "riya_roy", "EMAIL": "riya.roy@example.com", "PHONE": "9822233344" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 20, "FIRST_NAME": "Riya", "LAST_NAME": "Roy", "CITY": "Kolkata", "PINCODE": "700001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 701, "ORDER_ID": 3001, "PAYMENT_METHOD": "Cash on Delivery", "STATUS": "Pending", "PAYMENT_DATE": "2026-09-22" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 951, "ORDER_ID": 3001, "STATUS": "Pending", "TRACKING_NO": "TRK3001", "COURIER_NAME": "EcomExpress" }
+          ]
+        },
+        "expected": [
+          { "ORDER ID": 3001, "NAME": "Riya Roy", "PAYMENT METHOD": "Cash on Delivery", "DELIVERY STATUS": "Pending" }
+        ]
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — Different Payment Methods & Delivery Providers",
+        "isHidden": false,
+        "data": {
+          "orders": [
+            { "ORDER_ID": 4001, "CUSTOMER_ID": 31, "ORDER_DATE": "2026-09-10", "TOTAL_AMOUNT": 450.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 4002, "CUSTOMER_ID": 32, "ORDER_DATE": "2026-09-11", "TOTAL_AMOUNT": 1200.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 4003, "CUSTOMER_ID": 33, "ORDER_DATE": "2026-09-12", "TOTAL_AMOUNT": 3400.0, "ORDER_STATUS": "Shipped" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 31, "USERNAME": "amit_k", "EMAIL": "amit.k@example.com", "PHONE": "9833344455" },
+            { "CUSTOMER_ID": 32, "USERNAME": "priya_d", "EMAIL": "priya.d@example.com", "PHONE": "9844455566" },
+            { "CUSTOMER_ID": 33, "USERNAME": "karan_r", "EMAIL": "karan.r@example.com", "PHONE": "9855566677" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 31, "FIRST_NAME": "Amit", "LAST_NAME": "Kumar", "CITY": "Hyderabad", "PINCODE": "500001" },
+            { "CUSTOMER_ID": 32, "FIRST_NAME": "Priya", "LAST_NAME": "Das", "CITY": "Chennai", "PINCODE": "600001" },
+            { "CUSTOMER_ID": 33, "FIRST_NAME": "Karan", "LAST_NAME": "Roy", "CITY": "Ahmedabad", "PINCODE": "380001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 801, "ORDER_ID": 4001, "PAYMENT_METHOD": "UPI", "STATUS": "Success", "PAYMENT_DATE": "2026-09-10" },
+            { "PAYMENT_ID": 802, "ORDER_ID": 4002, "PAYMENT_METHOD": "Debit Card", "STATUS": "Success", "PAYMENT_DATE": "2026-09-11" },
+            { "PAYMENT_ID": 803, "ORDER_ID": 4003, "PAYMENT_METHOD": "Net Banking", "STATUS": "Success", "PAYMENT_DATE": "2026-09-12" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 981, "ORDER_ID": 4001, "STATUS": "Delivered", "TRACKING_NO": "TRK4001", "COURIER_NAME": "BlueDart" },
+            { "ORDER_DELIVERY_ID": 982, "ORDER_ID": 4002, "STATUS": "Delivered", "TRACKING_NO": "TRK4002", "COURIER_NAME": "Delhivery" },
+            { "ORDER_DELIVERY_ID": 983, "ORDER_ID": 4003, "STATUS": "In Transit", "TRACKING_NO": "TRK4003", "COURIER_NAME": "DTDC" }
+          ]
+        },
+        "expected": [
+          { "ORDER ID": 4001, "NAME": "Amit Kumar", "PAYMENT METHOD": "UPI", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 4002, "NAME": "Priya Das", "PAYMENT METHOD": "Debit Card", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 4003, "NAME": "Karan Roy", "PAYMENT METHOD": "Net Banking", "DELIVERY STATUS": "In Transit" }
+        ]
+      },
+      {
+        "id": "tc-5",
+        "name": "Hidden Test Case 5 — Unmatched / Cancelled Orders & Schema Distractors",
+        "isHidden": true,
+        "data": {
+          "orders": [
+            { "ORDER_ID": 5001, "CUSTOMER_ID": 50, "ORDER_DATE": "2026-09-01", "TOTAL_AMOUNT": 1999.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 5002, "CUSTOMER_ID": 51, "ORDER_DATE": "2026-09-02", "TOTAL_AMOUNT": 2999.0, "ORDER_STATUS": "Cancelled" },
+            { "ORDER_ID": 5003, "CUSTOMER_ID": 52, "ORDER_DATE": "2026-09-03", "TOTAL_AMOUNT": 4999.0, "ORDER_STATUS": "Shipped" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 50, "USERNAME": "raj_m", "EMAIL": "raj@example.com", "PHONE": "9899900011" },
+            { "CUSTOMER_ID": 51, "USERNAME": "simran_k", "EMAIL": "simran@example.com", "PHONE": "9899900022" },
+            { "CUSTOMER_ID": 52, "USERNAME": "vikas_p", "EMAIL": "vikas@example.com", "PHONE": "9899900033" },
+            { "CUSTOMER_ID": 53, "USERNAME": "distractor_user", "EMAIL": "no_orders@example.com", "PHONE": "9899900044" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 50, "FIRST_NAME": "Raj", "LAST_NAME": "Malhotra", "CITY": "Mumbai", "PINCODE": "400050" },
+            { "CUSTOMER_ID": 51, "FIRST_NAME": "Simran", "LAST_NAME": "Kaur", "CITY": "Amritsar", "PINCODE": "143001" },
+            { "CUSTOMER_ID": 52, "FIRST_NAME": "Vikas", "LAST_NAME": "Patel", "CITY": "Surat", "PINCODE": "395001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 901, "ORDER_ID": 5001, "PAYMENT_METHOD": "Credit Card", "STATUS": "Completed", "PAYMENT_DATE": "2026-09-01" },
+            { "PAYMENT_ID": 903, "ORDER_ID": 5003, "PAYMENT_METHOD": "Wallet", "STATUS": "Completed", "PAYMENT_DATE": "2026-09-03" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 991, "ORDER_ID": 5001, "STATUS": "Delivered", "TRACKING_NO": "TRK5001", "COURIER_NAME": "BlueDart" },
+            { "ORDER_DELIVERY_ID": 993, "ORDER_ID": 5003, "STATUS": "Out for Delivery", "TRACKING_NO": "TRK5003", "COURIER_NAME": "Delhivery" }
+          ]
+        },
+        "expected": [
+          { "ORDER ID": 5001, "NAME": "Raj Malhotra", "PAYMENT METHOD": "Credit Card", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 5003, "NAME": "Vikas Patel", "PAYMENT METHOD": "Wallet", "DELIVERY STATUS": "Out for Delivery" }
         ]
       }
     ]

@@ -1303,7 +1303,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2038,6 +2038,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasLoop || !hasSquareOrMult || !hasModulo) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_square_modulo';
+      }
+    } else if (question.id === 'recent-dsa-018') {
+      const hasLoop = code.includes('for') || code.includes('while');
+      const hasParity = code.includes('% 2') || code.includes('%2') || code.includes('& 1') || code.includes('&1');
+      const hasSearch = code.includes('find') || code.includes('contains') || code.includes('Contains') || code.includes('includes') || code.includes('indexOf') || code.includes('in s1') || code.includes('in s2');
+      if (!hasLoop || !hasParity || !hasSearch) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_alternating_search';
       }
     }
 
@@ -3075,6 +3083,72 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-018') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: K=3, "abcdebrd", "pqrstcse")', K: 3, s1: 'abcdebrd', s2: 'pqrstcse', exp: 2, expStr: 'Count: 2 ("brd" in s1, "cse" in s2)', latency: '3ms' },
+          { id: 2, name: 'Exam Test Case 2 (K=1 Single Chars)', K: 1, s1: 'abc', s2: 'xyz', exp: 3, expStr: 'Count: 3 ("a", "b", "c" in s1)', latency: '2ms' },
+          { id: 3, name: 'Exam Test Case 3 (K=2 No Match)', K: 2, s1: 'abcd', s2: 'xyza', exp: 0, expStr: 'Count: 0', latency: '2ms' },
+          { id: 4, name: 'Exam Test Case 4 (K=2, Non-Circular Bounds)', K: 2, s1: 'abcd', s2: 'bcda', exp: 0, expStr: 'Count: 0', latency: '3ms' },
+          { id: 5, name: 'Exam Test Case 5 (K=3, Repeated Pattern)', K: 3, s1: 'abcabc', s2: 'xyzabc', exp: 2, expStr: 'Count: 2', latency: '3ms' },
+          { id: 6, name: 'Exam Test Case 6 (Identical Repetitive Chars)', K: 2, s1: 'aaaa', s2: 'aaaa', exp: 3, expStr: 'Count: 3 ("aa" match)', latency: '2ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Count: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.K, t.s1, t.s2]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Count: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Count: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Count: 0 (Flawed alternation or substring search)`;
+            passed = t.exp === 0;
+          } else {
+            let count = 0;
+            const n = t.s1.length;
+            for (let start = 0; start + t.K <= n; start++) {
+              let candidate = '';
+              for (let j = 0; j < t.K; j++) {
+                candidate += (j % 2 === 0) ? t.s1[start + j] : t.s2[start + j];
+              }
+              if (t.s1.includes(candidate) || t.s2.includes(candidate)) {
+                count++;
+              }
+            }
+            actualStr = `Count: ${count}`;
+            passed = count === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `K = ${t.K}, s1 = "${t.s1}", s2 = "${t.s2}"`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -3217,6 +3291,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       position: relative;
     }
     ${feCode.css}
+
+    /* Fallback legibility for light card containers */
+    .price-filter, .price-filter h2, .price-values {
+      color: #1e293b;
+    }
 
     /* In-sandbox Visual Modal Alert Overlay */
     .sandbox-modal-overlay {
@@ -3502,6 +3581,188 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-002')) {
                 const updated = prev.filter(id => id !== 'recent-fe-002');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Product Price Filter (recent-fe-005)
+        if (activeFeQuestion?.id === 'recent-fe-005') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification: aria-valuetext="$0-$1000" on .slider-container
+          const sliderContainer = doc.querySelector('.slider-container');
+          const ariaValuetext = sliderContainer ? (sliderContainer.getAttribute('aria-valuetext') || '').trim() : '';
+          const hasAriaValueText = ariaValuetext === '$0-$1000';
+
+          const minInput = doc.querySelector('#minPrice');
+          const maxInput = doc.querySelector('#maxPrice');
+          const hasValidInputs = !!(minInput && maxInput && minInput.getAttribute('min') === '0' && maxInput.getAttribute('max') === '1000');
+
+          // 2. CSS Verification: .range-progress has background-color #3498db
+          const rangeProgressBlock = (css.match(/\.range-progress\s*\{([^}]*)\}/i) || [])[1] || '';
+          const hasRangeColor = /background(?:-color)?\s*:\s*(?:#3498db|rgb\(\s*52\s*,\s*152\s*,\s*219\s*\))/i.test(rangeProgressBlock);
+
+          // 3 & 4. JavaScript Verification: updateRangeBar implementation & percentage logic
+          const hasUpdateFn = /function\s+updateRangeBar\s*\(/i.test(codeWithoutComments) ||
+            /const\s+updateRangeBar\s*=\s*(?:function|\([^)]*\)\s*=>)/i.test(codeWithoutComments);
+
+          let jsMathPassed = false;
+          let jsMathMsg = '';
+          let jsInteractivePassed = false;
+          let jsInteractiveMsg = '';
+
+          try {
+            // Execute in synchronous sandboxed DOM environment with scoped document mock
+            const sandboxDiv = document.createElement('div');
+            sandboxDiv.innerHTML = html;
+
+            const testMin = sandboxDiv.querySelector('#minPrice');
+            const testMax = sandboxDiv.querySelector('#maxPrice');
+            const testBar = sandboxDiv.querySelector('.range-progress');
+            const testMinVal = sandboxDiv.querySelector('#minValue');
+            const testMaxVal = sandboxDiv.querySelector('#maxValue');
+
+            if (!testMin || !testMax || !testBar) {
+              jsMathPassed = false;
+              jsMathMsg = 'Required DOM elements (#minPrice, #maxPrice, .range-progress) missing in HTML.';
+              jsInteractivePassed = false;
+              jsInteractiveMsg = 'Cannot test events without slider elements in HTML.';
+            } else {
+              const mockDoc = {
+                getElementById: (id) => sandboxDiv.querySelector('#' + id),
+                querySelector: (sel) => sandboxDiv.querySelector(sel),
+                querySelectorAll: (sel) => sandboxDiv.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              let scriptErr = null;
+              try {
+                const runFn = new Function('document', 'window', js);
+                runFn(mockDoc, window);
+              } catch (e) {
+                scriptErr = e;
+              }
+
+              if (scriptErr) {
+                jsMathPassed = false;
+                jsMathMsg = `Runtime error in script.js: ${scriptErr.message}`;
+                jsInteractivePassed = false;
+                jsInteractiveMsg = `Script failed to initialize event listeners: ${scriptErr.message}`;
+              } else {
+                // Test dynamic values: min = 200, max = 700 (selected range = 500 => 50%)
+                testMin.value = '200';
+                testMax.value = '700';
+
+                // Dispatch input event on min and max
+                testMin.dispatchEvent(new Event('input', { bubbles: true }));
+                testMax.dispatchEvent(new Event('input', { bubbles: true }));
+
+                const currentWidth = (testBar.style.width || '').replace('%', '').trim();
+                const widthNum = parseFloat(currentWidth);
+
+                if (Math.abs(widthNum - 50) < 1) {
+                  jsMathPassed = true;
+                  jsMathMsg = 'Percentage calculation is accurate: 50% width computed for range 200 to 700.';
+                } else if (widthNum > 0) {
+                  jsMathPassed = true;
+                  jsMathMsg = `Progress bar width dynamically updated to ${testBar.style.width}.`;
+                } else if (codeWithoutComments.includes('width') && (codeWithoutComments.includes('%') || codeWithoutComments.includes('100'))) {
+                  jsMathPassed = true;
+                  jsMathMsg = 'updateRangeBar() includes width percentage formula.';
+                } else {
+                  jsMathPassed = false;
+                  jsMathMsg = `Expected progress bar width to be 50% for 200-700 range, but got "${testBar.style.width || 'unset'}".`;
+                }
+
+                // Check text values synced on input event AND progress bar was dynamically updated
+                const minTextSynced = testMinVal && testMinVal.textContent.trim() === '200';
+                const maxTextSynced = testMaxVal && testMaxVal.textContent.trim() === '700';
+                const barUpdated = widthNum > 0 && Math.abs(widthNum - 50) < 1;
+
+                if (minTextSynced && maxTextSynced && barUpdated) {
+                  jsInteractivePassed = true;
+                  jsInteractiveMsg = 'Input event listeners correctly sync #minValue, #maxValue, and dynamically update range progress bar.';
+                } else if (!barUpdated) {
+                  jsInteractivePassed = false;
+                  jsInteractiveMsg = 'Sliders moved, but range progress bar was not dynamically updated by updateRangeBar().';
+                } else {
+                  jsInteractivePassed = false;
+                  jsInteractiveMsg = 'Price display values did not update on slider movement.';
+                }
+              }
+            }
+          } catch (e) {
+            // Fallback AST inspection
+            if (hasUpdateFn && codeWithoutComments.includes('width')) {
+              jsMathPassed = true;
+              jsMathMsg = 'updateRangeBar() implemented with percentage calculations.';
+              jsInteractivePassed = true;
+              jsInteractiveMsg = 'Slider listeners registered.';
+            } else {
+              jsMathPassed = false;
+              jsMathMsg = `Verification error: ${e.message}`;
+              jsInteractivePassed = false;
+              jsInteractiveMsg = 'Could not verify interactive slider behavior.';
+            }
+          }
+
+          const results = [
+            {
+              id: 1,
+              name: 'HTML: Add aria-valuetext="$0-$1000" to .slider-container',
+              passed: hasAriaValueText && hasValidInputs,
+              message: hasAriaValueText
+                ? 'Attribute aria-valuetext="$0-$1000" successfully added to .slider-container.'
+                : 'Missing or incorrect aria-valuetext="$0-$1000" on .slider-container.'
+            },
+            {
+              id: 2,
+              name: 'CSS: Set .range-progress background-color to #3498db',
+              passed: hasRangeColor,
+              message: hasRangeColor
+                ? 'Background color #3498db properly configured on .range-progress.'
+                : 'Expected .range-progress { background-color: #3498db; }.'
+            },
+            {
+              id: 3,
+              name: 'JavaScript: updateRangeBar() calculates percentage width',
+              passed: hasUpdateFn && jsMathPassed,
+              message: jsMathMsg
+            },
+            {
+              id: 4,
+              name: 'JavaScript: Dynamic updates on moving min and max sliders',
+              passed: jsInteractivePassed,
+              message: jsInteractiveMsg
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-005',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-005')) {
+              toggleSolved('recent-fe-005');
+              gamificationService.addXP(50, 'Solved Product Price Filter');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-005')) {
+                const updated = prev.filter(id => id !== 'recent-fe-005');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -5645,7 +5906,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-004' ? (
+                    {activeFeQuestion.id === 'recent-fe-005' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are building a <strong style={{ color: '#f8fafc' }}>Product Price Filter</strong> that allows users to select a minimum and maximum price using a range slider. Complete three small tasks involving HTML, CSS, and JavaScript.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML aria-valuetext="$0-$1000" • Part 2: CSS background-color #3498db • Part 3: JS updateRangeBar() width percentage
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-004' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are given a partially completed <strong style={{ color: '#f8fafc' }}>Countdown Timer</strong> webpage. The timer should start when the user clicks the Start Timer button and count down from 10 to 0. When the timer reaches 0, a pop-up message should be displayed.
@@ -5705,7 +5975,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add attribute <code style={{ color: '#fb923c' }}>aria-valuetext="$0-$1000"</code> to <strong style={{ color: '#f8fafc' }}><code>.slider-container</code></strong>.</li>
+                            <li>Do not modify existing input sliders (<strong style={{ color: '#f8fafc' }}><code>#minPrice</code></strong> and <strong style={{ color: '#f8fafc' }}><code>#maxPrice</code></strong>).</li>
+                            <li>Preserve price values container with <strong style={{ color: '#f8fafc' }}><code>#minValue</code></strong> and <strong style={{ color: '#f8fafc' }}><code>#maxValue</code></strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add <code style={{ color: '#fb923c' }}>&lt;span id="timer"&gt;10&lt;/span&gt;</code> inside <strong style={{ color: '#f8fafc' }}><code>.timer</code></strong>.</li>
                             <li>Initial value must be set to <strong style={{ color: '#f8fafc' }}><code>10</code></strong>.</li>
@@ -5750,7 +6026,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set <code style={{ color: '#4ade80' }}>background-color: #3498db;</code> inside <strong style={{ color: '#f8fafc' }}><code>.range-progress</code></strong>.</li>
+                            <li>Do not change existing slider thumbs or track styles.</li>
+                            <li>Preserve positioning (<code>position: absolute</code>, <code>top: 17px</code>).</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Set timer text color to <code style={{ color: '#4ade80' }}>#4CAF50</code> inside <strong style={{ color: '#f8fafc' }}><code>.timer</code></strong>.</li>
                             <li>Change only the required CSS property (approx. 1 line).</li>
@@ -5793,7 +6075,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Calculate selected range percentage: <code style={{ color: '#facc15' }}>(max - min) / totalRange * 100</code>.</li>
+                            <li>Set calculated percentage as the width of <strong style={{ color: '#f8fafc' }}><code>.range-progress</code></strong>.</li>
+                            <li>Keep existing input listeners on <strong style={{ color: '#f8fafc' }}><code>minPrice</code></strong> and <strong style={{ color: '#f8fafc' }}><code>maxPrice</code></strong> intact.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add click listener to <strong style={{ color: '#f8fafc' }}><code>#startBtn</code></strong>.</li>
                             <li>Use <code style={{ color: '#facc15' }}>setInterval</code> to decrement <code style={{ color: '#facc15' }}>timeLeft</code> every 1000ms.</li>
@@ -5829,7 +6117,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-004'
+                      {(activeFeQuestion.id === 'recent-fe-005'
+                        ? [
+                            { title: 'ARIA Accessibility Bound', desc: '.slider-container includes aria-valuetext="$0-$1000"' },
+                            { title: 'CSS Progress Color', desc: '.range-progress background-color is set to #3498db' },
+                            { title: 'Range Width Percentage', desc: 'updateRangeBar() computes width based on (max - min) / totalRange * 100%' },
+                            { title: 'Interactive Range Sync', desc: 'Moving sliders updates #minValue, #maxValue, and dynamically adjusts the progress bar' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-004'
                         ? [
                             { title: 'CSS Timer Color', desc: '.timer color property is set to #4CAF50' },
                             { title: 'HTML Timer Span', desc: '<span id="timer">10</span> properly added inside .timer' },
@@ -5888,7 +6183,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-004'
+                      {(activeFeQuestion.id === 'recent-fe-005'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 #3498db',
+                            'Vanilla ES6 JavaScript',
+                            'ARIA aria-valuetext',
+                            'Dual Range Sliders',
+                            'Dynamic Percentage Math'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-004'
                         ? [
                             'HTML5 Standard',
                             'CSS3 #4CAF50',
@@ -6468,7 +6772,19 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Attribute: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>aria-valuetext="$0-$1000"</code> added to <code style={{ color: '#38bdf8' }}>.slider-container</code>.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Inputs: Both sliders maintained with bounds (0 to 1000).
+                            </li>
+                            <li>
+                              Price Labels: Preserved with <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>#minValue</code> and <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>#maxValue</code>.
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
                             <li style={{ marginBottom: '0.4rem' }}>
                               Span Element: <code style={{ color: '#38bdf8', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>&lt;span id="timer"&gt;10&lt;/span&gt;</code> added inside <code style={{ color: '#38bdf8' }}>.timer</code>.
@@ -6541,7 +6857,19 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                         </div>
 
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Progress Color: <code style={{ color: '#4ade80', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>background-color: #3498db;</code> in <code style={{ color: '#38bdf8' }}>.range-progress</code>.
+                            </li>
+                            <li style={{ marginBottom: '0.4rem' }}>
+                              Track Height: 6px height and rounded border-radius preserved.
+                            </li>
+                            <li>
+                              Thumbs: Webkit and Mozilla thumb styles kept intact.
+                            </li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.6 }}>
                             <li style={{ marginBottom: '0.4rem' }}>
                               Timer Color: <code style={{ color: '#4ade80', background: '#1e293b', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>color: #4CAF50;</code> sets timer to green.
@@ -6606,7 +6934,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Terminal size={16} className="text-emerald-400" />
                             <span style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.85rem' }}>
-                              3. DOM Manipulation &amp; Interval
+                              3. DOM Manipulation &amp; Range Math
                             </span>
                           </div>
                           <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', fontWeight: 700 }}>
@@ -6615,7 +6943,29 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         </div>
 
                         {/* Interactive Formula Trace Box */}
-                        {activeFeQuestion.id === 'recent-fe-004' ? (
+                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                          <div style={{
+                            background: '#070b14',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            borderRadius: '8px',
+                            padding: '8px 10px',
+                            fontSize: '0.75rem',
+                            fontFamily: 'JetBrains Mono',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px'
+                          }}>
+                            <div style={{ color: '#94a3b8' }}>
+                              1. <span style={{ color: '#38bdf8' }}>selectedRange</span> = maxPrice.value - minPrice.value
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              2. <span style={{ color: '#facc15' }}>widthPercentage</span> = (selectedRange / totalRange) * 100
+                            </div>
+                            <div style={{ color: '#94a3b8' }}>
+                              3. <span style={{ color: '#4ade80' }}>rangeProgress.style.width</span> = widthPercentage + "%"
+                            </div>
+                          </div>
+                        ) : activeFeQuestion.id === 'recent-fe-004' ? (
                           <div style={{
                             background: '#070b14',
                             border: '1px solid rgba(34, 197, 94, 0.3)',

@@ -102,6 +102,7 @@ export default function Dashboard({ theme = 'dark' }) {
           </div>
           <h1 className="dashboard-hero-title">
             Welcome back, Abhishek 👋
+            
           </h1>
           <p className="dashboard-hero-subtitle">
             Continue your preparation. Your Accenture readiness score updates automatically with each problem solved, lesson completed, and mock test attempted.

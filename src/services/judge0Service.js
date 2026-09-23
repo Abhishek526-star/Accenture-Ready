@@ -394,6 +394,26 @@ for _n, _d in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-018') {
+      return `${cleanUserCode}
+
+_tests = [
+    (3, "abcdebrd", "pqrstcse"),
+    (1, "abc", "xyz"),
+    (2, "abcd", "xyza"),
+    (2, "abcd", "bcda"),
+    (3, "abcabc", "xyzabc"),
+    (2, "aaaa", "aaaa")
+]
+for _k, _s1, _s2 in _tests:
+    try:
+        fn = globals().get('countAlternatingStrings') or globals().get('count_alternating_strings') or globals().get('CountAlternatingStrings') or countAlternatingStrings
+        print("TEST_RES:" + str(fn(_k, _s1, _s2)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -884,6 +904,33 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-018') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        Object[][] tests = {
+            {3, "abcdebrd", "pqrstcse"},
+            {1, "abc", "xyz"},
+            {2, "abcd", "xyza"},
+            {2, "abcd", "bcda"},
+            {3, "abcabc", "xyzabc"},
+            {2, "aaaa", "aaaa"}
+        };
+        for (Object[] t : tests) {
+            try {
+                int k = (Integer) t[0];
+                String s1 = (String) t[1];
+                String s2 = (String) t[2];
+                System.out.println("TEST_RES:" + countAlternatingStrings(k, s1, s2));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1290,6 +1337,31 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-018') {
+      return `${cleanUserCode}
+
+int main() {
+    struct TestCase {
+        int K;
+        std::string s1;
+        std::string s2;
+    };
+    std::vector<TestCase> tests = {
+        {3, "abcdebrd", "pqrstcse"},
+        {1, "abc", "xyz"},
+        {2, "abcd", "xyza"},
+        {2, "abcd", "bcda"},
+        {3, "abcabc", "xyzabc"},
+        {2, "aaaa", "aaaa"}
+    };
+    for (auto& t : tests) {
+        std::cout << "TEST_RES:" << countAlternatingStrings(t.K, t.s1, t.s2) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1674,6 +1746,26 @@ int main() {
         };
         foreach (var t in tests) {
             Console.WriteLine("TEST_RES:" + CountMatchingSquares(t.Item1, t.Item2));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-018') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new List<(int, string, string)> {
+            (3, "abcdebrd", "pqrstcse"),
+            (1, "abc", "xyz"),
+            (2, "abcd", "xyza"),
+            (2, "abcd", "bcda"),
+            (3, "abcabc", "xyzabc"),
+            (2, "aaaa", "aaaa")
+        };
+        foreach (var t in tests) {
+            Console.WriteLine("TEST_RES:" + CountAlternatingStrings(t.Item1, t.Item2, t.Item3));
         }
     }
 }
@@ -2078,6 +2170,28 @@ for (const [_n, _d] of _tests) {
     try {
         const fn = typeof countMatchingSquares === 'function' ? countMatchingSquares : (typeof count_matching_squares === 'function' ? count_matching_squares : (typeof CountMatchingSquares === 'function' ? CountMatchingSquares : null));
         console.log("TEST_RES:" + JSON.stringify(fn(_n, _d)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-018') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [3, "abcdebrd", "pqrstcse"],
+  [1, "abc", "xyz"],
+  [2, "abcd", "xyza"],
+  [2, "abcd", "bcda"],
+  [3, "abcabc", "xyzabc"],
+  [2, "aaaa", "aaaa"]
+];
+for (const [_k, _s1, _s2] of _tests) {
+    try {
+        const fn = typeof countAlternatingStrings === 'function' ? countAlternatingStrings : (typeof count_alternating_strings === 'function' ? count_alternating_strings : (typeof CountAlternatingStrings === 'function' ? CountAlternatingStrings : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_k, _s1, _s2)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

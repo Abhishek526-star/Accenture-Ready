@@ -126,7 +126,7 @@ export const interviewQuestions = [
     thinkPrompt: 'Keep it under 90 seconds. Structure: Education -> Technical Skills -> Major Project -> Hobbies/Soft Skills -> Why you are excited to join.',
     answer: `*"Hello sir/ma'am, thank you for giving me this opportunity.*
 
-*My name is Abhishek, and I am currently completing my B.Tech in Computer Science from [Your College/University] with a CGPA of [Your CGPA].*
+*My name is [Your Name], and I am currently completing my B.Tech in Computer Science from [Your College/University] with a CGPA of [Your CGPA].*
 
 *During my engineering journey, I developed a strong interest in software development and problem-solving. My core technical skills include Java, JavaScript, Data Structures, and SQL. I have built practical projects like an E-Commerce Platform and a Student Portal, where I worked on both frontend design and database integration.*
 
@@ -837,6 +837,608 @@ WHERE condition;
       'Accepts FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT',
       'Logical execution starts at FROM and evaluates SELECT near the end'
     ]
+  },
+
+  /* ==========================================================================
+     RECENT INTERVIEW QUESTIONS (SEP 2026) — EASY ANSWERS, TRAPS & GUIDANCE
+     ========================================================================== */
+  {
+    id: 'rec-int-01',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'HR & Introduction',
+    role: 'All Accenture Candidates (ASE / FSE)',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '1. Tell me about yourself / Introduction',
+    thinkPrompt: 'Structure your intro with 6 key pillars: Greeting -> Education & CGPA -> Core Tech Stack -> BEL Internship (Three.js) -> DSA (500+) & GenAI -> Career Goal. Maintain a steady cadence with deliberate pauses.',
+    trap: 'Reciting your resume chronologically with 10th/12th school percentages, or naming technologies you cannot defend technically. If you mention React, Java, or GenAI, interviewers treat it as permission to grill you deeply on them!',
+    trapSolution: 'Use the 6-Pillar Formula (~60-90 seconds at 130 WPM). Only mention technologies you have hands-on project experience with. Conclude with a clear goal of learning from Accenture mentors and building client impact.',
+    answer: `Good morning, sir/ma'am.
+
+My name is [Your Name]. I am pursuing my B.Tech in Computer Science Engineering from Madan Mohan Malaviya University of Technology, Gorakhpur. My current CGPA is 8.33.
+
+I completed my schooling from [School Name], where I completed my Class 10th and 12th.
+
+I am interested in software development and problem solving. I have worked with technologies like Java, C++, React, Node.js, Express, and MongoDB.
+
+I also completed a web development internship at Bharat Electronics Limited. During my internship, I worked on a 3D metro station project using Three.js. I worked on creating the 3D model and adding interactive features to it.
+
+Apart from development, I regularly practice DSA and have solved more than 500 problems. I am also learning Generative AI and trying to improve my knowledge in this field.
+
+My goal is to start my career in a company like Accenture, where I can learn new technologies, improve my skills, and contribute to real-world projects.
+
+Thank you.
+`,
+    keyPoints: [
+      "Important Delivery Tip: Don't speak everything very fast. Speak in small sentences and pause after each 1–2 sentences.",
+      'State your degree and institution: B.Tech in CSE from MMMUT, Gorakhpur',
+      'Mention your solid academic record: 8.33 CGPA',
+      'Highlight hands-on technical skills: Java, C++, React, Node.js, Express, MongoDB',
+      'Feature your Bharat Electronics Limited internship (3D metro station modeling with Three.js)',
+      'Demonstrate problem-solving dedication: 500+ DSA problems solved and active GenAI learning',
+      'Conclude with clear career aspirations aligned with real-world project contributions'
+    ]
+  },
+  {
+    id: 'rec-int-02',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'HR & Introduction',
+    role: 'All Accenture Candidates',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '2. Tell me about your CGPA and family background',
+    thinkPrompt: 'Be genuine and authentic. Relate your CGPA to maintaining a healthy equilibrium between academics and hands-on coding, and keep family background details simple and heartfelt.',
+    trap: 'Sounding defensive about minor grade fluctuations or over-sharing personal financial hardships. Interviewers want to see personal stability, maturity, and genuine inner motivation.',
+    trapSolution: 'Frame your 8.33 CGPA as evidence of consistent academic discipline while balancing practical project development and DSA. Share parents\' professions briefly and state that their encouragement fuels your drive for self-reliance.',
+    answer: `**CGPA:**
+My current CGPA is 8.33.
+I have tried to maintain a good balance between academics and practical learning. Along with my studies, I work on development projects and practice DSA.
+
+**Family Background:**
+I come from a supportive family. My father is [profession] and my mother is [profession/homemaker]. I have [brother/sister].
+
+My family has always supported me in my education and career. Their support motivates me to work hard and become independent.`,
+    keyPoints: [
+      'Do not invent details: Replace bracketed placeholders with your real family information',
+      'Connect your 8.33 CGPA to consistency and balancing theory with practical project development',
+      'Explain that family encouragement drives your intrinsic motivation to excel and be self-reliant'
+    ]
+  },
+  {
+    id: 'rec-int-03',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'HR & Introduction',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '3. What are your interests?',
+    thinkPrompt: 'Provide a balanced mix of technical interests (software development, problem-solving, DSA) and outdoor sports (volleyball, badminton). Prepare for the follow-up question on software development.',
+    trap: 'Giving only passive hobbies like "watching Netflix or scrolling social media", which demonstrates lack of discipline; or claiming "I only code 24 hours a day", which sounds artificial.',
+    trapSolution: 'Pair your technical interest (software development & turning ideas into functional apps) with an active physical outdoor sport (volleyball, badminton). This portrays analytical reasoning combined with teamwork and fitness.',
+    answer: `My main interests are software development and problem solving. I enjoy building applications and learning new technologies.
+
+I also enjoy practicing DSA because it improves my logical thinking. Apart from technical activities, I like playing volleyball and badminton.
+
+**Possible Interviewer Follow-up:**
+*"Why do you like software development?"*
+
+**Answer:**
+"I like software development because I can convert an idea into a working application. I also enjoy solving problems and finding better solutions."`,
+    keyPoints: [
+      'Share both technical interests and personal outdoor sports',
+      'Mention that DSA improves logical thinking and analytical reasoning',
+      'Playing volleyball and badminton reflects active team spirit and work-life balance',
+      'Follow-up ready: Software development allows transforming ideas into impactful, functional software'
+    ]
+  },
+  {
+    id: 'rec-int-04',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'Technical & DSA',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '4. What is your favourite subject?',
+    thinkPrompt: 'Keep DSA as your chosen subject since you actively practice it (500+ questions). Detail your structured 3-step approach and prepare for the Array vs Linked List follow-up.',
+    trap: 'Claiming a subject you only read theoretically, or claiming you are an expert in Advanced Graphs/DP and freezing when the interviewer asks a fundamental memory or pointer question like Array vs Linked List.',
+    trapSolution: 'Name DSA confidently, anchor it to 500+ solved problems, explain your structured 3-step problem-solving method, and be immediately ready to contrast contiguous memory O(1) random access vs dynamic pointer node traversal.',
+    answer: `My favourite subject is Data Structures and Algorithms.
+
+I like DSA because it improves my problem-solving and logical thinking. I have practiced many problems on arrays, strings, linked lists, trees and graphs.
+
+Whenever I face a new problem, I first try to understand the problem, then think about different approaches and finally choose an efficient solution.
+
+**Possible Interviewer Follow-up:**
+*"What is the difference between an array and linked list?"*
+
+**Answer:**
+- **Array**: Elements are stored in contiguous memory locations. Offers **O(1)** instant random access by index, but has a fixed size and costly **O(n)** insertions/deletions.
+- **Linked List**: Elements (nodes) are stored non-contiguously in memory and linked by pointers. Has dynamic size and fast **O(1)** insertions/deletions once the node is reached, but **O(n)** sequential access.`,
+    keyPoints: [
+      'Recommend keeping DSA as your answer backed by 500+ solved problems',
+      'Explain your 3-step method: understand the problem -> evaluate multiple approaches -> implement optimal solution',
+      'Be immediately ready for fundamental follow-ups like Array vs Linked List, Time Complexity, and Recursion'
+    ]
+  },
+  {
+    id: 'rec-int-05',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'Project & Engineering',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '5. Explain your project (PharmaPlus)',
+    thinkPrompt: 'Structure: Purpose -> Tech Stack -> Key Features -> Real Engineering Challenge & Solution -> Key Learnings. Speak with genuine fresher humility.',
+    trap: 'Claiming "I know everything about MERN stack" or only listing visual UI screens without explaining backend APIs, database synchronization, authentication, or real engineering hurdles.',
+    trapSolution: 'State you have practical hands-on experience through building PharmaPlus. Walk through the architecture (React -> Express -> MongoDB) and highlight the inventory synchronization challenge upon verified Razorpay payment callback.',
+    answer: `One of my main projects is **PharmaPlus**, which is an online pharmacy management system.
+
+The main purpose of this project is to allow users to search and order medicines online.
+
+I developed the frontend using React and Tailwind CSS. For the backend, I used Node.js and Express, and MongoDB for storing the data.
+
+The application has features like user authentication, medicine search, cart management, orders, prescription upload and pharmacist verification.
+
+I also integrated Razorpay for online payment.
+
+One important challenge I faced was updating the medicine inventory after an order was successfully paid. I solved this by updating the database only after successful payment verification.
+
+Through this project, I learned about full-stack development, APIs, database management, authentication and payment integration.`,
+    keyPoints: [
+      "Very Important Phrasing: Don't say 'I know everything about MERN'. Say: 'I have practical experience with MERN through my projects' — sounds far more genuine.",
+      'Feature overview: User authentication, medicine search, cart, prescription upload, pharmacist verification, and orders',
+      'Payment gateway: Integrated Razorpay for secure checkout transactions',
+      'Key technical hurdle: Prevented inventory race conditions by updating stock quantities strictly upon verified payment webhook responses',
+      'Key takeaways: Full-stack API architecture, state management, and database synchronization'
+    ]
+  },
+  {
+    id: 'rec-int-06',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'Project & Engineering',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '6. Is this a team project?',
+    thinkPrompt: 'State clearly that it was an individual project. Turn that into a strength by demonstrating end-to-end full-stack ownership and how you debugged challenges.',
+    trap: 'Sounding like a solitary worker who dislikes collaboration ("I work alone because team members make mistakes"). Accenture relies entirely on large agile delivery teams!',
+    trapSolution: 'Acknowledge it was an individual project, explain that it gave you complete full-stack visibility from frontend to database, and emphasize that debugging alone taught you self-directed documentation reading and resilience.',
+    answer: `This was mainly my individual project. I worked on the frontend, backend, database and integration myself.
+
+Because I worked on different parts of the application, I got a better understanding of how the frontend communicates with the backend and how data is stored in the database.
+
+**Possible Interviewer Follow-up:**
+*"Did you face any problems while working alone?"*
+
+**Answer:**
+"Yes. Sometimes I faced technical problems and initially I was not able to find the solution. I used documentation, searched for possible solutions and tested different approaches. This helped me improve my debugging skills."`,
+    keyPoints: [
+      'Be upfront: PharmaPlus was built individually',
+      'Highlight the key advantage: Deep cross-layer comprehension of how client, server, and database interact',
+      'Address solo hurdles positively: Honed self-directed debugging, documentation reading, and systematic testing'
+    ]
+  },
+  {
+    id: 'rec-int-07',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'AI & Cloud Scale',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '7. How did you use AI in your project?',
+    thinkPrompt: 'Accenture evaluates candidates on authentic skills. Frame AI as a learning accelerator and debugging assistant, not a blind code generator.',
+    trap: 'Admitting that AI generated large portions of your codebase, or inversely, claiming you never touched AI at all in 2026 (which suggests lack of modern tool awareness).',
+    trapSolution: 'Frame AI as a developer copilot used for debugging cryptic errors, exploring architectural alternatives, and learning concepts—while explicitly confirming you authored and tested all implementation logic yourself.',
+    answer: `I used AI mainly as a learning and development assistant.
+
+For example, when I faced an error or was not sure about an implementation, I used AI to understand the possible cause and different approaches.
+
+But I did not directly copy the complete solution. I first tried to understand the solution, then implemented and tested it myself.
+
+I also explored Generative AI, embeddings and RAG concepts as part of my learning.
+
+**Possible Interviewer Follow-up:**
+*"Did AI write your complete project?"*
+
+**Answer:**
+"No. AI was only a supporting tool. I wrote and tested the main implementation myself. I used AI mainly for learning, debugging and understanding concepts."`,
+    keyPoints: [
+      'Position AI strictly as a productivity and learning companion',
+      'Highlight cognitive verification: Never copy-paste solutions without understanding the underlying logic and testing thoroughly',
+      'Demonstrate modern AI curiosity: Explored Generative AI, vector embeddings, and Retrieval-Augmented Generation (RAG)',
+      "Aligns with Accenture's interview guidelines: Use AI for preparation, but present your authentic personal engineering skills"
+    ]
+  },
+  {
+    id: 'rec-int-08',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'AI & Cloud Scale',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '8. How can AI help to scale applications?',
+    thinkPrompt: 'Keep your answer simple and grounded. Discuss task automation, personalized recommendation engines, conversational agents, and balanced Responsible AI considerations.',
+    trap: 'Making wild claims that AI eliminates servers or replaces backend databases. Interviewers want realistic, production-grounded engineering insights.',
+    trapSolution: 'Highlight 3 concrete areas: (1) Automating high-volume repetitive tasks (e.g. 24/7 intelligent chatbots), (2) Personalized recommendation engines, (3) Automated document verification. Balance with cost and data privacy considerations.',
+    answer: `AI can help scale applications by automating repetitive tasks and handling a large amount of data.
+
+For example, in an e-commerce application, AI can recommend products to many users based on their interests.
+
+AI can also be used for chatbots, document processing, personalization and data analysis.
+
+For example, instead of having an employee answer the same customer questions again and again, an AI chatbot can answer common questions automatically.
+
+But AI should be used carefully because we also need to consider cost, security, privacy and accuracy.`,
+    keyPoints: [
+      'Automating repetitive high-volume tasks enables applications to handle exponential user growth',
+      'Provide concrete examples: Product recommendation systems, intelligent 24/7 chatbots, automated document parsing',
+      'Highlight the critical engineering balance: Computational cost, data security, user privacy, and response precision',
+      "Reflects Accenture's mission of creating business value through technology combined with Responsible AI"
+    ]
+  },
+  {
+    id: 'rec-int-09',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'AI & Cloud Scale',
+    role: 'ASE / FSE',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '9. What have you learned from your AI certification?',
+    thinkPrompt: 'Connect your certification to foundational AI/GenAI concepts (LLMs, prompt engineering, RAG) and emphasize the Responsible AI framework.',
+    trap: 'Treating the certification like a certificate trophy and rattling off buzzwords without explaining what you actually understood or how it affects enterprise software.',
+    trapSolution: 'Structure your response into two takeaways: (1) Technical fundamentals (prompt engineering, LLM architectures, RAG), and (2) Governance & ethics (privacy, accuracy, mitigating hallucinations). This echoes Accenture\'s Responsible AI framework.',
+    answer: `My AI certification helped me understand the basic concepts of Artificial Intelligence and Generative AI.
+
+I learned about concepts such as machine learning, large language models, prompt engineering and how AI can be used in real-world applications.
+
+More importantly, I learned that AI is not only about using a model. We also need to think about accuracy, privacy, security and responsible usage.
+
+After the certification, I became more interested in Generative AI and started exploring technologies like RAG and AI-based applications.`,
+    keyPoints: [
+      'Technical foundations: Machine Learning, Large Language Models (LLMs), Prompt Engineering, and RAG architectures',
+      'Governance insight: AI requires rigorous evaluation of hallucination risk, data privacy, security, and ethical boundaries',
+      "Echoes Accenture's Responsible AI pillars: Fairness, transparency, safety, privacy, and accountability"
+    ]
+  },
+  {
+    id: 'rec-int-10',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'AI & Cloud Scale',
+    role: 'All Accenture Candidates',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '10. What is your opinion about the impact of AI?',
+    thinkPrompt: 'Avoid extreme or sensational claims ("AI will replace all humans"). Advocate for AI as an augmentative tool that elevates productivity while requiring continuous human learning.',
+    trap: 'Taking an apocalyptic view ("Software engineering jobs will disappear in two years") which displays poor industry perspective, or completely trivializing AI as a passing fad.',
+    trapSolution: 'Articulate the Human-in-the-Loop philosophy: AI augments human decision-making and automates boilerplate, while human engineers remain essential for system design, security, and business logic. Champion continuous upskilling.',
+    answer: `I think AI will have a major impact on many industries.
+
+It can automate repetitive tasks, improve productivity and help people make better decisions.
+
+At the same time, AI may change some job roles, so people need to continuously learn new skills.
+
+I believe AI should be used as a tool to support humans rather than simply replacing human decision-making.
+
+As a computer science student, I think learning AI along with software development will be important for my career.`,
+    keyPoints: [
+      'Do NOT say: "AI will replace all human workers"',
+      'Frame AI as a catalyst for productivity that supports human decision-making (Human-in-the-Loop)',
+      'Acknowledge job evolution and the necessity for continuous upskilling',
+      'Commit to dual competence: Strong core software engineering fundamentals paired with AI proficiency'
+    ]
+  },
+  {
+    id: 'rec-int-11',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'HR & Introduction',
+    role: 'All Accenture Candidates (ASE / FSE)',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '11. How can you be a valuable employee?',
+    thinkPrompt: 'Focus on genuine fresher strengths: eagerness to learn, problem-solving perseverance, personal accountability, and positive team collaboration.',
+    trap: 'Making grandiose promises you cannot deliver as a fresher ("I will optimize the whole company database"), or sounding passive ("I will just do whatever task is assigned").',
+    trapSolution: 'Highlight the 3 core fresher superpowers: (1) Learning agility to master client stacks rapidly, (2) Ownership & tenacity to investigate issues before escalating, (3) Coachability and active receptiveness to senior feedback.',
+    answer: `As a fresher, I believe I can add value through my willingness to learn, problem-solving skills and ability to work in a team.
+
+I may not know everything when I join a company, but I am ready to learn new technologies and improve myself.
+
+I also take responsibility for my work. If I face a problem, I first try to understand it and find a solution instead of giving up.
+
+I will also communicate with my team members and take feedback from seniors.
+
+My goal will be to continuously improve my skills and contribute to the team's work.`,
+    keyPoints: [
+      'Eagerness and agility to master new technology stacks rapidly',
+      'Ownership mentality: Investigate root causes and attempt solutions before escalating',
+      'Collaborative spirit: Communicate clearly with teammates and actively incorporate senior feedback',
+      "Directly resonates with Accenture's core values: Learning agility, teamwork, and client impact"
+    ]
+  },
+  {
+    id: 'rec-int-12',
+    category: 'Recent Interview Questions Sep 2026',
+    subCategory: 'HR & Introduction',
+    role: 'All Accenture Candidates',
+    dateTag: 'Sep 2026',
+    setId: 'recent-sep-2026',
+    question: '12. "Thank you, that\'s it." (Closing & Asking the Interviewer Questions)',
+    thinkPrompt: 'Never abruptly leave or say "No, I don\'t have any questions". Express genuine gratitude and ask a forward-looking question about excelling in your initial months at Accenture.',
+    trap: 'Saying "No, I have no questions" (shows lack of passion) or asking inappropriate questions about salary, appraisal cycles, or "Did I pass the interview?".',
+    trapSolution: 'Thank the interviewer warmly for their time and guidance, then ask an insightful, growth-oriented question: "What technologies or skills would you recommend a fresher focus on during the first few months at Accenture to ramp up effectively?"',
+    answer: `Thank you for giving me this opportunity. It was nice interacting with you.
+
+**If the interviewer asks:**
+*"Do you have any questions for us?"*
+
+**Answer:**
+"Yes, I would like to know what technologies or skills you would recommend a fresher to focus on during the first few months at Accenture."`,
+    keyPoints: [
+      'Maintain professional composure and express polite gratitude at the interview conclusion',
+      'Never skip the opportunity to ask questions; asking demonstrates enthusiasm and proactive preparation',
+      'Asking about recommended skills shows you are already thinking about quick ramp-up and contributing effectively'
+    ]
   }
 ];
+
+/* ==========================================================================
+   1-MINUTE INTRODUCTION MODULE DATA (SYNCHRONIZED WITH INTRO COMPONENT)
+   ========================================================================== */
+export const ONE_MINUTE_INTRO_DATA = {
+  title: 'Your 1-Minute Introduction — Practice This First',
+  subtitle: 'Master the 6-pillar structure rather than memorizing every word verbatim. Speak at ~120-130 words per minute with purposeful pauses.',
+  targetSeconds: 60,
+  goldenRule: "Don't speak everything very fast. Speak in small sentences and pause after each 1–2 sentences.",
+  modelScript: `Good morning sir/ma'am.
+My name is [Your Name]. I am pursuing my B.Tech in Computer Science Engineering from Madan Mohan Malaviya University of Technology, Gorakhpur.
+
+My current CGPA is 8.33. I have a strong interest in software development and problem solving. I have worked with technologies like Java, C++, React, Node.js, Express and MongoDB.
+
+I have also completed a web development internship at Bharat Electronics Limited, where I worked on a 3D metro station modeling project using Three.js.
+
+I regularly practice Data Structures and Algorithms and have solved more than 500 problems. I am also learning Generative AI and related technologies.
+
+My goal is to start my career in a good organization where I can learn from experienced people, improve my technical skills and contribute to real-world projects.
+
+Thank you.`,
+  script: `Good morning sir/ma'am.
+My name is [Your name]. I am pursuing my B.Tech in Computer Science Engineering from Madan Mohan Malaviya University of Technology, Gorakhpur.
+
+My current CGPA is 8.33. I have a strong interest in software development and problem solving. I have worked with technologies like Java, C++, React, Node.js, Express and MongoDB.
+
+I have also completed a web development internship at Bharat Electronics Limited, where I worked on a 3D metro station modeling project using Three.js.
+
+I regularly practice Data Structures and Algorithms and have solved more than 500 problems. I am also learning Generative AI and related technologies.
+
+My goal is to start my career in a good organization where I can learn from experienced people, improve my technical skills and contribute to real-world projects.
+
+Thank you.`,
+  pillars: [
+    {
+      id: 'p1',
+      num: 1,
+      timeSlot: '0:00 - 0:10',
+      title: 'Polite Greeting & Identity',
+      purpose: 'Establish poise, warmth, and baseline educational credentials.',
+      content: "Good morning sir/ma'am. My name is [Your Name]. I am pursuing my B.Tech in Computer Science Engineering from Madan Mohan Malaviya University of Technology, Gorakhpur.",
+      tip: 'Speak with a calm smile. Do not rush through your name or university name.'
+    },
+    {
+      id: 'p2',
+      num: 2,
+      timeSlot: '0:10 - 0:22',
+      title: 'Academics & Tech Stack',
+      purpose: 'Demonstrate academic consistency and verified software development foundation.',
+      content: 'My current CGPA is 8.33. I have a strong interest in software development and problem solving. I have worked with technologies like Java, C++, React, Node.js, Express and MongoDB.',
+      tip: 'Do not claim to be an expert in everything. Frame it as technologies you have practically worked with.'
+    },
+    {
+      id: 'p3',
+      num: 3,
+      timeSlot: '0:22 - 0:35',
+      title: 'Internship Experience',
+      purpose: 'Provide proof of industry exposure and unique 3D/graphics web development work.',
+      content: 'I have also completed a web development internship at Bharat Electronics Limited, where I worked on a 3D metro station modeling project using Three.js.',
+      tip: 'Mentioning Bharat Electronics Limited (BEL) and Three.js sets you apart from typical college projects.'
+    },
+    {
+      id: 'p4',
+      num: 4,
+      timeSlot: '0:35 - 0:45',
+      title: 'DSA Practice & Logical Rigor',
+      purpose: 'Show dedication to algorithmic thinking and core computer science problem solving.',
+      content: 'I regularly practice Data Structures and Algorithms and have solved more than 500 problems across Arrays, Strings, Trees, and Graphs.',
+      tip: '500+ solved problems is a strong credential for Accenture ASE/FSE assessment rounds.'
+    },
+    {
+      id: 'p5',
+      num: 5,
+      timeSlot: '0:45 - 0:52',
+      title: 'Emerging Tech & AI Curiosity',
+      purpose: 'Signal that you are forward-looking and curious about modern enterprise AI trends.',
+      content: 'I am also actively exploring Generative AI, Large Language Models, and RAG architectures.',
+      tip: 'Aligns directly with Accenture\'s global multi-billion dollar investment in enterprise GenAI.'
+    },
+    {
+      id: 'p6',
+      num: 6,
+      timeSlot: '0:52 - 1:00',
+      title: 'Career Aspirations & Close',
+      purpose: 'Connect your personal goals directly to contributing value to Accenture teams.',
+      content: 'My goal is to start my career in a good organization where I can learn from experienced mentors, improve my technical skills and contribute to real-world projects. Thank you.',
+      tip: 'Pause naturally after "Thank you." Wait calmly for the interviewer to take the lead.'
+    }
+  ],
+  evaluationRubric: [
+    'Speech cadence: Natural 120–135 words per minute without rushing or monotone recitation',
+    'Structure adherence: Clear flow from Greeting -> Academics -> Internship -> DSA -> AI -> Career Goal',
+    'Language clarity: Clean English without filler words (um, like, actually, basically)',
+    'Technical honesty: Mentioned tools you have actually coded with rather than buzzword stuffing',
+    'Energy & composure: Confident eye contact, professional posture, and polite closing'
+  ],
+  goldenRules: [
+    "Never recite 10th or 12th percentage scores — they consume valuable pitch time without adding value.",
+    "Speak in concise 1–2 sentence blocks and deliberately pause for 1 second between points.",
+    "Do not claim technologies you cannot defend technically (e.g. don't say Kubernetes or Blockchain unless practiced).",
+    "Tailor your closing statement to express genuine eagerness to learn from senior mentors.",
+    "If the interviewer interrupts to ask a question, stop immediately and answer with a smile."
+  ]
+};
+
+/* ==========================================================================
+   10-STAGE REAL INTERVIEW FOLLOW-UP CHAIN (INTERACTIVE CONVERSATION FLOW)
+   ========================================================================== */
+export const RECENT_FOLLOWUP_CHAIN = [
+  {
+    step: 1,
+    title: 'Self Intro Pitch',
+    timeSlot: 'Minute 0–2',
+    linkedQuestionId: 'rec-int-01',
+    inquiry: 'Tell me about yourself / Walk me through your profile.',
+    interviewerIntent: 'Evaluate communication clarity, confidence, and plant technical hooks for follow-up questions.',
+    transition: 'Candidate delivers 1-minute intro highlighting 8.33 CGPA, BEL internship, 500+ DSA, and MERN stack.',
+    candidateStrategy: 'Deliver the 6-pillar pitch calmly in 60-75 seconds without rushing.',
+    speaker: 'Interviewer',
+    prompt: 'Tell me about yourself.',
+    candidateAction: 'Deliver 1-minute intro highlighting DSA practice & projects',
+    connector: 'You mention CGPA & academic background',
+    badge: 'Opening Hook'
+  },
+  {
+    step: 2,
+    title: 'CGPA & Background',
+    timeSlot: 'Minute 2–4',
+    linkedQuestionId: 'rec-int-02',
+    inquiry: 'Tell me about your CGPA and your family background.',
+    interviewerIntent: 'Verify consistency, humble attitude, and how the candidate balances theory with practical coding.',
+    transition: 'Interviewer notices the 8.33 CGPA mentioned in the intro and verifies authenticity.',
+    candidateStrategy: 'Connect 8.33 CGPA to consistency and thank family for motivating self-reliance.',
+    speaker: 'Interviewer',
+    prompt: 'Tell me about your CGPA and family background.',
+    candidateAction: 'Connect 8.33 CGPA to academic discipline and share supportive family values',
+    connector: 'Interviewer tests extracurricular balance',
+    badge: 'Background Check'
+  },
+  {
+    step: 3,
+    title: 'Interests & Sports',
+    timeSlot: 'Minute 4–6',
+    linkedQuestionId: 'rec-int-03',
+    inquiry: 'What are your interests outside academics?',
+    interviewerIntent: 'Assess personal balance, stress outlets, and collaborative team player personality.',
+    transition: 'Interviewer gauges whether candidate is well-rounded beyond textbooks.',
+    candidateStrategy: 'Pair software development passion with team sports like volleyball and badminton.',
+    speaker: 'Interviewer',
+    prompt: 'What are your interests?',
+    candidateAction: 'Highlight software development, problem solving, and volleyball/badminton',
+    connector: 'Interviewer dives into core technical preference',
+    badge: 'Interests & Teamwork'
+  },
+  {
+    step: 4,
+    title: 'Favorite Subject (DSA)',
+    timeSlot: 'Minute 6–9',
+    linkedQuestionId: 'rec-int-04',
+    inquiry: 'What is your favourite computer science subject?',
+    interviewerIntent: 'Test if candidate genuinely understands algorithms and can explain structured problem solving.',
+    transition: 'Candidate selects DSA (backed by 500+ solved problems). Interviewer immediately tests memory layout.',
+    candidateStrategy: 'State DSA with 3-step framework (understand -> evaluate -> optimize) and prepare for Array vs Linked List.',
+    speaker: 'Interviewer',
+    prompt: 'What is your favourite subject?',
+    candidateAction: 'State "Data Structures and Algorithms" with your 3-step structured problem-solving approach',
+    connector: 'Interviewer tests core fundamentals: Array vs Linked List',
+    badge: 'Core CS Subject'
+  },
+  {
+    step: 5,
+    title: 'Project Architecture',
+    timeSlot: 'Minute 9–14',
+    linkedQuestionId: 'rec-int-05',
+    inquiry: 'Explain your main project (PharmaPlus) — what did you build?',
+    interviewerIntent: 'Verify hands-on coding authenticity, architecture understanding, and payment gateway integration.',
+    transition: 'Interviewer moves from theoretical DSA to practical full-stack software development.',
+    candidateStrategy: 'Explain PharmaPlus: problem -> tech stack (React/Node/MongoDB) -> Razorpay payment & stock sync challenge.',
+    speaker: 'Interviewer',
+    prompt: 'Tell me about your project.',
+    candidateAction: 'Introduce PharmaPlus (online pharmacy management), frontend/backend stack, and core workflow',
+    connector: 'Interviewer examines teamwork vs individual contribution',
+    badge: 'Full-Stack Project'
+  },
+  {
+    step: 6,
+    title: 'Individual vs Teamwork',
+    timeSlot: 'Minute 14–17',
+    linkedQuestionId: 'rec-int-06',
+    inquiry: 'Is this a team project or did you work alone?',
+    interviewerIntent: 'Check if candidate has end-to-end full-stack ownership and how they debug when stuck without teammates.',
+    transition: 'Interviewer probes ownership boundaries of the PharmaPlus codebase.',
+    candidateStrategy: 'State it was individual, highlight deep cross-layer knowledge, and frame solo debugging as a resilience builder.',
+    speaker: 'Interviewer',
+    prompt: 'Is this a team project?',
+    candidateAction: 'Explain individual full-stack ownership and self-directed debugging through official docs',
+    connector: 'Interviewer inquires about AI tooling used during development',
+    badge: 'Ownership & Debugging'
+  },
+  {
+    step: 7,
+    title: 'AI Usage in Projects',
+    timeSlot: 'Minute 17–20',
+    linkedQuestionId: 'rec-int-07',
+    inquiry: 'How did you use AI in your project? Did AI write the code?',
+    interviewerIntent: 'Detect if candidate blindly copy-pasted generated code or used AI responsibly as a learning assistant.',
+    transition: 'Interviewer tests authenticity in the GenAI era.',
+    candidateStrategy: 'Clarify AI was strictly a learning & error-debugging companion; all logic was personally verified and tested.',
+    speaker: 'Interviewer',
+    prompt: 'How did you use AI in your project?',
+    candidateAction: 'Clarify AI as a debugging & learning assistant without copy-pasting; mention GenAI & RAG exploration',
+    connector: 'Interviewer assesses modern architectural scalability',
+    badge: 'AI Application'
+  },
+  {
+    step: 8,
+    title: 'Application Scaling via AI',
+    timeSlot: 'Minute 20–23',
+    linkedQuestionId: 'rec-int-08',
+    inquiry: 'How can AI help to scale enterprise applications?',
+    interviewerIntent: 'Evaluate architectural breadth, enterprise thinking, and awareness of cost/latency trade-offs.',
+    transition: 'Interviewer broadens question from candidate\'s local project to enterprise client applications.',
+    candidateStrategy: 'Cite automated high-volume customer support bots, personalized recommendation engines, and Responsible AI governance.',
+    speaker: 'Interviewer',
+    prompt: 'How can AI help to scale applications?',
+    candidateAction: 'Highlight 24/7 chatbots, recommendation systems, and responsible AI trade-offs (cost, privacy)',
+    connector: 'Interviewer checks perspective on developer displacement',
+    badge: 'Enterprise Scaling'
+  },
+  {
+    step: 9,
+    title: 'Value as an Employee',
+    timeSlot: 'Minute 23–26',
+    linkedQuestionId: 'rec-int-11',
+    inquiry: 'How can you be a valuable employee for Accenture as a fresher?',
+    interviewerIntent: 'Check culture alignment, coachability, work ethic, and willingness to learn new enterprise stacks.',
+    transition: 'Interviewer pivots to final HR and candidate mindset evaluation.',
+    candidateStrategy: 'Highlight the 3 fresher pillars: Learning agility, ownership of tasks, and proactive communication with seniors.',
+    speaker: 'Interviewer',
+    prompt: 'How can you be a valuable employee?',
+    candidateAction: 'Highlight learning agility, ownership of tasks, and positive collaboration with seniors',
+    connector: 'Closing stage and reverse questions',
+    badge: 'Culture & Attitude'
+  },
+  {
+    step: 10,
+    title: 'Closing & Reverse Qs',
+    timeSlot: 'Minute 26–30',
+    linkedQuestionId: 'rec-int-12',
+    inquiry: 'Thank you, that\'s all from my side. Do you have any questions for me?',
+    interviewerIntent: 'Test enthusiasm, long-term curiosity about the role, and leave a lasting positive professional impression.',
+    transition: 'Official close of the interview evaluation session.',
+    candidateStrategy: 'Express genuine gratitude and ask: "What technologies or skills should a fresher focus on during the initial months to ramp up effectively?"',
+    speaker: 'Interviewer',
+    prompt: '"Thank you, that\'s it. Do you have any questions?"',
+    candidateAction: 'Express warm gratitude and ask about recommended skills for ramping up in the first few months',
+    connector: 'Interview concluded successfully with strong impression',
+    badge: 'Closing Impression'
+  }
+];
+
+
 

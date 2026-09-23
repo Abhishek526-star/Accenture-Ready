@@ -1,34 +1,29 @@
 // src/pages/InterviewPrepPage.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Mic,
-  MessageSquare,
   HelpCircle,
   Eye,
   EyeOff,
   CheckCircle2,
   Sparkles,
   BookOpen,
-  Coffee,
-  Database,
-  Code2,
-  Users,
   Copy,
   Check,
   Volume2,
   VolumeX,
   Maximize2,
-  Minimize2,
   AlertTriangle,
   ChevronRight,
   ChevronLeft,
   X,
   Search,
-  Award,
   Flame,
   ThumbsUp
 } from 'lucide-react';
 import { interviewQuestions } from '../data/interviewQuestions.js';
+import RecentSetIntroModule from '../components/interview/RecentSetIntroModule.jsx';
+import RecentSetFollowupChain from '../components/interview/RecentSetFollowupChain.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 import { infoToast } from '../utils/confirmToast.jsx';
@@ -200,8 +195,10 @@ function RenderInlineMarkup({ text }) {
   return <>{parts}</>;
 }
 
-export default function InterviewPrepPage({ theme = 'dark' }) {
+export default function InterviewPrepPage({ _theme = 'dark' }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [recentSubCategory, setRecentSubCategory] = useState('All');
+  const [recentActiveTab, setRecentActiveTab] = useState('questions'); // 'questions' | 'intro' | 'chain'
   const [searchQuery, setSearchQuery] = useState('');
   const [revealedQuestionIds, setRevealedQuestionIds] = useState({});
   const [copiedId, setCopiedId] = useState(null);
@@ -212,6 +209,7 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
 
   const categories = [
     'All',
+    'Recent Interview Questions Sep 2026',
     'HR Interview',
     'Java Interview',
     'Technical Interview',
@@ -220,16 +218,33 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
     'Project Questions'
   ];
 
+  const recentSubCategories = [
+    'All',
+    'HR & Introduction',
+    'Project & Engineering',
+    'AI & Cloud Scale',
+    'Technical & DSA'
+  ];
+
   const filtered = interviewQuestions.filter(q => {
     const matchesCat = selectedCategory === 'All' || q.category === selectedCategory;
+    const matchesSubCat =
+      selectedCategory !== 'Recent Interview Questions Sep 2026' ||
+      recentSubCategory === 'All' ||
+      q.subCategory === recentSubCategory;
+
     const query = searchQuery.toLowerCase().trim();
     const matchesQuery =
       !query ||
       q.question.toLowerCase().includes(query) ||
       q.category.toLowerCase().includes(query) ||
-      q.role.toLowerCase().includes(query) ||
-      q.answer.toLowerCase().includes(query);
-    return matchesCat && matchesQuery;
+      (q.subCategory && q.subCategory.toLowerCase().includes(query)) ||
+      (q.trap && q.trap.toLowerCase().includes(query)) ||
+      (q.trapSolution && q.trapSolution.toLowerCase().includes(query)) ||
+      (q.role && q.role.toLowerCase().includes(query)) ||
+      (q.answer && q.answer.toLowerCase().includes(query));
+
+    return matchesCat && matchesSubCat && matchesQuery;
   });
 
   const toggleAnswer = (id) => {
@@ -313,6 +328,20 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
     openModal(filtered[nextIndex]);
   };
 
+  const handleSelectQuestionById = (questionId) => {
+    const q = interviewQuestions.find(item => item.id === questionId);
+    if (q) {
+      setSelectedCategory('Recent Interview Questions Sep 2026');
+      setRecentActiveTab('questions');
+      setRecentSubCategory('All');
+      setRevealedQuestionIds(prev => ({
+        ...prev,
+        [questionId]: true
+      }));
+      openModal(q);
+    }
+  };
+
   return (
     <div className="interview-page-container">
       <SEO {...seoConfig.interview} />
@@ -364,35 +393,108 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
         </div>
       </div>
 
+      {/* Featured Callout Banner for Recent Sep 2026 */}
+      {selectedCategory !== 'Recent Interview Questions Sep 2026' && (
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(236, 72, 153, 0.15) 0%, rgba(168, 85, 247, 0.15) 50%, rgba(15, 23, 42, 0.7) 100%)',
+          border: '1px solid rgba(236, 72, 153, 0.35)',
+          borderRadius: '14px',
+          padding: '12px 18px',
+          marginBottom: '1.75rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <span style={{
+              background: '#ec4899',
+              color: '#ffffff',
+              padding: '3px 8px',
+              borderRadius: '6px',
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              <Flame size={12} /> NEW
+            </span>
+            <span style={{ color: '#f8fafc', fontSize: '0.9rem', fontWeight: 600 }}>
+              Recent Accenture Interview Questions (Sep 2026 Drive) are live with categorized answers, speech coach & traps!
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              setSelectedCategory('Recent Interview Questions Sep 2026');
+              setRecentActiveTab('questions');
+              setRecentSubCategory('All');
+            }}
+            style={{
+              padding: '6px 14px',
+              background: 'linear-gradient(135deg, #ec4899, #a855f7)',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 700,
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <span>Explore Sep 2026 Section</span>
+            <ChevronRight size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Category Filter Pills */}
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
         {categories.map((cat) => {
           const isActive = selectedCategory === cat;
+          const isRecent = cat === 'Recent Interview Questions Sep 2026';
           const count = cat === 'All' ? interviewQuestions.length : interviewQuestions.filter(q => q.category === cat).length;
           return (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                if (isRecent) {
+                  setRecentActiveTab('questions');
+                  setRecentSubCategory('All');
+                }
+              }}
               style={{
-                padding: '7px 16px',
+                padding: isRecent ? '7px 18px' : '7px 16px',
                 borderRadius: '10px',
-                background: isActive ? '#a855f7' : '#1e293b',
-                color: isActive ? '#ffffff' : '#cbd5e1',
-                border: isActive ? '1px solid #a855f7' : '1px solid #334155',
-                fontWeight: isActive ? 700 : 500,
+                background: isActive
+                  ? (isRecent ? 'linear-gradient(135deg, #ec4899, #a855f7)' : '#a855f7')
+                  : (isRecent ? 'rgba(236, 72, 153, 0.12)' : '#1e293b'),
+                color: isActive
+                  ? '#ffffff'
+                  : (isRecent ? '#f472b6' : '#cbd5e1'),
+                border: isActive
+                  ? (isRecent ? '1px solid #f472b6' : '1px solid #a855f7')
+                  : (isRecent ? '1px solid rgba(236, 72, 153, 0.4)' : '1px solid #334155'),
+                fontWeight: isActive ? 700 : (isRecent ? 700 : 500),
                 fontSize: '0.85rem',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                transition: 'all 0.15s'
+                transition: 'all 0.15s',
+                boxShadow: isRecent && isActive ? '0 0 16px rgba(236, 72, 153, 0.4)' : 'none'
               }}
             >
+              {isRecent && <Flame size={14} className={isActive ? 'text-white' : 'text-pink-400'} />}
               <span>{cat}</span>
               <span style={{
                 fontSize: '0.75rem',
                 background: isActive ? 'rgba(0, 0, 0, 0.25)' : '#0f172a',
-                color: isActive ? '#ffffff' : '#94a3b8',
+                color: isActive ? '#ffffff' : (isRecent ? '#f472b6' : '#94a3b8'),
                 padding: '1px 6px',
                 borderRadius: '8px',
                 fontWeight: 700
@@ -404,118 +506,385 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
         })}
       </div>
 
-      {/* Questions List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-        {filtered.length === 0 ? (
-          <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
-            No interview questions found matching "{searchQuery}".
-          </div>
-        ) : (
-          filtered.map((item, idx) => {
-            const isRevealed = !!revealedQuestionIds[item.id];
-            const isSpeaking = speakingId === item.id;
-            const isCopied = copiedId === item.id;
+      {/* Dedicated Section Header Banner for Sep 2026 */}
+      {selectedCategory === 'Recent Interview Questions Sep 2026' && (
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(168, 85, 247, 0.15) 50%, rgba(15, 23, 42, 0.9) 100%)',
+          border: '1px solid rgba(236, 72, 153, 0.4)',
+          borderRadius: '20px',
+          padding: '1.75rem 2rem',
+          marginBottom: '2rem',
+          boxShadow: '0 8px 32px rgba(236, 72, 153, 0.15)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 1 }}>
+            <div style={{ maxWidth: '720px' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                background: 'rgba(236, 72, 153, 0.25)',
+                color: '#f472b6',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.5px',
+                marginBottom: '0.75rem',
+                border: '1px solid rgba(236, 72, 153, 0.5)'
+              }}>
+                <Flame size={14} /> SEPTEMBER 2026 ACCENTURE INTERVIEW DRIVE • VERIFIED QUESTIONS
+              </div>
+              <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#fdf2f8', margin: '0 0 0.5rem 0' }}>
+                Recent Interview Questions (Sep 2026)
+              </h2>
+              <p style={{ color: '#cbd5e1', margin: 0, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                12 real questions asked to ASE & FSE candidates in recent recruitment rounds. Categorized into HR, Projects, AI & Cloud Scale, and DSA with natural spoken scripts, speech synthesis, interviewer traps, and the 30-minute conversation blueprint.
+              </p>
+            </div>
 
+            {/* Quick Stats Badges */}
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <div style={{ background: '#0f172a', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '12px', padding: '8px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f472b6' }}>12</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>Questions</div>
+              </div>
+              <div style={{ background: '#0f172a', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '12px', padding: '8px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#c084fc' }}>4</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>Categories</div>
+              </div>
+              <div style={{ background: '#0f172a', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '12px', padding: '8px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#38bdf8' }}>60s</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>Intro Coach</div>
+              </div>
+            </div>
+          </div>
+
+          {/* View Mode Switcher Tabs */}
+          <div style={{
+            display: 'flex',
+            gap: '0.6rem',
+            marginTop: '1.5rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            paddingTop: '1.25rem',
+            flexWrap: 'wrap'
+          }}>
+            <button
+              onClick={() => setRecentActiveTab('questions')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '8px 16px',
+                borderRadius: '10px',
+                background: recentActiveTab === 'questions' ? 'linear-gradient(135deg, #ec4899, #a855f7)' : '#0f172a',
+                color: recentActiveTab === 'questions' ? '#ffffff' : '#cbd5e1',
+                border: recentActiveTab === 'questions' ? 'none' : '1px solid #334155',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: recentActiveTab === 'questions' ? '0 4px 14px rgba(236, 72, 153, 0.35)' : 'none'
+              }}
+            >
+              <BookOpen size={15} />
+              <span>Questions Bank ({interviewQuestions.filter(q => q.category === 'Recent Interview Questions Sep 2026').length})</span>
+            </button>
+
+            <button
+              onClick={() => setRecentActiveTab('intro')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '8px 16px',
+                borderRadius: '10px',
+                background: recentActiveTab === 'intro' ? 'linear-gradient(135deg, #ec4899, #a855f7)' : '#0f172a',
+                color: recentActiveTab === 'intro' ? '#ffffff' : '#cbd5e1',
+                border: recentActiveTab === 'intro' ? 'none' : '1px solid #334155',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: recentActiveTab === 'intro' ? '0 4px 14px rgba(236, 72, 153, 0.35)' : 'none'
+              }}
+            >
+              <Mic size={15} />
+              <span>1-Minute Intro Speech Coach</span>
+            </button>
+
+            <button
+              onClick={() => setRecentActiveTab('chain')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '8px 16px',
+                borderRadius: '10px',
+                background: recentActiveTab === 'chain' ? 'linear-gradient(135deg, #ec4899, #a855f7)' : '#0f172a',
+                color: recentActiveTab === 'chain' ? '#ffffff' : '#cbd5e1',
+                border: recentActiveTab === 'chain' ? 'none' : '1px solid #334155',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: recentActiveTab === 'chain' ? '0 4px 14px rgba(236, 72, 153, 0.35)' : 'none'
+              }}
+            >
+              <Sparkles size={15} />
+              <span>30-Minute Interview Conversation Flow</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Tab Panels for Intro and Followup Chain */}
+      {selectedCategory === 'Recent Interview Questions Sep 2026' && recentActiveTab === 'intro' && (
+        <RecentSetIntroModule onFocusQuestion={handleSelectQuestionById} />
+      )}
+
+      {selectedCategory === 'Recent Interview Questions Sep 2026' && recentActiveTab === 'chain' && (
+        <RecentSetFollowupChain onSelectQuestion={handleSelectQuestionById} />
+      )}
+
+      {/* Subcategory Pills (when viewing Sep 2026 questions bank) */}
+      {selectedCategory === 'Recent Interview Questions Sep 2026' && recentActiveTab === 'questions' && (
+        <div style={{
+          display: 'flex',
+          gap: '0.5rem',
+          marginBottom: '1.5rem',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          background: 'rgba(15, 23, 42, 0.7)',
+          padding: '10px 14px',
+          borderRadius: '12px',
+          border: '1px solid rgba(236, 72, 153, 0.3)'
+        }}>
+          <span style={{ fontSize: '0.78rem', color: '#f472b6', fontWeight: 800, textTransform: 'uppercase', marginRight: '6px', letterSpacing: '0.5px' }}>
+            Categories:
+          </span>
+          {recentSubCategories.map((sub) => {
+            const isActive = recentSubCategory === sub;
+            const count = sub === 'All'
+              ? interviewQuestions.filter(q => q.category === 'Recent Interview Questions Sep 2026').length
+              : interviewQuestions.filter(q => q.category === 'Recent Interview Questions Sep 2026' && q.subCategory === sub).length;
             return (
-              <div
-                key={item.id || idx}
+              <button
+                key={sub}
+                onClick={() => setRecentSubCategory(sub)}
                 style={{
-                  background: '#1e293b',
-                  border: isRevealed ? '1px solid rgba(168, 85, 247, 0.4)' : '1px solid #334155',
-                  borderRadius: '16px',
-                  padding: '1.75rem 2rem',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
-                  transition: 'all 0.2s ease'
+                  padding: '5px 12px',
+                  borderRadius: '8px',
+                  background: isActive ? '#38bdf8' : '#1e293b',
+                  color: isActive ? '#0f172a' : '#cbd5e1',
+                  border: isActive ? '1px solid #38bdf8' : '1px solid #334155',
+                  fontWeight: isActive ? 800 : 500,
+                  fontSize: '0.8rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  transition: 'all 0.15s'
                 }}
               >
-                {/* Question Top Header Bar */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                    <span style={{
-                      fontSize: '0.75rem',
-                      padding: '3px 10px',
-                      borderRadius: '8px',
-                      background: 'rgba(168, 85, 247, 0.15)',
-                      color: '#c084fc',
-                      fontWeight: 700,
-                      border: '1px solid rgba(168, 85, 247, 0.3)'
-                    }}>
-                      {item.category}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: '#0f172a', padding: '3px 10px', borderRadius: '8px' }}>
-                      Target: {item.role}
-                    </span>
-                  </div>
-
-                  {/* Actions Right */}
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    {/* Open in Dedicated Focus Modal */}
-                    <button
-                      onClick={() => openModal(item)}
-                      title="Open Practice Modal"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        padding: '6px 12px',
-                        background: '#0f172a',
-                        color: '#38bdf8',
-                        border: '1px solid rgba(56, 189, 248, 0.3)',
-                        borderRadius: '8px',
-                        fontSize: '0.8rem',
-                        fontWeight: 600,
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <Maximize2 size={13} />
-                      <span>Focus Mode</span>
-                    </button>
-
-                    {/* Toggle Answer Button */}
-                    <button
-                      onClick={() => toggleAnswer(item.id)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        padding: '6px 14px',
-                        background: isRevealed ? '#0f172a' : 'linear-gradient(135deg, #a855f7, #9333ea)',
-                        color: isRevealed ? '#94a3b8' : '#ffffff',
-                        border: isRevealed ? '1px solid #334155' : 'none',
-                        borderRadius: '8px',
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        boxShadow: isRevealed ? 'none' : '0 2px 8px rgba(168, 85, 247, 0.3)'
-                      }}
-                    >
-                      {isRevealed ? <EyeOff size={14} /> : <Eye size={14} />}
-                      <span>{isRevealed ? 'Hide Response' : 'Show Model Response'}</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Question Heading */}
-                <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc', margin: '0 0 1.25rem 0', lineHeight: 1.4 }}>
-                  {item.question}
-                </h2>
-
-                {/* Think Yourself Prompt */}
-                <div style={{
-                  background: 'rgba(56, 189, 248, 0.07)',
-                  border: '1px solid rgba(56, 189, 248, 0.25)',
-                  borderRadius: '12px',
-                  padding: '1rem 1.25rem',
-                  marginBottom: isRevealed ? '1.5rem' : '0'
+                <span>{sub}</span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  background: isActive ? 'rgba(0, 0, 0, 0.2)' : '#0f172a',
+                  color: isActive ? '#0f172a' : '#94a3b8',
+                  padding: '1px 5px',
+                  borderRadius: '6px',
+                  fontWeight: 700
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.35rem' }}>
-                    <HelpCircle size={15} />
-                    <span>Think Yourself Before Revealing:</span>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Questions List (Hidden if user is on Intro or Chain tab in Sep 2026) */}
+      {!(selectedCategory === 'Recent Interview Questions Sep 2026' && recentActiveTab !== 'questions') && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          {filtered.length === 0 ? (
+            <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
+              No interview questions found matching "{searchQuery}".
+            </div>
+          ) : (
+            filtered.map((item, idx) => {
+              const isRevealed = !!revealedQuestionIds[item.id];
+              const isSpeaking = speakingId === item.id;
+              const isCopied = copiedId === item.id;
+              const isRecentItem = item.category === 'Recent Interview Questions Sep 2026';
+
+              return (
+                <div
+                  key={item.id || idx}
+                  style={{
+                    background: '#1e293b',
+                    border: isRevealed
+                      ? (isRecentItem ? '1px solid rgba(236, 72, 153, 0.5)' : '1px solid rgba(168, 85, 247, 0.4)')
+                      : (isRecentItem ? '1px solid rgba(236, 72, 153, 0.25)' : '1px solid #334155'),
+                    borderRadius: '16px',
+                    padding: '1.75rem 2rem',
+                    boxShadow: isRecentItem ? '0 6px 24px rgba(236, 72, 153, 0.12)' : '0 6px 20px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {/* Question Top Header Bar */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                      <span style={{
+                        fontSize: '0.75rem',
+                        padding: '3px 10px',
+                        borderRadius: '8px',
+                        background: isRecentItem ? 'rgba(236, 72, 153, 0.2)' : 'rgba(168, 85, 247, 0.15)',
+                        color: isRecentItem ? '#f472b6' : '#c084fc',
+                        fontWeight: 700,
+                        border: isRecentItem ? '1px solid rgba(236, 72, 153, 0.4)' : '1px solid rgba(168, 85, 247, 0.3)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}>
+                        {isRecentItem && <Flame size={12} />}
+                        {item.category}
+                      </span>
+                      {item.subCategory && (
+                        <span style={{
+                          fontSize: '0.75rem',
+                          padding: '3px 10px',
+                          borderRadius: '8px',
+                          background: 'rgba(56, 189, 248, 0.12)',
+                          color: '#38bdf8',
+                          fontWeight: 700,
+                          border: '1px solid rgba(56, 189, 248, 0.3)'
+                        }}>
+                          {item.subCategory}
+                        </span>
+                      )}
+                      {item.dateTag && (
+                        <span style={{
+                          fontSize: '0.75rem',
+                          padding: '3px 8px',
+                          borderRadius: '8px',
+                          background: 'rgba(34, 197, 94, 0.12)',
+                          color: '#4ade80',
+                          fontWeight: 700,
+                          border: '1px solid rgba(34, 197, 94, 0.3)'
+                        }}>
+                          {item.dateTag}
+                        </span>
+                      )}
+                      <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: '#0f172a', padding: '3px 10px', borderRadius: '8px' }}>
+                        Target: {item.role}
+                      </span>
+                    </div>
+
+                    {/* Actions Right */}
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      {/* Open in Dedicated Focus Modal */}
+                      <button
+                        onClick={() => openModal(item)}
+                        title="Open Practice Modal"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '6px 12px',
+                          background: '#0f172a',
+                          color: '#38bdf8',
+                          border: '1px solid rgba(56, 189, 248, 0.3)',
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <Maximize2 size={13} />
+                        <span>Focus Mode</span>
+                      </button>
+
+                      {/* Toggle Answer Button */}
+                      <button
+                        onClick={() => toggleAnswer(item.id)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '6px 14px',
+                          background: isRevealed
+                            ? '#0f172a'
+                            : (isRecentItem ? 'linear-gradient(135deg, #ec4899, #a855f7)' : 'linear-gradient(135deg, #a855f7, #9333ea)'),
+                          color: isRevealed ? '#94a3b8' : '#ffffff',
+                          border: isRevealed ? '1px solid #334155' : 'none',
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          boxShadow: isRevealed ? 'none' : '0 2px 8px rgba(168, 85, 247, 0.3)'
+                        }}
+                      >
+                        {isRevealed ? <EyeOff size={14} /> : <Eye size={14} />}
+                        <span>{isRevealed ? 'Hide Response' : 'Show Model Response'}</span>
+                      </button>
+                    </div>
                   </div>
-                  <p style={{ margin: 0, color: '#bae6fd', fontSize: '0.9rem', lineHeight: 1.55 }}>
-                    {item.thinkPrompt}
-                  </p>
-                </div>
+
+                  {/* Question Heading */}
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc', margin: '0 0 1.25rem 0', lineHeight: 1.4 }}>
+                    {item.question}
+                  </h2>
+
+                  {/* Think Yourself Prompt */}
+                  <div style={{
+                    background: 'rgba(56, 189, 248, 0.07)',
+                    border: '1px solid rgba(56, 189, 248, 0.25)',
+                    borderRadius: '12px',
+                    padding: '1rem 1.25rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.35rem' }}>
+                      <HelpCircle size={15} />
+                      <span>Think Yourself Before Revealing:</span>
+                    </div>
+                    <p style={{ margin: 0, color: '#bae6fd', fontSize: '0.9rem', lineHeight: 1.55 }}>
+                      {item.thinkPrompt}
+                    </p>
+                  </div>
+
+                  {/* Interviewer Trap Alert Box */}
+                  {item.trap && (
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      borderRadius: '12px',
+                      padding: '1rem 1.25rem',
+                      marginBottom: isRevealed ? '1.5rem' : '0'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#f87171', fontWeight: 800, fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+                        <AlertTriangle size={15} />
+                        <span>Interviewer Trap Alert:</span>
+                      </div>
+                      <p style={{ margin: '0 0 0.5rem 0', color: '#fca5a5', fontSize: '0.88rem', lineHeight: 1.55 }}>
+                        {item.trap}
+                      </p>
+                      {item.trapSolution && (
+                        <div style={{
+                          borderTop: '1px dashed rgba(239, 68, 68, 0.25)',
+                          paddingTop: '0.5rem',
+                          marginTop: '0.5rem',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.45rem',
+                          color: '#cbd5e1',
+                          fontSize: '0.86rem',
+                          lineHeight: 1.55
+                        }}>
+                          <span style={{ color: '#4ade80', fontWeight: 700, flexShrink: 0 }}>Recommended Strategy:</span>
+                          <span>{item.trapSolution}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {/* Beautified Model Answer Section */}
                 {isRevealed && (
@@ -667,6 +1036,7 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
           })
         )}
       </div>
+      )}
 
       {/* Dedicated Interview Practice Focus Modal */}
       {activeModalQuestion && (
@@ -707,18 +1077,48 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
               borderTopLeftRadius: '20px',
               borderTopRightRadius: '20px'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
                 <span style={{
                   fontSize: '0.75rem',
                   padding: '3px 10px',
                   borderRadius: '8px',
-                  background: 'rgba(168, 85, 247, 0.2)',
-                  color: '#c084fc',
+                  background: activeModalQuestion.category === 'Recent Interview Questions Sep 2026' ? 'rgba(236, 72, 153, 0.25)' : 'rgba(168, 85, 247, 0.2)',
+                  color: activeModalQuestion.category === 'Recent Interview Questions Sep 2026' ? '#f472b6' : '#c084fc',
                   fontWeight: 700,
-                  border: '1px solid rgba(168, 85, 247, 0.4)'
+                  border: activeModalQuestion.category === 'Recent Interview Questions Sep 2026' ? '1px solid rgba(236, 72, 153, 0.5)' : '1px solid rgba(168, 85, 247, 0.4)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}>
+                  {activeModalQuestion.category === 'Recent Interview Questions Sep 2026' && <Flame size={12} />}
                   {activeModalQuestion.category}
                 </span>
+                {activeModalQuestion.subCategory && (
+                  <span style={{
+                    fontSize: '0.75rem',
+                    padding: '3px 10px',
+                    borderRadius: '8px',
+                    background: 'rgba(56, 189, 248, 0.15)',
+                    color: '#38bdf8',
+                    fontWeight: 700,
+                    border: '1px solid rgba(56, 189, 248, 0.35)'
+                  }}>
+                    {activeModalQuestion.subCategory}
+                  </span>
+                )}
+                {activeModalQuestion.dateTag && (
+                  <span style={{
+                    fontSize: '0.75rem',
+                    padding: '3px 8px',
+                    borderRadius: '8px',
+                    background: 'rgba(34, 197, 94, 0.15)',
+                    color: '#4ade80',
+                    fontWeight: 700,
+                    border: '1px solid rgba(34, 197, 94, 0.35)'
+                  }}>
+                    {activeModalQuestion.dateTag}
+                  </span>
+                )}
                 <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
                   Target: {activeModalQuestion.role}
                 </span>
@@ -790,6 +1190,37 @@ export default function InterviewPrepPage({ theme = 'dark' }) {
                   {activeModalQuestion.thinkPrompt}
                 </div>
               </div>
+
+              {/* Interviewer Trap Alert Box in Modal */}
+              {activeModalQuestion.trap && (
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '12px',
+                  padding: '1.25rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#f87171', fontWeight: 800, fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+                    <AlertTriangle size={16} />
+                    <span>Interviewer Trap Alert:</span>
+                  </div>
+                  <p style={{ margin: '0 0 0.5rem 0', color: '#fca5a5', fontSize: '0.9rem', lineHeight: 1.55 }}>
+                    {activeModalQuestion.trap}
+                  </p>
+                  {activeModalQuestion.trapSolution && (
+                    <div style={{
+                      borderTop: '1px dashed rgba(239, 68, 68, 0.25)',
+                      paddingTop: '0.5rem',
+                      marginTop: '0.5rem',
+                      color: '#cbd5e1',
+                      fontSize: '0.88rem',
+                      lineHeight: 1.55
+                    }}>
+                      <span style={{ color: '#4ade80', fontWeight: 700 }}>Recommended Strategy: </span>
+                      <span>{activeModalQuestion.trapSolution}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Model Response */}
               <div>

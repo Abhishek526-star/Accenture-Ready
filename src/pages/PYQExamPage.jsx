@@ -449,7 +449,7 @@ export default function PYQExamPage({ theme = 'dark' }) {
                       borderColor: 'rgba(56, 189, 248, 0.3)'
                     }}
                   >
-                    ⏱️ {bank?.durationMinutes || totalCount} Mins (1 min / Q)
+                    ⏱️ {total} Mins (1 min / Q)
                   </span>
                   <span
                     className="cloud-badge"

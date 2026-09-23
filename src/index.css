@@ -8426,6 +8426,106 @@ a {
 }
 
 /* ==========================================================================
+   RECENT INTERVIEW SET 1 (SEP 2026) STYLES
+   ========================================================================== */
+.recent-set-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(168, 85, 247, 0.3) 100%);
+  border: 1px solid rgba(236, 72, 153, 0.5);
+  color: #fdf2f8;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.2);
+  text-decoration: none;
+}
+
+.recent-set-hero-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.38) 0%, rgba(168, 85, 247, 0.42) 100%);
+  box-shadow: 0 6px 22px rgba(236, 72, 153, 0.35);
+  border-color: rgba(244, 114, 182, 0.8);
+}
+
+.recent-set-hero-btn.active {
+  background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+  border-color: #f472b6;
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(236, 72, 153, 0.45);
+}
+
+.recent-intro-module {
+  background: linear-gradient(135deg, rgba(26, 16, 46, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: 18px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.recent-chain-module {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(20, 30, 55, 0.98) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 18px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.chain-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.chain-step-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+}
+
+.chain-step-card:hover,
+.chain-step-card.selected {
+  border-color: #38bdf8;
+  background: rgba(14, 165, 233, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.2);
+}
+
+@media (max-width: 768px) {
+  .recent-set-hero-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 11px 16px;
+    font-size: 0.88rem;
+  }
+
+  .recent-intro-module,
+  .recent-chain-module {
+    padding: 1.25rem;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .chain-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
    RECENT CODING QUESTIONS (DATED PYQS) SECTION
    ========================================================================== */
 .recent-questions-page {
@@ -11017,6 +11117,55 @@ html, body {
     display: none !important;
   }
 }
+/* =========================================================================
+   Recent Interview Set 1 (Sep 2026) Styles & Micro-Animations
+   ========================================================================= */
+.recent-intro-module {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(168, 85, 247, 0.12) 0%, rgba(15, 23, 42, 0.95) 70%);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
 
+.recent-intro-module::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ec4899, #a855f7, #38bdf8, #10b981);
+}
 
+.recent-chain-module {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.95) 70%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
 
+.recent-chain-module::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #a855f7);
+}
+
+@media (max-width: 768px) {
+  .recent-intro-module,
+  .recent-chain-module {
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+  }
+}
