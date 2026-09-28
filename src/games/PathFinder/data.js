@@ -173,13 +173,143 @@ var v5x5 = {
   games: [PF.b_('game_5x5', blocks5x5(), 20, { row: 13, col: 0 }, { row: 1, col: 14 }, true, 5)]
 };
 
+// ---------------------------------------------------------------- Additional Variants (4x4-2, 4x4-3, 5x5-2, 5x5-3, 6x6, 6x6-2)
+var PATH_BLOCKS = {
+  L_to_R: { shape: 'straight', rot: 0, flip: 0 },
+  R_to_L: { shape: 'straight', rot: 2, flip: 0 },
+  T_to_B: { shape: 'straight', rot: 1, flip: 0 },
+  B_to_T: { shape: 'straight', rot: 3, flip: 0 },
+  L_to_B: { shape: 'lshape', rot: 0, flip: 0 },
+  L_to_T: { shape: 'lshape', rot: 1, flip: 1 },
+  T_to_R: { shape: 'lshape', rot: 2, flip: 1 },
+  T_to_L: { shape: 'lshape', rot: 1, flip: 0 },
+  B_to_R: { shape: 'lshape', rot: 3, flip: 0 },
+  B_to_L: { shape: 'lshape', rot: 0, flip: 1 },
+  R_to_B: { shape: 'lshape', rot: 3, flip: 1 },
+  R_to_T: { shape: 'lshape', rot: 2, flip: 0 }
+};
+
+function createScrambledBlocks(count, pathSpecs) {
+  var blocksMap = {};
+  pathSpecs.forEach(function (spec) {
+    var p = PATH_BLOCKS[spec[2]];
+    blocksMap[spec[0] + '_' + spec[1]] = PF.Wv(spec[0], spec[1], p.shape, p.rot, p.flip);
+  });
+  var allBlocks = [];
+  for (var br = 0; br < count; br++) {
+    for (var bc = 0; bc < count; bc++) {
+      var b = blocksMap[br + '_' + bc];
+      allBlocks.push(b || PF.Wv(br, bc, 'tshape', (br + bc) % 4, (br * bc) % 6));
+    }
+  }
+  var scrambled = PF.cloneBlocks(allBlocks);
+  scrambled.forEach(function (b, idx) {
+    var rots = ((idx * 3 + 1) % 3) + 1;
+    for (var r = 0; r < rots; r++) PF.rotateBlock(b);
+    if ((idx + (b.blockRow % 2)) % 2 === 1) PF.flipBlock(b);
+  });
+  return scrambled;
+}
+
+// 4x4-2
+function blocks4x42() {
+  return createScrambledBlocks(4, [
+    [0, 0, 'L_to_R'], [0, 1, 'L_to_R'], [0, 2, 'L_to_B'],
+    [1, 2, 'T_to_L'], [1, 1, 'R_to_B'], [2, 1, 'T_to_R'],
+    [2, 2, 'L_to_B'], [3, 2, 'T_to_R'], [3, 3, 'L_to_R']
+  ]);
+}
+var v4x42 = {
+  practice: PF.b_('practice_4x4_2', blocks4x42(), 16, { row: 1, col: 0 }, { row: 10, col: 11 }, true, 4),
+  games: [PF.b_('game_4x4_2', blocks4x42(), 16, { row: 1, col: 0 }, { row: 10, col: 11 }, true, 4)]
+};
+
+// 4x4-3
+function blocks4x43() {
+  return createScrambledBlocks(4, [
+    [3, 0, 'L_to_T'], [2, 0, 'B_to_T'], [1, 0, 'B_to_R'],
+    [1, 1, 'L_to_B'], [2, 1, 'T_to_R'], [2, 2, 'L_to_T'],
+    [1, 2, 'B_to_R'], [1, 3, 'L_to_T'], [0, 3, 'B_to_R']
+  ]);
+}
+var v4x43 = {
+  practice: PF.b_('practice_4x4_3', blocks4x43(), 16, { row: 10, col: 0 }, { row: 1, col: 11 }, true, 4),
+  games: [PF.b_('game_4x4_3', blocks4x43(), 16, { row: 10, col: 0 }, { row: 1, col: 11 }, true, 4)]
+};
+
+// 5x5-2
+function blocks5x52() {
+  return createScrambledBlocks(5, [
+    [0, 0, 'L_to_R'], [0, 1, 'L_to_R'], [0, 2, 'L_to_R'], [0, 3, 'L_to_R'], [0, 4, 'L_to_B'],
+    [1, 4, 'T_to_L'], [1, 3, 'R_to_L'], [1, 2, 'R_to_L'], [1, 1, 'R_to_B'],
+    [2, 1, 'T_to_R'], [2, 2, 'L_to_R'], [2, 3, 'L_to_B'],
+    [3, 3, 'T_to_L'], [3, 2, 'R_to_B'],
+    [4, 2, 'T_to_R'], [4, 3, 'L_to_R'], [4, 4, 'L_to_R']
+  ]);
+}
+var v5x52 = {
+  practice: PF.b_('practice_5x5_2', blocks5x52(), 20, { row: 1, col: 0 }, { row: 13, col: 14 }, true, 5),
+  games: [PF.b_('game_5x5_2', blocks5x52(), 20, { row: 1, col: 0 }, { row: 13, col: 14 }, true, 5)]
+};
+
+// 5x5-3
+function blocks5x53() {
+  return createScrambledBlocks(5, [
+    [2, 0, 'L_to_T'], [1, 0, 'B_to_T'], [0, 0, 'B_to_R'], [0, 1, 'L_to_R'], [0, 2, 'L_to_B'],
+    [1, 2, 'T_to_B'], [2, 2, 'T_to_L'], [2, 1, 'R_to_B'], [3, 1, 'T_to_R'], [3, 2, 'L_to_R'],
+    [3, 3, 'L_to_T'], [2, 3, 'B_to_T'], [1, 3, 'B_to_R'], [1, 4, 'L_to_B'], [2, 4, 'T_to_R']
+  ]);
+}
+var v5x53 = {
+  practice: PF.b_('practice_5x5_3', blocks5x53(), 20, { row: 7, col: 0 }, { row: 7, col: 14 }, true, 5),
+  games: [PF.b_('game_5x5_3', blocks5x53(), 20, { row: 7, col: 0 }, { row: 7, col: 14 }, true, 5)]
+};
+
+// 6x6
+function blocks6x6() {
+  return createScrambledBlocks(6, [
+    [0, 0, 'L_to_R'], [0, 1, 'L_to_R'], [0, 2, 'L_to_R'], [0, 3, 'L_to_R'], [0, 4, 'L_to_R'], [0, 5, 'L_to_B'],
+    [1, 5, 'T_to_L'], [1, 4, 'R_to_L'], [1, 3, 'R_to_L'], [1, 2, 'R_to_L'], [1, 1, 'R_to_B'],
+    [2, 1, 'T_to_R'], [2, 2, 'L_to_R'], [2, 3, 'L_to_R'], [2, 4, 'L_to_B'],
+    [3, 4, 'T_to_L'], [3, 3, 'R_to_L'], [3, 2, 'R_to_B'],
+    [4, 2, 'T_to_R'], [4, 3, 'L_to_R'], [4, 4, 'L_to_R'], [4, 5, 'L_to_B'],
+    [5, 5, 'T_to_R']
+  ]);
+}
+var v6x6 = {
+  practice: PF.b_('practice_6x6', blocks6x6(), 24, { row: 1, col: 0 }, { row: 16, col: 17 }, true, 6),
+  games: [PF.b_('game_6x6', blocks6x6(), 24, { row: 1, col: 0 }, { row: 16, col: 17 }, true, 6)]
+};
+
+// 6x6-2
+function blocks6x62() {
+  return createScrambledBlocks(6, [
+    [5, 0, 'L_to_T'],
+    [4, 0, 'B_to_R'], [4, 1, 'L_to_R'], [4, 2, 'L_to_T'],
+    [3, 2, 'B_to_L'], [3, 1, 'R_to_T'],
+    [2, 1, 'B_to_R'], [2, 2, 'L_to_R'], [2, 3, 'L_to_R'], [2, 4, 'L_to_T'],
+    [1, 4, 'B_to_L'], [1, 3, 'R_to_T'],
+    [0, 3, 'B_to_R'], [0, 4, 'L_to_R'], [0, 5, 'L_to_R']
+  ]);
+}
+var v6x62 = {
+  practice: PF.b_('practice_6x6_2', blocks6x62(), 24, { row: 16, col: 0 }, { row: 1, col: 17 }, true, 6),
+  games: [PF.b_('game_6x6_2', blocks6x62(), 24, { row: 16, col: 0 }, { row: 1, col: 17 }, true, 6)]
+};
+
 // ---------------------------------------------------------------- exports
 export var VARIANTS = [
   { id: '3x3', label: '3×3', data: v3x3 },
   { id: '3x3-2', label: '3×3 Practice 2', data: v3x32 },
   { id: '3x3-3', label: '3×3 Practice 3', data: v3x33 },
   { id: '4x4', label: '4×4', data: v4x4 },
-  { id: '5x5', label: '5×5', data: v5x5 }
+  { id: '4x4-2', label: '4×4 Practice 2', data: v4x42 },
+  { id: '4x4-3', label: '4×4 Practice 3', data: v4x43 },
+  { id: '5x5', label: '5×5', data: v5x5 },
+  { id: '5x5-2', label: '5×5 Practice 2', data: v5x52 },
+  { id: '5x5-3', label: '5×5 Practice 3', data: v5x53 },
+  { id: '6x6', label: '6×6 Grid', data: v6x6 },
+  { id: '6x6-2', label: '6×6 Practice 2', data: v6x62 }
 ];
 
 export default { VARIANTS: VARIANTS };

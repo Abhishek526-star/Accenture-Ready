@@ -68,8 +68,8 @@ check('all 3x3 solved blocks reachable', reachOk);
 
 // 5. Constants
 check(
-  'grid sizes 9/9/9/12/15',
-  VARIANTS.map(function (v) { return v.data.practice.gridSize; }).join(',') === '9,9,9,12,15'
+  'grid sizes 9,9,9,12,12,12,15,15,15,18,18',
+  VARIANTS.map(function (v) { return v.data.practice.gridSize; }).join(',') === '9,9,9,12,12,12,15,15,15,18,18'
 );
 check(
   'time limits all 240',

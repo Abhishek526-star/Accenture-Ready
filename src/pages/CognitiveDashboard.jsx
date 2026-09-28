@@ -351,7 +351,7 @@ export default function CognitiveDashboard() {
                 <Grid size={22} />
               </div>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.6rem', background: '#0f172a', borderRadius: '12px', color: '#34d399' }}>
-                5 GRIDS
+                11 GRIDS
               </span>
             </div>
 
@@ -367,10 +367,16 @@ export default function CognitiveDashboard() {
               <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
                 {[
                   { id: '3x3', label: '3×3' },
-                  { id: '3x3-2', label: '3×3 Practice 2' },
-                  { id: '3x3-3', label: '3×3 Practice 3' },
-                  { id: '4x4', label: '4×4 Grid' },
-                  { id: '5x5', label: '5×5 Grid' }
+                  { id: '3x3-2', label: '3×3-2' },
+                  { id: '3x3-3', label: '3×3-3' },
+                  { id: '4x4', label: '4×4' },
+                  { id: '4x4-2', label: '4×4-2' },
+                  { id: '4x4-3', label: '4×4-3' },
+                  { id: '5x5', label: '5×5' },
+                  { id: '5x5-2', label: '5×5-2' },
+                  { id: '5x5-3', label: '5×5-3' },
+                  { id: '6x6', label: '6×6' },
+                  { id: '6x6-2', label: '6×6-2' }
                 ].map((v) => (
                   <Link
                     key={v.id}

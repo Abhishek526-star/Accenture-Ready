@@ -55,11 +55,11 @@ const ARROW_ROT = {
 };
 
 // Tile arrow glyph (base points right, rotated per direction).
-export function ArrowSvg({ dir }) {
+export function ArrowSvg({ dir, size = 22 }) {
   return (
     <svg
-      width="22"
-      height="22"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       aria-hidden="true"
       style={{ transform: 'rotate(' + (ARROW_ROT[dir] || 0) + 'deg)' }}

@@ -21,7 +21,7 @@ const INSTR_SLIDES = [
   'The practice exercise will have 2 grids to solve.\n\nThe first grid will be one that you can replay, so you should take this opportunity to practice how to rotate and change arrow directions for all types of tile patterns.'
 ];
 
-const CELL_SIZE_BY_BLOCKS = { 3: 42, 4: 28, 5: 20 };
+const CELL_SIZE_BY_BLOCKS = { 3: 56, 4: 42, 5: 34, 6: 28 };
 
 function newBoard(puzzle) {
   return {
@@ -63,6 +63,7 @@ function renderCells(puzzle, blocks, opts, cellSize) {
       if (sel === bKey) cls.push('sel');
       if ((c + 1) % 3 === 0 && c !== puzzle.gridSize - 1) cls.push('sepr');
       if ((r + 1) % 3 === 0 && r !== puzzle.gridSize - 1) cls.push('sepb');
+      const arrowSize = Math.max(16, Math.min(32, Math.round(cellSize * 0.58)));
       cells.push(
         <button
           key={key}
@@ -72,7 +73,7 @@ function renderCells(puzzle, blocks, opts, cellSize) {
           onClick={interactive && isDark ? opts.onSelect : undefined}
           style={{ width: cellSize + 'px', height: cellSize + 'px' }}
         >
-          {isDark && cell.arrow ? <ArrowSvg dir={cell.arrow} /> : null}
+          {isDark && cell.arrow ? <ArrowSvg dir={cell.arrow} size={arrowSize} /> : null}
         </button>
       );
     }
@@ -262,9 +263,9 @@ export default function PathFinder({ onComplete }) {
         b.highlight.push(path[i]);
         i += 1;
         render();
-        setTimeout(step, 280);
+        setTimeout(step, 150);
       } else {
-        setTimeout(cb, 400);
+        setTimeout(cb, 300);
       }
     }
     step();
@@ -360,8 +361,8 @@ export default function PathFinder({ onComplete }) {
 
   // ---- render helpers ----------------------------------------------------------
   const nb = variant.data.practice.blocksCount;
-  const cellSize = CELL_SIZE_BY_BLOCKS[nb] || 28;
-  const iconSize = Math.max(28, Math.min(40, cellSize - 2));
+  const cellSize = CELL_SIZE_BY_BLOCKS[nb] || 34;
+  const iconSize = Math.max(34, Math.min(48, Math.round(cellSize * 0.82)));
   const b = B.current;
 
   function ControlsView({ board }) {
