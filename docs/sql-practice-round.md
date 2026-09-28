@@ -1,4 +1,4 @@
-# Accenture SQL Assessment Round â€” Practice Question Bank
+# Accenture SQL Assessment Round — Practice Question Bank
 
 > **Extracted from:** `src/data/sqlQuestions.js` (30 questions, 90 test cases) + `src/data/sqlSchemas.js`
 
@@ -280,7 +280,7 @@ From `src/data/sqlSchemas.js` — 30 schema families (one per question) shown in
 
 ---
 
-# sql-001 â€” Debit transactions between 10,000 and 50,000
+# sql-001 — Debit transactions between 10,000 and 50,000
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `Transaction_ID`, `Amount`, `Transaction_Type`
@@ -433,7 +433,7 @@ Table `transaction`:
 
 ---
 
-# sql-002 â€” Customers whose account type starts with Sa
+# sql-002 — Customers whose account type starts with Sa
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `First_Name`, `Contact`, `Balance`
@@ -632,7 +632,7 @@ Table `account`:
 
 ---
 
-# sql-003 â€” Employees with basic salary above 5,000
+# sql-003 — Employees with basic salary above 5,000
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `EMPID`, `EMPNAME`, `BASIC`, `NETPAY`
@@ -866,7 +866,7 @@ Table `emp_payroll`:
 
 ---
 
-# sql-004 â€” Employees with more than 5 years of experience
+# sql-004 — Employees with more than 5 years of experience
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `Employee ID`, `Employee Name`
@@ -1015,7 +1015,7 @@ Table `employee_info`:
 
 ---
 
-# sql-005 â€” Wednesday course schedules
+# sql-005 — Wednesday course schedules
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `Course ID`, `Course Name`, `Day`, `Start Time`
@@ -1243,7 +1243,7 @@ Table `schedule`:
 
 ---
 
-# sql-006 â€” Books published after 1 January 1940 in category C102
+# sql-006 — Books published after 1 January 1940 in category C102
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `Title`, `Price`, `ISBN`
@@ -1433,7 +1433,7 @@ Table `book_category`:
 
 ---
 
-# sql-007 â€” Categories beginning with M
+# sql-007 — Categories beginning with M
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** PATTERN MATCHING & STRINGS
 - **Expected Output Columns:** `CATEGORYID`, `CATEGORYNAME`
@@ -1584,7 +1584,7 @@ Table `channelscategory`:
 
 ---
 
-# sql-008 â€” Trains starting with M going to Pune
+# sql-008 — Trains starting with M going to Pune
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `train_id`, `train_name`
@@ -1769,7 +1769,7 @@ Table `train_stations_tbl`:
 
 ---
 
-# sql-009 â€” Employees with more than 10 CL or ML leaves
+# sql-009 — Employees with more than 10 CL or ML leaves
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `EMPID`, `LEAVE_TYPE`, `TOTAL_LEAVES`
@@ -1924,7 +1924,7 @@ Table `LEAVE_INFO`:
 
 ---
 
-# sql-010 â€” Employees working in HR
+# sql-010 — Employees working in HR
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `EMPID`, `EMPNAME`, `DEPTNAME`, `BASIC`
@@ -2147,7 +2147,7 @@ Table `salary_info`:
 
 ---
 
-# sql-011 â€” House rent allowance for Bangalore or Cochin departments
+# sql-011 — House rent allowance for Bangalore or Cochin departments
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `EMPID`, `EMPNAME`, `DEPTNAME`, `HOUSE_RENT_ALLOWANCE`
@@ -2377,7 +2377,7 @@ Table `salary_info`:
 
 ---
 
-# sql-012 â€” Average account balance by account type
+# sql-012 — Average account balance by account type
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** AGGREGATION & GROUPING
 - **Expected Output Columns:** `Account_Type_ID`, `Average`
@@ -2530,7 +2530,7 @@ Table `Accounts`:
 
 ---
 
-# sql-013 â€” Customers with bank balance at least 50,000
+# sql-013 — Customers with bank balance at least 50,000
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `First_Name`, `Last_Name`, `Account_ID`
@@ -2730,7 +2730,7 @@ Table `account`:
 
 ---
 
-# sql-014 â€” Staff with salary greater than 50,000
+# sql-014 — Staff with salary greater than 50,000
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `Staff First Name`, `POSITION`, `SALARY`
@@ -2878,7 +2878,7 @@ Table `staff`:
 
 ---
 
-# sql-015 â€” Patients with unpaid bills
+# sql-015 — Patients with unpaid bills
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `PatientName`, `PatientEmail`, `AdmissionDate`, `TotalBilling`
@@ -3067,7 +3067,7 @@ Table `Billing`:
 
 ---
 
-# sql-016 â€” Flights operated by Singapore Airlines
+# sql-016 — Flights operated by Singapore Airlines
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `FLIGHT_ID`, `DEPARTURE_DATE`, `DEPARTURE_TIME`
@@ -3288,7 +3288,7 @@ Table `Airline`:
 
 ---
 
-# sql-017 â€” Airbus airplanes
+# sql-017 — Airbus airplanes
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `AIRPLANE_ID`, `MODELNUMBER`
@@ -3429,7 +3429,7 @@ Table `Airplane`:
 
 ---
 
-# sql-018 â€” Students registered in 2012
+# sql-018 — Students registered in 2012
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `LAST_NAME`
@@ -3611,7 +3611,7 @@ Table `registration`:
 
 ---
 
-# sql-019 â€” Cabin crew with first name A and flight ID ending in 1
+# sql-019 — Cabin crew with first name A and flight ID ending in 1
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `CABINCREW_ID`, `FIRST_NAME`, `LAST_NAME`, `CONTACT`, `FLIGHT_ID`
@@ -3801,7 +3801,7 @@ Table `flight`:
 
 ---
 
-# sql-020 â€” Passengers and baggage on flights to Paris on 2024-02-11
+# sql-020 — Passengers and baggage on flights to Paris on 2024-02-11
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** AGGREGATION & GROUPING
 - **Expected Output Columns:** `FLIGHT_ID`, `Total_Passengers`, `Total_Baggage`
@@ -3987,7 +3987,7 @@ Table `boardingpass`:
 
 ---
 
-# sql-021 â€” Count products in the Women category
+# sql-021 — Count products in the Women category
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** AGGREGATION & GROUPING
 - **Expected Output Columns:** `product_count`
@@ -4213,7 +4213,7 @@ Table `category`:
 
 ---
 
-# sql-022 â€” Trains with speed below 50
+# sql-022 — Trains with speed below 50
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** FILTERING & PREDICATES
 - **Expected Output Columns:** `TRAIN_NAME`, `TRAIN_TYPE`
@@ -4358,7 +4358,7 @@ Table `train_details_tbl`:
 
 ---
 
-# sql-023 â€” Vegetarian passengers on flight 4 from Hong Kong
+# sql-023 — Vegetarian passengers on flight 4 from Hong Kong
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `FIRST_NAME`, `CONTACT`
@@ -4575,7 +4575,7 @@ Table `flight`:
 
 ---
 
-# sql-024 â€” Products currently in the transit hub
+# sql-024 — Products currently in the transit hub
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `PRODUCT_ID`, `NAME`
@@ -4796,7 +4796,7 @@ Table `order_delivery`:
 
 ---
 
-# sql-025 â€” Artists whose name contains a number
+# sql-025 — Artists whose name contains a number
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** PATTERN MATCHING & STRINGS
 - **Expected Output Columns:** `ARTIST_ID`, `NAME`
@@ -4947,7 +4947,7 @@ Table `artist`:
 
 ---
 
-# sql-026 â€” Messages containing Hello
+# sql-026 — Messages containing Hello
 
 - **Difficulty:** Easy | **Duration:** 15 min | **Category:** PATTERN MATCHING & STRINGS
 - **Expected Output Columns:** `MESSAGE_ID`, `CONTENT`
@@ -5101,7 +5101,7 @@ Table `message`:
 
 ---
 
-# sql-027 â€” In-use vehicles whose plate ends in 0
+# sql-027 — In-use vehicles whose plate ends in 0
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `Name`, `LICENSE_NUMBER`, `PLATE_NUMBER`
@@ -5283,7 +5283,7 @@ Table `vehicle`:
 
 ---
 
-# sql-028 â€” Highly rated drivers with non-cancelled bookings
+# sql-028 — Highly rated drivers with non-cancelled bookings
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `LICENSE_NUMBER`, `VEHICLE_ID`, `RATING`, `BOOKING_ID`
@@ -5515,7 +5515,7 @@ Table `booking`:
 
 ---
 
-# sql-029 â€” Count viewers sharing the same name
+# sql-029 — Count viewers sharing the same name
 
 - **Difficulty:** Medium | **Duration:** 15 min | **Category:** AGGREGATION & GROUPING
 - **Expected Output Columns:** `viewername`, `name_count`
@@ -5669,7 +5669,7 @@ Table `viewer`:
 
 ---
 
-# sql-030 â€” Contacts whose job title contains Engineer
+# sql-030 — Contacts whose job title contains Engineer
 
 - **Difficulty:** Hard | **Duration:** 15 min | **Category:** JOINS & RELATIONAL QUERIES
 - **Expected Output Columns:** `FULLNAME`
@@ -5946,16 +5946,16 @@ The SQL Round is served at the SQL assessment route by `src/pages/SQLAssessmentP
 
 ## 2. Schema Design
 
-- Questions carry self-contained `tableSchema` (1â€“8 tables) rendered as DDL and ER diagrams.
+- Questions carry self-contained `tableSchema` (1–8 tables) rendered as DDL and ER diagrams.
 - `sqlSchemas.js` defines 30 schema families (keys 1-30, one per question) shown in the Schema Modal (Banking & Transactions 6T, Employee Payroll 4T, E-Commerce Orders 8T, etc.), shared across questions via the schema modal tabs.
 
 ## 3. Styling & CSS Approach
 
 Hybrid styling:
 
-1. **Inline React style objects** â€” dominant for page banner, nav dots, panels (`#090e1d` panels, `#1e293b` borders, `linear-gradient(145deg, #0b1329, #0f1c3a)` cards, sky accent `#38bdf8`, text `#f8fafc` / `#94a3b8`).
-2. **Dedicated CSS files** â€” `SQLSchemaModal.css` (fixed overlay, `backdrop-filter: blur(8px)`, `@keyframes modalFadeIn` / `windowScaleUp` floating-window aesthetic) and `DatabaseERDiagram.css` for the ER diagram.
-3. **Global utility classes** â€” `btn btn-secondary btn-sm`, `q-nav-selector`, `q-nav-dots` for navigation chrome.
+1. **Inline React style objects** — dominant for page banner, nav dots, panels (`#090e1d` panels, `#1e293b` borders, `linear-gradient(145deg, #0b1329, #0f1c3a)` cards, sky accent `#38bdf8`, text `#f8fafc` / `#94a3b8`).
+2. **Dedicated CSS files** — `SQLSchemaModal.css` (fixed overlay, `backdrop-filter: blur(8px)`, `@keyframes modalFadeIn` / `windowScaleUp` floating-window aesthetic) and `DatabaseERDiagram.css` for the ER diagram.
+3. **Global utility classes** — `btn btn-secondary btn-sm`, `q-nav-selector`, `q-nav-dots` for navigation chrome.
 
 ### Key visual tokens
 

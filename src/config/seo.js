@@ -168,5 +168,11 @@ export const seoConfig = {
     title: 'Quick Math Assessment Game – Speed & Accuracy Practice',
     description: 'Practice rapid mental math with a timed assessment game focused on speed and accuracy.',
     path: '/cognitive/quick-fire-math'
+  },
+
+  pathFinder: {
+    title: 'Path Finder Game – Spatial Reasoning & Tile Rotation Practice',
+    description: 'Rotate tiles and redirect arrows to build a path from start to goal in this timed spatial reasoning game.',
+    path: '/cognitive/path-finder'
   }
 };

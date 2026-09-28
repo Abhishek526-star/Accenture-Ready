@@ -421,7 +421,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           )}
         </div>
 
-        {/* Cognitive Games Dropdown (NO Path Finder!) */}
+        {/* Cognitive Games Dropdown (incl. Path Finder) */}
         <div style={{ position: 'relative' }}>
           <button
             type="button"
@@ -460,6 +460,10 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               <Link to="/cognitive/memory-maze" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Brain size={14} className="text-purple-400" />
                 <span>Memory Maze</span>
+              </Link>
+              <Link to="/cognitive/path-finder" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Brain size={14} className="text-orange-400" />
+                <span>Path Finder</span>
               </Link>
             </div>
           )}

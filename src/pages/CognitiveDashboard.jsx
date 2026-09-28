@@ -106,6 +106,12 @@ export default function CognitiveDashboard() {
             </div>
           </div>
           <div>
+            <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Path Finder Best</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#34d399', fontFamily: 'JetBrains Mono' }}>
+              {stats.bestScores.path_finder || 0}
+            </div>
+          </div>
+          <div>
             <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Practice Streak</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fb923c', display: 'flex', alignItems: 'center', gap: '0.3rem', fontFamily: 'JetBrains Mono' }}>
               <Flame size={20} className="fill-orange-400" />
@@ -314,6 +320,103 @@ export default function CognitiveDashboard() {
             }}
           >
             <span>Launch Quick-Fire Math (Set 1)</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {/* Game 3: Path Finder Card */}
+        <div style={{
+          background: '#1e293b',
+          border: '1px solid #334155',
+          borderRadius: '18px',
+          padding: '1.75rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '1.25rem'
+        }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '12px',
+                background: 'rgba(52, 211, 153, 0.12)',
+                border: '1px solid rgba(52, 211, 153, 0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#34d399'
+              }}>
+                <Grid size={22} />
+              </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.6rem', background: '#0f172a', borderRadius: '12px', color: '#34d399' }}>
+                5 GRIDS
+              </span>
+            </div>
+
+            <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#f8fafc' }}>Path Finder</h3>
+            <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.5 }}>
+              Rotate tiles and redirect arrows to build a path from the start icon to the goal. Solve the practice board, then clear the scored sections before the 240s timer runs out.
+            </p>
+
+            <div style={{ marginTop: '1rem' }}>
+              <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }}>
+                Select Grid:
+              </div>
+              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                {[
+                  { id: '3x3', label: '3×3' },
+                  { id: '3x3-2', label: '3×3 Practice 2' },
+                  { id: '3x3-3', label: '3×3 Practice 3' },
+                  { id: '4x4', label: '4×4 Grid' },
+                  { id: '5x5', label: '5×5 Grid' }
+                ].map((v) => (
+                  <Link
+                    key={v.id}
+                    to={`/cognitive/path-finder?variant=${v.id}`}
+                    style={{
+                      padding: '0.35rem 0.6rem',
+                      background: 'rgba(52, 211, 153, 0.12)',
+                      border: '1px solid rgba(52, 211, 153, 0.3)',
+                      color: '#34d399',
+                      borderRadius: '8px',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {v.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.85rem', fontSize: '0.78rem', color: '#cbd5e1', flexWrap: 'wrap' }}>
+              <div>• Rotate & Flip Tiles</div>
+              <div>• Fewest Moves Scoring</div>
+              <div>• 240s Time Limit</div>
+            </div>
+          </div>
+
+          <Link
+            to="/cognitive/path-finder"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              padding: '0.85rem',
+              background: '#059669',
+              color: '#fff',
+              borderRadius: '10px',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+              textDecoration: 'none'
+            }}
+          >
+            <span>Play Path Finder (3×3)</span>
             <ArrowRight size={16} />
           </Link>
         </div>

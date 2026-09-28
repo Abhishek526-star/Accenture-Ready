@@ -10,6 +10,7 @@ import CognitiveDashboard from './pages/CognitiveDashboard.jsx';
 import FullAssessmentPage from './pages/FullAssessmentPage.jsx';
 import MathBubblePage from './pages/MathBubblePage.jsx';
 import MemoryMazePage from './pages/MemoryMazePage.jsx';
+import PathFinderPage from './pages/PathFinderPage.jsx';
 import FullCognitiveMock from './pages/FullCognitiveMock.jsx';
 import CognitiveResults from './pages/CognitiveResults.jsx';
 import SQLAssessmentPage from './pages/SQLAssessmentPage.jsx';
@@ -164,11 +165,12 @@ export default function App() {
               <Route path="/recent-sql" element={<Navigate to="/recent-questions?track=sql" replace />} />
               <Route path="/recent-frontend" element={<Navigate to="/recent-questions?track=frontend" replace />} />
 
-              {/* Cognitive Assessment Games (NO Path Finder) */}
+              {/* Cognitive Assessment Games (incl. Path Finder) */}
               <Route path="/cognitive" element={<CognitiveDashboard />} />
               <Route path="/cognitive/full-mock" element={<FullCognitiveMock />} />
               <Route path="/cognitive/assessment" element={<FullCognitiveMock />} />
               <Route path="/cognitive/memory-maze" element={<MemoryMazePage />} />
+              <Route path="/cognitive/path-finder" element={<PathFinderPage />} />
               <Route path="/cognitive/quick-fire-math" element={<MathBubblePage />} />
               <Route path="/cognitive/math-bubble" element={<MathBubblePage />} />
               <Route path="/cognitive/results" element={<CognitiveResults />} />
