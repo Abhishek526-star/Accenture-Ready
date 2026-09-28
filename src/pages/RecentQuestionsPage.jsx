@@ -1303,7 +1303,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -1865,7 +1865,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             typeof countUniform === 'function' ? countUniform : (typeof count_uniform === 'function' ? count_uniform : null),
             typeof numberOfCarries === 'function' ? numberOfCarries : (typeof number_of_carries === 'function' ? number_of_carries : (typeof NumberOfCarries === 'function' ? NumberOfCarries : null)),
             typeof countBlocks === 'function' ? countBlocks : (typeof count_blocks === 'function' ? count_blocks : (typeof CountBlocks === 'function' ? CountBlocks : null)),
-            typeof totalEnergy === 'function' ? totalEnergy : (typeof total_energy === 'function' ? total_energy : (typeof TotalEnergy === 'function' ? TotalEnergy : null))
+            typeof totalEnergy === 'function' ? totalEnergy : (typeof total_energy === 'function' ? total_energy : (typeof TotalEnergy === 'function' ? TotalEnergy : null)),
+            typeof countAlternatingStrings === 'function' ? countAlternatingStrings : (typeof count_alternating_strings === 'function' ? count_alternating_strings : (typeof CountAlternatingStrings === 'function' ? CountAlternatingStrings : null)),
+            typeof totalMoonlightScore === 'function' ? totalMoonlightScore : (typeof total_moonlight_score === 'function' ? total_moonlight_score : (typeof TotalMoonlightScore === 'function' ? TotalMoonlightScore : null)),
+            typeof countSameRowsColumns === 'function' ? countSameRowsColumns : (typeof count_same_rows_columns === 'function' ? count_same_rows_columns : (typeof CountSameRowsColumns === 'function' ? CountSameRowsColumns : null))
           ].filter(Boolean);
 
           if (candidates.length === 0) throw new Error('Algorithm function declaration not found in code.');
@@ -2046,6 +2049,22 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasLoop || !hasParity || !hasSearch) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_alternating_search';
+      }
+    } else if (question.id === 'recent-dsa-019') {
+      const hasLoop = code.includes('for') || code.includes('while');
+      const hasSumOrProd = code.includes('+') || code.includes('*');
+      const hasParityOrPrime = code.includes('% 2') || code.includes('%2') || code.includes('& 1') || code.includes('isPrime') || code.includes('is_prime') || code.includes('IsPrime') || code.includes('% i') || code.includes('%i');
+      if (!hasLoop || !hasSumOrProd || !hasParityOrPrime) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_consecutive_or_prime_logic';
+      }
+    } else if (question.id === 'recent-dsa-020') {
+      const hasLoop = code.includes('for') || code.includes('while');
+      const hasSqrtOrDim = code.includes('sqrt') || code.includes('isqrt') || code.includes('Math.sqrt') || code.includes('Math.round') || code.includes('*');
+      const hasIndex = code.includes('*') && (code.includes('+') || code.includes('['));
+      if (!hasLoop || !hasSqrtOrDim || !hasIndex) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_grid_dimension_traversal';
       }
     }
 
@@ -3149,6 +3168,157 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-019') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: [3, 5, 2, 9])', N: 4, A: [3, 5, 2, 9], exp: 51, expStr: 'Score: 51', latency: '2ms' },
+          { id: 2, name: 'Exam Test Case 2 (Prime N = 3 Doubled: [1, 2, 3])', N: 3, A: [1, 2, 3], exp: 32, expStr: 'Score: 32 (Doubled for Prime N=3)', latency: '2ms' },
+          { id: 3, name: 'Exam Test Case 3 (All 1s: [1, 1, 1, 1])', N: 4, A: [1, 1, 1, 1], exp: 10, expStr: 'Score: 10', latency: '2ms' },
+          { id: 4, name: 'Exam Test Case 4 (Prime N = 2 Doubled: [6, 7])', N: 2, A: [6, 7], exp: 98, expStr: 'Score: 98 (Doubled for Prime N=2)', latency: '3ms' },
+          { id: 5, name: 'Exam Test Case 5 (Single Stone: [5])', N: 1, A: [5], exp: 0, expStr: 'Score: 0 (N=1 not prime)', latency: '1ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Score: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.N, [...t.A]]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Score: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Score: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Score: 0 (Flawed consecutive pairing or prime logic)`;
+            passed = t.exp === 0;
+          } else {
+            let score = 0;
+            for (let i = 0; i < t.N - 1; i++) {
+              const sum = t.A[i] + t.A[i + 1];
+              if (sum <= 10) score += sum;
+              else score += t.A[i] * t.A[i + 1];
+            }
+            for (let i = 0; i < t.N; i++) {
+              if (i % 2 === 0) score += t.A[i] * i;
+              else score += t.A[i];
+            }
+            const isPrimeN = (n) => {
+              if (n < 2) return false;
+              for (let d = 2; d * d <= n; d++) {
+                if (n % d === 0) return false;
+              }
+              return true;
+            };
+            if (isPrimeN(t.N)) score *= 2;
+            actualStr = `Score: ${score}`;
+            passed = score === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.N}, A = [${t.A.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-020') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: 3x3 with 1 identical row)', S: 'aaaabbbcc', exp: 1, expStr: 'Count: 1 (Row 0: "aaa")', latency: '2ms' },
+          { id: 2, name: 'Exam Test Case 2 (All Identical Characters: 3 rows + 3 cols)', S: 'aaaaaaaaa', exp: 6, expStr: 'Count: 6 (3 rows + 3 cols)', latency: '2ms' },
+          { id: 3, name: 'Exam Test Case 3 (All Distinct: No matching rows or cols)', S: 'abcdefghi', exp: 0, expStr: 'Count: 0', latency: '2ms' },
+          { id: 4, name: 'Exam Test Case 4 (Column Match: 3 uniform columns)', S: 'abcabcabc', exp: 3, expStr: 'Count: 3 (3 columns)', latency: '2ms' },
+          { id: 5, name: 'Exam Test Case 5 (Single uniform row: "ccc")', S: 'aabbbcccc', exp: 1, expStr: 'Count: 1 (Row 2)', latency: '2ms' },
+          { id: 6, name: 'Exam Test Case 6 (1x1 Matrix)', S: 'a', exp: 2, expStr: 'Count: 2 (1 row + 1 col)', latency: '1ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const val = typeof out === 'number' ? out : Number(out);
+              actualStr = `Count: ${isNaN(val) ? (out ?? 0) : val}`;
+              passed = !isNaN(val) && val === t.exp;
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.S]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = `Count: ${u.ret}`;
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            const val = typeof sub.returnValue === 'number' ? sub.returnValue : 0;
+            actualStr = `Count: ${val}`;
+            passed = val === t.exp;
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Count: 0 (Flawed grid traversal)`;
+            passed = t.exp === 0;
+          } else {
+            const n = Math.round(Math.sqrt(t.S.length));
+            let count = 0;
+            for (let i = 0; i < n; i++) {
+              const first = t.S[i * n];
+              let same = true;
+              for (let j = 1; j < n; j++) {
+                if (t.S[i * n + j] !== first) {
+                  same = false;
+                  break;
+                }
+              }
+              if (same) count++;
+            }
+            for (let j = 0; j < n; j++) {
+              const first = t.S[j];
+              let same = true;
+              for (let i = 1; i < n; i++) {
+                if (t.S[i * n + j] !== first) {
+                  same = false;
+                  break;
+                }
+              }
+              if (same) count++;
+            }
+            actualStr = `Count: ${count}`;
+            passed = count === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `S = "${t.S}" (Grid: ${Math.round(Math.sqrt(t.S.length))}x${Math.round(Math.sqrt(t.S.length))})`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -3415,6 +3585,306 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           .replace(/\/\*[\s\S]*?\*\//g, '')
           .replace(/\/\/.*/g, '')
           .trim();
+
+        // Branch: Accordion Menu (recent-fe-006)
+        if (activeFeQuestion?.id === 'recent-fe-006') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Three section-data elements with proper text
+          const sectionDataList = doc.querySelectorAll('.section-data');
+          const hasThreeSections = sectionDataList.length === 3;
+          const text1 = sectionDataList[0] ? (sectionDataList[0].textContent || '').trim() : '';
+          const text2 = sectionDataList[1] ? (sectionDataList[1].textContent || '').trim() : '';
+          const text3 = sectionDataList[2] ? (sectionDataList[2].textContent || '').trim() : '';
+          const hasCorrectTexts =
+            text1.toLowerCase().includes('content for section 1') &&
+            text2.toLowerCase().includes('content for section 2') &&
+            text3.toLowerCase().includes('content for section 3');
+
+          // 2. CSS Verification - .accordion margin: 20px
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasMargin =
+            cssClean.includes('margin:20px') ||
+            (cssClean.includes('.accordion{') && cssClean.includes('margin:20px'));
+
+          // 3. JavaScript Execution Verification
+          let jsPassedCase1 = false;
+          let jsMsgCase1 = '';
+          let jsPassedCase2 = false;
+          let jsMsgCase2 = '';
+
+          try {
+            const sandbox1 = document.createElement('div');
+            sandbox1.innerHTML = html;
+
+            const h1 = sandbox1.querySelector('#header1');
+            const h2 = sandbox1.querySelector('#header2');
+            const h3 = sandbox1.querySelector('#header3');
+            const c1 = h1 ? h1.nextElementSibling : null;
+            const c2 = h2 ? h2.nextElementSibling : null;
+            const c3 = h3 ? h3.nextElementSibling : null;
+
+            if (!h1 || !h2 || !h3 || !c1 || !c2 || !c3) {
+              jsMsgCase1 = 'Missing required header elements (#header1, #header2, #header3) or nextElementSibling content containers.';
+            } else {
+              const mockDoc = {
+                getElementById: (id) => sandbox1.querySelector('#' + id),
+                querySelector: (sel) => sandbox1.querySelector(sel),
+                querySelectorAll: (sel) => sandbox1.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              const runFn = new Function('document', 'window', `
+                ${js}
+              `);
+              runFn(mockDoc, window);
+
+              // Check initial visibility
+              const initiallyVisible = c1.style.display !== 'none' && c2.style.display !== 'none' && c3.style.display !== 'none';
+
+              // First click on header 1 -> hide content1
+              h1.click();
+              const hiddenAfterClick1 = c1.style.display === 'none';
+
+              // Second click on header 1 -> restore content1
+              h1.click();
+              const visibleAfterClick2 = c1.style.display === 'block' || c1.style.display === '' || c1.style.display !== 'none';
+
+              if (initiallyVisible && hiddenAfterClick1 && visibleAfterClick2) {
+                jsPassedCase1 = true;
+                jsMsgCase1 = 'Verified: Section 1 starts visible, collapses to display: none on click, and expands on second click.';
+              } else if (!hiddenAfterClick1) {
+                jsMsgCase1 = 'Section 1 content was not hidden when header1 was clicked.';
+              } else if (!visibleAfterClick2) {
+                jsMsgCase1 = 'Section 1 content did not become visible again after clicking header1 a second time.';
+              } else {
+                jsMsgCase1 = 'Section contents must be visible initially before clicking.';
+              }
+
+              // Test independent toggling for header 2 and header 3
+              h2.click();
+              const h2Toggled = c2.style.display === 'none';
+              h2.click();
+              const h2Restored = c2.style.display !== 'none';
+
+              h3.click();
+              const h3Toggled = c3.style.display === 'none';
+              h3.click();
+              const h3Restored = c3.style.display !== 'none';
+
+              if (h2Toggled && h2Restored && h3Toggled && h3Restored) {
+                jsPassedCase2 = true;
+                jsMsgCase2 = 'Verified: Headers 2 and 3 independently toggle sections 2 and 3 display visibility on click.';
+              } else {
+                jsMsgCase2 = 'Independent click toggle failed for section 2 or section 3 headers.';
+              }
+            }
+          } catch (err) {
+            jsMsgCase1 = 'Execution error: ' + err.message;
+            jsMsgCase2 = 'Execution error in event handlers.';
+          }
+
+          const hasSubstantiveCode = codeWithoutComments.length > 30;
+
+          const results = [
+            {
+              title: 'HTML Structure: Three .section-data Elements Added',
+              passed: hasThreeSections && hasCorrectTexts,
+              message: hasThreeSections && hasCorrectTexts
+                ? 'Three <div class="section-data"> elements properly structured with required texts for sections 1, 2, and 3.'
+                : hasThreeSections
+                ? 'Found 3 .section-data elements, but text contents did not match "Content for section 1/2/3".'
+                : `Expected 3 .section-data elements, found ${sectionDataList.length}.`
+            },
+            {
+              title: 'CSS Styling: .accordion Margin Set to 20px',
+              passed: hasMargin,
+              message: hasMargin
+                ? 'CSS verified: .accordion margin is set to 20px.'
+                : 'Missing or incorrect margin: 20px inside the .accordion CSS rule.'
+            },
+            {
+              title: 'JS Handler: Section 1 Toggle On Click & Repeat',
+              passed: hasSubstantiveCode && jsPassedCase1,
+              message: jsMsgCase1 || 'Section 1 toggle handler not executed.'
+            },
+            {
+              title: 'JS Handlers: Independent Toggles for Sections 2 & 3',
+              passed: hasSubstantiveCode && jsPassedCase2,
+              message: jsMsgCase2 || 'Section 2 & 3 toggle handlers not executed.'
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-006',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-006')) {
+              toggleSolved('recent-fe-006');
+              gamificationService.addXP(50, 'Solved Accordion Menu');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-006')) {
+                const updated = prev.filter(id => id !== 'recent-fe-006');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Modal Popup (recent-fe-007)
+        if (activeFeQuestion?.id === 'recent-fe-007') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - aria-label="Close modal" on #closeModal
+          const closeBtn = doc.getElementById('closeModal');
+          const ariaLabel = closeBtn ? (closeBtn.getAttribute('aria-label') || '').trim() : '';
+          const hasAriaLabel = ariaLabel.toLowerCase() === 'close modal';
+
+          // 2. CSS Verification - backdrop-filter: blur(3px) on .modal-overlay
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasBackdropFilter =
+            cssClean.includes('backdrop-filter:blur(3px)') ||
+            cssClean.includes('-webkit-backdrop-filter:blur(3px)');
+
+          // 3. JavaScript Execution Verification
+          let jsPassedCase1 = false;
+          let jsMsgCase1 = '';
+          let jsPassedCase2 = false;
+          let jsMsgCase2 = '';
+
+          try {
+            const sandbox1 = document.createElement('div');
+            sandbox1.innerHTML = html;
+
+            const openBtn = sandbox1.querySelector('#openModal');
+            const closeBtnEl = sandbox1.querySelector('#closeModal');
+            const modalEl = sandbox1.querySelector('#modal');
+
+            if (!openBtn || !closeBtnEl || !modalEl) {
+              jsMsgCase1 = 'Missing required elements (#openModal, #closeModal, #modal) in HTML.';
+            } else {
+              const mockDoc = {
+                getElementById: (id) => sandbox1.querySelector('#' + id),
+                querySelector: (sel) => sandbox1.querySelector(sel),
+                querySelectorAll: (sel) => sandbox1.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              const runFn = new Function('document', 'window', `
+                ${js}
+              `);
+              runFn(mockDoc, window);
+
+              // Check initial state
+              const initiallyHidden = modalEl.classList.contains('hidden');
+
+              // Click open button -> should remove "hidden"
+              openBtn.click();
+              const shownAfterOpen = !modalEl.classList.contains('hidden');
+
+              if (initiallyHidden && shownAfterOpen) {
+                jsPassedCase1 = true;
+                jsMsgCase1 = 'Verified: Clicking Open Modal triggers toggleModal() and removes the "hidden" class.';
+              } else if (!initiallyHidden) {
+                jsMsgCase1 = 'Modal did not have initial "hidden" class.';
+              } else {
+                jsMsgCase1 = 'Clicking #openModal did not remove the "hidden" class from #modal.';
+              }
+
+              // Click close button -> should add "hidden"
+              closeBtnEl.click();
+              const hiddenAfterClose = modalEl.classList.contains('hidden');
+
+              // Re-open again
+              openBtn.click();
+              const reOpened = !modalEl.classList.contains('hidden');
+
+              if (hiddenAfterClose && reOpened) {
+                jsPassedCase2 = true;
+                jsMsgCase2 = 'Verified: Full cycle works (Open -> Close -> Reopen correctly updates modal visibility class).';
+              } else if (!hiddenAfterClose) {
+                jsMsgCase2 = 'Clicking #closeModal did not restore the "hidden" class to #modal.';
+              } else {
+                jsMsgCase2 = 'Re-opening the modal after closing failed.';
+              }
+            }
+          } catch (err) {
+            jsMsgCase1 = 'Execution error: ' + err.message;
+            jsMsgCase2 = 'Execution error in modal toggle handlers.';
+          }
+
+          const hasSubstantiveCode = codeWithoutComments.length > 20;
+
+          const results = [
+            {
+              title: 'HTML ARIA Accessibility: aria-label="Close modal"',
+              passed: hasAriaLabel,
+              message: hasAriaLabel
+                ? 'Verified: #closeModal button contains aria-label="Close modal".'
+                : 'Missing attribute aria-label="Close modal" on the #closeModal button.'
+            },
+            {
+              title: 'CSS Styling: backdrop-filter: blur(3px)',
+              passed: hasBackdropFilter,
+              message: hasBackdropFilter
+                ? 'Verified: .modal-overlay includes backdrop-filter: blur(3px).'
+                : 'Missing or incorrect backdrop-filter: blur(3px); in CSS.'
+            },
+            {
+              title: 'JS Modal Open: toggleModal() Removes "hidden"',
+              passed: hasSubstantiveCode && jsPassedCase1,
+              message: jsMsgCase1 || 'toggleModal() function did not reveal modal on click.'
+            },
+            {
+              title: 'JS Interaction: Modal Open & Close Cycle',
+              passed: hasSubstantiveCode && jsPassedCase2,
+              message: jsMsgCase2 || 'Modal open and close cycle verification failed.'
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-007',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-007')) {
+              toggleSolved('recent-fe-007');
+              gamificationService.addXP(50, 'Solved Modal Popup');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-007')) {
+                const updated = prev.filter(id => id !== 'recent-fe-007');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
 
         // Branch 1: BMI Calculator (recent-fe-002)
         if (activeFeQuestion.id === 'recent-fe-002') {
@@ -5906,7 +6376,25 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-005' ? (
+                    {activeFeQuestion.id === 'recent-fe-007' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given an existing implementation of a simple <strong style={{ color: '#f8fafc' }}>Modal Popup</strong>. Complete the required HTML accessibility attribute, CSS backdrop filter, and JavaScript modal reveal logic.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML aria-label="Close modal" • Part 2: CSS backdrop-filter: blur(3px) • Part 3: JS toggleModal() classList.remove("hidden")
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-006' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are tasked with building a simple <strong style={{ color: '#f8fafc' }}>Accordion Menu</strong> that allows users to expand and collapse sections on clicking the section headers. Complete the required HTML, CSS, and JavaScript.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML 3x .section-data • Part 2: CSS .accordion margin: 20px • Part 3: JS toggle visibility on header click
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-005' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are building a <strong style={{ color: '#f8fafc' }}>Product Price Filter</strong> that allows users to select a minimum and maximum price using a range slider. Complete three small tasks involving HTML, CSS, and JavaScript.
@@ -5975,7 +6463,17 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add attribute <code style={{ color: '#fb923c' }}>aria-label="Close modal"</code> to <strong style={{ color: '#f8fafc' }}><code>#closeModal</code></strong> button.</li>
+                            <li>Do not modify existing HTML structure or button text.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-006' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Create three <code style={{ color: '#fb923c' }}>&lt;div class="section-data"&gt;</code> elements under each header.</li>
+                            <li>Set content: <strong style={{ color: '#f8fafc' }}>"Content for section 1"</strong>, <strong style={{ color: '#f8fafc' }}>"Content for section 2"</strong>, and <strong style={{ color: '#f8fafc' }}>"Content for section 3"</strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-005' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add attribute <code style={{ color: '#fb923c' }}>aria-valuetext="$0-$1000"</code> to <strong style={{ color: '#f8fafc' }}><code>.slider-container</code></strong>.</li>
                             <li>Do not modify existing input sliders (<strong style={{ color: '#f8fafc' }}><code>#minPrice</code></strong> and <strong style={{ color: '#f8fafc' }}><code>#maxPrice</code></strong>).</li>
@@ -6026,7 +6524,17 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add <code style={{ color: '#4ade80' }}>backdrop-filter: blur(3px);</code> inside <strong style={{ color: '#f8fafc' }}><code>.modal-overlay</code></strong>.</li>
+                            <li>Preserve existing fixed positioning, background color, and alignment.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-006' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set <code style={{ color: '#4ade80' }}>margin: 20px;</code> inside <strong style={{ color: '#f8fafc' }}><code>.accordion</code></strong>.</li>
+                            <li>Do not modify existing card, header, or section-data styles.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-005' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Set <code style={{ color: '#4ade80' }}>background-color: #3498db;</code> inside <strong style={{ color: '#f8fafc' }}><code>.range-progress</code></strong>.</li>
                             <li>Do not change existing slider thumbs or track styles.</li>
@@ -6075,7 +6583,18 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-005' ? (
+                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Complete <strong style={{ color: '#f8fafc' }}><code>toggleModal()</code></strong> to show the modal by removing <code style={{ color: '#facc15' }}>"hidden"</code> class.</li>
+                            <li>Preserve existing event listeners for <strong style={{ color: '#f8fafc' }}><code>#openModal</code></strong> and <strong style={{ color: '#f8fafc' }}><code>#closeModal</code></strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-006' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add click listeners to <strong style={{ color: '#f8fafc' }}><code>header1</code></strong>, <strong style={{ color: '#f8fafc' }}><code>header2</code></strong>, and <strong style={{ color: '#f8fafc' }}><code>header3</code></strong>.</li>
+                            <li>Toggle display visibility between <code style={{ color: '#facc15' }}>"none"</code> and <code style={{ color: '#facc15' }}>"block"</code> on click.</li>
+                            <li>Ensure all section contents remain visible on initial page load.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-005' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Calculate selected range percentage: <code style={{ color: '#facc15' }}>(max - min) / totalRange * 100</code>.</li>
                             <li>Set calculated percentage as the width of <strong style={{ color: '#f8fafc' }}><code>.range-progress</code></strong>.</li>
@@ -6117,7 +6636,21 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-005'
+                      {(activeFeQuestion.id === 'recent-fe-007'
+                        ? [
+                            { title: 'ARIA Close Label', desc: '#closeModal button includes aria-label="Close modal"' },
+                            { title: 'CSS Backdrop Blur Filter', desc: '.modal-overlay has backdrop-filter set to blur(3px)' },
+                            { title: 'Open Modal Trigger', desc: 'Clicking #openModal invokes toggleModal() and removes .hidden class' },
+                            { title: 'Modal Close & Reopen Cycle', desc: 'Clicking Close restores .hidden; reopening functions reliably' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-006'
+                        ? [
+                            { title: 'HTML Section Data Added', desc: 'Three .section-data elements added with correct section texts' },
+                            { title: 'CSS Accordion Margin', desc: '.accordion margin property is set to 20px' },
+                            { title: 'Initial Display Visible', desc: 'All three section contents are visible when the page loads' },
+                            { title: 'Click Toggle Behavior', desc: 'Clicking any header collapses/expands its corresponding content' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-005'
                         ? [
                             { title: 'ARIA Accessibility Bound', desc: '.slider-container includes aria-valuetext="$0-$1000"' },
                             { title: 'CSS Progress Color', desc: '.range-progress background-color is set to #3498db' },

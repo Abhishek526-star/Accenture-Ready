@@ -414,6 +414,38 @@ for _k, _s1, _s2 in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-019') {
+      return `${cleanUserCode}
+
+_tests = [
+    (4, [3, 5, 2, 9]),
+    (3, [1, 2, 3]),
+    (4, [1, 1, 1, 1]),
+    (2, [6, 7]),
+    (1, [5])
+]
+for _n, _a in _tests:
+    try:
+        fn = globals().get('totalMoonlightScore') or globals().get('total_moonlight_score') or globals().get('TotalMoonlightScore') or totalMoonlightScore
+        print("TEST_RES:" + str(fn(_n, list(_a))))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-020') {
+      return `${cleanUserCode}
+
+_tests = ["aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"]
+for _s in _tests:
+    try:
+        fn = globals().get('countSameRowsColumns') or globals().get('count_same_rows_columns') or globals().get('CountSameRowsColumns') or countSameRowsColumns
+        print("TEST_RES:" + str(fn(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -931,6 +963,47 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-019') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[] ns = {4, 3, 4, 2, 1};
+        int[][] as = {
+            {3, 5, 2, 9},
+            {1, 2, 3},
+            {1, 1, 1, 1},
+            {6, 7},
+            {5}
+        };
+        for (int i = 0; i < ns.length; i++) {
+            try {
+                System.out.println("TEST_RES:" + totalMoonlightScore(ns[i], as[i]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-020') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {"aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"};
+        for (String s : tests) {
+            try {
+                System.out.println("TEST_RES:" + countSameRowsColumns(s));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1362,6 +1435,42 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-019') {
+      return `${cleanUserCode}
+
+int main() {
+    struct TestCase {
+        int N;
+        std::vector<int> A;
+    };
+    std::vector<TestCase> tests = {
+        {4, {3, 5, 2, 9}},
+        {3, {1, 2, 3}},
+        {4, {1, 1, 1, 1}},
+        {2, {6, 7}},
+        {1, {5}}
+    };
+    for (auto& t : tests) {
+        std::cout << "TEST_RES:" << totalMoonlightScore(t.N, t.A) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-020') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::string> tests = {"aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"};
+    for (const auto& s : tests) {
+        std::cout << "TEST_RES:" << countSameRowsColumns(s) << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1766,6 +1875,38 @@ int main() {
         };
         foreach (var t in tests) {
             Console.WriteLine("TEST_RES:" + CountAlternatingStrings(t.Item1, t.Item2, t.Item3));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-019') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new List<(int, int[])> {
+            (4, new int[] {3, 5, 2, 9}),
+            (3, new int[] {1, 2, 3}),
+            (4, new int[] {1, 1, 1, 1}),
+            (2, new int[] {6, 7}),
+            (1, new int[] {5})
+        };
+        foreach (var t in tests) {
+            Console.WriteLine("TEST_RES:" + TotalMoonlightScore(t.Item1, t.Item2));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-020') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new string[] {"aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"};
+        foreach (var s in tests) {
+            Console.WriteLine("TEST_RES:" + CountSameRowsColumns(s));
         }
     }
 }
@@ -2192,6 +2333,42 @@ for (const [_k, _s1, _s2] of _tests) {
     try {
         const fn = typeof countAlternatingStrings === 'function' ? countAlternatingStrings : (typeof count_alternating_strings === 'function' ? count_alternating_strings : (typeof CountAlternatingStrings === 'function' ? CountAlternatingStrings : null));
         console.log("TEST_RES:" + JSON.stringify(fn(_k, _s1, _s2)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-019') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [4, [3, 5, 2, 9]],
+  [3, [1, 2, 3]],
+  [4, [1, 1, 1, 1]],
+  [2, [6, 7]],
+  [1, [5]]
+];
+for (const [_n, _a] of _tests) {
+    try {
+        const fn = typeof totalMoonlightScore === 'function' ? totalMoonlightScore : (typeof total_moonlight_score === 'function' ? total_moonlight_score : (typeof TotalMoonlightScore === 'function' ? TotalMoonlightScore : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_n, _a)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-020') {
+    return `${cleanUserCode}
+
+const _tests = ["aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"];
+for (const _s of _tests) {
+    try {
+        const fn = typeof countSameRowsColumns === 'function' ? countSameRowsColumns : (typeof count_same_rows_columns === 'function' ? count_same_rows_columns : (typeof CountSameRowsColumns === 'function' ? CountSameRowsColumns : null));
+        console.log("TEST_RES:" + JSON.stringify(fn(_s)));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

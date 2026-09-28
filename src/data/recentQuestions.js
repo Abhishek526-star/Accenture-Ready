@@ -1630,6 +1630,201 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-019",
+    "track": "dsa",
+    "dateTag": "28th Sept 2026 • Shift 1",
+    "examDate": "2026-09-28",
+    "shift": "Shift 1",
+    "title": "Total Moonlight Score",
+    "difficulty": "Medium",
+    "category": "Arrays / Consecutive Pairs & Prime Check",
+    "pattern": "Linear Scan + Parity & Prime Check",
+    "rewardXp": 75,
+    "targetMins": 20,
+    "source": "Accenture Assessment 28th Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "In the Enchanted Forest of Lumeria, each glowing stone has a Moonlight Intensity represented by an integer in an array `A` of size `N`.\n\nThe Total Moonlight Score reflects the harmony among these stones.\n\nTo calculate the score:\n1. **For every pair of consecutive stones** (`i` from `0` to `N - 2`):\n   - If their sum `A[i] + A[i + 1] <= 10`, add their sum to the score.\n   - Otherwise, add their product `A[i] * A[i + 1]` to the score.\n2. **For each stone at index i** (`0 <= i < N`):\n   - If `i` is even, add `A[i] * i` to the score.\n   - If `i` is odd, add `A[i]` to the score.\n3. **After calculating both parts**, if `N` is prime, double the final score.\n\nReturn an integer representing the Total Moonlight Score.\n\n---\n\n### 📝 Function Declaration:\n```cpp\nint totalMoonlightScore(int N, vector<int>& A);\n```\n\n- **Input Specification:**\n  - `input1 (N)`: An integer value `N`, representing the number of stones.\n  - `input2 (A)`: An integer array `A`, representing the moonlight intensities.\n\n- **Output Specification:**\n  - Return an integer value representing the Total Moonlight Score.\n\n---\n\n### 📌 Given Example:\n**Input:**\n```text\nN = 4\nA = [3, 5, 2, 9]\n```\n\n**Output:** `51`\n\n**Explanation:**\n- **Part 1: Consecutive Stone Pairs**\n  - Pair (3, 5): Sum = 8 <= 10 -> add 8\n  - Pair (5, 2): Sum = 7 <= 10 -> add 7\n  - Pair (2, 9): Sum = 11 > 10 -> add 2 * 9 = 18\n  - Pair Score = 8 + 7 + 18 = 33\n- **Part 2: Index-Based Calculation**\n  - i = 0 (even): 3 * 0 = 0\n  - i = 1 (odd): 5\n  - i = 2 (even): 2 * 2 = 4\n  - i = 3 (odd): 9\n  - Index Score = 0 + 5 + 4 + 9 = 18\n- **Combine:** 33 + 18 = 51\n- **Prime Check:** N = 4 is not prime, so score remains 51.",
+    "rules": [
+      "1. Calculate consecutive pair score: For i from 0 to N-2, if A[i] + A[i+1] <= 10 add sum, else add A[i] * A[i+1].",
+      "2. Calculate index score: For i from 0 to N-1, if i is even add A[i] * i, else add A[i].",
+      "3. Total score = pair score + index score.",
+      "4. If N is a prime number (N >= 2 and divisible only by 1 and N), double the total score: score *= 2.",
+      "5. Return total score as an integer."
+    ],
+    "constraints": [
+      "1 <= N <= 10^5",
+      "1 <= A[i] <= 10^4",
+      "Time Complexity: O(N + sqrt(N))",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "N = 4, A = [3, 5, 2, 9]",
+        "inputRaw": {
+          "N": 4,
+          "A": [3, 5, 2, 9]
+        },
+        "expectedOutput": "51",
+        "explanation": "Pairs: 8 + 7 + 18 = 33. Indices: 0 + 5 + 4 + 9 = 18. Combined: 51. 4 is not prime. Result: 51."
+      },
+      {
+        "id": "tc-2",
+        "input": "N = 3, A = [1, 2, 3]",
+        "inputRaw": {
+          "N": 3,
+          "A": [1, 2, 3]
+        },
+        "expectedOutput": "32",
+        "explanation": "Pairs: (1+2=3) + (2+3=5) = 8. Indices: 1*0 + 2 + 3*2 = 8. Combined: 16. N = 3 is prime -> 16 * 2 = 32."
+      },
+      {
+        "id": "tc-3",
+        "input": "N = 4, A = [1, 1, 1, 1]",
+        "inputRaw": {
+          "N": 4,
+          "A": [1, 1, 1, 1]
+        },
+        "expectedOutput": "10",
+        "explanation": "Pairs: 2 + 2 + 2 = 6. Indices: 0 + 1 + 2 + 1 = 4. Combined: 10. 4 is not prime. Result: 10."
+      },
+      {
+        "id": "tc-4",
+        "input": "N = 2, A = [6, 7]",
+        "inputRaw": {
+          "N": 2,
+          "A": [6, 7]
+        },
+        "expectedOutput": "98",
+        "explanation": "Pairs: 6+7=13 > 10 -> 6*7=42. Indices: 6*0 + 7 = 7. Combined: 49. N = 2 is prime -> 49 * 2 = 98."
+      },
+      {
+        "id": "tc-5",
+        "input": "N = 1, A = [5]",
+        "inputRaw": {
+          "N": 1,
+          "A": [5]
+        },
+        "expectedOutput": "0",
+        "explanation": "No consecutive pairs. Indices: 5 * 0 = 0. 1 is not prime. Result: 0."
+      }
+    ],
+    "starterCode": {
+      "python": "def totalMoonlightScore(N, A):\n    # TODO: Calculate consecutive pairs, index parity score, and double if N is prime\n    return 0",
+      "java": "public class Solution {\n    public static int totalMoonlightScore(int N, int[] A) {\n        // TODO: Calculate consecutive pairs, index parity score, and double if N is prime\n        return 0;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint totalMoonlightScore(int N, vector<int>& A) {\n    // TODO: Calculate consecutive pairs, index parity score, and double if N is prime\n    return 0;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int TotalMoonlightScore(int N, int[] A) {\n        // TODO: Calculate consecutive pairs, index parity score, and double if N is prime\n        return 0;\n    }\n}",
+      "javascript": "function totalMoonlightScore(N, A) {\n  // TODO: Calculate consecutive pairs, index parity score, and double if N is prime\n  return 0;\n}"
+    },
+    "solutions": {
+      "python": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef totalMoonlightScore(N, A):\n    score = 0\n    # Part 1: Consecutive pairs\n    for i in range(N - 1):\n        s = A[i] + A[i + 1]\n        if s <= 10:\n            score += s\n        else:\n            score += A[i] * A[i + 1]\n    # Part 2: Index-based calculation\n    for i in range(N):\n        if i % 2 == 0:\n            score += A[i] * i\n        else:\n            score += A[i]\n    # Part 3: Double if N is prime\n    if is_prime(N):\n        score *= 2\n    return score",
+      "java": "public class Solution {\n    private static boolean isPrime(int n) {\n        if (n < 2) return false;\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0) return false;\n        }\n        return true;\n    }\n\n    public static int totalMoonlightScore(int N, int[] A) {\n        long score = 0;\n        for (int i = 0; i < N - 1; i++) {\n            int sum = A[i] + A[i + 1];\n            if (sum <= 10) {\n                score += sum;\n            } else {\n                score += (long) A[i] * A[i + 1];\n            }\n        }\n        for (int i = 0; i < N; i++) {\n            if (i % 2 == 0) {\n                score += (long) A[i] * i;\n            } else {\n                score += A[i];\n            }\n        }\n        if (isPrime(N)) {\n            score *= 2;\n        }\n        return (int) score;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nbool isPrime(int n) {\n    if (n < 2) return false;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return false;\n    }\n    return true;\n}\n\nint totalMoonlightScore(int N, vector<int>& A) {\n    long long score = 0;\n    for (int i = 0; i < N - 1; i++) {\n        int sum = A[i] + A[i + 1];\n        if (sum <= 10) {\n            score += sum;\n        } else {\n            score += 1LL * A[i] * A[i + 1];\n        }\n    }\n    for (int i = 0; i < N; i++) {\n        if (i % 2 == 0) {\n            score += 1LL * A[i] * i;\n        } else {\n            score += A[i];\n        }\n    }\n    if (isPrime(N)) {\n        score *= 2;\n    }\n    return (int) score;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    private static bool IsPrime(int n) {\n        if (n < 2) return false;\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0) return false;\n        }\n        return true;\n    }\n\n    public static int TotalMoonlightScore(int N, int[] A) {\n        long score = 0;\n        for (int i = 0; i < N - 1; i++) {\n            int sum = A[i] + A[i + 1];\n            if (sum <= 10) score += sum;\n            else score += (long)A[i] * A[i + 1];\n        }\n        for (int i = 0; i < N; i++) {\n            if (i % 2 == 0) score += (long)A[i] * i;\n            else score += A[i];\n        }\n        if (IsPrime(N)) score *= 2;\n        return (int)score;\n    }\n}",
+      "javascript": "function isPrime(n) {\n  if (n < 2) return false;\n  for (let i = 2; i * i <= n; i++) {\n    if (n % i === 0) return false;\n  }\n  return true;\n}\n\nfunction totalMoonlightScore(N, A) {\n  let score = 0;\n  for (let i = 0; i < N - 1; i++) {\n    const sum = A[i] + A[i + 1];\n    if (sum <= 10) {\n      score += sum;\n    } else {\n      score += A[i] * A[i + 1];\n    }\n  }\n  for (let i = 0; i < N; i++) {\n    if (i % 2 === 0) {\n      score += A[i] * i;\n    } else {\n      score += A[i];\n    }\n  }\n  if (isPrime(N)) {\n    score *= 2;\n  }\n  return score;\n}"
+    }
+  },
+  {
+    "id": "recent-dsa-020",
+    "track": "dsa",
+    "dateTag": "28th Sept 2026 • Shift 2",
+    "examDate": "2026-09-28",
+    "shift": "Shift 2",
+    "title": "Same Character Rows and Columns",
+    "difficulty": "Easy",
+    "category": "Strings / 2D Matrix & Row-Major Order",
+    "pattern": "Matrix Row-Column Uniformity Traversal",
+    "rewardXp": 50,
+    "targetMins": 15,
+    "source": "Accenture Assessment 28th Sept 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given a string `S` whose length is guaranteed to be a perfect square.\n\nLet `N` be the square root of the length of the string (`N = sqrt(len(S))`).\n\nYou have to build an `N x N` grid by filling the string in row-major order, from left to right and then top to bottom.\n\nAfter creating the grid, count how many rows and columns consist entirely of the same character.\n- A row or column is counted if all elements in that row or column are identical.\n\nReturn an integer representing the total number of such rows and columns.\n\n---\n\n### 📝 Function Declaration:\n```cpp\nint countSameRowsColumns(string S);\n```\n\n- **Input Specification:**\n  - `input1 (S)`: A string `S` consisting of lowercase English letters whose length is a perfect square.\n\n- **Output Specification:**\n  - Return an integer representing the count of rows and columns where all characters are identical.\n\n---\n\n### 📌 Given Example:\n**Input:**\n```text\nS = \"aaaabbbcc\"\n```\n\n**Output:** `1`\n\n**Explanation:**\n- Length of S = 9 -> N = sqrt(9) = 3.\n- The 3 x 3 grid in row-major order is:\n  ```text\n  a  a  a\n  a  b  b\n  b  c  c\n  ```\n- **Row Check:**\n  - Row 0: `a a a` -> All identical? ✅ Yes (Count = 1)\n  - Row 1: `a b b` -> All identical? ❌ No\n  - Row 2: `b c c` -> All identical? ❌ No\n  - Same rows = 1\n- **Column Check:**\n  - Column 0: `a a b` -> All identical? ❌ No\n  - Column 1: `a b c` -> All identical? ❌ No\n  - Column 2: `a b c` -> All identical? ❌ No\n  - Same columns = 0\n- **Total Count:** 1 + 0 = `1`.",
+    "rules": [
+      "1. Find grid dimension N = sqrt(length(S)).",
+      "2. An element at row i and column j is at S[i * N + j].",
+      "3. For each row i (0 to N-1), check if all S[i * N + j] equal S[i * N]. If yes, increment count.",
+      "4. For each column j (0 to N-1), check if all S[i * N + j] equal S[j]. If yes, increment count.",
+      "5. Return the total count."
+    ],
+    "constraints": [
+      "1 <= S.length <= 10^4",
+      "S.length is a perfect square",
+      "S contains only lowercase English alphabets ('a'-'z')",
+      "Time Complexity: O(|S|) = O(N^2)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "S = \"aaaabbbcc\"",
+        "inputRaw": {
+          "S": "aaaabbbcc"
+        },
+        "expectedOutput": "1",
+        "explanation": "3x3 grid: row 0 is 'aaa' (identical). No other row/column is uniform. Total: 1."
+      },
+      {
+        "id": "tc-2",
+        "input": "S = \"aaaaaaaaa\"",
+        "inputRaw": {
+          "S": "aaaaaaaaa"
+        },
+        "expectedOutput": "6",
+        "explanation": "3x3 grid: all 3 rows and all 3 columns are completely identical ('aaa'). 3 + 3 = 6."
+      },
+      {
+        "id": "tc-3",
+        "input": "S = \"abcdefghi\"",
+        "inputRaw": {
+          "S": "abcdefghi"
+        },
+        "expectedOutput": "0",
+        "explanation": "3x3 grid with all distinct characters: no identical rows or columns. Total: 0."
+      },
+      {
+        "id": "tc-4",
+        "input": "S = \"abcabcabc\"",
+        "inputRaw": {
+          "S": "abcabcabc"
+        },
+        "expectedOutput": "3",
+        "explanation": "3x3 grid: rows are 'abc'. Columns are 'aaa', 'bbb', 'ccc' (all 3 columns are identical). Total: 3."
+      },
+      {
+        "id": "tc-5",
+        "input": "S = \"aabbbcccc\"",
+        "inputRaw": {
+          "S": "aabbbcccc"
+        },
+        "expectedOutput": "1",
+        "explanation": "3x3 grid: row 2 is 'ccc' (identical). Total: 1."
+      },
+      {
+        "id": "tc-6",
+        "input": "S = \"a\"",
+        "inputRaw": {
+          "S": "a"
+        },
+        "expectedOutput": "2",
+        "explanation": "1x1 grid: row 0 is 'a' (identical) and column 0 is 'a' (identical). Total: 2."
+      }
+    ],
+    "starterCode": {
+      "python": "def countSameRowsColumns(S):\n    # TODO: Return count of uniform rows and columns in the sqrt(len(S)) x sqrt(len(S)) grid\n    return 0",
+      "java": "public class Solution {\n    public static int countSameRowsColumns(String S) {\n        // TODO: Return count of uniform rows and columns in the sqrt(len(S)) x sqrt(len(S)) grid\n        return 0;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countSameRowsColumns(string S) {\n    // TODO: Return count of uniform rows and columns in the sqrt(len(S)) x sqrt(len(S)) grid\n    return 0;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountSameRowsColumns(string S) {\n        // TODO: Return count of uniform rows and columns in the sqrt(len(S)) x sqrt(len(S)) grid\n        return 0;\n    }\n}",
+      "javascript": "function countSameRowsColumns(S) {\n  // TODO: Return count of uniform rows and columns in the sqrt(len(S)) x sqrt(len(S)) grid\n  return 0;\n}"
+    },
+    "solutions": {
+      "python": "import math\n\ndef countSameRowsColumns(S):\n    n = int(math.isqrt(len(S)))\n    count = 0\n    # Check rows\n    for i in range(n):\n        first = S[i * n]\n        if all(S[i * n + j] == first for j in range(1, n)):\n            count += 1\n    # Check columns\n    for j in range(n):\n        first = S[j]\n        if all(S[i * n + j] == first for i in range(1, n)):\n            count += 1\n    return count",
+      "java": "public class Solution {\n    public static int countSameRowsColumns(String S) {\n        int n = (int) Math.sqrt(S.length());\n        int count = 0;\n        for (int i = 0; i < n; i++) {\n            char first = S.charAt(i * n);\n            boolean same = true;\n            for (int j = 1; j < n; j++) {\n                if (S.charAt(i * n + j) != first) {\n                    same = false;\n                    break;\n                }\n            }\n            if (same) count++;\n        }\n        for (int j = 0; j < n; j++) {\n            char first = S.charAt(j);\n            boolean same = true;\n            for (int i = 1; i < n; i++) {\n                if (S.charAt(i * n + j) != first) {\n                    same = false;\n                    break;\n                }\n            }\n            if (same) count++;\n        }\n        return count;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countSameRowsColumns(string S) {\n    int n = sqrt(S.length());\n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        char first = S[i * n];\n        bool same = true;\n        for (int j = 1; j < n; j++) {\n            if (S[i * n + j] != first) {\n                same = false;\n                break;\n            }\n        }\n        if (same) count++;\n    }\n    for (int j = 0; j < n; j++) {\n        char first = S[j];\n        bool same = true;\n        for (int i = 1; i < n; i++) {\n            if (S[i * n + j] != first) {\n                same = false;\n                break;\n            }\n        }\n        if (same) count++;\n    }\n    return count;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static int CountSameRowsColumns(string S) {\n        int n = (int)Math.Sqrt(S.Length);\n        int count = 0;\n        for (int i = 0; i < n; i++) {\n            char first = S[i * n];\n            bool same = true;\n            for (int j = 1; j < n; j++) {\n                if (S[i * n + j] != first) {\n                    same = false;\n                    break;\n                }\n            }\n            if (same) count++;\n        }\n        for (int j = 0; j < n; j++) {\n            char first = S[j];\n            bool same = true;\n            for (int i = 1; i < n; i++) {\n                if (S[i * n + j] != first) {\n                    same = false;\n                    break;\n                }\n            }\n            if (same) count++;\n        }\n        return count;\n    }\n}",
+      "javascript": "function countSameRowsColumns(S) {\n  const n = Math.round(Math.sqrt(S.length));\n  let count = 0;\n  for (let i = 0; i < n; i++) {\n    const first = S[i * n];\n    let same = true;\n    for (let j = 1; j < n; j++) {\n      if (S[i * n + j] !== first) {\n        same = false;\n        break;\n      }\n    }\n    if (same) count++;\n  }\n  for (let j = 0; j < n; j++) {\n    const first = S[j];\n    let same = true;\n    for (let i = 1; i < n; i++) {\n      if (S[i * n + j] !== first) {\n        same = false;\n        break;\n      }\n    }\n    if (same) count++;\n  }\n  return count;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -1787,6 +1982,75 @@ export const recentQuestions = [
     "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f5f7fa;\n    min-height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.price-filter {\n    width: 500px;\n    padding: 30px;\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #1e293b;\n}\n\n.price-filter h2 {\n    text-align: center;\n    margin-bottom: 35px;\n    color: #1e293b;\n}\n\n.slider-container {\n    position: relative;\n    width: 100%;\n    height: 40px;\n}\n\n/* Background track */\n.slider-container::before {\n    content: \"\";\n    position: absolute;\n    top: 17px;\n    left: 0;\n    width: 100%;\n    height: 6px;\n    background: #ddd;\n    border-radius: 5px;\n}\n\n/* Selected range */\n.range-progress {\n    position: absolute;\n    top: 17px;\n    left: 0;\n    height: 6px;\n    border-radius: 5px;\n    background-color: #3498db;\n    width: 100%;\n}\n\n/* Range sliders */\ninput[type=\"range\"] {\n    position: absolute;\n    left: 0;\n    top: 5px;\n    width: 100%;\n    height: 25px;\n    appearance: none;\n    background: transparent;\n    pointer-events: none;\n}\n\ninput[type=\"range\"]::-webkit-slider-thumb {\n    appearance: none;\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\ninput[type=\"range\"]::-moz-range-thumb {\n    width: 20px;\n    height: 20px;\n    background: #3498db;\n    border: none;\n    border-radius: 50%;\n    cursor: pointer;\n    pointer-events: auto;\n}\n\n.price-values {\n    display: flex;\n    justify-content: space-between;\n    margin-top: 15px;\n    font-size: 18px;\n    font-weight: bold;\n    color: #1e293b;\n}",
     "solutionJS": "const minPrice = document.getElementById(\"minPrice\");\nconst maxPrice = document.getElementById(\"maxPrice\");\n\nconst minValue = document.getElementById(\"minValue\");\nconst maxValue = document.getElementById(\"maxValue\");\n\nconst rangeProgress = document.querySelector(\".range-progress\");\n\nfunction updateRangeBar() {\n    const min = parseFloat(minPrice.value) || 0;\n    const max = parseFloat(maxPrice.value) || 0;\n    const totalRange = parseFloat(maxPrice.max) - parseFloat(minPrice.min) || 1000;\n\n    // Calculate selected range percentage\n    const selectedRange = max - min;\n    const widthPercentage = (selectedRange / totalRange) * 100;\n    const leftPercentage = (min / totalRange) * 100;\n\n    rangeProgress.style.left = leftPercentage + \"%\";\n    rangeProgress.style.width = widthPercentage + \"%\";\n}\n\nminPrice.addEventListener(\"input\", function () {\n    minValue.textContent = minPrice.value;\n    updateRangeBar();\n});\n\nmaxPrice.addEventListener(\"input\", function () {\n    maxValue.textContent = maxPrice.value;\n    updateRangeBar();\n});\n\nupdateRangeBar();",
     "solutionExplanation": "### Solution Breakdown: Product Price Filter (Accenture 23rd Sept Shift 1)\n\n1. **Part 1 — HTML Accessibility (ARIA)**:\n   - Add `aria-valuetext=\"$0-$1000\"` directly to `.slider-container`:\n     ```html\n     <div class=\"slider-container\" aria-valuetext=\"$0-$1000\">\n     ```\n   - This announces the selected price range clearly to assistive screen reader technologies.\n\n2. **Part 2 — CSS Progress Bar Color**:\n   - Set `background-color: #3498db;` inside `.range-progress`.\n   - This provides the iconic brand blue fill connecting the minimum and maximum range thumb handles.\n\n3. **Part 3 — JavaScript Range Math**:\n   - Extract the current slider values:\n     ```javascript\n     const min = parseFloat(minPrice.value) || 0;\n     const max = parseFloat(maxPrice.value) || 0;\n     const totalRange = (parseFloat(maxPrice.max) || 1000) - (parseFloat(minPrice.min) || 0);\n     ```\n   - Compute the selected percentage: `(max - min) / totalRange * 100`.\n   - Set `rangeProgress.style.width = widthPercentage + \"%\"` (and optionally `left = (min / totalRange * 100) + \"%\"` for dual slider alignment).",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-006",
+    "track": "frontend",
+    "dateTag": "28th Sept 2026 • Shift 1",
+    "examDate": "2026-09-28",
+    "shift": "Shift 1",
+    "title": "Accordion Menu",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Visibility Toggle & CSS Margin",
+    "source": "Accenture Assessment 28th Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are tasked with building a simple **accordion menu** that allows users to expand and collapse sections. The project structure and styling are already provided. Complete the required HTML, CSS, and JavaScript changes.\n\n### Objectives\n1. **HTML**: Create three `<div>` elements with class `section-data` containing:\n   - `Content for section 1`\n   - `Content for section 2`\n   - `Content for section 3`\n2. **CSS**: Set the accordion margin to `20px` in `.accordion`.\n3. **JavaScript**: Write JavaScript to toggle the visibility of each section's content when its header is clicked.\n\n### Note\n- All section content must be visible initially.\n- Clicking a section header should hide its content.\n- Clicking it again should make the content visible.\n\n### Constraints\n- Do not change any existing `id` or `class` attributes.\n- Do not change the existing structure unnecessarily.\n- Do not modify the existing styling except where specified.\n- The content must be visible when the page initially loads.\n- You must remove/hide the element through JavaScript based on its current state, rather than changing the initial CSS from `display: block`.",
+    "objectives": [
+      "HTML: Create three <div> elements with class \"section-data\" containing \"Content for section 1\", \"Content for section 2\", and \"Content for section 3\".",
+      "CSS: Set the accordion margin to 20px in .accordion.",
+      "JavaScript: Write JavaScript to toggle the visibility of each section's content when its header is clicked."
+    ],
+    "constraints": [
+      "Do not change any existing id or class attributes.",
+      "Do not change the existing structure unnecessarily.",
+      "Do not modify the existing styling except where specified.",
+      "All section content must be visible when the page initially loads.",
+      "Remove/hide the element through JavaScript based on its current state, rather than changing the initial CSS from display: block."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Accordion Menu</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"accordion\">\n\n        <div class=\"section\">\n            <h3 id=\"header1\">Section 1</h3>\n\n            <!-- TODO 1: Add section-data -->\n        </div>\n\n        <div class=\"section\">\n            <h3 id=\"header2\">Section 2</h3>\n\n            <!-- TODO 2: Add section-data -->\n        </div>\n\n        <div class=\"section\">\n            <h3 id=\"header3\">Section 3</h3>\n\n            <!-- TODO 3: Add section-data -->\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f4f6f8;\n    min-height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: flex-start;\n    padding-top: 50px;\n}\n\n.accordion {\n    width: 500px;\n    background: #ffffff;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);\n    overflow: hidden;\n\n    /* TODO 4: Set margin to 20px */\n}\n\n.section {\n    border-bottom: 1px solid #e0e0e0;\n}\n\n.section:last-child {\n    border-bottom: none;\n}\n\n.section h3 {\n    padding: 18px 20px;\n    background: #f8f9fa;\n    color: #222;\n    font-size: 18px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: background 0.2s ease;\n}\n\n.section h3:hover {\n    background: #e9ecef;\n}\n\n.section-data {\n    display: block;\n    padding: 18px 20px;\n    background: #ffffff;\n    color: #555;\n    font-size: 15px;\n    line-height: 1.5;\n}",
+    "starterJS": "const header1 = document.getElementById(\"header1\");\nconst header2 = document.getElementById(\"header2\");\nconst header3 = document.getElementById(\"header3\");\n\nconst content1 = header1.nextElementSibling;\nconst content2 = header2.nextElementSibling;\nconst content3 = header3.nextElementSibling;\n\n// TODO 5: Toggle content1 when header1 is clicked\n\n// TODO 6: Toggle content2 when header2 is clicked\n\n// TODO 7: Toggle content3 when header3 is clicked",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Accordion Menu</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"accordion\">\n\n        <div class=\"section\">\n            <h3 id=\"header1\">Section 1</h3>\n            <div class=\"section-data\">Content for section 1</div>\n        </div>\n\n        <div class=\"section\">\n            <h3 id=\"header2\">Section 2</h3>\n            <div class=\"section-data\">Content for section 2</div>\n        </div>\n\n        <div class=\"section\">\n            <h3 id=\"header3\">Section 3</h3>\n            <div class=\"section-data\">Content for section 3</div>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f4f6f8;\n    min-height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: flex-start;\n    padding-top: 50px;\n}\n\n.accordion {\n    width: 500px;\n    background: #ffffff;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);\n    overflow: hidden;\n    margin: 20px;\n}\n\n.section {\n    border-bottom: 1px solid #e0e0e0;\n}\n\n.section:last-child {\n    border-bottom: none;\n}\n\n.section h3 {\n    padding: 18px 20px;\n    background: #f8f9fa;\n    color: #222;\n    font-size: 18px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: background 0.2s ease;\n}\n\n.section h3:hover {\n    background: #e9ecef;\n}\n\n.section-data {\n    display: block;\n    padding: 18px 20px;\n    background: #ffffff;\n    color: #555;\n    font-size: 15px;\n    line-height: 1.5;\n}",
+    "solutionJS": "const header1 = document.getElementById(\"header1\");\nconst header2 = document.getElementById(\"header2\");\nconst header3 = document.getElementById(\"header3\");\n\nconst content1 = header1.nextElementSibling;\nconst content2 = header2.nextElementSibling;\nconst content3 = header3.nextElementSibling;\n\nheader1.addEventListener(\"click\", function () {\n    if (content1.style.display === \"none\") {\n        content1.style.display = \"block\";\n    } else {\n        content1.style.display = \"none\";\n    }\n});\n\nheader2.addEventListener(\"click\", function () {\n    if (content2.style.display === \"none\") {\n        content2.style.display = \"block\";\n    } else {\n        content2.style.display = \"none\";\n    }\n});\n\nheader3.addEventListener(\"click\", function () {\n    if (content3.style.display === \"none\") {\n        content3.style.display = \"block\";\n    } else {\n        content3.style.display = \"none\";\n    }\n});",
+    "solutionExplanation": "### Solution Breakdown: Accordion Menu (Accenture 28th Sept Shift 1)\n\n1. **HTML Architecture**:\n   - Under each section header (`#header1`, `#header2`, `#header3`), insert a `<div class=\"section-data\">` with the designated content text: `\"Content for section 1\"`, `\"Content for section 2\"`, and `\"Content for section 3\"`.\n\n2. **CSS Styling Task**:\n   - Set `margin: 20px;` inside the `.accordion` class definition.\n\n3. **JavaScript Visibility Toggle Task**:\n   - Attach click listeners to each header.\n   - Initially, the content is visible (default `display: block`).\n   - On click, check if `content.style.display === \"none\"`. If so, show it by setting `content.style.display = \"block\"`. Otherwise, hide it by setting `content.style.display = \"none\"`.",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-007",
+    "track": "frontend",
+    "dateTag": "28th Sept 2026 • Shift 2",
+    "examDate": "2026-09-28",
+    "shift": "Shift 2",
+    "title": "Modal Popup",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Modal Accessibility & Backdrop Filter",
+    "source": "Accenture Assessment 28th Sept 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are given an existing HTML/CSS/JavaScript implementation of a simple **modal popup**. The page contains a button that opens a modal and a close button inside the modal. Complete the implementation by making the following changes.\n\n### Objectives\n1. **HTML**: Add `aria-label=\"Close modal\"` to the existing close button (`#closeModal`).\n2. **CSS**: Set the `backdrop-filter` property of the modal overlay (`.modal-overlay`) to `blur(3px)`.\n3. **JavaScript**: Complete the `toggleModal()` function to show the modal by removing the \"hidden\" class.\n\n### Constraints\n- Do not modify the existing HTML structure or element relationships.\n- Do not change any existing id or class attributes.\n- Maintain the existing functionality.\n- The close button must have `aria-label=\"Close modal\"`.",
+    "objectives": [
+      "HTML: Add aria-label=\"Close modal\" to the existing close button (#closeModal).",
+      "CSS: Set backdrop-filter: blur(3px); on .modal-overlay.",
+      "JavaScript: Complete toggleModal() function to reveal the modal by removing the \"hidden\" class."
+    ],
+    "constraints": [
+      "Do not modify the existing HTML structure or element relationships.",
+      "Do not change any existing id or class attributes.",
+      "Maintain the existing functionality.",
+      "The close button must have aria-label=\"Close modal\"."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Modal Popup</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <button id=\"openModal\">Open Modal</button>\n\n    <div id=\"modal\" class=\"modal-overlay hidden\">\n\n        <div class=\"modal\">\n            <h2>Welcome</h2>\n\n            <p>\n                This is a simple modal popup.\n            </p>\n\n            <button id=\"closeModal\"\n                    <!-- TODO 1: Add aria-label=\"Close modal\" -->\n            >\n                Close\n            </button>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    min-height: 100vh;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    background: #f4f6f8;\n}\n\n#openModal {\n    padding: 12px 24px;\n    border: none;\n    border-radius: 6px;\n    background: #3498db;\n    color: white;\n    cursor: pointer;\n    font-size: 16px;\n}\n\n.modal-overlay {\n    position: fixed;\n    inset: 0;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    background: rgba(0, 0, 0, 0.45);\n\n    /* TODO 2: Add backdrop-filter */\n}\n\n.hidden {\n    display: none;\n}\n\n.modal {\n    width: 400px;\n    padding: 30px;\n    background: white;\n    border-radius: 10px;\n\n    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);\n}\n\n.modal h2 {\n    margin-top: 0;\n}\n\n#closeModal {\n    padding: 10px 20px;\n    border: none;\n    border-radius: 5px;\n    background: #e74c3c;\n    color: white;\n    cursor: pointer;\n}",
+    "starterJS": "const openModal = document.getElementById(\"openModal\");\nconst closeModal = document.getElementById(\"closeModal\");\nconst modal = document.getElementById(\"modal\");\n\nfunction toggleModal() {\n\n    // TODO 3: Show the modal by removing the \"hidden\" class\n\n}\n\nopenModal.addEventListener(\"click\", toggleModal);\n\ncloseModal.addEventListener(\"click\", function () {\n    modal.classList.add(\"hidden\");\n});",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Modal Popup</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <button id=\"openModal\">Open Modal</button>\n\n    <div id=\"modal\" class=\"modal-overlay hidden\">\n\n        <div class=\"modal\">\n            <h2>Welcome</h2>\n\n            <p>\n                This is a simple modal popup.\n            </p>\n\n            <button id=\"closeModal\" aria-label=\"Close modal\">\n                Close\n            </button>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    min-height: 100vh;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    background: #f4f6f8;\n}\n\n#openModal {\n    padding: 12px 24px;\n    border: none;\n    border-radius: 6px;\n    background: #3498db;\n    color: white;\n    cursor: pointer;\n    font-size: 16px;\n}\n\n.modal-overlay {\n    position: fixed;\n    inset: 0;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    background: rgba(0, 0, 0, 0.45);\n    backdrop-filter: blur(3px);\n}\n\n.hidden {\n    display: none;\n}\n\n.modal {\n    width: 400px;\n    padding: 30px;\n    background: white;\n    border-radius: 10px;\n\n    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);\n}\n\n.modal h2 {\n    margin-top: 0;\n}\n\n#closeModal {\n    padding: 10px 20px;\n    border: none;\n    border-radius: 5px;\n    background: #e74c3c;\n    color: white;\n    cursor: pointer;\n}",
+    "solutionJS": "const openModal = document.getElementById(\"openModal\");\nconst closeModal = document.getElementById(\"closeModal\");\nconst modal = document.getElementById(\"modal\");\n\nfunction toggleModal() {\n    modal.classList.remove(\"hidden\");\n}\n\nopenModal.addEventListener(\"click\", toggleModal);\n\ncloseModal.addEventListener(\"click\", function () {\n    modal.classList.add(\"hidden\");\n});",
+    "solutionExplanation": "### Solution Breakdown: Modal Popup (Accenture 28th Sept Shift 2)\n\n1. **Part 1 — HTML Accessibility (ARIA)**:\n   - Add `aria-label=\"Close modal\"` to the `#closeModal` button to ensure screen reader users receive descriptive context for the action.\n\n2. **Part 2 — CSS Backdrop Filter**:\n   - Add `backdrop-filter: blur(3px);` inside the `.modal-overlay` selector to produce the frosted glass aesthetic over background content.\n\n3. **Part 3 — JavaScript Modal Toggle**:\n   - In `toggleModal()`, call `modal.classList.remove(\"hidden\")` to make the modal overlay visible on clicking `#openModal`.",
     "liveSandbox": true
   },
   {
@@ -5253,6 +5517,38 @@ export const recentQuestions = [
         ]
       }
     ],
+    "examples": [
+      {
+        "title": "Example 1 (Orders with customer, payment, and delivery details)",
+        "input": {
+          "orders": [
+            { "ORDER_ID": 1001, "CUSTOMER_ID": 1, "ORDER_DATE": "2026-09-20", "TOTAL_AMOUNT": 2500.0, "ORDER_STATUS": "Delivered" },
+            { "ORDER_ID": 1002, "CUSTOMER_ID": 2, "ORDER_DATE": "2026-09-21", "TOTAL_AMOUNT": 1200.0, "ORDER_STATUS": "Shipped" }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 1, "USERNAME": "amit_s", "EMAIL": "amit@example.com", "PHONE": "9876543210" },
+            { "CUSTOMER_ID": 2, "USERNAME": "riya_v", "EMAIL": "riya@example.com", "PHONE": "9876543211" }
+          ],
+          "customer_address": [
+            { "CUSTOMER_ID": 1, "FIRST_NAME": "Amit", "LAST_NAME": "Sharma", "CITY": "Mumbai", "PINCODE": "400001" },
+            { "CUSTOMER_ID": 2, "FIRST_NAME": "Riya", "LAST_NAME": "Verma", "CITY": "Delhi", "PINCODE": "110001" }
+          ],
+          "payment": [
+            { "PAYMENT_ID": 501, "ORDER_ID": 1001, "PAYMENT_METHOD": "Credit Card", "STATUS": "Paid", "PAYMENT_DATE": "2026-09-20" },
+            { "PAYMENT_ID": 502, "ORDER_ID": 1002, "PAYMENT_METHOD": "UPI", "STATUS": "Paid", "PAYMENT_DATE": "2026-09-21" }
+          ],
+          "order_delivery": [
+            { "ORDER_DELIVERY_ID": 801, "ORDER_ID": 1001, "STATUS": "Delivered", "TRACKING_NO": "TRK1001", "COURIER_NAME": "BlueDart" },
+            { "ORDER_DELIVERY_ID": 802, "ORDER_ID": 1002, "STATUS": "In Transit", "TRACKING_NO": "TRK1002", "COURIER_NAME": "Delhivery" }
+          ]
+        },
+        "output": [
+          { "ORDER ID": 1001, "NAME": "Amit Sharma", "PAYMENT METHOD": "Credit Card", "DELIVERY STATUS": "Delivered" },
+          { "ORDER ID": 1002, "NAME": "Riya Verma", "PAYMENT METHOD": "UPI", "DELIVERY STATUS": "In Transit" }
+        ],
+        "explanation": "Joins orders, customer, customer_address, payment, and order_delivery to concatenate the full customer name and retrieve order ID, payment method, and delivery status for each order."
+      }
+    ],
     "starterCode": "-- Write your SQL query below\n",
     "solution": "SELECT o.ORDER_ID AS `ORDER ID`, CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME) AS `NAME`, p.PAYMENT_METHOD AS `PAYMENT METHOD`, od.STATUS AS `DELIVERY STATUS` FROM orders o JOIN customer c ON o.CUSTOMER_ID = c.CUSTOMER_ID JOIN customer_address ca ON c.CUSTOMER_ID = ca.CUSTOMER_ID JOIN payment p ON o.ORDER_ID = p.ORDER_ID JOIN order_delivery od ON o.ORDER_ID = od.ORDER_ID;",
     "explanation": "### Solution Explanation:\n1. **JOIN orders & customer**: Connect each order to its customer via `o.CUSTOMER_ID = c.CUSTOMER_ID`.\n2. **JOIN customer_address**: Link `c.CUSTOMER_ID = ca.CUSTOMER_ID` to access `FIRST_NAME` and `LAST_NAME`.\n3. **JOIN payment**: Link `o.ORDER_ID = p.ORDER_ID` to obtain `PAYMENT_METHOD`.\n4. **JOIN order_delivery**: Link `o.ORDER_ID = od.ORDER_ID` to obtain delivery `STATUS`.\n5. **Name Concatenation**: `CONCAT(ca.FIRST_NAME, ' ', ca.LAST_NAME) AS `NAME``.\n6. **Aliases**: Ensure backticks or double quotes are used for column aliases with spaces.",
@@ -5428,5 +5724,516 @@ export const recentQuestions = [
         ]
       }
     ]
+  },
+  {
+    "id": "recent-sql-011",
+    "track": "sql",
+    "dateTag": "28th Sept 2026 • Shift 2",
+    "examDate": "2026-09-28",
+    "shift": "Shift 2",
+    "title": "Vehicles that have never been rented",
+    "difficulty": "Easy",
+    "category": "Joins / LEFT JOIN & IS NULL / Subqueries (NOT EXISTS)",
+    "source": "Accenture Assessment 28th Sept 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "Write an SQL query to display: Find vehicles that have never been rented. Display the vehicle ID, make, model, and daily rate, ordered by vehicle ID in ascending order.\n\n### 📝 Required Output Columns:\n- `VEHICLE_ID`\n- `MAKE`\n- `MODEL`\n- `DAILY_RATE`\n\n---\n\n### 📌 Given Example:\n\n#### Input Data:\n**vehicle**:\n| VEHICLE_ID | MAKE | MODEL | DAILY_RATE | YEAR | STATUS |\n| :---: | :---: | :---: | :---: | :---: | :---: |\n| 101 | Toyota | Corolla | 1800 | 2022 | Available |\n| 102 | Honda | City | 2000 | 2023 | Available |\n| 103 | Hyundai | Creta | 2500 | 2022 | Available |\n| 104 | Maruti | Swift | 1500 | 2024 | Available |\n\n**rental**:\n| RENTAL_ID | VEHICLE_ID | CUSTOMER_ID | RENTAL_DATE | RETURN_DATE | TOTAL_AMOUNT |\n| :---: | :---: | :---: | :---: | :---: | :---: |\n| 5001 | 101 | 1 | 2026-09-01 | 2026-09-03 | 5400 |\n| 5002 | 103 | 2 | 2026-09-05 | 2026-09-07 | 7500 |\n\n#### Expected Output:\n| VEHICLE_ID | MAKE | MODEL | DAILY_RATE |\n| :---: | :---: | :---: | :---: |\n| 102 | Honda | City | 2000 |\n| 104 | Maruti | Swift | 1500 |\n\n#### Explanation:\n- **Vehicle 101**: Has rental record 5001 -> ❌ Excluded\n- **Vehicle 102**: No rental records exist -> ✅ Included\n- **Vehicle 103**: Has rental record 5002 -> ❌ Excluded\n- **Vehicle 104**: No rental records exist -> ✅ Included\n- Output is ordered by `VEHICLE_ID` ascending (`102`, then `104`).\n\n---\n\n### 📌 Relational Model & Walkthrough:\n1. Start with the `vehicle` table because every vehicle must be evaluated.\n2. Perform a `LEFT JOIN` on `rental` using `v.VEHICLE_ID = r.VEHICLE_ID`.\n3. Filter out vehicles that have any rental record using `WHERE r.VEHICLE_ID IS NULL` (or using `NOT EXISTS`).\n4. Select `v.VEHICLE_ID`, `v.MAKE`, `v.MODEL`, and `v.DAILY_RATE`.\n5. Sort the final output by `VEHICLE_ID` in ascending order (`ORDER BY v.VEHICLE_ID ASC`).",
+    "rules": [
+      "1. Query the vehicle table to retrieve VEHICLE_ID, MAKE, MODEL, DAILY_RATE.",
+      "2. Use LEFT JOIN on rental table with condition v.VEHICLE_ID = r.VEHICLE_ID.",
+      "3. Filter for vehicles with no rental records using WHERE r.VEHICLE_ID IS NULL (or WHERE NOT EXISTS subquery).",
+      "4. Order the output by VEHICLE_ID in ascending order (ORDER BY v.VEHICLE_ID ASC)."
+    ],
+    "concepts": [
+      "LEFT JOIN",
+      "IS NULL",
+      "NOT EXISTS",
+      "ORDER BY",
+      "Ascending order"
+    ],
+    "viewSchema": {
+      "title": "View Schema",
+      "tableCount": 3,
+      "tables": [
+        {
+          "name": "vehicle",
+          "columns": [
+            "VEHICLE_ID",
+            "MAKE",
+            "MODEL",
+            "DAILY_RATE",
+            "YEAR",
+            "STATUS"
+          ],
+          "requiredColumns": [
+            "VEHICLE_ID",
+            "MAKE",
+            "MODEL",
+            "DAILY_RATE"
+          ],
+          "extraColumns": [
+            "YEAR",
+            "STATUS"
+          ]
+        },
+        {
+          "name": "rental",
+          "columns": [
+            "RENTAL_ID",
+            "VEHICLE_ID",
+            "CUSTOMER_ID",
+            "RENTAL_DATE",
+            "RETURN_DATE",
+            "TOTAL_AMOUNT"
+          ],
+          "requiredColumns": [
+            "VEHICLE_ID"
+          ],
+          "extraColumns": [
+            "RENTAL_ID",
+            "CUSTOMER_ID",
+            "RENTAL_DATE",
+            "RETURN_DATE",
+            "TOTAL_AMOUNT"
+          ]
+        },
+        {
+          "name": "customer",
+          "columns": [
+            "CUSTOMER_ID",
+            "CUSTOMER_NAME",
+            "PHONE",
+            "EMAIL",
+            "CITY"
+          ],
+          "requiredColumns": [],
+          "extraColumns": [
+            "CUSTOMER_ID",
+            "CUSTOMER_NAME",
+            "PHONE",
+            "EMAIL",
+            "CITY"
+          ]
+        }
+      ],
+      "difficultyNote": "Vehicle table contains core information with extra distractor columns (YEAR, STATUS). Rental and customer tables provide relational context."
+    },
+    "tableSchema": [
+      {
+        "name": "vehicle",
+        "columns": [
+          { "name": "VEHICLE_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "MAKE", "type": "TEXT" },
+          { "name": "MODEL", "type": "TEXT" },
+          { "name": "DAILY_RATE", "type": "REAL" },
+          { "name": "YEAR", "type": "INTEGER" },
+          { "name": "STATUS", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "rental",
+        "columns": [
+          { "name": "RENTAL_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "VEHICLE_ID", "type": "INTEGER" },
+          { "name": "CUSTOMER_ID", "type": "INTEGER" },
+          { "name": "RENTAL_DATE", "type": "TEXT" },
+          { "name": "RETURN_DATE", "type": "TEXT" },
+          { "name": "TOTAL_AMOUNT", "type": "REAL" }
+        ]
+      },
+      {
+        "name": "customer",
+        "columns": [
+          { "name": "CUSTOMER_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "CUSTOMER_NAME", "type": "TEXT" },
+          { "name": "PHONE", "type": "TEXT" },
+          { "name": "EMAIL", "type": "TEXT" },
+          { "name": "CITY", "type": "TEXT" }
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "Example 1 (Vehicles with and without rental records)",
+        "input": {
+          "vehicle": [
+            { "VEHICLE_ID": 101, "MAKE": "Toyota", "MODEL": "Corolla", "DAILY_RATE": 1800.0, "YEAR": 2022, "STATUS": "Available" },
+            { "VEHICLE_ID": 102, "MAKE": "Honda", "MODEL": "City", "DAILY_RATE": 2000.0, "YEAR": 2023, "STATUS": "Available" },
+            { "VEHICLE_ID": 103, "MAKE": "Hyundai", "MODEL": "Creta", "DAILY_RATE": 2500.0, "YEAR": 2022, "STATUS": "Available" },
+            { "VEHICLE_ID": 104, "MAKE": "Maruti", "MODEL": "Swift", "DAILY_RATE": 1500.0, "YEAR": 2024, "STATUS": "Available" }
+          ],
+          "rental": [
+            { "RENTAL_ID": 5001, "VEHICLE_ID": 101, "CUSTOMER_ID": 1, "RENTAL_DATE": "2026-09-01", "RETURN_DATE": "2026-09-03", "TOTAL_AMOUNT": 5400.0 },
+            { "RENTAL_ID": 5002, "VEHICLE_ID": 103, "CUSTOMER_ID": 2, "RENTAL_DATE": "2026-09-05", "RETURN_DATE": "2026-09-07", "TOTAL_AMOUNT": 7500.0 }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 1, "CUSTOMER_NAME": "Amit Sharma", "PHONE": "9812345670", "EMAIL": "amit@example.com", "CITY": "Mumbai" },
+            { "CUSTOMER_ID": 2, "CUSTOMER_NAME": "Priya Patel", "PHONE": "9812345671", "EMAIL": "priya@example.com", "CITY": "Delhi" }
+          ]
+        },
+        "output": [
+          { "VEHICLE_ID": 102, "MAKE": "Honda", "MODEL": "City", "DAILY_RATE": 2000.0 },
+          { "VEHICLE_ID": 104, "MAKE": "Maruti", "MODEL": "Swift", "DAILY_RATE": 1500.0 }
+        ],
+        "explanation": "Vehicles 101 (Corolla) and 103 (Creta) have records in the rental table. Vehicles 102 (City) and 104 (Swift) have never been rented, so they are returned sorted by VEHICLE_ID ASC."
+      }
+    ],
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT v.VEHICLE_ID, v.MAKE, v.MODEL, v.DAILY_RATE FROM vehicle v LEFT JOIN rental r ON v.VEHICLE_ID = r.VEHICLE_ID WHERE r.VEHICLE_ID IS NULL ORDER BY v.VEHICLE_ID ASC;",
+    "explanation": "### Solution Explanation:\n1. **LEFT JOIN**: Link each vehicle from `vehicle v` to its matching rentals in `rental r` via `v.VEHICLE_ID = r.VEHICLE_ID`.\n2. **Identify Unrented**: Unrented vehicles will have `NULL` on the right side of the join (`r.VEHICLE_ID IS NULL`).\n3. **Select Columns**: Retrieve `v.VEHICLE_ID`, `v.MAKE`, `v.MODEL`, and `v.DAILY_RATE`.\n4. **Sort Result**: Ensure results are sorted by `v.VEHICLE_ID ASC`.",
+    "expectedColumns": [
+      "VEHICLE_ID",
+      "MAKE",
+      "MODEL",
+      "DAILY_RATE"
+    ],
+    "orderSensitive": true,
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Basic case with rented and never-rented vehicles",
+        "isHidden": false,
+        "data": {
+          "vehicle": [
+            { "VEHICLE_ID": 101, "MAKE": "Toyota", "MODEL": "Corolla", "DAILY_RATE": 1800.0, "YEAR": 2022, "STATUS": "Available" },
+            { "VEHICLE_ID": 102, "MAKE": "Honda", "MODEL": "City", "DAILY_RATE": 2000.0, "YEAR": 2023, "STATUS": "Available" },
+            { "VEHICLE_ID": 103, "MAKE": "Hyundai", "MODEL": "Creta", "DAILY_RATE": 2500.0, "YEAR": 2022, "STATUS": "Available" },
+            { "VEHICLE_ID": 104, "MAKE": "Maruti", "MODEL": "Swift", "DAILY_RATE": 1500.0, "YEAR": 2024, "STATUS": "Available" }
+          ],
+          "rental": [
+            { "RENTAL_ID": 5001, "VEHICLE_ID": 101, "CUSTOMER_ID": 1, "RENTAL_DATE": "2026-09-01", "RETURN_DATE": "2026-09-03", "TOTAL_AMOUNT": 5400.0 },
+            { "RENTAL_ID": 5002, "VEHICLE_ID": 103, "CUSTOMER_ID": 2, "RENTAL_DATE": "2026-09-05", "RETURN_DATE": "2026-09-07", "TOTAL_AMOUNT": 7500.0 }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 1, "CUSTOMER_NAME": "Amit Sharma", "PHONE": "9000000001", "EMAIL": "amit@example.com", "CITY": "Delhi" },
+            { "CUSTOMER_ID": 2, "CUSTOMER_NAME": "Riya Verma", "PHONE": "9000000002", "EMAIL": "riya@example.com", "CITY": "Lucknow" }
+          ]
+        },
+        "expected": [
+          { "VEHICLE_ID": 102, "MAKE": "Honda", "MODEL": "City", "DAILY_RATE": 2000.0 },
+          { "VEHICLE_ID": 104, "MAKE": "Maruti", "MODEL": "Swift", "DAILY_RATE": 1500.0 }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — No vehicles have ever been rented (empty rental table)",
+        "isHidden": false,
+        "data": {
+          "vehicle": [
+            { "VEHICLE_ID": 201, "MAKE": "Toyota", "MODEL": "Camry", "DAILY_RATE": 3000.0, "YEAR": 2023, "STATUS": "Available" },
+            { "VEHICLE_ID": 202, "MAKE": "Kia", "MODEL": "Seltos", "DAILY_RATE": 2400.0, "YEAR": 2024, "STATUS": "Available" },
+            { "VEHICLE_ID": 203, "MAKE": "Tata", "MODEL": "Nexon", "DAILY_RATE": 1700.0, "YEAR": 2022, "STATUS": "Available" }
+          ],
+          "rental": [],
+          "customer": []
+        },
+        "expected": [
+          { "VEHICLE_ID": 201, "MAKE": "Toyota", "MODEL": "Camry", "DAILY_RATE": 3000.0 },
+          { "VEHICLE_ID": 202, "MAKE": "Kia", "MODEL": "Seltos", "DAILY_RATE": 2400.0 },
+          { "VEHICLE_ID": 203, "MAKE": "Tata", "MODEL": "Nexon", "DAILY_RATE": 1700.0 }
+        ]
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Every vehicle has been rented",
+        "isHidden": false,
+        "data": {
+          "vehicle": [
+            { "VEHICLE_ID": 301, "MAKE": "Ford", "MODEL": "EcoSport", "DAILY_RATE": 2100.0, "YEAR": 2021, "STATUS": "Available" },
+            { "VEHICLE_ID": 302, "MAKE": "Honda", "MODEL": "Amaze", "DAILY_RATE": 1900.0, "YEAR": 2022, "STATUS": "Available" }
+          ],
+          "rental": [
+            { "RENTAL_ID": 6001, "VEHICLE_ID": 301, "CUSTOMER_ID": 5, "RENTAL_DATE": "2026-08-01", "RETURN_DATE": "2026-08-03", "TOTAL_AMOUNT": 6300.0 },
+            { "RENTAL_ID": 6002, "VEHICLE_ID": 302, "CUSTOMER_ID": 6, "RENTAL_DATE": "2026-08-10", "RETURN_DATE": "2026-08-12", "TOTAL_AMOUNT": 5700.0 }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 5, "CUSTOMER_NAME": "Karan Roy", "PHONE": "9000000011", "EMAIL": "karan@example.com", "CITY": "Kanpur" },
+            { "CUSTOMER_ID": 6, "CUSTOMER_NAME": "Neha Singh", "PHONE": "9000000012", "EMAIL": "neha@example.com", "CITY": "Agra" }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — Vehicle rented multiple times",
+        "isHidden": false,
+        "data": {
+          "vehicle": [
+            { "VEHICLE_ID": 401, "MAKE": "Hyundai", "MODEL": "Verna", "DAILY_RATE": 2200.0, "YEAR": 2023, "STATUS": "Available" },
+            { "VEHICLE_ID": 402, "MAKE": "Mahindra", "MODEL": "XUV300", "DAILY_RATE": 2300.0, "YEAR": 2024, "STATUS": "Available" },
+            { "VEHICLE_ID": 403, "MAKE": "Renault", "MODEL": "Kiger", "DAILY_RATE": 1900.0, "YEAR": 2022, "STATUS": "Available" }
+          ],
+          "rental": [
+            { "RENTAL_ID": 7001, "VEHICLE_ID": 401, "CUSTOMER_ID": 10, "RENTAL_DATE": "2026-07-01", "RETURN_DATE": "2026-07-03", "TOTAL_AMOUNT": 6600.0 },
+            { "RENTAL_ID": 7002, "VEHICLE_ID": 401, "CUSTOMER_ID": 11, "RENTAL_DATE": "2026-07-10", "RETURN_DATE": "2026-07-12", "TOTAL_AMOUNT": 6600.0 },
+            { "RENTAL_ID": 7003, "VEHICLE_ID": 401, "CUSTOMER_ID": 12, "RENTAL_DATE": "2026-08-01", "RETURN_DATE": "2026-08-02", "TOTAL_AMOUNT": 4400.0 },
+            { "RENTAL_ID": 7004, "VEHICLE_ID": 403, "CUSTOMER_ID": 13, "RENTAL_DATE": "2026-08-05", "RETURN_DATE": "2026-08-07", "TOTAL_AMOUNT": 5700.0 }
+          ],
+          "customer": [
+            { "CUSTOMER_ID": 10, "CUSTOMER_NAME": "A", "PHONE": "9000000021", "EMAIL": "a@example.com", "CITY": "Delhi" },
+            { "CUSTOMER_ID": 11, "CUSTOMER_NAME": "B", "PHONE": "9000000022", "EMAIL": "b@example.com", "CITY": "Noida" },
+            { "CUSTOMER_ID": 12, "CUSTOMER_NAME": "C", "PHONE": "9000000023", "EMAIL": "c@example.com", "CITY": "Gurgaon" },
+            { "CUSTOMER_ID": 13, "CUSTOMER_NAME": "D", "PHONE": "9000000024", "EMAIL": "d@example.com", "CITY": "Jaipur" }
+          ]
+        },
+        "expected": [
+          { "VEHICLE_ID": 402, "MAKE": "Mahindra", "MODEL": "XUV300", "DAILY_RATE": 2300.0 }
+        ]
+      },
+      {
+        "id": "tc-5",
+        "name": "Hidden Test Case 5 — Verify ascending VEHICLE_ID ordering",
+        "isHidden": true,
+        "data": {
+          "vehicle": [
+            { "VEHICLE_ID": 505, "MAKE": "Kia", "MODEL": "Sonet", "DAILY_RATE": 1900.0, "YEAR": 2024, "STATUS": "Available" },
+            { "VEHICLE_ID": 501, "MAKE": "Tata", "MODEL": "Altroz", "DAILY_RATE": 1600.0, "YEAR": 2023, "STATUS": "Available" },
+            { "VEHICLE_ID": 509, "MAKE": "MG", "MODEL": "Astor", "DAILY_RATE": 2600.0, "YEAR": 2024, "STATUS": "Available" }
+          ],
+          "rental": [],
+          "customer": []
+        },
+        "expected": [
+          { "VEHICLE_ID": 501, "MAKE": "Tata", "MODEL": "Altroz", "DAILY_RATE": 1600.0 },
+          { "VEHICLE_ID": 505, "MAKE": "Kia", "MODEL": "Sonet", "DAILY_RATE": 1900.0 },
+          { "VEHICLE_ID": 509, "MAKE": "MG", "MODEL": "Astor", "DAILY_RATE": 2600.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "recent-sql-012",
+    "track": "sql",
+    "dateTag": "28th Sept 2026 • Shift 1",
+    "examDate": "2026-09-28",
+    "shift": "Shift 1",
+    "title": "Animals in enclosures with capacity greater than 15",
+    "difficulty": "Easy",
+    "category": "Joins / INNER JOIN & Comparison Filtering (> 15)",
+    "source": "Accenture Assessment 28th Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "Write an SQL query to display the animal's name (use alias `animal_name`), Species (use alias `Species`), enclosure's name (use alias `enclosure_name`), and enclosure's capacity (use alias `Capacity`) for all enclosures where the enclosure's capacity is strictly greater than 15.\n\n### 📝 Required Output Column Aliases:\n- `animal_name`\n- `Species`\n- `enclosure_name`\n- `Capacity`\n\n---\n\n### 📌 Given Example:\n\n#### Input Data:\n**animal**:\n| animal_id | animal_name | species | age | enclosure_id |\n| :---: | :---: | :---: | :---: | :---: |\n| 1 | Tiger | Mammal | 5 | 101 |\n| 2 | Lion | Mammal | 4 | 102 |\n| 3 | Parrot | Bird | 2 | 103 |\n\n**enclosure**:\n| enclosure_id | enclosure_name | capacity | location | status |\n| :---: | :---: | :---: | :---: | :---: |\n| 101 | Tiger Zone | 20 | North | Active |\n| 102 | Lion Zone | 12 | East | Active |\n| 103 | Bird House | 25 | South | Active |\n\n#### Expected Output:\n| animal_name | Species | enclosure_name | Capacity |\n| :---: | :---: | :---: | :---: |\n| Tiger | Mammal | Tiger Zone | 20 |\n| Parrot | Bird | Bird House | 25 |\n\n#### Explanation:\n- **Tiger Zone** capacity = 20 (`20 > 15` is true) -> Included.\n- **Lion Zone** capacity = 12 (`12 > 15` is false) -> Excluded.\n- **Bird House** capacity = 25 (`25 > 15` is true) -> Included.\n\n---\n\n### 📌 Relational Model & Walkthrough:\n1. Join the `animal` and `enclosure` tables using `enclosure_id` (`a.enclosure_id = e.enclosure_id`).\n2. Select `a.animal_name` as `animal_name`.\n3. Select `a.species` as `Species`.\n4. Select `e.enclosure_name` as `enclosure_name`.\n5. Select `e.capacity` as `Capacity`.\n6. Apply the filter `WHERE e.capacity > 15`.\n\n> **⚠️ Important Requirement**: The condition is strictly greater than 15 (`> 15`), so any enclosure with capacity equal to 15 is excluded.",
+    "rules": [
+      "1. Join animal table with enclosure table on enclosure_id.",
+      "2. Filter for enclosures where capacity is strictly greater than 15 (e.capacity > 15).",
+      "3. Use exact output column aliases: \"animal_name\", \"Species\", \"enclosure_name\", \"Capacity\"."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "WHERE",
+      "Comparison operator >",
+      "Column aliases"
+    ],
+    "viewSchema": {
+      "title": "View Schema",
+      "tableCount": 3,
+      "tables": [
+        {
+          "name": "animal",
+          "columns": [
+            "animal_id",
+            "animal_name",
+            "species",
+            "age",
+            "enclosure_id"
+          ],
+          "requiredColumns": [
+            "animal_name",
+            "species",
+            "enclosure_id"
+          ],
+          "extraColumns": [
+            "animal_id",
+            "age"
+          ]
+        },
+        {
+          "name": "enclosure",
+          "columns": [
+            "enclosure_id",
+            "enclosure_name",
+            "capacity",
+            "location",
+            "status"
+          ],
+          "requiredColumns": [
+            "enclosure_id",
+            "enclosure_name",
+            "capacity"
+          ],
+          "extraColumns": [
+            "location",
+            "status"
+          ]
+        },
+        {
+          "name": "species_info",
+          "columns": [
+            "species_id",
+            "species",
+            "scientific_name",
+            "conservation_status"
+          ],
+          "requiredColumns": [],
+          "extraColumns": [
+            "species_id",
+            "species",
+            "scientific_name",
+            "conservation_status"
+          ]
+        }
+      ],
+      "difficultyNote": "Join animal and enclosure on enclosure_id. Filter using capacity > 15 with required column aliases."
+    },
+    "tableSchema": [
+      {
+        "name": "animal",
+        "columns": [
+          { "name": "animal_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "animal_name", "type": "TEXT" },
+          { "name": "species", "type": "TEXT" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "enclosure_id", "type": "INTEGER" }
+        ]
+      },
+      {
+        "name": "enclosure",
+        "columns": [
+          { "name": "enclosure_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "enclosure_name", "type": "TEXT" },
+          { "name": "capacity", "type": "INTEGER" },
+          { "name": "location", "type": "TEXT" },
+          { "name": "status", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "species_info",
+        "columns": [
+          { "name": "species_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "species", "type": "TEXT" },
+          { "name": "scientific_name", "type": "TEXT" },
+          { "name": "conservation_status", "type": "TEXT" }
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "Example 1 (Enclosures above and below capacity 15)",
+        "input": {
+          "animal": [
+            { "animal_id": 1, "animal_name": "Tiger", "species": "Mammal", "age": 5, "enclosure_id": 101 },
+            { "animal_id": 2, "animal_name": "Lion", "species": "Mammal", "age": 4, "enclosure_id": 102 },
+            { "animal_id": 3, "animal_name": "Parrot", "species": "Bird", "age": 2, "enclosure_id": 103 }
+          ],
+          "enclosure": [
+            { "enclosure_id": 101, "enclosure_name": "Tiger Zone", "capacity": 20, "location": "North", "status": "Active" },
+            { "enclosure_id": 102, "enclosure_name": "Lion Zone", "capacity": 12, "location": "East", "status": "Active" },
+            { "enclosure_id": 103, "enclosure_name": "Bird House", "capacity": 25, "location": "South", "status": "Active" }
+          ]
+        },
+        "output": [
+          { "animal_name": "Tiger", "Species": "Mammal", "enclosure_name": "Tiger Zone", "Capacity": 20 },
+          { "animal_name": "Parrot", "Species": "Bird", "enclosure_name": "Bird House", "Capacity": 25 }
+        ],
+        "explanation": "Tiger is in Tiger Zone (capacity 20 > 15) and Parrot is in Bird House (capacity 25 > 15). Lion is in Lion Zone with capacity 12 (not > 15), so it is excluded."
+      }
+    ],
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT a.animal_name AS animal_name, a.species AS Species, e.enclosure_name AS enclosure_name, e.capacity AS Capacity FROM animal a JOIN enclosure e ON a.enclosure_id = e.enclosure_id WHERE e.capacity > 15;",
+    "explanation": "### Solution Explanation:\n1. **INNER JOIN**: Join `animal a` with `enclosure e` on `a.enclosure_id = e.enclosure_id`.\n2. **WHERE Filter**: Keep only enclosures where `e.capacity > 15` (strictly greater than 15).\n3. **Aliases**: Alias `a.animal_name` as `animal_name`, `a.species` as `Species`, `e.enclosure_name` as `enclosure_name`, and `e.capacity` as `Capacity`.",
+    "expectedColumns": [
+      "animal_name",
+      "Species",
+      "enclosure_name",
+      "Capacity"
+    ],
+    "orderSensitive": false,
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Basic case with capacities above and below 15",
+        "isHidden": false,
+        "data": {
+          "animal": [
+            { "animal_id": 1, "animal_name": "Tiger", "species": "Mammal", "age": 5, "enclosure_id": 101 },
+            { "animal_id": 2, "animal_name": "Lion", "species": "Mammal", "age": 4, "enclosure_id": 102 },
+            { "animal_id": 3, "animal_name": "Parrot", "species": "Bird", "age": 2, "enclosure_id": 103 }
+          ],
+          "enclosure": [
+            { "enclosure_id": 101, "enclosure_name": "Tiger Zone", "capacity": 20, "location": "North", "status": "Active" },
+            { "enclosure_id": 102, "enclosure_name": "Lion Zone", "capacity": 12, "location": "East", "status": "Active" },
+            { "enclosure_id": 103, "enclosure_name": "Bird House", "capacity": 25, "location": "South", "status": "Active" }
+          ],
+          "species_info": []
+        },
+        "expected": [
+          { "animal_name": "Tiger", "Species": "Mammal", "enclosure_name": "Tiger Zone", "Capacity": 20 },
+          { "animal_name": "Parrot", "Species": "Bird", "enclosure_name": "Bird House", "Capacity": 25 }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — Capacity exactly equal to 15 (Excluded)",
+        "isHidden": false,
+        "data": {
+          "animal": [
+            { "animal_id": 10, "animal_name": "Bear", "species": "Mammal", "age": 6, "enclosure_id": 201 }
+          ],
+          "enclosure": [
+            { "enclosure_id": 201, "enclosure_name": "Bear Den", "capacity": 15, "location": "West", "status": "Active" }
+          ],
+          "species_info": []
+        },
+        "expected": []
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Capacity just above threshold (16 vs 15)",
+        "isHidden": false,
+        "data": {
+          "animal": [
+            { "animal_id": 21, "animal_name": "Zebra", "species": "Mammal", "age": 4, "enclosure_id": 301 },
+            { "animal_id": 22, "animal_name": "Deer", "species": "Mammal", "age": 3, "enclosure_id": 302 }
+          ],
+          "enclosure": [
+            { "enclosure_id": 301, "enclosure_name": "Zebra Area", "capacity": 16, "location": "North-West", "status": "Active" },
+            { "enclosure_id": 302, "enclosure_name": "Deer Meadow", "capacity": 15, "location": "South-West", "status": "Active" }
+          ],
+          "species_info": []
+        },
+        "expected": [
+          { "animal_name": "Zebra", "Species": "Mammal", "enclosure_name": "Zebra Area", "Capacity": 16 }
+        ]
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — Multiple animals in qualifying enclosures",
+        "isHidden": false,
+        "data": {
+          "animal": [
+            { "animal_id": 31, "animal_name": "Giraffe", "species": "Mammal", "age": 7, "enclosure_id": 401 },
+            { "animal_id": 32, "animal_name": "Rhino", "species": "Mammal", "age": 8, "enclosure_id": 401 },
+            { "animal_id": 33, "animal_name": "Penguin", "species": "Bird", "age": 3, "enclosure_id": 402 },
+            { "animal_id": 34, "animal_name": "Wolf", "species": "Mammal", "age": 5, "enclosure_id": 403 }
+          ],
+          "enclosure": [
+            { "enclosure_id": 401, "enclosure_name": "Savanna Enclosure", "capacity": 30, "location": "Central", "status": "Active" },
+            { "enclosure_id": 402, "enclosure_name": "Penguin House", "capacity": 18, "location": "South-East", "status": "Active" },
+            { "enclosure_id": 403, "enclosure_name": "Wolf Woods", "capacity": 10, "location": "North-East", "status": "Active" }
+          ],
+          "species_info": []
+        },
+        "expected": [
+          { "animal_name": "Giraffe", "Species": "Mammal", "enclosure_name": "Savanna Enclosure", "Capacity": 30 },
+          { "animal_name": "Rhino", "Species": "Mammal", "enclosure_name": "Savanna Enclosure", "Capacity": 30 },
+          { "animal_name": "Penguin", "Species": "Bird", "enclosure_name": "Penguin House", "Capacity": 18 }
+        ]
+      }
+    ]
   }
 ];
+
+
