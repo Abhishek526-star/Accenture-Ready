@@ -19,11 +19,16 @@ import {
   X,
   Search,
   Flame,
-  ThumbsUp
+  ThumbsUp,
+  Grid,
+  List,
+  RotateCcw,
+  Shuffle
 } from 'lucide-react';
 import { interviewQuestions } from '../data/interviewQuestions.js';
 import RecentSetIntroModule from '../components/interview/RecentSetIntroModule.jsx';
 import RecentSetFollowupChain from '../components/interview/RecentSetFollowupChain.jsx';
+import InterviewQuestionPalette from '../components/interview/InterviewQuestionPalette.jsx';
 import SEO from '../components/SEO.jsx';
 import { seoConfig } from '../config/seo.js';
 import { infoToast } from '../utils/confirmToast.jsx';
@@ -195,6 +200,461 @@ function RenderInlineMarkup({ text }) {
   return <>{parts}</>;
 }
 
+// Sub-component to render a single question card (used in Focus Mode and List Mode)
+function InterviewQuestionCard({
+  item,
+  index,
+  total,
+  isRevealed,
+  isSpeaking,
+  isCopied,
+  isReviewed,
+  onToggleAnswer,
+  onSpeak,
+  onCopy,
+  onOpenModal,
+  onToggleReviewed,
+  isRecentItem,
+  showPagination,
+  onPrev,
+  onNext,
+  canPrev,
+  canNext
+}) {
+  if (!item) return null;
+
+  return (
+    <div>
+      {/* Linear progress track if in focus pagination mode */}
+      {showPagination && total > 1 && (
+        <div className="interview-progress-track">
+          <div
+            className="interview-progress-bar"
+            style={{ width: `${Math.round(((index + 1) / total) * 100)}%` }}
+          />
+        </div>
+      )}
+
+      {/* Top Header Bar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          {showPagination && (
+            <span style={{
+              fontSize: '0.78rem',
+              padding: '3px 10px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.2))',
+              color: '#f8fafc',
+              fontWeight: 800,
+              fontFamily: "'JetBrains Mono', monospace",
+              border: '1px solid rgba(168, 85, 247, 0.4)'
+            }}>
+              Q{index + 1} of {total}
+            </span>
+          )}
+
+          <span style={{
+            fontSize: '0.75rem',
+            padding: '3px 10px',
+            borderRadius: '8px',
+            background: isRecentItem ? 'rgba(236, 72, 153, 0.2)' : 'rgba(168, 85, 247, 0.15)',
+            color: isRecentItem ? '#f472b6' : '#c084fc',
+            fontWeight: 700,
+            border: isRecentItem ? '1px solid rgba(236, 72, 153, 0.4)' : '1px solid rgba(168, 85, 247, 0.3)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}>
+            {isRecentItem && <Flame size={12} />}
+            {item.category}
+          </span>
+
+          {item.subCategory && (
+            <span style={{
+              fontSize: '0.75rem',
+              padding: '3px 10px',
+              borderRadius: '8px',
+              background: 'rgba(56, 189, 248, 0.12)',
+              color: '#38bdf8',
+              fontWeight: 700,
+              border: '1px solid rgba(56, 189, 248, 0.3)'
+            }}>
+              {item.subCategory}
+            </span>
+          )}
+
+          {item.dateTag && (
+            <span style={{
+              fontSize: '0.75rem',
+              padding: '3px 8px',
+              borderRadius: '8px',
+              background: 'rgba(34, 197, 94, 0.12)',
+              color: '#4ade80',
+              fontWeight: 700,
+              border: '1px solid rgba(34, 197, 94, 0.3)'
+            }}>
+              {item.dateTag}
+            </span>
+          )}
+
+          <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: '#0f172a', padding: '3px 10px', borderRadius: '8px', border: '1px solid #334155' }}>
+            Target: {item.role}
+          </span>
+
+          {item.trap && (
+            <span style={{
+              fontSize: '0.72rem',
+              padding: '3px 8px',
+              borderRadius: '8px',
+              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#f87171',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              <AlertTriangle size={12} /> Trap Alert
+            </span>
+          )}
+        </div>
+
+        {/* Actions Right */}
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          {/* Mark as Reviewed Toggle */}
+          {onToggleReviewed && (
+            <button
+              type="button"
+              onClick={() => onToggleReviewed(item.id)}
+              title={isReviewed ? "Marked as reviewed" : "Mark question as reviewed"}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '6px 12px',
+                background: isReviewed ? 'rgba(34, 197, 94, 0.15)' : '#0f172a',
+                color: isReviewed ? '#4ade80' : '#94a3b8',
+                border: isReviewed ? '1px solid rgba(34, 197, 94, 0.4)' : '1px solid #334155',
+                borderRadius: '8px',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <CheckCircle2 size={13} className={isReviewed ? "text-emerald-400" : "text-slate-400"} />
+              <span>{isReviewed ? "Reviewed" : "Mark Reviewed"}</span>
+            </button>
+          )}
+
+          {/* Open in Dedicated Focus Modal */}
+          <button
+            type="button"
+            onClick={() => onOpenModal(item)}
+            title="Open Practice Modal"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '6px 12px',
+              background: '#0f172a',
+              color: '#38bdf8',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            <Maximize2 size={13} />
+            <span>Focus Mode</span>
+          </button>
+
+          {/* Toggle Answer Button */}
+          <button
+            type="button"
+            onClick={() => onToggleAnswer(item.id)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '6px 14px',
+              background: isRevealed
+                ? '#0f172a'
+                : (isRecentItem ? 'linear-gradient(135deg, #ec4899, #a855f7)' : 'linear-gradient(135deg, #a855f7, #9333ea)'),
+              color: isRevealed ? '#94a3b8' : '#ffffff',
+              border: isRevealed ? '1px solid #334155' : 'none',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: isRevealed ? 'none' : '0 2px 8px rgba(168, 85, 247, 0.3)'
+            }}
+          >
+            {isRevealed ? <EyeOff size={14} /> : <Eye size={14} />}
+            <span>{isRevealed ? 'Hide Response' : 'Show Model Response'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Question Heading */}
+      <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc', margin: '0 0 1.25rem 0', lineHeight: 1.45 }}>
+        {item.question}
+      </h2>
+
+      {/* Think Yourself Prompt */}
+      <div style={{
+        background: 'rgba(56, 189, 248, 0.07)',
+        border: '1px solid rgba(56, 189, 248, 0.25)',
+        borderRadius: '12px',
+        padding: '1rem 1.25rem',
+        marginBottom: '1rem'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.35rem' }}>
+          <HelpCircle size={15} />
+          <span>Think Yourself Before Revealing:</span>
+        </div>
+        <p style={{ margin: 0, color: '#bae6fd', fontSize: '0.9rem', lineHeight: 1.55 }}>
+          {item.thinkPrompt}
+        </p>
+      </div>
+
+      {/* Interviewer Trap Alert Box */}
+      {item.trap && (
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          borderRadius: '12px',
+          padding: '1rem 1.25rem',
+          marginBottom: isRevealed ? '1.5rem' : '0'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#f87171', fontWeight: 800, fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+            <AlertTriangle size={15} />
+            <span>Interviewer Trap Alert:</span>
+          </div>
+          <p style={{ margin: '0 0 0.5rem 0', color: '#fca5a5', fontSize: '0.88rem', lineHeight: 1.55 }}>
+            {item.trap}
+          </p>
+          {item.trapSolution && (
+            <div style={{
+              borderTop: '1px dashed rgba(239, 68, 68, 0.25)',
+              paddingTop: '0.5rem',
+              marginTop: '0.5rem',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '0.45rem',
+              color: '#cbd5e1',
+              fontSize: '0.86rem',
+              lineHeight: 1.55
+            }}>
+              <span style={{ color: '#4ade80', fontWeight: 700, flexShrink: 0 }}>Recommended Strategy:</span>
+              <span>{item.trapSolution}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Beautified Model Answer Section */}
+      {isRevealed && (
+        <div style={{
+          marginTop: '1.5rem',
+          borderTop: '1px solid #334155',
+          paddingTop: '1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.25rem'
+        }}>
+          {/* Model Response Header Toolbar */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            background: 'linear-gradient(90deg, rgba(34, 197, 94, 0.12), rgba(15, 23, 42, 0.6))',
+            border: '1px solid rgba(34, 197, 94, 0.25)',
+            borderRadius: '10px',
+            padding: '8px 14px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Sparkles size={16} className="text-emerald-400" />
+              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#86efac' }}>
+                Model Response (Natural Speaking Script)
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              {/* Audio Speak Aloud */}
+              <button
+                type="button"
+                onClick={() => onSpeak(item.id, item.answer)}
+                title={isSpeaking ? 'Stop Speech' : 'Listen to how this response sounds spoken aloud'}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '4px 10px',
+                  background: isSpeaking ? '#dc2626' : '#0f172a',
+                  border: isSpeaking ? '1px solid #ef4444' : '1px solid #334155',
+                  borderRadius: '6px',
+                  color: isSpeaking ? '#ffffff' : '#38bdf8',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                {isSpeaking ? <VolumeX size={13} /> : <Volume2 size={13} />}
+                <span>{isSpeaking ? 'Stop Listening' : 'Listen Script'}</span>
+              </button>
+
+              {/* Copy Script */}
+              <button
+                type="button"
+                onClick={() => onCopy(item.id, item.answer)}
+                title="Copy clean script to clipboard"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '4px 10px',
+                  background: '#0f172a',
+                  border: '1px solid #334155',
+                  borderRadius: '6px',
+                  color: isCopied ? '#4ade80' : '#cbd5e1',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                {isCopied ? <Check size={13} /> : <Copy size={13} />}
+                <span>{isCopied ? 'Copied' : 'Copy'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Speech Delivery Card */}
+          <div style={{
+            background: '#0f172a',
+            border: '1px solid #334155',
+            borderRadius: '12px',
+            padding: '1.5rem',
+            boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.4)'
+          }}>
+            <FormattedAnswer text={item.answer} />
+          </div>
+
+          {/* Delivery Guidance Tip */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            fontSize: '0.8rem',
+            color: '#94a3b8',
+            background: 'rgba(250, 204, 21, 0.06)',
+            border: '1px solid rgba(250, 204, 21, 0.2)',
+            borderRadius: '8px',
+            padding: '8px 12px'
+          }}>
+            <ThumbsUp size={14} className="text-amber-400" />
+            <span>
+              <strong>Accenture Delivery Tip:</strong> Speak naturally at ~120-140 words per minute. Pause briefly after main points rather than using filler words like "um" or "like".
+            </span>
+          </div>
+
+          {/* Key Points Checklist */}
+          {item.keyPoints && item.keyPoints.length > 0 && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.5))',
+              padding: '1.25rem',
+              borderRadius: '12px',
+              border: '1px solid rgba(56, 189, 248, 0.2)'
+            }}>
+              <h4 style={{
+                fontSize: '0.85rem',
+                color: '#38bdf8',
+                margin: '0 0 0.75rem 0',
+                textTransform: 'uppercase',
+                fontWeight: 700,
+                letterSpacing: '0.5px'
+              }}>
+                What the Interviewer Expects (Key Evaluation Criteria):
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.6rem' }}>
+                {item.keyPoints.map((pt, pIdx) => (
+                  <div key={pIdx} style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '0.5rem',
+                    color: '#e2e8f0',
+                    fontSize: '0.875rem',
+                    background: '#0b1329',
+                    border: '1px solid #1e293b',
+                    padding: '8px 12px',
+                    borderRadius: '8px'
+                  }}>
+                    <CheckCircle2 size={16} className="text-emerald-400" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <span>{pt}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Navigation Footer Bar (when in focus pagination mode) */}
+      {showPagination && total > 1 && (
+        <div className="interview-nav-bar">
+          <button
+            type="button"
+            className="interview-nav-btn prev"
+            onClick={onPrev}
+            disabled={!canPrev}
+            title="Go to previous question (Left Arrow)"
+          >
+            <ChevronLeft size={16} />
+            <span>Previous Question</span>
+            <span className="interview-kbd-hint">←</span>
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.86rem', color: '#94a3b8' }}>
+            <span>
+              Question <strong style={{ color: '#f8fafc' }}>{index + 1}</strong> of <strong style={{ color: '#f8fafc' }}>{total}</strong>
+            </span>
+            {isReviewed && (
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '3px',
+                color: '#4ade80',
+                fontSize: '0.78rem',
+                background: 'rgba(34, 197, 94, 0.15)',
+                padding: '2px 8px',
+                borderRadius: '6px',
+                border: '1px solid rgba(34, 197, 94, 0.3)'
+              }}>
+                <CheckCircle2 size={12} /> Reviewed
+              </span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className="interview-nav-btn next"
+            onClick={onNext}
+            disabled={!canNext}
+            title="Go to next question (Right Arrow)"
+          >
+            <span>Next Question</span>
+            <ChevronRight size={16} />
+            <span className="interview-kbd-hint" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.3)' }}>→</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function InterviewPrepPage({ _theme = 'dark' }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [recentSubCategory, setRecentSubCategory] = useState('All');
@@ -204,8 +664,29 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
   const [copiedId, setCopiedId] = useState(null);
   const [speakingId, setSpeakingId] = useState(null);
   
+  // Single Question Focus & Grid Palette State
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [viewMode, setViewMode] = useState('focus'); // 'focus' | 'list'
+  const [reviewedQuestionIds, setReviewedQuestionIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('accenture_interview_reviewed');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
   // Dedicated Practice Modal State
   const [activeModalQuestion, setActiveModalQuestion] = useState(null);
+
+  // Persist reviewed questions to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('accenture_interview_reviewed', JSON.stringify(reviewedQuestionIds));
+    } catch {
+      // ignore
+    }
+  }, [reviewedQuestionIds]);
 
   const categories = [
     'All',
@@ -296,17 +777,62 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
     window.speechSynthesis.speak(utterance);
   };
 
+  // Keep currentIndex within bounds when filtered length changes
   useEffect(() => {
-    return () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+    if (currentIndex >= filtered.length && filtered.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [filtered.length, currentIndex]);
+
+  // Keyboard navigation for Focus Mode (ArrowLeft, ArrowRight)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      if (activeModalQuestion) return;
+      if (viewMode !== 'focus') return;
+
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.min(filtered.length - 1, prev + 1));
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
       }
     };
-  }, []);
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [filtered.length, activeModalQuestion, viewMode]);
+
+  const handlePrevQuestion = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNextQuestion = () => {
+    setCurrentIndex((prev) => Math.min(filtered.length - 1, prev + 1));
+  };
+
+  const toggleReviewed = (id) => {
+    setReviewedQuestionIds((prev) => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const handleResetReviewed = () => {
+    setReviewedQuestionIds((prev) => {
+      const updated = { ...prev };
+      filtered.forEach((q) => {
+        delete updated[q.id];
+      });
+      return updated;
+    });
+    infoToast('Progress reset for current question set', { icon: '🔄' });
+  };
 
   const openModal = (question) => {
     setActiveModalQuestion(question);
-    setRevealedQuestionIds(prev => ({
+    setRevealedQuestionIds((prev) => ({
       ...prev,
       [question.id]: true
     }));
@@ -322,22 +848,28 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
 
   const navigateModal = (direction) => {
     if (!activeModalQuestion) return;
-    const currentIndex = filtered.findIndex(q => q.id === activeModalQuestion.id);
-    if (currentIndex === -1) return;
-    const nextIndex = (currentIndex + direction + filtered.length) % filtered.length;
+    const currentModalIdx = filtered.findIndex((q) => q.id === activeModalQuestion.id);
+    if (currentModalIdx === -1) return;
+    const nextIndex = (currentModalIdx + direction + filtered.length) % filtered.length;
     openModal(filtered[nextIndex]);
   };
 
   const handleSelectQuestionById = (questionId) => {
-    const q = interviewQuestions.find(item => item.id === questionId);
+    const q = interviewQuestions.find((item) => item.id === questionId);
     if (q) {
       setSelectedCategory('Recent Interview Questions Sep 2026');
       setRecentActiveTab('questions');
       setRecentSubCategory('All');
-      setRevealedQuestionIds(prev => ({
+      setRevealedQuestionIds((prev) => ({
         ...prev,
         [questionId]: true
       }));
+      const recentQuestions = interviewQuestions.filter((item) => item.category === 'Recent Interview Questions Sep 2026');
+      const targetIdx = recentQuestions.findIndex((item) => item.id === questionId);
+      if (targetIdx !== -1) {
+        setCurrentIndex(targetIdx);
+      }
+      setViewMode('focus');
       openModal(q);
     }
   };
@@ -378,7 +910,10 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
             type="text"
             placeholder="Search questions by topic, keyword, or role..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentIndex(0);
+            }}
             style={{
               width: '100%',
               padding: '10px 14px 10px 40px',
@@ -428,6 +963,7 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
           <button
             onClick={() => {
               setSelectedCategory('Recent Interview Questions Sep 2026');
+              setCurrentIndex(0);
               setRecentActiveTab('questions');
               setRecentSubCategory('All');
             }}
@@ -462,6 +998,7 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
               key={cat}
               onClick={() => {
                 setSelectedCategory(cat);
+                setCurrentIndex(0);
                 if (isRecent) {
                   setRecentActiveTab('questions');
                   setRecentSubCategory('All');
@@ -669,7 +1206,10 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
             return (
               <button
                 key={sub}
-                onClick={() => setRecentSubCategory(sub)}
+                onClick={() => {
+                  setRecentSubCategory(sub);
+                  setCurrentIndex(0);
+                }}
                 style={{
                   padding: '5px 12px',
                   borderRadius: '8px',
@@ -702,340 +1242,179 @@ export default function InterviewPrepPage({ _theme = 'dark' }) {
         </div>
       )}
 
-      {/* Questions List (Hidden if user is on Intro or Chain tab in Sep 2026) */}
+      {/* Questions Bank Section (Hidden if user is on Intro or Chain tab in Sep 2026) */}
       {!(selectedCategory === 'Recent Interview Questions Sep 2026' && recentActiveTab !== 'questions') && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        <div>
+          {/* View Mode & Progress Switcher Bar */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            marginBottom: '1.5rem',
+            background: 'rgba(15, 23, 42, 0.75)',
+            border: '1px solid #334155',
+            borderRadius: '14px',
+            padding: '10px 16px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f8fafc' }}>
+                {selectedCategory}
+              </span>
+              <span style={{
+                fontSize: '0.75rem',
+                background: 'rgba(168, 85, 247, 0.15)',
+                color: '#c084fc',
+                border: '1px solid rgba(168, 85, 247, 0.3)',
+                padding: '2px 8px',
+                borderRadius: '8px',
+                fontWeight: 700
+              }}>
+                {filtered.length} {filtered.length === 1 ? 'Question' : 'Questions'}
+              </span>
+              <span style={{
+                fontSize: '0.75rem',
+                background: filtered.filter(q => reviewedQuestionIds[q.id] || revealedQuestionIds[q.id]).length === filtered.length && filtered.length > 0
+                  ? 'rgba(34, 197, 94, 0.18)'
+                  : '#0f172a',
+                color: filtered.filter(q => reviewedQuestionIds[q.id] || revealedQuestionIds[q.id]).length === filtered.length && filtered.length > 0
+                  ? '#4ade80'
+                  : '#94a3b8',
+                border: '1px solid #334155',
+                padding: '2px 8px',
+                borderRadius: '8px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                <CheckCircle2 size={12} className={filtered.filter(q => reviewedQuestionIds[q.id] || revealedQuestionIds[q.id]).length > 0 ? "text-emerald-400" : "text-slate-500"} />
+                <span>
+                  {filtered.filter(q => reviewedQuestionIds[q.id] || revealedQuestionIds[q.id]).length}/{filtered.length} Practiced
+                </span>
+              </span>
+            </div>
+
+            {/* View Mode Toggle Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#090d16', padding: '3px', borderRadius: '10px', border: '1px solid #334155' }}>
+              <button
+                type="button"
+                onClick={() => setViewMode('focus')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '6px 12px',
+                  borderRadius: '7px',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  border: 'none',
+                  background: viewMode === 'focus' ? 'linear-gradient(135deg, #a855f7, #7c3aed)' : 'transparent',
+                  color: viewMode === 'focus' ? '#ffffff' : '#94a3b8',
+                  boxShadow: viewMode === 'focus' ? '0 2px 8px rgba(168, 85, 247, 0.4)' : 'none',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Grid size={13} />
+                <span>Focus Mode (Grid + Prev/Next)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('list')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '6px 12px',
+                  borderRadius: '7px',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  border: 'none',
+                  background: viewMode === 'list' ? 'linear-gradient(135deg, #a855f7, #7c3aed)' : 'transparent',
+                  color: viewMode === 'list' ? '#ffffff' : '#94a3b8',
+                  boxShadow: viewMode === 'list' ? '0 2px 8px rgba(168, 85, 247, 0.4)' : 'none',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <List size={13} />
+                <span>List All ({filtered.length})</span>
+              </button>
+            </div>
+          </div>
+
           {filtered.length === 0 ? (
             <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
               No interview questions found matching "{searchQuery}".
             </div>
-          ) : (
-            filtered.map((item, idx) => {
-              const isRevealed = !!revealedQuestionIds[item.id];
-              const isSpeaking = speakingId === item.id;
-              const isCopied = copiedId === item.id;
-              const isRecentItem = item.category === 'Recent Interview Questions Sep 2026';
-
-              return (
-                <div
-                  key={item.id || idx}
-                  style={{
-                    background: '#1e293b',
-                    border: isRevealed
-                      ? (isRecentItem ? '1px solid rgba(236, 72, 153, 0.5)' : '1px solid rgba(168, 85, 247, 0.4)')
-                      : (isRecentItem ? '1px solid rgba(236, 72, 153, 0.25)' : '1px solid #334155'),
-                    borderRadius: '16px',
-                    padding: '1.75rem 2rem',
-                    boxShadow: isRecentItem ? '0 6px 24px rgba(236, 72, 153, 0.12)' : '0 6px 20px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  {/* Question Top Header Bar */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                      <span style={{
-                        fontSize: '0.75rem',
-                        padding: '3px 10px',
-                        borderRadius: '8px',
-                        background: isRecentItem ? 'rgba(236, 72, 153, 0.2)' : 'rgba(168, 85, 247, 0.15)',
-                        color: isRecentItem ? '#f472b6' : '#c084fc',
-                        fontWeight: 700,
-                        border: isRecentItem ? '1px solid rgba(236, 72, 153, 0.4)' : '1px solid rgba(168, 85, 247, 0.3)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}>
-                        {isRecentItem && <Flame size={12} />}
-                        {item.category}
-                      </span>
-                      {item.subCategory && (
-                        <span style={{
-                          fontSize: '0.75rem',
-                          padding: '3px 10px',
-                          borderRadius: '8px',
-                          background: 'rgba(56, 189, 248, 0.12)',
-                          color: '#38bdf8',
-                          fontWeight: 700,
-                          border: '1px solid rgba(56, 189, 248, 0.3)'
-                        }}>
-                          {item.subCategory}
-                        </span>
-                      )}
-                      {item.dateTag && (
-                        <span style={{
-                          fontSize: '0.75rem',
-                          padding: '3px 8px',
-                          borderRadius: '8px',
-                          background: 'rgba(34, 197, 94, 0.12)',
-                          color: '#4ade80',
-                          fontWeight: 700,
-                          border: '1px solid rgba(34, 197, 94, 0.3)'
-                        }}>
-                          {item.dateTag}
-                        </span>
-                      )}
-                      <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: '#0f172a', padding: '3px 10px', borderRadius: '8px' }}>
-                        Target: {item.role}
-                      </span>
-                    </div>
-
-                    {/* Actions Right */}
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                      {/* Open in Dedicated Focus Modal */}
-                      <button
-                        onClick={() => openModal(item)}
-                        title="Open Practice Modal"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          padding: '6px 12px',
-                          background: '#0f172a',
-                          color: '#38bdf8',
-                          border: '1px solid rgba(56, 189, 248, 0.3)',
-                          borderRadius: '8px',
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <Maximize2 size={13} />
-                        <span>Focus Mode</span>
-                      </button>
-
-                      {/* Toggle Answer Button */}
-                      <button
-                        onClick={() => toggleAnswer(item.id)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          padding: '6px 14px',
-                          background: isRevealed
-                            ? '#0f172a'
-                            : (isRecentItem ? 'linear-gradient(135deg, #ec4899, #a855f7)' : 'linear-gradient(135deg, #a855f7, #9333ea)'),
-                          color: isRevealed ? '#94a3b8' : '#ffffff',
-                          border: isRevealed ? '1px solid #334155' : 'none',
-                          borderRadius: '8px',
-                          fontSize: '0.8rem',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          boxShadow: isRevealed ? 'none' : '0 2px 8px rgba(168, 85, 247, 0.3)'
-                        }}
-                      >
-                        {isRevealed ? <EyeOff size={14} /> : <Eye size={14} />}
-                        <span>{isRevealed ? 'Hide Response' : 'Show Model Response'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Question Heading */}
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc', margin: '0 0 1.25rem 0', lineHeight: 1.4 }}>
-                    {item.question}
-                  </h2>
-
-                  {/* Think Yourself Prompt */}
-                  <div style={{
-                    background: 'rgba(56, 189, 248, 0.07)',
-                    border: '1px solid rgba(56, 189, 248, 0.25)',
-                    borderRadius: '12px',
-                    padding: '1rem 1.25rem',
-                    marginBottom: '1rem'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.35rem' }}>
-                      <HelpCircle size={15} />
-                      <span>Think Yourself Before Revealing:</span>
-                    </div>
-                    <p style={{ margin: 0, color: '#bae6fd', fontSize: '0.9rem', lineHeight: 1.55 }}>
-                      {item.thinkPrompt}
-                    </p>
-                  </div>
-
-                  {/* Interviewer Trap Alert Box */}
-                  {item.trap && (
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%)',
-                      border: '1px solid rgba(239, 68, 68, 0.3)',
-                      borderRadius: '12px',
-                      padding: '1rem 1.25rem',
-                      marginBottom: isRevealed ? '1.5rem' : '0'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#f87171', fontWeight: 800, fontSize: '0.85rem', marginBottom: '0.4rem' }}>
-                        <AlertTriangle size={15} />
-                        <span>Interviewer Trap Alert:</span>
-                      </div>
-                      <p style={{ margin: '0 0 0.5rem 0', color: '#fca5a5', fontSize: '0.88rem', lineHeight: 1.55 }}>
-                        {item.trap}
-                      </p>
-                      {item.trapSolution && (
-                        <div style={{
-                          borderTop: '1px dashed rgba(239, 68, 68, 0.25)',
-                          paddingTop: '0.5rem',
-                          marginTop: '0.5rem',
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '0.45rem',
-                          color: '#cbd5e1',
-                          fontSize: '0.86rem',
-                          lineHeight: 1.55
-                        }}>
-                          <span style={{ color: '#4ade80', fontWeight: 700, flexShrink: 0 }}>Recommended Strategy:</span>
-                          <span>{item.trapSolution}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                {/* Beautified Model Answer Section */}
-                {isRevealed && (
-                  <div style={{
-                    marginTop: '1.5rem',
-                    borderTop: '1px solid #334155',
-                    paddingTop: '1.5rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1.25rem'
-                  }}>
-                    {/* Model Response Header Toolbar */}
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: '0.75rem',
-                      background: 'linear-gradient(90deg, rgba(34, 197, 94, 0.12), rgba(15, 23, 42, 0.6))',
-                      border: '1px solid rgba(34, 197, 94, 0.25)',
-                      borderRadius: '10px',
-                      padding: '8px 14px'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Sparkles size={16} className="text-emerald-400" />
-                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#86efac' }}>
-                          Model Response (Natural Speaking Script)
-                        </span>
-                      </div>
-
-                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                        {/* Audio Speak Aloud */}
-                        <button
-                          onClick={() => handleSpeak(item.id, item.answer)}
-                          title={isSpeaking ? 'Stop Speech' : 'Listen to how this response sounds spoken aloud'}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '4px 10px',
-                            background: isSpeaking ? '#dc2626' : '#0f172a',
-                            border: isSpeaking ? '1px solid #ef4444' : '1px solid #334155',
-                            borderRadius: '6px',
-                            color: isSpeaking ? '#ffffff' : '#38bdf8',
-                            fontSize: '0.75rem',
-                            fontWeight: 600,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {isSpeaking ? <VolumeX size={13} /> : <Volume2 size={13} />}
-                          <span>{isSpeaking ? 'Stop Listening' : 'Listen Script'}</span>
-                        </button>
-
-                        {/* Copy Script */}
-                        <button
-                          onClick={() => handleCopy(item.id, item.answer)}
-                          title="Copy clean script to clipboard"
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '4px 10px',
-                            background: '#0f172a',
-                            border: '1px solid #334155',
-                            borderRadius: '6px',
-                            color: isCopied ? '#4ade80' : '#cbd5e1',
-                            fontSize: '0.75rem',
-                            fontWeight: 600,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {isCopied ? <Check size={13} /> : <Copy size={13} />}
-                          <span>{isCopied ? 'Copied' : 'Copy'}</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Speech Delivery Card */}
-                    <div style={{
-                      background: '#0f172a',
-                      border: '1px solid #334155',
-                      borderRadius: '12px',
-                      padding: '1.5rem',
-                      boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.4)'
-                    }}>
-                      <FormattedAnswer text={item.answer} />
-                    </div>
-
-                    {/* Delivery Guidance Tip */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.6rem',
-                      fontSize: '0.8rem',
-                      color: '#94a3b8',
-                      background: 'rgba(250, 204, 21, 0.06)',
-                      border: '1px solid rgba(250, 204, 21, 0.2)',
-                      borderRadius: '8px',
-                      padding: '8px 12px'
-                    }}>
-                      <ThumbsUp size={14} className="text-amber-400" />
-                      <span>
-                        <strong>Accenture Delivery Tip:</strong> Speak naturally at ~120-140 words per minute. Pause briefly after main points rather than using filler words like "um" or "like".
-                      </span>
-                    </div>
-
-                    {/* Key Points Checklist */}
-                    {item.keyPoints && item.keyPoints.length > 0 && (
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.5))',
-                        padding: '1.25rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(56, 189, 248, 0.2)'
-                      }}>
-                        <h4 style={{
-                          fontSize: '0.85rem',
-                          color: '#38bdf8',
-                          margin: '0 0 0.75rem 0',
-                          textTransform: 'uppercase',
-                          fontWeight: 700,
-                          letterSpacing: '0.5px'
-                        }}>
-                          What the Interviewer Expects (Key Evaluation Criteria):
-                        </h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.6rem' }}>
-                          {item.keyPoints.map((pt, pIdx) => (
-                            <div key={pIdx} style={{
-                              display: 'flex',
-                              alignItems: 'flex-start',
-                              gap: '0.5rem',
-                              color: '#e2e8f0',
-                              fontSize: '0.875rem',
-                              background: '#0b1329',
-                              border: '1px solid #1e293b',
-                              padding: '8px 12px',
-                              borderRadius: '8px'
-                            }}>
-                              <CheckCircle2 size={16} className="text-emerald-400" style={{ marginTop: '2px', flexShrink: 0 }} />
-                              <span>{pt}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+          ) : viewMode === 'focus' ? (
+            /* Focus Mode (Single question canvas on Left, Palette Grid on Right) */
+            <div className="interview-focus-layout">
+              <div className="interview-card-container">
+                <InterviewQuestionCard
+                  item={filtered[currentIndex] || filtered[0]}
+                  index={currentIndex}
+                  total={filtered.length}
+                  isRevealed={Boolean(revealedQuestionIds[filtered[currentIndex]?.id])}
+                  isSpeaking={speakingId === filtered[currentIndex]?.id}
+                  isCopied={copiedId === filtered[currentIndex]?.id}
+                  isReviewed={Boolean(reviewedQuestionIds[filtered[currentIndex]?.id] || revealedQuestionIds[filtered[currentIndex]?.id])}
+                  onToggleAnswer={toggleAnswer}
+                  onSpeak={handleSpeak}
+                  onCopy={handleCopy}
+                  onOpenModal={openModal}
+                  onToggleReviewed={toggleReviewed}
+                  isRecentItem={filtered[currentIndex]?.category === 'Recent Interview Questions Sep 2026'}
+                  showPagination={true}
+                  onPrev={handlePrevQuestion}
+                  onNext={handleNextQuestion}
+                  canPrev={currentIndex > 0}
+                  canNext={currentIndex < filtered.length - 1}
+                />
               </div>
-            );
-          })
-        )}
-      </div>
+
+              <InterviewQuestionPalette
+                questions={filtered}
+                currentIndex={currentIndex}
+                onSelectIndex={(idx) => {
+                  setCurrentIndex(idx);
+                  if (window.innerWidth <= 1024) {
+                    window.scrollTo({ top: 380, behavior: 'smooth' });
+                  }
+                }}
+                revealedQuestionIds={revealedQuestionIds}
+                reviewedQuestionIds={reviewedQuestionIds}
+                onToggleReviewed={toggleReviewed}
+                onResetReviewed={handleResetReviewed}
+              />
+            </div>
+          ) : (
+            /* List Mode (All questions rendered vertically) */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              {filtered.map((item, idx) => (
+                <div key={item.id || idx} className="interview-card-container">
+                  <InterviewQuestionCard
+                    item={item}
+                    index={idx}
+                    total={filtered.length}
+                    isRevealed={Boolean(revealedQuestionIds[item.id])}
+                    isSpeaking={speakingId === item.id}
+                    isCopied={copiedId === item.id}
+                    isReviewed={Boolean(reviewedQuestionIds[item.id] || revealedQuestionIds[item.id])}
+                    onToggleAnswer={toggleAnswer}
+                    onSpeak={handleSpeak}
+                    onCopy={handleCopy}
+                    onOpenModal={openModal}
+                    onToggleReviewed={toggleReviewed}
+                    isRecentItem={item.category === 'Recent Interview Questions Sep 2026'}
+                    showPagination={false}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {/* Dedicated Interview Practice Focus Modal */}
