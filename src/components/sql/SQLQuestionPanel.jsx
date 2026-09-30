@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Clock, Tag, HelpCircle, FileText, Info, ListChecks, Check, Database, GitFork } from 'lucide-react';
+import { Clock, Tag, HelpCircle, FileText, Info, ListChecks, Check, Database, GitFork, Calendar } from 'lucide-react';
 import SQLSchemaViewer from './SQLSchemaViewer.jsx';
 import SQLExampleViewer from './SQLExampleViewer.jsx';
 import SQLSolutionViewer from './SQLSolutionViewer.jsx';
@@ -42,9 +42,50 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
     <div className="sql-question-panel">
       {/* Header Info */}
       <div className="sql-q-header">
+        {question.dateTag && (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(249, 115, 22, 0.12)',
+              border: '1px solid rgba(249, 115, 22, 0.35)',
+              color: '#fb923c',
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.6px',
+              padding: '3px 9px',
+              borderRadius: '6px',
+              marginBottom: '0.6rem'
+            }}
+          >
+            <Calendar size={13} />
+            <span>ACCENTURE RECENT EXAM ARCHIVE • {question.dateTag}</span>
+          </div>
+        )}
+
         <div className="sql-q-meta">
           <span className="sql-round-badge">SQL</span>
           {getDifficultyBadge(question.difficulty)}
+          {question.dateTag && (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                background: 'rgba(249, 115, 22, 0.15)',
+                color: '#fb923c',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                padding: '2px 8px',
+                borderRadius: '5px',
+                border: '1px solid rgba(249, 115, 22, 0.3)'
+              }}
+            >
+              <Calendar size={11} /> {question.dateTag}
+            </span>
+          )}
           <span className="sql-time-badge">
             <Clock size={12} /> {question.duration || 15} mins
           </span>

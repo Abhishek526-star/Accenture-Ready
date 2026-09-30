@@ -1825,6 +1825,101 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-021",
+    "track": "dsa",
+    "dateTag": "30th Sept 2026 • Shift 1",
+    "examDate": "2026-09-30",
+    "shift": "Shift 1",
+    "title": "Rotate Array to the Right by K Steps",
+    "difficulty": "Medium",
+    "category": "Arrays / Array Manipulation & In-Place Rotation",
+    "pattern": "Reversal Algorithm",
+    "rewardXp": 50,
+    "targetMins": 15,
+    "source": "Accenture Assessment 30th Sept 2026 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "Given an integer array `nums` and an integer `k`, rotate the array to the right by `k` steps **in-place**.\n\n---\n\n### 📌 Given Examples\n\n#### **Example 1**\n**Input:**\n```text\nnums = [1, 2, 3, 4, 5, 6, 7]\nk = 3\n```\n**Output:**\n```text\n[5, 6, 7, 1, 2, 3, 4]\n```\n\n#### **Example 2**\n**Input:**\n```text\nnums = [-1, -100, 3, 99]\nk = 2\n```\n**Output:**\n```text\n[3, 99, -1, -100]\n```\n\n---\n\n### 💡 Core Logic & Visual Intuition\nA right rotation by `k` means the **last `k` elements move to the beginning**, while the first `n - k` elements shift rightward.\n\nFor `nums = [1, 2, 3, 4, 5, 6, 7]` with `k = 3`:\n- Last 3 elements: `[5, 6, 7]`\n- Remaining elements: `[1, 2, 3, 4]`\n- Concatenation gives: `[5, 6, 7] + [1, 2, 3, 4] = [5, 6, 7, 1, 2, 3, 4]`\n\n---\n\n### 🔄 In-Place Approach (3-Step Reversal Algorithm)\nTo achieve **$O(1)$ auxiliary space** without allocating a second full-size array:\n1. **Step 1:** Reverse the entire array (`0` to `n - 1`).\n2. **Step 2:** Reverse the first `k` elements (`0` to `k - 1`).\n3. **Step 3:** Reverse the remaining `n - k` elements (`k` to `n - 1`).\n\n---\n\n### 🔍 Dry Run Walkthrough\n| Step | Action | Array State |\n| :--- | :--- | :--- |\n| **0** | **Original Array** | `[1, 2, 3, 4, 5, 6, 7]` |\n| **1** | **Reverse Entire Array** | `[7, 6, 5, 4, 3, 2, 1]` |\n| **2** | **Reverse First $k=3$ Elements** | `[5, 6, 7, 4, 3, 2, 1]` |\n| **3** | **Reverse Remaining $n-k=4$ Elements** | `[5, 6, 7, 1, 2, 3, 4]` |\n\n**Final Answer:** `[5, 6, 7, 1, 2, 3, 4]`\n\n---\n\n### 🧠 Why `k %= n`?\nIf `n = 7` and `k = 10`, rotating 7 times brings every element back to its original index.\nRotating 10 times is equivalent to rotating `10 % 7 = 3` times.\nNormalizing `k = k % n` avoids superfluous full array reversals and prevents index out-of-bounds errors when $k > n$.\n\n---\n\n### ⚠️ Important Exam Guidelines\n- The rotation **must be performed in-place**. Modifying the original array in $O(1)$ extra space is required.\n- $k$ can be greater than the array length, so normalize with `k %= n`.\n- Rotation direction is **right**, not left.\n- When $k = 0$ or $n <= 1$, the array remains unchanged.",
+    "rules": [
+      "1. The rotation must be performed in-place modifying the input array.",
+      "2. k can be greater than array length n; normalize using k %= n.",
+      "3. Direction is strictly to the right: last k elements shift to the beginning.",
+      "4. Maintain linear time complexity O(N) with O(1) auxiliary space."
+    ],
+    "constraints": [
+      "1 <= nums.length <= 10^5",
+      "-2^31 <= nums[i] <= 2^31 - 1",
+      "0 <= k <= 10^5",
+      "Time Complexity: O(N)",
+      "Space Complexity: O(1) in-place"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "nums = [1, 2, 3, 4, 5, 6, 7], k = 3",
+        "inputRaw": {
+          "nums": [1, 2, 3, 4, 5, 6, 7],
+          "k": 3
+        },
+        "expectedOutput": "[5, 6, 7, 1, 2, 3, 4]",
+        "explanation": "Rotating right by 3 brings the last 3 elements [5, 6, 7] to the front."
+      },
+      {
+        "id": "tc-2",
+        "input": "nums = [-1, -100, 3, 99], k = 2",
+        "inputRaw": {
+          "nums": [-1, -100, 3, 99],
+          "k": 2
+        },
+        "expectedOutput": "[3, 99, -1, -100]",
+        "explanation": "Rotating right by 2 brings the last 2 elements [3, 99] to the front."
+      },
+      {
+        "id": "tc-3",
+        "input": "nums = [1, 2, 3, 4, 5], k = 7",
+        "inputRaw": {
+          "nums": [1, 2, 3, 4, 5],
+          "k": 7
+        },
+        "expectedOutput": "[4, 5, 1, 2, 3]",
+        "explanation": "7 % 5 = 2. Rotating right by 2 shifts [4, 5] to the front."
+      },
+      {
+        "id": "tc-4",
+        "input": "nums = [1, 2, 3, 4], k = 0",
+        "inputRaw": {
+          "nums": [1, 2, 3, 4],
+          "k": 0
+        },
+        "expectedOutput": "[1, 2, 3, 4]",
+        "explanation": "k = 0 leaves the array unchanged."
+      },
+      {
+        "id": "tc-5",
+        "input": "nums = [10], k = 5",
+        "inputRaw": {
+          "nums": [10],
+          "k": 5
+        },
+        "expectedOutput": "[10]",
+        "explanation": "Single-element array remains identical after any number of rotations."
+      }
+    ],
+    "starterCode": {
+      "python": "def rotateArray(nums: list, k: int) -> None:\n    \"\"\"Do not return anything, modify nums in-place instead.\"\"\"\n    # TODO: Rotate nums to the right by k steps in-place\n    pass\n",
+      "java": "public class Solution {\n    public static void rotateArray(int[] nums, int k) {\n        // TODO: Rotate nums to the right by k steps in-place\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nvoid rotateArray(vector<int>& nums, int k) {\n    // TODO: Rotate nums to the right by k steps in-place\n}\n",
+      "csharp": "using System;\n\npublic class Solution {\n    public static void RotateArray(int[] nums, int k) {\n        // TODO: Rotate nums to the right by k steps in-place\n    }\n}\n",
+      "javascript": "function rotateArray(nums, k) {\n  // TODO: Rotate nums to the right by k steps in-place\n}\n"
+    },
+    "solutions": {
+      "python": "def rotateArray(nums: list, k: int) -> None:\n    \"\"\"Rotates nums to the right by k steps in-place using 3-step reversal.\"\"\"\n    n = len(nums)\n    if n <= 1:\n        return\n    k %= n\n    if k == 0:\n        return\n\n    def reverse_range(left: int, right: int):\n        while left < right:\n            nums[left], nums[right] = nums[right], nums[left]\n            left += 1\n            right -= 1\n\n    # Step 1: Reverse entire array\n    reverse_range(0, n - 1)\n    # Step 2: Reverse first k elements\n    reverse_range(0, k - 1)\n    # Step 3: Reverse remaining n - k elements\n    reverse_range(k, n - 1)",
+      "java": "public class Solution {\n    private static void reverse(int[] nums, int left, int right) {\n        while (left < right) {\n            int temp = nums[left];\n            nums[left] = nums[right];\n            nums[right] = temp;\n            left++;\n            right--;\n        }\n    }\n\n    public static void rotateArray(int[] nums, int k) {\n        if (nums == null || nums.length <= 1) return;\n        int n = nums.length;\n        k %= n;\n        if (k == 0) return;\n\n        // Step 1: Reverse entire array\n        reverse(nums, 0, n - 1);\n        // Step 2: Reverse first k elements\n        reverse(nums, 0, k - 1);\n        // Step 3: Reverse remaining elements\n        reverse(nums, k, n - 1);\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nvoid rotateArray(vector<int>& nums, int k) {\n    int n = nums.size();\n    if (n <= 1) return;\n\n    // In case k is greater than n\n    k %= n;\n    if (k == 0) return;\n\n    // Step 1: Reverse the entire array\n    reverse(nums.begin(), nums.end());\n\n    // Step 2: Reverse the first k elements\n    reverse(nums.begin(), nums.begin() + k);\n\n    // Step 3: Reverse the remaining elements\n    reverse(nums.begin() + k, nums.end());\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    private static void Reverse(int[] nums, int left, int right) {\n        while (left < right) {\n            int temp = nums[left];\n            nums[left] = nums[right];\n            nums[right] = temp;\n            left++;\n            right--;\n        }\n    }\n\n    public static void RotateArray(int[] nums, int k) {\n        if (nums == null || nums.Length <= 1) return;\n        int n = nums.Length;\n        k %= n;\n        if (k == 0) return;\n\n        // Step 1: Reverse entire array\n        Reverse(nums, 0, n - 1);\n        // Step 2: Reverse first k elements\n        Reverse(nums, 0, k - 1);\n        // Step 3: Reverse remaining elements\n        Reverse(nums, k, n - 1);\n    }\n}",
+      "javascript": "function rotateArray(nums, k) {\n  const n = nums.length;\n  if (n <= 1) return;\n  k %= n;\n  if (k === 0) return;\n\n  function reverse(left, right) {\n    while (left < right) {\n      const temp = nums[left];\n      nums[left] = nums[right];\n      nums[right] = temp;\n      left++;\n      right--;\n    }\n  }\n\n  // Step 1: Reverse the entire array\n  reverse(0, n - 1);\n  // Step 2: Reverse the first k elements\n  reverse(0, k - 1);\n  // Step 3: Reverse the remaining elements\n  reverse(k, n - 1);\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -2054,15 +2149,52 @@ export const recentQuestions = [
     "liveSandbox": true
   },
   {
+    "id": "recent-fe-008",
+    "track": "frontend",
+    "dateTag": "30th Sept 2026 • Shift 1",
+    "examDate": "2026-09-30",
+    "shift": "Shift 1",
+    "title": "Interactive Shape Selector",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Shape Rendering & State Switching",
+    "source": "Accenture Assessment 30th Sept 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are given an existing web page containing three buttons: **Triangle**, **Circle**, and **Square**.\nWhen a user clicks any button, the corresponding shape should be displayed inside the canvas area.\nThe project structure and styling are already provided. Complete the three small tasks in HTML, CSS, and JavaScript.\n\n### Objectives\n1. **HTML**: Add the required shape elements inside `#canvas` using the existing classes (`triangle`, `circle`, `square`). The **Triangle** should be displayed initially.\n2. **CSS**: Set the triangle's color to `border-bottom: 100px solid #9C00FF;`.\n3. **JavaScript**: Complete the `showShape(shape)` function so that clicking a button displays the corresponding shape and only the selected shape is visible at a time.\n\n### Constraints\n- Do not change the existing `id` or `class` attributes.\n- Do not modify the existing structure unnecessarily.\n- Use the existing buttons and canvas area.\n- The Triangle should be displayed initially.\n- Clicking Circle should replace the Triangle with a Circle.\n- Clicking Square should replace the Circle with a Square.\n- Only one shape should be visible inside the canvas at a time.\n- The selected shape must use the `#9C00FF` color.",
+    "objectives": [
+      "HTML: Add the required shape elements inside #canvas. The Triangle should be displayed initially.",
+      "CSS: Set the triangle's color to border-bottom: 100px solid #9C00FF;.",
+      "JavaScript: Complete showShape(shape) to remove the current shape and display the clicked shape."
+    ],
+    "constraints": [
+      "Do not change existing id or class attributes.",
+      "Do not modify the existing structure unnecessarily.",
+      "Use the existing buttons and canvas area.",
+      "The Triangle should be displayed initially.",
+      "Clicking Circle should replace the Triangle with a Circle.",
+      "Clicking Square should replace the Circle with a Square.",
+      "Only one shape should be visible inside the canvas at a time."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Shape Selector</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"shape-app\">\n\n        <h2>Shape Selector</h2>\n\n        <div id=\"canvas\">\n\n            <!-- TODO 1: Add the shape elements -->\n\n        </div>\n\n        <div class=\"buttons\">\n            <button id=\"triangleBtn\">Triangle</button>\n            <button id=\"circleBtn\">Circle</button>\n            <button id=\"squareBtn\">Square</button>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #ffffff;\n    min-height: 100vh;\n    padding: 30px;\n    color: #172b4d;\n}\n\n.shape-app {\n    max-width: 1150px;\n    margin: 0 auto;\n}\n\n.shape-app h2 {\n    margin-bottom: 25px;\n}\n\n#canvas {\n    height: 225px;\n    border: 1px dashed #cbd5e1;\n    border-radius: 10px;\n    background: #fafafa;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    margin-bottom: 25px;\n}\n\n/* Triangle */\n.triangle {\n    width: 0;\n    height: 0;\n    border-left: 56px solid transparent;\n    border-right: 56px solid transparent;\n\n    /* TODO 2: Set the triangle color */\n    \n    border-bottom: 100px solid transparent;\n}\n\n/* Circle */\n.circle {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    background: #9C00FF;\n}\n\n/* Square */\n.square {\n    width: 100px;\n    height: 100px;\n    background: #9C00FF;\n}\n\n.buttons {\n    display: flex;\n    justify-content: center;\n    gap: 18px;\n}\n\nbutton {\n    padding: 11px 28px;\n    border: 1px solid #cbd5e1;\n    border-radius: 4px;\n    background: #f8fafc;\n    color: #172b4d;\n    font-size: 16px;\n    cursor: pointer;\n}\n\nbutton:hover {\n    background: #eef2f7;\n}\n\nbutton.active {\n    background: #9C00FF;\n    color: white;\n    border-color: #9C00FF;\n}",
+    "starterJS": "const triangleButton = document.getElementById(\"triangleBtn\");\nconst circleButton = document.getElementById(\"circleBtn\");\nconst squareButton = document.getElementById(\"squareBtn\");\n\nconst canvas = document.getElementById(\"canvas\");\n\nfunction showShape(shape) {\n\n    // TODO 3: Display the selected shape\n}\n\ntriangleButton.addEventListener(\"click\", function () {\n    showShape(\"triangle\");\n});\n\ncircleButton.addEventListener(\"click\", function () {\n    showShape(\"circle\");\n});\n\nsquareButton.addEventListener(\"click\", function () {\n    showShape(\"square\");\n});\n\n// Triangle should be displayed initially\nshowShape(\"triangle\");",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Shape Selector</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"shape-app\">\n\n        <h2>Shape Selector</h2>\n\n        <div id=\"canvas\">\n            <div class=\"triangle\"></div>\n        </div>\n\n        <div class=\"buttons\">\n            <button id=\"triangleBtn\">Triangle</button>\n            <button id=\"circleBtn\">Circle</button>\n            <button id=\"squareBtn\">Square</button>\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #ffffff;\n    min-height: 100vh;\n    padding: 30px;\n    color: #172b4d;\n}\n\n.shape-app {\n    max-width: 1150px;\n    margin: 0 auto;\n}\n\n.shape-app h2 {\n    margin-bottom: 25px;\n}\n\n#canvas {\n    height: 225px;\n    border: 1px dashed #cbd5e1;\n    border-radius: 10px;\n    background: #fafafa;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    margin-bottom: 25px;\n}\n\n/* Triangle */\n.triangle {\n    width: 0;\n    height: 0;\n    border-left: 56px solid transparent;\n    border-right: 56px solid transparent;\n    border-bottom: 100px solid #9C00FF;\n}\n\n/* Circle */\n.circle {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    background: #9C00FF;\n}\n\n/* Square */\n.square {\n    width: 100px;\n    height: 100px;\n    background: #9C00FF;\n}\n\n.buttons {\n    display: flex;\n    justify-content: center;\n    gap: 18px;\n}\n\nbutton {\n    padding: 11px 28px;\n    border: 1px solid #cbd5e1;\n    border-radius: 4px;\n    background: #f8fafc;\n    color: #172b4d;\n    font-size: 16px;\n    cursor: pointer;\n}\n\nbutton:hover {\n    background: #eef2f7;\n}\n\nbutton.active {\n    background: #9C00FF;\n    color: white;\n    border-color: #9C00FF;\n}",
+    "solutionJS": "const triangleButton = document.getElementById(\"triangleBtn\");\nconst circleButton = document.getElementById(\"circleBtn\");\nconst squareButton = document.getElementById(\"squareBtn\");\n\nconst canvas = document.getElementById(\"canvas\");\n\nfunction showShape(shape) {\n    canvas.innerHTML = \"\";\n    const el = document.createElement(\"div\");\n    el.className = shape;\n    canvas.appendChild(el);\n}\n\ntriangleButton.addEventListener(\"click\", function () {\n    showShape(\"triangle\");\n});\n\ncircleButton.addEventListener(\"click\", function () {\n    showShape(\"circle\");\n});\n\nsquareButton.addEventListener(\"click\", function () {\n    showShape(\"square\");\n});\n\n// Triangle should be displayed initially\nshowShape(\"triangle\");",
+    "solutionExplanation": "### Solution Walkthrough: Interactive Shape Selector (Accenture 30th Sept 2026)\n\n1. **Part 1 — HTML Task**:\n   - Inside `#canvas`, add the initial shape element `<div class=\"triangle\"></div>` so that when the page first loads, the canvas displays the Triangle.\n\n2. **Part 2 — CSS Task**:\n   - Set the color of the CSS-border triangle by updating the border rule to:\n     ```css\n     border-bottom: 100px solid #9C00FF;\n     ```\n   - This renders the triangle in the unified `#9C00FF` theme.\n\n3. **Part 3 — JavaScript Task**:\n   - Inside `showShape(shape)`:\n     - Clear the canvas content via `canvas.innerHTML = \"\"`.\n     - Create a new shape element using `document.createElement(\"div\")`.\n     - Assign `el.className = shape` (setting `triangle`, `circle`, or `square`).\n     - Append the element to `canvas`.\n     - This ensures only one shape is rendered inside `#canvas` at any given time.",
+    "liveSandbox": true
+  },
+  {
     "id": "recent-sql-001",
     "track": "sql",
-    "dateTag": "15th Jan 2025 • Shift 1",
-    "examDate": "2025-01-15",
+    "dateTag": "8th Sept 2026 • Shift 1",
+    "examDate": "2026-09-08",
     "shift": "Shift 1",
     "title": "Subject Matter Experts",
     "difficulty": "Easy",
     "category": "Aggregation / GROUP BY & HAVING",
-    "source": "Accenture Assessment 15th Jan 2025 (PYQ Series)",
+    "source": "Accenture Assessment 8th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "description": "You are tasked with identifying **Subject Matter Experts (SMEs)** at Accenture based on their work experience in specific domains. An employee qualifies as an SME if they meet **either** of the following criteria:\n\n1. They have **8 or more years** of work experience in a **single domain**.\n2. They have **12 or more years** of work experience across **two different domains**.\n\nWrite a query to return the employee IDs of all the subject matter experts at Accenture.",
     "rules": [
@@ -2387,13 +2519,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-002",
     "track": "sql",
-    "dateTag": "20th Feb 2025 • Shift 1",
-    "examDate": "2025-02-20",
-    "shift": "Shift 1",
+    "dateTag": "8th Sept 2026 • Shift 2",
+    "examDate": "2026-09-08",
+    "shift": "Shift 2",
     "title": "Fill Missing Client Data",
     "difficulty": "Medium",
     "category": "Window Functions / Forward Fill & COALESCE",
-    "source": "Accenture Assessment 20th Feb 2025 (PYQ Series)",
+    "source": "Accenture Assessment 8th Sept 2026 Shift 2 (Verified Exam Paper)",
     "isVerified": true,
     "description": "When accessing Accenture's retailer client's database, you observe that the `category` column in the `products` table contains null values.\n\nWrite a query that returns the updated product table with all the category values filled in, taking into consideration the assumption that the first product in each category will always have a defined category value.",
     "rules": [
@@ -2836,13 +2968,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-003",
     "track": "sql",
-    "dateTag": "10th Mar 2025 • Shift 2",
-    "examDate": "2025-03-10",
-    "shift": "Shift 2",
+    "dateTag": "10th Sept 2026 • Shift 1",
+    "examDate": "2026-09-10",
+    "shift": "Shift 1",
     "title": "Marketing Campaigns UNIQUE Constraint & Duplicate Audit",
     "difficulty": "Easy",
     "category": "DDL Constraints & Data Integrity",
-    "source": "Accenture Assessment 10th Mar 2025 (PYQ Series)",
+    "source": "Accenture Assessment 10th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "description": "The **UNIQUE** constraint ensures that all values in a column are distinct. It is frequently combined with **NOT NULL** to enforce strict entity uniqueness.\n\nFor example, on the marketing team at Accenture, campaigns are created with:\n```sql\nCREATE TABLE accenture_campaigns (\n    campaign_id INTEGER PRIMARY KEY,\n    campaign_name VARCHAR(255) NOT NULL UNIQUE,\n    start_date DATE NOT NULL,\n    end_date DATE NOT NULL,\n    budget DECIMAL(10,2) NOT NULL\n);\n```\n\nWrite a SQL query to audit the marketing database and return any duplicate campaign names that would violate the `UNIQUE` constraint along with the number of times they appear, ordered alphabetically by `campaign_name`.",
     "rules": [
@@ -3205,13 +3337,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-004",
     "track": "sql",
-    "dateTag": "18th Apr 2025 • Shift 1",
-    "examDate": "2025-04-18",
+    "dateTag": "12th Sept 2026 • Shift 1",
+    "examDate": "2026-09-12",
     "shift": "Shift 1",
     "title": "Average Project Duration",
     "difficulty": "Easy",
     "category": "Date & Time Analytics / AVG",
-    "source": "Accenture Assessment 18th Apr 2025 (PYQ Series)",
+    "source": "Accenture Assessment 12th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "description": "At Accenture, you've been appointed as a data analyst. You're handed a dataset of all the company's projects within the last year, including their start and end dates.\n\nYour task is to find the **average duration (in days)** of all completed projects.\n\nAssume all projects have a valid end date and format is ISO standard date `YYYY-MM-DD`.",
     "rules": [
@@ -3440,13 +3572,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-005",
     "track": "sql",
-    "dateTag": "25th May 2025 • Shift 2",
-    "examDate": "2025-05-25",
+    "dateTag": "14th Sept 2026 • Shift 2",
+    "examDate": "2026-09-14",
     "shift": "Shift 2",
     "title": "Calculate Click Through Conversion Rate",
     "difficulty": "Medium",
     "category": "Conversion Funnel / CTE & LEFT JOIN",
-    "source": "Accenture Assessment 25th May 2025 (PYQ Series)",
+    "source": "Accenture Assessment 14th Sept 2026 Shift 2 (Verified Exam Paper)",
     "isVerified": true,
     "description": "As a data analyst at Accenture, you are tasked to analyze the effectiveness of digital marketing campaigns.\n\nSpecifically, Accenture is interested in knowing the **click-through conversion rate**, which is defined as the percentage of users who viewed a product and later added it to their cart:\n$$\\text{Conversion Rate} = \\left(\\frac{\\text{Cart Count}}{\\text{View Count}}\\right) \\times 100$$\n\nUsing the provided tables `user_product_view` and `user_product_cart`, calculate the click-through conversion rate for each product. Order results by `product_id`.",
     "rules": [
@@ -4101,13 +4233,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-006",
     "track": "sql",
-    "dateTag": "14th Jun 2025 • Shift 1",
-    "examDate": "2025-06-14",
+    "dateTag": "16th Sept 2026 • Shift 1",
+    "examDate": "2026-09-16",
     "shift": "Shift 1",
     "title": "Average Project Cost Per Year",
     "difficulty": "Easy",
     "category": "Aggregation / GROUP BY & AVG",
-    "source": "Accenture Assessment 14th Jun 2025 (PYQ Series)",
+    "source": "Accenture Assessment 16th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "description": "As a part of Accenture, a global professional services company, you are required to keep track of various projects carried out throughout the year and their respective costs.\n\nWrite a SQL query to find out the **average project cost per year**, rounded to two decimal places. Order the results by `year` ascending.",
     "rules": [
@@ -5061,13 +5193,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-009",
     "track": "sql",
-    "dateTag": "19th Sept 2026 • Shift 1",
-    "examDate": "2026-09-19",
+    "dateTag": "20th Sept 2026 • Shift 1",
+    "examDate": "2026-09-20",
     "shift": "Shift 1",
     "title": "Animals Stolen by Thieves with Theft Value Greater Than 15",
     "difficulty": "Easy",
     "category": "Joins / Multiple-Table INNER JOIN & WHERE",
-    "source": "Accenture Assessment 19th Sept 2026 (Shift 1 Verified Exam Paper)",
+    "source": "Accenture Assessment 20th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "description": "Write an SQL query to display the **Animal Name**, **Species**, **Thief Name**, and **Theft Value** for all animals stolen by thieves where the theft value is **strictly greater than 15**.\n\n### 📝 Required Output Column Aliases:\n- `Animal Name`\n- `Species`\n- `Thief Name`\n- `Theft Value`\n\n---\n\n### 📌 Relational Model & Walkthrough:\n1. Join the `Animal` table with the `Theft` table using `Animal_ID`.\n2. Join the `Theft` table with the `Thief` table using `Thief_ID`.\n3. Join the `Animal` table with the `Habitat` table using `Habitat_ID`.\n4. Apply the filter `WHERE tr.Theft_Value > 15`.\n5. Select `a.Animal_Name`, `a.Species`, `t.Thief_Name`, and `tr.Theft_Value` with the specified column aliases.\n\n> **⚠️ Important Condition**: The threshold is strictly greater than 15 (`> 15`), so any records where `Theft_Value = 15` must be excluded.",
     "rules": [
@@ -5341,13 +5473,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-010",
     "track": "sql",
-    "dateTag": "23rd Sept 2026 • Shift 1",
+    "dateTag": "23rd Sept 2026 • Shift 2",
     "examDate": "2026-09-23",
-    "shift": "Shift 1",
+    "shift": "Shift 2",
     "title": "Orders with customer, payment method and delivery status",
     "difficulty": "Medium",
     "category": "Joins / Multiple-Table INNER JOIN & CONCAT",
-    "source": "Accenture Assessment 23rd Sept 2026 (Shift 1 Verified Exam Paper)",
+    "source": "Accenture Assessment 23rd Sept 2026 Shift 2 (Verified Exam Paper)",
     "isVerified": true,
     "rewardXp": 60,
     "targetMins": 15,
@@ -5728,13 +5860,13 @@ export const recentQuestions = [
   {
     "id": "recent-sql-011",
     "track": "sql",
-    "dateTag": "28th Sept 2026 • Shift 2",
-    "examDate": "2026-09-28",
-    "shift": "Shift 2",
+    "dateTag": "26th Sept 2026 • Shift 1",
+    "examDate": "2026-09-26",
+    "shift": "Shift 1",
     "title": "Vehicles that have never been rented",
     "difficulty": "Easy",
     "category": "Joins / LEFT JOIN & IS NULL / Subqueries (NOT EXISTS)",
-    "source": "Accenture Assessment 28th Sept 2026 Shift 2 (Verified Exam Paper)",
+    "source": "Accenture Assessment 26th Sept 2026 Shift 1 (Verified Exam Paper)",
     "isVerified": true,
     "rewardXp": 50,
     "targetMins": 15,
@@ -6233,7 +6365,1119 @@ export const recentQuestions = [
         ]
       }
     ]
+  },
+  {
+    "id": "recent-sql-013",
+    "track": "sql",
+    "dateTag": "30th Sept 2026 • Shift 2",
+    "examDate": "2026-09-30",
+    "shift": "Shift 2",
+    "title": "Multi-Table Aggregation Query",
+    "difficulty": "Medium",
+    "category": "Joins & Multi-Table Aggregation / GROUP BY & HAVING",
+    "source": "Accenture Assessment 30th Sept 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 60,
+    "targetMins": 15,
+    "description": "Write an SQL query to retrieve the **Department Name**, **Total Number of Employees**, **Total Salary Paid**, and **Total Projects Handled** for departments with **more than 2 employees**. Order the output by **Total Salary in descending order**.\n\n---\n\n### 📝 Required Output Column Aliases:\n- `DEPARTMENT_NAME`\n- `TOTAL_EMPLOYEES`\n- `TOTAL_SALARY_PAID`\n- `TOTAL_PROJECTS_HANDLED`\n\n---\n\n### 📌 Relational Schema & Table Relationships:\n- `Departments.DEPT_ID` -> `Employees.DEPT_ID`\n- `Employees.EMP_ID` -> `Salaries.EMP_ID`\n- `Employees.EMP_ID` -> `Employee_Projects.EMP_ID`\n- `Employee_Projects.PROJECT_ID` -> `Projects.PROJECT_ID`\n- `Employees.LOCATION_ID` -> `Locations.LOCATION_ID`\n- `Employees.EMP_ID` -> `Performance_Reviews.EMP_ID`\n\n---\n\n### 💡 Query Construction Steps:\n1. **Join `Departments` to `Employees`** on `d.DEPT_ID = e.DEPT_ID`.\n2. **Join `Salaries` to `Employees`** on `e.EMP_ID = s.EMP_ID`.\n3. **`LEFT JOIN Employee_Projects`** on `e.EMP_ID = ep.EMP_ID` so that employees without any active project assignments are still preserved in employee count and salary calculations.\n4. **Group by** `d.DEPT_ID, d.DEPARTMENT_NAME`.\n5. **Aggregate Metrics:**\n   - Employee Count: `COUNT(DISTINCT e.EMP_ID) AS TOTAL_EMPLOYEES`\n   - Salary Paid: `SUM(s.BASE_SALARY + s.BONUS) AS TOTAL_SALARY_PAID`\n   - Projects Handled: `COUNT(DISTINCT ep.PROJECT_ID) AS TOTAL_PROJECTS_HANDLED`\n6. **Filter Qualifying Departments:** `HAVING COUNT(DISTINCT e.EMP_ID) > 2` (strictly greater than 2, departments with exactly 2 employees are excluded).\n7. **Order Results:** `ORDER BY TOTAL_SALARY_PAID DESC`.\n\n> **⚠️ Important Tip**: `COUNT(DISTINCT)` is necessary to prevent duplicate employee and project counts caused by joining multiple project assignments.",
+    "rules": [
+      "1. Join Departments with Employees, Salaries, and Employee_Projects.",
+      "2. Use LEFT JOIN for Employee_Projects to keep employees without project assignments.",
+      "3. Filter for departments having strictly more than 2 employees (COUNT(DISTINCT e.EMP_ID) > 2).",
+      "4. Calculate TOTAL_SALARY_PAID as SUM(s.BASE_SALARY + s.BONUS).",
+      "5. Use COUNT(DISTINCT) for both employee count and project count.",
+      "6. Sort the final output by TOTAL_SALARY_PAID in descending order.",
+      "7. Use the exact specified output column names: DEPARTMENT_NAME, TOTAL_EMPLOYEES, TOTAL_SALARY_PAID, TOTAL_PROJECTS_HANDLED."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "LEFT JOIN",
+      "COUNT(DISTINCT)",
+      "SUM",
+      "GROUP BY",
+      "HAVING",
+      "ORDER BY DESC"
+    ],
+    "expectedColumns": [
+      "DEPARTMENT_NAME",
+      "TOTAL_EMPLOYEES",
+      "TOTAL_SALARY_PAID",
+      "TOTAL_PROJECTS_HANDLED"
+    ],
+    "orderSensitive": true,
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT d.DEPARTMENT_NAME, COUNT(DISTINCT e.EMP_ID) AS TOTAL_EMPLOYEES, SUM(s.BASE_SALARY + s.BONUS) AS TOTAL_SALARY_PAID, COUNT(DISTINCT ep.PROJECT_ID) AS TOTAL_PROJECTS_HANDLED FROM Departments d INNER JOIN Employees e ON d.DEPT_ID = e.DEPT_ID INNER JOIN Salaries s ON e.EMP_ID = s.EMP_ID LEFT JOIN Employee_Projects ep ON e.EMP_ID = ep.EMP_ID GROUP BY d.DEPT_ID, d.DEPARTMENT_NAME HAVING COUNT(DISTINCT e.EMP_ID) > 2 ORDER BY TOTAL_SALARY_PAID DESC;",
+    "explanation": "Join departments with employees, salaries, and employee-project assignments, aggregate by department, keep departments with more than 2 employees, and sort by total salary descending.",
+    "viewSchema": {
+      "title": "Database Schema & Sample Data",
+      "tableCount": 7,
+      "tables": [
+        {
+          "name": "Employees",
+          "columns": [
+            "EMP_ID",
+            "FIRST_NAME",
+            "DEPT_ID",
+            "LOCATION_ID",
+            "JOB_TITLE",
+            "JOIN_DATE"
+          ],
+          "requiredColumns": [
+            "EMP_ID",
+            "DEPT_ID"
+          ],
+          "extraColumns": [
+            "FIRST_NAME",
+            "LOCATION_ID",
+            "JOB_TITLE",
+            "JOIN_DATE"
+          ]
+        },
+        {
+          "name": "Departments",
+          "columns": [
+            "DEPT_ID",
+            "DEPARTMENT_NAME",
+            "MANAGER_ID",
+            "BUDGET",
+            "FLOOR_NO"
+          ],
+          "requiredColumns": [
+            "DEPT_ID",
+            "DEPARTMENT_NAME"
+          ],
+          "extraColumns": [
+            "MANAGER_ID",
+            "BUDGET",
+            "FLOOR_NO"
+          ]
+        },
+        {
+          "name": "Salaries",
+          "columns": [
+            "EMP_ID",
+            "BASE_SALARY",
+            "BONUS",
+            "EFFECTIVE_DATE",
+            "SALARY_GRADE"
+          ],
+          "requiredColumns": [
+            "EMP_ID",
+            "BASE_SALARY",
+            "BONUS"
+          ],
+          "extraColumns": [
+            "EFFECTIVE_DATE",
+            "SALARY_GRADE"
+          ]
+        },
+        {
+          "name": "Employee_Projects",
+          "columns": [
+            "EMP_ID",
+            "PROJECT_ID",
+            "ROLE",
+            "ALLOCATION_PERCENT",
+            "START_DATE"
+          ],
+          "requiredColumns": [
+            "EMP_ID",
+            "PROJECT_ID"
+          ],
+          "extraColumns": [
+            "ROLE",
+            "ALLOCATION_PERCENT",
+            "START_DATE"
+          ]
+        },
+        {
+          "name": "Projects",
+          "columns": [
+            "PROJECT_ID",
+            "PROJECT_NAME",
+            "CLIENT_NAME",
+            "START_DATE",
+            "PROJECT_STATUS"
+          ],
+          "requiredColumns": [
+            "PROJECT_ID"
+          ],
+          "extraColumns": [
+            "PROJECT_NAME",
+            "CLIENT_NAME",
+            "START_DATE",
+            "PROJECT_STATUS"
+          ]
+        },
+        {
+          "name": "Locations",
+          "columns": [
+            "LOCATION_ID",
+            "CITY",
+            "STATE",
+            "COUNTRY",
+            "OFFICE_TYPE"
+          ],
+          "requiredColumns": [],
+          "extraColumns": [
+            "LOCATION_ID",
+            "CITY",
+            "STATE",
+            "COUNTRY",
+            "OFFICE_TYPE"
+          ]
+        },
+        {
+          "name": "Performance_Reviews",
+          "columns": [
+            "REVIEW_ID",
+            "EMP_ID",
+            "RATING",
+            "REVIEW_DATE",
+            "REVIEWER"
+          ],
+          "requiredColumns": [],
+          "extraColumns": [
+            "REVIEW_ID",
+            "EMP_ID",
+            "RATING",
+            "REVIEW_DATE",
+            "REVIEWER"
+          ]
+        }
+      ]
+    },
+    "tableSchema": [
+      {
+        "name": "Departments",
+        "columns": [
+          {
+            "name": "DEPT_ID",
+            "type": "INTEGER",
+            "primaryKey": true
+          },
+          {
+            "name": "DEPARTMENT_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "MANAGER_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "BUDGET",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "FLOOR_NO",
+            "type": "INTEGER",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Employees",
+        "columns": [
+          {
+            "name": "EMP_ID",
+            "type": "INTEGER",
+            "primaryKey": true
+          },
+          {
+            "name": "FIRST_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "DEPT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "LOCATION_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "JOB_TITLE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "JOIN_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Salaries",
+        "columns": [
+          {
+            "name": "EMP_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "BASE_SALARY",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "BONUS",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "EFFECTIVE_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "SALARY_GRADE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Employee_Projects",
+        "columns": [
+          {
+            "name": "EMP_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "PROJECT_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "ROLE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "ALLOCATION_PERCENT",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "START_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Projects",
+        "columns": [
+          {
+            "name": "PROJECT_ID",
+            "type": "INTEGER",
+            "primaryKey": true
+          },
+          {
+            "name": "PROJECT_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "CLIENT_NAME",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "START_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "PROJECT_STATUS",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Locations",
+        "columns": [
+          {
+            "name": "LOCATION_ID",
+            "type": "INTEGER",
+            "primaryKey": true
+          },
+          {
+            "name": "CITY",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "STATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "COUNTRY",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "OFFICE_TYPE",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      },
+      {
+        "name": "Performance_Reviews",
+        "columns": [
+          {
+            "name": "REVIEW_ID",
+            "type": "INTEGER",
+            "primaryKey": true
+          },
+          {
+            "name": "EMP_ID",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "RATING",
+            "type": "INTEGER",
+            "primaryKey": false
+          },
+          {
+            "name": "REVIEW_DATE",
+            "type": "TEXT",
+            "primaryKey": false
+          },
+          {
+            "name": "REVIEWER",
+            "type": "TEXT",
+            "primaryKey": false
+          }
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "Example 1 (Authentic Exam Input)",
+        "input": {
+          "Departments": [
+            {
+              "DEPT_ID": 1,
+              "DEPARTMENT_NAME": "Engineering",
+              "MANAGER_ID": 101,
+              "BUDGET": 500000,
+              "FLOOR_NO": 3
+            },
+            {
+              "DEPT_ID": 2,
+              "DEPARTMENT_NAME": "HR",
+              "MANAGER_ID": 104,
+              "BUDGET": 200000,
+              "FLOOR_NO": 1
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 101,
+              "FIRST_NAME": "Alice",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Lead Dev",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 102,
+              "FIRST_NAME": "Bob",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Senior Dev",
+              "JOIN_DATE": "2023-02-01"
+            },
+            {
+              "EMP_ID": 103,
+              "FIRST_NAME": "Charlie",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Junior Dev",
+              "JOIN_DATE": "2023-03-01"
+            },
+            {
+              "EMP_ID": 104,
+              "FIRST_NAME": "David",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "HR Lead",
+              "JOIN_DATE": "2022-01-01"
+            },
+            {
+              "EMP_ID": 105,
+              "FIRST_NAME": "Emma",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "HR Specialist",
+              "JOIN_DATE": "2022-05-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 101,
+              "BASE_SALARY": 80000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 102,
+              "BASE_SALARY": 75000,
+              "BONUS": 4000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 103,
+              "BASE_SALARY": 70000,
+              "BONUS": 3000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 104,
+              "BASE_SALARY": 60000,
+              "BONUS": 2000,
+              "EFFECTIVE_DATE": "2022-01-01",
+              "SALARY_GRADE": "C"
+            },
+            {
+              "EMP_ID": 105,
+              "BASE_SALARY": 55000,
+              "BONUS": 1500,
+              "EFFECTIVE_DATE": "2022-01-01",
+              "SALARY_GRADE": "C"
+            }
+          ],
+          "Employee_Projects": [
+            {
+              "EMP_ID": 101,
+              "PROJECT_ID": 201,
+              "ROLE": "Lead",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-15"
+            },
+            {
+              "EMP_ID": 102,
+              "PROJECT_ID": 202,
+              "ROLE": "FullStack",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-02-15"
+            },
+            {
+              "EMP_ID": 103,
+              "PROJECT_ID": 201,
+              "ROLE": "Frontend",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-03-15"
+            }
+          ],
+          "Projects": [
+            {
+              "PROJECT_ID": 201,
+              "PROJECT_NAME": "Cloud Platform",
+              "CLIENT_NAME": "Client X",
+              "START_DATE": "2023-01-01",
+              "PROJECT_STATUS": "Active"
+            },
+            {
+              "PROJECT_ID": 202,
+              "PROJECT_NAME": "Mobile App",
+              "CLIENT_NAME": "Client Y",
+              "START_DATE": "2023-02-01",
+              "PROJECT_STATUS": "Active"
+            }
+          ],
+          "Locations": [
+            {
+              "LOCATION_ID": 1,
+              "CITY": "New York",
+              "STATE": "NY",
+              "COUNTRY": "USA",
+              "OFFICE_TYPE": "HQ"
+            },
+            {
+              "LOCATION_ID": 2,
+              "CITY": "Chicago",
+              "STATE": "IL",
+              "COUNTRY": "USA",
+              "OFFICE_TYPE": "Branch"
+            }
+          ],
+          "Performance_Reviews": []
+        },
+        "output": [
+          {
+            "DEPARTMENT_NAME": "Engineering",
+            "TOTAL_EMPLOYEES": 3,
+            "TOTAL_SALARY_PAID": 237000,
+            "TOTAL_PROJECTS_HANDLED": 2
+          }
+        ],
+        "explanation": "Engineering has 3 employees (> 2), total compensation of (85000 + 79000 + 73000) = 237000, and 2 distinct projects (201, 202). HR has 2 employees (not > 2), so it is excluded."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Department has more than 2 employees",
+        "isHidden": false,
+        "data": {
+          "Departments": [
+            {
+              "DEPT_ID": 1,
+              "DEPARTMENT_NAME": "Engineering",
+              "MANAGER_ID": 101,
+              "BUDGET": 500000,
+              "FLOOR_NO": 3
+            },
+            {
+              "DEPT_ID": 2,
+              "DEPARTMENT_NAME": "HR",
+              "MANAGER_ID": 104,
+              "BUDGET": 200000,
+              "FLOOR_NO": 1
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 101,
+              "FIRST_NAME": "Alice",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Lead Dev",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 102,
+              "FIRST_NAME": "Bob",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Senior Dev",
+              "JOIN_DATE": "2023-02-01"
+            },
+            {
+              "EMP_ID": 103,
+              "FIRST_NAME": "Charlie",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Junior Dev",
+              "JOIN_DATE": "2023-03-01"
+            },
+            {
+              "EMP_ID": 104,
+              "FIRST_NAME": "David",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "HR Lead",
+              "JOIN_DATE": "2022-01-01"
+            },
+            {
+              "EMP_ID": 105,
+              "FIRST_NAME": "Emma",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "HR Specialist",
+              "JOIN_DATE": "2022-05-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 101,
+              "BASE_SALARY": 80000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 102,
+              "BASE_SALARY": 75000,
+              "BONUS": 4000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 103,
+              "BASE_SALARY": 70000,
+              "BONUS": 3000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 104,
+              "BASE_SALARY": 60000,
+              "BONUS": 2000,
+              "EFFECTIVE_DATE": "2022-01-01",
+              "SALARY_GRADE": "C"
+            },
+            {
+              "EMP_ID": 105,
+              "BASE_SALARY": 55000,
+              "BONUS": 1500,
+              "EFFECTIVE_DATE": "2022-01-01",
+              "SALARY_GRADE": "C"
+            }
+          ],
+          "Employee_Projects": [
+            {
+              "EMP_ID": 101,
+              "PROJECT_ID": 201,
+              "ROLE": "Lead",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-15"
+            },
+            {
+              "EMP_ID": 102,
+              "PROJECT_ID": 202,
+              "ROLE": "FullStack",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-02-15"
+            },
+            {
+              "EMP_ID": 103,
+              "PROJECT_ID": 201,
+              "ROLE": "Frontend",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-03-15"
+            }
+          ],
+          "Projects": [
+            {
+              "PROJECT_ID": 201,
+              "PROJECT_NAME": "Cloud Platform",
+              "CLIENT_NAME": "Client X",
+              "START_DATE": "2023-01-01",
+              "PROJECT_STATUS": "Active"
+            },
+            {
+              "PROJECT_ID": 202,
+              "PROJECT_NAME": "Mobile App",
+              "CLIENT_NAME": "Client Y",
+              "START_DATE": "2023-02-01",
+              "PROJECT_STATUS": "Active"
+            }
+          ],
+          "Locations": [],
+          "Performance_Reviews": []
+        },
+        "expected": [
+          {
+            "DEPARTMENT_NAME": "Engineering",
+            "TOTAL_EMPLOYEES": 3,
+            "TOTAL_SALARY_PAID": 237000,
+            "TOTAL_PROJECTS_HANDLED": 2
+          }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — Department has exactly 2 employees (Excluded)",
+        "isHidden": false,
+        "data": {
+          "Departments": [
+            {
+              "DEPT_ID": 10,
+              "DEPARTMENT_NAME": "Finance",
+              "MANAGER_ID": 201,
+              "BUDGET": 300000,
+              "FLOOR_NO": 2
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 201,
+              "FIRST_NAME": "Grace",
+              "DEPT_ID": 10,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Analyst",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 202,
+              "FIRST_NAME": "Henry",
+              "DEPT_ID": 10,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Auditor",
+              "JOIN_DATE": "2023-02-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 201,
+              "BASE_SALARY": 65000,
+              "BONUS": 3000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 202,
+              "BASE_SALARY": 60000,
+              "BONUS": 2500,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            }
+          ],
+          "Employee_Projects": [],
+          "Projects": [],
+          "Locations": [],
+          "Performance_Reviews": []
+        },
+        "expected": []
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Multiple qualifying departments ordered by salary descending",
+        "isHidden": false,
+        "data": {
+          "Departments": [
+            {
+              "DEPT_ID": 1,
+              "DEPARTMENT_NAME": "Engineering",
+              "MANAGER_ID": 101,
+              "BUDGET": 500000,
+              "FLOOR_NO": 3
+            },
+            {
+              "DEPT_ID": 2,
+              "DEPARTMENT_NAME": "Analytics",
+              "MANAGER_ID": 301,
+              "BUDGET": 400000,
+              "FLOOR_NO": 4
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 101,
+              "FIRST_NAME": "Alice",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Dev",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 102,
+              "FIRST_NAME": "Bob",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Dev",
+              "JOIN_DATE": "2023-02-01"
+            },
+            {
+              "EMP_ID": 103,
+              "FIRST_NAME": "Charlie",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Dev",
+              "JOIN_DATE": "2023-03-01"
+            },
+            {
+              "EMP_ID": 301,
+              "FIRST_NAME": "Iris",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "Data Scientist",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 302,
+              "FIRST_NAME": "Jack",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "ML Engineer",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 303,
+              "FIRST_NAME": "Karen",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "BI Analyst",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 304,
+              "FIRST_NAME": "Leo",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 2,
+              "JOB_TITLE": "Data Engineer",
+              "JOIN_DATE": "2023-01-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 101,
+              "BASE_SALARY": 80000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 102,
+              "BASE_SALARY": 75000,
+              "BONUS": 4000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 103,
+              "BASE_SALARY": 70000,
+              "BONUS": 3000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 301,
+              "BASE_SALARY": 85000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 302,
+              "BASE_SALARY": 90000,
+              "BONUS": 6000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 303,
+              "BASE_SALARY": 70000,
+              "BONUS": 3000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            },
+            {
+              "EMP_ID": 304,
+              "BASE_SALARY": 75000,
+              "BONUS": 4000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            }
+          ],
+          "Employee_Projects": [
+            {
+              "EMP_ID": 101,
+              "PROJECT_ID": 501,
+              "ROLE": "Dev",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 102,
+              "PROJECT_ID": 502,
+              "ROLE": "Dev",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 103,
+              "PROJECT_ID": 501,
+              "ROLE": "Dev",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 301,
+              "PROJECT_ID": 601,
+              "ROLE": "ML",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 302,
+              "PROJECT_ID": 602,
+              "ROLE": "ML",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 303,
+              "PROJECT_ID": 603,
+              "ROLE": "BI",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            }
+          ],
+          "Projects": [],
+          "Locations": [],
+          "Performance_Reviews": []
+        },
+        "expected": [
+          {
+            "DEPARTMENT_NAME": "Analytics",
+            "TOTAL_EMPLOYEES": 4,
+            "TOTAL_SALARY_PAID": 338000,
+            "TOTAL_PROJECTS_HANDLED": 3
+          },
+          {
+            "DEPARTMENT_NAME": "Engineering",
+            "TOTAL_EMPLOYEES": 3,
+            "TOTAL_SALARY_PAID": 237000,
+            "TOTAL_PROJECTS_HANDLED": 2
+          }
+        ]
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — LEFT JOIN preserves employees without project assignments",
+        "isHidden": false,
+        "data": {
+          "Departments": [
+            {
+              "DEPT_ID": 1,
+              "DEPARTMENT_NAME": "R&D",
+              "MANAGER_ID": 401,
+              "BUDGET": 600000,
+              "FLOOR_NO": 5
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 401,
+              "FIRST_NAME": "Mia",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Researcher",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 402,
+              "FIRST_NAME": "Noah",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Scientist",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 403,
+              "FIRST_NAME": "Olivia",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Intern",
+              "JOIN_DATE": "2023-01-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 401,
+              "BASE_SALARY": 100000,
+              "BONUS": 10000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 402,
+              "BASE_SALARY": 95000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 403,
+              "BASE_SALARY": 40000,
+              "BONUS": 1000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "D"
+            }
+          ],
+          "Employee_Projects": [
+            {
+              "EMP_ID": 401,
+              "PROJECT_ID": 701,
+              "ROLE": "Lead",
+              "ALLOCATION_PERCENT": 100,
+              "START_DATE": "2023-01-01"
+            }
+          ],
+          "Projects": [],
+          "Locations": [],
+          "Performance_Reviews": []
+        },
+        "expected": [
+          {
+            "DEPARTMENT_NAME": "R&D",
+            "TOTAL_EMPLOYEES": 3,
+            "TOTAL_SALARY_PAID": 251000,
+            "TOTAL_PROJECTS_HANDLED": 1
+          }
+        ]
+      },
+      {
+        "id": "tc-5",
+        "name": "Visible Test Case 5 — No qualifying departments (All departments <= 2 employees)",
+        "isHidden": false,
+        "data": {
+          "Departments": [
+            {
+              "DEPT_ID": 1,
+              "DEPARTMENT_NAME": "Legal",
+              "MANAGER_ID": 501,
+              "BUDGET": 150000,
+              "FLOOR_NO": 2
+            },
+            {
+              "DEPT_ID": 2,
+              "DEPARTMENT_NAME": "Security",
+              "MANAGER_ID": 502,
+              "BUDGET": 150000,
+              "FLOOR_NO": 1
+            }
+          ],
+          "Employees": [
+            {
+              "EMP_ID": 501,
+              "FIRST_NAME": "Liam",
+              "DEPT_ID": 1,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Counsel",
+              "JOIN_DATE": "2023-01-01"
+            },
+            {
+              "EMP_ID": 502,
+              "FIRST_NAME": "Sophia",
+              "DEPT_ID": 2,
+              "LOCATION_ID": 1,
+              "JOB_TITLE": "Officer",
+              "JOIN_DATE": "2023-01-01"
+            }
+          ],
+          "Salaries": [
+            {
+              "EMP_ID": 501,
+              "BASE_SALARY": 90000,
+              "BONUS": 5000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "A"
+            },
+            {
+              "EMP_ID": 502,
+              "BASE_SALARY": 80000,
+              "BONUS": 4000,
+              "EFFECTIVE_DATE": "2023-01-01",
+              "SALARY_GRADE": "B"
+            }
+          ],
+          "Employee_Projects": [],
+          "Projects": [],
+          "Locations": [],
+          "Performance_Reviews": []
+        },
+        "expected": []
+      }
+    ]
   }
 ];
-
-

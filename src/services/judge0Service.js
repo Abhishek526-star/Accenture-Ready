@@ -446,6 +446,29 @@ for _s in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-021') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    ([1, 2, 3, 4, 5, 6, 7], 3),
+    ([-1, -100, 3, 99], 2),
+    ([1, 2, 3, 4, 5], 7),
+    ([1, 2, 3, 4], 0),
+    ([10], 5)
+]
+for _nums, _k in _tests:
+    try:
+        _arr = list(_nums)
+        fn = globals().get('rotateArray') or globals().get('rotate_array') or globals().get('rotate') or rotateArray
+        _ret = fn(_arr, _k)
+        _res = _ret if isinstance(_ret, (list, tuple)) else _arr
+        print("TEST_RES:" + json.dumps(_res))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1004,6 +1027,32 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-021') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] testsNums = {
+            {1, 2, 3, 4, 5, 6, 7},
+            {-1, -100, 3, 99},
+            {1, 2, 3, 4, 5},
+            {1, 2, 3, 4},
+            {10}
+        };
+        int[] testsK = {3, 2, 7, 0, 5};
+        for (int i = 0; i < testsNums.length; i++) {
+            try {
+                int[] arr = testsNums[i].clone();
+                rotateArray(arr, testsK[i]);
+                System.out.println("TEST_RES:" + Arrays.toString(arr));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1471,6 +1520,31 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-021') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::pair<std::vector<int>, int>> tests = {
+        {{1, 2, 3, 4, 5, 6, 7}, 3},
+        {{-1, -100, 3, 99}, 2},
+        {{1, 2, 3, 4, 5}, 7},
+        {{1, 2, 3, 4}, 0},
+        {{10}, 5}
+    };
+    for (auto& t : tests) {
+        std::vector<int> arr = t.first;
+        rotateArray(arr, t.second);
+        std::cout << "TEST_RES:[";
+        for (size_t i = 0; i < arr.size(); ++i) {
+            std::cout << arr[i] << (i + 1 < arr.size() ? ", " : "");
+        }
+        std::cout << "]" << std::endl;
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1907,6 +1981,27 @@ int main() {
         var tests = new string[] {"aaaabbbcc", "aaaaaaaaa", "abcdefghi", "abcabcabc", "aabbbcccc", "a"};
         foreach (var s in tests) {
             Console.WriteLine("TEST_RES:" + CountSameRowsColumns(s));
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-021') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        var tests = new (int[], int)[] {
+            (new int[] {1, 2, 3, 4, 5, 6, 7}, 3),
+            (new int[] {-1, -100, 3, 99}, 2),
+            (new int[] {1, 2, 3, 4, 5}, 7),
+            (new int[] {1, 2, 3, 4}, 0),
+            (new int[] {10}, 5)
+        };
+        foreach (var t in tests) {
+            int[] arr = (int[])t.Item1.Clone();
+            RotateArray(arr, t.Item2);
+            Console.WriteLine("TEST_RES:[" + string.Join(", ", arr) + "]");
         }
     }
 }
@@ -2369,6 +2464,30 @@ for (const _s of _tests) {
     try {
         const fn = typeof countSameRowsColumns === 'function' ? countSameRowsColumns : (typeof count_same_rows_columns === 'function' ? count_same_rows_columns : (typeof CountSameRowsColumns === 'function' ? CountSameRowsColumns : null));
         console.log("TEST_RES:" + JSON.stringify(fn(_s)));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-021') {
+    return `${cleanUserCode}
+
+const _tests = [
+  { nums: [1, 2, 3, 4, 5, 6, 7], k: 3 },
+  { nums: [-1, -100, 3, 99], k: 2 },
+  { nums: [1, 2, 3, 4, 5], k: 7 },
+  { nums: [1, 2, 3, 4], k: 0 },
+  { nums: [10], k: 5 }
+];
+for (const _t of _tests) {
+    try {
+        const arr = [..._t.nums];
+        const fn = typeof rotateArray === 'function' ? rotateArray : (typeof rotate_array === 'function' ? rotate_array : (typeof rotate === 'function' ? rotate : null));
+        const ret = fn ? fn(arr, _t.k) : null;
+        const res = Array.isArray(ret) ? ret : arr;
+        console.log("TEST_RES:" + JSON.stringify(res));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

@@ -195,10 +195,10 @@ export default function QuestionDropdown({
               const diffStyle = getDifficultyStyle(q.difficulty);
 
               const categoryText = q.category || q.topic || 'SQL Problem';
-              const metaText = q.duration
-                ? `${categoryText} • ${q.duration} mins`
-                : q.dateTag
+              const metaText = q.dateTag
                 ? `${q.dateTag} • ${categoryText}`
+                : q.duration
+                ? `${categoryText} • ${q.duration} mins`
                 : categoryText;
 
               return (

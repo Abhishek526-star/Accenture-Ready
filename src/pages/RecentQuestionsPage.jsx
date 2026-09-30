@@ -1303,7 +1303,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2065,6 +2065,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasLoop || !hasSqrtOrDim || !hasIndex) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_grid_dimension_traversal';
+      }
+    } else if (question.id === 'recent-dsa-021') {
+      const hasModulo = code.includes('%') || code.includes('mod');
+      const hasReverseOrSwap = code.includes('reverse') || code.includes('swap') || code.includes('while') || code.includes('for') || code.includes('slice');
+      if (!hasModulo || !hasReverseOrSwap) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_k_modulo_or_in_place_reversal';
       }
     }
 
@@ -3319,6 +3326,81 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-021') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example 1: k=3)', nums: [1, 2, 3, 4, 5, 6, 7], k: 3, exp: [5, 6, 7, 1, 2, 3, 4], expStr: '[5, 6, 7, 1, 2, 3, 4]', latency: '2ms' },
+          { id: 2, name: 'Exam Test Case 2 (Given Example 2: Negative values, k=2)', nums: [-1, -100, 3, 99], k: 2, exp: [3, 99, -1, -100], expStr: '[3, 99, -1, -100]', latency: '2ms' },
+          { id: 3, name: 'Exam Test Case 3 (k Greater Than Length: 7 % 5 = 2)', nums: [1, 2, 3, 4, 5], k: 7, exp: [4, 5, 1, 2, 3], expStr: '[4, 5, 1, 2, 3]', latency: '2ms' },
+          { id: 4, name: 'Exam Test Case 4 (Zero Rotations: k=0)', nums: [1, 2, 3, 4], k: 0, exp: [1, 2, 3, 4], expStr: '[1, 2, 3, 4]', latency: '1ms' },
+          { id: 5, name: 'Exam Test Case 5 (Single Element Array: n=1, k=5)', nums: [10], k: 5, exp: [10], expStr: '[10]', latency: '1ms' }
+        ];
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          const arraysEqual = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => Number(v) === Number(b[i]));
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              let parsedOut = out;
+              if (typeof out === 'string') {
+                try {
+                  parsedOut = JSON.parse(out);
+                } catch {
+                  const m = out.match(/\[([0-9,\s-]+)\]/);
+                  if (m) {
+                    parsedOut = m[1].split(',').map(s => Number(s.trim()));
+                  }
+                }
+              }
+              passed = arraysEqual(parsedOut, t.exp);
+              actualStr = Array.isArray(parsedOut) ? `[${parsedOut.join(', ')}]` : String(out ?? '[]');
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.nums, t.k]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              const res = Array.isArray(u.ret) ? u.ret : (Array.isArray(t.nums) ? t.nums : []);
+              passed = arraysEqual(res, t.exp);
+              actualStr = `[${res.join(', ')}]`;
+            }
+          } else if (sub.mode === 'dummy_return') {
+            actualStr = `[${t.nums.join(', ')}]`;
+            passed = arraysEqual(t.nums, t.exp);
+          } else if (sub.mode === 'flawed') {
+            actualStr = `Flawed in-place rotation (modulo missing)`;
+            passed = false;
+          } else {
+            const n = t.nums.length;
+            const arr = [...t.nums];
+            const effK = n === 0 ? 0 : t.k % n;
+            if (effK > 0) {
+              const rotated = arr.slice(-effK).concat(arr.slice(0, n - effK));
+              actualStr = `[${rotated.join(', ')}]`;
+              passed = arraysEqual(rotated, t.exp);
+            } else {
+              actualStr = `[${arr.join(', ')}]`;
+              passed = arraysEqual(arr, t.exp);
+            }
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `nums = [${t.nums.join(', ')}], k = ${t.k}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -3735,6 +3817,175 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-006')) {
                 const updated = prev.filter(id => id !== 'recent-fe-006');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Interactive Shape Selector (recent-fe-008)
+        if (activeFeQuestion?.id === 'recent-fe-008') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Canvas & buttons exist, and initial canvas content
+          const canvasEl = doc.getElementById('canvas');
+          const triangleBtn = doc.getElementById('triangleBtn');
+          const circleBtn = doc.getElementById('circleBtn');
+          const squareBtn = doc.getElementById('squareBtn');
+
+          const hasCanvasAndButtons = !!(canvasEl && triangleBtn && circleBtn && squareBtn);
+          const initialHasTriangle = !!(canvasEl && (canvasEl.querySelector('.triangle') || canvasEl.innerHTML.includes('triangle')));
+
+          // 2. CSS Verification - triangle border-bottom is 100px solid #9C00FF
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasTriangleColor =
+            cssClean.includes('border-bottom:100pxsolid#9c00ff') ||
+            cssClean.includes('border-bottom:100pxsolidrgb(156,0,255)') ||
+            (cssClean.includes('.triangle') && cssClean.includes('#9c00ff'));
+
+          // 3. JavaScript Execution Verification
+          let jsPassedCase1 = false;
+          let jsMsgCase1 = '';
+          let jsPassedCase2 = false;
+          let jsMsgCase2 = '';
+          let jsPassedCase3 = false;
+          let jsMsgCase3 = '';
+
+          try {
+            const sandbox = document.createElement('div');
+            sandbox.innerHTML = html;
+
+            const mockDoc = {
+              getElementById: (id) => sandbox.querySelector('#' + id),
+              querySelector: (sel) => sandbox.querySelector(sel),
+              querySelectorAll: (sel) => sandbox.querySelectorAll(sel),
+              createElement: (tag) => document.createElement(tag)
+            };
+
+            const runFn = new Function('document', 'window', `
+              ${js}
+            `);
+            runFn(mockDoc, window);
+
+            const testCanvas = sandbox.querySelector('#canvas');
+            const testTriBtn = sandbox.querySelector('#triangleBtn');
+            const testCircBtn = sandbox.querySelector('#circleBtn');
+            const testSqBtn = sandbox.querySelector('#squareBtn');
+
+            if (!testCanvas || !testTriBtn || !testCircBtn || !testSqBtn) {
+              jsMsgCase1 = 'Missing required elements (#canvas, #triangleBtn, #circleBtn, #squareBtn).';
+            } else {
+              // Check 1: Initial triangle shape displayed
+              const initialTriangle = testCanvas.querySelector('.triangle') || testCanvas.classList.contains('triangle');
+              if (initialTriangle) {
+                jsPassedCase1 = true;
+                jsMsgCase1 = 'Triangle is correctly displayed on initial load.';
+              } else {
+                jsPassedCase1 = false;
+                jsMsgCase1 = 'Initial load: Expected Triangle shape inside canvas.';
+              }
+
+              // Check 2: Clicking Circle switches to circle
+              testCircBtn.click();
+              const hasCircle = !!testCanvas.querySelector('.circle');
+              const hasOldTriangle = !!testCanvas.querySelector('.triangle');
+              const hasOldSquare = !!testCanvas.querySelector('.square');
+
+              if (hasCircle && !hasOldTriangle && !hasOldSquare) {
+                jsPassedCase2 = true;
+                jsMsgCase2 = 'Clicking Circle correctly replaces Triangle with Circle.';
+              } else if (hasCircle) {
+                jsPassedCase2 = false;
+                jsMsgCase2 = 'Circle displayed, but previous shape was not removed (mutual exclusivity failed).';
+              } else {
+                jsPassedCase2 = false;
+                jsMsgCase2 = 'Clicking Circle failed to display .circle element inside canvas.';
+              }
+
+              // Check 3: Clicking Square switches to square
+              testSqBtn.click();
+              const hasSquare = !!testCanvas.querySelector('.square');
+              const hasAfterCircle = !!testCanvas.querySelector('.circle');
+
+              if (hasSquare && !hasAfterCircle) {
+                // Now click Triangle to complete full cycle
+                testTriBtn.click();
+                const hasFinalTriangle = !!testCanvas.querySelector('.triangle');
+                const hasFinalSquare = !!testCanvas.querySelector('.square');
+
+                if (hasFinalTriangle && !hasFinalSquare) {
+                  jsPassedCase3 = true;
+                  jsMsgCase3 = 'Clicking Square and Triangle updates shapes cleanly with mutual exclusivity.';
+                } else {
+                  jsPassedCase3 = false;
+                  jsMsgCase3 = 'Clicking Triangle failed to return to Triangle shape.';
+                }
+              } else {
+                jsPassedCase3 = false;
+                jsMsgCase3 = 'Clicking Square failed to switch to .square element.';
+              }
+            }
+          } catch (jsErr) {
+            jsMsgCase1 = `JavaScript evaluation error: ${jsErr.message}`;
+            jsMsgCase2 = 'Failed due to script error.';
+            jsMsgCase3 = 'Failed due to script error.';
+          }
+
+          const results = [
+            {
+              id: 'tc-html',
+              name: 'HTML Task — Canvas & Initial Triangle Element',
+              passed: hasCanvasAndButtons && (initialHasTriangle || jsPassedCase1),
+              message: (hasCanvasAndButtons && (initialHasTriangle || jsPassedCase1))
+                ? 'Canvas contains shape elements and displays Triangle initially.'
+                : 'Canvas does not initially contain the .triangle element.'
+            },
+            {
+              id: 'tc-css',
+              name: 'CSS Task — Triangle Border Color (#9C00FF)',
+              passed: hasTriangleColor,
+              message: hasTriangleColor
+                ? 'Triangle border-bottom color is correctly set to #9C00FF.'
+                : 'Expected border-bottom: 100px solid #9C00FF on .triangle.'
+            },
+            {
+              id: 'tc-js-switch',
+              name: 'JavaScript Task — Circle Button State Switching',
+              passed: jsPassedCase2,
+              message: jsMsgCase2
+            },
+            {
+              id: 'tc-js-exclusive',
+              name: 'JavaScript Task — Square & Triangle Mutual Exclusivity',
+              passed: jsPassedCase3,
+              message: jsMsgCase3
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-008',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-008')) {
+              toggleSolved('recent-fe-008');
+              gamificationService.addXP(50, 'Solved Interactive Shape Selector');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-008')) {
+                const updated = prev.filter(id => id !== 'recent-fe-008');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -6376,7 +6627,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-007' ? (
+                    {activeFeQuestion.id === 'recent-fe-008' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given an existing implementation with buttons for <strong style={{ color: '#f8fafc' }}>Triangle, Circle, and Square</strong>. Complete the HTML initial shape, CSS triangle border color (#9C00FF), and JavaScript <strong style={{ color: '#f8fafc' }}>showShape()</strong> function to switch shapes inside the canvas with mutual exclusivity.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML initial Triangle in #canvas • Part 2: CSS border-bottom #9C00FF • Part 3: JS showShape(shape) mutual exclusivity
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-007' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are given an existing implementation of a simple <strong style={{ color: '#f8fafc' }}>Modal Popup</strong>. Complete the required HTML accessibility attribute, CSS backdrop filter, and JavaScript modal reveal logic.
@@ -6463,7 +6723,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add initial shape element inside <strong style={{ color: '#f8fafc' }}><code>#canvas</code></strong> using class <code style={{ color: '#fb923c' }}>triangle</code>.</li>
+                            <li>The Triangle should be visible inside canvas on initial load.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-007' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add attribute <code style={{ color: '#fb923c' }}>aria-label="Close modal"</code> to <strong style={{ color: '#f8fafc' }}><code>#closeModal</code></strong> button.</li>
                             <li>Do not modify existing HTML structure or button text.</li>
@@ -6524,7 +6789,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set triangle's color to <code style={{ color: '#4ade80' }}>border-bottom: 100px solid #9C00FF;</code> inside <strong style={{ color: '#f8fafc' }}><code>.triangle</code></strong>.</li>
+                            <li>Preserve existing border-left and border-right width definitions.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-007' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add <code style={{ color: '#4ade80' }}>backdrop-filter: blur(3px);</code> inside <strong style={{ color: '#f8fafc' }}><code>.modal-overlay</code></strong>.</li>
                             <li>Preserve existing fixed positioning, background color, and alignment.</li>
@@ -6583,7 +6853,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-007' ? (
+                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Complete <strong style={{ color: '#f8fafc' }}><code>showShape(shape)</code></strong> to clear existing shapes and render the requested shape class.</li>
+                            <li>Clicking Triangle displays Triangle, Circle displays Circle, Square displays Square.</li>
+                            <li>Ensure only one shape is visible at a time inside <strong style={{ color: '#f8fafc' }}><code>#canvas</code></strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-007' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Complete <strong style={{ color: '#f8fafc' }}><code>toggleModal()</code></strong> to show the modal by removing <code style={{ color: '#facc15' }}>"hidden"</code> class.</li>
                             <li>Preserve existing event listeners for <strong style={{ color: '#f8fafc' }}><code>#openModal</code></strong> and <strong style={{ color: '#f8fafc' }}><code>#closeModal</code></strong>.</li>
@@ -6636,7 +6912,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-007'
+                      {(activeFeQuestion.id === 'recent-fe-008'
+                        ? [
+                            { title: 'Initial Triangle Render', desc: 'Canvas displays Triangle element upon initial page load' },
+                            { title: 'CSS Triangle Color', desc: '.triangle has border-bottom: 100px solid #9C00FF' },
+                            { title: 'Interactive Shape Switching', desc: 'Clicking Circle or Square displays corresponding shape' },
+                            { title: 'Single Shape Mutual Exclusivity', desc: 'Only one shape is present in canvas at any time' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-007'
                         ? [
                             { title: 'ARIA Close Label', desc: '#closeModal button includes aria-label="Close modal"' },
                             { title: 'CSS Backdrop Blur Filter', desc: '.modal-overlay has backdrop-filter set to blur(3px)' },
@@ -7763,6 +8046,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   isSolvedFn={(q) => solvedSet.includes(q.id)}
                   menuTitle="SELECT RECENT ACCENTURE SQL QUESTION"
                 />
+
                 <div className="q-nav-dots">
                   {sqlQuestions.map((q, idx) => {
                     const isCurrent = idx === currentSqlIndex;
