@@ -9,7 +9,7 @@ export const seoConfig = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       'name': 'Accenture Ready',
-      'url': 'https://accentureready.vercel.app/',
+      'url': 'https://accenturemind.vercel.app/',
       'description': 'Comprehensive preparation platform for Accenture assessments featuring coding, DSA, Java, SQL, cognitive tests, mock tests, and interview preparation.'
     }
   },

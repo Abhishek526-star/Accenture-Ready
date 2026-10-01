@@ -2,7 +2,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://accentureready.vercel.app';
+const SITE_URL = 'https://accenturemind.vercel.app';
 const SITE_NAME = 'Accenture Ready';
 
 /**

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://accentureready.vercel.app/sitemap.xml
+Sitemap: https://accenturemind.vercel.app/sitemap.xml

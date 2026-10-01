@@ -3,119 +3,132 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://accentureready.vercel.app/</loc>
+    <loc>https://accenturemind.vercel.app/</loc>
   </url>
 
   <!-- Learning -->
   <url>
-    <loc>https://accentureready.vercel.app/learn</loc>
+    <loc>https://accenturemind.vercel.app/learn</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/learn/dsa</loc>
+    <loc>https://accenturemind.vercel.app/learn/dsa</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/learn/cheat-sheets</loc>
+    <loc>https://accenturemind.vercel.app/learn/cheat-sheets</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/java-learning</loc>
+    <loc>https://accenturemind.vercel.app/java-learning</loc>
   </url>
 
   <!-- Practice -->
   <url>
-    <loc>https://accentureready.vercel.app/practice</loc>
+    <loc>https://accenturemind.vercel.app/practice</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/daily-challenge</loc>
+    <loc>https://accenturemind.vercel.app/dsa-practice</loc>
+  </url>
+
+  <url>
+    <loc>https://accenturemind.vercel.app/daily-challenge</loc>
   </url>
 
   <!-- Mock Tests & Preparation -->
   <url>
-    <loc>https://accentureready.vercel.app/mock-test</loc>
+    <loc>https://accenturemind.vercel.app/mock-test</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/interview</loc>
+    <loc>https://accenturemind.vercel.app/interview</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/roadmap</loc>
+    <loc>https://accenturemind.vercel.app/roadmap</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/pseudocode</loc>
+    <loc>https://accenturemind.vercel.app/pseudocode</loc>
   </url>
 
   <!-- SQL -->
   <url>
-    <loc>https://accentureready.vercel.app/sql-assessment</loc>
+    <loc>https://accenturemind.vercel.app/sql-assessment</loc>
   </url>
 
   <!-- Core Assessment Tracks -->
   <url>
-    <loc>https://accentureready.vercel.app/cloud-assessment</loc>
+    <loc>https://accenturemind.vercel.app/cloud-assessment</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/cloud-security</loc>
+    <loc>https://accenturemind.vercel.app/cloud-security</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/network-assessment</loc>
+    <loc>https://accenturemind.vercel.app/network-assessment</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/network-security</loc>
+    <loc>https://accenturemind.vercel.app/network-security</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/wifi-security</loc>
+    <loc>https://accenturemind.vercel.app/wifi-security</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/oop-assessment</loc>
+    <loc>https://accenturemind.vercel.app/oop-assessment</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/devops-assessment</loc>
+    <loc>https://accenturemind.vercel.app/devops-assessment</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/ms-office-assessment</loc>
+    <loc>https://accenturemind.vercel.app/ms-office-assessment</loc>
+  </url>
+
+  <!-- Technical MCQ Assessment -->
+  <url>
+    <loc>https://accenturemind.vercel.app/technical-assessment</loc>
   </url>
 
   <!-- Important Questions -->
   <url>
-    <loc>https://accentureready.vercel.app/important-questions</loc>
+    <loc>https://accenturemind.vercel.app/important-questions</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/important-questions-set-2</loc>
+    <loc>https://accenturemind.vercel.app/important-questions-set-2</loc>
   </url>
 
   <!-- Recent Questions -->
   <url>
-    <loc>https://accentureready.vercel.app/recent-questions</loc>
+    <loc>https://accenturemind.vercel.app/recent-questions</loc>
   </url>
 
   <!-- Cognitive Assessment -->
   <url>
-    <loc>https://accentureready.vercel.app/cognitive</loc>
+    <loc>https://accenturemind.vercel.app/cognitive</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/cognitive/full-mock</loc>
+    <loc>https://accenturemind.vercel.app/cognitive/full-mock</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/cognitive/memory-maze</loc>
+    <loc>https://accenturemind.vercel.app/cognitive/memory-maze</loc>
   </url>
 
   <url>
-    <loc>https://accentureready.vercel.app/cognitive/quick-fire-math</loc>
+    <loc>https://accenturemind.vercel.app/cognitive/quick-fire-math</loc>
+  </url>
+
+  <url>
+    <loc>https://accenturemind.vercel.app/cognitive/path-finder</loc>
   </url>
 
 </urlset>

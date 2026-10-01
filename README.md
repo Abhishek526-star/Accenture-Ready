@@ -13,7 +13,7 @@ A browser-based coding platform designed to help developers prepare for
 
 <br />
 
-<a href="https://accentureready.vercel.app/">
+<a href="https://accenturemind.vercel.app/">
   <img src="https://img.shields.io/badge/🌐%20Live%20Demo-Visit%20Website-000000?style=for-the-badge" alt="Live Demo"/>
 </a>
 
