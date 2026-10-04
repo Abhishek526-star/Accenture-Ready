@@ -62,10 +62,10 @@ export const seoConfig = {
     path: '/interview'
   },
 
-  roadmap: {
-    title: 'Accenture Preparation Roadmap – Step-by-Step Study Plan',
-    description: 'Follow a step-by-step Accenture preparation roadmap covering aptitude, coding, DSA, SQL, technical assessments and interviews.',
-    path: '/roadmap'
+  notes: {
+    title: 'Accenture Technical PDF Notes – Networks, Cloud, Security, DevOps, MS Office & OOPs',
+    description: 'High-yield revision notes and study guide PDFs for Computer Networks, Cloud, Security, DevOps, MS Office, and OOPs for Accenture technical exams.',
+    path: '/notes'
   },
 
   pseudocode: {

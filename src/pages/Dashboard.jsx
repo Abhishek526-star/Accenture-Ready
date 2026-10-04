@@ -22,7 +22,8 @@ import {
   Calendar,
   Layers,
   ShieldAlert,
-  Mic
+  Mic,
+  FileText
 } from 'lucide-react';
 import { calculateReadinessScore, getTopicAnalytics } from '../services/readinessEngine.js';
 import { gamificationService } from '../services/gamificationService.js';
@@ -576,10 +577,10 @@ export default function Dashboard({ theme = 'dark' }) {
             <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem' }}>Cheat Sheets</div>
             <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Revision summaries</span>
           </Link>
-          <Link to="/roadmap" style={{ padding: '12px', background: '#0f172a', borderRadius: '10px', border: '1px solid #334155', textDecoration: 'none', color: '#f8fafc' }}>
-            <Calendar size={20} className="text-emerald-400" />
-            <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem' }}>7-Day Roadmap</div>
-            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Calibrated daily plan</span>
+          <Link to="/notes" style={{ padding: '12px', background: '#0f172a', borderRadius: '10px', border: '1px solid #334155', textDecoration: 'none', color: '#f8fafc' }}>
+            <FileText size={20} className="text-emerald-400" />
+            <div style={{ fontWeight: 700, marginTop: '8px', fontSize: '0.95rem' }}>Revision Notes</div>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>PDF Study Guides</span>
           </Link>
           <Link to="/interview" style={{ padding: '12px', background: '#0f172a', borderRadius: '10px', border: '1px solid #334155', textDecoration: 'none', color: '#f8fafc' }}>
             <Mic size={20} className="text-pink-400" />

@@ -35,7 +35,10 @@ import {
   X,
   ChevronRight,
   Sparkles,
-  Terminal
+  Terminal,
+  Cpu,
+  Folder,
+  Code
 } from 'lucide-react';
 import { PYQ_BANKS } from '../data/pyqBanks.js';
 import LiveViewer from './LiveViewer.jsx';
@@ -64,6 +67,17 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
     return () => document.removeEventListener('click', handleOutsideClick);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleDropdown = (name, e) => {
     e.stopPropagation();
     setActiveDropdown(prev => prev === name ? null : name);
@@ -74,9 +88,11 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
   const isAssessmentActive = location.pathname === '/mock-test' || location.pathname === '/history' || location.pathname.includes('assessment') || location.pathname.includes('security') || location.pathname.includes('important') || location.pathname.includes('recent');
   const isPyqActive = location.pathname.startsWith('/pyq/');
   const isCognitiveActive = location.pathname.startsWith('/cognitive');
+  const isNotesActive = location.pathname.startsWith('/notes');
 
   return (
-    <nav className="platform-nav" ref={navRef} style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+    <header className="platform-header" ref={navRef}>
+      <nav className="platform-nav">
       <div className="nav-left">
         <Link to="/" className="brand-link" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
           <div className="brand-logo" style={{ background: 'linear-gradient(135deg, #0284c7, #6366f1)', color: '#ffffff' }}>
@@ -111,7 +127,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             type="button"
             className={`nav-item ${isLearnActive ? 'active' : ''}`}
             onClick={(e) => toggleDropdown('learn', e)}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
           >
             <BookOpen size={14} />
             <span>Learn</span>
@@ -159,7 +174,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             type="button"
             className={`nav-item ${isPracticeActive ? 'active' : ''}`}
             onClick={(e) => toggleDropdown('practice', e)}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
           >
             <Play size={14} />
             <span>Practice</span>
@@ -219,7 +233,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             type="button"
             className={`nav-item ${isPyqActive ? 'active' : ''}`}
             onClick={(e) => toggleDropdown('pyqs', e)}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
           >
             <FileText size={14} />
             <span>PYQs</span>
@@ -267,7 +280,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             type="button"
             className={`nav-item ${isAssessmentActive ? 'active' : ''}`}
             onClick={(e) => toggleDropdown('assessments', e)}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
           >
             <Target size={14} />
             <span>Assessments</span>
@@ -427,7 +439,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             type="button"
             className={`nav-item ${isCognitiveActive ? 'active' : ''}`}
             onClick={(e) => toggleDropdown('cognitive', e)}
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem', font: 'inherit', color: 'inherit' }}
           >
             <Brain size={14} />
             <span>Cognitive</span>
@@ -495,20 +506,79 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           <span>Interview Prep</span>
         </Link>
 
-        {/* Roadmap */}
-        <Link
-          to="/roadmap"
-          className={`nav-item ${location.pathname === '/roadmap' ? 'active' : ''}`}
-        >
-          <Calendar size={14} />
-          <span>Roadmap</span>
-        </Link>
+        {/* Notes (with subfolders) */}
+        <div style={{ position: 'relative' }}>
+          <button
+            type="button"
+            className={`nav-item ${isNotesActive ? 'active' : ''}`}
+            onClick={(e) => toggleDropdown('notes', e)}
+          >
+            <FileText size={14} />
+            <span>Notes</span>
+            <ChevronDown size={12} />
+          </button>
+          {activeDropdown === 'notes' && (
+            <div className="nav-dropdown-menu" style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              minWidth: '240px',
+              background: '#0f172a',
+              border: '1px solid #334155',
+              borderRadius: '10px',
+              boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5)',
+              padding: '6px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
+              zIndex: 1001
+            }}>
+              <Link to="/notes" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.25)' }}>
+                <Folder size={14} />
+                <span>All PDF Notes Hub</span>
+              </Link>
+              <div style={{ height: '1px', background: '#334155', margin: '4px 0' }} />
+              <Link to="/notes?folder=computer-network" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Network size={14} className="text-indigo-400" />
+                <span>Computer Network</span>
+              </Link>
+              <Link to="/notes?folder=cloud" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Cloud size={14} className="text-purple-400" />
+                <span>Cloud Computing</span>
+              </Link>
+              <Link to="/notes?folder=cloud-security" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <ShieldCheck size={14} className="text-pink-400" />
+                <span>Cloud Security</span>
+              </Link>
+              <Link to="/notes?folder=network-security" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <ShieldAlert size={14} className="text-rose-400" />
+                <span>Network Security</span>
+              </Link>
+              <Link to="/notes?folder=wifi-security" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Wifi size={14} className="text-cyan-400" />
+                <span>Wi-Fi Security</span>
+              </Link>
+              <Link to="/notes?folder=devops" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Boxes size={14} className="text-orange-400" />
+                <span>DevOps</span>
+              </Link>
+              <Link to="/notes?folder=ms-office" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <FileSpreadsheet size={14} className="text-emerald-400" />
+                <span>MS Office</span>
+              </Link>
+              <Link to="/notes?folder=oops" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Code size={14} className="text-emerald-400" />
+                <span>OOPs & Programming</span>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
         {/* Real-Time Live Learners Online Badge */}
         <div className="nav-live-viewer-wrap nav-live-viewer-desktop">
-          <LiveViewer />
+          <LiveViewer compact={true} />
         </div>
 
         {/* Global Search Trigger */}
@@ -517,20 +587,22 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.4rem',
-            padding: '6px 12px',
-            background: 'var(--search-bg, #1e293b)',
-            border: '1px solid var(--border-color, #334155)',
-            borderRadius: '8px',
-            color: 'var(--text-secondary, #94a3b8)',
+            gap: '0.45rem',
+            padding: '5px 12px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '9999px',
+            color: '#94a3b8',
             fontSize: '0.8rem',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            whiteSpace: 'nowrap'
           }}
           title="Search Topics (Ctrl+K)"
         >
-          <Search size={14} />
+          <Search size={13} />
           <span style={{ display: 'inline-block' }}>Search</span>
-          <kbd style={{ padding: '1px 5px', background: '#0f172a', borderRadius: '4px', fontSize: '0.7rem', border: '1px solid #334155' }}>⌘K</kbd>
+          <kbd style={{ padding: '1px 5px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: '4px', fontSize: '0.68rem', border: '1px solid rgba(255, 255, 255, 0.12)', color: '#94a3b8' }}>⌘K</kbd>
         </button>
 
         {/* Theme Toggle Button */}
@@ -556,9 +628,10 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
+    </nav>
 
-      {/* Mobile Navigation Drawer */}
-      {isMobileMenuOpen && (
+    {/* Mobile Navigation Drawer */}
+    {isMobileMenuOpen && (
         <div className="mobile-nav-drawer" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-nav-inner">
             {/* Live Viewer for Mobile Drawer */}
@@ -787,8 +860,42 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <Link to="/interview" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Interview Prep</span>
                   </Link>
-                  <Link to="/roadmap" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-                    <span>Roadmap Guide</span>
+                </div>
+              </div>
+
+              {/* PDF Study Notes */}
+              <div className="mobile-nav-group">
+                <div className="mobile-group-header">
+                  <FileText size={14} className="text-sky-400" />
+                  <span>PDF Study Notes</span>
+                </div>
+                <div className="mobile-group-items">
+                  <Link to="/notes" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>All PDF Notes Hub</span>
+                  </Link>
+                  <Link to="/notes?folder=computer-network" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Computer Network</span>
+                  </Link>
+                  <Link to="/notes?folder=cloud" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Cloud Computing</span>
+                  </Link>
+                  <Link to="/notes?folder=cloud-security" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Cloud Security</span>
+                  </Link>
+                  <Link to="/notes?folder=network-security" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Network Security</span>
+                  </Link>
+                  <Link to="/notes?folder=wifi-security" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Wi-Fi Security</span>
+                  </Link>
+                  <Link to="/notes?folder=devops" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>DevOps</span>
+                  </Link>
+                  <Link to="/notes?folder=ms-office" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>MS Office</span>
+                  </Link>
+                  <Link to="/notes?folder=oops" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>OOPs & Programming</span>
                   </Link>
                 </div>
               </div>
@@ -796,6 +903,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

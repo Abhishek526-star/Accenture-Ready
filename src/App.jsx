@@ -40,7 +40,7 @@ import ScoreHistoryPage from './pages/ScoreHistoryPage.jsx';
 import AnalyticsPage from './pages/AnalyticsPage.jsx';
 import AchievementsPage from './pages/AchievementsPage.jsx';
 import InterviewPrepPage from './pages/InterviewPrepPage.jsx';
-import PreparationRoadmapPage from './pages/PreparationRoadmapPage.jsx';
+import NotesPage from './pages/NotesPage.jsx';
 import PseudocodePage from './pages/PseudocodePage.jsx';
 import GlobalSearchModal from './components/GlobalSearchModal.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
@@ -101,7 +101,8 @@ export default function App() {
               <Route path="/analytics" element={<AnalyticsPage theme={theme} />} />
               <Route path="/achievements" element={<AchievementsPage theme={theme} />} />
               <Route path="/interview" element={<InterviewPrepPage theme={theme} />} />
-              <Route path="/roadmap" element={<PreparationRoadmapPage theme={theme} />} />
+              <Route path="/notes" element={<NotesPage theme={theme} />} />
+              <Route path="/roadmap" element={<Navigate to="/notes" replace />} />
               <Route path="/pseudocode" element={<PseudocodePage theme={theme} />} />
               <Route path="/pseudo" element={<Navigate to="/pseudocode" replace />} />
 

@@ -13,7 +13,7 @@ export default function LiveViewer({
   const { count, isConnected } = useLiveViewer(room);
 
   const formattedCount = Number(count).toLocaleString();
-  const label = count === 1 ? 'learner online' : 'learners online';
+  const label = count === 1 ? 'online' : 'online';
 
   return (
     <div

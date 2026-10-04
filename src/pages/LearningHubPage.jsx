@@ -11,7 +11,8 @@ import {
   Zap,
   ArrowRight,
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  Folder
 } from 'lucide-react';
 import { javaTopics } from '../data/javaTopics.js';
 import { dsaPatterns } from '../data/dsaPatterns.js';
@@ -72,6 +73,18 @@ export default function LearningHubPage({ theme = 'dark' }) {
       route: '/learn/cheat-sheets',
       color: '#a855f7',
       badge: 'Quick Reference'
+    },
+    {
+      id: 'pdf-notes',
+      title: 'PDF Study Notes Hub',
+      icon: <Folder size={28} className="hub-cat-icon text-sky-400" />,
+      tag: 'Networks, Cloud, Security & More',
+      description: 'Downloadable PDF revision notes and study guides organized by subject folders with built-in document viewer.',
+      stats: '8 Subject Folders',
+      progress: 100,
+      route: '/notes',
+      color: '#0284c7',
+      badge: 'PDF Library'
     }
   ];
 
