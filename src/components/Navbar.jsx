@@ -386,7 +386,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
 
               <Link to="/mock-test" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Target size={14} />
-                <span>Full 90-Min Mock Test</span>
+                <span>Full Mock Tests (5 Sets • 45 Mins)</span>
               </Link>
               <Link to="/history" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <TrendingUp size={14} />
@@ -488,13 +488,15 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           <span>Analytics</span>
         </Link>
 
-        {/* Achievements */}
+        {/* Mock Test (45 Mins • 45 Qs • 45 Marks) */}
         <Link
-          to="/achievements"
-          className={`nav-item ${location.pathname === '/achievements' ? 'active' : ''}`}
+          to="/mock-test"
+          className={`nav-item ${location.pathname.startsWith('/mock-test') ? 'active' : ''}`}
+          style={{ whiteSpace: 'nowrap' }}
+          title="Accenture Mock Tests (5 Unique Sets • 45 Mins • 45 Marks)"
         >
-          <Award size={14} />
-          <span>Badges</span>
+          <Target size={14} className="text-sky-400" />
+          <span>Mock Test</span>
         </Link>
 
         {/* Interview Prep */}
@@ -854,8 +856,9 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   <Link to="/analytics" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Analytics</span>
                   </Link>
-                  <Link to="/achievements" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-                    <span>Badges & Milestones</span>
+                  <Link to="/mock-test" className="mobile-sublink highlight-sky" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Target size={14} className="text-sky-400" />
+                    <span>Mock Tests (5 Sets • 45 Mins)</span>
                   </Link>
                   <Link to="/interview" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Interview Prep</span>

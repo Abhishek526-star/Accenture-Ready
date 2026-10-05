@@ -35,7 +35,8 @@ import CheatSheetsPage from './pages/CheatSheetsPage.jsx';
 import BookmarksPage from './pages/BookmarksPage.jsx';
 import MistakesPage from './pages/MistakesPage.jsx';
 import DailyChallengePage from './pages/DailyChallengePage.jsx';
-import MockAssessmentPage from './pages/MockAssessmentPage.jsx';
+import MockTestsHubPage from './pages/MockTestsHubPage.jsx';
+import MockTestExamPage from './pages/MockTestExamPage.jsx';
 import ScoreHistoryPage from './pages/ScoreHistoryPage.jsx';
 import AnalyticsPage from './pages/AnalyticsPage.jsx';
 import AchievementsPage from './pages/AchievementsPage.jsx';
@@ -93,10 +94,12 @@ export default function App() {
               <Route path="/mistakes" element={<MistakesPage theme={theme} />} />
               <Route path="/daily-challenge" element={<DailyChallengePage theme={theme} />} />
 
-              {/* Assessment Hub & Full Mocks */}
-              <Route path="/mock-test" element={<MockAssessmentPage theme={theme} />} />
+              {/* 45-Min Mock Tests (5 Unique Sets • 45 Qs • 45 Marks) */}
+              <Route path="/mock-test" element={<MockTestsHubPage theme={theme} />} />
+              <Route path="/mock-tests" element={<Navigate to="/mock-test" replace />} />
               <Route path="/mock" element={<Navigate to="/mock-test" replace />} />
               <Route path="/mock-assessment" element={<Navigate to="/mock-test" replace />} />
+              <Route path="/mock-test/:testId" element={<MockTestExamPage theme={theme} />} />
               <Route path="/history" element={<ScoreHistoryPage theme={theme} />} />
               <Route path="/analytics" element={<AnalyticsPage theme={theme} />} />
               <Route path="/achievements" element={<AchievementsPage theme={theme} />} />
