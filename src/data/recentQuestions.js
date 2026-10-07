@@ -1920,6 +1920,86 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-022",
+    "track": "dsa",
+    "dateTag": "6th Oct 2026 • Shift 1",
+    "examDate": "2026-10-06",
+    "shift": "Shift 1",
+    "title": "ASCII Frequency Modulo",
+    "difficulty": "Easy",
+    "category": "Strings / Frequency Counting & Modulo",
+    "pattern": "Frequency Map + Arithmetic",
+    "rewardXp": 35,
+    "targetMins": 12,
+    "source": "Accenture Assessment 6th Oct 2026 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given a string `S`.\n\nFor every distinct character present in the string:\n1. Find the frequency of that character.\n2. Find the ASCII value of that character.\n3. Multiply the ASCII value by its frequency.\n4. Calculate the result modulo 5: `(ASCII value * frequency) % 5`.\n5. If the result is **not equal to 0**, add it to the final answer.\n6. Each character must be processed **only once**, regardless of how many times it occurs in the string.\n\nYour task is to return the final integer value.\n\n---\n\n### 📥 Input Specification\n- **input1 (S)**: A string `S`. The string may contain any number of characters. The same character can occur multiple times.\n\n### 📤 Output Specification\n- Return an integer representing the sum of the non-zero values obtained from:\n```text\n(ASCII value * frequency) % 5\n```\nfor every distinct character.\n\n---\n\n### 📌 Given Examples\n\n#### **Example 1**\n**Input:**\n```text\nS = \"abc\"\n```\n**Output:**\n```text\n9\n```\n**Explanation:**\n- The characters are:\n  - `a`: frequency = 1, ASCII = 97 → `(97 × 1) % 5 = 2`\n  - `b`: frequency = 1, ASCII = 98 → `(98 × 1) % 5 = 3`\n  - `c`: frequency = 1, ASCII = 99 → `(99 × 1) % 5 = 4`\n- None of the results is 0.\n- Total sum: `2 + 3 + 4 = 9`.\n\n#### **Example 2**\n**Input:**\n```text\nS = \"aabbc\"\n```\n**Output:**\n```text\n9\n```\n**Explanation:**\n- `a`: `(97 × 2) % 5 = 194 % 5 = 4`\n- `b`: `(98 × 2) % 5 = 196 % 5 = 1`\n- `c`: `(99 × 1) % 5 = 99 % 5 = 4`\n- Total sum: `4 + 1 + 4 = 9`.\n\n---\n\n### 💡 Core Logic & Algorithm Walkthrough\nThe problem is solved using a frequency counting technique:\n1. **Step 1 — Count frequency**: Traverse string `S` and count occurrences of each character using an ASCII frequency array or hash map.\n2. **Step 2 — Process every distinct character once**: For each character with `frequency > 0`, compute `value = (ASCII * frequency) % 5`.\n3. **Step 3 — Filter zero values**: If `value != 0`, accumulate it into the total sum. Otherwise, ignore it.\n\n---\n\n### 🔍 Dry Run Walkthrough Table\nConsider `S = \"aabbc\"`:\n\n| Character | ASCII | Frequency | Calculation | Value | Added to Sum? |\n| :---: | :---: | :---: | :--- | :---: | :---: |\n| `a` | 97 | 2 | `(97 × 2) % 5 = 194 % 5` | **4** | ✅ Yes |\n| `b` | 98 | 2 | `(98 × 2) % 5 = 196 % 5` | **1** | ✅ Yes |\n| `c` | 99 | 1 | `(99 × 1) % 5 = 99 % 5` | **4** | ✅ Yes |\n\n**Final Answer:** `4 + 1 + 4 = 9`\n\n---\n\n### 🧠 Why Do We Use a Frequency Array?\nInstead of calculating for repeated characters multiple times, we pre-count occurrences.\nFor example, for `S = \"aaabbc\"`:\n- Without grouping: `'a'` would be visited 3 separate times, leading to erroneous duplicate additions.\n- With frequency counting: `a` has frequency = 3 → `(97 × 3) % 5 = 291 % 5 = 1`, added **exactly once**.\n\n---\n\n### ⚠️ Important Exam Guidelines\n1. **Process distinct characters only once**: Even if a character appears multiple times, its contribution is computed once as `(ASCII * frequency) % 5`.\n2. **Apply modulo after multiplication**: The formula is `(ASCII * frequency) % 5`.\n3. **Ignore zero results**: If `(ASCII * frequency) % 5 == 0`, nothing is added to the sum (e.g. `S = \"aaaaa\"` results in `0`).\n4. **ASCII value used directly**: Standard ASCII codes (`'a'` = 97, `'b'` = 98, `'c'` = 99, etc.).",
+    "rules": [
+      "1. Process each distinct character present in the string exactly once.",
+      "2. Multiply the character's ASCII value by its frequency in the string.",
+      "3. Calculate the modulo 5 of the product: (ASCII * frequency) % 5.",
+      "4. Add the value to the sum only if the result is not equal to 0.",
+      "5. Maintain linear time complexity O(N) with O(1) auxiliary space (256 ASCII frequency table)."
+    ],
+    "constraints": [
+      "1 <= S.length <= 10^5",
+      "S contains valid ASCII characters",
+      "Time Complexity: O(N)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "S = \"abc\"",
+        "inputRaw": "abc",
+        "expectedOutput": "9",
+        "explanation": "• a: (97 × 1) % 5 = 2\n• b: (98 × 1) % 5 = 3\n• c: (99 × 1) % 5 = 4\n• Total sum: 2 + 3 + 4 = 9"
+      },
+      {
+        "id": "tc-2",
+        "input": "S = \"aabbc\"",
+        "inputRaw": "aabbc",
+        "expectedOutput": "9",
+        "explanation": "• a: (97 × 2) % 5 = 4\n• b: (98 × 2) % 5 = 1\n• c: (99 × 1) % 5 = 4\n• Total sum: 4 + 1 + 4 = 9"
+      },
+      {
+        "id": "tc-3",
+        "input": "S = \"a\"",
+        "inputRaw": "a",
+        "expectedOutput": "2",
+        "explanation": "• Single character 'a': (97 × 1) % 5 = 2\n• Total sum: 2"
+      },
+      {
+        "id": "tc-4",
+        "input": "S = \"aaaaa\"",
+        "inputRaw": "aaaaa",
+        "expectedOutput": "0",
+        "explanation": "• 'a' frequency is 5: (97 × 5) % 5 = 485 % 5 = 0\n• Modulo result is 0, so it is ignored and not added.\n• Total sum: 0"
+      },
+      {
+        "id": "tc-5",
+        "input": "S = \"aaabbbccc\"",
+        "inputRaw": "aaabbbccc",
+        "expectedOutput": "7",
+        "explanation": "• a: (97 × 3) % 5 = 1\n• b: (98 × 3) % 5 = 4\n• c: (99 × 3) % 5 = 2\n• Total sum: 1 + 4 + 2 = 7"
+      }
+    ],
+    "starterCode": {
+      "python": "def asciiFrequencyModulo(s: str) -> int:\n    # TODO: Return the sum of non-zero (ASCII * frequency) % 5 values for every distinct character\n    return 0\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static int asciiFrequencyModulo(String s) {\n        // TODO: Return the sum of non-zero (ASCII * frequency) % 5 values for every distinct character\n        return 0;\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint asciiFrequencyModulo(string S) {\n    // TODO: Return the sum of non-zero (ASCII * frequency) % 5 values for every distinct character\n    return 0;\n}\n",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static int AsciiFrequencyModulo(string s) {\n        // TODO: Return the sum of non-zero (ASCII * frequency) % 5 values for every distinct character\n        return 0;\n    }\n}\n",
+      "javascript": "function asciiFrequencyModulo(s) {\n  // TODO: Return the sum of non-zero (ASCII * frequency) % 5 values for every distinct character\n  return 0;\n}\n"
+    },
+    "solutions": {
+      "python": "def asciiFrequencyModulo(s: str) -> int:\n    freq = {}\n    for ch in s:\n        freq[ch] = freq.get(ch, 0) + 1\n\n    ans = 0\n    for ch, count in freq.items():\n        val = (ord(ch) * count) % 5\n        if val != 0:\n            ans += val\n\n    return ans",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static int asciiFrequencyModulo(String s) {\n        int[] freq = new int[256];\n        for (char c : s.toCharArray()) {\n            freq[(int) c]++;\n        }\n\n        int ans = 0;\n        for (int i = 0; i < 256; i++) {\n            if (freq[i] > 0) {\n                int value = (i * freq[i]) % 5;\n                if (value != 0) {\n                    ans += value;\n                }\n            } \n        }\n\n        return ans;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint asciiFrequencyModulo(string S) {\n    int freq[256] = {0};\n\n    // Count frequency of every character\n    for (char c : S) {\n        freq[(unsigned char)c]++;\n    }\n\n    int ans = 0;\n\n    // Process every distinct character only once\n    for (int i = 0; i < 256; i++) {\n        if (freq[i] > 0) {\n            int value = (i * freq[i]) % 5;\n            if (value != 0) {\n                ans += value;\n            }\n        }\n    }\n\n    return ans;\n}",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static int AsciiFrequencyModulo(string s) {\n        int[] freq = new int[256];\n        foreach (char c in s) {\n            freq[(int)c]++;\n        }\n\n        int ans = 0;\n        for (int i = 0; i < 256; i++) {\n            if (freq[i] > 0) {\n                int value = (i * freq[i]) % 5;\n                if (value != 0) {\n                    ans += value;\n                }\n            }\n        }\n\n        return ans;\n    }\n}",
+      "javascript": "function asciiFrequencyModulo(s) {\n  const freq = {};\n  for (const ch of s) {\n    freq[ch] = (freq[ch] || 0) + 1;\n  }\n\n  let ans = 0;\n  for (const ch in freq) {\n    const val = (ch.charCodeAt(0) * freq[ch]) % 5;\n    if (val !== 0) {\n      ans += val;\n    }\n  }\n\n  return ans;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -7479,5 +7559,215 @@ export const recentQuestions = [
         "expected": []
       }
     ]
+  },
+  {
+    "id": "recent-sql-014",
+    "track": "sql",
+    "dateTag": "6th Oct 2026 • Shift 2",
+    "examDate": "2026-10-06",
+    "shift": "Shift 2",
+    "title": "Courses priced above their category average",
+    "difficulty": "Medium",
+    "category": "Subqueries / Correlated Subquery & AVG() Group Comparison",
+    "source": "Accenture Assessment 6th Oct 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "Write an SQL query to join two tables and display the course title (use alias `COURSE TITLE`), category name (use alias `CATEGORY NAME`), and price (use alias `PRICE`) for courses whose price is strictly greater than the average price of their own category.\n\n### 📝 Required Output Column Aliases:\n- `COURSE TITLE`\n- `CATEGORY NAME`\n- `PRICE`\n\n---\n\n### 📌 Given Example:\n\n#### Input Data:\n**Courses**:\n| COURSE_ID | COURSE_TITLE | CATEGORY_ID | PRICE | INSTRUCTOR_ID | DURATION_HOURS |\n| :---: | :---: | :---: | :---: | :---: | :---: |\n| 101 | Java Basics | 1 | 1000 | 501 | 20 |\n| 102 | Advanced Java | 1 | 2000 | 502 | 30 |\n| 103 | Spring Boot | 1 | 3000 | 503 | 35 |\n| 104 | Python Basics | 2 | 1000 | 504 | 18 |\n| 105 | Advanced Python | 2 | 3000 | 505 | 28 |\n\n**Categories**:\n| CATEGORY_ID | CATEGORY_NAME | DESCRIPTION | STATUS | CREATED_DATE |\n| :---: | :---: | :---: | :---: | :---: |\n| 1 | Programming | Programming courses | Active | 2025-01-01 |\n| 2 | Data Science | Data related courses | Active | 2025-01-05 |\n\n#### Expected Output:\n| COURSE TITLE | CATEGORY NAME | PRICE |\n| :---: | :---: | :---: |\n| Spring Boot | Programming | 3000 |\n| Advanced Python | Data Science | 3000 |\n\n#### Explanation:\n- **Programming Category Average**: `(1000 + 2000 + 3000) / 3 = 2000`.\n  - `Java Basics (1000)`: `1000 > 2000` is false -> Excluded.\n  - `Advanced Java (2000)`: `2000 > 2000` is false -> Excluded (strictly greater condition).\n  - `Spring Boot (3000)`: `3000 > 2000` is true -> Included.\n- **Data Science Category Average**: `(1000 + 3000) / 2 = 2000`.\n  - `Python Basics (1000)`: `1000 > 2000` is false -> Excluded.\n  - `Advanced Python (3000)`: `3000 > 2000` is true -> Included.\n\n---\n\n### 💡 Core Logic & Query Construction Steps:\n1. **Join Tables**: Join `Courses c` with `Categories cat` on `c.CATEGORY_ID = cat.CATEGORY_ID`.\n2. **Calculate Average Price Per Category**: Use a correlated subquery `(SELECT AVG(c2.PRICE) FROM Courses c2 WHERE c2.CATEGORY_ID = c.CATEGORY_ID)` or an aggregated derived table with `GROUP BY CATEGORY_ID`.\n3. **Apply Strict Filtering**: Filter with `WHERE c.PRICE > (category average)`.\n4. **Column Aliases**: Return `c.COURSE_TITLE AS \"COURSE TITLE\"`, `cat.CATEGORY_NAME AS \"CATEGORY NAME\"`, and `c.PRICE AS \"PRICE\"`.\n\n> **⚠️ Important Requirement**: The average must be calculated separately for each category. A course must be compared only with the average price of its own category, not with the overall average across all courses.",
+    "rules": [
+      "1. Join the Courses table with the Categories table using CATEGORY_ID.",
+      "2. Calculate the average PRICE separately for each category.",
+      "3. Filter for courses whose PRICE is strictly greater than their own category average.",
+      "4. Return the exact output column aliases: \"COURSE TITLE\", \"CATEGORY NAME\", \"PRICE\"."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "GROUP BY",
+      "AVG()",
+      "Correlated subquery",
+      "Column aliases"
+    ],
+    "expectedColumns": [
+      "COURSE TITLE",
+      "CATEGORY NAME",
+      "PRICE"
+    ],
+    "orderSensitive": false,
+    "starterCode": "-- Write your SQL query below\nSELECT \n",
+    "solution": "SELECT c.COURSE_TITLE AS `COURSE TITLE`, cat.CATEGORY_NAME AS `CATEGORY NAME`, c.PRICE AS PRICE FROM Courses c JOIN Categories cat ON c.CATEGORY_ID = cat.CATEGORY_ID WHERE c.PRICE > (SELECT AVG(c2.PRICE) FROM Courses c2 WHERE c2.CATEGORY_ID = c.CATEGORY_ID);",
+    "explanation": "### Solution Breakdown:\n1. **INNER JOIN**: Join `Courses c` with `Categories cat` on `c.CATEGORY_ID = cat.CATEGORY_ID` to pair each course with its category details.\n2. **Correlated Subquery**: In the `WHERE` clause, calculate `SELECT AVG(c2.PRICE) FROM Courses c2 WHERE c2.CATEGORY_ID = c.CATEGORY_ID` to dynamically compute the average price for that specific category.\n3. **Strict Comparison**: Compare `c.PRICE > (average)` to only retain courses exceeding their category's mean price.\n4. **Alternative Approach**: You can also join with a pre-aggregated subquery `JOIN (SELECT CATEGORY_ID, AVG(PRICE) AS AVG_PRICE FROM Courses GROUP BY CATEGORY_ID) a ON c.CATEGORY_ID = a.CATEGORY_ID WHERE c.PRICE > a.AVG_PRICE`.",
+    "viewSchema": {
+      "title": "View Schema",
+      "tableCount": 2,
+      "tables": [
+        {
+          "name": "Courses",
+          "columns": [
+            "COURSE_ID",
+            "COURSE_TITLE",
+            "CATEGORY_ID",
+            "PRICE",
+            "INSTRUCTOR_ID",
+            "DURATION_HOURS"
+          ],
+          "requiredColumns": [
+            "COURSE_TITLE",
+            "CATEGORY_ID",
+            "PRICE"
+          ],
+          "extraColumns": [
+            "COURSE_ID",
+            "INSTRUCTOR_ID",
+            "DURATION_HOURS"
+          ]
+        },
+        {
+          "name": "Categories",
+          "columns": [
+            "CATEGORY_ID",
+            "CATEGORY_NAME",
+            "DESCRIPTION",
+            "STATUS",
+            "CREATED_DATE"
+          ],
+          "requiredColumns": [
+            "CATEGORY_ID",
+            "CATEGORY_NAME"
+          ],
+          "extraColumns": [
+            "DESCRIPTION",
+            "STATUS",
+            "CREATED_DATE"
+          ]
+        }
+      ],
+      "relationship": "Courses.CATEGORY_ID -> Categories.CATEGORY_ID",
+      "difficultyNote": "Join Courses and Categories on CATEGORY_ID and use a correlated subquery or join with an aggregated subquery to filter courses priced strictly above their category average."
+    },
+    "tableSchema": [
+      {
+        "name": "Categories",
+        "columns": [
+          { "name": "CATEGORY_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "CATEGORY_NAME", "type": "TEXT" },
+          { "name": "DESCRIPTION", "type": "TEXT" },
+          { "name": "STATUS", "type": "TEXT" },
+          { "name": "CREATED_DATE", "type": "TEXT" }
+        ]
+      },
+      {
+        "name": "Courses",
+        "columns": [
+          { "name": "COURSE_ID", "type": "INTEGER", "primaryKey": true },
+          { "name": "COURSE_TITLE", "type": "TEXT" },
+          { "name": "CATEGORY_ID", "type": "INTEGER" },
+          { "name": "PRICE", "type": "INTEGER" },
+          { "name": "INSTRUCTOR_ID", "type": "INTEGER" },
+          { "name": "DURATION_HOURS", "type": "INTEGER" }
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "Example 1 (Basic case with courses above and below category average)",
+        "input": {
+          "Categories": [
+            { "CATEGORY_ID": 1, "CATEGORY_NAME": "Programming", "DESCRIPTION": "Programming courses", "STATUS": "Active", "CREATED_DATE": "2025-01-01" },
+            { "CATEGORY_ID": 2, "CATEGORY_NAME": "Data Science", "DESCRIPTION": "Data related courses", "STATUS": "Active", "CREATED_DATE": "2025-01-05" }
+          ],
+          "Courses": [
+            { "COURSE_ID": 101, "COURSE_TITLE": "Java Basics", "CATEGORY_ID": 1, "PRICE": 1000, "INSTRUCTOR_ID": 501, "DURATION_HOURS": 20 },
+            { "COURSE_ID": 102, "COURSE_TITLE": "Advanced Java", "CATEGORY_ID": 1, "PRICE": 2000, "INSTRUCTOR_ID": 502, "DURATION_HOURS": 30 },
+            { "COURSE_ID": 103, "COURSE_TITLE": "Spring Boot", "CATEGORY_ID": 1, "PRICE": 3000, "INSTRUCTOR_ID": 503, "DURATION_HOURS": 35 },
+            { "COURSE_ID": 104, "COURSE_TITLE": "Python Basics", "CATEGORY_ID": 2, "PRICE": 1000, "INSTRUCTOR_ID": 504, "DURATION_HOURS": 18 },
+            { "COURSE_ID": 105, "COURSE_TITLE": "Advanced Python", "CATEGORY_ID": 2, "PRICE": 3000, "INSTRUCTOR_ID": 505, "DURATION_HOURS": 28 }
+          ]
+        },
+        "output": [
+          { "COURSE TITLE": "Spring Boot", "CATEGORY NAME": "Programming", "PRICE": 3000 },
+          { "COURSE TITLE": "Advanced Python", "CATEGORY NAME": "Data Science", "PRICE": 3000 }
+        ],
+        "explanation": "Programming category average is 2000 ((1000+2000+3000)/3). Spring Boot (3000) > 2000. Data Science average is 2000 ((1000+3000)/2). Advanced Python (3000) > 2000."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Basic case with courses above and below their category average",
+        "isHidden": false,
+        "data": {
+          "Categories": [
+            { "CATEGORY_ID": 1, "CATEGORY_NAME": "Programming", "DESCRIPTION": "Programming courses", "STATUS": "Active", "CREATED_DATE": "2025-01-01" },
+            { "CATEGORY_ID": 2, "CATEGORY_NAME": "Data Science", "DESCRIPTION": "Data related courses", "STATUS": "Active", "CREATED_DATE": "2025-01-05" }
+          ],
+          "Courses": [
+            { "COURSE_ID": 101, "COURSE_TITLE": "Java Basics", "CATEGORY_ID": 1, "PRICE": 1000, "INSTRUCTOR_ID": 501, "DURATION_HOURS": 20 },
+            { "COURSE_ID": 102, "COURSE_TITLE": "Advanced Java", "CATEGORY_ID": 1, "PRICE": 2000, "INSTRUCTOR_ID": 502, "DURATION_HOURS": 30 },
+            { "COURSE_ID": 103, "COURSE_TITLE": "Spring Boot", "CATEGORY_ID": 1, "PRICE": 3000, "INSTRUCTOR_ID": 503, "DURATION_HOURS": 35 },
+            { "COURSE_ID": 104, "COURSE_TITLE": "Python Basics", "CATEGORY_ID": 2, "PRICE": 1000, "INSTRUCTOR_ID": 504, "DURATION_HOURS": 18 },
+            { "COURSE_ID": 105, "COURSE_TITLE": "Advanced Python", "CATEGORY_ID": 2, "PRICE": 3000, "INSTRUCTOR_ID": 505, "DURATION_HOURS": 28 }
+          ]
+        },
+        "expected": [
+          { "COURSE TITLE": "Spring Boot", "CATEGORY NAME": "Programming", "PRICE": 3000 },
+          { "COURSE TITLE": "Advanced Python", "CATEGORY NAME": "Data Science", "PRICE": 3000 }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — Course price exactly equal to category average (Excluded)",
+        "isHidden": false,
+        "data": {
+          "Categories": [
+            { "CATEGORY_ID": 1, "CATEGORY_NAME": "Web Development", "DESCRIPTION": "Web courses", "STATUS": "Active", "CREATED_DATE": "2025-01-01" }
+          ],
+          "Courses": [
+            { "COURSE_ID": 201, "COURSE_TITLE": "HTML", "CATEGORY_ID": 1, "PRICE": 1000, "INSTRUCTOR_ID": 501, "DURATION_HOURS": 10 },
+            { "COURSE_ID": 202, "COURSE_TITLE": "CSS", "CATEGORY_ID": 1, "PRICE": 2000, "INSTRUCTOR_ID": 502, "DURATION_HOURS": 12 },
+            { "COURSE_ID": 203, "COURSE_TITLE": "JavaScript", "CATEGORY_ID": 1, "PRICE": 3000, "INSTRUCTOR_ID": 503, "DURATION_HOURS": 20 }
+          ]
+        },
+        "expected": [
+          { "COURSE TITLE": "JavaScript", "CATEGORY NAME": "Web Development", "PRICE": 3000 }
+        ]
+      },
+      {
+        "id": "tc-3",
+        "name": "Visible Test Case 3 — Category with only one course (Excluded)",
+        "isHidden": false,
+        "data": {
+          "Categories": [
+            { "CATEGORY_ID": 3, "CATEGORY_NAME": "Database", "DESCRIPTION": "Database courses", "STATUS": "Active", "CREATED_DATE": "2025-02-01" }
+          ],
+          "Courses": [
+            { "COURSE_ID": 301, "COURSE_TITLE": "SQL Basics", "CATEGORY_ID": 3, "PRICE": 2500, "INSTRUCTOR_ID": 501, "DURATION_HOURS": 15 }
+          ]
+        },
+        "expected": []
+      },
+      {
+        "id": "tc-4",
+        "name": "Visible Test Case 4 — Different category averages",
+        "isHidden": false,
+        "data": {
+          "Categories": [
+            { "CATEGORY_ID": 4, "CATEGORY_NAME": "Computer Science", "DESCRIPTION": "CS courses", "STATUS": "Active", "CREATED_DATE": "2025-03-01" },
+            { "CATEGORY_ID": 5, "CATEGORY_NAME": "AI", "DESCRIPTION": "AI courses", "STATUS": "Active", "CREATED_DATE": "2025-03-02" }
+          ],
+          "Courses": [
+            { "COURSE_ID": 401, "COURSE_TITLE": "C++ Basics", "CATEGORY_ID": 4, "PRICE": 500, "INSTRUCTOR_ID": 501, "DURATION_HOURS": 15 },
+            { "COURSE_ID": 402, "COURSE_TITLE": "Advanced C++", "CATEGORY_ID": 4, "PRICE": 1500, "INSTRUCTOR_ID": 502, "DURATION_HOURS": 25 },
+            { "COURSE_ID": 403, "COURSE_TITLE": "DSA", "CATEGORY_ID": 4, "PRICE": 2500, "INSTRUCTOR_ID": 503, "DURATION_HOURS": 30 },
+            { "COURSE_ID": 404, "COURSE_TITLE": "Machine Learning", "CATEGORY_ID": 5, "PRICE": 4000, "INSTRUCTOR_ID": 504, "DURATION_HOURS": 40 },
+            { "COURSE_ID": 405, "COURSE_TITLE": "Deep Learning", "CATEGORY_ID": 5, "PRICE": 6000, "INSTRUCTOR_ID": 505, "DURATION_HOURS": 45 }
+          ]
+        },
+        "expected": [
+          { "COURSE TITLE": "DSA", "CATEGORY NAME": "Computer Science", "PRICE": 2500 },
+          { "COURSE TITLE": "Deep Learning", "CATEGORY NAME": "AI", "PRICE": 6000 }
+        ]
+      }
+    ]
   }
 ];
+

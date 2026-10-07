@@ -77,8 +77,21 @@ const DSA_LANGUAGES = [
 // =========================================================================
 export function renderInlineFormatted(str) {
   if (!str) return null;
+
+  // Sanitize any raw unparsed LaTeX/math tokens into readable unicode expressions
+  let cleaned = String(str)
+    .replace(/\\rightarrow/g, '→')
+    .replace(/\\leftarrow/g, '←')
+    .replace(/\\times/g, '×')
+    .replace(/\\%/g, '%')
+    .replace(/\\pmod\s*\{?([^}]+)\}?/g, '(mod $1)')
+    .replace(/\\mathbf\{([^}]+)\}/g, '**$1**')
+    .replace(/\\text\{([^}]+)\}/g, '$1')
+    .replace(/\\mathit\{([^}]+)\}/g, '$1')
+    .replace(/\$([^$]+)\$/g, '$1');
+
   const tokenRegex = /(`[^`]+`|\*\*[^*]+\*\*)/g;
-  const segments = str.split(tokenRegex);
+  const segments = cleaned.split(tokenRegex);
 
   return segments.map((seg, i) => {
     if (seg.startsWith('`') && seg.endsWith('`') && seg.length >= 2) {
@@ -105,9 +118,32 @@ export function renderInlineFormatted(str) {
       );
     }
     if (seg.startsWith('**') && seg.endsWith('**') && seg.length >= 4) {
+      let boldContent = seg.slice(2, -2).trim();
+      // Handle nested code inside bold e.g. **`a`**
+      if (boldContent.startsWith('`') && boldContent.endsWith('`') && boldContent.length >= 2) {
+        return (
+          <code
+            key={i}
+            style={{
+              fontFamily: "'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace",
+              fontSize: '0.86em',
+              padding: '2px 7px',
+              borderRadius: '5px',
+              background: 'rgba(56, 189, 248, 0.2)',
+              color: '#7dd3fc',
+              border: '1px solid rgba(56, 189, 248, 0.45)',
+              fontWeight: 700,
+              display: 'inline-block',
+              margin: '0 2px'
+            }}
+          >
+            {boldContent.slice(1, -1)}
+          </code>
+        );
+      }
       return (
         <strong key={i} style={{ color: '#f8fafc', fontWeight: 700 }}>
-          {seg.slice(2, -2)}
+          {boldContent}
         </strong>
       );
     }
@@ -227,18 +263,18 @@ export function renderFormattedContent(rawText) {
                 key={`tbl-${elements.length}`}
                 style={{
                   overflowX: 'auto',
-                  margin: '0.85rem 0',
-                  borderRadius: '10px',
-                  border: '1px solid #334155',
-                  background: '#0a101f',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
+                  margin: '1rem 0',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(56, 189, 248, 0.25)',
+                  background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 16, 31, 0.98) 100%)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)'
                 }}
               >
-                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <table style={{ width: '100%', fontSize: '0.86rem', borderCollapse: 'collapse', textAlign: 'left' }}>
                   <thead>
-                    <tr style={{ background: '#1e293b', borderBottom: '1px solid #334155', color: '#38bdf8' }}>
+                    <tr style={{ background: 'rgba(30, 41, 59, 0.85)', borderBottom: '1px solid rgba(56, 189, 248, 0.3)', color: '#38bdf8' }}>
                       {headers.map((h, hIdx) => (
-                        <th key={hIdx} style={{ padding: '9px 12px', fontWeight: 700, letterSpacing: '0.3px' }}>
+                        <th key={hIdx} style={{ padding: '11px 16px', fontWeight: 700, letterSpacing: '0.4px', fontSize: '0.83rem', textTransform: 'uppercase' }}>
                           {renderInlineFormatted(h)}
                         </th>
                       ))}
@@ -251,12 +287,13 @@ export function renderFormattedContent(rawText) {
                         <tr
                           key={rIdx}
                           style={{
-                            borderBottom: '1px solid #1e293b',
-                            background: rIdx % 2 === 0 ? 'rgba(15, 23, 42, 0.6)' : 'rgba(30, 41, 59, 0.3)'
+                            borderBottom: '1px solid rgba(51, 65, 85, 0.4)',
+                            background: rIdx % 2 === 0 ? 'rgba(15, 23, 42, 0.65)' : 'rgba(30, 41, 59, 0.35)',
+                            transition: 'background 0.15s ease'
                           }}
                         >
                           {cells.map((c, cIdx) => (
-                            <td key={cIdx} style={{ padding: '8px 12px', color: '#cbd5e1', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.84rem' }}>
+                            <td key={cIdx} style={{ padding: '10px 16px', color: '#e2e8f0', verticalAlign: 'middle', lineHeight: 1.5 }}>
                               {renderInlineFormatted(c)}
                             </td>
                           ))}
@@ -1303,7 +1340,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -1313,7 +1350,7 @@ class Solution {
 
   return {
     python: `# ${question.title}\ndef solve():\n    pass\n`,
-    java: `public class Solution {\n    public static void solve() {}\n}\n`,
+    java: `import java.util.*;\n\npublic class Solution {\n    public static void solve() {}\n}\n`,
     cpp: `void solve() {}\n`,
     csharp: `public class Solution {\n    public void Solve() {}\n}\n`,
     javascript: `function solve() {}\n`
@@ -2072,6 +2109,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasModulo || !hasReverseOrSwap) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_k_modulo_or_in_place_reversal';
+      }
+    } else if (question.id === 'recent-dsa-022') {
+      const hasModulo = code.includes('% 5') || code.includes('%5') || code.includes('%');
+      const hasAsciiOrChar = code.includes('char') || code.includes('charCodeAt') || code.includes('ord') || code.includes('ASCII') || code.includes('freq') || code.includes('count');
+      if (!hasModulo || !hasAsciiOrChar) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_ascii_frequency_modulo_calculation';
       }
     }
 
@@ -3395,6 +3439,68 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             id: t.id,
             name: t.name,
             input: `nums = [${t.nums.join(', ')}], k = ${t.k}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-022') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example: S = "abc")', S: "abc", exp: 9, expStr: "9", latency: '1ms' },
+          { id: 2, name: 'Exam Test Case 2 (Repeated Characters: S = "aabbc")', S: "aabbc", exp: 9, expStr: "9", latency: '1ms' },
+          { id: 3, name: 'Exam Test Case 3 (Single Character: S = "a")', S: "a", exp: 2, expStr: "2", latency: '1ms' },
+          { id: 4, name: 'Exam Test Case 4 (Modulo Result Zero: S = "aaaaa")', S: "aaaaa", exp: 0, expStr: "0", latency: '1ms' },
+          { id: 5, name: 'Exam Test Case 5 (Multiple Repetitions: S = "aaabbbccc")', S: "aaabbbccc", exp: 7, expStr: "7", latency: '1ms' }
+        ];
+
+        const computeExpected = (str) => {
+          const counts = {};
+          for (const ch of str) counts[ch] = (counts[ch] || 0) + 1;
+          let total = 0;
+          for (const ch in counts) {
+            const val = (ch.charCodeAt(0) * counts[ch]) % 5;
+            if (val !== 0) total += val;
+          }
+          return total;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const parsedOut = Number(String(out ?? '').trim());
+              passed = !isNaN(parsedOut) && parsedOut === t.exp;
+              actualStr = String(out ?? '');
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.S]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = String(u.ret);
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = '0 (Modulo arithmetic flawed)';
+            passed = false;
+          } else {
+            const val = computeExpected(t.S);
+            actualStr = String(val);
+            passed = val === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `S = "${t.S}"`,
             expected: t.expStr,
             actual: actualStr,
             passed,
@@ -5695,16 +5801,22 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
                             {tc.explanation && (
                               <div style={{
-                                color: '#cbd5e1',
-                                fontSize: '0.8rem',
-                                lineHeight: 1.55,
-                                whiteSpace: 'pre-line',
-                                background: '#141e33',
-                                padding: '8px 12px',
-                                borderRadius: '6px',
-                                borderLeft: '3px solid #38bdf8'
+                                color: '#e2e8f0',
+                                fontSize: '0.84rem',
+                                lineHeight: 1.6,
+                                background: 'rgba(15, 23, 42, 0.75)',
+                                padding: '10px 14px',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(56, 189, 248, 0.22)',
+                                borderLeft: '3.5px solid #38bdf8'
                               }}>
-                                {tc.explanation}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                  {tc.explanation.split('\n').map((expLine, lineI) => (
+                                    <div key={lineI} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                                      <span>{renderInlineFormatted(expLine)}</span>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>

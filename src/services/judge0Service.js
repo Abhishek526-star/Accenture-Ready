@@ -469,6 +469,20 @@ for _nums, _k in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-022') {
+      return `${cleanUserCode}
+
+import json
+_tests = ["abc", "aabbc", "a", "aaaaa", "aaabbbccc"]
+for _s in _tests:
+    try:
+        fn = globals().get('asciiFrequencyModulo') or globals().get('ascii_frequency_modulo') or asciiFrequencyModulo
+        print("TEST_RES:" + json.dumps(fn(_s)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1053,6 +1067,23 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-022') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {"abc", "aabbc", "a", "aaaaa", "aaabbbccc"};
+        for (String s : tests) {
+            try {
+                System.out.println("TEST_RES:" + asciiFrequencyModulo(s));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1545,6 +1576,23 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-022') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::string> tests = {"abc", "aabbc", "a", "aaaaa", "aaabbbccc"};
+    for (const auto& s : tests) {
+        try {
+            std::cout << "TEST_RES:" << asciiFrequencyModulo(s) << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -2002,6 +2050,23 @@ int main() {
             int[] arr = (int[])t.Item1.Clone();
             RotateArray(arr, t.Item2);
             Console.WriteLine("TEST_RES:[" + string.Join(", ", arr) + "]");
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-022') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {"abc", "aabbc", "a", "aaaaa", "aaabbbccc"};
+        foreach (var s in tests) {
+            try {
+                Console.WriteLine("TEST_RES:" + AsciiFrequencyModulo(s));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
         }
     }
 }
@@ -2488,6 +2553,21 @@ for (const _t of _tests) {
         const ret = fn ? fn(arr, _t.k) : null;
         const res = Array.isArray(ret) ? ret : arr;
         console.log("TEST_RES:" + JSON.stringify(res));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-022') {
+    return `${cleanUserCode}
+
+const _tests = ["abc", "aabbc", "a", "aaaaa", "aaabbbccc"];
+for (const _s of _tests) {
+    try {
+        const fn = typeof asciiFrequencyModulo === 'function' ? asciiFrequencyModulo : null;
+        console.log("TEST_RES:" + (fn ? fn(_s) : '0'));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }
