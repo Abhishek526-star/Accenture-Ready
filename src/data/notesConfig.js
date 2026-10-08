@@ -274,5 +274,95 @@ export const notesFolders = [
         isUploaded: true
       }
     ]
+  },
+  {
+    id: 'sql',
+    name: 'Sql',
+    shortName: 'SQL',
+    description: 'Relational Database Concepts, SQL Queries, Joins, Group By, Subqueries, Normalization & ACID Properties.',
+    icon: 'Database',
+    color: '#0284c7', // sky-600
+    badgeColor: 'rgba(2, 132, 199, 0.15)',
+    folderPath: '/notes/sql/',
+    items: [
+      {
+        id: 'sql-core-notes',
+        title: 'SQL Complete Core Study Notes',
+        fileName: 'Sql Notes.pdf',
+        filePath: '/notes/sql/Sql%20Notes.pdf',
+        description: 'Comprehensive SQL fundamentals: DDL, DML, DQL commands, constraints, aggregate functions, keys, and relational schema concepts.',
+        category: 'Sql',
+        tags: ['SQL Core', 'Queries', 'DDL/DML', 'Foundations'],
+        size: '6.1 MB',
+        isUploaded: true
+      },
+      {
+        id: 'sql-20-interview-questions',
+        title: 'Top 20 SQL Interview Questions & Solutions',
+        fileName: '20 Sql interview Questions.pdf',
+        filePath: '/notes/sql/20%20Sql%20interview%20Questions.pdf',
+        description: 'Curated top 20 essential SQL technical interview questions with queries, joins, subqueries, and scenario solutions.',
+        category: 'Sql',
+        tags: ['Interview Q&A', 'Top 20', 'Joins', 'Queries'],
+        size: '5.2 MB',
+        isUploaded: true
+      },
+      {
+        id: 'sql-50-interview-questions',
+        title: '50 High-Frequency SQL Interview Questions & Answers',
+        fileName: '50 interview Sql Questions .pdf',
+        filePath: '/notes/sql/50%20interview%20Sql%20Questions%20.pdf',
+        description: 'Extensive collection of 50 technical SQL interview questions covering complex joins, group by, nested queries, window functions, and indexing.',
+        category: 'Sql',
+        tags: ['Interview Q&A', 'Top 50', 'Advanced SQL', 'Exams'],
+        size: '6.6 MB',
+        isUploaded: true
+      }
+    ]
+  },
+  {
+    id: 'full-stack',
+    name: 'Full Stack',
+    shortName: 'Full Stack',
+    description: 'Frontend (HTML, CSS, JS, React), Backend (Node.js, Express, REST APIs) & Full-Stack System Design.',
+    icon: 'Layers',
+    color: '#8b5cf6', // violet-500
+    badgeColor: 'rgba(139, 92, 246, 0.15)',
+    folderPath: '/notes/full-stack/',
+    items: [
+      {
+        id: 'fullstack-core-notes',
+        title: 'Full Stack Web Development Study Notes',
+        fileName: 'Full Stack Notes.pdf',
+        filePath: '/notes/full-stack/Full%20Stack%20Notes.pdf',
+        description: 'Comprehensive full stack architecture: Frontend essentials (HTML, CSS, JS), backend servers, client-server models, and web fundamentals.',
+        category: 'Full Stack',
+        tags: ['Full Stack', 'Web Development', 'Architecture', 'Frontend/Backend'],
+        size: '2.8 MB',
+        isUploaded: true
+      },
+      {
+        id: 'mern-stack-notes',
+        title: 'MERN Stack Complete Preparation Notes',
+        fileName: 'MERN Stack Notes.pdf',
+        filePath: '/notes/full-stack/MERN%20Stack%20Notes.pdf',
+        description: 'In-depth MERN guide: MongoDB schemas, Express middleware, React hooks & lifecycle, Node.js runtime, and full-stack integration.',
+        category: 'Full Stack',
+        tags: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'Express'],
+        size: '10.4 MB',
+        isUploaded: true
+      },
+      {
+        id: 'rest-apis-notes',
+        title: 'RESTful APIs & Web Services Study Notes',
+        fileName: 'REST-APIs Notes.pdf',
+        filePath: '/notes/full-stack/REST-APIs%20Notes.pdf',
+        description: 'Complete guide to REST architecture: HTTP methods (GET, POST, PUT, DELETE, PATCH), status codes, headers, authentication, and API security.',
+        category: 'Full Stack',
+        tags: ['REST APIs', 'HTTP Methods', 'Status Codes', 'Web Services'],
+        size: '26.8 MB',
+        isUploaded: true
+      }
+    ]
   }
 ];

@@ -572,6 +572,14 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                 <Code size={14} className="text-emerald-400" />
                 <span>OOPs & Programming</span>
               </Link>
+              <Link to="/notes?folder=sql" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Database size={14} className="text-sky-400" />
+                <span>Sql</span>
+              </Link>
+              <Link to="/notes?folder=full-stack" className="dropdown-link" style={{ padding: '7px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Layers size={14} className="text-purple-400" />
+                <span>Full Stack</span>
+              </Link>
             </div>
           )}
         </div>
@@ -899,6 +907,12 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   </Link>
                   <Link to="/notes?folder=oops" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>OOPs & Programming</span>
+                  </Link>
+                  <Link to="/notes?folder=sql" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Sql</span>
+                  </Link>
+                  <Link to="/notes?folder=full-stack" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span>Full Stack</span>
                   </Link>
                 </div>
               </div>

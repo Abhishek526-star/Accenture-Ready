@@ -26,7 +26,8 @@ import {
   ShieldAlert,
   Wifi,
   Boxes,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Layers
 } from 'lucide-react';
 import { notesFolders } from '../data/notesConfig.js';
 import SEO from '../components/SEO.jsx';
@@ -84,6 +85,8 @@ export default function NotesPage({ theme = 'dark' }) {
         return <Boxes {...props} />;
       case 'FileSpreadsheet':
         return <FileSpreadsheet {...props} />;
+      case 'Layers':
+        return <Layers {...props} />;
       default:
         return <Folder {...props} />;
     }
@@ -499,6 +502,25 @@ export default function NotesPage({ theme = 'dark' }) {
             </div>
           </div>
         ))}
+        {filteredPdfs.length === 0 && (
+          <div style={{
+            gridColumn: '1 / -1',
+            textAlign: 'center',
+            padding: '3.5rem 1.5rem',
+            background: '#0f172a',
+            borderRadius: '14px',
+            border: '1px dashed #334155',
+            color: '#94a3b8'
+          }}>
+            <Folder size={44} style={{ margin: '0 auto 1rem', opacity: 0.4, color: '#38bdf8' }} />
+            <h3 style={{ color: '#f8fafc', fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.5rem 0' }}>
+              No PDF Notes in this folder yet
+            </h3>
+            <p style={{ fontSize: '0.875rem', maxWidth: '440px', margin: '0 auto', color: '#64748b', lineHeight: 1.5 }}>
+              This folder is created and ready. You can add your PDF files directly to this folder or preview local PDFs using the button above!
+            </p>
+          </div>
+        )}
       </div>
 
       {/* In-App PDF Reader Modal */}
