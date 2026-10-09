@@ -100,13 +100,10 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span className="brand-title" style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary, #f8fafc)' }}>
+              <span className="brand-title">
                  Accenture Ready
               </span>
             </div>
-            {/* <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #94a3b8)', display: 'block', lineHeight: 1 }}>
-              Comprehensive Placement Preparation Hub
-            </span> */}
           </div>
         </Link>
       </div>
@@ -485,6 +482,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
           to="/analytics"
           className={`nav-item ${location.pathname === '/analytics' ? 'active' : ''}`}
         >
+          <TrendingUp size={14} />
           <span>Analytics</span>
         </Link>
 
@@ -594,25 +592,12 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
         {/* Global Search Trigger */}
         <button
           onClick={onOpenSearch}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            padding: '5px 12px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '9999px',
-            color: '#94a3b8',
-            fontSize: '0.8rem',
-            cursor: 'pointer',
-            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-            whiteSpace: 'nowrap'
-          }}
+          className="nav-search-btn"
           title="Search Topics (Ctrl+K)"
         >
           <Search size={13} />
-          <span style={{ display: 'inline-block' }}>Search</span>
-          <kbd style={{ padding: '1px 5px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: '4px', fontSize: '0.68rem', border: '1px solid rgba(255, 255, 255, 0.12)', color: '#94a3b8' }}>⌘K</kbd>
+          <span className="nav-search-text">Search</span>
+          <kbd className="nav-search-kbd">⌘K</kbd>
         </button>
 
         {/* Theme Toggle Button */}

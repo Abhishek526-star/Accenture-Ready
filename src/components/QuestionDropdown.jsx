@@ -43,7 +43,8 @@ export default function QuestionDropdown({
     if (isOpen && activeItemRef.current) {
       activeItemRef.current.scrollIntoView({
         behavior: 'auto',
-        block: 'nearest'
+        block: 'nearest',
+        inline: 'nearest'
       });
     }
   }, [isOpen]);

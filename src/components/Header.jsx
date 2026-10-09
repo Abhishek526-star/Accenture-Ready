@@ -15,14 +15,20 @@ export default function Header({
   allQuestions = []
 }) {
   const activeDotRef = useRef(null);
+  const dotsContainerRef = useRef(null);
 
-  // Auto-scroll active question dot into view in horizontal container
+  // Auto-scroll active question dot strictly inside its local horizontal container
   useEffect(() => {
-    if (activeDotRef.current) {
-      activeDotRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
+    if (activeDotRef.current && dotsContainerRef.current) {
+      const container = dotsContainerRef.current;
+      const dot = activeDotRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const dotRect = dot.getBoundingClientRect();
+      const offset = dotRect.left - containerRect.left;
+      const targetLeft = container.scrollLeft + offset - (container.clientWidth / 2) + (dot.clientWidth / 2);
+      container.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: 'smooth'
       });
     }
   }, [question?.id]);
@@ -52,7 +58,7 @@ export default function Header({
             }
             menuTitle="SELECT ACCENTURE CODING QUESTION"
           />
-          <div className="q-nav-dots">
+          <div className="q-nav-dots" ref={dotsContainerRef}>
             {allQuestions.map((q) => {
               const isCurrent = q.id === question?.id;
               const isSolved =

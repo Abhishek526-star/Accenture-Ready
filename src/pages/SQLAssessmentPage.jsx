@@ -45,6 +45,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   // Auto-scroll ref for active question dot
   const activeDotRef = useRef(null);
+  const dotsContainerRef = useRef(null);
 
   // Find initial question index
   const initialIndex = Math.max(
@@ -55,13 +56,18 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const currentQuestion = sqlQuestions[currentIndex] || sqlQuestions[0];
 
-  // Auto-scroll active question dot into view in horizontal container
+  // Auto-scroll active question dot strictly inside horizontal container
   useEffect(() => {
-    if (activeDotRef.current) {
-      activeDotRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
+    if (activeDotRef.current && dotsContainerRef.current) {
+      const container = dotsContainerRef.current;
+      const dot = activeDotRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const dotRect = dot.getBoundingClientRect();
+      const offset = dotRect.left - containerRect.left;
+      const targetLeft = container.scrollLeft + offset - (container.clientWidth / 2) + (dot.clientWidth / 2);
+      container.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: 'smooth'
       });
     }
   }, [currentIndex]);
@@ -318,7 +324,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
               isSolvedFn={(q) => questionStatuses[q.id]?.solved}
               menuTitle="SELECT ACCENTURE SQL ASSESSMENT QUESTION"
             />
-            <div className="q-nav-dots">
+            <div className="q-nav-dots" ref={dotsContainerRef}>
               {sqlQuestions.map((q, idx) => {
                 const status = questionStatuses[q.id];
                 const isCurrent = idx === currentIndex;
