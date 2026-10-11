@@ -1,5 +1,6 @@
 // src/data/pseudocodeQuestions.js
 // Authentic Accenture Assessment Pseudocode Questions with complete execution traces and step-by-step variable watches
+import { pseudocodeSet3Questions } from './pseudocodeSet3Questions.js';
 
 export const PSEUDOCODE_SETS = [
   {
@@ -15,15 +16,27 @@ export const PSEUDOCODE_SETS = [
     badge: 'PYQ Master Set 2',
     description: '20 Authentic Accenture Pseudocode PYQ Questions with Full Solutions, Step-by-Step Logic, and Master Answer Key',
     questionCount: 20
+  },
+  {
+    id: 'set-3',
+    name: 'Set 3: Authentic 115 PYQ Master Bank',
+    badge: 'PYQ Master Set 3',
+    description: '115 Authentic Accenture Pseudocode Questions from Recent Exams with Step-by-Step Logic Traces, Variable Watches & Explanations',
+    questionCount: 115
   }
 ];
 
 export const PSEUDOCODE_TOPICS = [
   { id: 'all', label: 'All Topics' },
-  { id: 'bitwise', label: 'Bitwise Logic (^, &, |, >>, <<)' },
-  { id: 'recursion', label: 'Recursive Call Stack Tracing' },
-  { id: 'loops', label: 'While & For Loop Mutations' },
-  { id: 'arrays', label: 'Array & Matrix Indexing' }
+  { id: 'bitwise-operators', label: 'Bitwise Logic (^, &, |, >>, <<)' },
+  { id: 'loops', label: 'Loops (While & For)' },
+  { id: 'recursion', label: 'Recursion Tracing' },
+  { id: 'conditional-statements', label: 'Conditionals & Branching' },
+  { id: 'functions', label: 'Functions & Methods' },
+  { id: 'arrays', label: 'Arrays & Indexing' },
+  { id: 'c-programming', label: 'C Syntax & Code' },
+  { id: 'operator-precedence', label: 'Operators & Precedence' },
+  { id: 'data-structures', label: 'Data Structures' }
 ];
 
 export const PSEUDOCODE_HANDBOOK = {
@@ -1790,12 +1803,26 @@ Final Answer: 7 (Option C)`,
       { line: 3, code: 'z = 2 + 5', variables: { z: 7 }, note: 'z = 2 + 5 = 7.' },
       { line: 4, code: 'Print z', variables: { output: 7 }, note: 'Outputs 7.' }
     ]
-  }
+  },
+  ...pseudocodeSet3Questions
 ];
 
 export function filterPseudocodeQuestions({ topic = 'all', set = 'all' }) {
   return pseudocodeQuestions.filter(q => {
-    const matchesTopic = topic === 'all' || q.topic === topic;
+    let matchesTopic = topic === 'all';
+    if (!matchesTopic) {
+      if (topic === q.topic) {
+        matchesTopic = true;
+      } else if (topic === 'bitwise-operators' && (q.topic === 'bitwise' || q.topic === 'bitwise-operators')) {
+        matchesTopic = true;
+      } else if (topic === 'bitwise' && (q.topic === 'bitwise' || q.topic === 'bitwise-operators')) {
+        matchesTopic = true;
+      } else if (topic === 'operator-precedence' && (q.topic === 'operators' || q.topic === 'operator-precedence')) {
+        matchesTopic = true;
+      } else if (topic === 'conditional-statements' && (q.topic === 'conditionals' || q.topic === 'conditional-statements')) {
+        matchesTopic = true;
+      }
+    }
     const matchesSet = set === 'all' || q.set === set;
     return matchesTopic && matchesSet;
   });

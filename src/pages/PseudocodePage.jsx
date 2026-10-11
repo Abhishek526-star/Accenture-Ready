@@ -275,7 +275,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
               }}
             >
               <Sparkles size={15} style={{ color: isSelected ? '#0f172a' : '#eab308' }} />
-              <span>{s.id === 'set-1' ? 'Set 1' : 'Set 2'}</span>
+              <span>{s.name ? s.name.split(':')[0] : s.badge}</span>
               <span style={{
                 padding: '2px 8px',
                 borderRadius: '10px',
@@ -314,7 +314,7 @@ export default function PseudocodePage({ theme = 'dark' }) {
             fontSize: '0.78rem',
             letterSpacing: '0.04em'
           }}>
-            {currentSetMeta.id === 'set-1' ? 'SET 1 (PYQs)' : 'SET 2 (PYQs)'}
+            {currentSetMeta.badge ? currentSetMeta.badge.toUpperCase() : `${(currentSetMeta.name || '').split(':')[0].toUpperCase()} (PYQs)`}
           </span>
           <span style={{ color: '#f8fafc', fontWeight: 700, fontSize: '0.95rem' }}>
             {currentSetMeta.name}
