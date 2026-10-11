@@ -159,7 +159,7 @@ export default function PseudocodeTracer({ pseudocode, stepTrace = [] }) {
               }}
             >
               <span style={{ width: '28px', color: '#475569', userSelect: 'none' }}>{lineNumber}</span>
-              <span style={{ flex: 1 }}>{lineText}</span>
+              <span style={{ flex: 1, whiteSpace: 'pre' }}>{lineText}</span>
             </div>
           );
         })}

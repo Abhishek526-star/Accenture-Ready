@@ -139,39 +139,33 @@ Output: 25`,
 end function
 // Executed for p = 22, q = 4, r = 2`,
     options: [
-      '20 18 16 14 12',
+      '12 10 8 6 4',
       '14 12 10 8 6 4',
       '26 24 22 20 18 16 14 12 10 8 6 4',
       'None of the mentioned options'
     ],
-    correctAnswer: 2, // C
+    correctAnswer: 0, // A
     explanation: `Track the recursive calls:
-p decreases by r, q increases by 2, and r increases by 2 on each recursive step:
-• p = 22, q = 4, r = 2
-• p = 20, q = 6, r = 4
-• p = 18, q = 8, r = 6
-• p = 16, q = 10, r = 8
-• p = 14, q = 12, r = 10
-• p = 12, q = 14, r = 12
-• p = 10, q = 16, r = 14
-• p = 8,  q = 18, r = 16
-• p = 6,  q = 20, r = 18
-• p = 4,  q = 22, r = 20
-• p = 2,  q = 24, r = 22
-• p = 0,  q = 26, r = 24
+On each recursive step, p decreases by the current value of r, q increases by 2, and r increases by 2:
+• p = 22, q = 4, r = 2 -> calls fun(22-2, 4+2, 2+2) = fun(20, 6, 4)
+• p = 20, q = 6, r = 4 -> calls fun(20-4, 6+2, 4+2) = fun(16, 8, 6)
+• p = 16, q = 8, r = 6 -> calls fun(16-6, 8+2, 6+2) = fun(10, 10, 8)
+• p = 10, q = 10, r = 8 -> calls fun(10-8, 10+2, 8+2) = fun(2, 12, 10)
+• p = 2, q = 12, r = 10 -> calls fun(2-10, 12+2, 10+2) = fun(-8, 14, 12)
+• p = -8, q = 14, r = 12 -> base case reached (-8 > 1 is false), function returns.
 
-When p = 0, recursion stops.
 Because Print q executes after the recursive call, values are printed in reverse order as the stack unwinds:
-26 24 22 20 18 16 14 12 10 8 6 4
+12 10 8 6 4
 
-Output: 26 24 22 20 18 16 14 12 10 8 6 4`,
+Output: 12 10 8 6 4`,
     stepTrace: [
       { line: 1, code: 'fun(22, 4, 2)', variables: { p: 22, q: 4, r: 2 }, note: 'Initial call: p=22, q=4, r=2.' },
       { line: 2, code: 'if (p > 1)', variables: { p: 22, q: 4, r: 2 }, note: '22 > 1 is true. Makes recursive call.' },
-      { line: 3, code: 'Recursive call cascade...', variables: { p: 0, q: 26 }, note: 'Calls continue until p = 0.' },
-      { line: 4, code: 'Print q (stack unwinding)', variables: { output: '26 24 22 20 18 16 14 12 10 8 6 4' }, note: 'Values of q print in reverse as stack frames pop.' }
+      { line: 3, code: 'Recursive call cascade...', variables: { p: -8, q: 14, r: 12 }, note: 'Calls continue until p = -8 where base case triggers.' },
+      { line: 4, code: 'Print q (stack unwinding)', variables: { output: '12 10 8 6 4' }, note: 'Values of q print in reverse as stack frames pop.' }
     ]
-  },
+}
+,
   {
     id: 'pseudo-s1-03',
     set: 'set-1',
@@ -219,7 +213,7 @@ Output: 4 7`,
     set: 'set-1',
     qno: 4,
     topic: 'recursion',
-    title: 'Q4. Recursive Division',
+    title: 'Q4. Recursive Function with Integer Division',
     difficulty: 'Medium',
     pseudocode: `public class MainClass {
     static void fun(int x, int y) {
@@ -232,28 +226,34 @@ Output: 4 7`,
         fun(108, 3);
     }
 }`,
-    options: ['3 6 9 12', '12 9 6 3', '9 6 3', '12 9 6'],
-    correctAnswer: 1, // B. 12 9 6 3
-    explanation: `Track recursive call chain:
-• fun(108, 3): 108 > 1, calls fun(108 / 3, 3 + 3) = fun(36, 6)
-• fun(36, 6):   36 > 1, calls fun(36 / 6, 6 + 3)   = fun(6, 9)
-• fun(6, 9):     6 > 1, calls fun(6 / 9, 9 + 3)     = fun(0, 12)
-• fun(0, 12):    0 > 1 is false, recursion stops.
+    options: [
+      '9 6 3',
+      '3 6 9',
+      '12 9 6 3',
+      'None of the mentioned options'
+    ],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
+    isPlatformBroken: false,
+    explanation: `Track the recursive calls step-by-step:
+• fun(108, 3): 108 > 1 is true -> calls fun(108/3, 3+3) = fun(36, 6)
+• fun(36, 6): 36 > 1 is true -> calls fun(36/6, 6+3) = fun(6, 9)
+• fun(6, 9): 6 > 1 is true -> calls fun(6/9, 9+3) = fun(0, 12)  [Note: Integer division 6/9 = 0]
+• fun(0, 12): 0 > 1 is false -> Base case reached, function returns without printing.
 
-Now calls unwind in reverse order, executing System.out.println(y):
-12
-9
-6
-3
+Because System.out.println(y) executes after the recursive call, the values of y print in reverse order as the stack unwinds:
+• From fun(6, 9) -> Prints 9
+• From fun(36, 6) -> Prints 6
+• From fun(108, 3) -> Prints 3
 
-Output: 12 9 6 3`,
+Final Output: 9 6 3`,
     stepTrace: [
-      { line: 9, code: 'fun(108, 3)', variables: { x: 108, y: 3 }, note: 'Initial call: x=108, y=3.' },
-      { line: 4, code: 'fun(36, 6)', variables: { x: 36, y: 6 }, note: '108 / 3 = 36, 3 + 3 = 6.' },
-      { line: 4, code: 'fun(6, 9)', variables: { x: 6, y: 9 }, note: '36 / 6 = 6, 6 + 3 = 9.' },
-      { line: 4, code: 'fun(0, 12)', variables: { x: 0, y: 12 }, note: '6 / 9 = 0, 9 + 3 = 12.' },
-      { line: 3, code: 'Base case x <= 1', variables: { x: 0 }, note: '0 > 1 is false. Stack unwinds.' },
-      { line: 5, code: 'Print y on return', variables: { output: '12 9 6 3' }, note: 'Prints 12, 9, 6, 3 in reverse stack order.' }
+      { line: 9, code: 'fun(108, 3)', variables: { x: 108, y: 3 }, note: 'Initial call from main: x=108, y=3.' },
+      { line: 4, code: 'fun(36, 6)', variables: { x: 36, y: 6 }, note: 'First recursive call: 108 / 3 = 36, 3 + 3 = 6.' },
+      { line: 4, code: 'fun(6, 9)', variables: { x: 6, y: 9 }, note: 'Second recursive call: 36 / 6 = 6, 6 + 3 = 9.' },
+      { line: 4, code: 'fun(0, 12)', variables: { x: 0, y: 12 }, note: 'Third recursive call: 6 / 9 = 0 (integer division), 9 + 3 = 12.' },
+      { line: 3, code: 'if (x > 1)', variables: { x: 0 }, note: 'Base case reached: 0 > 1 is false. Stack begins unwinding.' },
+      { line: 5, code: 'System.out.println(y)', variables: { output: '9 6 3' }, note: 'Values of y print in reverse (9, then 6, then 3) as stack frames pop.' }
     ]
   },
   {
@@ -261,8 +261,8 @@ Output: 12 9 6 3`,
     set: 'set-1',
     qno: 5,
     topic: 'loops',
-    title: 'Q5. Loop with Updating Variables',
-    difficulty: 'Medium',
+    title: 'Q5. Loop with Dynamic Variable Updates',
+    difficulty: 'Hard',
     pseudocode: `Integer a, b, c
 Set a = 10, b = 20
 for (c from a to b) increment c by 2 in each iteration
@@ -274,29 +274,36 @@ for (c from a to b) increment c by 2 in each iteration
         Print b
     end if
 end for`,
-    options: ['20', '22', '20 32', '20 32 46 62 80 100'],
-    correctAnswer: 3, // D. 20 32 46 62 80 100
-    explanation: `The for-loop boundaries are evaluated at initialization:
-c ranges from a (10) to b (20) with step 2:
-c values: 10, 12, 14, 16, 18, 20
+    options: [
+      '20',
+      '22',
+      '20 23',
+      '20 32'
+    ],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
+    isPlatformBroken: false,
+    explanation: `Track the variable changes step-by-step under a dynamic condition check model:
+• Initial Setup: a = 10, b = 20. The loop initiates with c = 10.
 
-Compute a and printed values:
-• c = 10: a = 10 + 10 = 20. (20 > 10) -> Print 20
-• c = 12: a = 20 + 12 = 32. (32 > 10) -> Print 32
-• c = 14: a = 32 + 14 = 46. (46 > 10) -> Print 46
-• c = 16: a = 46 + 16 = 62. (62 > 10) -> Print 62
-• c = 18: a = 62 + 18 = 80. (80 > 10) -> Print 80
-• c = 20: a = 80 + 20 = 100. (100 > 10) -> Print 100
+• Iteration 1 (c = 10):
+  a = a + c -> a = 10 + 10 = 20
+  b = b - a + c -> b = 20 - 20 + 10 = 10
+  Condition check: Since a > 10 (20 > 10) is true, it triggers the true branch -> Prints 20.
 
-Output: 20 32 46 62 80 100`,
+• Boundary Check for Next Iteration:
+  The loop condition dynamically tracks 'b'. Since 'b' has updated from 20 down to 10, checking for the next step (c = 12) against the limit 'b' (10) fails (12 <= 10 is false). 
+
+The loop terminates early after exactly one iteration.
+
+Final Output: 20`,
     stepTrace: [
-      { line: 2, code: 'Set a = 10, b = 20', variables: { a: 10, b: 20 }, note: 'Loop values of c: 10, 12, 14, 16, 18, 20.' },
-      { line: 4, code: 'Iter c=10: a = a + c', variables: { a: 20, c: 10, output: '20' }, note: 'a = 10 + 10 = 20. Prints 20.' },
-      { line: 4, code: 'Iter c=12: a = a + c', variables: { a: 32, c: 12, output: '20 32' }, note: 'a = 20 + 12 = 32. Prints 32.' },
-      { line: 4, code: 'Iter c=14: a = a + c', variables: { a: 46, c: 14, output: '20 32 46' }, note: 'a = 32 + 14 = 46. Prints 46.' },
-      { line: 4, code: 'Iter c=16: a = a + c', variables: { a: 62, c: 16, output: '20 32 46 62' }, note: 'a = 46 + 16 = 62. Prints 62.' },
-      { line: 4, code: 'Iter c=18: a = a + c', variables: { a: 80, c: 18, output: '20 32 46 62 80' }, note: 'a = 62 + 18 = 80. Prints 80.' },
-      { line: 4, code: 'Iter c=20: a = a + c', variables: { a: 100, c: 20, output: '20 32 46 62 80 100' }, note: 'a = 80 + 20 = 100. Prints 100.' }
+      { line: 2, code: 'Set a = 10, b = 20', variables: { a: 10, b: 20 }, note: 'Variables initialized: a = 10, b = 20.' },
+      { line: 3, code: 'for (c from a to b)', variables: { c: 10 }, note: '1st iteration begins with c = 10.' },
+      { line: 4, code: 'a = a + c', variables: { a: 20 }, note: 'a becomes 10 + 10 = 20.' },
+      { line: 5, code: 'b = b - a + c', variables: { b: 10 }, note: 'b decreases to 20 - 20 + 10 = 10.' },
+      { line: 7, code: 'Print a', variables: { output: '20' }, note: 'Condition 20 > 10 is true. Prints 20.' },
+      { line: 11, code: 'end for', variables: { a: 20, b: 10 }, note: 'Loop checks next step c = 12 against upper limit b = 10. Condition fails, loop exits.' }
     ]
   },
   {
