@@ -641,6 +641,24 @@ export default function TechnicalAssessmentPage({ theme = 'dark' }) {
                     {q.question}
                   </div>
 
+                  {q.image && (
+                    <figure className="cloud-question-figure cloud-question-figure-review" style={{ margin: '10px 0 14px' }}>
+                      <div className="cloud-question-image-wrap">
+                        <img
+                          src={q.image}
+                          alt={q.imageAlt || 'Question diagram'}
+                          className="cloud-question-image"
+                          loading="lazy"
+                        />
+                      </div>
+                      {q.imageCaption && (
+                        <figcaption className="cloud-question-figcaption">
+                          {q.imageCaption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
+
                   {/* Options Review */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {q.options.map((opt) => {
@@ -771,6 +789,25 @@ export default function TechnicalAssessmentPage({ theme = 'dark' }) {
                 currentQuestion.question
               )}
             </div>
+
+            {/* Question Image (if present) */}
+            {currentQuestion.image && (
+              <figure className="cloud-question-figure" style={{ marginBottom: '1.25rem' }}>
+                <div className="cloud-question-image-wrap">
+                  <img
+                    src={currentQuestion.image}
+                    alt={currentQuestion.imageAlt || 'Question visual diagram'}
+                    className="cloud-question-image"
+                    loading="eager"
+                  />
+                </div>
+                {currentQuestion.imageCaption && (
+                  <figcaption className="cloud-question-figcaption">
+                    {currentQuestion.imageCaption}
+                  </figcaption>
+                )}
+              </figure>
+            )}
 
             {/* Options List */}
             <div className="tech-options-list">

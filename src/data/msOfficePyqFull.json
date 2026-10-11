@@ -55,7 +55,10 @@
     ],
     "correctAnswer": "A",
     "explanation": "The shown Layout option is used to change the page size.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q2-ms-word-layout-icon.png",
+    "imageAlt": "Original PDF Image: MS Word Layout Tab Page Size Icon",
+    "imageCaption": "Original Exam Image (Enhanced): MS Word Layout Tab Size Icon"
   },
   {
     "id": 3,
@@ -84,7 +87,10 @@
     ],
     "correctAnswer": "D",
     "explanation": "When the range is merged, the value in the upper-left cell remains; in the image that value is 1.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q3-excel-merge-cells-table.png",
+    "imageAlt": "Original PDF Image: Excel 8-cell Table Grid",
+    "imageCaption": "Original Exam Image (Enhanced): Excel 8-Cell Grid to Merge"
   },
   {
     "id": 4,
@@ -113,7 +119,10 @@
     ],
     "correctAnswer": "D",
     "explanation": "The screen shown contains File/Info commands such as Protect Presentation, Inspect Presentation and Version History, which belong to Backstage View.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q4-powerpoint-backstage-view.png",
+    "imageAlt": "Original PDF Image: PowerPoint Backstage View",
+    "imageCaption": "Original Exam Image (Enhanced): PowerPoint File/Info Backstage Screen"
   },
   {
     "id": 5,
@@ -142,7 +151,10 @@
     ],
     "correctAnswer": "A",
     "explanation": "The Comparison layout provides two side-by-side content areas for comparing information.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q5-powerpoint-comparison-layout.png",
+    "imageAlt": "Original PDF Image: PowerPoint Comparison Slide Layout",
+    "imageCaption": "Original Exam Image (Enhanced): PowerPoint Slide Layout"
   },
   {
     "id": 6,
@@ -171,7 +183,10 @@
     ],
     "correctAnswer": "D",
     "explanation": "The Print command is available after opening the File tab/Backstage View.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q6-word-ribbon-print-tab.png",
+    "imageAlt": "Original PDF Image: MS Word Ribbon File Tab",
+    "imageCaption": "Original Exam Image (Enhanced): MS Word Ribbon Tab Bar"
   },
   {
     "id": 7,
@@ -229,7 +244,10 @@
     ],
     "correctAnswer": "A",
     "explanation": "Presentation themes and theme variants are available from the Design tab.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q8-powerpoint-theme-styles.png",
+    "imageAlt": "Original PDF Image: PowerPoint Drawing Tools Theme Styles Palette",
+    "imageCaption": "Original Exam Image (Enhanced): Drawing Tools Format Theme Styles Gallery"
   },
   {
     "id": 9,
@@ -287,7 +305,10 @@
     ],
     "correctAnswer": "D",
     "explanation": "The horizontal double-arrow cursor indicates that a column boundary can be dragged to resize the column.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q10-excel-column-resize-cursor.png",
+    "imageAlt": "Original PDF Image: MS Excel Column Resizing Cursor Shape",
+    "imageCaption": "Original Exam Image (Enhanced): MS Excel Column Resizing Cursor"
   },
   {
     "id": 11,
@@ -3873,7 +3894,10 @@
     ],
     "correctAnswer": "B",
     "explanation": "The source marks Ctrl+Shift+Alt+? for the pictured international character shortcut.",
-    "source": "Accenture Common Application and MS Office PYQ PDF"
+    "source": "Accenture Common Application and MS Office PYQ PDF",
+    "image": "/images/pyq/ms-office/q134-inverted-question-mark.png",
+    "imageAlt": "International Character: ¿",
+    "imageCaption": ""
   },
   {
     "id": 135,

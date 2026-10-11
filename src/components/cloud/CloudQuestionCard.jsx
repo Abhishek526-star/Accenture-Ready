@@ -85,6 +85,25 @@ export default function CloudQuestionCard({
       {/* Question Prompt */}
       <h2 className="cloud-question-text">{question.question}</h2>
 
+      {/* Question Image (if present) */}
+      {question.image && (
+        <figure className="cloud-question-figure">
+          <div className="cloud-question-image-wrap">
+            <img
+              src={question.image}
+              alt={question.imageAlt || 'Question visual diagram'}
+              className="cloud-question-image"
+              loading="eager"
+            />
+          </div>
+          {question.imageCaption && (
+            <figcaption className="cloud-question-figcaption">
+              {question.imageCaption}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
       {/* 4 Options Grid */}
       <div className="cloud-options-grid" role="radiogroup" aria-label="Answer Options">
         {question.options.map((option) => {

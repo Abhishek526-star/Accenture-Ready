@@ -6033,6 +6033,70 @@ a {
   margin-bottom: 1.75rem;
 }
 
+/* Question Visual Diagram / Figure */
+.cloud-question-figure {
+  margin: 0 0 1.75rem 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s ease-in-out;
+}
+
+.cloud-question-figure:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.45);
+}
+
+.cloud-question-figure-review {
+  margin: 0.75rem 0 1rem 0;
+  padding: 0.75rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(71, 85, 105, 0.3);
+}
+
+.cloud-question-image-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.cloud-question-image {
+  max-width: 100%;
+  width: auto;
+  max-height: 320px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+}
+
+.cloud-question-figure-review .cloud-question-image {
+  max-height: 240px;
+}
+
+.cloud-question-figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+
 /* Options Grid */
 .cloud-options-grid {
   display: flex;

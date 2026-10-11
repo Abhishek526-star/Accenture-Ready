@@ -277,7 +277,10 @@ const normalizeQuestions = (raw, fallbackSource) => {
       optionExplanations,
       topic,
       topicLabel: PYQ_TOPIC_LABELS[topic] || q.section || 'General',
-      source: q.source || bankSource
+      source: q.source || bankSource,
+      image: q.image || null,
+      imageAlt: q.imageAlt || null,
+      imageCaption: q.imageCaption || null
     };
   });
 };

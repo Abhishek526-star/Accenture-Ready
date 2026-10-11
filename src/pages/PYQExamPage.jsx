@@ -662,6 +662,25 @@ export default function PYQExamPage({ theme = 'dark' }) {
                   {/* Question prompt */}
                   <h2 className="cloud-question-text">{currentQuestion.question}</h2>
 
+                  {/* Question Image (if present) */}
+                  {currentQuestion.image && (
+                    <figure className="cloud-question-figure">
+                      <div className="cloud-question-image-wrap">
+                        <img
+                          src={currentQuestion.image}
+                          alt={currentQuestion.imageAlt || 'Question visual diagram'}
+                          className="cloud-question-image"
+                          loading="eager"
+                        />
+                      </div>
+                      {currentQuestion.imageCaption && (
+                        <figcaption className="cloud-question-figcaption">
+                          {currentQuestion.imageCaption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
+
                   {/* Options */}
                   <div className="cloud-options-grid" role="radiogroup" aria-label="Answer Options">
                     {currentQuestion.options.map((option) => {
@@ -1098,6 +1117,23 @@ export default function PYQExamPage({ theme = 'dark' }) {
                         </div>
 
                         <div className="cloud-review-item-content">
+                          {q.image && (
+                            <figure className="cloud-question-figure cloud-question-figure-review">
+                              <div className="cloud-question-image-wrap">
+                                <img
+                                  src={q.image}
+                                  alt={q.imageAlt || 'Question diagram'}
+                                  className="cloud-question-image"
+                                  loading="lazy"
+                                />
+                              </div>
+                              {q.imageCaption && (
+                                <figcaption className="cloud-question-figcaption">
+                                  {q.imageCaption}
+                                </figcaption>
+                              )}
+                            </figure>
+                          )}
                           <div className="cloud-review-options-summary">
                             <div className="cloud-review-choice">
                               <span className="choice-label">Your Answer:</span>
