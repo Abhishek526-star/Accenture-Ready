@@ -514,22 +514,23 @@
       }
     },
     {
-      "id": 31,
-      "question": "Which of the following statements is true about modems? 1. Modems use the telephone lines 2. Modem stands for modulator and demodulator 3. Modems are no longer used in secure network 4. Both 1 and 2 5. None of the above/More than one of the above",
-      "options": [
-        "Both 1 and 2",
-        "None of the above",
-        "Only 1",
-        "Only 2"
-      ],
-      "answer": "D",
-      "explanations": {
-        "A": "Statements 1 and 2 are both true according to the source, so this is the intended correct combination.",
-        "B": "This is incorrect because statements 1 and 2 are identified as true.",
-        "C": "Statement 1 alone does not capture the source's intended combination because statement 2 is also true.",
-        "D": "The source's answer is option 4, meaning 'Both 1 and 2'; the option numbering in the extracted PDF corresponds to this choice."
-      }
-    },
+  "id": 31,
+  "question": "Which of the following statements is true about modems? 1. Modems use the telephone lines 2. Modem stands for modulator and demodulator 3. Modems are no longer used in secure network 4. Both 1 and 2 5. None of the above/More than one of the above",
+  "options": [
+    "Both 1 and 2",
+    "None of the above",
+    "Only 1",
+    "Only 2"
+  ],
+  "answer": "A",
+  "explanations": {
+    "A": "Statements 1 and 2 are both true. Modems use telephone lines (in DSL/dial-up) and the name stands for modulator-demodulator.",
+    "B": "This is incorrect because statements 1 and 2 are true.",
+    "C": "This is incorrect because statement 2 is also true.",
+    "D": "This is incorrect because statement 1 is also true."
+  }
+}
+,
     {
       "id": 32,
       "question": "________ hides the true network address and is used to intercept all messages entering and leaving the network.",
