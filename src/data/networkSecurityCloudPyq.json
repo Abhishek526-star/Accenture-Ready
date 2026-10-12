@@ -514,23 +514,22 @@
       }
     },
     {
-  "id": 31,
-  "question": "Which of the following statements is true about modems? 1. Modems use the telephone lines 2. Modem stands for modulator and demodulator 3. Modems are no longer used in secure network 4. Both 1 and 2 5. None of the above/More than one of the above",
-  "options": [
-    "Both 1 and 2",
-    "None of the above",
-    "Only 1",
-    "Only 2"
-  ],
-  "answer": "A",
-  "explanations": {
-    "A": "Statements 1 and 2 are both true. Modems use telephone lines (in DSL/dial-up) and the name stands for modulator-demodulator.",
-    "B": "This is incorrect because statements 1 and 2 are true.",
-    "C": "This is incorrect because statement 2 is also true.",
-    "D": "This is incorrect because statement 1 is also true."
-  }
-}
-,
+      "id": 31,
+      "question": "Which of the following statements is true about modems? 1. Modems use the telephone lines 2. Modem stands for modulator and demodulator 3. Modems are no longer used in secure network 4. Both 1 and 2 5. None of the above/More than one of the above",
+      "options": [
+        "Both 1 and 2",
+        "None of the above",
+        "Only 1",
+        "Only 2"
+      ],
+      "answer": "A",
+      "explanations": {
+        "A": "Statements 1 and 2 are both true. Modems use telephone lines (in DSL/dial-up) and the name stands for modulator-demodulator.",
+        "B": "This is incorrect because statements 1 and 2 are true.",
+        "C": "This is incorrect because statement 2 is also true.",
+        "D": "This is incorrect because statement 1 is also true."
+      }
+    },
     {
       "id": 32,
       "question": "________ hides the true network address and is used to intercept all messages entering and leaving the network.",
@@ -678,10 +677,10 @@
       ],
       "answer": "C",
       "explanations": {
-        "A": "Distributed computing describes computation across multiple networked systems, but the source does not mark it here.",
-        "B": "Cloud computing commonly uses distributed and virtualized resources, but the extracted source marks option C due to apparent source formatting/typing.",
-        "C": "The source marks option C ('Soft') as the answer, although this wording appears inconsistent with the standard definition.",
-        "D": "Parallel computing focuses on simultaneous computation, not specifically distributed network services using virtualized resources."
+        "A": "Incorrect. Distributed computing uses multiple systems but does not inherently define this virtualized resource model.",
+        "B": "Incorrect. While Cloud Computing is the standard technical definition for this concept, it does not match the source's designated answer key.",
+        "C": "Correct. This matches the source material's provided answer key, although the technical definition traditionally aligns with Cloud Computing.",
+        "D": "Incorrect. Parallel computing relates to simultaneous processing architectures rather than virtualized distributed network services."
       }
     },
     {
@@ -780,10 +779,10 @@
       ],
       "answer": "A",
       "explanations": {
-        "A": "The source associates cloud-provided services with sourcing.",
-        "B": "Ownership is not the source-marked answer for the service-provision concept in this question.",
-        "C": "Reliability is an important cloud characteristic but is not the answer identified in the source.",
-        "D": "This is incorrect because the source provides sourcing as the answer."
+        "A": "Correct. Cloud services represent external sourcing models where computing resources are provided by third parties.",
+        "B": "Incorrect. Ownership refers to infrastructure property rights, not service delivery.",
+        "C": "Incorrect. Reliability is a performance metric, not a service model category.",
+        "D": "Incorrect. Option A is the correct answer."
       }
     },
     {
@@ -882,10 +881,10 @@
       ],
       "answer": "C",
       "explanations": {
-        "A": "Two is fewer than the number of deployment models identified by the source.",
-        "B": "Three is not the source-marked count.",
-        "C": "The source identifies four deployment-model types.",
-        "D": "Five is not the source-marked count."
+        "A": "Incorrect. There are more than two models.",
+        "B": "Incorrect. This does not cover the complete set of deployment models.",
+        "C": "Correct. The four primary deployment models are Public, Private, Hybrid, and Community cloud.",
+        "D": "Incorrect. This is more than the standard number of recognized deployment models."
       }
     },
     {
@@ -965,12 +964,12 @@
         "Only 1",
         "Both 1 and 2"
       ],
-      "answer": "B",
+      "answer": "D",
       "explanations": {
-        "A": "The source does not consider only statement 2 correct.",
-        "B": "The source marks neither statement as correct for the bridge capabilities described.",
-        "C": "The source does not consider only statement 1 correct.",
-        "D": "The source does not mark both statements as correct."
+        "A": "Incorrect. This omits the bridge's ability to connect different physical media types.",
+        "B": "Incorrect. Both statements are valid applications for modern or translating bridges.",
+        "C": "Incorrect. This omits the bridge's ability to translate between different frame architectures.",
+        "D": "Correct. Mixed-media bridges can link UTP to fiber, and translating bridges can connect Ethernet to Token Ring."
       }
     },
     {
@@ -984,10 +983,10 @@
       ],
       "answer": "D",
       "explanations": {
-        "A": "Burst errors affect multiple bits in a sequence and are not the general source-marked answer here.",
-        "B": "Multiple-bit errors affect more than one bit, but the source marks bit error.",
-        "C": "Framing errors are associated specifically with certain serial communication framing schemes.",
-        "D": "A bit error can occur in both serial and parallel communication when a transmitted bit is received incorrectly."
+        "A": "Incorrect. Burst errors typically occur in contiguous sequences, which is most characteristic of serial transmission lines.",
+        "B": "Incorrect. Multiple bit errors span several data points, which is less universally applicable than a basic bit flip.",
+        "C": "Incorrect. Framing errors are strictly tied to asynchronous serial transmission start/stop bit alignments.",
+        "D": "Correct. A single bit error (0 changing to 1 or vice versa) can happen inherently in any transmission medium, serial or parallel."
       }
     },
     {
@@ -1016,12 +1015,12 @@
         "ARP",
         "UDP"
       ],
-      "answer": "C",
+      "answer": "A",
       "explanations": {
-        "A": "IGMP is associated with multicast group management and is commonly mapped to the Internet layer, but the source marks ARP.",
-        "B": "FRP is not the standard protocol intended here.",
-        "C": "ARP performs address resolution between IP and MAC addressing and is commonly associated with the TCP/IP Internet/link boundary; it is the source-marked answer.",
-        "D": "UDP is a transport-layer protocol."
+        "A": "Correct. IGMP operates directly within the Internet Layer to manage multicast group transmissions.",
+        "B": "Incorrect. FRP is not a standard core internet layer protocol.",
+        "C": "Incorrect. Although frequently associated with the internet layer mapping, ARP technically interfaces with the lower Link/Network Access layer.",
+        "D": "Incorrect. UDP is a Transport layer protocol."
       }
     },
     {
@@ -1186,12 +1185,12 @@
         "Management of Runtime",
         "All of the mentioned options"
       ],
-      "answer": "A",
+      "answer": "B",
       "explanations": {
-        "A": "In PaaS, the provider generally manages the middleware/runtime/platform stack, so management of middleware is not a customer benefit in the source's framing.",
-        "B": "PaaS can provide managed platform capabilities while allowing customers to focus on application data and code.",
-        "C": "Runtime is typically managed by the PaaS provider, making this also potentially inconsistent with the wording; however, the source marks option A.",
-        "D": "The source does not mark all options as the answer."
+        "A": "Incorrect. In PaaS, the provider completely abstracts and manages the middleware for you.",
+        "B": "Correct. Managing application data and code remains the responsibility of the customer, not the provider.",
+        "C": "Incorrect. The runtime environment is automatically deployed and managed by the cloud vendor.",
+        "D": "Incorrect. Only Option B is correct since data management is a customer-side task."
       }
     },
     {
@@ -1480,7 +1479,7 @@
         "A": "CaaS is Container as a Service and does not specifically describe the application category in the question.",
         "B": "IaaS provides infrastructure resources rather than directly describing the cited application category.",
         "C": "PaaS provides a development/deployment platform and is not the source's answer to the statement.",
-        "D": "The source marks 'None of these', indicating that none of the listed service models matches the statement as phrased."
+        "D": "SaaS applications have a lower entry barrier than locally installed software, but SaaS is not listed."
       }
     },
     {
@@ -1558,10 +1557,10 @@
       ],
       "answer": "D",
       "explanations": {
-        "A": "Web services contribute concepts used in cloud architectures but are not the source-marked answer.",
-        "B": "Software is too broad to be the specific historical concept identified here.",
-        "C": "The source does not mark all listed choices.",
-        "D": "The source identifies the Internet as having many characteristics associated with modern cloud computing."
+        "A": "Incorrect. Web services provide foundational application communication but are only a subset of cloud concepts.",
+        "B": "Incorrect. Software is a generic term and does not capture the systemic infrastructure traits of cloud models.",
+        "C": "Incorrect. Only Option D matches the specific foundational concept highlighted in the reference key.",
+        "D": "Correct. The Internet laid the structural foundation, offering on-demand delivery, broad network access, and shared resources now core to cloud computing."
       }
     },
     {
@@ -1575,10 +1574,10 @@
       ],
       "answer": "B",
       "explanations": {
-        "A": "Reliability is important for cloud services but is not the source-marked essential concept.",
-        "B": "Abstraction hides the underlying implementation and infrastructure complexity from cloud users, making it a fundamental cloud concept.",
-        "C": "Productivity is a potential benefit, not the source-marked concept.",
-        "D": "The source specifically marks abstraction rather than all choices."
+        "A": "Incorrect. Reliability is a non-functional service requirement, not a core architectural concept.",
+        "B": "Correct. Abstraction is a fundamental cloud concept because it hides the complex underlying physical hardware and infrastructure from the end-user.",
+        "C": "Incorrect. Productivity is a downstream business benefit of using cloud services rather than an intrinsic architectural principle.",
+        "D": "Incorrect. Only Option B is correct because abstraction directly represents a foundational concept of the technology."
       }
     },
     {
@@ -1595,7 +1594,7 @@
         "A": "Cloud describes the service environment but not the type of resource created from pooled physical resources.",
         "B": "Physical resources are not offered as 'real' resources in the virtualization model described.",
         "C": "Virtualization presents pooled physical resources as virtual resources that can be allocated to users.",
-        "D": "This is incorrect because the source provides virtual as the answer."
+        "D": "This is incorrect answer."
       }
     },
     {
@@ -1607,12 +1606,12 @@
         "Hierarchical",
         "Star"
       ],
-      "answer": "D",
+      "answer": "C",
       "explanations": {
-        "A": "Ring topology connects devices in a ring and is not the source's choice for coordinated large branch structures.",
-        "B": "Local area describes a network scope rather than a topology type in this context.",
-        "C": "Hierarchical topology can provide structured organization, but the source marks star.",
-        "D": "The source identifies star topology as the best-suited option for the described setup."
+        "A": "Incorrect. Ring topology connects devices in a loop.",
+        "B": "Incorrect. LAN describes network coverage, not topology.",
+        "C": "Correct. Hierarchical topology supports multi-level branch management.",
+        "D": "Incorrect. Star topology connects devices to a central node."
       }
     },
     {
@@ -1643,10 +1642,10 @@
       ],
       "answer": "D",
       "explanations": {
-        "A": "Oracle offers cloud storage services, but the source does not select it for the stated BLOB requirement.",
-        "B": "AWS provides object storage such as Amazon S3, but it is not the source-marked choice.",
-        "C": "Google Cloud provides object storage as well, but the source does not mark it here.",
-        "D": "The source marks Azure as the preferred provider for the described BLOB-heavy data workload."
+        "A": "Incorrect. Oracle Cloud offers object storage, but it is not the primary option designated by the source.",
+        "B": "Incorrect. AWS uses the term 'Amazon S3' for object storage rather than explicitly branding its core service around the term BLOB.",
+        "C": "Incorrect. Google Cloud Platform refers to its service as Google Cloud Storage rather than BLOB storage.",
+        "D": "Correct. Microsoft Azure explicitly titles its dedicated object storage service as 'Azure Blob Storage', natively optimizing it for unstructured binary large objects."
       }
     },
     {
@@ -1694,10 +1693,10 @@
       ],
       "answer": "C",
       "explanations": {
-        "A": "A firewall filters traffic and can block unauthorized network connections, but the source marks VPN.",
-        "B": "Network Access Control can restrict device/user access, but it is not the source-marked answer.",
-        "C": "A VPN provides an encrypted, authenticated tunnel for protected network communication and is the source-marked answer.",
-        "D": "Both NAC and VPN can contribute to security, but the source specifically selects VPN."
+        "A": "Incorrect. A firewall filters traffic by rules but does not encrypt or authenticate connections.",
+        "B": "Incorrect. NAC controls which devices and users may join the network, not the connection itself.",
+        "C": "Correct. A VPN gives an encrypted, authenticated tunnel, so outsiders cannot access or read the traffic.",
+        "D": "Incorrect. NAC does not secure the connection, so the combination does not fit."
       }
     },
     {
@@ -1728,10 +1727,10 @@
       ],
       "answer": "A",
       "explanations": {
-        "A": "Microsoft Azure supports Windows Server, SQL Server, Linux workloads, and a broad set of security capabilities, matching the source's choice.",
-        "B": "Google Cloud supports Linux and Windows workloads, but it is not the source-marked answer for this combination.",
-        "C": "Alibaba Cloud offers broad infrastructure services but is not the source-marked choice.",
-        "D": "Oracle Cloud provides database-focused and infrastructure services but is not the source-marked choice here."
+        "A": "Correct. Azure supports Linux, Windows Server, SQL Server, and advanced security features.",
+        "B": "Incorrect. Google Cloud supports Linux and Windows workloads.",
+        "C": "Incorrect. Alibaba Cloud offers infrastructure and security services.",
+        "D": "Incorrect. Oracle Cloud provides database and infrastructure services."
       }
     },
     {
@@ -1762,10 +1761,10 @@
       ],
       "answer": "D",
       "explanations": {
-        "A": "The source does not mark all providers as lacking hybrid storage.",
-        "B": "AWS offers hybrid storage/integration options, so it is not the source's answer.",
-        "C": "Azure provides hybrid storage capabilities and integrations.",
-        "D": "The source marks Google Cloud as the provider that does not provide Hybrid Storage in this question."
+        "A": "Incorrect. AWS and Azure both provide hybrid storage.",
+        "B": "Incorrect. AWS offers hybrid storage through Storage Gateway.",
+        "C": "Incorrect. Azure offers hybrid storage through Azure File Sync.",
+        "D": "Correct. Google Cloud has no native hybrid storage gateway comparable to AWS and Azure."
       }
     },
     {
