@@ -830,7 +830,23 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
                     ['ROUND cast tip', 'SELECT SUM(col1) / CAST(SUM(col2) AS DECIMAL(10,2));', 'Prevents silent integer division', { attempt: 'Write a query to calculate the on-time delivery rate (%) for each warehouse, avoiding integer division.', sampleTable: { headers: ['warehouse','on_time','total'], rows: [['WH-A','45','50'],['WH-B','30','60']] }, query: 'SELECT warehouse,\n  ROUND(\n    CAST(on_time AS DECIMAL(10,2)) / total * 100, 1\n  ) AS delivery_rate_pct\nFROM deliveries;', output: { headers: ['warehouse','delivery_rate_pct'], rows: [['WH-A','90.0'],['WH-B','50.0']] }, note: 'Integer ÷ Integer = Integer in MySQL. Always CAST numerator or denominator to DECIMAL for ratio calculations.' }],
                   ]
                 },
-              ].map(({ key, label, color, bg, border, rows, note }) => (
+                {
+                  key: 'patternmatch', label: '10. Pattern Matching Functions', color: '#f87171',
+                  bg: 'rgba(248,113,113,0.08)', border: 'rgba(248,113,113,0.25)',
+                  note: 'LIKE can use an index when the pattern has no leading % (e.g. LIKE \'A%\'). REGEXP generally cannot use an index — avoid on large tables without filtering first.',
+                  customHeader: true,
+                  rows: [
+                    ['LIKE \'A%\'', "WHERE name LIKE 'A%'", 'Rows where name starts with A', { attempt: "Write a query to display cabin crew members whose first name starts with 'A' and whose flight ID ends with '1'.", sampleTable: { headers: ['crew_id','first_name','flight_id'], rows: [['C01','Alice','FL101'],['C02','Bob','FL102'],['C03','Anna','FL201'],['C04','Carol','FL301']] }, query: "SELECT crew_id, first_name, flight_id\nFROM cabin_crew\nWHERE first_name LIKE 'A%'\n  AND flight_id LIKE '%1';", output: { headers: ['crew_id','first_name','flight_id'], rows: [['C01','Alice','FL101'],['C03','Anna','FL201']] }, note: "LIKE 'A%' matches any string starting with A. LIKE '%1' matches any string ending in 1. Both can combine in one WHERE clause." }],
+                    ['LIKE \'%a\'', "WHERE name LIKE '%a'", 'Rows where name ends with a', { attempt: "Write a query to find all employees whose last name ends with the letter 'a'.", sampleTable: { headers: ['name','last_name'], rows: [['Alice','Silva'],['Bob','Smith'],['Carol','Verma'],['Dave','Jones']] }, query: "SELECT name, last_name\nFROM employees\nWHERE last_name LIKE '%a';", output: { headers: ['name','last_name'], rows: [['Alice','Silva'],['Carol','Verma']] }, note: 'LIKE is case-insensitive by default in MySQL with the default collation (utf8mb4_general_ci).' }],
+                    ['LIKE \'%li%\'', "WHERE name LIKE '%li%'", 'Rows where name contains li', { attempt: "Write a query to find all employees whose first name contains the substring 'li' anywhere.", sampleTable: { headers: ['first_name'], rows: [['Alice'],['Bob'],['Charlie'],['Dave'],['Olivia']] }, query: "SELECT first_name\nFROM employees\nWHERE first_name LIKE '%li%';", output: { headers: ['first_name'], rows: [['Alice'],['Charlie'],['Olivia']] }, note: 'Leading % means the index cannot be used — full table scan occurs. Use FULLTEXT indexes for large datasets.' }],
+                    ['LIKE \'_o_\'', "WHERE name LIKE '_o_'", '3-char names with o in the middle', { attempt: "Write a query to find all employees whose first name is exactly 3 characters long with 'o' as the middle character.", sampleTable: { headers: ['first_name'], rows: [['Bob'],['Tom'],['Jon'],['Alice'],['Joe']] }, query: "SELECT first_name\nFROM employees\nWHERE first_name LIKE '_o_';", output: { headers: ['first_name'], rows: [['Bob'],['Tom'],['Jon']] }, note: 'Each _ matches exactly one character. _o_ = any char + o + any char = exactly 3 characters total.' }],
+                    ['NOT LIKE', "WHERE email NOT LIKE '%@gmail.com'", 'Rows NOT matching pattern', { attempt: "Write a query to display all employees whose email address does NOT belong to the gmail.com domain.", sampleTable: { headers: ['name','email'], rows: [['Alice','alice@gmail.com'],['Bob','bob@yahoo.com'],['Carol','carol@gmail.com'],['Dave','dave@outlook.com']] }, query: "SELECT name, email\nFROM employees\nWHERE email NOT LIKE '%@gmail.com';", output: { headers: ['name','email'], rows: [['Bob','bob@yahoo.com'],['Dave','dave@outlook.com']] }, note: 'NOT LIKE is the logical negation of LIKE. Equivalent to: NOT (email LIKE \'%@gmail.com\').' }],
+                    ['REGEXP / RLIKE', "WHERE name REGEXP '^[A-C]'", 'Rows matching regex pattern', { attempt: "Write a query to find all employees whose first name starts with A, B, or C using a single REGEXP condition.", sampleTable: { headers: ['first_name'], rows: [['Alice'],['Bob'],['Carol'],['Dave'],['Eve']] }, query: "SELECT first_name\nFROM employees\nWHERE first_name REGEXP '^[A-C]';", output: { headers: ['first_name'], rows: [['Alice'],['Bob'],['Carol']] }, note: 'REGEXP and RLIKE are synonyms in MySQL. ^ anchors to the start; [A-C] matches any character from A to C.' }],
+                    ['REGEXP \'[0-9]\'', "WHERE phone REGEXP '[0-9]'", 'Rows containing digits (0–9)', { attempt: 'Write an SQL query to display the employee ID, name, and phone number of employees whose phone number contains at least one digit.', sampleTable: { headers: ['emp_id','name','phone'], rows: [['E101','Alice','9876543210'],['E102','Bob','N/A'],['E103','Carol','ext-402'],['E104','David','None']] }, query: "SELECT emp_id, name, phone\nFROM employees\nWHERE phone REGEXP '[0-9]';", output: { headers: ['emp_id','name','phone'], rows: [['E101','Alice','9876543210'],['E103','Carol','ext-402']] }, note: '[0-9] matches any digit between 0 and 9 anywhere in the value. Use [^0-9] to match non-digit characters.' }],
+                    ['REGEXP_LIKE()', "REGEXP_LIKE(phone, '^[0-9]{10}$')", '1 if matches, 0 if not', { attempt: 'Write a query to find all employees whose phone number is exactly 10 digits using REGEXP_LIKE() (MySQL 8+).', sampleTable: { headers: ['name','phone'], rows: [['Alice','9876543210'],['Bob','98765'],['Carol','1234567890'],['Dave','abc1234567']] }, query: "SELECT name, phone\nFROM employees\nWHERE REGEXP_LIKE(phone, '^[0-9]{10}$');", output: { headers: ['name','phone'], rows: [['Alice','9876543210'],['Carol','1234567890']] }, note: 'REGEXP_LIKE() is the function form of REGEXP (MySQL 8+). {10} means exactly 10 repetitions of the preceding pattern.' }]
+                  ]
+                },
+              ].map(({ key, label, color, bg, border, rows, note, customHeader, footer }) => (
                 <div
                   key={key}
                   style={{
@@ -874,6 +890,80 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
                   {/* Accordion Body */}
                   {openFnSection === key && (
                     <div style={{ padding: '0.75rem 1rem 1rem' }}>
+
+                      {/* Block A+B+C: Pattern Matching custom header blocks */}
+                      {customHeader && (
+                        <div style={{ marginBottom: '1rem' }}>
+                          {/* Wildcard quick reference */}
+                          <div style={{ marginBottom: '0.75rem' }}>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>⚡ Wildcard Quick Reference</div>
+                            <table style={{ borderCollapse: 'collapse', fontSize: '0.82rem', width: '100%' }}>
+                              <thead>
+                                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
+                                  {['Wildcard','Meaning','Example','Matches'].map(h => (
+                                    <th key={h} style={{ padding: '0.35rem 0.7rem', textAlign: 'left', color, fontWeight: 700, borderBottom: `1px solid ${border}`, whiteSpace: 'nowrap' }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td style={{ padding: '0.35rem 0.7rem', color, fontFamily: 'monospace', fontWeight: 700 }}>%</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#cbd5e1' }}>Any number of characters (including none)</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#94a3b8', fontFamily: 'monospace' }}>'A%'</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#e2e8f0' }}>Alice, Anna, A</td>
+                                </tr>
+                                <tr style={{ background: 'rgba(255,255,255,0.025)' }}>
+                                  <td style={{ padding: '0.35rem 0.7rem', color, fontFamily: 'monospace', fontWeight: 700 }}>_</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#cbd5e1' }}>Exactly one character</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#94a3b8', fontFamily: 'monospace' }}>'B_b'</td>
+                                  <td style={{ padding: '0.35rem 0.7rem', color: '#e2e8f0' }}>Bob, Bib</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          {/* Common LIKE patterns code block */}
+                          <div style={{ marginBottom: '0.75rem' }}>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>💻 Common LIKE Patterns</div>
+                            <pre style={{ background: '#040810', border: `1px solid ${border}`, borderRadius: '8px', padding: '0.75rem 1rem', margin: 0, fontFamily: 'monospace', fontSize: '0.8rem', lineHeight: 1.75, color: '#7dd3fc', overflowX: 'auto' }}>{`WHERE name LIKE 'A%'       -- starts with A
+WHERE name LIKE '%a'       -- ends with a
+WHERE name LIKE '%li%'     -- contains "li"
+WHERE name LIKE '_o_'      -- 3 letters, "o" in the middle
+WHERE name NOT LIKE 'A%'   -- does not start with A`}</pre>
+                          </div>
+
+                          {/* LIKE vs REGEXP comparison table */}
+                          <div>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>⚖️ LIKE vs REGEXP</div>
+                            <div style={{ overflowX: 'auto' }}>
+                              <table style={{ borderCollapse: 'collapse', fontSize: '0.8rem', width: '100%', minWidth: '400px' }}>
+                                <thead>
+                                  <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
+                                    {['','LIKE','REGEXP'].map((h, i) => (
+                                      <th key={i} style={{ padding: '0.35rem 0.7rem', textAlign: 'left', color, fontWeight: 700, borderBottom: `1px solid ${border}` }}>{h}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {[
+                                    ['Power', 'Basic (%, _ only)', 'Full regex (^, $, [], +, |)'],
+                                    ['Standard SQL', 'Yes — all databases', 'No — varies by dialect'],
+                                    ['Index usage', 'Yes, when no leading %', 'Usually cannot use index'],
+                                    ['Case sensitivity', 'Collation-based (insensitive by default)', 'Dialect-dependent'],
+                                  ].map(([prop, like, regexp], ri) => (
+                                    <tr key={ri} style={{ background: ri % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.025)' }}>
+                                      <td style={{ padding: '0.35rem 0.7rem', color, fontWeight: 700, whiteSpace: 'nowrap' }}>{prop}</td>
+                                      <td style={{ padding: '0.35rem 0.7rem', color: '#cbd5e1' }}>{like}</td>
+                                      <td style={{ padding: '0.35rem 0.7rem', color: '#cbd5e1' }}>{regexp}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       <div style={{ overflowX: 'auto' }}>
                         <table style={{
                           width: '100%',
@@ -956,6 +1046,46 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
                           fontStyle: 'italic',
                           lineHeight: 1.5
                         }}>{note}</p>
+                      )}
+
+                      {/* Block E: Cross-database reference table */}
+                      {footer && (
+                        <div style={{ marginTop: '1rem' }}>
+                          <div style={{ fontSize: '0.72rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>🌐 Cross-Database Pattern Matching Reference</div>
+                          <div style={{ overflowX: 'auto' }}>
+                            <table style={{ borderCollapse: 'collapse', fontSize: '0.78rem', width: '100%', minWidth: '520px' }}>
+                              <thead>
+                                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
+                                  {['Type','Function / Operator','Databases','Use'].map(h => (
+                                    <th key={h} style={{ padding: '0.35rem 0.65rem', textAlign: 'left', color, fontWeight: 700, borderBottom: `1px solid ${border}`, whiteSpace: 'nowrap' }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {[
+                                  ['Wildcard','LIKE, NOT LIKE','All databases','Simple patterns with % and _'],
+                                  ['Wildcard','ILIKE','PostgreSQL','Case-insensitive LIKE'],
+                                  ['Wildcard','SIMILAR TO','PostgreSQL','Between LIKE and full regex'],
+                                  ['Wildcard','[a-c], [^a-c] inside LIKE','SQL Server','Character ranges in patterns'],
+                                  ['Position','PATINDEX()','SQL Server','Returns position of a pattern'],
+                                  ['Regex','REGEXP, RLIKE','MySQL, MariaDB','Boolean regex match'],
+                                  ['Regex','REGEXP_LIKE()','MySQL 8+, Oracle, SQL Server 2025','Function form of regex match'],
+                                  ['Regex','REGEXP_REPLACE()','MySQL 8+, MariaDB, Oracle, PostgreSQL','Replace regex matches'],
+                                  ['Regex','REGEXP_SUBSTR()','MySQL 8+, Oracle','Extract matched text'],
+                                  ['Regex','REGEXP_INSTR()','MySQL 8+, Oracle','Position of regex match'],
+                                  ['Regex','~, ~*, !~, !~*','PostgreSQL','Match operators (* = case-insensitive, ! = negate)'],
+                                ].map(([type, fn, dbs, use], ri) => (
+                                  <tr key={ri} style={{ background: ri % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
+                                    <td style={{ padding: '0.3rem 0.65rem', color: type === 'Regex' ? '#c084fc' : '#38bdf8', fontWeight: 700, whiteSpace: 'nowrap' }}>{type}</td>
+                                    <td style={{ padding: '0.3rem 0.65rem', color, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>{fn}</td>
+                                    <td style={{ padding: '0.3rem 0.65rem', color: '#64748b', fontSize: '0.75rem' }}>{dbs}</td>
+                                    <td style={{ padding: '0.3rem 0.65rem', color: '#cbd5e1' }}>{use}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       )}
                     </div>
                   )}
