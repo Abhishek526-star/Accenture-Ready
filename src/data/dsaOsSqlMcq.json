@@ -327,19 +327,19 @@
     {
       "id": 18,
       "section": "DSA",
-      "question": "Analyze the time complexity of the following function: def func(n): if n <= 1: return else func(n/2) + func(n/2)",
+      "question": "Analyze the time complexity of the following function:\n\ndef func(n):\n    if n <= 1:\n        return\n    else:\n        return func(n/2) + func(n/2)",
       "options": {
         "A": "O(n)",
         "B": "O(log n)",
         "C": "O(n^2)",
         "D": "O(n log n)"
       },
-      "correctAnswer": "D",
+      "correctAnswer": "A",
       "explanations": {
-        "A": "While standard Master Theorem gives T(n) = 2T(n/2) + O(1) => O(n), the source paper marks D (O(n log n)).",
-        "B": "O(log n) applies when only one branch of n/2 is executed (like binary search).",
-        "C": "O(n^2) represents quadratic growth from double nested loops or unpartitioned recursion.",
-        "D": "The source marks O(n log n) for this divide-and-conquer recursive relation."
+        "A": "Correct. The recurrence relation is T(n) = 2T(n/2) + O(1). According to Case 1 of the Master Theorem, since log2(2) > 0, the time complexity is dominated by the leaf nodes, resulting in O(n).",
+        "B": "Incorrect. O(log n) applies when only a single branch of size n/2 is executed, such as in standard binary search.",
+        "C": "Incorrect. O(n^2) represents quadratic growth, typically arising from nested loops or linear recursion with a linear reduction step.",
+        "D": "Incorrect. O(n log n) would require an additional linear combine step, O(n), at each level of recursion (like in Merge Sort). Here, the work done outside the recursive calls is constant, O(1)."
       }
     },
     {
@@ -1468,66 +1468,66 @@
         "C": "Remove 'WHERE Age IS NOT NULL'",
         "D": "No error"
       },
-      "correctAnswer": "C",
+      "correctAnswer": "D",
       "explanations": {
-        "A": "ISNULL(Age, 30) would replace NULL with 30, which is the opposite of NULLIF (which returns NULL if expressions are equal).",
-        "B": "Replacing Age, 30 with Age, 0 merely changes the comparison literal without altering query syntax.",
-        "C": "The source marks removing WHERE Age IS NOT NULL because checking for non-null ages before calling NULLIF is redundant.",
-        "D": "While the statement is valid SQL in most RDBMSs, the source marks C as the intended correction."
+        "A": "NULLIF and ISNULL have different purposes. NULLIF returns NULL when its two expressions are equal, whereas ISNULL replaces a NULL value with a specified replacement value in SQL Server.",
+        "B": "Replacing 30 with 0 changes the comparison value but does not fix any syntax error.",
+        "C": "The WHERE clause is valid and filters out rows where Age is NULL. Removing it changes the result set, so it is not a required correction.",
+        "D": "The query is valid SQL. NULLIF(Age, 30) returns NULL when Age equals 30 and otherwise returns Age. The WHERE clause excludes rows where Age is NULL."
       }
     },
     {
       "id": 82,
       "section": "SQL",
-      "question": "Correct the syntax error in \"SELECT NVL(Salary, 'Not Provided') FROM Contractors;\"",
+      "question": "Which change gives the result of \"SELECT NVL(Salary, 0) FROM Contractors;\" a clear, readable column header?",
       "options": {
         "A": "Change 'NVL' to 'COALESCE'",
-        "B": "Replace 'Not Provided' with '0'",
-        "C": "Add 'AS SalaryStatus' for clarity",
-        "D": "No error"
+        "B": "Replace 0 with 'Not Provided'",
+        "C": "Add 'AS SalaryStatus' after the NVL expression",
+        "D": "No change is possible"
       },
       "correctAnswer": "C",
       "explanations": {
-        "A": "COALESCE is standard SQL, but NVL is fully valid in Oracle SQL.",
-        "B": "Replacing 'Not Provided' with 0 avoids type mismatch if Salary is numeric, though Oracle NVL requires matching data types.",
-        "C": "Adding a column alias like AS SalaryStatus provides a clean column header for the evaluated expression; marked by the source as the correction.",
-        "D": "The source specifically selects adding an explicit alias for clarity."
+        "A": "COALESCE is a valid alternative to NVL, but it doesn't change the column header; it would still show the raw expression text.",
+        "B": "This changes the default value, not the header, and mixing a string with a numeric Salary can cause a data type error.",
+        "C": "A column alias such as AS SalaryStatus replaces the default expression text (e.g., NVL(SALARY,0)) with a clean, readable header.",
+        "D": "Aliases exist for exactly this purpose, so a change is possible."
       }
     },
     {
       "id": 83,
       "section": "SQL",
-      "question": "What is incorrect in \"SELECT COALESCE(FirstName, LastName, 'Unknown') FROM Authors;\"?",
+      "question": "Which change gives the result of \"SELECT COALESCE(FirstName, LastName, 'Unknown') FROM Authors;\" a clear, readable column header?",
       "options": {
         "A": "Replace 'COALESCE' with 'NVL'",
-        "B": "Change 'Unknown' to 'NULL'",
-        "C": "Add 'AS FullName' for clarity",
-        "D": "No error"
+        "B": "Change 'Unknown' to NULL",
+        "C": "Add 'AS DisplayName' after the COALESCE expression",
+        "D": "No change is possible"
       },
       "correctAnswer": "C",
       "explanations": {
-        "A": "NVL accepts only two arguments, whereas COALESCE properly evaluates an arbitrary chain of arguments.",
-        "B": "Changing 'Unknown' to NULL defeats the purpose of providing a fallback string when names are missing.",
-        "C": "Adding AS FullName provides a descriptive alias for the calculated column expression; marked by the source as the correction.",
-        "D": "While syntactically valid without an alias, the source marks adding AS FullName for clarity."
+        "A": "NVL accepts only two arguments, so it cannot handle this three-argument fallback chain, and it would not change the header anyway.",
+        "B": "Changing 'Unknown' to NULL defeats the purpose of the fallback and does not affect the column header.",
+        "C": "A column alias such as AS DisplayName replaces the default expression text with a clean, readable header.",
+        "D": "Aliases exist for exactly this purpose, so a change is possible."
       }
     },
     {
       "id": 84,
       "section": "SQL",
-      "question": "In \"SELECT Name, NVL2(Salary, Salary * 1.1, Salary) AS NewSalary FROM Employees;\", what needs correction?",
+      "question": "In \"SELECT Name, NVL2(Salary, Salary * 1.1, Salary) AS NewSalary FROM Employees;\", what is the third argument of NVL2 doing wrong if NULL salaries should be reported as 0?",
       "options": {
-        "A": "Change 'NVL2' to 'COALESCE'",
-        "B": "Replace 'Salary * 1.1' with 'Salary + 1000'",
+        "A": "Replace the third argument Salary with 0",
+        "B": "Replace NVL2 with COALESCE",
         "C": "Remove 'AS NewSalary'",
-        "D": "No error"
+        "D": "Replace 'Salary * 1.1' with 'Salary + 1000'"
       },
-      "correctAnswer": "C",
+      "correctAnswer": "A",
       "explanations": {
-        "A": "COALESCE does not support the ternary NVL2(expr, not_null_result, null_result) logic.",
-        "B": "Replacing the multiplier with an addition is a business logic alteration, not a syntax correction.",
-        "C": "The expression is syntactically valid in Oracle SQL; the source marks removing AS NewSalary.",
-        "D": "The source paper specifies option C."
+        "A": "NVL2(expr, not_null_result, null_result) returns the third argument when expr is NULL. Using Salary there returns NULL again, so 0 is needed to report NULL salaries as 0.",
+        "B": "COALESCE does not support the ternary NVL2 logic of applying a raise only when Salary is present.",
+        "C": "The alias is valid and only controls the column header; removing it fixes nothing.",
+        "D": "Changing the multiplier to an addition alters the business logic and does not address NULL handling."
       }
     },
     {
@@ -1569,19 +1569,19 @@
     {
       "id": 87,
       "section": "SQL",
-      "question": "Identify the error in \"SELECT Name, CASE Gender WHEN 'M' THEN 'Male' WHEN 'F' THEN 'Female' END AS Gender FROM Employees;\"",
+      "question": "Which change makes \"SELECT Name, CASE Gender WHEN 'M' THEN 'Male' WHEN 'F' THEN 'Female' END AS Gender FROM Employees;\" return a value instead of NULL when Gender is neither 'M' nor 'F'?",
       "options": {
         "A": "Change 'CASE Gender' to 'CASE WHEN Gender'",
         "B": "Replace 'END AS Gender' with 'END'",
-        "C": "Add 'ELSE 'Other''",
-        "D": "No error"
+        "C": "Add ELSE 'Other' before END",
+        "D": "No change is needed"
       },
       "correctAnswer": "C",
       "explanations": {
-        "A": "CASE Gender WHEN 'M' ... is standard Simple CASE syntax; converting to Searched CASE (CASE WHEN Gender = 'M' ...) is not required.",
-        "B": "Removing the alias leaves the result column unnamed or auto-generated, which is not an error fix.",
-        "C": "Adding an ELSE 'Other' fallback clause ensures that missing, non-binary, or unlisted gender codes do not produce unexpected NULL values.",
-        "D": "The source marks adding an ELSE clause to handle unspecified values safely."
+        "A": "CASE Gender WHEN 'M' ... is valid simple CASE syntax. CASE WHEN Gender would also need a full condition such as Gender = 'M', and neither form changes how unmatched values are handled.",
+        "B": "Removing the alias only changes the column header to the raw CASE expression text. It has no effect on unmatched values.",
+        "C": "Without an ELSE, a CASE expression returns NULL when no WHEN matches. Adding ELSE 'Other' supplies a default for any value other than 'M' or 'F'.",
+        "D": "Without an ELSE, any value other than 'M' or 'F' (including NULL) produces NULL, so a change is needed to avoid that."
       }
     },
     {
@@ -1605,19 +1605,19 @@
     {
       "id": 89,
       "section": "SQL",
-      "question": "Identify the error in \"SELECT Name, DATEDIFF(year, HireDate, GETDATE()) AS YearsWorked FROM Employees;\"",
+      "question": "\"SELECT Name, DATEDIFF(day, HireDate, GETDATE()) AS YearsWorked FROM Employees;\" returns days, not years. Which change fixes the misleading alias?",
       "options": {
-        "A": "Change 'DATEDIFF(year, HireDate, GETDATE())' to 'DATEDIFF(day, HireDate, GETDATE())'",
+        "A": "Change 'day' to 'year'",
         "B": "Replace 'AS YearsWorked' with 'AS DaysWorked'",
         "C": "Remove 'GETDATE()'",
-        "D": "No error"
+        "D": "No change is needed"
       },
       "correctAnswer": "B",
       "explanations": {
-        "A": "Changing to day would calculate the total days worked instead of years.",
-        "B": "The source marks renaming the alias to AS DaysWorked (or adjusting the unit accordingly).",
-        "C": "Removing GETDATE() would leave DATEDIFF missing its required end-date parameter.",
-        "D": "The source designates option B."
+        "A": "This would return years, which makes the alias accurate, but it changes the calculation instead of fixing the alias. Both A and B resolve the mismatch, so a question wanting only B should say the unit must stay as days.",
+        "B": "The expression counts days, so DaysWorked is the accurate alias.",
+        "C": "Without GETDATE(), DATEDIFF is missing its end-date argument and fails.",
+        "D": "The alias says years while the expression returns days, so a change is needed."
       }
     },
     {
@@ -1641,19 +1641,19 @@
     {
       "id": 91,
       "section": "SQL",
-      "question": "Correct the syntax error in \"UPDATE Products SET Price = Price * 1.1 WHERE Price < 100 OR Price > 200;\"",
+      "question": "Which change restricts \"UPDATE Products SET Price = Price * 1.1 WHERE Price < 100 OR Price > 200;\" so that only products priced under 100 are updated?",
       "options": {
         "A": "Change '*' to '+' in 'Price * 1.1'",
         "B": "Remove 'OR Price > 200'",
         "C": "Replace 'WHERE' with 'AND'",
-        "D": "No error"
+        "D": "No change is needed"
       },
       "correctAnswer": "B",
       "explanations": {
-        "A": "Price * 1.1 correctly increases price by 10%; changing * to + would merely add $1.10.",
-        "B": "The source identifies removing OR Price > 200 to constrain the discount/price increase criteria.",
-        "C": "Changing WHERE to AND breaks SQL grammar; WHERE is the mandatory filter keyword.",
-        "D": "The statement is valid SQL, but the source selects B as the intended modification."
+        "A": "Changing * to + would add 1.1 to the price instead of increasing it by 10%, and it doesn't affect which rows are updated.",
+        "B": "Removing OR Price > 200 leaves WHERE Price < 100, so only products under 100 are updated.",
+        "C": "Replacing WHERE with AND produces invalid SQL; WHERE is required to filter rows in an UPDATE.",
+        "D": "The original statement is valid SQL, but it updates both cheap (< 100) and expensive (> 200) products, so a change is needed."
       }
     },
     {
@@ -1666,18 +1666,18 @@
         "C": "Change 'Salary' to 'TotalSalary'",
         "D": "No error"
       },
-      "correctAnswer": "C",
+      "correctAnswer": "D",
       "explanations": {
-        "A": "BETWEEN filters an inclusive numerical range; IN tests membership in an explicit discrete set.",
-        "B": "BETWEEN ... AND is mandatory syntactic pairing; replacing AND with OR is a syntax error.",
-        "C": "The source marks changing Salary to TotalSalary to reflect the comprehensive compensation field.",
-        "D": "The source marks option C as the intended schema attribute correction."
+        "A": "BETWEEN filters an inclusive numerical range; IN tests membership in an explicit list, which is a different operation.",
+        "B": "BETWEEN ... AND requires AND; replacing it with OR is a syntax error.",
+        "C": "No schema is given, so there is no basis for renaming the column. Salary is a perfectly valid column name.",
+        "D": "Correct. The statement is valid SQL and returns employees earning between 30000 and 50000, inclusive."
       }
     },
     {
       "id": 93,
       "section": "SQL",
-      "question": "In \"SELECT Name FROM Employees WHERE NOT (Age < 30 AND Department = 'Sales');\", identify the error.",
+      "question": "A manager wants the names of employees who are neither under 30 nor in the Sales department. The query \"SELECT Name FROM Employees WHERE NOT (Age < 30 AND Department = 'Sales');\" returns the wrong rows. What is the error?",
       "options": {
         "A": "Replace 'NOT' with 'NO'",
         "B": "Change 'AND' to 'OR'",
@@ -1687,9 +1687,9 @@
       "correctAnswer": "B",
       "explanations": {
         "A": "NO is not an SQL keyword; NOT is the standard Boolean negation operator.",
-        "B": "By De Morgan's Laws, negating a conjunction (A and B) yields (NOT A or NOT B); the source identifies changing AND to OR.",
-        "C": "Parentheses are essential here to enforce operator precedence for the NOT clause.",
-        "D": "The source selects B to reflect the equivalent disjunctive form."
+        "B": "Correct. The goal is NOT (under 30 OR in Sales), which equals (Age >= 30 AND Department <> 'Sales'). The original uses AND inside the NOT, so it only excludes employees who are both under 30 and in Sales.",
+        "C": "Without the parentheses, NOT applies only to Age < 30, so the Sales condition is no longer negated. This gives the wrong result.",
+        "D": "The query is valid SQL, but its logic doesn't match the stated goal, so a change is needed."
       }
     },
     {
@@ -1713,19 +1713,19 @@
     {
       "id": 95,
       "section": "SQL",
-      "question": "What needs to be changed in \"UPDATE Employees SET Salary *= 2 WHERE YearsOfExperience > 5;\"?",
+      "question": "In standard SQL (for example MySQL or PostgreSQL), what needs to be changed in \"UPDATE Employees SET Salary *= 2 WHERE YearsOfExperience > 5;\" so that only employees with more than 5 years of experience have their salary doubled?",
       "options": {
         "A": "Change '*=' to '=:='",
-        "B": "Remove 'WHERE YearsOfExperience > 5'",
+        "B": "Replace 'Salary *= 2' with 'Salary = Salary * 2'",
         "C": "Replace '2' with '2.0'",
-        "D": "No error"
+        "D": "Remove 'WHERE YearsOfExperience > 5'"
       },
       "correctAnswer": "B",
       "explanations": {
-        "A": "*= is C/Java compound assignment syntax, not valid SQL assignment.",
-        "B": "The source identifies removing the WHERE condition, while standard SQL requires SET Salary = Salary * 2.",
-        "C": "2.0 vs 2 is a numeric type distinction that does not fix compound assignment.",
-        "D": "*= is non-standard SQL."
+        "A": "=:= is not a valid operator in any SQL dialect.",
+        "B": "Correct. Standard SQL has no compound assignment operators, so the update must be written as SET Salary = Salary * 2.",
+        "C": "2 and 2.0 are both valid numeric literals; changing one to the other doesn't fix the operator problem.",
+        "D": "Removing the WHERE clause would double every employee's salary and still leave the invalid *= operator."
       }
     },
     {
@@ -1839,7 +1839,7 @@
     {
       "id": 102,
       "section": "SQL",
-      "question": "What happens if you use a column in the SELECT statement that is not in the GROUP BY clause?",
+      "question": "In standard SQL, what happens if you use a column in the SELECT statement that is not in the GROUP BY clause and is not inside an aggregate function?",
       "options": {
         "A": "The query fails",
         "B": "The query succeeds, and the column shows arbitrary values",
@@ -1848,10 +1848,10 @@
       },
       "correctAnswer": "A",
       "explanations": {
-        "A": "Under standard ANSI SQL rules, selecting a non-aggregated column that does not appear in GROUP BY causes the query to fail with an error.",
-        "B": "Only older MySQL versions with ONLY_FULL_GROUP_BY disabled returned arbitrary values; standard SQL strictly rejects this.",
-        "C": "SQL engines never automatically insert unmentioned columns into grouping sets.",
-        "D": "The query parser validates the select-list against group expressions and aborts if an un-aggregated column is found."
+        "A": "Correct. Standard SQL requires every non-aggregated column in the SELECT list to appear in GROUP BY (or be functionally dependent on the grouped columns), otherwise the query fails with an error.",
+        "B": "This only happens in permissive setups, such as MySQL with ONLY_FULL_GROUP_BY disabled (the default before 5.7) or SQLite. Standard SQL and most databases reject the query.",
+        "C": "No database engine automatically rewrites the query to fix it.",
+        "D": "The column is not silently dropped. The parser either raises an error or, in permissive engines, returns a value from an arbitrary row."
       }
     },
     {
@@ -1929,7 +1929,7 @@
     {
       "id": 107,
       "section": "SQL",
-      "question": "Identify the error in \"SELECT Department, COUNT(*) FROM Employees GROUP BY Salary;\"",
+      "question": "In standard SQL, identify the error in \"SELECT Department, COUNT(*) FROM Employees GROUP BY Salary;\"",
       "options": {
         "A": "SELECT Department",
         "B": "COUNT(*)",
@@ -1938,10 +1938,10 @@
       },
       "correctAnswer": "C",
       "explanations": {
-        "A": "SELECT Department is valid if grouped by Department.",
+        "A": "SELECT Department is valid on its own. The error comes from the mismatch with the GROUP BY clause, not from the select list itself.",
         "B": "COUNT(*) is a valid aggregate function.",
-        "C": "Grouping by Salary while selecting unaggregated Department violates the grouping contract; the query should GROUP BY Department.",
-        "D": "The query contains a fundamental grouping error."
+        "C": "Correct. Department is not in the GROUP BY clause and is not aggregated, so the query is invalid. Using GROUP BY Department fixes it.",
+        "D": "The query is rejected in standard SQL because Department is neither grouped nor aggregated."
       }
     },
     {
@@ -1990,30 +1990,30 @@
         "C": "Change 'COUNT(*)' to 'COUNT(Department)'",
         "D": "No error"
       },
-      "correctAnswer": "B",
+      "correctAnswer": "D",
       "explanations": {
-        "A": "Replacing SUM with AVG changes the metric, not the syntax correctness.",
-        "B": "The source marks changing GROUP BY to ORDER BY, although standard SQL validly uses GROUP BY here.",
-        "C": "COUNT(*) and COUNT(Department) both evaluate group size correctly.",
-        "D": "The source specifically selects option B."
+        "A": "AVG(Salary) is also valid, but it changes the metric returned and fixes no error.",
+        "B": "Replacing GROUP BY with ORDER BY would make the query invalid, because SUM(Salary) would no longer be grouped and HAVING would be misplaced.",
+        "C": "COUNT(Department) is valid but differs from COUNT(*) only when Department contains NULLs. Neither form is an error.",
+        "D": "Correct. Department is in GROUP BY, SUM(Salary) is a valid aggregate, and HAVING COUNT(*) > 5 correctly filters groups after aggregation."
       }
     },
     {
       "id": 111,
       "section": "SQL",
-      "question": "What is incorrect in \"SELECT * FROM Employees ORDER BY 3;\"?",
+      "question": "The Employees table has columns EmployeeID, Name, Salary and Department. Which change makes \"SELECT * FROM Employees ORDER BY 3;\" more robust against future changes in column order?",
       "options": {
-        "A": "Change 'ORDER BY 3' to 'ORDER BY ID'",
+        "A": "Change 'ORDER BY 3' to an explicit column name, such as 'ORDER BY Salary'",
         "B": "Replace '*' with 'EmployeeID, Name'",
-        "C": "Add 'WHERE' clause before 'ORDER BY'",
-        "D": "No error"
+        "C": "Add a 'WHERE' clause before 'ORDER BY'",
+        "D": "No change is needed"
       },
       "correctAnswer": "A",
       "explanations": {
-        "A": "Positional ordering (ORDER BY 3) is discouraged and non-standard in modern schema design; referencing explicit column names (ORDER BY ID) is preferred.",
-        "B": "Using * is valid shorthand for all columns.",
-        "C": "An ORDER BY clause does not require a preceding WHERE clause.",
-        "D": "While supported by older dialects, the source flags positional column references for correction."
+        "A": "Correct. ORDER BY 3 sorts by the third column's position, so it silently sorts by a different column if the column order changes. Naming the column explicitly avoids that.",
+        "B": "This changes which columns are returned and would make ORDER BY 3 invalid, because the select list would have only two columns.",
+        "C": "WHERE filters rows. It is optional and has no effect on how the sort column is referenced.",
+        "D": "The query is valid, but positional ordering is fragile, so a change improves it."
       }
     },
     {
@@ -2037,19 +2037,19 @@
     {
       "id": 113,
       "section": "SQL",
-      "question": "In \"SELECT Department, COUNT(EmployeeID) FROM Employees GROUP BY Department HAVING COUNT(EmployeeID) > ALL (SELECT COUNT(EmployeeID) FROM Employees GROUP BY Department);\" what needs correction?",
+      "question": "The query \"SELECT Department, COUNT(EmployeeID) FROM Employees GROUP BY Department HAVING COUNT(EmployeeID) > ALL (SELECT COUNT(EmployeeID) FROM Employees GROUP BY Department);\" is meant to return the department with the most employees, but it returns no rows. What needs correction?",
       "options": {
         "A": "Change 'COUNT(EmployeeID)' to 'SUM(EmployeeID)'",
         "B": "Replace 'GROUP BY' with 'ORDER BY'",
-        "C": "Alter 'ALL' to 'ANY'",
-        "D": "No error"
+        "C": "Change '> ALL' to '>= ALL'",
+        "D": "Change '> ALL' to '> ANY'"
       },
       "correctAnswer": "C",
       "explanations": {
-        "A": "Changing COUNT to SUM changes the calculation from headcount to ID summation.",
-        "B": "GROUP BY is necessary for calculating counts per department.",
-        "C": "A value can never be strictly greater than ALL elements of a set that includes itself; changing ALL to ANY avoids an empty result set.",
-        "D": "The condition > ALL on a set containing the current value guarantees zero records returned."
+        "A": "SUM(EmployeeID) adds up ID numbers, not headcount, so it does not fix the logic.",
+        "B": "GROUP BY is required to count employees per department. ORDER BY would break the query.",
+        "C": "Correct. The subquery includes each department's own count, and a value is never strictly greater than itself, so > ALL is always false. >= ALL is true only for the department(s) with the maximum count.",
+        "D": "> ANY returns every department whose count exceeds at least one other count, which is nearly all departments, not just the largest."
       }
     },
     {
@@ -2118,10 +2118,10 @@
       },
       "correctAnswer": "D",
       "explanations": {
-        "A": "UNION ALL is valid syntax if preserving duplicate names across both tables is acceptable.",
-        "B": "Column alias names are determined by the first SELECT statement; differing column names across queries do not cause a syntax error as long as data types match.",
-        "C": "WHERE clauses are optional in set operations.",
-        "D": "Both queries return exactly one column of compatible string type, making the UNION ALL operation syntactically correct."
+        "A": "UNION ALL is valid. UNION would only remove duplicate names, which changes the result but fixes no error.",
+        "B": "The question gives no EmployeeName column, so this could cause an error. Column names don't need to match across the two queries, because the result uses the names from the first SELECT.",
+        "C": "WHERE is optional in each SELECT of a set operation. Omitting it is not an error.",
+        "D": "Correct. Both queries return one column of compatible type, so UNION ALL is valid and keeps duplicate names."
       }
     },
     {
