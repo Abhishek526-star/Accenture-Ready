@@ -198,7 +198,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               </Link>
               <Link to="/practice" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Code2 size={14} className="text-sky-400" />
-                <span>Frontend Coding (20 Qs)</span>
+                <span>Frontend Coding (12 PYQs)</span>
               </Link>
               <Link to="/sql-assessment" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Database size={14} className="text-orange-400" />
@@ -696,7 +696,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                     <span style={{ color: '#38bdf8' }}>DSA Practice (61 PYQs)</span>
                   </Link>
                   <Link to="/practice" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-                    <span>Frontend Coding (20 Qs)</span>
+                    <span>Frontend Coding (12 Qs)</span>
                   </Link>
                   <Link to="/sql-assessment" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>SQL Engine Sandbox (30 PYQs)</span>
