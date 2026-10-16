@@ -34,6 +34,7 @@ import { executeDsaOnJudge0, outputsMatch } from '../services/judge0Service.js';
 import { telemetryService } from '../services/telemetryService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
 import SEO from '../components/SEO.jsx';
+import JavaGuideModal from '../components/java/JavaGuideModal.jsx';
 
 const DSA_LANGUAGES = [
   { id: 'python', label: 'Python 3', monacoLang: 'python', icon: '🐍' },
@@ -215,6 +216,7 @@ export default function DsaPracticePage({ theme = 'dark' }) {
   const [selectedLang, setSelectedLang] = useState('python');
   const [isEditorExpanded, setIsEditorExpanded] = useState(false);
   const [showSolutionModal, setShowSolutionModal] = useState(false);
+  const [showJavaGuide, setShowJavaGuide] = useState(false);
   const [solutionTabLang, setSolutionTabLang] = useState('python');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedSolution, setCopiedSolution] = useState(false);
@@ -636,6 +638,49 @@ export default function DsaPracticePage({ theme = 'dark' }) {
               fontSize: '0.75rem'
             }}>
               {DSA_PRACTICE_QUESTIONS.length}
+            </span>
+          </button>
+
+          {/* Java Assessment & DSA Cheat Sheet Guide Button */}
+          <button
+            type="button"
+            onClick={() => setShowJavaGuide(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '8px 18px',
+              borderRadius: '10px',
+              background: 'rgba(249, 115, 22, 0.15)',
+              border: '1px solid rgba(249, 115, 22, 0.45)',
+              color: '#fdba74',
+              fontWeight: 700,
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 12px rgba(249, 115, 22, 0.2)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(249, 115, 22, 0.25)';
+              e.currentTarget.style.borderColor = '#fb923c';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(249, 115, 22, 0.15)';
+              e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
+            }}
+            title="Java Methods Cheat Sheet for Assessments & Competitive Programming"
+          >
+            <BookOpen size={16} style={{ color: '#fb923c' }} />
+            <span>Java Assessment Guide</span>
+            <span style={{
+              background: 'rgba(249, 115, 22, 0.3)',
+              color: '#fff7ed',
+              padding: '1px 7px',
+              borderRadius: '12px',
+              fontSize: '0.75rem',
+              fontWeight: 800
+            }}>
+              Cheat Sheet
             </span>
           </button>
         </div>
@@ -1829,6 +1874,12 @@ export default function DsaPracticePage({ theme = 'dark' }) {
           </div>
         </div>
       )}
+
+      {/* Java Assessment & DSA Cheat Sheet Guide Modal */}
+      <JavaGuideModal
+        isOpen={showJavaGuide}
+        onClose={() => setShowJavaGuide(false)}
+      />
     </div>
   );
 }
