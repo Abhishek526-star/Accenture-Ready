@@ -723,26 +723,26 @@
       {
         "id": "A",
         "text": "CURRENTMONTH()",
-        "explanation": "CURRENTMONTH() is not a standard Excel worksheet function for extracting a month."
+        "explanation": "CURRENTMONTH() is not an Excel function. To get the current month, use =MONTH(TODAY())."
       },
       {
         "id": "B",
         "text": "DATE()",
-        "explanation": "The source marks DATE(), although DATE() normally constructs a date rather than extracting its month."
+        "explanation": "DATE(year, month, day) builds a date from three numbers. It does not extract the month from an existing date."
       },
       {
         "id": "C",
         "text": "DAY()",
-        "explanation": "DAY() extracts the day number from a date, not the month."
+        "explanation": "DAY() extracts the day of the month (1 to 31), not the month."
       },
       {
         "id": "D",
         "text": "MONTH()",
-        "explanation": "MONTH() is the function normally used to extract the month number; however, the uploaded source marks option B."
+        "explanation": "Correct. MONTH() returns the month number (1 to 12) from a date, for example =MONTH(A1) returns 8 for 15-Aug-2026."
       }
     ],
-    "correctAnswer": "B",
-    "explanation": "The source PDF marks DATE() as the answer for this question.",
+    "correctAnswer": "D",
+    "explanation": "MONTH() extracts the month number from a date. DATE() constructs a date, DAY() extracts the day, and CURRENTMONTH() does not exist in Excel.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -950,31 +950,31 @@
   },
   {
     "id": 33,
-    "question": "What is the default font used in MS Word document?",
+    "question": "What is the default font used in a new MS Word document (Word 2007 to 2019)?",
     "options": [
       {
         "id": "A",
         "text": "Calibri",
-        "explanation": "The source marks Calibri as the default Word font for the version assumed by the question."
+        "explanation": "Correct. Calibri (11 pt) is the default body font in Word 2007 to 2019."
       },
       {
         "id": "B",
         "text": "Arial",
-        "explanation": "Arial is a common font but is not the source-marked default."
+        "explanation": "Arial is a common font but has never been Word's default."
       },
       {
         "id": "C",
         "text": "Algerian",
-        "explanation": "Algerian is a decorative font, not the standard default font."
+        "explanation": "Algerian is a decorative display font, not a default font."
       },
       {
         "id": "D",
         "text": "None of the above",
-        "explanation": "The source provides a specific answer, so 'None of the above' is not appropriate."
+        "explanation": "Calibri is the default in these versions, so one of the options is correct. (Microsoft 365 now defaults to Aptos, and Word 2003 and earlier used Times New Roman.)"
       }
     ],
     "correctAnswer": "A",
-    "explanation": "The source marks Calibri as the default font.",
+    "explanation": "Calibri is the default font in Word 2007 to 2019. Newer Microsoft 365 versions use Aptos, and Word 2003 and earlier used Times New Roman.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -1409,31 +1409,31 @@
   },
   {
     "id": 49,
-    "question": "Which of the following selection options is included in Paint?",
+    "question": "Which of the following selection options is included in Paint?\n\n1. Rectangular Selection\n2. Free-Form Selection\n3. Circular Selection",
     "options": [
       {
         "id": "A",
         "text": "1 and 3",
-        "explanation": "The source says Rectangular and Circular together are not the correct combination."
+        "explanation": "Rectangular selection exists, but Paint has no circular selection option."
       },
       {
         "id": "B",
         "text": "1 and 2",
-        "explanation": "Rectangular Selection and Free-Form Selection are the selection options identified by the source."
+        "explanation": "Correct. Paint's Select tool offers Rectangular selection and Free-form selection."
       },
       {
         "id": "C",
         "text": "1, 2 and 3",
-        "explanation": "The source does not include all three as the available set."
+        "explanation": "Paint has no circular selection, so all three cannot be correct."
       },
       {
         "id": "D",
         "text": "2 and 3",
-        "explanation": "Free-Form is included, but Circular is not part of the source's listed Paint selection options."
+        "explanation": "Free-form selection exists, but Paint has no circular selection option."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source identifies Rectangular Selection and Free-Form Selection as available options.",
+    "explanation": "Paint's Select tool provides Rectangular selection and Free-form selection. It has no Circular selection.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -1501,31 +1501,31 @@
   },
   {
     "id": 52,
-    "question": "Which View is not present in PowerPoint?",
+    "question": "Which of the following is not a view in MS PowerPoint?",
     "options": [
       {
         "id": "A",
         "text": "Slide Sorter",
-        "explanation": "Slide Sorter is a standard PowerPoint view used to arrange and manage slides."
+        "explanation": "Slide Sorter is a standard PowerPoint view that shows thumbnails of all slides for arranging them."
       },
       {
         "id": "B",
         "text": "Slide Show",
-        "explanation": "The source marks Slide Show, although modern PowerPoint does provide Slide Show as a presentation mode; the source wording is therefore version/context dependent."
+        "explanation": "Slide Show is a standard PowerPoint view that displays the presentation full screen."
       },
       {
         "id": "C",
         "text": "Normal",
-        "explanation": "Normal View is the principal editing view in PowerPoint."
+        "explanation": "Normal view is the main editing view in PowerPoint."
       },
       {
         "id": "D",
-        "text": "Outline",
-        "explanation": "Outline View is a standard PowerPoint view focused on slide text."
+        "text": "Page Layout",
+        "explanation": "Correct. Page Layout is a view in Word and Excel, not in PowerPoint."
       }
     ],
-    "correctAnswer": "B",
-    "explanation": "The source marks Slide Show as the option not present, although the source wording is inconsistent with standard PowerPoint terminology.",
+    "correctAnswer": "D",
+    "explanation": "PowerPoint's views include Normal, Outline, Slide Sorter, Notes Page, Reading View and Slide Show. Page Layout is a Word and Excel view and does not exist in PowerPoint.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {

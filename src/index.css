@@ -6031,6 +6031,7 @@ a {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 1.75rem;
+  white-space: pre-line;
 }
 
 /* Question Visual Diagram / Figure */
