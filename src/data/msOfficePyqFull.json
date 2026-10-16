@@ -1535,26 +1535,26 @@
       {
         "id": "A",
         "text": "Line Spacing",
-        "explanation": "Line spacing is the vertical distance between lines of text."
+        "explanation": "Line spacing is the vertical distance between lines of text within a paragraph."
       },
       {
         "id": "B",
         "text": "Paragraph spacing",
-        "explanation": "Paragraph spacing is the space before or after paragraphs."
+        "explanation": "Paragraph spacing is the vertical space before or after a paragraph."
       },
       {
         "id": "C",
         "text": "Indent",
-        "explanation": "Indent controls the distance of paragraph text from the margin."
+        "explanation": "Correct. An indent is the horizontal space between the page margin and the text of a paragraph (left, right, first line or hanging)."
       },
       {
         "id": "D",
         "text": "Index",
-        "explanation": "The source marks Index, although standard terminology would normally describe the margin-to-text distance as indentation."
+        "explanation": "An index is an alphabetical list of terms with page numbers, usually at the end of a document. It is not a spacing setting."
       }
     ],
-    "correctAnswer": "D",
-    "explanation": "The source marks Index as the answer for this question.",
+    "correctAnswer": "C",
+    "explanation": "Indent is the horizontal space between the margin and the text. Line spacing and paragraph spacing are vertical, and an index is a list of terms.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -1563,27 +1563,27 @@
     "options": [
       {
         "id": "A",
-        "text": "SnapChat",
-        "explanation": "SnapChat is a social-media service and is not a document-navigation feature."
+        "text": "Table of contents",
+        "explanation": "A table of contents is a list of headings with page numbers. It can link to sections, but it is not the feature for marking a specific location."
       },
       {
         "id": "B",
-        "text": "Gmail",
-        "explanation": "Gmail is an email service and is not a document-location function."
+        "text": "Hypertext",
+        "explanation": "Hypertext is the general concept of linked text. A hyperlink can jump to a location, but it needs a target such as a bookmark."
       },
       {
         "id": "C",
-        "text": "Facebook",
-        "explanation": "Facebook is a social-media platform and is not a document-location function."
+        "text": "Bookmark",
+        "explanation": "Correct. A bookmark marks a specific spot in a document so you can jump to it directly or link to it (Insert > Bookmark)."
       },
       {
         "id": "D",
-        "text": "All of the mentioned options",
-        "explanation": "The source marks All of the mentioned options, but the question appears malformed and its options do not describe standard document-navigation features."
+        "text": "Macro",
+        "explanation": "A macro is a recorded or scripted sequence of actions used to automate tasks. It does not mark locations."
       }
     ],
-    "correctAnswer": "D",
-    "explanation": "The source marks All of the mentioned options; the question itself appears malformed in the PDF.",
+    "correctAnswer": "C",
+    "explanation": "A bookmark marks a specific location in a document so you can jump straight to it. Hyperlinks and cross-references can point to a bookmark.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -1849,31 +1849,31 @@
   },
   {
     "id": 64,
-    "question": "When you open a new Excel workbook, how many worksheets are there by default at the time of opening?",
+    "question": "In Excel 2010 and earlier, how many worksheets does a new workbook contain by default?",
     "options": [
       {
         "id": "A",
         "text": "One",
-        "explanation": "The source does not mark one as the default number."
+        "explanation": "One sheet is the default in Excel 2013 and later, not in Excel 2010 and earlier."
       },
       {
         "id": "B",
         "text": "Three",
-        "explanation": "The source marks Three; note that default worksheet count is version-dependent and modern Excel commonly differs."
+        "explanation": "Correct. Excel 2003 to 2010 opened new workbooks with three sheets: Sheet1, Sheet2 and Sheet3."
       },
       {
         "id": "C",
         "text": "Five",
-        "explanation": "The source does not mark Five."
+        "explanation": "Excel has never defaulted to five worksheets."
       },
       {
         "id": "D",
         "text": "Seven",
-        "explanation": "The source does not mark Seven."
+        "explanation": "Excel has never defaulted to seven worksheets."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Three as the answer; this is version-dependent and differs from many modern Excel installations.",
+    "explanation": "Excel 2003 to 2010 opened a new workbook with three worksheets. Excel 2013 and later, including Microsoft 365, open with one.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -2028,26 +2028,26 @@
       {
         "id": "A",
         "text": "F12",
-        "explanation": "F12 opens the Save As dialog in Word."
+        "explanation": "Correct. F12 opens the Save As dialog box in Word."
       },
       {
         "id": "B",
         "text": "Ctrl + V",
-        "explanation": "Ctrl+V pastes clipboard content."
+        "explanation": "Ctrl + V pastes the contents of the clipboard."
       },
       {
         "id": "C",
         "text": "Ctrl + F12",
-        "explanation": "Ctrl+F12 opens a different file-related dialog rather than the standard Save As shortcut identified here."
+        "explanation": "Ctrl + F12 opens the Open dialog box (same as Ctrl + O)."
       },
       {
         "id": "D",
         "text": "Alt + Ctrl + S",
-        "explanation": "Alt+Ctrl+S is not the source-marked Save As shortcut."
+        "explanation": "Alt + Ctrl + S splits the document window, or removes the split if one already exists."
       }
     ],
     "correctAnswer": "A",
-    "explanation": "F12 opens the Save As dialog in Word.",
+    "explanation": "F12 opens the Save As dialog box in Word. Ctrl + S saves the current document under its existing name.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -2429,31 +2429,31 @@
   },
   {
     "id": 84,
-    "question": "Page Up key is used to",
+    "question": "In MS Word, the Page Up key is used to",
     "options": [
       {
         "id": "A",
         "text": "Move the cursor one line up",
-        "explanation": "Arrow keys provide line-by-line movement; Page Up moves by a larger page-sized amount."
+        "explanation": "The Up Arrow key moves the cursor one line up."
       },
       {
         "id": "B",
         "text": "Move the cursor one screen up",
-        "explanation": "The source distinguishes Page Up from the one-screen option and marks page-up movement."
+        "explanation": "Correct. Page Up scrolls the view up by one screen (the amount of text visible in the window) and moves the cursor with it."
       },
       {
         "id": "C",
-        "text": "Move the cursor one page up",
-        "explanation": "Page Up moves upward by approximately one page of content."
+        "text": "Move the cursor to the previous page",
+        "explanation": "This is Ctrl + Page Up, which jumps to the previous browse object (the previous page by default)."
       },
       {
         "id": "D",
         "text": "Move the cursor one paragraph up",
-        "explanation": "Paragraph movement uses paragraph-oriented shortcuts rather than Page Up."
+        "explanation": "Ctrl + Up Arrow moves the cursor one paragraph up."
       }
     ],
-    "correctAnswer": "C",
-    "explanation": "Page Up moves the view/cursor upward by approximately one page of content.",
+    "correctAnswer": "B",
+    "explanation": "Page Up moves the cursor up by one screen of text. Ctrl + Page Up moves to the previous page, and Ctrl + Up Arrow moves up one paragraph.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {

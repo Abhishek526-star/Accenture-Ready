@@ -177,7 +177,7 @@ Print a + b`,
     set: 'set-3',
     qno: 5,
     topic: 'recursion',
-    title: "Q5. Recursive Function with Branching Calls",
+    title: "Q5. Recursive Function with Branching Calls (for a = 7, b = 8)",
     difficulty: 'Hard',
     pseudocode: `Integer funn (Integer a, Integer b)
     if ((4 - a) < (a - b) && a < b)
@@ -187,7 +187,8 @@ Print a + b`,
         return funn(a, b) + funn(a, a) + 1
     End if
     a = (a + 2) + a
-    return a - 1`,
+    return a - 1
+// Executed for a = 7, b = 8 (call: funn(7, 8))`,
     options: ["105", "100", "103", "112"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
@@ -273,7 +274,7 @@ Print pp + qq + rr`,
     set: 'set-3',
     qno: 8,
     topic: 'loops',
-    title: "Q8. Loop with Continue and Branching",
+    title: "Q8. Loop with Continue and Branching (for a = 4, b = 4, c = 7)",
     difficulty: 'Medium',
     pseudocode: `Integer funn (Integer a, Integer b, Integer c)
     for (each c from 3 to 5)
@@ -286,7 +287,8 @@ Print pp + qq + rr`,
             Continue
         End if
     End for
-    return a + b`,
+    return a + b
+// Executed for a = 4, b = 4, c = 7 (call: funn(4, 4, 7))`,
     options: ["11", "15", "19", "8"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -341,7 +343,7 @@ Print p + q + r`,
     set: 'set-3',
     qno: 10,
     topic: 'functions',
-    title: "Q10. Basic Arithmetic Variable Transformation",
+    title: "Q10. Basic Arithmetic Variable Transformation (for a = 7, b = 4)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b)
     Integer c
@@ -349,7 +351,8 @@ Print p + q + r`,
     a = b - a
     b = c + c + b + b
     return a + b
-End function funn()`,
+End function funn()
+// Executed for a = 7, b = 4 (call: funn(7, 4))`,
     options: ["113", "100", "97", "90"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
@@ -397,7 +400,7 @@ Print a + b + c`,
     set: 'set-3',
     qno: 12,
     topic: 'recursion',
-    title: "Q12. Recursive Countdown with Bitwise XOR Base Case",
+    title: "Q12. Recursive Countdown with Bitwise XOR Base Case (for a = 5, b = 2)",
     difficulty: 'Medium',
     pseudocode: `Integer funn (Integer a, Integer b)
     if (a > 0 && b > 0)
@@ -406,7 +409,8 @@ Print a + b + c`,
         a = a ^ b
         return a
     End if
-End function funn()`,
+End function funn()
+// Executed for a = 5, b = 2 (call: funn(5, 2))`,
     options: ["4", "3", "6", "5"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -625,7 +629,7 @@ Print a + b`,
     set: 'set-3',
     qno: 19,
     topic: 'loops',
-    title: "Q19. Loop Break Mechanism",
+    title: "Q19. Loop Break Mechanism (for a = 2, b = 2, c = 7)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b, Integer c)
     for (each c from 4 to 7)
@@ -637,7 +641,8 @@ Print a + b`,
         End if
         b = (a + 5) + b
     End for
-    return a + b`,
+    return a + b
+// Executed for a = 2, b = 2, c = 7 (call: funn(2, 2, 7))`,
     options: ["8", "12", "16", "20"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -852,14 +857,15 @@ Since c = 3, this runs 3 times: 52 * 3 = 156.`,
     set: 'set-3',
     qno: 26,
     topic: 'recursion',
-    title: "Q26. Nested Recursive Odd Check",
+    title: "Q26. Nested Recursive Odd Check (for i = 140)",
     difficulty: 'Medium',
     pseudocode: `Integer fun(integer i)
     if ((i MOD 2) NOT EQUALS 0)
         Return i
     Else
         Return fun(fun(i - 1))
-End function fun()`,
+End function fun()
+// Executed for i = 140 (call: fun(140))`,
     options: ["139", "138", "140", "None of the above"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -963,10 +969,10 @@ print(p + q + r)`,
     set: 'set-3',
     qno: 30,
     topic: 'arrays',
-    title: "Q30. In-Place Consecutive Array Addition",
+    title: "Q30. In-Place Consecutive Array Addition (for arr[] = 1, 2, 3, 4, 5)",
     difficulty: 'Easy',
     pseudocode: `Initialize i, n
-Set arr[] = 1, 2, 3, 4, 5
+Set arr[] = [1, 2, 3, 4, 5], n = 5
 for i = 0 to n - 2
     arr[i] = arr[i] + arr[i + 1]
 End for`,
@@ -1025,7 +1031,7 @@ Print x + y + z`,
     set: 'set-3',
     qno: 32,
     topic: 'recursion',
-    title: "Q32. Multiple Recursive Calls",
+    title: "Q32. Multiple Recursive Calls (for x = 10, y = 5)",
     difficulty: 'Hard',
     pseudocode: `Integer solve (Integer x, Integer y)
     if (y > 0)
@@ -1034,7 +1040,8 @@ Print x + y + z`,
         End if
     End if
     return x + y
-End function solve()`,
+End function solve()
+// Executed for x = 10, y = 5 (call: solve(10, 5))`,
     options: ["15", "18", "13", "17"],
     correctAnswer: 1,
     platformExpectedAnswer: 1,
@@ -1054,11 +1061,11 @@ End function solve()`,
     set: 'set-3',
     qno: 33,
     topic: 'arrays',
-    title: "Q33. Array In-Place Difference",
+    title: "Q33. Array In-Place Difference (for arr[] = 5, 4, 3, 2, 17)",
     difficulty: 'Easy',
     pseudocode: `Initialize i, n
 Initialize an array of size n
-Take the values for the array
+Take the values for the array (arr[] = [5, 4, 3, 2, 17], n = 5)
 for i = 0 to n - 2
     arr[i] = arr[i] - arr[i + 1]
 End for`,
@@ -1082,7 +1089,7 @@ Result: 11111.`,
     set: 'set-3',
     qno: 34,
     topic: 'recursion',
-    title: "Q34. Recursive Increments",
+    title: "Q34. Recursive Increments (for n = 5, m = 6)",
     difficulty: 'Easy',
     pseudocode: `Integer solve (Integer n, Integer m)
     if (n > 4 && m < 7)
@@ -1090,7 +1097,8 @@ Result: 11111.`,
     Else
         Return n + m
     End if
-End function solve()`,
+End function solve()
+// Executed for n = 5, m = 6 (call: solve(5, 6))`,
     options: ["15", "21", "13", "10"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
@@ -1145,11 +1153,11 @@ Print x + y + z`,
     set: 'set-3',
     qno: 36,
     topic: 'arrays',
-    title: "Q36. Consecutive Array Product",
+    title: "Q36. Consecutive Array Product (for arr[] = 5, 4, 3, 2, 1)",
     difficulty: 'Easy',
     pseudocode: `Initialize i, n
 Initialize an array of size n
-Take the values for the array
+Take the values for the array (arr[] = [5, 4, 3, 2, 1], n = 5)
 for i = 0 to n - 2
     arr[i] = arr[i] * arr[i + 1]
 End for`,
@@ -1240,7 +1248,7 @@ Platform registered output is 13.`,
     set: 'set-3',
     qno: 39,
     topic: 'functions',
-    title: "Q39. Modulo Arithmetic on Inputs",
+    title: "Q39. Modulo Arithmetic on Inputs (for x = 9, y = 7)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer x, Integer y)
     Integer z
@@ -1248,7 +1256,8 @@ Platform registered output is 13.`,
     y = y mod z
     x = x mod z
     return x + y
-End function funn()`,
+End function funn()
+// Executed for x = 9, y = 7 (call: funn(9, 7))`,
     options: ["2", "3", "17", "5"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -1305,10 +1314,10 @@ Print x + y + z`,
     set: 'set-3',
     qno: 41,
     topic: 'conditional-statements',
-    title: "Q41. Multi-Condition Boolean Validation",
+    title: "Q41. Multi-Condition Boolean Validation (input p = 3, q = 8, r = 1)",
     difficulty: 'Easy',
     pseudocode: `Integer p, q, r, sum
-Read p, q, r
+Read p, q, r // Given input: p = 3, q = 8, r = 1
 Set sum = p + q + r
 if ((p NOT EQUALS 0) and (sum EQUALS 11) and (q EQUALS 4) and (r NOT EQUALS 0))
     Print "Success"
@@ -1370,7 +1379,7 @@ Print x + y + z`,
     set: 'set-3',
     qno: 43,
     topic: 'recursion',
-    title: "Q43. Recursive Boundary Exit",
+    title: "Q43. Recursive Boundary Exit (for a = 11, b = 12)",
     difficulty: 'Easy',
     pseudocode: `Integer solve (Integer a, Integer b)
     if (a < 3 && b < 4)
@@ -1378,7 +1387,8 @@ Print x + y + z`,
     Else
         Return a + b
     End if
-End function solve()`,
+End function solve()
+// Executed for a = 11, b = 12 (call: solve(11, 12))`,
     options: ["13", "12", "22", "23"],
     correctAnswer: 3,
     platformExpectedAnswer: 3,
@@ -1726,13 +1736,14 @@ Print a + b + c`,
     set: 'set-3',
     qno: 54,
     topic: 'conditional-statements',
-    title: "Q54. Bitwise Condition Failure",
+    title: "Q54. Bitwise Condition Failure (at a = 5, b = 5, c = 5)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b, Integer c)
     if ((c & a) < a && (a ^ b) < b)
         c = (a ^ 2) + b
     End if
-    return a + b + c`,
+    return a + b + c
+// Executed for a = 5, b = 5, c = 5 (call: funn(5, 5, 5))`,
     options: ["14", "27", "22", "15"],
     correctAnswer: 3,
     platformExpectedAnswer: 3,
@@ -1807,7 +1818,7 @@ Print a + b + c`,
     set: 'set-3',
     qno: 57,
     topic: 'functions',
-    title: "Q57. Sequential Arithmetic Update in Function",
+    title: "Q57. Sequential Arithmetic Update in Function (for a = 0, b = 2, c = 10)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b, Integer c)
     b = 7 + a
@@ -1815,7 +1826,8 @@ Print a + b + c`,
     b = (b + b) + c
     c = 1 + b
     return a + b + c
-End function funn()`,
+End function funn()
+// Executed for a = 0, b = 2, c = 10 (call: funn(0, 2, 10))`,
     options: ["59", "68", "70", "39"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -1911,7 +1923,7 @@ Print p + q + r`,
     set: 'set-3',
     qno: 60,
     topic: 'recursion',
-    title: "Q60. Branching Recursive Sum",
+    title: "Q60. Branching Recursive Sum (for a = 2, b = 3)",
     difficulty: 'Hard',
     pseudocode: `Integer funn (Integer a, Integer b)
     if ((a + b) > (3 & a) && a < 3)
@@ -1919,7 +1931,8 @@ Print p + q + r`,
         b = 3 + b + b
         return funn(a, b + a) + a + funn(a, b)
     End if
-    return b - a + 1`,
+    return b - a + 1
+// Executed for a = 2, b = 3 (call: funn(2, 3))`,
     options: ["31", "22", "20", "16"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
@@ -2081,7 +2094,7 @@ Print a + b + c`,
     set: 'set-3',
     qno: 65,
     topic: 'loops',
-    title: "Q65. Loop Termination via Break",
+    title: "Q65. Loop Termination via Break (for a = 4, b = 8, c = 57)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b, Integer c)
     b = (a ^ 11) & b
@@ -2093,7 +2106,8 @@ Print a + b + c`,
             Jump out of the loop
         End if
     End for
-    return a + b`,
+    return a + b
+// Executed for a = 4, b = 8, c = 57 (call: funn(4, 8, 57))`,
     options: ["14", "18", "12", "10"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -2260,7 +2274,7 @@ Print p + q + r`,
     set: 'set-3',
     qno: 71,
     topic: 'recursion',
-    title: "Q71. Recursive State Branching",
+    title: "Q71. Recursive State Branching (for a = 3, b = 3)",
     difficulty: 'Hard',
     pseudocode: `Integer funn(Integer a, Integer b)
     if ((a + b) > (b ^ a) && a < 4)
@@ -2270,7 +2284,8 @@ Print p + q + r`,
         return funn(b + 2, b + 1) + funn(b, b) + b
     End if
     a = a + 1
-    return b - a + 1`,
+    return b - a + 1
+// Executed for a = 3, b = 3 (call: funn(3, 3))`,
     options: ["9", "15", "4", "19"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -2378,7 +2393,7 @@ Print a + b`,
     set: 'set-3',
     qno: 75,
     topic: 'recursion',
-    title: "Q75. Recursive Subtraction",
+    title: "Q75. Recursive Subtraction (for a = 7, b = 4)",
     difficulty: 'Medium',
     pseudocode: `Integer funn (Integer a, Integer b)
     if (b < 6 && (b & a) < (a + b))
@@ -2387,7 +2402,8 @@ Print a + b`,
         return b - funn(b, b)
     End if
     b = 1 + b + b
-    return b`,
+    return b
+// Executed for a = 7, b = 4 (call: funn(7, 4))`,
     options: ["-19", "-7", "-12", "7"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
@@ -2509,7 +2525,7 @@ Sum = 1 + 1 = 2.`,
     set: 'set-3',
     qno: 80,
     topic: 'recursion',
-    title: "Q80. Recursive Function Counter",
+    title: "Q80. Recursive Function Counter (for n = 3)",
     difficulty: 'Easy',
     pseudocode: `int fun(int n) {
     if (n == 1)
@@ -3102,7 +3118,7 @@ sum = 102 + 115 + 120 = 337.`,
     set: 'set-3',
     qno: 102,
     topic: 'bitwise-operators',
-    title: "Q102. Bitwise Left Shift and Right Shift Execution",
+    title: "Q102. Bitwise Left Shift and Right Shift Execution (for a = 4, b = 6)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b)
     a = a << (a - 2)
@@ -3110,7 +3126,8 @@ sum = 102 + 115 + 120 = 337.`,
     a = a + 1
     b = b + 1
     return a + b
-End function funn()`,
+End function funn()
+// Executed for a = 4, b = 6 (call: funn(4, 6))`,
     options: ["21", "18", "24", "16"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -3125,14 +3142,15 @@ End function funn()`,
     set: 'set-3',
     qno: 103,
     topic: 'recursion',
-    title: "Q103. Branch Bypassing Recursive Call",
+    title: "Q103. Branch Bypassing Recursive Call (if x = 1 and y = 2)",
     difficulty: 'Easy',
     pseudocode: `Integer solve(int x, int y)
     if (x > 1)
         solve(x - 1, y + 3)
     end if
     print y
-End function solve()`,
+End function solve()
+// Executed for x = 1, y = 2 (call: solve(1, 2))`,
     options: ["2", "3", "6", "4"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
@@ -3247,7 +3265,7 @@ Print m`,
     set: 'set-3',
     qno: 108,
     topic: 'recursion',
-    title: "Q108. Recursive Pre and Post Print Order",
+    title: "Q108. Recursive Pre and Post Print Order (for k = 150)",
     difficulty: 'Medium',
     pseudocode: `fun(integer k)
     if (k > 155)
@@ -3256,7 +3274,8 @@ Print m`,
     print k
     fun(k + 2)
     print k
-End of function fun()`,
+End of function fun()
+// Executed for k = 150 (call: fun(150))`,
     options: ["150 152 154", "150 152 154 154 152 150", "150", "None of the mentioned"],
     correctAnswer: 1,
     platformExpectedAnswer: 1,
@@ -3451,7 +3470,7 @@ Print a + b + c = 4 + 4 + 4 = 12.`,
     set: 'set-3',
     qno: 115,
     topic: 'functions',
-    title: "Q115. Dead Code Branch Multiplication",
+    title: "Q115. Dead Code Branch Multiplication (for a = 10, b = 11)",
     difficulty: 'Easy',
     pseudocode: `Integer funn (Integer a, Integer b)
     if (0)
@@ -3459,7 +3478,8 @@ Print a + b + c = 4 + 4 + 4 = 12.`,
     End if
     a = a + a + a + a
     return a
-End function funn()`,
+End function funn()
+// Executed for a = 10, b = 11 (call: funn(10, 11))`,
     options: ["40", "30", "44", "0"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
