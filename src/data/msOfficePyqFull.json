@@ -2603,31 +2603,31 @@
   },
   {
     "id": 90,
-    "question": "Which Excel feature allows you to analyze and visualize data in real-time dashboards?",
+    "question": "Which Excel feature allows you to summarize, analyze and visualize data in interactive dashboards?",
     "options": [
       {
         "id": "A",
         "text": "Pivot Table",
-        "explanation": "The source marks Pivot Table; PivotTables are used to summarize/analyze data, though the dashboard wording is broader than a PivotTable alone."
+        "explanation": "Correct. PivotTables summarize and analyze data, and with PivotCharts and slicers they form the core of interactive dashboards in Excel."
       },
       {
         "id": "B",
         "text": "Power Query",
-        "explanation": "Power Query is primarily for importing, transforming and preparing data."
+        "explanation": "Power Query imports, cleans and transforms data. It prepares data for analysis but does not visualize it."
       },
       {
         "id": "C",
         "text": "PowerPoint",
-        "explanation": "PowerPoint is presentation software, not Excel's data-analysis feature."
+        "explanation": "PowerPoint is presentation software, not an Excel feature."
       },
       {
         "id": "D",
         "text": "Power BI",
-        "explanation": "Power BI is Microsoft's dedicated analytics/dashboard platform, but the source marks Pivot Table."
+        "explanation": "Power BI is a separate Microsoft analytics product built for dashboards and live data. It is not a feature inside Excel."
       }
     ],
     "correctAnswer": "A",
-    "explanation": "The source marks Pivot Table as the answer; a PivotTable is used to summarize and analyze data, though the question's wording about real-time dashboards is broader.",
+    "explanation": "PivotTable is the Excel feature used to summarize and analyze data, and with PivotCharts and slicers it supports interactive dashboards. Power BI is a separate product, Power Query only prepares data, and PowerPoint is for presentations.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -2695,26 +2695,26 @@
       {
         "id": "A",
         "text": "Manager",
-        "explanation": "Manager alone is not the renamed product name."
+        "explanation": "Manager alone is not an Office product name."
       },
       {
         "id": "B",
         "text": "Picture Manager",
-        "explanation": "The source marks Picture Manager as the name associated with the Office 2003 change."
+        "explanation": "Correct. Microsoft Office Picture Manager replaced Microsoft Photo Editor in Office 2003, for cropping, resizing, rotating, brightness and contrast, and red-eye fixes."
       },
       {
         "id": "C",
         "text": "Picture Editor",
-        "explanation": "Picture Editor is not the source-marked name."
+        "explanation": "Picture Editor was never an Office product name."
       },
       {
         "id": "D",
         "text": "Paint Editor",
-        "explanation": "Paint Editor is not the source-marked name."
+        "explanation": "Paint is a separate Windows program, not an Office tool."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Picture Manager.",
+    "explanation": "Office 2003 replaced Microsoft Photo Editor with Microsoft Office Picture Manager. Picture Manager was included in Office 2003 to 2010 and removed from Office 2013 onward.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -2724,26 +2724,26 @@
       {
         "id": "A",
         "text": "Business days",
-        "explanation": "The source marks Business days, although the standard Excel function commonly used to calculate working days is NETWORKDAYS."
+        "explanation": "BUSINESSDAYS is not an Excel function. Using it returns a #NAME? error."
       },
       {
         "id": "B",
         "text": "NETWORKDAYS",
-        "explanation": "NETWORKDAYS is the standard Excel function for counting working days between dates; the source nevertheless marks option A."
+        "explanation": "Correct. NETWORKDAYS(start_date, end_date, [holidays]) counts working days (Monday to Friday) between two dates, and can exclude a list of holidays."
       },
       {
         "id": "C",
         "text": "DAYS",
-        "explanation": "DAYS returns the number of days between two dates without specifically excluding weekends/holidays."
+        "explanation": "DAYS returns the total number of calendar days between two dates, including weekends and holidays."
       },
       {
         "id": "D",
         "text": "None of the mentioned options",
-        "explanation": "A relevant function is available, so None is not appropriate."
+        "explanation": "NETWORKDAYS is a valid option, so this is incorrect."
       }
     ],
-    "correctAnswer": "A",
-    "explanation": "The source marks Business days as the answer.",
+    "correctAnswer": "B",
+    "explanation": "NETWORKDAYS counts the working days between two dates, excluding weekends and optionally holidays. Use NETWORKDAYS.INTL for custom weekends and WORKDAY to find a date after N working days.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -2835,31 +2835,31 @@
   },
   {
     "id": 98,
-    "question": "Which key is to be held down to select the word or phrase to be selected in MS Word?",
+    "question": "Which key is held down while clicking or pressing the arrow keys to extend a text selection (such as a phrase) in MS Word?",
     "options": [
       {
         "id": "A",
         "text": "Alt",
-        "explanation": "Alt is not the key identified by the source for the described text selection."
+        "explanation": "Alt is used for ribbon KeyTips and, with the mouse, for selecting a vertical block of text (Alt + drag). It does not extend a normal selection."
       },
       {
         "id": "B",
         "text": "Shift",
-        "explanation": "The source marks Shift for the described selection operation."
+        "explanation": "Correct. Shift + click or Shift + arrow keys extends the selection from the cursor to the new position. Ctrl + Shift + Right Arrow selects word by word."
       },
       {
         "id": "C",
         "text": "Ctrl",
-        "explanation": "Ctrl is used for many selection/navigation shortcuts but is not the source-marked answer here."
+        "explanation": "Ctrl on its own does not extend a selection. It selects non-adjacent text (Ctrl + drag) or a whole sentence (Ctrl + click), and it only selects words when combined with Shift."
       },
       {
         "id": "D",
         "text": "Tab",
-        "explanation": "Tab moves between controls/cells rather than performing the described text selection."
+        "explanation": "Tab inserts a tab or moves between table cells and fields. It does not select text."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Shift as the key used in the described selection operation.",
+    "explanation": "Holding Shift while clicking or using the arrow keys extends the selection. Double-click selects a word, triple-click selects a paragraph, and Ctrl + A selects the whole document.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -3270,60 +3270,60 @@
   },
   {
     "id": 113,
-    "question": "Which of the following commands is given to reboot the computer?",
+    "question": "Which of the following key combinations is traditionally used to reboot (warm boot) a computer?",
     "options": [
       {
         "id": "A",
         "text": "Ctrl + Alt + Del",
-        "explanation": "The source associates Ctrl+Alt+Delete with the reboot/restart command in the question."
+        "explanation": "Correct. On DOS-era PCs, Ctrl + Alt + Del restarted the computer directly (a warm boot). On modern Windows it opens a security screen from which you can choose Restart."
       },
       {
         "id": "B",
         "text": "Ctrl + Shift + Del",
-        "explanation": "Ctrl+Shift+Delete is not the standard Windows reboot shortcut."
+        "explanation": "Ctrl + Shift + Del opens the 'Clear browsing data' dialog in most web browsers. It does not reboot the computer."
       },
       {
         "id": "C",
         "text": "Ctrl + Alt + Shift",
-        "explanation": "Ctrl+Alt+Shift alone is not the standard reboot command."
+        "explanation": "Ctrl + Alt + Shift is only a modifier combination used as part of other shortcuts. It is not a command on its own."
       },
       {
         "id": "D",
         "text": "Ctrl + Alt + Tab",
-        "explanation": "Ctrl+Alt+Tab is not the standard reboot command."
+        "explanation": "Ctrl + Alt + Tab keeps the window switcher open so you can pick a window with the arrow keys. It does not reboot the computer."
       }
     ],
     "correctAnswer": "A",
-    "explanation": "The source marks Ctrl+Alt+Delete as the command associated with restarting/rebooting in the question.",
+    "explanation": "Ctrl + Alt + Del is the traditional warm-boot shortcut. On modern Windows it opens a security options screen, where you can choose Restart from the power menu.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 114,
-    "question": "The shortcut key to display Windows Help is",
+    "question": "In Windows, which shortcut key displays Windows Help?",
     "options": [
       {
         "id": "A",
         "text": "Windows Logo + F1",
-        "explanation": "Windows Logo+F1 is the source-marked shortcut for Windows Help."
+        "explanation": "Correct. Win + F1 opens Windows Help. In Windows 10 and 11 it opens a help search in the default browser."
       },
       {
         "id": "B",
         "text": "Alt + F1",
-        "explanation": "Alt+F1 is not the source-marked Windows Help shortcut."
+        "explanation": "Alt + F1 is not a Windows Help shortcut. In Excel it creates an embedded chart from the selected data."
       },
       {
         "id": "C",
         "text": "Ctrl + Alt + F1",
-        "explanation": "Ctrl+Alt+F1 is not the standard Windows Help shortcut."
+        "explanation": "Ctrl + Alt + F1 switches to a text console on Linux. It has no Help function in Windows."
       },
       {
         "id": "D",
         "text": "Alt + F",
-        "explanation": "Alt+F opens menu/file-related functionality rather than Windows Help."
+        "explanation": "Alt + F opens the File menu in most Windows programs. It does not open Help."
       }
     ],
     "correctAnswer": "A",
-    "explanation": "Windows Logo+F1 opens Windows Help in the referenced shortcut scheme.",
+    "explanation": "Windows Logo + F1 opens Windows Help. Plain F1 opens Help for the active program.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -3623,26 +3623,26 @@
       {
         "id": "A",
         "text": "Right-click the Send button and choose Send with receipt",
-        "explanation": "The source does not identify right-clicking Send as the standard route."
+        "explanation": "Outlook has no 'Send with receipt' right-click option on the Send button."
       },
       {
         "id": "B",
         "text": "Click the Send/Receive tab and click the receipted mail button",
-        "explanation": "Send/Receive is for mail synchronization/operations and is not the source-marked receipt setting."
+        "explanation": "The Send/Receive tab handles syncing mailboxes and has no receipted mail button."
       },
       {
         "id": "C",
         "text": "Click the Options tab from the message window and choose Request Receipt",
-        "explanation": "The source marks the Options tab in the message window and the request-receipt option."
+        "explanation": "Correct. In the message window, the Options tab's Tracking group has Request a Read Receipt (and Request a Delivery Receipt)."
       },
       {
         "id": "D",
         "text": "None of the above",
-        "explanation": "The source provides a specific method, so None is incorrect."
+        "explanation": "Option C describes a valid method, so this is incorrect."
       }
     ],
     "correctAnswer": "C",
-    "explanation": "The source marks the Options tab and Request Receipt action.",
+    "explanation": "In a new message, open the Options tab and tick Request a Read Receipt in the Tracking group. The recipient can still decline to send the receipt.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
@@ -3705,65 +3705,65 @@
   },
   {
     "id": 128,
-    "question": "Microsoft Word was released in which year?",
+    "question": "In which year was Microsoft Word first released?",
     "options": [
       {
         "id": "A",
         "text": "1981",
-        "explanation": "1981 is not the source-marked release year."
+        "explanation": "1981 is the year the IBM PC launched with MS-DOS. Word did not exist yet."
       },
       {
         "id": "B",
         "text": "1982",
-        "explanation": "1982 is not the source-marked release year."
+        "explanation": "1982 is not a Word release year."
       },
       {
         "id": "C",
         "text": "1983",
-        "explanation": "The source marks 1983 as the release year of Microsoft Word."
+        "explanation": "Correct. Word was first released on October 25, 1983, as Multi-Tool Word for Xenix and MS-DOS."
       },
       {
         "id": "D",
         "text": "1984",
-        "explanation": "1984 is not the source-marked release year."
+        "explanation": "1984 is the year the Apple Macintosh launched. Word for Macintosh followed in 1985."
       }
     ],
     "correctAnswer": "C",
-    "explanation": "The source marks 1983 as the release year.",
+    "explanation": "Microsoft Word was first released in 1983 (Multi-Tool Word for Xenix and MS-DOS). Word for Macintosh followed in 1985 and Word for Windows in 1989.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 129,
-    "question": "STARTING WITH MICROSOFT OFFICE 2003, PHOTO EDITOR WAS RENAMED TO:",
+    "question": "Starting with Microsoft Office 2003, Photo Editor was renamed to:",
     "options": [
       {
         "id": "A",
         "text": "Manager",
-        "explanation": "Manager alone is not the source-marked renamed application."
+        "explanation": "Manager alone is not an Office product name."
       },
       {
         "id": "B",
         "text": "Picture Manager",
-        "explanation": "The source marks Picture Manager."
+        "explanation": "Correct. Microsoft Office Picture Manager replaced Microsoft Photo Editor in Office 2003, for cropping, resizing, rotating, brightness and contrast, and red-eye fixes."
       },
       {
         "id": "C",
         "text": "Picture Editor",
-        "explanation": "Picture Editor is not the source-marked name."
+        "explanation": "Picture Editor was never an Office product name."
       },
       {
         "id": "D",
         "text": "Paint Editor",
-        "explanation": "Paint Editor is not the source-marked name."
+        "explanation": "Paint is a separate Windows program, not an Office tool."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Picture Manager.",
+    "explanation": "Office 2003 replaced Microsoft Photo Editor with Microsoft Office Picture Manager. Picture Manager was included in Office 2003 to 2010 and removed from Office 2013 onward.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 130,
-    "question": "IS MICROSOFT WORKS PART OF THE MICROSOFT OFFICE SUITE?",
+    "question": "Is Microsoft Works part of the Microsoft Office suite?",
     "options": [
       {
         "id": "A",
@@ -3782,36 +3782,36 @@
   },
   {
     "id": 131,
-    "question": "A FEATURE OF MS OFFICE THAT SAVES THE DOCUMENT AUTOMATICALLY AFTER A CERTAIN INTERVAL IS CALLED:",
+    "question": "A feature of MS Office that saves the document automatically after a certain interval is called:",
     "options": [
       {
         "id": "A",
-        "text": "Web Page",
-        "explanation": "Web Page is unrelated to the stated automatic-save feature."
+        "text": "AutoCorrect",
+        "explanation": "AutoCorrect fixes typos and replaces text as you type. It does not save the document."
       },
       {
         "id": "B",
-        "text": "Explorer",
-        "explanation": "Explorer is not the name of an Office automatic-save feature."
+        "text": "AutoRecover",
+        "explanation": "Correct. AutoRecover saves a temporary recovery copy at a set interval (10 minutes by default in Word) so you can recover work after a crash."
       },
       {
         "id": "C",
-        "text": "FrontPage",
-        "explanation": "The source marks FrontPage, although the question text and options appear mismatched."
+        "text": "AutoFormat",
+        "explanation": "AutoFormat applies formatting automatically, such as bullets or numbering. It does not save the document."
       },
       {
         "id": "D",
-        "text": "DreamWeaver",
-        "explanation": "DreamWeaver is a web-authoring application, not the source-marked answer."
+        "text": "AutoComplete",
+        "explanation": "AutoComplete suggests text as you type. It does not save the document."
       }
     ],
-    "correctAnswer": "C",
-    "explanation": "The source marks FrontPage, although the question text and options do not match the stated topic.",
+    "correctAnswer": "B",
+    "explanation": "AutoRecover saves a recovery copy of open documents at a set interval. In Microsoft 365, AutoSave goes further and saves continuously to OneDrive or SharePoint.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 132,
-    "question": "WHICH FEATURE IS USED TO MAKE THE SELECTED SENTENCE IN ALL CAPITAL LETTERS OR ALL SMALL LETTERS?",
+    "question": "Which feature is used to make the selected sentence in all capital letters or all small letters?",
     "options": [
       {
         "id": "A",
@@ -3840,36 +3840,36 @@
   },
   {
     "id": 133,
-    "question": "WHICH OF THESE SOFTWARE APPLICATIONS WAS NOT PART OF THE FIRST VERSION OF MICROSOFT OFFICE?",
+    "question": "Which of these software applications was not part of the first version of Microsoft Office?",
     "options": [
       {
         "id": "A",
         "text": "Paint",
-        "explanation": "The source marks Paint as part of the first-version comparison options, so it is not the source answer."
+        "explanation": "Microsoft Paint was a separate Windows application, not one of the core applications in the first version of Microsoft Office."
       },
       {
         "id": "B",
         "text": "Outlook",
-        "explanation": "The source marks Outlook as the application not part of the first version."
+        "explanation": "Correct. Microsoft Outlook was introduced with Office 97 in 1997, after the first version of Microsoft Office was released in 1989."
       },
       {
         "id": "C",
         "text": "PowerPoint",
-        "explanation": "PowerPoint was included among the original Office applications."
+        "explanation": "Microsoft PowerPoint was included in the original Microsoft Office suite released for Macintosh in 1989."
       },
       {
         "id": "D",
         "text": "MS Word",
-        "explanation": "MS Word was a core component of Microsoft Office."
+        "explanation": "Microsoft Word was included in the original Microsoft Office suite released for Macintosh in 1989."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Outlook as the answer.",
+    "explanation": "Outlook was introduced with Microsoft Office 97, whereas the original Microsoft Office suite was released in 1989 and included Word, Excel, and PowerPoint.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 134,
-    "question": "HOW WOULD YOU INSERT THE INTERNATIONAL CHARACTER SHOWN IN THE IMAGE GIVEN BELOW?",
+    "question": "How would you insert the international character shown in the image given below?",
     "options": [
       {
         "id": "A",
@@ -3901,36 +3901,36 @@
   },
   {
     "id": 135,
-    "question": "WHEN YOU ACTIVATE THE MINI TRANSLATOR IN MS WORD, IT WILL STAY ACTIVE UNTIL YOU DEACTIVATE IT WITHIN THE TRANSLATION MENU. ALSO, WHEN THE MINI TRANSLATOR IS ACTIVATED, THE DOCUMENT WILL BE SENT TO MICROSOFT TRANSLATOR AS YOU TYPE. ARE BOTH STATEMENTS CORRECT?",
+    "question": "Statement 1: When you activate the Mini Translator in MS Word, it will stay active until you deactivate it within the Translation menu.\nStatement 2: When the Mini Translator is activated, the document will be sent to Microsoft Translator as you type.\n\nAre both statements correct?",
     "options": [
       {
         "id": "A",
         "text": "Both the statements are correct.",
-        "explanation": "The source marks both statements correct for the described Mini Translator behavior."
+        "explanation": "Statement 2 is incorrect because the entire document is not sent to the translator dynamically as you type."
       },
       {
         "id": "B",
         "text": "Both the statements are incorrect.",
-        "explanation": "The source does not mark both statements incorrect."
+        "explanation": "Statement 1 is correct because the Mini Translator does remain persistently active until turned off."
       },
       {
         "id": "C",
         "text": "Only statement 2 is correct.",
-        "explanation": "The source does not identify only statement 2 as correct."
+        "explanation": "Statement 2 is false. The tool only translates individual words or small selections when you hover over them."
       },
       {
         "id": "D",
         "text": "Only statement 1 is correct",
-        "explanation": "The source does not identify only statement 1 as correct."
+        "explanation": "Statement 1 is completely accurate regarding persistence, while Statement 2 is a false description of how text transmission occurs."
       }
     ],
-    "correctAnswer": "A",
-    "explanation": "The source marks both statements as correct.",
+    "correctAnswer": "D",
+    "explanation": "The Mini Translator remains active across Word sessions until disabled (Statement 1). However, it only transmits text data to Microsoft Translator on-demand when you explicitly hover your cursor over a word or highlight a phrase, not continuously as you type the document (Statement 2).",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 136,
-    "question": "WHAT CAN BE DONE TO STOP WORD'S NUMBERING COMMAND FROM SUPPLYING AUTOMATIC NUMBERS TO SEQUENTIAL PARAGRAPHS?",
+    "question": "What can be done to stop Word's numbering command from supplying automatic numbers to sequential paragraphs?",
     "options": [
       {
         "id": "A",
@@ -3959,36 +3959,36 @@
   },
   {
     "id": 137,
-    "question": "IF THERE IS ANY CONTEXTUAL ERROR IN THE DOCUMENT, THE TEXT WILL BE UNDERLINED WITH A GREEN LINE IN A WORD DOCUMENT. IF THERE IS ANY SPELLING ERROR, THE TEXT WILL BE UNDERLINED WITH A BLUE LINE. IF THERE IS ANY GRAMMATICAL ERROR, THE TEXT WILL BE UNDERLINED WITH A RED LINE. ARE THESE STATEMENTS CORRECT?",
+    "question": "Statement I: If there is any contextual error in the document, the text will be underlined with a green line in a Word document.\nStatement II: If there is any spelling error, the text will be underlined with a blue line.\nStatement III: If there is any grammatical error, the text will be underlined with a red line.\n\nAre these statements correct?",
     "options": [
       {
         "id": "A",
         "text": "Only statements II and III are correct and statement I is wrong.",
-        "explanation": "The source marks all three statements false, so this combination is incorrect."
+        "explanation": "Incorrect because spelling errors use red underlines and grammar errors use green/blue lines, making statements II and III false."
       },
       {
         "id": "B",
         "text": "All statements are false.",
-        "explanation": "The source marks all statements false; the stated green/blue/red mapping is not correct."
+        "explanation": "Correct. In MS Word, spelling errors are marked in red, grammar errors in green (or double blue), and contextual errors in blue. Every statement has the colors completely swapped."
       },
       {
         "id": "C",
         "text": "All statements are true.",
-        "explanation": "The source does not consider all three statements true."
+        "explanation": "Incorrect. None of the listed line colors match their respective error conditions in Microsoft Word."
       },
       {
         "id": "D",
         "text": "Only statements I and II are correct and statement III is wrong",
-        "explanation": "The source does not consider only statement III wrong; all are marked false."
+        "explanation": "Incorrect because statement I (contextual errors are blue, not green) and statement II (spelling errors are red, not blue) are both factually wrong."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks all statements as false.",
+    "explanation": "All three statements are completely false because the underline color associations are mixed up. In Microsoft Word: Spelling errors get a red wavy underline, grammatical errors get a green wavy underline (or double blue line in newer versions), and contextual spelling errors get a blue wavy underline.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 138,
-    "question": "WHICH OF THE FOLLOWING CAN BE USED TO CLOSE A TAB ON A BROWSER?",
+    "question": "Which of the following can be used to close a tab on a browser?",
     "options": [
       {
         "id": "A",
@@ -4017,36 +4017,36 @@
   },
   {
     "id": 139,
-    "question": "WHICH KEY IS TO BE HELD DOWN TO SELECT A WORD OR PHRASE IN MS WORD?",
+    "question": "Which key is to be held down to select a word or phrase in MS Word?",
     "options": [
       {
         "id": "A",
         "text": "Alt",
-        "explanation": "Alt is not the source-marked key for the described selection."
+        "explanation": "Alt is used to activate Ribbon key tips or select vertical blocks of text when dragging, but not standard text selection."
       },
       {
         "id": "B",
         "text": "Shift",
-        "explanation": "The source marks Shift for selecting the word or phrase as described."
+        "explanation": "The Shift key acts as the standard text selection anchor; holding it down while navigating with arrow keys or clicking allows you to select a character, word, or phrase."
       },
       {
         "id": "C",
         "text": "Ctrl",
-        "explanation": "Ctrl is used in many Word shortcuts, but it is not the source-marked key here."
+        "explanation": "The Ctrl key is held down while clicking to select an entire sentence, but it requires the Shift key or mouse dragging for freeform word or phrase selection."
       },
       {
         "id": "D",
         "text": "Tab",
-        "explanation": "Tab moves focus rather than selecting the described word/phrase."
+        "explanation": "Tab is used for navigating table cells, moving focus, or inserting indents rather than highlighting text selections."
       }
     ],
     "correctAnswer": "B",
-    "explanation": "The source marks Shift as the key for the described selection operation.",
+    "explanation": "In Microsoft Word, holding down the Shift key extends the selection area. Using it alongside navigation commands (such as arrow keys or a mouse click) allows a user to select specific words, lines, or phrases.",
     "source": "Accenture Common Application and MS Office PYQ PDF"
   },
   {
     "id": 140,
-    "question": "WHICH FEATURE IN MS WORD ALLOWS YOU TO FIND SYNONYMS OF A SELECTED WORD?",
+    "question": "Which feature in MS Word allows you to find synonyms of a selected word?",
     "options": [
       {
         "id": "A",
@@ -4075,7 +4075,7 @@
   },
   {
     "id": 141,
-    "question": "WHICH TAB IN MS WORD CONTAINS THE OPTION TO ADD A TABLE?",
+    "question": "Which tab in MS Word contains the option to add a table?",
     "options": [
       {
         "id": "A",
@@ -4104,7 +4104,7 @@
   },
   {
     "id": 142,
-    "question": "HOW CAN YOU QUICKLY COPY FORMATTING FROM ONE CELL TO ANOTHER IN EXCEL?",
+    "question": "How can you quickly copy formatting from one cell to another in Excel?",
     "options": [
       {
         "id": "A",
@@ -4133,7 +4133,7 @@
   },
   {
     "id": 143,
-    "question": "WHICH FEATURE IN POWERPOINT ALLOWS YOU TO ADD MOVEMENT TO TEXT AND OBJECTS?",
+    "question": "Which feature in PowerPoint allows you to add movement to text and objects?",
     "options": [
       {
         "id": "A",
@@ -4162,7 +4162,7 @@
   },
   {
     "id": 144,
-    "question": "WHAT IS THE SHORTCUT KEY FOR UNDOING AN ACTION IN MS OFFICE?",
+    "question": "What is the shortcut key for undoing an action in MS Office?",
     "options": [
       {
         "id": "A",
@@ -4191,7 +4191,7 @@
   },
   {
     "id": 145,
-    "question": "IN OUTLOOK, WHICH FEATURE ALLOWS YOU TO SET AN AUTOMATIC REPLY WHEN YOU ARE OUT OF THE OFFICE?",
+    "question": "In Outlook, which feature allows you to set an automatic reply when you are out of the office?",
     "options": [
       {
         "id": "A",
@@ -4220,7 +4220,7 @@
   },
   {
     "id": 146,
-    "question": "WHAT IS THE FEATURE IN MS WORD THAT CORRECTS COMMON TYPING ERRORS AS YOU TYPE?",
+    "question": "What is the feature in MS Word that corrects common typing errors as you type?",
     "options": [
       {
         "id": "A",
@@ -4249,7 +4249,7 @@
   },
   {
     "id": 147,
-    "question": "WHICH TAB IN POWERPOINT CONTAINS THE OPTION TO INSERT A NEW SLIDE?",
+    "question": "Which tab in PowerPoint contains the option to insert a new slide?",
     "options": [
       {
         "id": "A",
@@ -4278,7 +4278,7 @@
   },
   {
     "id": 148,
-    "question": "IN EXCEL, WHAT IS THE FUNCTION OF THE FILL HANDLE?",
+    "question": "In Excel, what is the function of the fill handle?",
     "options": [
       {
         "id": "A",
@@ -4307,7 +4307,7 @@
   },
   {
     "id": 149,
-    "question": "WHAT IS THE KEYBOARD SHORTCUT TO SELECT ALL CONTENT IN A DOCUMENT?",
+    "question": "What is the keyboard shortcut to select all content in a document?",
     "options": [
       {
         "id": "A",
@@ -4336,7 +4336,7 @@
   },
   {
     "id": 150,
-    "question": "IN OUTLOOK, WHICH FOLDER CONTAINS EMAILS THAT HAVE BEEN MARKED AS JUNK MAIL?",
+    "question": "In Outlook, which folder contains emails that have been marked as junk mail?",
     "options": [
       {
         "id": "A",
@@ -4365,7 +4365,7 @@
   },
   {
     "id": 151,
-    "question": "IN MS WORD, WHAT FEATURE ALLOWS YOU TO TRACK CHANGES MADE TO A DOCUMENT?",
+    "question": "In MS Word, what feature allows you to track changes made to a document?",
     "options": [
       {
         "id": "A",
@@ -4394,7 +4394,7 @@
   },
   {
     "id": 152,
-    "question": "IN POWERPOINT, WHAT FEATURE ALLOWS YOU TO ADD SOUND EFFECTS TO YOUR PRESENTATION?",
+    "question": "In PowerPoint, what feature allows you to add sound effects to your presentation?",
     "options": [
       {
         "id": "A",
@@ -4423,7 +4423,7 @@
   },
   {
     "id": 153,
-    "question": "IN MS WORD, WHAT IS THE SHORTCUT KEY TO PRINT A DOCUMENT?",
+    "question": "In MS Word, what is the shortcut key to print a document?",
     "options": [
       {
         "id": "A",
@@ -4452,7 +4452,7 @@
   },
   {
     "id": 154,
-    "question": "WHICH TAB IN EXCEL CONTAINS THE OPTION TO INSERT A CHART?",
+    "question": "Which tab in Excel contains the option to insert a chart?",
     "options": [
       {
         "id": "A",
@@ -4481,7 +4481,7 @@
   },
   {
     "id": 155,
-    "question": "IN OUTLOOK, WHAT IS THE FEATURE THAT HELPS MANAGE EMAILS BY FILTERING AND SORTING THEM?",
+    "question": "In Outlook, what is the feature that helps manage emails by filtering and sorting them?",
     "options": [
       {
         "id": "A",
@@ -4510,7 +4510,7 @@
   },
   {
     "id": 156,
-    "question": "IN EXCEL, WHAT FEATURE ALLOWS YOU TO QUICKLY APPLY A SET OF FORMATTING CHOICES?",
+    "question": "In Excel, what feature allows you to quickly apply a set of formatting choices?",
     "options": [
       {
         "id": "A",
