@@ -1363,7 +1363,10 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   // Track selection from URL (?track=dsa | sql | frontend)
   const activeTrack = searchParams.get('track') || 'dsa';
   const setActiveTrack = (trackId) => {
-    setSearchParams({ track: trackId });
+    let qId = activeDsaId;
+    if (trackId === 'sql') qId = activeSqlId;
+    else if (trackId === 'frontend') qId = activeFeId;
+    setSearchParams({ track: trackId, q: qId });
   };
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -1380,7 +1383,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
   // Active DSA Question when track === 'dsa'
   const dsaQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'dsa'), [recentQuestions]);
-  const [activeDsaId, setActiveDsaId] = useState(dsaQuestions[0]?.id || 'recent-dsa-001');
+  const [activeDsaId, setActiveDsaId] = useState(() => {
+    const qParam = searchParams.get('q');
+    if (qParam && dsaQuestions.some(q => q.id === qParam)) return qParam;
+    return dsaQuestions[0]?.id || 'recent-dsa-001';
+  });
 
   const activeDsaQuestion = useMemo(() => {
     return dsaQuestions.find(q => q.id === activeDsaId) || dsaQuestions[0];
@@ -1390,22 +1397,32 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     return dsaQuestions.findIndex(q => q.id === activeDsaQuestion.id);
   }, [dsaQuestions, activeDsaQuestion.id]);
 
+  const handleSelectDsaQuestion = (qId) => {
+    setActiveDsaId(qId);
+    setSearchParams({ track: 'dsa', q: qId });
+    setTestResults(null);
+  };
+
   const handlePrevQuestion = () => {
     if (currentQuestionIndex > 0) {
-      setActiveDsaId(dsaQuestions[currentQuestionIndex - 1].id);
-      setTestResults(null);
+      handleSelectDsaQuestion(dsaQuestions[currentQuestionIndex - 1].id);
     }
   };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < dsaQuestions.length - 1) {
-      setActiveDsaId(dsaQuestions[currentQuestionIndex + 1].id);
-      setTestResults(null);
+      handleSelectDsaQuestion(dsaQuestions[currentQuestionIndex + 1].id);
     }
   };
 
-  // Code Editor state for active DSA question
-  const [selectedLang, setSelectedLang] = useState('python');
+  // Code Editor state for active DSA question with language persistence
+  const [selectedLang, setSelectedLang] = useState(() => {
+    try {
+      const savedLang = localStorage.getItem('accenture-recent-dsa-lang');
+      if (savedLang) return savedLang;
+    } catch {}
+    return 'python';
+  });
   const [isEditorExpanded, setIsEditorExpanded] = useState(false);
   const [showSolutionModal, setShowSolutionModal] = useState(false);
   const [solutionTabLang, setSolutionTabLang] = useState('python');
@@ -1413,23 +1430,30 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [copiedSolution, setCopiedSolution] = useState(false);
   const [mobileWorkspaceTab, setMobileWorkspaceTab] = useState('both'); // 'both' | 'problem' | 'editor'
 
-  // Per-question and per-language code map for DSA with starter templates
+  // Per-question and per-language code map for DSA with starter templates & localStorage persistence
   const [codeMap, setCodeMap] = useState(() => {
+    let saved = null;
+    try {
+      const item = localStorage.getItem('accenture-recent-dsa-code');
+      if (item) saved = JSON.parse(item);
+    } catch {}
+
     const initialMap = {};
     dsaQuestions.forEach(q => {
-      initialMap[q.id] = getRecentDsaStarters(q);
+      const starters = getRecentDsaStarters(q);
+      initialMap[q.id] = {
+        ...starters,
+        ...(saved?.[q.id] || {})
+      };
     });
     return initialMap;
   });
 
-  // Sync codeMap when new questions are added or when active question changes, and clean any stale main test prints
+  // Sync codeMap when new questions are added
   useEffect(() => {
     if (!activeDsaQuestion?.id) return;
     setCodeMap(prev => {
-      const existing = prev[activeDsaQuestion.id];
-      const hasStaleMain = existing?.java && existing.java.includes('public static void main');
-      const hasStalePython = existing?.python && existing.python.includes('list[int]');
-      if (existing && !hasStaleMain && !hasStalePython) return prev;
+      if (prev[activeDsaQuestion.id]) return prev;
       return {
         ...prev,
         [activeDsaQuestion.id]: getRecentDsaStarters(activeDsaQuestion)
@@ -1470,12 +1494,18 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   }, [feQuestions, activeFeQuestion?.id]);
 
   const [feCodeMap, setFeCodeMap] = useState(() => {
+    let saved = null;
+    try {
+      const item = localStorage.getItem('accenture-recent-fe-code');
+      if (item) saved = JSON.parse(item);
+    } catch {}
+
     const initialMap = {};
     feQuestions.forEach(q => {
       initialMap[q.id] = {
-        html: q.starterHTML || '',
-        css: q.starterCSS || '',
-        js: q.starterJS || ''
+        html: saved?.[q.id]?.html !== undefined ? saved[q.id].html : (q.starterHTML || ''),
+        css: saved?.[q.id]?.css !== undefined ? saved[q.id].css : (q.starterCSS || ''),
+        js: saved?.[q.id]?.js !== undefined ? saved[q.id].js : (q.starterJS || '')
       };
     });
     return initialMap;
@@ -1517,17 +1547,21 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [isFeRunning, setIsFeRunning] = useState(false);
   const [isFeResetDone, setIsFeResetDone] = useState(false);
 
+  const handleSelectFeQuestion = (qId) => {
+    setActiveFeId(qId);
+    setSearchParams({ track: 'frontend', q: qId });
+    setFeTestResults(null);
+  };
+
   const handlePrevFeQuestion = () => {
     if (currentFeIndex > 0) {
-      setActiveFeId(feQuestions[currentFeIndex - 1].id);
-      setFeTestResults(null);
+      handleSelectFeQuestion(feQuestions[currentFeIndex - 1].id);
     }
   };
 
   const handleNextFeQuestion = () => {
     if (currentFeIndex < feQuestions.length - 1) {
-      setActiveFeId(feQuestions[currentFeIndex + 1].id);
-      setFeTestResults(null);
+      handleSelectFeQuestion(feQuestions[currentFeIndex + 1].id);
     }
   };
 
@@ -1535,7 +1569,11 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   // SQL TRACK STATES & REFS
   // =========================================================================
   const sqlQuestions = useMemo(() => recentQuestions.filter(q => q.track === 'sql'), []);
-  const [activeSqlId, setActiveSqlId] = useState(sqlQuestions[0]?.id || 'recent-sql-001');
+  const [activeSqlId, setActiveSqlId] = useState(() => {
+    const qParam = searchParams.get('q');
+    if (qParam && sqlQuestions.some(q => q.id === qParam)) return qParam;
+    return sqlQuestions[0]?.id || 'recent-sql-001';
+  });
 
   const activeSqlQuestion = useMemo(() => {
     return sqlQuestions.find(q => q.id === activeSqlId) || sqlQuestions[0];
@@ -1548,26 +1586,35 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const [isSqlQuestionDropdownOpen, setIsSqlQuestionDropdownOpen] = useState(false);
   const sqlQuestionDropdownRef = useRef(null);
 
+  const handleSelectSqlQuestion = (qId) => {
+    setActiveSqlId(qId);
+    setSearchParams({ track: 'sql', q: qId });
+    setSqlQueryResult(null);
+    setSqlTestResults(null);
+  };
+
   const handlePrevSqlQuestion = () => {
     if (currentSqlIndex > 0) {
-      setActiveSqlId(sqlQuestions[currentSqlIndex - 1].id);
-      setSqlQueryResult(null);
-      setSqlTestResults(null);
+      handleSelectSqlQuestion(sqlQuestions[currentSqlIndex - 1].id);
     }
   };
 
   const handleNextSqlQuestion = () => {
     if (currentSqlIndex < sqlQuestions.length - 1) {
-      setActiveSqlId(sqlQuestions[currentSqlIndex + 1].id);
-      setSqlQueryResult(null);
-      setSqlTestResults(null);
+      handleSelectSqlQuestion(sqlQuestions[currentSqlIndex + 1].id);
     }
   };
 
   const [sqlCodeMap, setSqlCodeMap] = useState(() => {
+    let saved = null;
+    try {
+      const item = localStorage.getItem('accenture-recent-sql-code');
+      if (item) saved = JSON.parse(item);
+    } catch {}
+
     const map = {};
     sqlQuestions.forEach(q => {
-      map[q.id] = q.starterCode || '';
+      map[q.id] = (saved && saved[q.id] !== undefined) ? saved[q.id] : (q.starterCode || '');
     });
     return map;
   });
@@ -1576,10 +1623,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
   const handleSqlCodeChange = (newCode) => {
     if (!activeSqlQuestion) return;
-    setSqlCodeMap(prev => ({
-      ...prev,
-      [activeSqlQuestion.id]: newCode || ''
-    }));
+    setSqlCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeSqlQuestion.id]: newCode || ''
+      };
+      try {
+        localStorage.setItem('accenture-recent-sql-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   };
 
   const [isSqlResetDone, setIsSqlResetDone] = useState(false);
@@ -1746,18 +1799,27 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   const handleCodeChange = (newVal) => {
     if (isDsaProgrammaticUpdate.current) return;
     const activeLang = selectedDsaLangRef.current;
-    setCodeMap(prev => ({
-      ...prev,
-      [activeDsaQuestion.id]: {
-        ...prev[activeDsaQuestion.id],
-        [activeLang]: newVal || ''
-      }
-    }));
+    setCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeDsaQuestion.id]: {
+          ...(prev[activeDsaQuestion.id] || {}),
+          [activeLang]: newVal || ''
+        }
+      };
+      try {
+        localStorage.setItem('accenture-recent-dsa-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   };
 
   const handleSelectDsaLanguage = (langId) => {
     selectedDsaLangRef.current = langId;
     setSelectedLang(langId);
+    try {
+      localStorage.setItem('accenture-recent-dsa-lang', langId);
+    } catch {}
 
     const starters = getRecentDsaStarters(activeDsaQuestion);
     const targetCode = codeMap[activeDsaQuestion.id]?.[langId] !== undefined
@@ -1792,14 +1854,20 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     const activeLang = selectedDsaLangRef.current;
     const starter = starters[activeLang] || activeDsaQuestion.solutions?.[activeLang] || '';
     
-    // 1. Update React state
-    setCodeMap(prev => ({
-      ...prev,
-      [activeDsaQuestion.id]: {
-        ...prev[activeDsaQuestion.id],
-        [activeLang]: starter
-      }
-    }));
+    // 1. Update React state and localStorage
+    setCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeDsaQuestion.id]: {
+          ...(prev[activeDsaQuestion.id] || {}),
+          [activeLang]: starter
+        }
+      };
+      try {
+        localStorage.setItem('accenture-recent-dsa-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
 
     // 2. Direct Monaco model update with protection flag
     isDsaProgrammaticUpdate.current = true;
@@ -1836,15 +1904,24 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     // Switch the active language in editor to match the loaded solution
     setSelectedLang(targetLang);
     selectedDsaLangRef.current = targetLang;
+    try {
+      localStorage.setItem('accenture-recent-dsa-lang', targetLang);
+    } catch {}
 
     if (sol) {
-      setCodeMap(prev => ({
-        ...prev,
-        [activeDsaQuestion.id]: {
-          ...prev[activeDsaQuestion.id],
-          [targetLang]: sol
-        }
-      }));
+      setCodeMap(prev => {
+        const updated = {
+          ...prev,
+          [activeDsaQuestion.id]: {
+            ...(prev[activeDsaQuestion.id] || {}),
+            [targetLang]: sol
+          }
+        };
+        try {
+          localStorage.setItem('accenture-recent-dsa-code', JSON.stringify(updated));
+        } catch {}
+        return updated;
+      });
       isDsaProgrammaticUpdate.current = true;
       if (dsaEditorRef.current) {
         dsaEditorRef.current.setValue(sol);
@@ -3567,29 +3644,41 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   // =========================================================================
   const handleFeCodeChange = (newVal) => {
     if (!activeFeQuestion?.id) return;
-    setFeCodeMap(prev => ({
-      ...prev,
-      [activeFeQuestion.id]: {
-        ...(prev[activeFeQuestion.id] || {
-          html: activeFeQuestion.starterHTML || '',
-          css: activeFeQuestion.starterCSS || '',
-          js: activeFeQuestion.starterJS || ''
-        }),
-        [activeFeEditorTab]: newVal || ''
-      }
-    }));
+    setFeCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeFeQuestion.id]: {
+          ...(prev[activeFeQuestion.id] || {
+            html: activeFeQuestion.starterHTML || '',
+            css: activeFeQuestion.starterCSS || '',
+            js: activeFeQuestion.starterJS || ''
+          }),
+          [activeFeEditorTab]: newVal || ''
+        }
+      };
+      try {
+        localStorage.setItem('accenture-recent-fe-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   };
 
   const handleResetFeCode = () => {
     if (!activeFeQuestion?.id) return;
-    setFeCodeMap(prev => ({
-      ...prev,
-      [activeFeQuestion.id]: {
-        html: activeFeQuestion.starterHTML || '',
-        css: activeFeQuestion.starterCSS || '',
-        js: activeFeQuestion.starterJS || ''
-      }
-    }));
+    setFeCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeFeQuestion.id]: {
+          html: activeFeQuestion.starterHTML || '',
+          css: activeFeQuestion.starterCSS || '',
+          js: activeFeQuestion.starterJS || ''
+        }
+      };
+      try {
+        localStorage.setItem('accenture-recent-fe-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
     setFeTestResults(null);
     setIsFeResetDone(true);
     setTimeout(() => setIsFeResetDone(false), 2000);
@@ -3610,14 +3699,20 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
 
   const handleInsertFeSolution = () => {
     if (!activeFeQuestion?.id) return;
-    setFeCodeMap(prev => ({
-      ...prev,
-      [activeFeQuestion.id]: {
-        html: activeFeQuestion.solutionHTML || '',
-        css: activeFeQuestion.solutionCSS || '',
-        js: activeFeQuestion.solutionJS || ''
-      }
-    }));
+    setFeCodeMap(prev => {
+      const updated = {
+        ...prev,
+        [activeFeQuestion.id]: {
+          html: activeFeQuestion.solutionHTML || '',
+          css: activeFeQuestion.solutionCSS || '',
+          js: activeFeQuestion.solutionJS || ''
+        }
+      };
+      try {
+        localStorage.setItem('accenture-recent-fe-code', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
     setFeTestResults(null);
     setShowFeSolutionModal(false);
   };
@@ -5306,8 +5401,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                         key={q.id}
                         type="button"
                         onClick={() => {
-                          setActiveDsaId(q.id);
-                          setTestResults(null);
+                          handleSelectDsaQuestion(q.id);
                           setIsQuestionDropdownOpen(false);
                         }}
                         style={{
@@ -5414,8 +5508,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       key={q.id}
                       type="button"
                       onClick={() => {
-                        setActiveDsaId(q.id);
-                        setTestResults(null);
+                        handleSelectDsaQuestion(q.id);
                       }}
                       style={{
                         padding: '5px 11px',
@@ -6454,8 +6547,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 questions={feQuestions}
                 currentIndex={currentFeIndex}
                 onSelectQuestion={(idx) => {
-                  setActiveFeId(feQuestions[idx].id);
-                  setFeTestResults(null);
+                  handleSelectFeQuestion(feQuestions[idx].id);
                 }}
                 isSolvedFn={(q) => solvedSet.includes(q.id)}
                 menuTitle="SELECT RECENT ACCENTURE FRONTEND QUESTION"
@@ -6495,8 +6587,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       key={q.id}
                       type="button"
                       onClick={() => {
-                        setActiveFeId(q.id);
-                        setFeTestResults(null);
+                        handleSelectFeQuestion(q.id);
                       }}
                       style={{
                         padding: '5px 11px',
@@ -8150,9 +8241,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                   questions={sqlQuestions}
                   currentIndex={currentSqlIndex}
                   onSelectQuestion={(idx) => {
-                    setActiveSqlId(sqlQuestions[idx].id);
-                    setSqlQueryResult(null);
-                    setSqlTestResults(null);
+                    handleSelectSqlQuestion(sqlQuestions[idx].id);
                     setSqlActiveTab('output');
                   }}
                   isSolvedFn={(q) => solvedSet.includes(q.id)}
@@ -8168,9 +8257,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       <button
                         key={q.id}
                         onClick={() => {
-                          setActiveSqlId(q.id);
-                          setSqlQueryResult(null);
-                          setSqlTestResults(null);
+                          handleSelectSqlQuestion(q.id);
                           setSqlActiveTab('output');
                         }}
                         className={`nav-dot-btn ${isCurrent ? 'active' : ''} ${isSolved ? 'solved' : ''}`}
