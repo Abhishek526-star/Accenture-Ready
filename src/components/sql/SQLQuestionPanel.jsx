@@ -119,55 +119,6 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
           </div>
         )}
 
-        {/* Database Schema Section with View Schema Button */}
-        {effectiveSchema && (
-          <div className="sql-section">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-              <div className="section-label" style={{ margin: 0 }}>
-                <Database size={15} />
-                <span>Database Schema</span>
-              </div>
-
-              {/* View Schema Button: opens floating iFrame-style ER Diagram window */}
-              <button
-                type="button"
-                onClick={() => setIsSchemaModalOpen(true)}
-                className="btn btn-sm btn-outline"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  fontSize: '0.78rem',
-                  fontWeight: 700,
-                  padding: '5px 12px',
-                  borderRadius: '6px',
-                  border: '1px solid rgba(249, 115, 22, 0.4)',
-                  background: 'rgba(234, 88, 12, 0.12)',
-                  color: '#fb923c',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                }}
-                title="Click to open interactive Entity-Relationship (ER) Diagram window"
-              >
-                <GitFork size={13} />
-                <span>View Schema</span>
-              </button>
-            </div>
-
-            {/* Floating iFrame-Style Window Modal */}
-            <SQLSchemaModal
-              isOpen={isSchemaModalOpen}
-              onClose={() => setIsSchemaModalOpen(false)}
-              schema={effectiveSchema}
-              questionTitle={question.title}
-            />
-
-            {/* Standard Table View for inline quick lookup */}
-            <SQLSchemaViewer tableSchema={question.tableSchema || (effectiveSchema.tables || [])} />
-          </div>
-        )}
-
         {/* Problem Statement */}
         <div className="sql-section problem-statement">
           <div className="section-label">
@@ -240,6 +191,55 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
                 />
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* Database Schema Section with View Schema Button */}
+        {effectiveSchema && (
+          <div className="sql-section">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div className="section-label" style={{ margin: 0 }}>
+                <Database size={15} />
+                <span>Database Schema</span>
+              </div>
+
+              {/* View Schema Button: opens floating iFrame-style ER Diagram window */}
+              <button
+                type="button"
+                onClick={() => setIsSchemaModalOpen(true)}
+                className="btn btn-sm btn-outline"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  padding: '5px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(249, 115, 22, 0.4)',
+                  background: 'rgba(234, 88, 12, 0.12)',
+                  color: '#fb923c',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                }}
+                title="Click to open interactive Entity-Relationship (ER) Diagram window"
+              >
+                <GitFork size={13} />
+                <span>View Schema</span>
+              </button>
+            </div>
+
+            {/* Floating iFrame-Style Window Modal */}
+            <SQLSchemaModal
+              isOpen={isSchemaModalOpen}
+              onClose={() => setIsSchemaModalOpen(false)}
+              schema={effectiveSchema}
+              questionTitle={question.title}
+            />
+
+            {/* Standard Table View for inline quick lookup */}
+            <SQLSchemaViewer tableSchema={question.tableSchema || (effectiveSchema.tables || [])} />
           </div>
         )}
 
