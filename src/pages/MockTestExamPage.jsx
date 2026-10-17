@@ -47,7 +47,7 @@ function FormattedCodeSnippet({ code, language = 'Code' }) {
   return (
     <div
       style={{
-        margin: '1.25rem 0',
+        margin: '0.85rem 0',
         borderRadius: '12px',
         overflow: 'hidden',
         border: '1px solid rgba(56, 189, 248, 0.25)',
@@ -61,7 +61,7 @@ function FormattedCodeSnippet({ code, language = 'Code' }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '8px 14px',
+          padding: '7px 14px',
           background: 'rgba(15, 23, 42, 0.95)',
           borderBottom: '1px solid rgba(56, 189, 248, 0.15)'
         }}
@@ -105,11 +105,13 @@ function FormattedCodeSnippet({ code, language = 'Code' }) {
       <pre
         style={{
           margin: 0,
-          padding: '14px 18px',
+          padding: '10px 16px',
           overflowX: 'auto',
+          maxHeight: '210px',
+          overflowY: 'auto',
           fontFamily: '"JetBrains Mono", "Fira Code", Menlo, Monaco, Consolas, monospace',
-          fontSize: '0.88rem',
-          lineHeight: '1.65',
+          fontSize: '0.86rem',
+          lineHeight: '1.45',
           color: '#e2e8f0',
           tabSize: 4,
           whiteSpace: 'pre',
@@ -128,7 +130,7 @@ function FormattedDataTable({ data }) {
   return (
     <div
       style={{
-        margin: '1.25rem 0',
+        margin: '0.85rem 0',
         borderRadius: '12px',
         overflow: 'hidden',
         border: '1px solid rgba(56, 189, 248, 0.25)',
@@ -141,7 +143,7 @@ function FormattedDataTable({ data }) {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          padding: '8px 14px',
+          padding: '7px 14px',
           background: 'rgba(30, 41, 59, 0.8)',
           borderBottom: '1px solid rgba(56, 189, 248, 0.15)',
           fontSize: '0.75rem',
@@ -155,7 +157,7 @@ function FormattedDataTable({ data }) {
         <span>Reference Dataset / Table</span>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div style={{ overflowX: 'auto', maxHeight: '210px', overflowY: 'auto' }}>
         <table
           style={{
             width: '100%',
@@ -279,6 +281,23 @@ function OptionContent({ text }) {
 
   if (!isCode) {
     return <span style={{ fontSize: '0.92rem', lineHeight: 1.55 }}>{text}</span>;
+  }
+
+  const isMultiLine = typeof text === 'string' && text.includes('\n');
+  if (!isMultiLine && text.length < 50) {
+    return (
+      <span
+        style={{
+          fontFamily: '"JetBrains Mono", "Fira Code", Menlo, Consolas, monospace',
+          fontSize: '0.92rem',
+          lineHeight: 1.55,
+          color: '#e2e8f0',
+          letterSpacing: '0.01em'
+        }}
+      >
+        {text}
+      </span>
+    );
   }
 
   return (
@@ -480,6 +499,20 @@ export default function MockTestExamPage({ theme = 'dark' }) {
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [testId, analytics, timeTakenSeconds, userAnswers]);
+
+  // Only scroll if the card is scrolled significantly off-screen above the viewport
+  useEffect(() => {
+    const cardEl = document.querySelector('.cloud-card');
+    if (cardEl) {
+      const cardRect = cardEl.getBoundingClientRect();
+      if (cardRect.top < -40) {
+        window.scrollTo({
+          top: Math.max(0, window.scrollY + cardRect.top - 80),
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [currentIndex]);
 
   const currentQuestion = questions[currentIndex] || questions[0];
   const answeredCount = Object.keys(userAnswers).length;
@@ -898,8 +931,8 @@ export default function MockTestExamPage({ theme = 'dark' }) {
                     border: isCorrect
                       ? '1px solid rgba(16, 185, 129, 0.4)'
                       : isUnattempted
-                      ? '1px solid #334155'
-                      : '1px solid rgba(239, 68, 68, 0.4)',
+                        ? '1px solid #334155'
+                        : '1px solid rgba(239, 68, 68, 0.4)',
                     borderRadius: '12px',
                     padding: '1.25rem',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
@@ -1209,10 +1242,10 @@ export default function MockTestExamPage({ theme = 'dark' }) {
                     style={
                       markedQuestions[currentQuestion.id]
                         ? {
-                            background: '#f59e0b',
-                            color: '#1f2937',
-                            borderColor: '#f59e0b'
-                          }
+                          background: '#f59e0b',
+                          color: '#1f2937',
+                          borderColor: '#f59e0b'
+                        }
                         : undefined
                     }
                   >

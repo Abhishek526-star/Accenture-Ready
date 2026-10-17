@@ -4,6 +4,7 @@ import { mockTest2 } from './mockTest2.js';
 import { mockTest3 } from './mockTest3.js';
 import { mockTest4 } from './mockTest4.js';
 import { mockTest5 } from './mockTest5.js';
+import { mockTest6 } from './mockTest6.js';
 
 export const MOCK_TESTS = [
   {
@@ -72,6 +73,20 @@ export const MOCK_TESTS = [
     questionsCount: mockTest5.length,
     durationMinutes: mockTest5.length,
     totalMarks: mockTest5.length,
+    marksPerQuestion: 1,
+    negativeMarking: 0,
+    topics: ['Pseudocode', 'Networking & Cloud', 'Web & Security', 'MS Office & Architecture']
+  },
+  {
+    id: 6,
+    title: 'Accenture Mock Test 6',
+    shortTitle: 'Mock Test 6',
+    badge: 'Set 6',
+    description: 'Comprehensive 45-minute technical assessment covering Kubernetes, Concurrency, OOP, Network Security, Pseudocode, and MS Office.',
+    questions: mockTest6,
+    questionsCount: mockTest6.length,
+    durationMinutes: mockTest6.length,
+    totalMarks: mockTest6.length,
     marksPerQuestion: 1,
     negativeMarking: 0,
     topics: ['Pseudocode', 'Networking & Cloud', 'Web & Security', 'MS Office & Architecture']
