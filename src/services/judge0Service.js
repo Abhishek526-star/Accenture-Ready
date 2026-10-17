@@ -483,6 +483,26 @@ for _s in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-023') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    [15, 5, 20, 8, 50, 10],
+    [5, 3, 8, 7, 10, 10],
+    [20, 1, 30, 2, 40, 3],
+    [5, 5, 10, 10, 20, 20],
+    [-5, 5, -10, 10, -15, 15]
+]
+for _arr in _tests:
+    try:
+        fn = globals().get('processPairwiseDifferences') or globals().get('process_pairwise_differences') or processPairwiseDifferences
+        print("TEST_RES:" + json.dumps(fn(_arr)))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1084,6 +1104,29 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-023') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[][] tests = {
+            {15, 5, 20, 8, 50, 10},
+            {5, 3, 8, 7, 10, 10},
+            {20, 1, 30, 2, 40, 3},
+            {5, 5, 10, 10, 20, 20},
+            {-5, 5, -10, 10, -15, 15}
+        };
+        for (int[] arr : tests) {
+            try {
+                System.out.println("TEST_RES:" + processPairwiseDifferences(arr));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1593,6 +1636,29 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-023') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::vector<int>> tests = {
+        {15, 5, 20, 8, 50, 10},
+        {5, 3, 8, 7, 10, 10},
+        {20, 1, 30, 2, 40, 3},
+        {5, 5, 10, 10, 20, 20},
+        {-5, 5, -10, 10, -15, 15}
+    };
+    for (auto& arr : tests) {
+        try {
+            std::cout << "TEST_RES:" << processPairwiseDifferences(arr) << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -2064,6 +2130,29 @@ int main() {
         foreach (var s in tests) {
             try {
                 Console.WriteLine("TEST_RES:" + AsciiFrequencyModulo(s));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-023') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        int[][] tests = new int[][] {
+            new int[] {15, 5, 20, 8, 50, 10},
+            new int[] {5, 3, 8, 7, 10, 10},
+            new int[] {20, 1, 30, 2, 40, 3},
+            new int[] {5, 5, 10, 10, 20, 20},
+            new int[] {-5, 5, -10, 10, -15, 15}
+        };
+        foreach (var arr in tests) {
+            try {
+                Console.WriteLine("TEST_RES:" + ProcessPairwiseDifferences(arr));
             } catch (Exception e) {
                 Console.WriteLine("TEST_ERR:" + e.Message);
             }
@@ -2568,6 +2657,27 @@ for (const _s of _tests) {
     try {
         const fn = typeof asciiFrequencyModulo === 'function' ? asciiFrequencyModulo : null;
         console.log("TEST_RES:" + (fn ? fn(_s) : '0'));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-023') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [15, 5, 20, 8, 50, 10],
+  [5, 3, 8, 7, 10, 10],
+  [20, 1, 30, 2, 40, 3],
+  [5, 5, 10, 10, 20, 20],
+  [-5, 5, -10, 10, -15, 15]
+];
+for (const _arr of _tests) {
+    try {
+        const fn = typeof processPairwiseDifferences === 'function' ? processPairwiseDifferences : null;
+        console.log("TEST_RES:" + (fn ? fn(_arr) : '0'));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

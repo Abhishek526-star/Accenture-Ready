@@ -1340,7 +1340,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2193,6 +2193,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasModulo || !hasAsciiOrChar) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_ascii_frequency_modulo_calculation';
+      }
+    } else if (question.id === 'recent-dsa-023') {
+      const hasDiff = code.includes('abs') || code.includes('Abs') || code.includes('-');
+      const hasReduction = code.includes('% 10') || code.includes('%10') || code.includes('/ 10') || code.includes('/10') || code.includes('while') || code.includes('sum') || code.includes('+');
+      if (!hasDiff || !hasReduction) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_pairwise_difference_or_digit_reduction';
       }
     }
 
@@ -3584,6 +3591,71 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-023') {
+        const testInputs = [
+          { id: 1, name: 'Exam Test Case 1 (Given Example)', inputs: [15, 5, 20, 8, 50, 10], exp: 8, expStr: "8", latency: '1ms' },
+          { id: 2, name: 'Exam Test Case 2 (Single Digit Sum)', inputs: [5, 3, 8, 7, 10, 10], exp: 3, expStr: "3", latency: '1ms' },
+          { id: 3, name: 'Exam Test Case 3 (Multiple Reductions: 84 -> 12 -> 3)', inputs: [20, 1, 30, 2, 40, 3], exp: 3, expStr: "3", latency: '1ms' },
+          { id: 4, name: 'Exam Test Case 4 (Zero Differences)', inputs: [5, 5, 10, 10, 20, 20], exp: 0, expStr: "0", latency: '1ms' },
+          { id: 5, name: 'Exam Test Case 5 (Negative and Positive Inputs)', inputs: [-5, 5, -10, 10, -15, 15], exp: 6, expStr: "6", latency: '1ms' }
+        ];
+
+        const computeExpected = (arr) => {
+          if (!arr || arr.length !== 6) return 0;
+          let total = Math.abs(arr[0] - arr[1]) + Math.abs(arr[2] - arr[3]) + Math.abs(arr[4] - arr[5]);
+          while (total >= 10) {
+            let s = 0;
+            while (total > 0) {
+              s += total % 10;
+              total = Math.floor(total / 10);
+            }
+            total = s;
+          }
+          return total;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const parsedOut = Number(String(out ?? '').trim());
+              passed = !isNaN(parsedOut) && parsedOut === t.exp;
+              actualStr = String(out ?? '');
+            }
+          } else if (sub.mode === 'executed') {
+            const u = sub.runTest([t.inputs]);
+            if (u.error) {
+              actualStr = `Error: ${u.error}`;
+              passed = false;
+            } else {
+              actualStr = String(u.ret);
+              passed = Number(u.ret) === t.exp;
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = '0 (Digit reduction flawed)';
+            passed = false;
+          } else {
+            const val = computeExpected(t.inputs);
+            actualStr = String(val);
+            passed = val === t.exp;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `inputs = [${t.inputs.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -4018,6 +4090,220 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-006')) {
                 const updated = prev.filter(id => id !== 'recent-fe-006');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Interactive Chatbot UI Implementation (recent-fe-009)
+        if (activeFeQuestion?.id === 'recent-fe-009') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Input element & attributes
+          const userInputEl = doc.getElementById('userInput') || doc.querySelector('input#userInput');
+          const sendBtnEl = doc.getElementById('sendBtn');
+
+          const hasInputType = userInputEl?.getAttribute('type') === 'text';
+          const hasPlaceholder = !!userInputEl?.getAttribute('placeholder');
+          const hasKeyPressAttr = (userInputEl?.getAttribute('onkeypress') || '').includes('handleKeyPress');
+          const hasInputAll = !!userInputEl && hasInputType && hasPlaceholder && hasKeyPressAttr;
+
+          // 2. HTML Verification - Send Button onclick attribute
+          const sendBtnOnClick = sendBtnEl?.getAttribute('onclick') || '';
+          const hasSendOnClick = !!sendBtnEl && (sendBtnOnClick.includes('sendMessage()') || sendBtnOnClick.includes('sendMessage'));
+
+          // 3. CSS Verification - input border
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasInputBorder =
+            cssClean.includes('border:1pxsolid#334155') ||
+            cssClean.includes('border-color:#334155') ||
+            cssClean.includes('border:1pxsolidrgb(51,65,85)') ||
+            (cssClean.includes('#userinput') && cssClean.includes('#334155')) ||
+            (cssClean.includes('chat-input-area') && cssClean.includes('#334155'));
+
+          // 4. JavaScript Execution Verification
+          let jsUserMsgPassed = false;
+          let jsUserMsgInfo = '';
+          let jsEmptyIgnorePassed = false;
+          let jsEmptyIgnoreInfo = '';
+          let jsBotResponsePassed = false;
+          let jsBotResponseInfo = '';
+
+          try {
+            const sandbox = document.createElement('div');
+            sandbox.innerHTML = html;
+
+            let scheduledCallbacks = [];
+            const mockWindow = {
+              ...window,
+              setTimeout: (fn, ms) => {
+                scheduledCallbacks.push({ fn, ms });
+                return scheduledCallbacks.length;
+              }
+            };
+
+            const mockDoc = {
+              getElementById: (id) => sandbox.querySelector('#' + id),
+              querySelector: (sel) => sandbox.querySelector(sel),
+              querySelectorAll: (sel) => sandbox.querySelectorAll(sel),
+              createElement: (tag) => document.createElement(tag)
+            };
+
+            const runFn = new Function('document', 'window', 'setTimeout', `
+              ${js}
+              return {
+                sendMessage: typeof sendMessage === 'function' ? sendMessage : null,
+                handleKeyPress: typeof handleKeyPress === 'function' ? handleKeyPress : null,
+                appendMessage: typeof appendMessage === 'function' ? appendMessage : null
+              };
+            `);
+
+            const exported = runFn(mockDoc, mockWindow, mockWindow.setTimeout);
+            const inputField = sandbox.querySelector('#userInput');
+            const chatBox = sandbox.querySelector('#chatBox');
+
+            if (!exported.sendMessage) {
+              jsUserMsgInfo = 'sendMessage() function is not defined.';
+              jsEmptyIgnoreInfo = 'sendMessage() function is not defined.';
+              jsBotResponseInfo = 'sendMessage() function is not defined.';
+            } else if (!inputField || !chatBox) {
+              jsUserMsgInfo = 'Missing #userInput or #chatBox in HTML markup.';
+              jsEmptyIgnoreInfo = 'Missing #userInput or #chatBox in HTML markup.';
+              jsBotResponseInfo = 'Missing #userInput or #chatBox in HTML markup.';
+            } else {
+              // Action 1: Send "Hello"
+              inputField.value = "Hello";
+              exported.sendMessage();
+
+              const userMsgs = chatBox.querySelectorAll('.user-message');
+              const latestUserMsg = userMsgs[userMsgs.length - 1];
+
+              if (latestUserMsg && latestUserMsg.innerText.includes('Hello') && inputField.value === '') {
+                jsUserMsgPassed = true;
+                jsUserMsgInfo = 'User message "Hello" successfully appended with class .user-message and input field cleared.';
+              } else if (!latestUserMsg) {
+                jsUserMsgInfo = 'User message bubble with class .user-message was not found after calling sendMessage().';
+              } else if (inputField.value !== '') {
+                jsUserMsgInfo = 'Input field was not cleared after sending message.';
+              } else {
+                jsUserMsgInfo = 'User message text did not match input message.';
+              }
+
+              // Action 2: Send empty / whitespace
+              const countBeforeEmpty = chatBox.querySelectorAll('.message').length;
+              inputField.value = "   ";
+              exported.sendMessage();
+              const countAfterEmpty = chatBox.querySelectorAll('.message').length;
+
+              if (countAfterEmpty === countBeforeEmpty) {
+                jsEmptyIgnorePassed = true;
+                jsEmptyIgnoreInfo = 'Empty and whitespace-only messages are correctly ignored.';
+              } else {
+                jsEmptyIgnoreInfo = 'Empty/whitespace message was improperly appended to chat.';
+              }
+
+              // Action 3: Trigger scheduled bot response
+              if (scheduledCallbacks.length > 0) {
+                const latestTimeout = scheduledCallbacks[scheduledCallbacks.length - 1];
+                const delayAcceptable = latestTimeout.ms >= 450 && latestTimeout.ms <= 600;
+
+                // Execute the bot response callback
+                latestTimeout.fn();
+
+                const botMsgs = chatBox.querySelectorAll('.bot-message');
+                const latestBotMsg = botMsgs[botMsgs.length - 1];
+
+                const expectedEcho = 'Thanks for reaching out! You said: "Hello"';
+                const hasCorrectText = latestBotMsg && latestBotMsg.innerText.includes(expectedEcho);
+
+                if (hasCorrectText && delayAcceptable) {
+                  jsBotResponsePassed = true;
+                  jsBotResponseInfo = `Bot reply "${expectedEcho}" appended with class .bot-message after ${latestTimeout.ms}ms.`;
+                } else if (!latestBotMsg) {
+                  jsBotResponseInfo = 'Bot message bubble with class .bot-message was not appended.';
+                } else if (!delayAcceptable) {
+                  jsBotResponseInfo = `setTimeout delay was ${latestTimeout.ms}ms (expected 500ms).`;
+                } else {
+                  jsBotResponseInfo = `Bot reply "${latestBotMsg?.innerText}" did not match expected: "${expectedEcho}".`;
+                }
+              } else {
+                jsBotResponseInfo = 'setTimeout(..., 500) was not called inside sendMessage().';
+              }
+            }
+          } catch (err) {
+            jsUserMsgInfo = `JavaScript execution error: ${err.message}`;
+            jsEmptyIgnoreInfo = `JavaScript execution error: ${err.message}`;
+            jsBotResponseInfo = `JavaScript execution error: ${err.message}`;
+          }
+
+          const results = [
+            {
+              id: 'fe-tc-1',
+              name: 'HTML Input Field Setup (#userInput with attributes)',
+              passed: hasInputAll,
+              message: hasInputAll
+                ? 'Input element #userInput exists with type="text", placeholder, and onkeypress="handleKeyPress(event)".'
+                : 'Expected <input type="text" id="userInput" placeholder="..." onkeypress="handleKeyPress(event)"> in .chat-input-area.'
+            },
+            {
+              id: 'fe-tc-2',
+              name: 'Send Button Click Handler (onclick="sendMessage()")',
+              passed: hasSendOnClick,
+              message: hasSendOnClick
+                ? 'Send button #sendBtn has onclick="sendMessage()".'
+                : 'Expected onclick="sendMessage()" on button #sendBtn.'
+            },
+            {
+              id: 'fe-tc-3',
+              name: 'CSS Input Border Property (.chat-input-area input)',
+              passed: hasInputBorder,
+              message: hasInputBorder
+                ? 'Input field has border: 1px solid #334155.'
+                : 'Expected border: 1px solid #334155; in CSS for input.'
+            },
+            {
+              id: 'fe-tc-4',
+              name: 'Message Dispatching & Validation (append .user-message, clear input, ignore empty)',
+              passed: jsUserMsgPassed && jsEmptyIgnorePassed,
+              message: (jsUserMsgPassed && jsEmptyIgnorePassed)
+                ? 'sendMessage() successfully trims input, appends user bubble, resets field, and guards against empty messages.'
+                : `${jsUserMsgInfo} ${jsEmptyIgnoreInfo}`.trim()
+            },
+            {
+              id: 'fe-tc-5',
+              name: 'Simulated 500ms Bot Response (.bot-message formatting)',
+              passed: jsBotResponsePassed,
+              message: jsBotResponsePassed
+                ? jsBotResponseInfo
+                : jsBotResponseInfo
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-009',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-009')) {
+              toggleSolved('recent-fe-009');
+              gamificationService.addXP(50, 'Solved Interactive Chatbot UI Implementation');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-009')) {
+                const updated = prev.filter(id => id !== 'recent-fe-009');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -6830,7 +7116,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-008' ? (
+                    {activeFeQuestion.id === 'recent-fe-009' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given an existing <strong style={{ color: '#f8fafc' }}>Interactive Chatbot UI</strong>. Complete the missing HTML input attributes and button click handler, CSS input border (<code style={{ color: '#38bdf8' }}>#334155</code>), and JavaScript <strong style={{ color: '#f8fafc' }}>sendMessage()</strong> function with a 500ms simulated bot response.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML #userInput &amp; #sendBtn onclick • Part 2: CSS border: 1px solid #334155 • Part 3: JS sendMessage() with 500ms setTimeout bot response
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-008' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are given an existing implementation with buttons for <strong style={{ color: '#f8fafc' }}>Triangle, Circle, and Square</strong>. Complete the HTML initial shape, CSS triangle border color (#9C00FF), and JavaScript <strong style={{ color: '#f8fafc' }}>showShape()</strong> function to switch shapes inside the canvas with mutual exclusivity.
@@ -6926,7 +7221,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add <code style={{ color: '#fb923c' }}>&lt;input type="text" id="userInput" placeholder="Type a message..." onkeypress="handleKeyPress(event)"&gt;</code> in <strong style={{ color: '#f8fafc' }}><code>.chat-input-area</code></strong>.</li>
+                            <li>Add attribute <code style={{ color: '#fb923c' }}>onclick="sendMessage()"</code> to the Send button (<strong style={{ color: '#f8fafc' }}><code>#sendBtn</code></strong>).</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-008' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add initial shape element inside <strong style={{ color: '#f8fafc' }}><code>#canvas</code></strong> using class <code style={{ color: '#fb923c' }}>triangle</code>.</li>
                             <li>The Triangle should be visible inside canvas on initial load.</li>
@@ -6992,7 +7292,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set input border to <code style={{ color: '#4ade80' }}>border: 1px solid #334155;</code> inside <strong style={{ color: '#f8fafc' }}><code>.chat-input-area input</code></strong>.</li>
+                            <li>Preserve existing padding, background, border radius, and color.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-008' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Set triangle's color to <code style={{ color: '#4ade80' }}>border-bottom: 100px solid #9C00FF;</code> inside <strong style={{ color: '#f8fafc' }}><code>.triangle</code></strong>.</li>
                             <li>Preserve existing border-left and border-right width definitions.</li>
@@ -7056,7 +7361,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-008' ? (
+                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Complete <strong style={{ color: '#f8fafc' }}><code>sendMessage()</code></strong> to retrieve and trim input value; ignore empty or whitespace-only messages.</li>
+                            <li>Append user message bubble via <code style={{ color: '#facc15' }}>appendMessage(message, "user-message")</code> and clear the input field.</li>
+                            <li>Use <code style={{ color: '#facc15' }}>setTimeout(..., 500)</code> to display bot reply: <strong style={{ color: '#f8fafc' }}>"Thanks for reaching out! You said: \"${'{message}'}\""</strong> with class <code style={{ color: '#facc15' }}>"bot-message"</code>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-008' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Complete <strong style={{ color: '#f8fafc' }}><code>showShape(shape)</code></strong> to clear existing shapes and render the requested shape class.</li>
                             <li>Clicking Triangle displays Triangle, Circle displays Circle, Square displays Square.</li>
@@ -7115,7 +7426,15 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-008'
+                      {(activeFeQuestion.id === 'recent-fe-009'
+                        ? [
+                            { title: 'HTML Input & Attributes', desc: '#userInput with type="text", placeholder, and onkeypress listener' },
+                            { title: 'Send Button Click Handler', desc: '#sendBtn button includes onclick="sendMessage()"' },
+                            { title: 'CSS Input Border', desc: '.chat-input-area input has border: 1px solid #334155' },
+                            { title: 'User Message & Input Reset', desc: 'Dispatches .user-message bubble, clears input, guards empty/whitespace' },
+                            { title: '500ms Simulated Bot Reply', desc: 'Appends .bot-message bubble with correct template string after 500ms' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-008'
                         ? [
                             { title: 'Initial Triangle Render', desc: 'Canvas displays Triangle element upon initial page load' },
                             { title: 'CSS Triangle Color', desc: '.triangle has border-bottom: 100px solid #9C00FF' },
@@ -7202,7 +7521,24 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-005'
+                      {(activeFeQuestion.id === 'recent-fe-009'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 #334155',
+                            'Vanilla ES6 JavaScript',
+                            'setTimeout(..., 500)',
+                            'DOM Element Injection',
+                            'Chatbot UI Protocol'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-008'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 #9C00FF',
+                            'Vanilla ES6 JavaScript',
+                            'CSS Border Shapes',
+                            'Mutual Exclusivity'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-005'
                         ? [
                             'HTML5 Standard',
                             'CSS3 #3498db',

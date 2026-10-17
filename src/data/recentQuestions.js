@@ -2000,6 +2000,87 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-023",
+    "track": "dsa",
+    "dateTag": "17th Oct 2026 • Shift 1",
+    "examDate": "2026-10-17",
+    "shift": "Shift 1",
+    "title": "Pairwise Difference Reduction",
+    "difficulty": "Easy",
+    "category": "Arrays / Mathematics",
+    "pattern": "Pair Processing + Digit Reduction",
+    "topic": "Absolute Difference / Digit Sum",
+    "rewardXp": 35,
+    "targetMins": 12,
+    "source": "Accenture Assessment 17th Oct 2026 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "Given an array of exactly six integers `[i1, i2, i3, i4, i5, i6]`, calculate the absolute differences of three non-overlapping consecutive pairs.\n\nThe pairs are:\n- **Pair 1**: `(i1, i2)`\n- **Pair 2**: `(i3, i4)`\n- **Pair 3**: `(i5, i6)`\n\n### Follow these steps:\n1. Calculate the absolute difference of each pair: `|i1 - i2|`, `|i3 - i4|`, `|i5 - i6|`.\n2. Add the three absolute differences together.\n3. If the sum contains more than one digit, repeatedly add its digits until a single-digit integer between `0` and `9` remains.\n4. Return the final single-digit result.\n\n---\n\n### 📝 Function Declaration:\n```java\npublic static int processPairwiseDifferences(int[] inputs)\n```\n\n### 📥 Input Specification:\n- `inputs`: An integer array containing exactly six integers.\n\n### 📤 Output Specification:\n- Return a single-digit integer between `0` and `9`.\n\n---\n\n### 📌 Given Example:\n**Input**: `[15, 5, 20, 8, 50, 10]`\n\n**Output**: `8`\n\n**Explanation**:\n- **Pair 1**: `|15 - 5| = 10`\n- **Pair 2**: `|20 - 8| = 12`\n- **Pair 3**: `|50 - 10| = 40`\n- **Sum of differences**: `10 + 12 + 40 = 62`\n- Since `62` has two digits, sum them: `6 + 2 = 8`\n- Result `8` is a single digit. The process stops and returns `8`.\n\n---\n\n### 🔍 Dry Run Table:\n| Pair | Elements | Formula | Difference |\n| :--- | :--- | :--- | :---: |\n| **Pair 1** | `(15, 5)` | `|15 - 5|` | **10** |\n| **Pair 2** | `(20, 8)` | `|20 - 8|` | **12** |\n| **Pair 3** | `(50, 10)` | `|50 - 10|` | **40** |\n\n**Sum**: `10 + 12 + 40 = 62`  \n**Digit Reduction**: `6 + 2 = 8` (Single digit achieved)  \n**Final Output**: `8`\n\n---\n\n### 🧠 Why Use Absolute Difference?\nAbsolute difference ensures each term is non-negative regardless of operand order:\n- `|5 - 15| = 10`\n- `|15 - 5| = 10`\n\nBoth yield the exact same non-negative magnitude.\n\n---\n\n### ⚠️ Important Exam Constraints & Edge Cases:\n- The input array always contains **exactly 6 integers**.\n- Pairs are non-overlapping: `(0, 1)`, `(2, 3)`, and `(4, 5)`. Do not calculate differences between adjacent overlapping pairs such as `(1, 2)` or `(3, 4)`.\n- Repeatedly reduce sum until `val < 10`.\n- Support positive, negative, and zero values cleanly using absolute difference.",
+    "rules": [
+      "1. Calculate the absolute differences of the three non-overlapping pairs: (inputs[0], inputs[1]), (inputs[2], inputs[3]), and (inputs[4], inputs[5]).",
+      "2. Sum the three absolute differences together.",
+      "3. Repeatedly sum the digits of the total while the number is greater than or equal to 10.",
+      "4. Return the resulting single-digit integer between 0 and 9.",
+      "5. Achieve O(1) time complexity and O(1) auxiliary space."
+    ],
+    "constraints": [
+      "inputs.length == 6",
+      "-10^6 <= inputs[i] <= 10^6",
+      "Time Complexity: O(1)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "inputs = [15, 5, 20, 8, 50, 10]",
+        "inputRaw": "15 5 20 8 50 10",
+        "expectedOutput": "8",
+        "explanation": "• Differences: |15-5|=10, |20-8|=12, |50-10|=40\n• Sum: 10 + 12 + 40 = 62\n• Digit reduction: 6 + 2 = 8"
+      },
+      {
+        "id": "tc-2",
+        "input": "inputs = [5, 3, 8, 7, 10, 10]",
+        "inputRaw": "5 3 8 7 10 10",
+        "expectedOutput": "3",
+        "explanation": "• Differences: |5-3|=2, |8-7|=1, |10-10|=0\n• Sum: 2 + 1 + 0 = 3 (already single digit)"
+      },
+      {
+        "id": "tc-3",
+        "input": "inputs = [20, 1, 30, 2, 40, 3]",
+        "inputRaw": "20 1 30 2 40 3",
+        "expectedOutput": "3",
+        "explanation": "• Differences: |20-1|=19, |30-2|=28, |40-3|=37\n• Sum: 19 + 28 + 37 = 84\n• Reduction 1: 8 + 4 = 12\n• Reduction 2: 1 + 2 = 3"
+      },
+      {
+        "id": "tc-4",
+        "input": "inputs = [5, 5, 10, 10, 20, 20]",
+        "inputRaw": "5 5 10 10 20 20",
+        "expectedOutput": "0",
+        "explanation": "• Differences: |5-5|=0, |10-10|=0, |20-20|=0\n• Sum: 0 + 0 + 0 = 0"
+      },
+      {
+        "id": "tc-5",
+        "input": "inputs = [-5, 5, -10, 10, -15, 15]",
+        "inputRaw": "-5 5 -10 10 -15 15",
+        "expectedOutput": "6",
+        "explanation": "• Differences: |-5-5|=10, |-10-10|=20, |-15-15|=30\n• Sum: 10 + 20 + 30 = 60\n• Digit reduction: 6 + 0 = 6"
+      }
+    ],
+    "starterCode": {
+      "python": "def processPairwiseDifferences(inputs: list[int]) -> int:\n    # TODO: Calculate absolute differences of 3 pairs, sum them, and reduce to a single digit\n    return 0\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static int processPairwiseDifferences(int[] inputs) {\n        // TODO: Calculate absolute differences of 3 pairs, sum them, and reduce to a single digit\n        return 0;\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint processPairwiseDifferences(vector<int>& inputs) {\n    // TODO: Calculate absolute differences of 3 pairs, sum them, and reduce to a single digit\n    return 0;\n}\n",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static int ProcessPairwiseDifferences(int[] inputs) {\n        // TODO: Calculate absolute differences of 3 pairs, sum them, and reduce to a single digit\n        return 0;\n    }\n}\n",
+      "javascript": "function processPairwiseDifferences(inputs) {\n  // TODO: Calculate absolute differences of 3 pairs, sum them, and reduce to a single digit\n  return 0;\n}\n"
+    },
+    "solutions": {
+      "python": "def processPairwiseDifferences(inputs: list[int]) -> int:\n    if not inputs or len(inputs) != 6:\n        return 0\n    diff1 = abs(inputs[0] - inputs[1])\n    diff2 = abs(inputs[2] - inputs[3])\n    diff3 = abs(inputs[4] - inputs[5])\n    total = diff1 + diff2 + diff3\n    while total >= 10:\n        d_sum = 0\n        while total > 0:\n            d_sum += total % 10\n            total //= 10\n        total = d_sum\n    return total",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static int processPairwiseDifferences(int[] inputs) {\n        if (inputs == null || inputs.length != 6) {\n            return 0;\n        }\n        int diff1 = Math.abs(inputs[0] - inputs[1]);\n        int diff2 = Math.abs(inputs[2] - inputs[3]);\n        int diff3 = Math.abs(inputs[4] - inputs[5]);\n        long currentVal = (long) diff1 + diff2 + diff3;\n        while (currentVal >= 10) {\n            long digitSum = 0;\n            while (currentVal > 0) {\n                digitSum += currentVal % 10;\n                currentVal /= 10;\n            }\n            currentVal = digitSum;\n        }\n        return (int) currentVal;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint processPairwiseDifferences(vector<int>& inputs) {\n    if (inputs.size() != 6) return 0;\n    long long diff1 = std::abs((long long)inputs[0] - inputs[1]);\n    long long diff2 = std::abs((long long)inputs[2] - inputs[3]);\n    long long diff3 = std::abs((long long)inputs[4] - inputs[5]);\n    long long total = diff1 + diff2 + diff3;\n    while (total >= 10) {\n        long long sum = 0;\n        while (total > 0) {\n            sum += total % 10;\n            total /= 10;\n        }\n        total = sum;\n    }\n    return (int)total;\n}",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static int ProcessPairwiseDifferences(int[] inputs) {\n        if (inputs == null || inputs.Length != 6) return 0;\n        long diff1 = Math.Abs((long)inputs[0] - inputs[1]);\n        long diff2 = Math.Abs((long)inputs[2] - inputs[3]);\n        long diff3 = Math.Abs((long)inputs[4] - inputs[5]);\n        long total = diff1 + diff2 + diff3;\n        while (total >= 10) {\n            long sum = 0;\n            while (total > 0) {\n                sum += total % 10;\n                total /= 10;\n            }\n            total = sum;\n        }\n        return (int)total;\n    }\n}",
+      "javascript": "function processPairwiseDifferences(inputs) {\n  if (!inputs || inputs.length !== 6) return 0;\n  const diff1 = Math.abs(inputs[0] - inputs[1]);\n  const diff2 = Math.abs(inputs[2] - inputs[3]);\n  const diff3 = Math.abs(inputs[4] - inputs[5]);\n  let total = diff1 + diff2 + diff3;\n  while (total >= 10) {\n    let sum = 0;\n    while (total > 0) {\n      sum += total % 10;\n      total = Math.floor(total / 10);\n    }\n    total = sum;\n  }\n  return total;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -2263,6 +2344,42 @@ export const recentQuestions = [
     "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #ffffff;\n    min-height: 100vh;\n    padding: 30px;\n    color: #172b4d;\n}\n\n.shape-app {\n    max-width: 1150px;\n    margin: 0 auto;\n}\n\n.shape-app h2 {\n    margin-bottom: 25px;\n}\n\n#canvas {\n    height: 225px;\n    border: 1px dashed #cbd5e1;\n    border-radius: 10px;\n    background: #fafafa;\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n    margin-bottom: 25px;\n}\n\n/* Triangle */\n.triangle {\n    width: 0;\n    height: 0;\n    border-left: 56px solid transparent;\n    border-right: 56px solid transparent;\n    border-bottom: 100px solid #9C00FF;\n}\n\n/* Circle */\n.circle {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    background: #9C00FF;\n}\n\n/* Square */\n.square {\n    width: 100px;\n    height: 100px;\n    background: #9C00FF;\n}\n\n.buttons {\n    display: flex;\n    justify-content: center;\n    gap: 18px;\n}\n\nbutton {\n    padding: 11px 28px;\n    border: 1px solid #cbd5e1;\n    border-radius: 4px;\n    background: #f8fafc;\n    color: #172b4d;\n    font-size: 16px;\n    cursor: pointer;\n}\n\nbutton:hover {\n    background: #eef2f7;\n}\n\nbutton.active {\n    background: #9C00FF;\n    color: white;\n    border-color: #9C00FF;\n}",
     "solutionJS": "const triangleButton = document.getElementById(\"triangleBtn\");\nconst circleButton = document.getElementById(\"circleBtn\");\nconst squareButton = document.getElementById(\"squareBtn\");\n\nconst canvas = document.getElementById(\"canvas\");\n\nfunction showShape(shape) {\n    canvas.innerHTML = \"\";\n    const el = document.createElement(\"div\");\n    el.className = shape;\n    canvas.appendChild(el);\n}\n\ntriangleButton.addEventListener(\"click\", function () {\n    showShape(\"triangle\");\n});\n\ncircleButton.addEventListener(\"click\", function () {\n    showShape(\"circle\");\n});\n\nsquareButton.addEventListener(\"click\", function () {\n    showShape(\"square\");\n});\n\n// Triangle should be displayed initially\nshowShape(\"triangle\");",
     "solutionExplanation": "### Solution Walkthrough: Interactive Shape Selector (Accenture 30th Sept 2026)\n\n1. **Part 1 — HTML Task**:\n   - Inside `#canvas`, add the initial shape element `<div class=\"triangle\"></div>` so that when the page first loads, the canvas displays the Triangle.\n\n2. **Part 2 — CSS Task**:\n   - Set the color of the CSS-border triangle by updating the border rule to:\n     ```css\n     border-bottom: 100px solid #9C00FF;\n     ```\n   - This renders the triangle in the unified `#9C00FF` theme.\n\n3. **Part 3 — JavaScript Task**:\n   - Inside `showShape(shape)`:\n     - Clear the canvas content via `canvas.innerHTML = \"\"`.\n     - Create a new shape element using `document.createElement(\"div\")`.\n     - Assign `el.className = shape` (setting `triangle`, `circle`, or `square`).\n     - Append the element to `canvas`.\n     - This ensures only one shape is rendered inside `#canvas` at any given time.",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-009",
+    "track": "frontend",
+    "dateTag": "17th Oct 2026 • Shift 2",
+    "examDate": "2026-10-17",
+    "shift": "Shift 2",
+    "title": "Interactive Chatbot UI Implementation",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Chat Interface, Event Handling & setTimeout",
+    "source": "Accenture Assessment 17th Oct 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are given an existing HTML/CSS/JavaScript implementation of a simple chatbot interface containing a chat window, a message input area, and a Send button.\n\nYour task is to complete the implementation by making the following changes:\n\n### Objectives\n1. **HTML**: Add an `<input>` element with `type=\"text\"`, `id=\"userInput\"`, a suitable placeholder, and an `onkeypress` attribute to handle the Enter key.\n2. **HTML**: Add `onclick=\"sendMessage()\"` to the existing Send button (`#sendBtn`).\n3. **CSS**: Fix the specified border/background property in the input area's CSS to `border: 1px solid #334155;`.\n4. **JavaScript**: Complete the `sendMessage()` function to:\n   - Read and trim the user's message.\n   - Ignore empty messages.\n   - Display the user's message using `appendMessage(message, \"user-message\")`.\n   - Clear the input field.\n   - Use `setTimeout(..., 500)` to simulate a bot response.\n   - Display the bot reply using `appendMessage(botReply, \"bot-message\")` in the format: `Thanks for reaching out! You said: \"${message}\"`.\n\n### Constraints\n- Do not change existing `id` or `class` attributes.\n- Preserve the existing HTML/CSS structure.\n- Messages must be sent using either the Send button or Enter key.\n- The bot must respond after a 500 ms delay.\n- The chat window should automatically scroll to the latest message.",
+    "objectives": [
+      "HTML: Add an input element with type=\"text\", id=\"userInput\", placeholder=\"Type a message...\", and onkeypress=\"handleKeyPress(event)\".",
+      "HTML: Add onclick=\"sendMessage()\" to the existing Send button (#sendBtn).",
+      "CSS: Ensure the input field has the intended border: border: 1px solid #334155;.",
+      "JavaScript: Complete sendMessage() to trim input, ignore empty messages, append user message, clear input, and trigger bot reply after 500ms."
+    ],
+    "constraints": [
+      "Do not change existing id or class attributes.",
+      "Preserve the existing HTML/CSS structure.",
+      "Messages must be sent using either the Send button or Enter key.",
+      "The bot must respond after a 500 ms delay.",
+      "The chat window should automatically scroll to the latest message."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Chatbot UI</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"chat-container\">\n\n        <div class=\"chat-header\">\n            AI Support Assistant<br>\n            <small>Online • Auto-Reply Active</small>\n        </div>\n\n        <div class=\"chat-box\" id=\"chatBox\">\n            <div class=\"message bot-message\">\n                Hello! How can I assist you today?\n            </div>\n        </div>\n\n        <div class=\"chat-input-area\">\n\n            <!-- TODO 1: Add the input element with the required attributes -->\n\n            <button id=\"sendBtn\">\n                Send ▸\n            </button>\n\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n\nbody {\n    background-color: #0f172a;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.chat-container {\n    width: 380px;\n    background: #1e293b;\n    border-radius: 12px;\n    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.chat-header {\n    background: #4f46e5;\n    color: #ffffff;\n    padding: 16px;\n    text-align: center;\n    font-weight: 600;\n}\n\n.chat-box {\n    height: 380px;\n    padding: 16px;\n    overflow-y: auto;\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.message {\n    max-width: 78%;\n    padding: 10px 14px;\n    border-radius: 16px;\n    font-size: 14px;\n    line-height: 1.4;\n    word-wrap: break-word;\n}\n\n.user-message {\n    align-self: flex-end;\n    background-color: #4f46e5;\n    color: #ffffff;\n    border-bottom-right-radius: 2px;\n}\n\n.bot-message {\n    align-self: flex-start;\n    background-color: #334155;\n    color: #f1f5f9;\n    border-bottom-left-radius: 2px;\n}\n\n.chat-input-area {\n    display: flex;\n    padding: 12px;\n    border-top: 1px solid #334155;\n    background: #0f172a;\n    gap: 8px;\n}\n\n.chat-input-area input {\n    flex: 1;\n    padding: 10px 14px;\n\n    /* TODO 3: Fix the input border/background property */\n\n    border-radius: 20px;\n    outline: none;\n    background: #1e293b;\n    color: #ffffff;\n}\n\n.chat-input-area button {\n    padding: 10px 18px;\n    background-color: #4f46e5;\n    color: white;\n    border: none;\n    border-radius: 20px;\n    cursor: pointer;\n}",
+    "starterJS": "/**\n * Sends user message and triggers bot dynamic echo response\n */\nfunction sendMessage() {\n\n    // TODO 4: Get the input element and trim its value\n\n    // TODO 5: Prevent sending an empty message\n\n    // TODO 6: Append the user message using appendMessage()\n\n    // TODO 7: Clear the input field\n\n    // TODO 8: Use setTimeout with a 500ms delay\n    //         to generate and append the bot response\n\n}\n\n/**\n * Appends a message bubble into the chat window and scrolls down\n */\nfunction appendMessage(text, className) {\n    const chatBox = document.getElementById(\"chatBox\");\n    const messageElement = document.createElement(\"div\");\n\n    messageElement.classList.add(\"message\", className);\n    messageElement.innerText = text;\n\n    chatBox.appendChild(messageElement);\n\n    // Smooth scroll to bottom of chat\n    chatBox.scrollTop = chatBox.scrollHeight;\n}\n\n/**\n * Listens for \"Enter\" key press on input\n */\nfunction handleKeyPress(event) {\n    if (event.key === \"Enter\") {\n        sendMessage();\n    }\n}",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Chatbot UI</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"chat-container\">\n\n        <div class=\"chat-header\">\n            AI Support Assistant<br>\n            <small>Online • Auto-Reply Active</small>\n        </div>\n\n        <div class=\"chat-box\" id=\"chatBox\">\n            <div class=\"message bot-message\">\n                Hello! How can I assist you today?\n            </div>\n        </div>\n\n        <div class=\"chat-input-area\">\n\n            <input type=\"text\" id=\"userInput\" placeholder=\"Type a message...\" onkeypress=\"handleKeyPress(event)\">\n\n            <button id=\"sendBtn\" onclick=\"sendMessage()\">\n                Send ▸\n            </button>\n\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n\nbody {\n    background-color: #0f172a;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.chat-container {\n    width: 380px;\n    background: #1e293b;\n    border-radius: 12px;\n    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.chat-header {\n    background: #4f46e5;\n    color: #ffffff;\n    padding: 16px;\n    text-align: center;\n    font-weight: 600;\n}\n\n.chat-box {\n    height: 380px;\n    padding: 16px;\n    overflow-y: auto;\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.message {\n    max-width: 78%;\n    padding: 10px 14px;\n    border-radius: 16px;\n    font-size: 14px;\n    line-height: 1.4;\n    word-wrap: break-word;\n}\n\n.user-message {\n    align-self: flex-end;\n    background-color: #4f46e5;\n    color: #ffffff;\n    border-bottom-right-radius: 2px;\n}\n\n.bot-message {\n    align-self: flex-start;\n    background-color: #334155;\n    color: #f1f5f9;\n    border-bottom-left-radius: 2px;\n}\n\n.chat-input-area {\n    display: flex;\n    padding: 12px;\n    border-top: 1px solid #334155;\n    background: #0f172a;\n    gap: 8px;\n}\n\n.chat-input-area input {\n    flex: 1;\n    padding: 10px 14px;\n    border: 1px solid #334155;\n    border-radius: 20px;\n    outline: none;\n    background: #1e293b;\n    color: #ffffff;\n}\n\n.chat-input-area button {\n    padding: 10px 18px;\n    background-color: #4f46e5;\n    color: white;\n    border: none;\n    border-radius: 20px;\n    cursor: pointer;\n}",
+    "solutionJS": "/**\n * Sends user message and triggers bot dynamic echo response\n */\nfunction sendMessage() {\n    const input = document.getElementById(\"userInput\");\n    const message = input.value.trim();\n\n    // Prevent sending empty messages\n    if (!message) return;\n\n    // Append user message bubble\n    appendMessage(message, \"user-message\");\n\n    // Clear input field\n    input.value = \"\";\n\n    // Simulate bot response after 500ms delay\n    setTimeout(() => {\n        const botReply = `Thanks for reaching out! You said: \"${message}\"`;\n        appendMessage(botReply, \"bot-message\");\n    }, 500);\n}\n\n/**\n * Appends a message bubble into the chat window and scrolls down\n */\nfunction appendMessage(text, className) {\n    const chatBox = document.getElementById(\"chatBox\");\n    const messageElement = document.createElement(\"div\");\n\n    messageElement.classList.add(\"message\", className);\n    messageElement.innerText = text;\n\n    chatBox.appendChild(messageElement);\n\n    // Smooth scroll to bottom of chat\n    chatBox.scrollTop = chatBox.scrollHeight;\n}\n\n/**\n * Listens for \"Enter\" key press on input\n */\nfunction handleKeyPress(event) {\n    if (event.key === \"Enter\") {\n        sendMessage();\n    }\n}",
+    "solutionExplanation": "### Solution Walkthrough: Interactive Chatbot UI Implementation (Accenture 17th Oct 2026 Shift 2)\n\n1. **Part 1 — HTML Tasks**:\n   - In `.chat-input-area`, add the text input element:\n     ```html\n     <input type=\"text\" id=\"userInput\" placeholder=\"Type a message...\" onkeypress=\"handleKeyPress(event)\">\n     ```\n   - Add `onclick=\"sendMessage()\"` to the Send button:\n     ```html\n     <button id=\"sendBtn\" onclick=\"sendMessage()\">Send ▸</button>\n     ```\n\n2. **Part 2 — CSS Task**:\n   - In `.chat-input-area input`, specify the border rule:\n     ```css\n     border: 1px solid #334155;\n     ```\n   - This renders the input border in the exact slate `#334155` accent.\n\n3. **Part 3 — JavaScript Task**:\n   - In `sendMessage()`:\n     - Retrieve `#userInput` and trim its value (`input.value.trim()`).\n     - Verify `if (!message) return;` to ignore empty inputs.\n     - Call `appendMessage(message, \"user-message\")` to render the user's bubble.\n     - Clear the input field: `input.value = \"\"`.\n     - Call `setTimeout()` with a 500ms delay, formatting the bot reply as: `Thanks for reaching out! You said: \"${message}\"`.\n     - Pass the bot reply to `appendMessage(botReply, \"bot-message\")`.\n     - The pre-provided `appendMessage` scrolls `#chatBox` automatically to the bottom (`chatBox.scrollTop = chatBox.scrollHeight`).",
     "liveSandbox": true
   },
   {
