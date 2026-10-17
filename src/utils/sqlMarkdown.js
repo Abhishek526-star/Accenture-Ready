@@ -109,5 +109,5 @@ export function parseProblemStatement(problemText) {
     ? { title: reqTitle, items: reqItems }
     : null;
 
-  return { descriptionBlocks, requirements };
+  return { descriptionBlocks, requirements, rawDescription: descText };
 }

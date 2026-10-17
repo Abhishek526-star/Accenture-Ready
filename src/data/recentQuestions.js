@@ -3660,7 +3660,7 @@ export const recentQuestions = [
     "category": "Conversion Funnel / CTE & LEFT JOIN",
     "source": "Accenture Assessment 14th Sept 2026 Shift 2 (Verified Exam Paper)",
     "isVerified": true,
-    "description": "As a data analyst at Accenture, you are tasked to analyze the effectiveness of digital marketing campaigns.\n\nSpecifically, Accenture is interested in knowing the **click-through conversion rate**, which is defined as the percentage of users who viewed a product and later added it to their cart:\n$$\\text{Conversion Rate} = \\left(\\frac{\\text{Cart Count}}{\\text{View Count}}\\right) \\times 100$$\n\nUsing the provided tables `user_product_view` and `user_product_cart`, calculate the click-through conversion rate for each product. Order results by `product_id`.",
+    "description": "As a data analyst at Accenture, you are tasked to analyze the effectiveness of digital marketing campaigns.\n\nSpecifically, Accenture is interested in knowing the **click-through conversion rate**, which is defined as the percentage of users who viewed a product and later added it to their cart:\n\n$$\\text{Conversion Rate} = \\left(\\frac{\\text{Cart Count}}{\\text{View Count}}\\right) \\times 100$$\n\nUsing the provided tables `user_product_view` and `user_product_cart`, calculate the click-through conversion rate for each product. Order results by `product_id`.",
     "rules": [
       "Aggregate view count per product_id from user_product_view.",
       "Aggregate cart count per product_id from user_product_cart.",

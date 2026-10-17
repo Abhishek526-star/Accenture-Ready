@@ -62,17 +62,21 @@ function formatInlineTokens(text) {
  */
 function FormulaCard({ rawFormula }) {
   const clean = rawFormula.replace(/\$\$/g, '').trim();
-  const fracMatch = clean.match(/\\frac\{([^}]+)\}\{([^}]+)\}/);
-  const equalsParts = clean.split('=');
-  const lhs = equalsParts[0]?.replace(/\\text\{([^}]+)\}/g, '$1').replace(/[\\{}()]/g, '').trim() || 'Formula';
+  // Strip \text{...} wrappers first to prevent nested brace parsing failure
+  const normalized = clean.replace(/\\text\{([^}]+)\}/g, '$1');
+  const fracMatch = normalized.match(/\\frac\{([^}]+)\}\{([^}]+)\}/);
+  const equalsParts = normalized.split('=');
+  const lhs = equalsParts[0]?.replace(/[\\{}()]/g, '').trim() || 'Formula';
 
   if (fracMatch) {
-    const num = fracMatch[1].replace(/\\text\{([^}]+)\}/g, '$1').replace(/[\\{}()]/g, '').trim();
-    const den = fracMatch[2].replace(/\\text\{([^}]+)\}/g, '$1').replace(/[\\{}()]/g, '').trim();
-    const afterFrac = clean.slice(clean.indexOf(fracMatch[0]) + fracMatch[0].length)
+    const num = fracMatch[1].replace(/[\\{}()]/g, '').trim();
+    const den = fracMatch[2].replace(/[\\{}()]/g, '').trim();
+    const afterFrac = normalized.slice(normalized.indexOf(fracMatch[0]) + fracMatch[0].length)
       .replace(/\\times/g, '×')
-      .replace(/\\right\)/g, '')
-      .replace(/[\\]/g, '')
+      .replace(/\\cdot/g, '·')
+      .replace(/\\right/g, '')
+      .replace(/\\left/g, '')
+      .replace(/[\\{}()]/g, '')
       .trim();
 
     return (
@@ -102,7 +106,7 @@ function FormulaCard({ rawFormula }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '1rem',
+          gap: '0.85rem',
           fontSize: '1.05rem',
           fontFamily: "'JetBrains Mono', Consolas, monospace",
           color: '#f8fafc',
@@ -116,28 +120,33 @@ function FormulaCard({ rawFormula }) {
             flexDirection: 'column',
             alignItems: 'center',
             verticalAlign: 'middle',
-            padding: '0 4px'
+            padding: '2px 8px',
+            lineHeight: 1.2
           }}>
             <span style={{
-              padding: '2px 8px',
+              padding: '4px 12px',
               borderBottom: '2px solid #38bdf8',
               color: '#4ade80',
               fontWeight: 700,
-              fontSize: '0.92rem'
+              fontSize: '0.95rem',
+              textAlign: 'center',
+              display: 'block'
             }}>
               {num}
             </span>
             <span style={{
-              padding: '2px 8px',
+              padding: '4px 12px',
               color: '#fb923c',
               fontWeight: 700,
-              fontSize: '0.92rem'
+              fontSize: '0.95rem',
+              textAlign: 'center',
+              display: 'block'
             }}>
               {den}
             </span>
           </div>
           {afterFrac && (
-            <span style={{ color: '#facc15', fontWeight: 800, fontSize: '1.05rem' }}>
+            <span style={{ color: '#facc15', fontWeight: 800, fontSize: '1.05rem', marginLeft: '4px' }}>
               {afterFrac}
             </span>
           )}
@@ -149,6 +158,10 @@ function FormulaCard({ rawFormula }) {
   const readable = clean
     .replace(/\\text\{([^}]+)\}/g, '$1')
     .replace(/\\times/g, '×')
+    .replace(/\\cdot/g, '·')
+    .replace(/\\sum/g, '∑')
+    .replace(/\\left\(/g, '(')
+    .replace(/\\right\)/g, ')')
     .replace(/[\\{}]/g, '');
 
   return (
@@ -385,18 +398,30 @@ export default function SqlRichText({ text, variant = 'default' }) {
             continue;
           }
 
-          // Regular paragraph
+          // Regular paragraph: collect consecutive lines of the same paragraph
+          const paraLines = [line];
+          while (
+            i + 1 < rawLines.length &&
+            rawLines[i + 1].trim() &&
+            !rawLines[i + 1].trim().match(/^(\d+)\.\s+/) &&
+            !rawLines[i + 1].trim().startsWith('- ') &&
+            !rawLines[i + 1].trim().startsWith('* ')
+          ) {
+            i++;
+            paraLines.push(rawLines[i].trim());
+          }
+
           elements.push(
             <p
               key={`para-${bIdx}-${i}`}
               style={{
-                margin: '0 0 0.4rem 0',
+                margin: '0 0 0.75rem 0',
                 fontSize: '0.92rem',
                 color: '#cbd5e1',
-                lineHeight: 1.7
+                lineHeight: 1.65
               }}
             >
-              {formatInlineTokens(line)}
+              {formatInlineTokens(paraLines.join(' '))}
             </p>
           );
           i++;

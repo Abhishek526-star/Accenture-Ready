@@ -4,6 +4,7 @@ import SQLSchemaViewer from './SQLSchemaViewer.jsx';
 import SQLExampleViewer from './SQLExampleViewer.jsx';
 import SQLSolutionViewer from './SQLSolutionViewer.jsx';
 import SQLSchemaModal from './SQLSchemaModal.jsx';
+import SqlRichText from './SqlRichText.jsx';
 import { sqlViewSchemas } from '../../data/sqlSchemas.js';
 import { parseProblemStatement, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
 
@@ -126,26 +127,7 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
             <span>Problem Statement</span>
           </div>
           <div className="problem-body">
-            {parsedProblem.descriptionBlocks.map((block, idx) => {
-              if (block.type === 'bullets') {
-                return (
-                  <ul key={idx} className="problem-bullets">
-                    {block.items.map((item, iIdx) => (
-                      <li
-                        key={iIdx}
-                        dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item) }}
-                      />
-                    ))}
-                  </ul>
-                );
-              }
-              return (
-                <p
-                  key={idx}
-                  dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(block.content) }}
-                />
-              );
-            })}
+            <SqlRichText text={parsedProblem.rawDescription || question.problem || question.description} />
           </div>
         </div>
 
