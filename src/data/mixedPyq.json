@@ -319,12 +319,12 @@
         "C": "Configure SUITEB192 = Y",
         "D": "None — all three are required"
       },
-      "correctAnswer": "C",
+      "correctAnswer": "B",
       "explanations": {
-        "A": "Incorrect. SAE (Simultaneous Authentication of Equals) is the WPA3 replacement for PSK, providing forward secrecy. Enabling SAE is a correct and necessary setting for WPA3.",
-        "B": "Incorrect. Config SUITEB enables WPA3-Enterprise Suite B cryptography (AES-256, SHA-384), which is appropriate for high-security environments.",
-        "C": "Correct. SUITEB192 extends Suite B to 192-bit security. Adding it on top of SUITEB is redundant in this context and may reduce device compatibility without a meaningful security gain.",
-        "D": "Incorrect. The source specifically identifies one configuration as redundant/problematic, so not all three settings are equivalently required."
+        "A": "Incorrect. SAE (Simultaneous Authentication of Equals) is the WPA3-Personal handshake that replaces PSK and provides forward secrecy. It is a standard WPA3 setting and does not weaken a 192-bit enterprise configuration.",
+        "B": "Correct. CONFIG_SUITEB enables the 128-bit Suite B mode (GCMP-128, SHA-256). When the target is 192-bit security, it is redundant and leaves a weaker mode available, creating a possible downgrade path.",
+        "C": "Incorrect. CONFIG_SUITEB192 enables the 192-bit mode (GCMP-256, SHA-384) required for high-security government use. Removing it would weaken the desired security level.",
+        "D": "Incorrect. The 128-bit Suite B option is redundant when 192-bit security is the goal, so not all three settings are required."
       }
     },
     {
