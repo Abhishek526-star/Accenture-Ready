@@ -261,19 +261,19 @@
     },
     {
       "id": 16,
-      "question": "Suppose you want to design a bus system where input-output devices are connected to the computer via wires, and data transfer is handled electronically. The host controller sends messages to the device controller, which performs the operation. If the device controllers have a built-in cache for faster data transfer, which device will you choose?",
+      "question": "Suppose you want to design a bus system where input-output devices are connected to the computer via wires, and data transfer is handled electronically. The host controller sends messages to the device controller, which performs the operation. If the device controllers have a built-in cache for faster data transfer, which bus will you choose?",
       "options": {
-        "A": "Enhanced Integrated Device Electronics A (EIDE-A)",
-        "B": "Enhanced Integrated Device Electronics B (EIDE-B)",
-        "C": "Enhanced Integrated Device Electronics C (EIDE-C)",
-        "D": "Enhanced Integrated Hard Driver (EIHD)"
+        "A": "Universal Serial Bus (USB)",
+        "B": "Enhanced Integrated Drive Electronics (EIDE)",
+        "C": "Fibre Channel (FC)",
+        "D": "Peripheral Component Interconnect (PCI)"
       },
       "correctAnswer": "B",
       "explanations": {
-        "A": "Incorrect. EIDE-A is not the variant identified in the source as including the built-in controller cache described in the question.",
-        "B": "Correct. The source identifies EIDE-B as the device controller with a built-in cache, providing faster buffered data transfer between the device and the host.",
-        "C": "Incorrect. EIDE-C is not the variant identified in the source as the controller with an integrated cache for the described bus scenario.",
-        "D": "Incorrect. EIHD (Enhanced Integrated Hard Driver) is not identified as the controller type selected for the built-in cache feature in the source."
+        "A": "Incorrect. USB is a general-purpose serial bus for many peripheral types. It is not the storage bus described, where a host controller talks to drive-resident device controllers with built-in caches.",
+        "B": "Correct. In EIDE, the host controller sends commands to a device controller built into each drive. That controller performs the operation and uses its built-in cache to speed up data transfer between the device and the host.",
+        "C": "Incorrect. Fibre Channel is a high-speed network architecture used mainly in storage area networks, not the simple wired host-controller/device-controller bus in the question.",
+        "D": "Incorrect. PCI is an internal expansion bus that connects controllers to the system. It is not the drive-level bus whose device controllers have built-in caches."
       }
     },
     {
