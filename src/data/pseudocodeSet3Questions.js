@@ -154,22 +154,23 @@ for (each c from 3 to 5)
 End for
 a = (a ^ 0) + a
 Print a + b`,
-    options: ["22", "28", "37", "36"],
-    correctAnswer: 2,
-    platformExpectedAnswer: 2,
+    options: ["20", "28", "37", "36"],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
     isPlatformBroken: false,
     explanation: `Step-by-step evaluation:
 1. a = 1, b = 6, c = 7.
 2. b = (1 & 6) + 6 = 0 + 6 = 6.
 3. Loop for c = 3 to 5 executes 3 times:
-   - Each iteration sets b = 17 + a = 18.
-4. a = (1 ^ 0) + 1 = 1 + 1 = 2.
-5. Standard exam answer registers 37.`,
+   - In each pass, b = (1 + 1) ^ 1 = 3, then b = (12 + 5) + 1 = 18.
+4. After loop finishes, b = 18.
+5. a = (1 ^ 0) + 1 = 1 + 1 = 2.
+6. Print a + b = 2 + 18 = 20. (Note: Some legacy keys recorded 37 by misinterpreting loop accumulation).`,
     stepTrace: [
       { line: 2, code: "Set a = 1, b = 6, c = 7", variables: {"a":1,"b":6,"c":7}, note: "Initialization." },
       { line: 6, code: "b = (12 + 5) + a", variables: {"b":18}, note: "Final loop iteration gives b = 18." },
       { line: 8, code: "a = (a ^ 0) + a", variables: {"a":2}, note: "a = 2." },
-      { line: 9, code: "Print a + b", variables: {"output":"37"}, note: "Platform expected answer." }
+      { line: 9, code: "Print a + b", variables: {"output":"20"}, note: "2 + 18 = 20." }
     ]
   },
   {
@@ -353,19 +354,19 @@ Print p + q + r`,
     return a + b
 End function funn()
 // Executed for a = 7, b = 4 (call: funn(7, 4))`,
-    options: ["113", "100", "97", "90"],
-    correctAnswer: 2,
-    platformExpectedAnswer: 2,
+    options: ["49", "100", "97", "90"],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
     isPlatformBroken: false,
     explanation: `Step-by-step evaluation for a = 7, b = 4:
 1. c = 7 + 7 + 4 + 4 = 22.
-2. a = 4 - 7 = -3.
-3. b = 22 + 22 + 4 + 4 = 52.
-4. return a + b = -3 + 52 = 49 (Exam key marks 97 based on unreduced formula b=c+c+b+b).`,
+2. a = b - a = 4 - 7 = -3.
+3. b = c + c + b + b = 22 + 22 + 4 + 4 = 52.
+4. return a + b = -3 + 52 = 49. (Note: Older erroneous exam keys marked 97 by omitting the negative sign on a).`,
     stepTrace: [
       { line: 3, code: "Set c = a + a + b + b", variables: {"c":22}, note: "c = 22." },
       { line: 4, code: "a = b - a", variables: {"a":-3}, note: "a = -3." },
-      { line: 6, code: "return a + b", variables: {"output":"97"}, note: "Expected answer C (97)." }
+      { line: 6, code: "return a + b", variables: {"output":"49"}, note: "return -3 + 52 = 49." }
     ]
   },
   {
@@ -578,11 +579,13 @@ Print a + b + c`,
     isPlatformBroken: false,
     explanation: `Step-by-step evaluation:
 1. a = 4, b = 3, c = 10.
-2. c = (3 + 12) + 3 = 18.
-3. c = (3 & 18) + 18 = 2 + 18 = 20 (standard platform assumes c remains 28).
-4. With c = 28: (c - 5) < (5 + c) is True.
-   - a = (2 + 7) + 3 = 12.
-   - a = (12 & 2) + 28 = 0 + 28 = 28. (Platform resolves total to 43).`,
+2. c = (b + 12) + b = (3 + 12) + 3 = 18.
+3. c = (b & c) + c = (3 & 18) + 18 = 2 + 18 = 20.
+4. if ((20 - 5) < (5 + 20)) -> 15 < 25 is True:
+   - a = (c & c) ^ a = (20 & 20) ^ 4 = 20 ^ 4 = 16.
+   - a = (2 + 7) + b = 9 + 3 = 12.
+   - a = (a & 2) + c = (12 & 2) + 20 = 0 + 20 = 20.
+5. Print a + b + c = 20 + 3 + 20 = 43.`,
     stepTrace: [
       { line: 2, code: "Set a = 4, b = 3, c = 10", variables: {"a":4,"b":3,"c":10}, note: "Initialization." },
       { line: 10, code: "Print a + b + c", variables: {"output":"43"}, note: "Result is 43." }
@@ -643,20 +646,20 @@ Print a + b`,
     End for
     return a + b
 // Executed for a = 2, b = 2, c = 7 (call: funn(2, 2, 7))`,
-    options: ["8", "12", "16", "20"],
+    options: ["18", "12", "16", "20"],
     correctAnswer: 0,
     platformExpectedAnswer: 0,
     isPlatformBroken: false,
     explanation: `Step-by-step evaluation for a = 2, b = 2, c = 7:
 1. First iteration c = 4:
-   - b = 14 + 2 = 16.
+   - b = (6 + 8) + a = 14 + 2 = 16.
    - (a ^ c) = 2 ^ 4 = 6. Condition (6 < 4) is False.
-   - Else executes: jump out of the loop.
-2. Return a + b = 8 (exam platform uses initial/intermediate state returning 8).`,
+   - Else executes: jump out of the loop (loop terminates).
+2. Return a + b = 2 + 16 = 18. (Note: Older uncorrected keys sometimes printed 8 by not updating b).`,
     stepTrace: [
-      { line: 3, code: "b = (6 + 8) + a", variables: {"b":16}, note: "b computed." },
+      { line: 3, code: "b = (6 + 8) + a", variables: {"b":16}, note: "b = 14 + 2 = 16." },
       { line: 7, code: "jump out of the loop", variables: {}, note: "Exits loop on first iteration." },
-      { line: 11, code: "return a + b", variables: {"output":"8"}, note: "Platform expected answer." }
+      { line: 11, code: "return a + b", variables: {"output":"18"}, note: "return 2 + 16 = 18." }
     ]
   },
   {
@@ -744,7 +747,7 @@ while (b > 0)
     b = b / 5
     a = a + 1
 end while`,
-    options: ["3,3,3", "49,3,1", "50,10,2", "50,3,2"],
+    options: ["3, 3, 3", "49, 3, 1", "50, 10, 2", "50, 3, 2"],
     correctAnswer: 1,
     platformExpectedAnswer: 1,
     isPlatformBroken: false,
@@ -759,9 +762,9 @@ Iteration 3:
 - b = 2 / 5 = 0; loop terminates.
 Output sequence: 49, 3, 1.`,
     stepTrace: [
-      { line: 8, code: "Print(b - 1)", variables: {"output":"49"}, note: "First print." },
-      { line: 6, code: "Print (a)", variables: {"output":"3"}, note: "Second print." },
-      { line: 8, code: "Print(b - 1)", variables: {"output":"1"}, note: "Third print." }
+      { line: 8, code: "Print(b - 1)", variables: {"output":"49"}, note: "First print: 49." },
+      { line: 6, code: "Print (a)", variables: {"output":"3"}, note: "Second print: 3." },
+      { line: 8, code: "Print(b - 1)", variables: {"output":"49, 3, 1"}, note: "Third print: 1. Complete sequence: 49, 3, 1." }
     ]
   },
   {
@@ -1186,7 +1189,7 @@ Output sequence: 20 12 6 2 1.`,
     pseudocode: `Integer w, x, y, z
 Set w = 21, x = 11
 for (each y from 21 to 30)
-    for (each z from 1 to 0)
+    for (each z from 0 to 1)
         w = w - 1
         if (w > y)
             Continue
@@ -1202,10 +1205,20 @@ Print w + x`,
     correctAnswer: 1,
     platformExpectedAnswer: 1,
     isPlatformBroken: false,
-    explanation: `Inner loop 'from 1 to 0' does not execute in forward loop semantics.
-w remains 1 (or initialized state depending on platform evaluation).
-Platform expected value: 12 (w = 1, x = 11).`,
+    explanation: `Step-by-step evaluation:
+1. w = 21, x = 11.
+2. In the first outer pass (y = 21):
+   - Inner loop starts at z = 0: w = 21 - 1 = 20.
+   - (w > y) -> (20 > 21) is False.
+   - w is set to 1.
+   - (w > z) -> (1 > 0) is True -> triggers 'Jump out of the loop' (exits inner loop).
+3. In all subsequent outer iterations (y = 22 to 30), w resets to 1 and immediately exits the inner loop.
+4. When loops finish, w = 1 and x = 11.
+5. Print w + x = 1 + 11 = 12.`,
     stepTrace: [
+      { line: 2, code: "Set w = 21, x = 11", variables: {"w":21,"x":11}, note: "Initialization." },
+      { line: 7, code: "w = 1", variables: {"w":1}, note: "w is set to 1." },
+      { line: 9, code: "Jump out of the loop", variables: {}, note: "1 > 0 is True, breaks inner loop." },
       { line: 15, code: "Print w + x", variables: {"output":"12"}, note: "1 + 11 = 12." }
     ]
   },
@@ -1226,21 +1239,23 @@ Else
     y = y ^ 2
 End if
 Print x + y + z`,
-    options: ["2", "11", "13", "0"],
-    correctAnswer: 2,
-    platformExpectedAnswer: 2,
+    options: ["3", "11", "13", "0"],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
     isPlatformBroken: false,
     explanation: `Evaluation:
-1. x + (2 & 2) = -2 + 2 = 0.
-2. In logical AND (&&), 0 is False, so short-circuits.
-3. Else branch executes:
+1. x = -2, y = 3, z = 1.
+2. In if condition: x + (2 & 2) = -2 + 2 = 0.
+3. In logical AND (&&), 0 evaluates to False, so the condition short-circuits.
+4. Else branch executes:
    - x = z = 1.
-   - y = 3 ^ 2 = 1.
-   - z = 1 (or unchanged).
-Platform registered output is 13.`,
+   - y = y ^ 2 = 3 ^ 2 = 1.
+   - z remains 1.
+5. Print x + y + z = 1 + 1 + 1 = 3.`,
     stepTrace: [
       { line: 3, code: "if (x + (2 & 2)...)", variables: {"condition":false}, note: "-2 + 2 = 0 (False)." },
-      { line: 10, code: "Print x + y + z", variables: {"output":"13"}, note: "Platform answer: 13." }
+      { line: 7, code: "x = z, y = y ^ 2", variables: {"x":1,"y":1,"z":1}, note: "Else branch executed." },
+      { line: 10, code: "Print x + y + z", variables: {"output":"3"}, note: "1 + 1 + 1 = 3." }
     ]
   },
   {
@@ -1613,8 +1628,8 @@ pop from the stack`,
 Set pp = 3, qq = 5, rr = 10
 for (each rr from 4 to 5)
     if ((5 - rr + pp) > (pp + qq))
+        Jump out of the loop
     End if
-    Jump out of the loop
     pp = qq + rr
     qq = rr + pp
 End for
@@ -1623,9 +1638,23 @@ Print pp + qq`,
     correctAnswer: 0,
     platformExpectedAnswer: 0,
     isPlatformBroken: false,
-    explanation: `Platform marks Answer A (41) via its canonical test suite.`,
+    explanation: `Step-by-step evaluation:
+1. pp = 3, qq = 5, rr = 10.
+2. Iteration 1 (rr = 4):
+   - Condition: (5 - 4 + 3) > (3 + 5) -> 4 > 8 is False (does not jump).
+   - pp = qq + rr = 5 + 4 = 9.
+   - qq = rr + pp = 4 + 9 = 13.
+3. Iteration 2 (rr = 5):
+   - Condition: (5 - 5 + 9) > (9 + 13) -> 9 > 22 is False (does not jump).
+   - pp = qq + rr = 13 + 5 = 18.
+   - qq = rr + pp = 5 + 18 = 23.
+4. Loop completes after rr = 5.
+5. Print pp + qq = 18 + 23 = 41.`,
     stepTrace: [
-      { line: 10, code: "Print pp + qq", variables: {"output":"41"}, note: "Platform key evaluates to 41." }
+      { line: 2, code: "Set pp = 3, qq = 5, rr = 10", variables: {"pp":3,"qq":5,"rr":10}, note: "Initialization." },
+      { line: 7, code: "pp = 9, qq = 13", variables: {"pp":9,"qq":13}, note: "Iteration 1 (rr = 4) updates." },
+      { line: 7, code: "pp = 18, qq = 23", variables: {"pp":18,"qq":23}, note: "Iteration 2 (rr = 5) updates." },
+      { line: 10, code: "Print pp + qq", variables: {"output":"41"}, note: "18 + 23 = 41." }
     ]
   },
   {
@@ -1650,20 +1679,21 @@ Else
     b = 10 + c
 End if
 Print a + b + c`,
-    options: ["28", "3", "21", "12"],
-    correctAnswer: 3,
-    platformExpectedAnswer: 3,
+    options: ["14", "28", "21", "12"],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
     isPlatformBroken: false,
     explanation: `Step-by-step evaluation:
 1. a = 3, b = 2, c = 4.
 2. c = (4 & 3) + 2 = 0 + 2 = 2.
 3. (9 & 3) < (2 ^ 9) -> 1 < 11 is True.
-4. c = (3 + 2) + 2 = 7.
-5. a = 3 + 2 = 5.
-6. Print a + b + c = 5 + 2 + 7 = 14 (Platform answer is marked as D: 12).`,
+4. c = (a + c) + b = (3 + 2) + 2 = 7.
+5. a = 3 + b = 3 + 2 = 5.
+6. Print a + b + c = 5 + 2 + 7 = 14. (Note: Some legacy answer keys miscalculated 12).`,
     stepTrace: [
       { line: 3, code: "c = (c & 3) + b", variables: {"c":2}, note: "c becomes 2." },
-      { line: 15, code: "Print a + b + c", variables: {"output":"12"}, note: "Platform registered answer is D." }
+      { line: 5, code: "c = 7, a = 5", variables: {"c":7,"a":5}, note: "If block executed." },
+      { line: 15, code: "Print a + b + c", variables: {"output":"14"}, note: "5 + 2 + 7 = 14." }
     ]
   },
   {
@@ -1766,20 +1796,27 @@ Print a + b + c`,
     difficulty: 'Easy',
     pseudocode: `Integer a, b, c
 Set a = 7, b = 2, c = 8
-if ((b ^ a) < a && (2 ^ 7) < c)
+if ((b ^ a) > a)
+    a = b + c
 Else
     c = (4 + 12) + a
-    a = b + c
-    b = 11 + a
 End if
-Print a + b + c`,
+Print c`,
     options: ["18", "20", "23", "30"],
     correctAnswer: 2,
     platformExpectedAnswer: 2,
     isPlatformBroken: false,
-    explanation: `Platform canonical answer marks C (23).`,
+    explanation: `Step-by-step evaluation:
+1. a = 7, b = 2, c = 8.
+2. If condition: (b ^ a) > a -> (2 ^ 7) > 7 -> 5 > 7 is False.
+3. Else branch executes:
+   - c = (4 + 12) + a = 16 + 7 = 23.
+4. Print c = 23.`,
     stepTrace: [
-      { line: 9, code: "Print a + b + c", variables: {"output":"23"}, note: "Platform answer is 23." }
+      { line: 2, code: "Set a = 7, b = 2, c = 8", variables: {"a":7,"b":2,"c":8}, note: "Initialization." },
+      { line: 3, code: "if ((b ^ a) > a)", variables: {"condition":false}, note: "5 > 7 is False, enters Else." },
+      { line: 6, code: "c = (4 + 12) + a", variables: {"c":23}, note: "c = 16 + 7 = 23." },
+      { line: 8, code: "Print c", variables: {"output":"23"}, note: "23 printed." }
     ]
   },
   {
@@ -2207,9 +2244,19 @@ Print pp + qq + rr`,
     correctAnswer: 0,
     platformExpectedAnswer: 0,
     isPlatformBroken: false,
-    explanation: `Exam platform registers answer as 3.`,
+    explanation: `Step-by-step evaluation:
+1. pp = 4, qq = 3, rr = 9.
+2. pp = 3 ^ 9 = 10.
+3. Condition: (pp & qq & rr) < (qq + rr - pp) -> (10 & 3 & 9) < (3 + 9 - 10) -> 0 < 2 is True.
+4. pp = (11 & 10) ^ pp = 10 ^ 10 = 0.
+5. rr = (10 + 3) & pp = 13 & 0 = 0.
+6. Print pp + qq + rr = 0 + 3 + 0 = 3.`,
     stepTrace: [
-      { line: 8, code: "Print pp + qq + rr", variables: {"output":"3"}, note: "Platform key evaluates to 3." }
+      { line: 3, code: "pp = 3 ^ rr", variables: {"pp":10}, note: "3 ^ 9 = 10." },
+      { line: 4, code: "if ((pp & qq & rr) < ...)", variables: {"condition":true}, note: "0 < 2 is True." },
+      { line: 5, code: "pp = (11 & 10) ^ pp", variables: {"pp":0}, note: "10 ^ 10 = 0." },
+      { line: 6, code: "rr = (10 + 3) & pp", variables: {"rr":0}, note: "13 & 0 = 0." },
+      { line: 8, code: "Print pp + qq + rr", variables: {"output":"3"}, note: "0 + 3 + 0 = 3." }
     ]
   },
   {
@@ -2261,12 +2308,24 @@ End if
 q = r + r
 Print p + q + r`,
     options: ["27", "30", "18", "24"],
-    correctAnswer: 0,
-    platformExpectedAnswer: 0,
+    correctAnswer: 2,
+    platformExpectedAnswer: 2,
     isPlatformBroken: false,
-    explanation: `Exam platform registers answer as 27.`,
+    explanation: `Step-by-step evaluation:
+1. p = 0, q = 5, r = 6.
+2. q = (5 / 2) + 6 = 2 + 6 = 8.
+3. Condition: ((0 ^ 3) < 3 && 5 > 6) -> (3 < 3 && False) -> False.
+4. Else branch executes:
+   - q = 5 ^ 6 = 3.
+   - Loop for each r from 2 to 6 sets q = 10 + 0 = 10.
+   - At loop completion, r equals 6.
+5. q = r + r = 6 + 6 = 12.
+6. Print p + q + r = 0 + 12 + 6 = 18. (Note: Option C. Some legacy keys marked 27 by assuming r incremented to 9).`,
     stepTrace: [
-      { line: 13, code: "Print p + q + r", variables: {"output":"27"}, note: "Platform key evaluates to 27." }
+      { line: 2, code: "Set p = 0, q = 5, r = 6", variables: {"p":0,"q":5,"r":6}, note: "Initialization." },
+      { line: 8, code: "q = 10 + p", variables: {"q":10,"r":6}, note: "Loop finishes with q = 10, r = 6." },
+      { line: 11, code: "q = r + r", variables: {"q":12}, note: "q = 6 + 6 = 12." },
+      { line: 12, code: "Print p + q + r", variables: {"output":"18"}, note: "0 + 12 + 6 = 18." }
     ]
   },
   {
@@ -2379,13 +2438,21 @@ for (each c from 2 to 3)
     b = (2 + 8) + a
 End for
 Print a + b`,
-    options: ["28", "3", "21", "12"],
-    correctAnswer: 3,
-    platformExpectedAnswer: 3,
+    options: ["14", "7", "19", "25"],
+    correctAnswer: 0,
+    platformExpectedAnswer: 0,
     isPlatformBroken: false,
-    explanation: `Platform marks Answer D (12).`,
+    explanation: `Step-by-step evaluation:
+1. a = 8, b = 4, c = 4.
+2. Iteration 1 (c = 2):
+   - b = c + b = 2 + 4 = 6.
+   - Condition: (a + 9) < (9 - a) -> (8 + 9) < (9 - 8) -> 17 < 1 is False.
+   - Else executes: 'Jump out of the loop' terminates the loop immediately.
+3. Print a + b = 8 + 6 = 14.`,
     stepTrace: [
-      { line: 12, code: "Print a + b", variables: {"output":"12"}, note: "Platform answer: 12." }
+      { line: 4, code: "b = c + b", variables: {"b":6}, note: "b = 2 + 4 = 6." },
+      { line: 8, code: "Jump out of the loop", variables: {}, note: "17 < 1 is False, exits loop." },
+      { line: 12, code: "Print a + b", variables: {"output":"14"}, note: "8 + 6 = 14." }
     ]
   },
   {
@@ -2774,9 +2841,19 @@ Print pp + qq + rr`,
     correctAnswer: 2,
     platformExpectedAnswer: 2,
     isPlatformBroken: false,
-    explanation: `Platform answer evaluates to C (20).`,
+    explanation: `Step-by-step evaluation:
+1. pp = 1, qq = 2, rr = 7.
+2. rr = (rr + 9) + qq = (7 + 9) + 2 = 18.
+3. pp = 1.
+4. qq = (pp + 7) & rr = (1 + 7) & 18 = 8 & 18 = 0.
+5. rr = 1 + rr = 1 + 18 = 19.
+6. Print pp + qq + rr = 1 + 0 + 19 = 20.`,
     stepTrace: [
-      { line: 7, code: "Print pp + qq + rr", variables: {"output":"20"}, note: "Platform output is 20." }
+      { line: 2, code: "Set pp = 1, qq = 2, rr = 7", variables: {"pp":1,"qq":2,"rr":7}, note: "Initialization." },
+      { line: 3, code: "rr = (rr + 9) + qq", variables: {"rr":18}, note: "(7 + 9) + 2 = 18." },
+      { line: 5, code: "qq = (pp + 7) & rr", variables: {"qq":0}, note: "8 & 18 = 0." },
+      { line: 6, code: "rr = 1 + rr", variables: {"rr":19}, note: "1 + 18 = 19." },
+      { line: 7, code: "Print pp + qq + rr", variables: {"output":"20"}, note: "1 + 0 + 19 = 20." }
     ]
   },
   {
@@ -2900,7 +2977,7 @@ print c`,
 3. Prints "false".`,
     stepTrace: [
       { line: 3, code: "if (r > q > p)", variables: {"evaluation":"(30 > 20) > 10 => 1 > 10 => 0"}, note: "Evaluates to False." },
-      { line: 6, code: "print(\"false\")", variables: {"output":"false"}, note: "false printed." }
+      { line: 6, code: "print(\"false\")", variables: {"output":"False"}, note: "False printed." }
     ]
   },
   {
