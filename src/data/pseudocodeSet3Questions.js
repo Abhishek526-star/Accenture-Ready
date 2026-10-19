@@ -2414,20 +2414,20 @@ Print pp + qq`,
     correctAnswer: 1,
     platformExpectedAnswer: 1,
     isPlatformBroken: false,
-explanation: `Initially, pp = 5, qq = 6, and rr = 4.
-First, qq = (pp + qq) / qq = 11 / 6 = 1 (integer division).
+    explanation: `Initially, pp = 5, qq = 6, and rr = 4.
+    First, qq = (pp + qq) / qq = 11 / 6 = 1 (integer division).
 
-The loop runs for rr = 3, 4, 5, and 6.
-In each iteration, (qq ^ qq) ^ qq simplifies to qq because x ^ x = 0.
-Then qq = (rr + pp) + rr = pp + 2 * rr.
+    The loop runs for rr = 3, 4, 5, and 6.
+    In each iteration, (qq ^ qq) ^ qq simplifies to qq because x ^ x = 0.
+    Then qq = (rr + pp) + rr = pp + 2 * rr.
 
-The final qq values after each iteration are 11, 13, 15, and 17.
-After the loop, rr = 6.
+    The final qq values after each iteration are 11, 13, 15, and 17.
+    After the loop, rr = 6.
 
-Next, pp = (1 ^ 7) ^ rr = 6 ^ 6 = 0.
-Finally, pp + qq = 0 + 17 = 17.
+    Next, pp = (1 ^ 7) ^ rr = 6 ^ 6 = 0.
+    Finally, pp + qq = 0 + 17 = 17.
 
-Correct answer: C (17).`,    stepTrace: [
+    Correct answer: 17.`,    stepTrace: [
       { line: 9, code: "Print pp + qq", variables: {"output":"17"}, note: "Platform key evaluates to 17." }
     ]
   },
