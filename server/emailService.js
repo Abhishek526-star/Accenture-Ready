@@ -24,10 +24,15 @@ function getTransporter() {
   }
 
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Use direct SSL (port 465) to prevent connection timeouts on cloud hosts like Render
     auth: {
       user,
       pass,
+    },
+    tls: {
+      rejectUnauthorized: true,
     },
   });
 }
@@ -49,7 +54,7 @@ export async function sendSubmissionEmail({ type, name, email, subject, category
 
   if (!transporter) {
     throw new Error(
-      'Gmail App Password is not yet configured in .env. Please set EMAIL_USER and EMAIL_PASS in your .env file.'
+      'Sorry, the email service is currently not working. Please try after some time.'
     );
   }
 
