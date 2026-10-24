@@ -39,13 +39,6 @@ function getApiBaseUrl() {
   if (import.meta.env?.VITE_API_URL) {
     return import.meta.env.VITE_API_URL.replace(/\/+$/, '');
   }
-  if (import.meta.env?.VITE_WS_URL) {
-    return import.meta.env.VITE_WS_URL
-      .replace(/^wss:/i, 'https:')
-      .replace(/^ws:/i, 'http:')
-      .replace(/\/ws\/?$/i, '')
-      .replace(/\/+$/, '');
-  }
   return '';
 }
 
