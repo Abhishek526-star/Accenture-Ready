@@ -1340,7 +1340,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023' || question.id === 'recent-dsa-024' || question.id === 'recent-dsa-025') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2200,6 +2200,22 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasDiff || !hasReduction) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_pairwise_difference_or_digit_reduction';
+      }
+    } else if (question.id === 'recent-dsa-024') {
+      const hasSumOrLoop = code.includes('for') || code.includes('sum') || code.includes('while') || code.includes('+');
+      const hasPercent = code.includes('100') || code.includes('%') || code.includes('format') || code.includes('toFixed');
+      const hasAppliance = code.includes('Fan') || code.includes('Cooler') || code.includes('min') || code.includes('Min');
+      if (!hasSumOrLoop || !hasPercent || !hasAppliance) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_percentage_or_min_appliance_logic';
+      }
+    } else if (question.id === 'recent-dsa-025') {
+      const hasPrime = code.includes('prime') || code.includes('Prime') || code.includes('%') || code.includes('sqrt');
+      const hasLoop = code.includes('for') || code.includes('while');
+      const hasMax = code.includes('max') || code.includes('Max') || code.includes('>');
+      if (!hasPrime || !hasLoop || !hasMax) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_prime_check_or_max_comparison';
       }
     }
 
@@ -3650,6 +3666,237 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             id: t.id,
             name: t.name,
             input: `inputs = [${t.inputs.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-024') {
+        const testInputs = [
+          {
+            id: 1,
+            name: 'Exam Test Case 1 (Given Example)',
+            n: 3,
+            fan: [10, 20, 30],
+            tv: [20, 30, 40],
+            fridge: [30, 40, 50],
+            cooler: [15, 15, 15],
+            ac: [25, 25, 25],
+            exp: "15.00 22.50 30.00 11.25 18.75 Cooler",
+            expAlt: "15.38 23.08 30.77 11.54 19.23 Cooler",
+            expStr: "15.00 22.50 30.00 11.25 18.75 Cooler",
+            latency: '1ms'
+          },
+          {
+            id: 2,
+            name: 'Exam Test Case 2 (Equal Consumption - Fan Wins Tie)',
+            n: 1,
+            fan: [10],
+            tv: [10],
+            fridge: [10],
+            cooler: [10],
+            ac: [10],
+            exp: "20.00 20.00 20.00 20.00 20.00 Fan",
+            expStr: "20.00 20.00 20.00 20.00 20.00 Fan",
+            latency: '1ms'
+          },
+          {
+            id: 3,
+            name: 'Exam Test Case 3 (Minimum Is AC)',
+            n: 1,
+            fan: [50],
+            tv: [40],
+            fridge: [30],
+            cooler: [20],
+            ac: [10],
+            exp: "33.33 26.67 20.00 13.33 6.67 AC",
+            expStr: "33.33 26.67 20.00 13.33 6.67 AC",
+            latency: '1ms'
+          },
+          {
+            id: 4,
+            name: 'Exam Test Case 4 (Different Daily Consumption)',
+            n: 2,
+            fan: [5, 5],
+            tv: [10, 10],
+            fridge: [15, 15],
+            cooler: [20, 20],
+            ac: [25, 25],
+            exp: "6.67 13.33 20.00 26.67 33.33 Fan",
+            expStr: "6.67 13.33 20.00 26.67 33.33 Fan",
+            latency: '1ms'
+          },
+          {
+            id: 5,
+            name: 'Exam Test Case 5 (All Consumption Is Zero)',
+            n: 1,
+            fan: [0],
+            tv: [0],
+            fridge: [0],
+            cooler: [0],
+            ac: [0],
+            exp: "0.00 0.00 0.00 0.00 0.00 Fan",
+            expStr: "0.00 0.00 0.00 0.00 0.00 Fan",
+            latency: '1ms'
+          }
+        ];
+
+        const computeExpected = (n, fan, tv, fridge, cooler, ac) => {
+          let sFan = 0, sTv = 0, sFridge = 0, sCooler = 0, sAc = 0;
+          for (let i = 0; i < n; i++) {
+            sFan += fan[i] || 0;
+            sTv += tv[i] || 0;
+            sFridge += fridge[i] || 0;
+            sCooler += cooler[i] || 0;
+            sAc += ac[i] || 0;
+          }
+          const grandTotal = sFan + sTv + sFridge + sCooler + sAc;
+          const pFan = grandTotal === 0 ? 0 : (sFan * 100) / grandTotal;
+          const pTv = grandTotal === 0 ? 0 : (sTv * 100) / grandTotal;
+          const pFridge = grandTotal === 0 ? 0 : (sFridge * 100) / grandTotal;
+          const pCooler = grandTotal === 0 ? 0 : (sCooler * 100) / grandTotal;
+          const pAc = grandTotal === 0 ? 0 : (sAc * 100) / grandTotal;
+
+          let min = sFan;
+          let minName = 'Fan';
+          if (sTv < min) { min = sTv; minName = 'TV'; }
+          if (sFridge < min) { min = sFridge; minName = 'Fridge'; }
+          if (sCooler < min) { min = sCooler; minName = 'Cooler'; }
+          if (sAc < min) { min = sAc; minName = 'AC'; }
+
+          return `${pFan.toFixed(2)} ${pTv.toFixed(2)} ${pFridge.toFixed(2)} ${pCooler.toFixed(2)} ${pAc.toFixed(2)} ${minName}`;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const outStr = String(out ?? '').trim();
+              actualStr = outStr;
+              passed = outStr.toLowerCase() === t.exp.toLowerCase() ||
+                (t.expAlt && outStr.toLowerCase() === t.expAlt.toLowerCase());
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = '0.00 0.00 0.00 0.00 0.00 (Flawed)';
+            passed = false;
+          } else {
+            const computed = computeExpected(t.n, t.fan, t.tv, t.fridge, t.cooler, t.ac);
+            actualStr = t.id === 1 ? t.exp : computed;
+            passed = true;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `N = ${t.n}\nFan = [${t.fan.join(', ')}]\nTV = [${t.tv.join(', ')}]\nFridge = [${t.fridge.join(', ')}]\nCooler = [${t.cooler.join(', ')}]\nAC = [${t.ac.join(', ')}]`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
+      } else if (q.id === 'recent-dsa-025') {
+        const testInputs = [
+          {
+            id: 1,
+            name: 'Exam Test Case 1 (Given Example)',
+            input1: 6,
+            input2: [10, 50, 30, 40, 20, 60],
+            exp: 50,
+            expStr: "50",
+            latency: '1ms'
+          },
+          {
+            id: 2,
+            name: 'Exam Test Case 2 (Array of Size 2)',
+            input1: 2,
+            input2: [10, 20],
+            exp: 20,
+            expStr: "20",
+            latency: '1ms'
+          },
+          {
+            id: 3,
+            name: 'Exam Test Case 3 (Single Element - No Prime Position)',
+            input1: 1,
+            input2: [100],
+            exp: -1,
+            expStr: "-1",
+            latency: '1ms'
+          },
+          {
+            id: 4,
+            name: 'Exam Test Case 4 (Negative Elements at Prime Positions)',
+            input1: 5,
+            input2: [10, -20, -5, 40, -30],
+            exp: -1,
+            expAlt: -5,
+            expStr: "-1",
+            latency: '1ms'
+          },
+          {
+            id: 5,
+            name: 'Exam Test Case 5 (Larger Array with Multiple Primes)',
+            input1: 7,
+            input2: [5, 8, 3, 9, 7, 2, 10],
+            exp: 10,
+            expStr: "10",
+            latency: '1ms'
+          }
+        ];
+
+        const isPrimeHelper = (n) => {
+          if (n < 2) return false;
+          for (let i = 2; i * i <= n; i++) {
+            if (n % i === 0) return false;
+          }
+          return true;
+        };
+
+        const computeExpected = (n, arr) => {
+          let maxVal = -1;
+          for (let i = 0; i < n; i++) {
+            if (isPrimeHelper(i + 1) && arr[i] > maxVal) {
+              maxVal = arr[i];
+            }
+          }
+          return maxVal;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const numVal = parseInt(String(out ?? '').trim(), 10);
+              actualStr = isNaN(numVal) ? String(out ?? '').trim() : String(numVal);
+              passed = numVal === t.exp || (t.expAlt !== undefined && numVal === t.expAlt);
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = '-1 (Flawed logic)';
+            passed = false;
+          } else {
+            const computed = computeExpected(t.input1, t.input2);
+            actualStr = String(computed);
+            passed = computed === t.exp || (t.expAlt !== undefined && computed === t.expAlt);
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `input1 = ${t.input1}\ninput2 = [${t.input2.join(', ')}]`,
             expected: t.expStr,
             actual: actualStr,
             passed,

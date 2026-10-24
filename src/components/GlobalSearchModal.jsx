@@ -13,7 +13,9 @@ import {
   Sparkles,
   Server,
   FileSpreadsheet,
-  Flame
+  Flame,
+  Share2,
+  Mail
 } from 'lucide-react';
 import { questions } from '../data/questions.js';
 import { sqlQuestions } from '../data/sqlQuestions.js';
@@ -162,6 +164,18 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
         });
       }
     });
+
+    // 9. Student Connect & Share (Gmail)
+    const connectKeywords = ['connect', 'share', 'pdf', 'material', 'feedback', 'query', 'doubt', 'gmail', 'mail', 'help', 'contact'];
+    if (connectKeywords.some(k => q.includes(k) || k.includes(q))) {
+      results.unshift({
+        id: 'student-connect-hub',
+        title: 'Student Connect & Material Share (via Gmail)',
+        category: 'Community • Share PDFs, Links, Doubts & Feedback',
+        icon: <Share2 size={16} className="text-sky-400" />,
+        route: '/connect'
+      });
+    }
   }
 
   const handleSelect = (route) => {

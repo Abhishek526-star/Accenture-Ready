@@ -43,6 +43,7 @@ import AchievementsPage from './pages/AchievementsPage.jsx';
 import InterviewPrepPage from './pages/InterviewPrepPage.jsx';
 import NotesPage from './pages/NotesPage.jsx';
 import PseudocodePage from './pages/PseudocodePage.jsx';
+import ConnectPage from './pages/ConnectPage.jsx';
 import GlobalSearchModal from './components/GlobalSearchModal.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import { storage } from './utils/storage.js';
@@ -178,6 +179,12 @@ export default function App() {
               <Route path="/cognitive/quick-fire-math" element={<MathBubblePage />} />
               <Route path="/cognitive/math-bubble" element={<MathBubblePage />} />
               <Route path="/cognitive/results" element={<CognitiveResults />} />
+
+              {/* Student Connect & Material Sharing via Gmail */}
+              <Route path="/connect" element={<ConnectPage theme={theme} />} />
+              <Route path="/share" element={<Navigate to="/connect" replace />} />
+              <Route path="/feedback" element={<Navigate to="/connect" replace />} />
+              <Route path="/community" element={<Navigate to="/connect" replace />} />
 
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/" replace />} />

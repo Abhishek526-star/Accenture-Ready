@@ -38,7 +38,9 @@ import {
   Terminal,
   Cpu,
   Folder,
-  Code
+  Code,
+  Share2,
+  Mail
 } from 'lucide-react';
 import { PYQ_BANKS } from '../data/pyqBanks.js';
 import LiveViewer from './LiveViewer.jsx';
@@ -581,6 +583,16 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
             </div>
           )}
         </div>
+
+        {/* Connect & Share */}
+        <Link
+          to="/connect"
+          className={`nav-item ${location.pathname === '/connect' ? 'active' : ''}`}
+          title="Share Materials, Feedback & Doubts via Gmail"
+        >
+          <Share2 size={14} className="text-sky-400" />
+          <span>Connect & Share</span>
+        </Link>
       </div>
 
       <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -898,6 +910,20 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                   </Link>
                   <Link to="/notes?folder=full-stack" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Full Stack</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Student Connect & Gmail Share */}
+              <div className="mobile-nav-group">
+                <div className="mobile-group-header">
+                  <Share2 size={14} className="text-sky-400" />
+                  <span>Student Connect & Share</span>
+                </div>
+                <div className="mobile-group-items">
+                  <Link to="/connect" className="mobile-sublink highlight-sky" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Mail size={14} className="text-sky-400" />
+                    <span>Share PDFs, Doubts & Feedback</span>
                   </Link>
                 </div>
               </div>

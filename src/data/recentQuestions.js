@@ -2081,6 +2081,202 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-024",
+    "track": "dsa",
+    "dateTag": "22nd Oct 2026 • Shift 2",
+    "examDate": "2026-10-22",
+    "shift": "Shift 2 (On-Campus)",
+    "title": "Electricity Consumption Percentage by Appliance",
+    "difficulty": "Easy",
+    "category": "Arrays / Aggregation & Minimum Selection",
+    "pattern": "Multiple Array Traversal + Percentage Calculation",
+    "topic": "Array Summation / Formatting",
+    "rewardXp": 35,
+    "targetMins": 12,
+    "source": "Accenture Assessment 22nd Oct 2026 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "You are given an integer `input1` representing the number of days for which electricity consumption data is recorded. You are also given five integer arrays, each of size `input1`, representing the daily electricity units consumed by five appliances: **Fan**, **TV**, **Fridge**, **Cooler**, and **AC**.\n\nThe arrays are named `input2`, `input3`, `input4`, `input5`, and `input6`, respectively.\n\n### Your task is to:\n1. Calculate the total electricity units consumed by each appliance by summing its corresponding array.\n2. Calculate each appliance's percentage contribution to the grand total electricity consumption of all five appliances:\n   `Percentage = (Appliance Total / Grand Total) × 100`\n3. Identify the appliance with the **lowest** total electricity consumption.\n4. Return a string containing the percentages formatted to two decimal places in the strict order: `Fan`, `TV`, `Fridge`, `Cooler`, `AC`, followed by the name of the appliance with the lowest consumption (space-separated).\n\nIf multiple appliances share the minimum consumption, return the first appliance in the given sequence (`Fan` < `TV` < `Fridge` < `Cooler` < `AC`). If the grand total is 0, return `0.00 0.00 0.00 0.00 0.00 Fan`.\n\n---\n\n### 📥 Input Specification\n- `input1`: An integer `N` denoting the number of recorded days.\n- `input2`: Daily electricity consumption of **Fan** (`input1` integers).\n- `input3`: Daily electricity consumption of **TV** (`input1` integers).\n- `input4`: Daily electricity consumption of **Fridge** (`input1` integers).\n- `input5`: Daily electricity consumption of **Cooler** (`input1` integers).\n- `input6`: Daily electricity consumption of **AC** (`input1` integers).\n\n### 📤 Output Specification\n- Return a string with the five formatted percentages followed by the minimum appliance name, separated by single spaces:\n  `\"pFan pTV pFridge pCooler pAC minAppliance\"`\n\n---\n\n### 📌 Given Examples\n\n#### **Example 1**\n**Input:**\n```text\ninput1 = 3\ninput2 (Fan)    = [10, 20, 30]\ninput3 (TV)     = [20, 30, 40]\ninput4 (Fridge) = [30, 40, 50]\ninput5 (Cooler) = [15, 15, 15]\ninput6 (AC)     = [25, 25, 25]\n```\n\n**Output:**\n```text\n\"15.38 23.08 30.77 11.54 19.23 Cooler\"\n```\n\n**Explanation:**\n- **Appliance Totals**:\n  - Fan: `10 + 20 + 30 = 60`\n  - TV: `20 + 30 + 40 = 90`\n  - Fridge: `30 + 40 + 50 = 120`\n  - Cooler: `15 + 15 + 15 = 45`\n  - AC: `25 + 25 + 25 = 75`\n- **Grand Total**: `60 + 90 + 120 + 45 + 75 = 390`\n- **Percentages**:\n  - Fan: `(60 / 390) × 100 = 15.38%`\n  - TV: `(90 / 390) × 100 = 23.08%`\n  - Fridge: `(120 / 390) × 100 = 30.77%`\n  - Cooler: `(45 / 390) × 100 = 11.54%`\n  - AC: `(75 / 390) × 100 = 19.23%`\n- Minimum consumption is `45` units, belonging to **Cooler**.\n\n---\n\n### 💡 Core Logic & Algorithm Steps\n1. **Sum Each Appliance**: Compute the sum of each array (`fan`, `tv`, `fridge`, `cooler`, `ac`) over the `N` days. Use 64-bit integers (`long` / `long long`) to prevent overflow.\n2. **Compute Grand Total**: Sum all 5 appliance totals. If grand total is 0, each percentage is `0.00`.\n3. **Calculate Percentages**: Compute `(applianceTotal * 100.0) / grandTotal` using floating point division.\n4. **Identify Minimum Appliance**:\n   - Start with `min = fan`, `minName = \"Fan\"`.\n   - Compare strictly (`<`): if `tv < min`, update. If `fridge < min`, update. If `cooler < min`, update. If `ac < min`, update.\n   - Using `<` ensures the first appliance wins in case of a tie.\n5. **Format Result**: Format each percentage to 2 decimal places using US locale / dot formatting (`%.2f`).\n\n---\n\n### 🔍 Dry Run Table\nConsider `N = 3` with totals `[60, 90, 120, 45, 75]`:\n\n| Appliance | Total Units | Grand Total | Percentage Formula | Formatted |\n| :--- | :---: | :---: | :--- | :---: |\n| **Fan** | 60 | 390 | `(60 × 100.0) / 390` | **15.38** |\n| **TV** | 90 | 390 | `(90 × 100.0) / 390` | **23.08** |\n| **Fridge** | 120 | 390 | `(120 × 100.0) / 390` | **30.77** |\n| **Cooler** | 45 | 390 | `(45 × 100.0) / 390` | **11.54** |\n| **AC** | 75 | 390 | `(75 × 100.0) / 390` | **19.23** |\n\n**Lowest Consumption Appliance:** **Cooler** (`45` units)  \n**Final String:** `15.38 23.08 30.77 11.54 19.23 Cooler`\n\n---\n\n### 🧠 Why Multiply by `100.0`?\nDividing integers directly in Java or C++ discards fractional digits (e.g. `60 / 390` evaluates to `0`). Multiplying by `100.0` promotes the calculation to `double`, preserving exact decimal precision before formatting.\n\n---\n\n### ⚠️ Important Exam Guidelines\n- Maintain the strict appliance ordering: **Fan**, **TV**, **Fridge**, **Cooler**, **AC**, then appliance name.\n- In case of a tie for minimum consumption, the appliance appearing first in the sequence wins.\n- Handle `grandTotal == 0` gracefully by outputting `0.00 0.00 0.00 0.00 0.00 Fan`.",
+    "rules": [
+      "1. Calculate the total consumption for each appliance by summing its daily values.",
+      "2. Calculate percentage contribution as (applianceTotal * 100.0) / grandTotal.",
+      "3. Format each percentage to exactly two decimal places.",
+      "4. Return percentages in order: Fan, TV, Fridge, Cooler, AC, followed by the minimum consumption appliance name.",
+      "5. If a tie occurs for lowest consumption, select the first appliance in the given order.",
+      "6. If grand total is 0, return '0.00 0.00 0.00 0.00 0.00 Fan'."
+    ],
+    "constraints": [
+      "1 <= input1 <= 10^5",
+      "0 <= daily consumption <= 10^5",
+      "Time Complexity: O(N)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "N = 3\nFan = [10, 20, 30]\nTV = [20, 30, 40]\nFridge = [30, 40, 50]\nCooler = [15, 15, 15]\nAC = [25, 25, 25]",
+        "inputRaw": {
+          "n": 3,
+          "fan": [10, 20, 30],
+          "tv": [20, 30, 40],
+          "fridge": [30, 40, 50],
+          "cooler": [15, 15, 15],
+          "ac": [25, 25, 25]
+        },
+        "expectedOutput": "15.38 23.08 30.77 11.54 19.23 Cooler",
+        "explanation": "• Totals: Fan=60, TV=90, Fridge=120, Cooler=45, AC=75\n• Grand Total: 390\n• Percentages: Fan=15.38%, TV=23.08%, Fridge=30.77%, Cooler=11.54%, AC=19.23%\n• Minimum appliance: Cooler (45)"
+      },
+      {
+        "id": "tc-2",
+        "input": "N = 1\nFan = [10]\nTV = [10]\nFridge = [10]\nCooler = [10]\nAC = [10]",
+        "inputRaw": {
+          "n": 1,
+          "fan": [10],
+          "tv": [10],
+          "fridge": [10],
+          "cooler": [10],
+          "ac": [10]
+        },
+        "expectedOutput": "20.00 20.00 20.00 20.00 20.00 Fan",
+        "explanation": "• All appliances have equal consumption (10 units).\n• Fan wins tie-breaker as it appears first in the sequence."
+      },
+      {
+        "id": "tc-3",
+        "input": "N = 1\nFan = [50]\nTV = [40]\nFridge = [30]\nCooler = [20]\nAC = [10]",
+        "inputRaw": {
+          "n": 1,
+          "fan": [50],
+          "tv": [40],
+          "fridge": [30],
+          "cooler": [20],
+          "ac": [10]
+        },
+        "expectedOutput": "33.33 26.67 20.00 13.33 6.67 AC",
+        "explanation": "• Grand total = 150\n• AC has the lowest consumption of 10 units (6.67%)."
+      },
+      {
+        "id": "tc-4",
+        "input": "N = 2\nFan = [5, 5]\nTV = [10, 10]\nFridge = [15, 15]\nCooler = [20, 20]\nAC = [25, 25]",
+        "inputRaw": {
+          "n": 2,
+          "fan": [5, 5],
+          "tv": [10, 10],
+          "fridge": [15, 15],
+          "cooler": [20, 20],
+          "ac": [25, 25]
+        },
+        "expectedOutput": "6.67 13.33 20.00 26.67 33.33 Fan",
+        "explanation": "• Totals: Fan=10, TV=20, Fridge=30, Cooler=40, AC=50\n• Grand Total: 150\n• Minimum appliance: Fan (10 units = 6.67%)"
+      },
+      {
+        "id": "tc-5",
+        "input": "N = 1\nFan = [0]\nTV = [0]\nFridge = [0]\nCooler = [0]\nAC = [0]",
+        "inputRaw": {
+          "n": 1,
+          "fan": [0],
+          "tv": [0],
+          "fridge": [0],
+          "cooler": [0],
+          "ac": [0]
+        },
+        "expectedOutput": "0.00 0.00 0.00 0.00 0.00 Fan",
+        "explanation": "• All consumption is 0 units; grand total = 0.\n• Percentages are 0.00 and first appliance Fan is returned."
+      }
+    ],
+    "starterCode": {
+      "python": "def calculatePercentage(input1: int, input2: list, input3: list, input4: list, input5: list, input6: list) -> str:\n    # TODO: Return formatted percentages and lowest consumption appliance\n    return \"\"\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static String calculatePercentage(\n            int input1,\n            int[] input2,\n            int[] input3,\n            int[] input4,\n            int[] input5,\n            int[] input6) {\n        // TODO: Return formatted percentages and lowest consumption appliance\n        return \"\";\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nstring calculatePercentage(int input1, vector<int>& input2, vector<int>& input3, vector<int>& input4, vector<int>& input5, vector<int>& input6) {\n    // TODO: Return formatted percentages and lowest consumption appliance\n    return \"\";\n}\n",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static string CalculatePercentage(int input1, int[] input2, int[] input3, int[] input4, int[] input5, int[] input6) {\n        // TODO: Return formatted percentages and lowest consumption appliance\n        return \"\";\n    }\n}\n",
+      "javascript": "function calculatePercentage(input1, input2, input3, input4, input5, input6) {\n  // TODO: Return formatted percentages and lowest consumption appliance\n  return \"\";\n}\n"
+    },
+    "solutions": {
+      "python": "def calculatePercentage(input1: int, input2: list, input3: list, input4: list, input5: list, input6: list) -> str:\n    fan = sum(input2[:input1])\n    tv = sum(input3[:input1])\n    fridge = sum(input4[:input1])\n    cooler = sum(input5[:input1])\n    ac = sum(input6[:input1])\n\n    grand_total = fan + tv + fridge + cooler + ac\n\n    p_fan = 0.0 if grand_total == 0 else (fan * 100.0) / grand_total\n    p_tv = 0.0 if grand_total == 0 else (tv * 100.0) / grand_total\n    p_fridge = 0.0 if grand_total == 0 else (fridge * 100.0) / grand_total\n    p_cooler = 0.0 if grand_total == 0 else (cooler * 100.0) / grand_total\n    p_ac = 0.0 if grand_total == 0 else (ac * 100.0) / grand_total\n\n    appliances = [\n        (\"Fan\", fan),\n        (\"TV\", tv),\n        (\"Fridge\", fridge),\n        (\"Cooler\", cooler),\n        (\"AC\", ac)\n    ]\n\n    min_name, min_val = appliances[0]\n    for name, val in appliances[1:]:\n        if val < min_val:\n            min_val = val\n            min_name = name\n\n    return f\"{p_fan:.2f} {p_tv:.2f} {p_fridge:.2f} {p_cooler:.2f} {p_ac:.2f} {min_name}\"",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static String calculatePercentage(\n            int input1,\n            int[] input2,\n            int[] input3,\n            int[] input4,\n            int[] input5,\n            int[] input6) {\n\n        long fan = 0, tv = 0, fridge = 0, cooler = 0, ac = 0;\n\n        for (int i = 0; i < input1; i++) {\n            fan += input2[i];\n            tv += input3[i];\n            fridge += input4[i];\n            cooler += input5[i];\n            ac += input6[i];\n        }\n\n        long grandTotal = fan + tv + fridge + cooler + ac;\n\n        double pFan = grandTotal == 0 ? 0.0 : (fan * 100.0) / grandTotal;\n        double pTV = grandTotal == 0 ? 0.0 : (tv * 100.0) / grandTotal;\n        double pFridge = grandTotal == 0 ? 0.0 : (fridge * 100.0) / grandTotal;\n        double pCooler = grandTotal == 0 ? 0.0 : (cooler * 100.0) / grandTotal;\n        double pAC = grandTotal == 0 ? 0.0 : (ac * 100.0) / grandTotal;\n\n        long min = fan;\n        String minName = \"Fan\";\n\n        if (tv < min) {\n            min = tv;\n            minName = \"TV\";\n        }\n        if (fridge < min) {\n            min = fridge;\n            minName = \"Fridge\";\n        }\n        if (cooler < min) {\n            min = cooler;\n            minName = \"Cooler\";\n        }\n        if (ac < min) {\n            minName = \"AC\";\n        }\n\n        return String.format(Locale.US, \"%.2f %.2f %.2f %.2f %.2f %s\",\n                pFan, pTV, pFridge, pCooler, pAC, minName);\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nstring calculatePercentage(int input1, vector<int>& input2, vector<int>& input3, vector<int>& input4, vector<int>& input5, vector<int>& input6) {\n    long long fan = 0, tv = 0, fridge = 0, cooler = 0, ac = 0;\n    for (int i = 0; i < input1; i++) {\n        fan += input2[i];\n        tv += input3[i];\n        fridge += input4[i];\n        cooler += input5[i];\n        ac += input6[i];\n    }\n\n    long long grandTotal = fan + tv + fridge + cooler + ac;\n\n    double pFan = (grandTotal == 0) ? 0.0 : (fan * 100.0) / grandTotal;\n    double pTV = (grandTotal == 0) ? 0.0 : (tv * 100.0) / grandTotal;\n    double pFridge = (grandTotal == 0) ? 0.0 : (fridge * 100.0) / grandTotal;\n    double pCooler = (grandTotal == 0) ? 0.0 : (cooler * 100.0) / grandTotal;\n    double pAC = (grandTotal == 0) ? 0.0 : (ac * 100.0) / grandTotal;\n\n    long long minVal = fan;\n    string minName = \"Fan\";\n\n    if (tv < minVal) { minVal = tv; minName = \"TV\"; }\n    if (fridge < minVal) { minVal = fridge; minName = \"Fridge\"; }\n    if (cooler < minVal) { minVal = cooler; minName = \"Cooler\"; }\n    if (ac < minVal) { minVal = ac; minName = \"AC\"; }\n\n    char buf[128];\n    snprintf(buf, sizeof(buf), \"%.2f %.2f %.2f %.2f %.2f %s\", pFan, pTV, pFridge, pCooler, pAC, minName.c_str());\n    return string(buf);\n}",
+      "csharp": "using System;\nusing System.Globalization;\n\npublic class Solution {\n    public static string CalculatePercentage(int input1, int[] input2, int[] input3, int[] input4, int[] input5, int[] input6) {\n        long fan = 0, tv = 0, fridge = 0, cooler = 0, ac = 0;\n        for (int i = 0; i < input1; i++) {\n            fan += input2[i];\n            tv += input3[i];\n            fridge += input4[i];\n            cooler += input5[i];\n            ac += input6[i];\n        }\n\n        long grandTotal = fan + tv + fridge + cooler + ac;\n\n        double pFan = grandTotal == 0 ? 0.0 : (fan * 100.0) / grandTotal;\n        double pTV = grandTotal == 0 ? 0.0 : (tv * 100.0) / grandTotal;\n        double pFridge = grandTotal == 0 ? 0.0 : (fridge * 100.0) / grandTotal;\n        double pCooler = grandTotal == 0 ? 0.0 : (cooler * 100.0) / grandTotal;\n        double pAC = grandTotal == 0 ? 0.0 : (ac * 100.0) / grandTotal;\n\n        long min = fan;\n        string minName = \"Fan\";\n\n        if (tv < min) { min = tv; minName = \"TV\"; }\n        if (fridge < min) { min = fridge; minName = \"Fridge\"; }\n        if (cooler < min) { min = cooler; minName = \"Cooler\"; }\n        if (ac < min) { min = ac; minName = \"AC\"; }\n\n        return string.Format(CultureInfo.InvariantCulture, \"{0:F2} {1:F2} {2:F2} {3:F2} {4:F2} {5}\",\n            pFan, pTV, pFridge, pCooler, pAC, minName);\n    }\n}",
+      "javascript": "function calculatePercentage(input1, input2, input3, input4, input5, input6) {\n  let fan = 0, tv = 0, fridge = 0, cooler = 0, ac = 0;\n  for (let i = 0; i < input1; i++) {\n    fan += input2[i];\n    tv += input3[i];\n    fridge += input4[i];\n    cooler += input5[i];\n    ac += input6[i];\n  }\n\n  const grandTotal = fan + tv + fridge + cooler + ac;\n\n  const pFan = grandTotal === 0 ? 0 : (fan * 100) / grandTotal;\n  const pTV = grandTotal === 0 ? 0 : (tv * 100) / grandTotal;\n  const pFridge = grandTotal === 0 ? 0 : (fridge * 100) / grandTotal;\n  const pCooler = grandTotal === 0 ? 0 : (cooler * 100) / grandTotal;\n  const pAC = grandTotal === 0 ? 0 : (ac * 100) / grandTotal;\n\n  let min = fan;\n  let minName = 'Fan';\n\n  if (tv < min) { min = tv; minName = 'TV'; }\n  if (fridge < min) { min = fridge; minName = 'Fridge'; }\n  if (cooler < min) { min = cooler; minName = 'Cooler'; }\n  if (ac < min) { min = ac; minName = 'AC'; }\n\n  return `${pFan.toFixed(2)} ${pTV.toFixed(2)} ${pFridge.toFixed(2)} ${pCooler.toFixed(2)} ${pAC.toFixed(2)} ${minName}`;\n}"
+    }
+  },
+  {
+    "id": "recent-dsa-025",
+    "track": "dsa",
+    "dateTag": "22nd Oct Shift 1",
+    "examDate": "2026-10-22",
+    "shift": "Shift 1",
+    "title": "Find the Maximum Element at Prime Positions",
+    "difficulty": "Easy",
+    "category": "Arrays · Prime Numbers",
+    "source": "Accenture On-Campus 22nd October 2026 Shift 1",
+    "isVerified": true,
+    "description": "### 📝 Problem Statement\nYou are given an integer **input1**, representing the size of an array, and an integer array **input2** of size `input1`.\n\nYour task is to identify all positions whose **1-based indices are prime numbers** and find the maximum element among the elements present at those positions.\n\nIf no prime-numbered position exists in the array (e.g. array length < 2), return `-1`.\n\nA prime number is an integer greater than 1 that has exactly two positive divisors: 1 and itself.\n\n---\n\n### 📥 Input Specification\n• **input1**: An integer representing the size of the array.\n• **input2**: An integer array containing `input1` elements.\n\n### 📤 Output Specification\n• Return the maximum element located at a prime-numbered 1-based position. If no such position exists, return `-1`.\n\n---\n\n### 💡 Key Considerations\n• **1-based vs 0-based**: 1-based position `pos = i + 1`. For example, index `0` is position `1` (not prime), index `1` is position `2` (prime).\n• **Prime Positions**: Positions 2, 3, 5, 7, 11, 13, 17, 19, ...\n• **Edge Cases**: When `input1 < 2`, no prime positions exist, so the result is `-1`.\n• **Initial Value**: By Accenture convention, `max` is initialized to `-1` and updated whenever `isPrime(i + 1) && input2[i] > max`.",
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "input1 = 6\ninput2 = [10, 50, 30, 40, 20, 60]",
+        "inputRaw": {
+          "input1": 6,
+          "input2": [10, 50, 30, 40, 20, 60]
+        },
+        "expectedOutput": "50",
+        "explanation": "• 1-based prime positions: 2, 3, 5\n• Elements: input2[1]=50, input2[2]=30, input2[4]=20\n• Maximum: max(50, 30, 20) = 50"
+      },
+      {
+        "id": "tc-2",
+        "input": "input1 = 2\ninput2 = [10, 20]",
+        "inputRaw": {
+          "input1": 2,
+          "input2": [10, 20]
+        },
+        "expectedOutput": "20",
+        "explanation": "• Position 1 is not prime. Position 2 is prime.\n• Element at position 2 is 20.\n• Maximum = 20."
+      },
+      {
+        "id": "tc-3",
+        "input": "input1 = 1\ninput2 = [100]",
+        "inputRaw": {
+          "input1": 1,
+          "input2": [100]
+        },
+        "expectedOutput": "-1",
+        "explanation": "• Position 1 is not prime.\n• No prime-numbered position exists in the array.\n• Returns -1."
+      },
+      {
+        "id": "tc-4",
+        "input": "input1 = 5\ninput2 = [10, -20, -5, 40, -30]",
+        "inputRaw": {
+          "input1": 5,
+          "input2": [10, -20, -5, 40, -30]
+        },
+        "expectedOutput": "-1",
+        "explanation": "• Prime positions: 2 (-20), 3 (-5), 5 (-30).\n• Under standard exam logic (max initialized to -1), no element exceeds -1, returning -1."
+      },
+      {
+        "id": "tc-5",
+        "input": "input1 = 7\ninput2 = [5, 8, 3, 9, 7, 2, 10]",
+        "inputRaw": {
+          "input1": 7,
+          "input2": [5, 8, 3, 9, 7, 2, 10]
+        },
+        "expectedOutput": "10",
+        "explanation": "• Prime positions: 2 (8), 3 (3), 5 (7), 7 (10)\n• Maximum among {8, 3, 7, 10} is 10."
+      }
+    ],
+    "starterCode": {
+      "python": "def maxAtPrimePositions(input1: int, input2: list) -> int:\n    # TODO: Return the maximum element at 1-based prime positions or -1\n    return -1\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static int maxAtPrimePositions(int input1, int[] input2) {\n        // TODO: Return the maximum element at 1-based prime positions or -1\n        return -1;\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint maxAtPrimePositions(int input1, vector<int>& input2) {\n    // TODO: Return the maximum element at 1-based prime positions or -1\n    return -1;\n}\n",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static int MaxAtPrimePositions(int input1, int[] input2) {\n        // TODO: Return the maximum element at 1-based prime positions or -1\n        return -1;\n    }\n}\n",
+      "javascript": "function maxAtPrimePositions(input1, input2) {\n  // TODO: Return the maximum element at 1-based prime positions or -1\n  return -1;\n}\n"
+    },
+    "solutions": {
+      "python": "def is_prime(n: int) -> bool:\n    if n < 2:\n        return False\n    d = 2\n    while d * d <= n:\n        if n % d == 0:\n            return False\n        d += 1\n    return True\n\ndef maxAtPrimePositions(input1: int, input2: list) -> int:\n    max_val = -1\n    for i in range(input1):\n        pos = i + 1\n        if is_prime(pos) and input2[i] > max_val:\n            max_val = input2[i]\n    return max_val",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static boolean isPrime(int n) {\n        if (n < 2) return false;\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0) return false;\n        }\n        return true;\n    }\n\n    public static int maxAtPrimePositions(int input1, int[] input2) {\n        int max = -1;\n        for (int i = 0; i < input1; i++) {\n            if (isPrime(i + 1) && input2[i] > max) {\n                max = input2[i];\n            }\n        }\n        return max;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nbool isPrime(int n) {\n    if (n < 2) return false;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return false;\n    }\n    return true;\n}\n\nint maxAtPrimePositions(int input1, vector<int>& input2) {\n    int maxVal = -1;\n    for (int i = 0; i < input1; i++) {\n        if (isPrime(i + 1) && input2[i] > maxVal) {\n            maxVal = input2[i];\n        }\n    }\n    return maxVal;\n}",
+      "csharp": "using System;\nusing System.Collections.Generic;\n\npublic class Solution {\n    public static bool IsPrime(int n) {\n        if (n < 2) return false;\n        for (int i = 2; i * i <= n; i++) {\n            if (n % i == 0) return false;\n        }\n        return true;\n    }\n\n    public static int MaxAtPrimePositions(int input1, int[] input2) {\n        int max = -1;\n        for (int i = 0; i < input1; i++) {\n            if (IsPrime(i + 1) && input2[i] > max) {\n                max = input2[i];\n            }\n        }\n        return max;\n    }\n}",
+      "javascript": "function isPrime(n) {\n  if (n < 2) return false;\n  for (let i = 2; i * i <= n; i++) {\n    if (n % i === 0) return false;\n  }\n  return true;\n}\n\nfunction maxAtPrimePositions(input1, input2) {\n  let max = -1;\n  for (let i = 0; i < input1; i++) {\n    if (isPrime(i + 1) && input2[i] > max) {\n      max = input2[i];\n    }\n  }\n  return max;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",

@@ -503,6 +503,46 @@ for _arr in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-024') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    (3, [10, 20, 30], [20, 30, 40], [30, 40, 50], [15, 15, 15], [25, 25, 25]),
+    (1, [10], [10], [10], [10], [10]),
+    (1, [50], [40], [30], [20], [10]),
+    (2, [5, 5], [10, 10], [15, 15], [20, 20], [25, 25]),
+    (1, [0], [0], [0], [0], [0])
+]
+for _n, _f, _tv, _fr, _c, _ac in _tests:
+    try:
+        fn = globals().get('calculatePercentage') or globals().get('calculate_percentage') or (Solution().calculatePercentage if 'Solution' in globals() else None)
+        print("TEST_RES:" + json.dumps(str(fn(_n, _f, _tv, _fr, _c, _ac))))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
+    if (questionId === 'recent-dsa-025') {
+      return `${cleanUserCode}
+
+import json
+_tests = [
+    (6, [10, 50, 30, 40, 20, 60]),
+    (2, [10, 20]),
+    (1, [100]),
+    (5, [10, -20, -5, 40, -30]),
+    (7, [5, 8, 3, 9, 7, 2, 10])
+]
+for _n, _arr in _tests:
+    try:
+        fn = globals().get('maxAtPrimePositions') or globals().get('max_at_prime_positions') or (Solution().maxAtPrimePositions if 'Solution' in globals() else None)
+        print("TEST_RES:" + json.dumps(fn(_n, list(_arr))))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1107,7 +1147,7 @@ except Exception as _e:
     if (questionId === 'recent-dsa-023') {
       return `${cleanUserCode}
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         int[][] tests = {
             {15, 5, 20, 8, 50, 10},
             {5, 3, 8, 7, 10, 10},
@@ -1118,6 +1158,53 @@ except Exception as _e:
         for (int[] arr : tests) {
             try {
                 System.out.println("TEST_RES:" + processPairwiseDifferences(arr));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-024') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[] ns = {3, 1, 1, 2, 1};
+        int[][] fans = {{10, 20, 30}, {10}, {50}, {5, 5}, {0}};
+        int[][] tvs = {{20, 30, 40}, {10}, {40}, {10, 10}, {0}};
+        int[][] fridges = {{30, 40, 50}, {10}, {30}, {15, 15}, {0}};
+        int[][] coolers = {{15, 15, 15}, {10}, {20}, {20, 20}, {0}};
+        int[][] acs = {{25, 25, 25}, {10}, {10}, {25, 25}, {0}};
+
+        for (int i = 0; i < ns.length; i++) {
+            try {
+                System.out.println("TEST_RES:" + calculatePercentage(ns[i], fans[i], tvs[i], fridges[i], coolers[i], acs[i]));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-025') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[] ns = {6, 2, 1, 5, 7};
+        int[][] tests = {
+            {10, 50, 30, 40, 20, 60},
+            {10, 20},
+            {100},
+            {10, -20, -5, 40, -30},
+            {5, 8, 3, 9, 7, 2, 10}
+        };
+        for (int i = 0; i < ns.length; i++) {
+            try {
+                System.out.println("TEST_RES:" + maxAtPrimePositions(ns[i], tests[i]));
             } catch (Exception e) {
                 System.out.println("TEST_ERR:" + e.getMessage());
             }
@@ -1659,6 +1746,60 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-024') {
+      return `${cleanUserCode}
+
+int main() {
+    struct TestCase {
+        int n;
+        std::vector<int> fan;
+        std::vector<int> tv;
+        std::vector<int> fridge;
+        std::vector<int> cooler;
+        std::vector<int> ac;
+    };
+    std::vector<TestCase> tests = {
+        {3, {10, 20, 30}, {20, 30, 40}, {30, 40, 50}, {15, 15, 15}, {25, 25, 25}},
+        {1, {10}, {10}, {10}, {10}, {10}},
+        {1, {50}, {40}, {30}, {20}, {10}},
+        {2, {5, 5}, {10, 10}, {15, 15}, {20, 20}, {25, 25}},
+        {1, {0}, {0}, {0}, {0}, {0}}
+    };
+    for (auto& t : tests) {
+        try {
+            std::cout << "TEST_RES:" << calculatePercentage(t.n, t.fan, t.tv, t.fridge, t.cooler, t.ac) << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-025') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::pair<int, std::vector<int>>> tests = {
+        {6, {10, 50, 30, 40, 20, 60}},
+        {2, {10, 20}},
+        {1, {100}},
+        {5, {10, -20, -5, 40, -30}},
+        {7, {5, 8, 3, 9, 7, 2, 10}}
+    };
+    for (auto& t : tests) {
+        try {
+            std::cout << "TEST_RES:" << maxAtPrimePositions(t.first, t.second) << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -2153,6 +2294,53 @@ int main() {
         foreach (var arr in tests) {
             try {
                 Console.WriteLine("TEST_RES:" + ProcessPairwiseDifferences(arr));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-024') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        int[] ns = new int[] {3, 1, 1, 2, 1};
+        int[][] fans = new int[][] { new int[] {10, 20, 30}, new int[] {10}, new int[] {50}, new int[] {5, 5}, new int[] {0} };
+        int[][] tvs = new int[][] { new int[] {20, 30, 40}, new int[] {10}, new int[] {40}, new int[] {10, 10}, new int[] {0} };
+        int[][] fridges = new int[][] { new int[] {30, 40, 50}, new int[] {10}, new int[] {30}, new int[] {15, 15}, new int[] {0} };
+        int[][] coolers = new int[][] { new int[] {15, 15, 15}, new int[] {10}, new int[] {20}, new int[] {20, 20}, new int[] {0} };
+        int[][] acs = new int[][] { new int[] {25, 25, 25}, new int[] {10}, new int[] {10}, new int[] {25, 25}, new int[] {0} };
+
+        for (int i = 0; i < ns.Length; i++) {
+            try {
+                Console.WriteLine("TEST_RES:" + CalculatePercentage(ns[i], fans[i], tvs[i], fridges[i], coolers[i], acs[i]));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-025') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        int[] ns = new int[] {6, 2, 1, 5, 7};
+        int[][] tests = new int[][] {
+            new int[] {10, 50, 30, 40, 20, 60},
+            new int[] {10, 20},
+            new int[] {100},
+            new int[] {10, -20, -5, 40, -30},
+            new int[] {5, 8, 3, 9, 7, 2, 10}
+        };
+        for (int i = 0; i < ns.Length; i++) {
+            try {
+                Console.WriteLine("TEST_RES:" + MaxAtPrimePositions(ns[i], tests[i]));
             } catch (Exception e) {
                 Console.WriteLine("TEST_ERR:" + e.Message);
             }
@@ -2678,6 +2866,48 @@ for (const _arr of _tests) {
     try {
         const fn = typeof processPairwiseDifferences === 'function' ? processPairwiseDifferences : null;
         console.log("TEST_RES:" + (fn ? fn(_arr) : '0'));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-024') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [3, [10, 20, 30], [20, 30, 40], [30, 40, 50], [15, 15, 15], [25, 25, 25]],
+  [1, [10], [10], [10], [10], [10]],
+  [1, [50], [40], [30], [20], [10]],
+  [2, [5, 5], [10, 10], [15, 15], [20, 20], [25, 25]],
+  [1, [0], [0], [0], [0], [0]]
+];
+for (const [_n, _f, _tv, _fr, _c, _ac] of _tests) {
+    try {
+        const fn = typeof calculatePercentage === 'function' ? calculatePercentage : null;
+        console.log("TEST_RES:" + (fn ? fn(_n, _f, _tv, _fr, _c, _ac) : ''));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-025') {
+    return `${cleanUserCode}
+
+const _tests = [
+  [6, [10, 50, 30, 40, 20, 60]],
+  [2, [10, 20]],
+  [1, [100]],
+  [5, [10, -20, -5, 40, -30]],
+  [7, [5, 8, 3, 9, 7, 2, 10]]
+];
+for (const [_n, _arr] of _tests) {
+    try {
+        const fn = typeof maxAtPrimePositions === 'function' ? maxAtPrimePositions : null;
+        console.log("TEST_RES:" + (fn ? fn(_n, _arr) : '-1'));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }
