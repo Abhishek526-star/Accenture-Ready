@@ -288,7 +288,7 @@ export default function ConnectPage() {
                   <input
                     type="text"
                     className="form-input"
-                    placeholder="e.g., Abhishek Kumar"
+                    placeholder="e.g., Your Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
