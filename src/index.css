@@ -12020,9 +12020,11 @@ body {
 
   .dsa-quick-pills-bar {
     width: 100% !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding-bottom: 4px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    row-gap: 0.45rem !important;
+    overflow-x: visible !important;
   }
 
   /* Hero Card for Active Question */

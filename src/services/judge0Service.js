@@ -543,6 +543,22 @@ for _n, _arr in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-026') {
+      return `${cleanUserCode}
+
+import json
+_tests = ["AbC", "A Z", "ABC", " ", "Hello World", "Noon"]
+for _s in _tests:
+    try:
+        fn = globals().get('transformString') or globals().get('transform_string') or (Solution().transformString if 'Solution' in globals() else None)
+        res = fn(_s)
+        codes = [ord(c) for c in res]
+        print("TEST_RES:" + json.dumps(codes))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1214,6 +1230,30 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-026') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        String[] tests = {"AbC", "A Z", "ABC", " ", "Hello World", "Noon"};
+        for (String s : tests) {
+            try {
+                String res = transformString(s);
+                StringBuilder sb = new StringBuilder("[");
+                for (int i = 0; i < res.length(); i++) {
+                    if (i > 0) sb.append(", ");
+                    sb.append((int) res.charAt(i));
+                }
+                sb.append("]");
+                System.out.println("TEST_RES:" + sb.toString());
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1800,6 +1840,29 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-026') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<std::string> tests = {"AbC", "A Z", "ABC", " ", "Hello World", "Noon"};
+    for (const auto& s : tests) {
+        try {
+            std::string res = transformString(s);
+            std::cout << "TEST_RES:[";
+            for (size_t i = 0; i < res.length(); ++i) {
+                if (i > 0) std::cout << ", ";
+                std::cout << (int)(unsigned char)res[i];
+            }
+            std::cout << "]" << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -2341,6 +2404,28 @@ int main() {
         for (int i = 0; i < ns.Length; i++) {
             try {
                 Console.WriteLine("TEST_RES:" + MaxAtPrimePositions(ns[i], tests[i]));
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-026') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        string[] tests = new string[] {"AbC", "A Z", "ABC", " ", "Hello World", "Noon"};
+        foreach (string s in tests) {
+            try {
+                string res = TransformString(s);
+                List<string> codes = new List<string>();
+                foreach (char c in res) {
+                    codes.Add(((int)c).ToString());
+                }
+                Console.WriteLine("TEST_RES:[" + string.Join(", ", codes) + "]");
             } catch (Exception e) {
                 Console.WriteLine("TEST_ERR:" + e.Message);
             }
@@ -2908,6 +2993,23 @@ for (const [_n, _arr] of _tests) {
     try {
         const fn = typeof maxAtPrimePositions === 'function' ? maxAtPrimePositions : null;
         console.log("TEST_RES:" + (fn ? fn(_n, _arr) : '-1'));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-026') {
+    return `${cleanUserCode}
+
+const _tests = ["AbC", "A Z", "ABC", " ", "Hello World", "Noon"];
+for (const _s of _tests) {
+    try {
+        const fn = typeof transformString === 'function' ? transformString : (typeof Solution !== 'undefined' && Solution.transformString ? Solution.transformString : null);
+        const res = fn ? fn(_s) : '';
+        const codes = Array.from(res).map(c => c.charCodeAt(0));
+        console.log("TEST_RES:" + JSON.stringify(codes));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

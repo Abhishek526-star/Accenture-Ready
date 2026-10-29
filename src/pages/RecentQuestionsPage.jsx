@@ -1340,7 +1340,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023' || question.id === 'recent-dsa-024' || question.id === 'recent-dsa-025') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023' || question.id === 'recent-dsa-024' || question.id === 'recent-dsa-025' || question.id === 'recent-dsa-026') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2216,6 +2216,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasPrime || !hasLoop || !hasMax) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_prime_check_or_max_comparison';
+      }
+    } else if (question.id === 'recent-dsa-026') {
+      const hasModulo = code.includes('% 26') || code.includes('%26');
+      const hasZeroCheck = code.includes('0') && code.includes('26');
+      const hasCharCast = code.includes('char') || code.includes('chr') || code.includes('fromCharCode');
+      if (!hasModulo || !hasZeroCheck || !hasCharCast) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_modulo_26_or_zero_replacement_logic';
       }
     }
 
@@ -3903,6 +3911,121 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-026') {
+        const testInputs = [
+          {
+            id: 1,
+            name: 'Exam Test Case 1 (Given Example "AbC")',
+            s: 'AbC',
+            expCodes: [13, 20, 15],
+            expStr: '[13, 20, 15]',
+            latency: '1ms'
+          },
+          {
+            id: 2,
+            name: 'Exam Test Case 2 (Preserving Whitespace "A Z")',
+            s: 'A Z',
+            expCodes: [13, 32, 12],
+            expStr: '[13, 32, 12]',
+            latency: '1ms'
+          },
+          {
+            id: 3,
+            name: 'Exam Test Case 3 (Consecutive Characters "ABC")',
+            s: 'ABC',
+            expCodes: [13, 14, 15],
+            expStr: '[13, 14, 15]',
+            latency: '1ms'
+          },
+          {
+            id: 4,
+            name: 'Exam Test Case 4 (Single Space " ")',
+            s: ' ',
+            expCodes: [32],
+            expStr: '[32]',
+            latency: '1ms'
+          },
+          {
+            id: 5,
+            name: 'Exam Test Case 5 (Sentence "Hello World")',
+            s: 'Hello World',
+            expCodes: [20, 23, 4, 4, 7, 32, 9, 7, 10, 4, 22],
+            expStr: '[20, 23, 4, 4, 7, 32, 9, 7, 10, 4, 22]',
+            latency: '1ms'
+          },
+          {
+            id: 6,
+            name: 'Exam Test Case 6 (Zero Remainder Reset "Noon")',
+            s: 'Noon',
+            expCodes: [26, 7, 7, 6],
+            expStr: '[26, 7, 7, 6]',
+            latency: '1ms'
+          }
+        ];
+
+        const computeExpected = (str) => {
+          const codes = [];
+          for (let i = 0; i < str.length; i++) {
+            const ch = str[i];
+            if (ch === ' ') {
+              codes.push(32);
+            } else {
+              let rem = str.charCodeAt(i) % 26;
+              if (rem === 0) rem = 26;
+              codes.push(rem);
+            }
+          }
+          return codes;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              let codes = null;
+              if (Array.isArray(out)) {
+                codes = out;
+              } else if (typeof out === 'string') {
+                try {
+                  const parsed = JSON.parse(out);
+                  if (Array.isArray(parsed)) codes = parsed;
+                } catch {
+                  codes = Array.from(out).map(c => c.charCodeAt(0));
+                }
+              }
+              if (codes) {
+                actualStr = JSON.stringify(codes);
+                passed = JSON.stringify(codes) === JSON.stringify(t.expCodes);
+              } else {
+                actualStr = String(out ?? '');
+                passed = false;
+              }
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = 'Error: Modulo/Type casting logic incomplete';
+            passed = false;
+          } else {
+            const computedCodes = computeExpected(t.s);
+            actualStr = JSON.stringify(computedCodes);
+            passed = JSON.stringify(computedCodes) === JSON.stringify(t.expCodes);
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `s = ${JSON.stringify(t.s)}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -4065,7 +4188,8 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     ${feCode.css}
 
     /* Fallback legibility for light card containers */
-    .price-filter, .price-filter h2, .price-values {
+    .price-filter, .price-filter h2, .price-values,
+    .container, .container label, .checkbox-group label, #output, #output p {
       color: #1e293b;
     }
 
@@ -4337,6 +4461,173 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-006')) {
                 const updated = prev.filter(id => id !== 'recent-fe-006');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Interactive Checkbox Counter & Container Styling (recent-fe-010)
+        if (activeFeQuestion?.id === 'recent-fe-010') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Fourth Checkbox with Option 4: Azure DevOps
+          const checkboxes = doc.querySelectorAll('.checkbox-group input[type="checkbox"], .checkbox-group .option');
+          const hasFourCheckboxes = checkboxes.length >= 4;
+          const htmlText = doc.body.textContent || '';
+          const hasAzureDevOpsText = htmlText.includes('Azure DevOps') || html.includes('Azure DevOps');
+          const hasFourthCheckbox = hasFourCheckboxes && hasAzureDevOpsText;
+
+          // 2. CSS Verification - #output padding: 15px
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasOutputPadding =
+            (cssClean.includes('#output{') && cssClean.includes('padding:15px')) ||
+            (cssClean.includes('#output') && (cssClean.includes('padding:15px') || cssClean.includes('padding:15px!important')));
+
+          // 3. JavaScript Execution Verification
+          let jsInitialZeroPassed = false;
+          let jsInitialInfo = '';
+          let jsDynamicUpdatesPassed = false;
+          let jsDynamicInfo = '';
+
+          try {
+            const sandbox = document.createElement('div');
+            sandbox.innerHTML = html;
+
+            const mockDoc = {
+              getElementById: (id) => sandbox.querySelector('#' + id),
+              querySelector: (sel) => sandbox.querySelector(sel),
+              querySelectorAll: (sel) => sandbox.querySelectorAll(sel),
+              createElement: (tag) => document.createElement(tag)
+            };
+
+            const runFn = new Function('document', 'window', `
+              ${js}
+              return {
+                updateCount: typeof updateCount === 'function' ? updateCount : null
+              };
+            `);
+
+            const exported = runFn(mockDoc, window);
+            const countEl = sandbox.querySelector('#count');
+            const inputs = sandbox.querySelectorAll('.option');
+
+            if (!countEl) {
+              jsInitialInfo = 'Missing #count element in HTML markup.';
+              jsDynamicInfo = 'Missing #count element in HTML markup.';
+            } else if (inputs.length < 4) {
+              jsInitialInfo = 'Expected at least 4 checkboxes with class .option.';
+              jsDynamicInfo = 'Expected at least 4 checkboxes with class .option.';
+            } else {
+              // Test initial load
+              const initialCount = (countEl.textContent || countEl.innerText || '').trim();
+              if (initialCount === '0') {
+                jsInitialZeroPassed = true;
+                jsInitialInfo = 'Initial count correctly displays 0.';
+              } else {
+                jsInitialInfo = `Expected initial count to be "0", but found "${initialCount}".`;
+              }
+
+              // Test dynamic state changes:
+              inputs[0].checked = true;
+              inputs[0].dispatchEvent(new Event('change'));
+              inputs[3].checked = true;
+              inputs[3].dispatchEvent(new Event('change'));
+              if (exported.updateCount) exported.updateCount();
+
+              const countAfter2 = (countEl.textContent || countEl.innerText || '').trim();
+
+              inputs[1].checked = true;
+              inputs[1].dispatchEvent(new Event('change'));
+              inputs[2].checked = true;
+              inputs[2].dispatchEvent(new Event('change'));
+              if (exported.updateCount) exported.updateCount();
+
+              const countAfter4 = (countEl.textContent || countEl.innerText || '').trim();
+
+              inputs[1].checked = false;
+              inputs[1].dispatchEvent(new Event('change'));
+              if (exported.updateCount) exported.updateCount();
+
+              const countAfter3 = (countEl.textContent || countEl.innerText || '').trim();
+
+              inputs[0].checked = false;
+              inputs[0].dispatchEvent(new Event('change'));
+              inputs[2].checked = false;
+              inputs[2].dispatchEvent(new Event('change'));
+              inputs[3].checked = false;
+              inputs[3].dispatchEvent(new Event('change'));
+              if (exported.updateCount) exported.updateCount();
+
+              const countAfter0 = (countEl.textContent || countEl.innerText || '').trim();
+
+              if (countAfter2 === '2' && countAfter4 === '4' && countAfter3 === '3' && countAfter0 === '0') {
+                jsDynamicUpdatesPassed = true;
+                jsDynamicInfo = 'Count dynamically updates on select (2 -> 4) and deselect (3 -> 0).';
+              } else {
+                jsDynamicInfo = `Dynamic counter mismatch: got 2 checked -> "${countAfter2}", 4 checked -> "${countAfter4}", 3 checked -> "${countAfter3}", 0 checked -> "${countAfter0}".`;
+              }
+            }
+          } catch (e) {
+            jsInitialInfo = `JavaScript Runtime Error: ${e.message}`;
+            jsDynamicInfo = `JavaScript Runtime Error: ${e.message}`;
+          }
+
+          const results = [
+            {
+              id: 'fe-tc-1',
+              name: 'HTML Task: Fourth Checkbox (Option 4: Azure DevOps)',
+              passed: hasFourthCheckbox,
+              message: hasFourthCheckbox
+                ? 'Fourth checkbox with label "Option 4: Azure DevOps" and class "option" successfully detected.'
+                : 'Expected a fourth checkbox with class "option" and label "Option 4: Azure DevOps" inside .checkbox-group.'
+            },
+            {
+              id: 'fe-tc-2',
+              name: 'CSS Task: Output Container Padding (#output padding: 15px)',
+              passed: hasOutputPadding,
+              message: hasOutputPadding
+                ? 'Output container (#output) has padding: 15px.'
+                : 'Expected padding: 15px; inside #output in style.css.'
+            },
+            {
+              id: 'fe-tc-3',
+              name: 'JS Task: Initial Checkbox Count Displays 0',
+              passed: jsInitialZeroPassed,
+              message: jsInitialInfo
+            },
+            {
+              id: 'fe-tc-4',
+              name: 'JS Task: Live Dynamic Count on Selection & Deselection',
+              passed: jsDynamicUpdatesPassed,
+              message: jsDynamicInfo
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-010',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-010')) {
+              toggleSolved('recent-fe-010');
+              gamificationService.addXP(50, 'Solved Interactive Checkbox Counter & Container Styling');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-010')) {
+                const updated = prev.filter(id => id !== 'recent-fe-010');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -5831,261 +6122,293 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
           {/* Question Selector Bar with Dropdown & Quick Navigation */}
           <div className="dsa-question-selector-bar" style={{
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
+            flexDirection: 'column',
+            gap: '0.85rem',
             marginBottom: '1.25rem',
-            flexWrap: 'wrap',
             background: 'linear-gradient(135deg, #131e33, #0f172a)',
             border: '1px solid #334155',
             borderRadius: '14px',
-            padding: '0.75rem 1rem',
+            padding: '0.85rem 1rem',
             boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
             boxSizing: 'border-box',
             width: '100%'
           }}>
-            {/* Left: Rich Question Dropdown */}
-            <div className="dsa-question-dropdown-container" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
-              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Question:
-              </span>
-              
-              <button
-                type="button"
-                onClick={() => setIsQuestionDropdownOpen(prev => !prev)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '0.75rem',
-                  padding: '8px 14px',
-                  background: '#0f172a',
-                  border: isQuestionDropdownOpen ? '1px solid #38bdf8' : '1px solid #334155',
-                  borderRadius: '10px',
-                  color: '#f8fafc',
-                  fontSize: '0.88rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  width: '100%',
-                  maxWidth: '460px',
-                  boxShadow: isQuestionDropdownOpen ? '0 0 0 2px rgba(56, 189, 248, 0.25)' : 'none',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  <span style={{
-                    background: '#0284c7',
-                    color: '#ffffff',
-                    fontSize: '0.72rem',
-                    fontWeight: 800,
-                    padding: '2px 7px',
-                    borderRadius: '6px',
-                    flexShrink: 0
-                  }}>
-                    Q{currentQuestionIndex + 1}
-                  </span>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {activeDsaQuestion.title}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
-                  <span style={{
-                    fontSize: '0.7rem',
-                    color: '#94a3b8',
-                    background: 'rgba(148, 163, 184, 0.1)',
-                    padding: '2px 6px',
-                    borderRadius: '4px'
-                  }}>
-                    {activeDsaQuestion.dateTag.split('•')[0].trim()}
-                  </span>
-                  {solvedSet.includes(activeDsaQuestion.id) && (
-                    <CheckCircle2 size={15} color="#4ade80" />
-                  )}
-                  {isQuestionDropdownOpen ? <ChevronUp size={16} color="#38bdf8" /> : <ChevronDown size={16} color="#94a3b8" />}
-                </div>
-              </button>
-
-              {/* Dropdown Menu */}
-              {isQuestionDropdownOpen && (
-                <div style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 8px)',
-                  left: 0,
-                  zIndex: 99,
-                  width: '100%',
-                  maxWidth: '520px',
-                  background: '#0f172a',
-                  border: '1px solid rgba(56, 189, 248, 0.35)',
-                  borderRadius: '12px',
-                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.7)',
-                  padding: '6px',
-                  maxHeight: '360px',
-                  overflowY: 'auto'
-                }}>
-                  <div style={{ padding: '6px 10px', fontSize: '0.72rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', borderBottom: '1px solid #1e293b' }}>
-                    Select Recent Accenture Exam Question ({dsaQuestions.length})
+            {/* Top Row: Dropdown & Question Navigation Controls */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+              width: '100%'
+            }}>
+              {/* Left: Rich Question Dropdown */}
+              <div className="dsa-question-dropdown-container" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 320px', minWidth: '260px' }} ref={questionDropdownRef}>
+                <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Question:
+                </span>
+                
+                <button
+                  type="button"
+                  onClick={() => setIsQuestionDropdownOpen(prev => !prev)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '0.75rem',
+                    padding: '8px 14px',
+                    background: '#0f172a',
+                    border: isQuestionDropdownOpen ? '1px solid #38bdf8' : '1px solid #334155',
+                    borderRadius: '10px',
+                    color: '#f8fafc',
+                    fontSize: '0.88rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    width: '100%',
+                    maxWidth: '460px',
+                    boxShadow: isQuestionDropdownOpen ? '0 0 0 2px rgba(56, 189, 248, 0.25)' : 'none',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <span style={{
+                      background: '#0284c7',
+                      color: '#ffffff',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      padding: '2px 7px',
+                      borderRadius: '6px',
+                      flexShrink: 0
+                    }}>
+                      Q{currentQuestionIndex + 1}
+                    </span>
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {activeDsaQuestion.title}
+                    </span>
                   </div>
-                  {dsaQuestions.map((q, idx) => {
-                    const isSelected = q.id === activeDsaQuestion.id;
-                    const isSolved = solvedSet.includes(q.id);
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      color: '#94a3b8',
+                      background: 'rgba(148, 163, 184, 0.1)',
+                      padding: '2px 6px',
+                      borderRadius: '4px'
+                    }}>
+                      {activeDsaQuestion.dateTag.split('•')[0].trim()}
+                    </span>
+                    {solvedSet.includes(activeDsaQuestion.id) && (
+                      <CheckCircle2 size={15} color="#4ade80" />
+                    )}
+                    {isQuestionDropdownOpen ? <ChevronUp size={16} color="#38bdf8" /> : <ChevronDown size={16} color="#94a3b8" />}
+                  </div>
+                </button>
 
-                    return (
-                      <button
-                        key={q.id}
-                        type="button"
-                        onClick={() => {
-                          handleSelectDsaQuestion(q.id);
-                          setIsQuestionDropdownOpen(false);
-                        }}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: '0.75rem',
-                          width: '100%',
-                          padding: '10px 12px',
-                          margin: '2px 0',
-                          borderRadius: '8px',
-                          border: isSelected ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
-                          background: isSelected ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
-                          color: isSelected ? '#38bdf8' : '#e2e8f0',
-                          fontSize: '0.85rem',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          transition: 'background 0.15s'
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isSelected) e.currentTarget.style.background = '#1e293b';
-                        }}
-                        onMouseLeave={(e) => {
-                          if (!isSelected) e.currentTarget.style.background = 'transparent';
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
-                          <span style={{
-                            background: isSelected ? '#0284c7' : '#1e293b',
-                            color: isSelected ? '#ffffff' : '#94a3b8',
-                            fontSize: '0.72rem',
-                            fontWeight: 800,
-                            padding: '2px 6px',
-                            borderRadius: '5px',
-                            flexShrink: 0
-                          }}>
-                            Q{idx + 1}
-                          </span>
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontWeight: isSelected ? 700 : 500, color: isSelected ? '#f8fafc' : '#cbd5e1' }}>
-                              {q.title}
+                {/* Dropdown Menu */}
+                {isQuestionDropdownOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    left: 0,
+                    zIndex: 99,
+                    width: '100%',
+                    maxWidth: '520px',
+                    background: '#0f172a',
+                    border: '1px solid rgba(56, 189, 248, 0.35)',
+                    borderRadius: '12px',
+                    boxShadow: '0 15px 35px rgba(0, 0, 0, 0.7)',
+                    padding: '6px',
+                    maxHeight: '360px',
+                    overflowY: 'auto'
+                  }}>
+                    <div style={{ padding: '6px 10px', fontSize: '0.72rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', borderBottom: '1px solid #1e293b' }}>
+                      Select Recent Accenture Exam Question ({dsaQuestions.length})
+                    </div>
+                    {dsaQuestions.map((q, idx) => {
+                      const isSelected = q.id === activeDsaQuestion.id;
+                      const isSolved = solvedSet.includes(q.id);
+
+                      return (
+                        <button
+                          key={q.id}
+                          type="button"
+                          onClick={() => {
+                            handleSelectDsaQuestion(q.id);
+                            setIsQuestionDropdownOpen(false);
+                          }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '0.75rem',
+                            width: '100%',
+                            padding: '10px 12px',
+                            margin: '2px 0',
+                            borderRadius: '8px',
+                            border: isSelected ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
+                            background: isSelected ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
+                            color: isSelected ? '#38bdf8' : '#e2e8f0',
+                            fontSize: '0.85rem',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            transition: 'background 0.15s'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isSelected) e.currentTarget.style.background = '#1e293b';
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isSelected) e.currentTarget.style.background = 'transparent';
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
+                            <span style={{
+                              background: isSelected ? '#0284c7' : '#1e293b',
+                              color: isSelected ? '#ffffff' : '#94a3b8',
+                              fontSize: '0.72rem',
+                              fontWeight: 800,
+                              padding: '2px 6px',
+                              borderRadius: '5px',
+                              flexShrink: 0
+                            }}>
+                              Q{idx + 1}
                             </span>
-                            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>
-                              {q.dateTag} • {q.category}
-                            </span>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <span style={{ fontWeight: isSelected ? 700 : 500, color: isSelected ? '#f8fafc' : '#cbd5e1' }}>
+                                {q.title}
+                              </span>
+                              <span style={{ fontSize: '0.72rem', color: '#64748b' }}>
+                                {q.dateTag} • {q.category}
+                              </span>
+                            </div>
                           </div>
-                        </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-                          <span style={{
-                            fontSize: '0.7rem',
-                            padding: '1px 6px',
-                            borderRadius: '4px',
-                            background: q.difficulty === 'Easy' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
-                            color: q.difficulty === 'Easy' ? '#4ade80' : '#facc15',
-                            fontWeight: 700
-                          }}>
-                            {q.difficulty}
-                          </span>
-                          {isSolved ? (
-                            <CheckCircle2 size={16} color="#4ade80" />
-                          ) : (
-                            <div style={{ width: '16px' }} />
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Right: Quick-Pill Badges & Prev/Next Arrows */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                onClick={handlePrevQuestion}
-                disabled={currentQuestionIndex === 0}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  border: '1px solid #334155',
-                  background: currentQuestionIndex === 0 ? '#0f172a' : '#1e293b',
-                  color: currentQuestionIndex === 0 ? '#475569' : '#cbd5e1',
-                  cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer'
-                }}
-                title="Previous Question"
-              >
-                <ChevronLeft size={16} />
-              </button>
-
-              {/* Compact Q1 - Q7 Pills */}
-              <div className="dsa-quick-pills-bar" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                {dsaQuestions.map((q, idx) => {
-                  const isSelected = q.id === activeDsaQuestion.id;
-                  const isSolved = solvedSet.includes(q.id);
-
-                  return (
-                    <button
-                      key={q.id}
-                      type="button"
-                      onClick={() => {
-                        handleSelectDsaQuestion(q.id);
-                      }}
-                      style={{
-                        padding: '5px 11px',
-                        borderRadius: '8px',
-                        border: isSelected ? '1px solid #38bdf8' : '1px solid #334155',
-                        background: isSelected ? '#0284c7' : '#0f172a',
-                        color: isSelected ? '#ffffff' : '#94a3b8',
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '3px',
-                        transition: 'all 0.15s'
-                      }}
-                      title={`${q.title} (${q.dateTag})`}
-                    >
-                      <span>Q{idx + 1}</span>
-                      {isSolved && <span style={{ color: isSelected ? '#a7f3d0' : '#4ade80', fontSize: '0.75rem' }}>✓</span>}
-                    </button>
-                  );
-                })}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                            <span style={{
+                              fontSize: '0.7rem',
+                              padding: '1px 6px',
+                              borderRadius: '4px',
+                              background: q.difficulty === 'Easy' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)',
+                              color: q.difficulty === 'Easy' ? '#4ade80' : '#facc15',
+                              fontWeight: 700
+                            }}>
+                              {q.difficulty}
+                            </span>
+                            {isSolved ? (
+                              <CheckCircle2 size={16} color="#4ade80" />
+                            ) : (
+                              <div style={{ width: '16px' }} />
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              <button
-                type="button"
-                onClick={handleNextQuestion}
-                disabled={currentQuestionIndex === dsaQuestions.length - 1}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  border: '1px solid #334155',
-                  background: currentQuestionIndex === dsaQuestions.length - 1 ? '#0f172a' : '#1e293b',
-                  color: currentQuestionIndex === dsaQuestions.length - 1 ? '#475569' : '#cbd5e1',
-                  cursor: currentQuestionIndex === dsaQuestions.length - 1 ? 'not-allowed' : 'pointer'
-                }}
-                title="Next Question"
-              >
-                <ChevronRight size={16} />
-              </button>
+              {/* Right: Prev & Next Question Navigation */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexShrink: 0 }}>
+                <button
+                  type="button"
+                  onClick={handlePrevQuestion}
+                  disabled={currentQuestionIndex === 0}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    border: '1px solid #334155',
+                    background: currentQuestionIndex === 0 ? '#0f172a' : '#1e293b',
+                    color: currentQuestionIndex === 0 ? '#475569' : '#cbd5e1',
+                    cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer'
+                  }}
+                  title="Previous Question"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+
+                <span style={{
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  color: '#94a3b8',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  background: 'rgba(15, 23, 42, 0.6)',
+                  border: '1px solid #334155'
+                }}>
+                  {currentQuestionIndex + 1} / {dsaQuestions.length}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={handleNextQuestion}
+                  disabled={currentQuestionIndex === dsaQuestions.length - 1}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    border: '1px solid #334155',
+                    background: currentQuestionIndex === dsaQuestions.length - 1 ? '#0f172a' : '#1e293b',
+                    color: currentQuestionIndex === dsaQuestions.length - 1 ? '#475569' : '#cbd5e1',
+                    cursor: currentQuestionIndex === dsaQuestions.length - 1 ? 'not-allowed' : 'pointer'
+                  }}
+                  title="Next Question"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom Row: Quick-Pill Badges (Wrapping cleanly to next line below) */}
+            <div
+              className="dsa-quick-pills-bar"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                rowGap: '0.45rem',
+                flexWrap: 'wrap',
+                width: '100%',
+                paddingTop: '0.5rem',
+                borderTop: '1px solid rgba(51, 65, 85, 0.45)'
+              }}
+            >
+              {dsaQuestions.map((q, idx) => {
+                const isSelected = q.id === activeDsaQuestion.id;
+                const isSolved = solvedSet.includes(q.id);
+
+                return (
+                  <button
+                    key={q.id}
+                    type="button"
+                    onClick={() => {
+                      handleSelectDsaQuestion(q.id);
+                    }}
+                    style={{
+                      padding: '5px 11px',
+                      borderRadius: '8px',
+                      border: isSelected ? '1px solid #38bdf8' : '1px solid #334155',
+                      background: isSelected ? '#0284c7' : '#0f172a',
+                      color: isSelected ? '#ffffff' : '#94a3b8',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '3px',
+                      transition: 'all 0.15s'
+                    }}
+                    title={`${q.title} (${q.dateTag})`}
+                  >
+                    <span>Q{idx + 1}</span>
+                    {isSolved && <span style={{ color: isSelected ? '#a7f3d0' : '#4ade80', fontSize: '0.75rem' }}>✓</span>}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -7110,7 +7433,7 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 <ChevronLeft size={16} />
               </button>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', rowGap: '0.45rem', flexWrap: 'wrap' }}>
                 {feQuestions.map((q, idx) => {
                   const isSelected = idx === currentFeIndex;
                   const isSolved = solvedSet.includes(q.id);
@@ -7363,7 +7686,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-009' ? (
+                    {activeFeQuestion.id === 'recent-fe-010' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given an interface with three checkboxes. Complete the implementation by adding a fourth checkbox (<strong style={{ color: '#f8fafc' }}>Option 4: Azure DevOps</strong>), setting the output container padding to <code style={{ color: '#38bdf8' }}>15px</code>, and updating the total checked count dynamically in <strong style={{ color: '#f8fafc' }}>#count</strong>.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML Option 4: Azure DevOps • Part 2: CSS #output padding: 15px • Part 3: JS updateCount() dynamic live counter
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-009' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are given an existing <strong style={{ color: '#f8fafc' }}>Interactive Chatbot UI</strong>. Complete the missing HTML input attributes and button click handler, CSS input border (<code style={{ color: '#38bdf8' }}>#334155</code>), and JavaScript <strong style={{ color: '#f8fafc' }}>sendMessage()</strong> function with a 500ms simulated bot response.
@@ -7468,7 +7800,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add a fourth checkbox labeled <code style={{ color: '#fb923c' }}>Option 4: Azure DevOps</code> inside <strong style={{ color: '#f8fafc' }}><code>.checkbox-group</code></strong>.</li>
+                            <li>Use <code style={{ color: '#fb923c' }}>&lt;input type="checkbox" class="option"&gt;</code> wrapped inside a <strong style={{ color: '#f8fafc' }}><code>&lt;label&gt;</code></strong> tag.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-009' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add <code style={{ color: '#fb923c' }}>&lt;input type="text" id="userInput" placeholder="Type a message..." onkeypress="handleKeyPress(event)"&gt;</code> in <strong style={{ color: '#f8fafc' }}><code>.chat-input-area</code></strong>.</li>
                             <li>Add attribute <code style={{ color: '#fb923c' }}>onclick="sendMessage()"</code> to the Send button (<strong style={{ color: '#f8fafc' }}><code>#sendBtn</code></strong>).</li>
@@ -7539,7 +7876,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set the output container's padding to <code style={{ color: '#4ade80' }}>padding: 15px;</code> inside <strong style={{ color: '#f8fafc' }}><code>#output</code></strong>.</li>
+                            <li>Preserve existing background, border-radius, and text alignment.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-009' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Set input border to <code style={{ color: '#4ade80' }}>border: 1px solid #334155;</code> inside <strong style={{ color: '#f8fafc' }}><code>.chat-input-area input</code></strong>.</li>
                             <li>Preserve existing padding, background, border radius, and color.</li>
@@ -7608,7 +7950,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-009' ? (
+                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Complete <strong style={{ color: '#f8fafc' }}><code>updateCount()</code></strong> to count all currently checked checkboxes.</li>
+                            <li>Display the live count inside <strong style={{ color: '#f8fafc' }}><code>#count</code></strong> on every checkbox state change.</li>
+                            <li>Ensure all four checkboxes are monitored and included in the count.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-009' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Complete <strong style={{ color: '#f8fafc' }}><code>sendMessage()</code></strong> to retrieve and trim input value; ignore empty or whitespace-only messages.</li>
                             <li>Append user message bubble via <code style={{ color: '#facc15' }}>appendMessage(message, "user-message")</code> and clear the input field.</li>
@@ -7673,7 +8021,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-009'
+                      {(activeFeQuestion.id === 'recent-fe-010'
+                        ? [
+                            { title: 'Fourth Checkbox Added', desc: 'Option 4: Azure DevOps checkbox present inside .checkbox-group' },
+                            { title: 'CSS Output Padding', desc: '#output container has padding: 15px' },
+                            { title: 'Initial Counter = 0', desc: '#count displays 0 when no checkboxes are checked' },
+                            { title: 'Live Dynamic Counter', desc: 'Count updates dynamically whenever checkboxes are selected or deselected' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-009'
                         ? [
                             { title: 'HTML Input & Attributes', desc: '#userInput with type="text", placeholder, and onkeypress listener' },
                             { title: 'Send Button Click Handler', desc: '#sendBtn button includes onclick="sendMessage()"' },
@@ -7768,7 +8123,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-009'
+                      {(activeFeQuestion.id === 'recent-fe-010'
+                        ? [
+                            'HTML5 Standard',
+                            'CSS3 Box Model',
+                            'padding: 15px',
+                            'Vanilla ES6 JavaScript',
+                            'Checkbox change Events',
+                            'querySelectorAll'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-009'
                         ? [
                             'HTML5 Standard',
                             'CSS3 #334155',

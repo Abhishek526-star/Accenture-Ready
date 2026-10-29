@@ -2277,6 +2277,77 @@ export const recentQuestions = [
     }
   },
   {
+    "id": "recent-dsa-026",
+    "track": "dsa",
+    "dateTag": "28th Oct Shift 1",
+    "examDate": "2026-10-28",
+    "shift": "Shift 1 (On-Campus)",
+    "title": "String ASCII Modulo 26 Transformation",
+    "difficulty": "Easy",
+    "category": "Strings · ASCII & Modulo Arithmetic",
+    "source": "Accenture On-Campus 28th October 2026 Shift 1",
+    "isVerified": true,
+    "description": "### 📝 Problem Statement\nYou are given a string `s`. Your task is to transform each character according to its ASCII value.\n\nFor each character in the string:\n1. If the character is a whitespace character (`' '`), preserve it as a space in the resulting string.\n2. Otherwise, calculate the remainder when its ASCII value is divided by 26: `rem = ascii % 26`.\n3. If the remainder is 0, replace it with 26 (`if (rem == 0) rem = 26`).\n4. Convert the resulting integer back to a character using explicit character type casting (`(char) rem`) and append it to the answer string.\n\nReturn the transformed string.\n\n---\n\n### 📥 Input Specification\n• **s**: A string containing characters to be transformed.\n\n### 📤 Output Specification\n• Return the transformed string after applying the ASCII modulo 26 operation to each non-whitespace character while preserving whitespace.\n\n---\n\n### 📌 Given Examples\n\n#### Example 1\n• **Input**: `\"AbC\"`\n\n| Character | ASCII Value | ASCII % 26 | Resulting Character Code |\n| :--- | :--- | :--- | :--- |\n| `A` | 65 | 13 | Character with code 13 (`\\r`) |\n| `b` | 98 | 20 | Character with code 20 (`\\x14`) |\n| `C` | 67 | 15 | Character with code 15 (`\\x0F`) |\n\n• **Expected Output**: The string containing character codes `13, 20, 15`.\n\n#### Example 2\n• **Input**: `\"A Z\"`\n\n| Character | ASCII Value | Remainder | Result |\n| :--- | :--- | :--- | :--- |\n| `A` | 65 | 13 | Character code 13 |\n| ` ` (Space) | — | — | Space preserved (code 32) |\n| `Z` | 90 | 12 | Character code 12 |\n\n• **Expected Output**: The string containing character codes `13, 32, 12`.\n\n#### Example 3\n• **Input**: `\"Hello World\"`\n• Each non-space character is converted using its ASCII value modulo 26. The space between the words is preserved.\n• **Expected Output**: The string containing character codes `[20, 23, 4, 4, 7, 32, 9, 7, 10, 4, 22]`.\n\n---\n\n### 💡 Core Logic\n1. Initialize a `StringBuilder` / character buffer to store the transformed string.\n2. Iterate through `s` character by character:\n   - If the character is `' '`, append `' '` directly.\n   - Otherwise, obtain its numeric ASCII code (`(int) ch`).\n   - Calculate `rem = ascii % 26`.\n   - If `rem == 0`, set `rem = 26`.\n   - Explicitly cast back to a character (`(char) rem`) and append.\n3. Return the accumulated string.\n\n---\n\n### ⚠️ Important Points\n• **Not Conventional Caesar Cipher**: This is not an alphabetic rotation `(ch - 'A' + shift) % 26`. It directly uses the raw integer ASCII code modulo 26.\n• **Case Sensitivity**: Uppercase and lowercase characters have different ASCII values (e.g. `'A'` is 65 $\\rightarrow$ 13; `'a'` is 97 $\\rightarrow$ 19).\n• **Zero Remainder Rule**: When `ascii % 26 == 0` (such as `'N'` = 78, 78 % 26 = 0, or `'h'` = 104, 104 % 26 = 0), the remainder is explicitly mapped to 26.\n• **Control Characters in Output**: Resulting character codes (1 to 26) are ASCII control characters and may appear non-printable in the terminal.",
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "s = \"AbC\"",
+        "inputRaw": "AbC",
+        "expectedOutput": "[13, 20, 15]",
+        "explanation": "• 'A' (65 % 26 = 13) -> code 13\n• 'b' (98 % 26 = 20) -> code 20\n• 'C' (67 % 26 = 15) -> code 15\n• Transformed character codes: [13, 20, 15]"
+      },
+      {
+        "id": "tc-2",
+        "input": "s = \"A Z\"",
+        "inputRaw": "A Z",
+        "expectedOutput": "[13, 32, 12]",
+        "explanation": "• 'A' (65 % 26 = 13) -> code 13\n• ' ' (space preserved) -> code 32\n• 'Z' (90 % 26 = 12) -> code 12\n• Transformed character codes: [13, 32, 12]"
+      },
+      {
+        "id": "tc-3",
+        "input": "s = \"ABC\"",
+        "inputRaw": "ABC",
+        "expectedOutput": "[13, 14, 15]",
+        "explanation": "• 'A' (65 % 26 = 13) -> code 13\n• 'B' (66 % 26 = 14) -> code 14\n• 'C' (67 % 26 = 15) -> code 15\n• Transformed character codes: [13, 14, 15]"
+      },
+      {
+        "id": "tc-4",
+        "input": "s = \" \"",
+        "inputRaw": " ",
+        "expectedOutput": "[32]",
+        "explanation": "• Whitespace is preserved directly as space (ASCII 32)."
+      },
+      {
+        "id": "tc-5",
+        "input": "s = \"Hello World\"",
+        "inputRaw": "Hello World",
+        "expectedOutput": "[20, 23, 4, 4, 7, 32, 9, 7, 10, 4, 22]",
+        "explanation": "• H: 72 % 26 = 20\n• e: 101 % 26 = 23\n• l: 108 % 26 = 4\n• l: 108 % 26 = 4\n• o: 111 % 26 = 7\n• ' ': space (32)\n• W: 87 % 26 = 9\n• o: 111 % 26 = 7\n• r: 114 % 26 = 10\n• l: 108 % 26 = 4\n• d: 100 % 26 = 22\n• Transformed character codes: [20, 23, 4, 4, 7, 32, 9, 7, 10, 4, 22]"
+      },
+      {
+        "id": "tc-6",
+        "input": "s = \"Noon\"",
+        "inputRaw": "Noon",
+        "expectedOutput": "[26, 7, 7, 6]",
+        "explanation": "• 'N': ASCII 78. 78 % 26 = 0. Rule 3 replaces 0 with 26 -> code 26\n• 'o': ASCII 111 % 26 = 7 -> code 7\n• 'o': ASCII 111 % 26 = 7 -> code 7\n• 'n': ASCII 110 % 26 = 6 -> code 6\n• Transformed character codes: [26, 7, 7, 6]"
+      }
+    ],
+    "starterCode": {
+      "python": "def transform_string(s: str) -> str:\n    # TODO: Transform each character using ASCII % 26 (0 -> 26), preserving spaces\n    return \"\"\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    public static String transformString(String s) {\n        // TODO: Transform each character using ASCII % 26 (0 -> 26), preserving spaces\n        return \"\";\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nstring transformString(string s) {\n    // TODO: Transform each character using ASCII % 26 (0 -> 26), preserving spaces\n    return \"\";\n}\n",
+      "csharp": "using System;\nusing System.Text;\n\npublic class Solution {\n    public static string TransformString(string s) {\n        // TODO: Transform each character using ASCII % 26 (0 -> 26), preserving spaces\n        return \"\";\n    }\n}\n",
+      "javascript": "function transformString(s) {\n  // TODO: Transform each character using ASCII % 26 (0 -> 26), preserving spaces\n  return \"\";\n}\n"
+    },
+    "solutions": {
+      "python": "def transform_string(s: str) -> str:\n    res = []\n    for ch in s:\n        if ch == ' ':\n            res.append(' ')\n        else:\n            rem = ord(ch) % 26\n            if rem == 0:\n                rem = 26\n            res.append(chr(rem))\n    return \"\".join(res)",
+      "java": "public class Solution {\n    public static String transformString(String s) {\n        StringBuilder sb = new StringBuilder();\n        for (char ch : s.toCharArray()) {\n            if (ch == ' ') {\n                sb.append(' ');\n            } else {\n                int rem = ((int) ch) % 26;\n                if (rem == 0) {\n                    rem = 26;\n                }\n                sb.append((char) rem);\n            }\n        }\n        return sb.toString();\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nstring transformString(string s) {\n    string sb = \"\";\n    for (char ch : s) {\n        if (ch == ' ') {\n            sb += ' ';\n        } else {\n            int rem = ((int) ch) % 26;\n            if (rem == 0) {\n                rem = 26;\n            }\n            sb += (char) rem;\n        }\n    }\n    return sb;\n}",
+      "csharp": "using System;\nusing System.Text;\n\npublic class Solution {\n    public static string TransformString(string s) {\n        StringBuilder sb = new StringBuilder();\n        foreach (char ch in s) {\n            if (ch == ' ') {\n                sb.Append(' ');\n            } else {\n                int rem = ((int) ch) % 26;\n                if (rem == 0) {\n                    rem = 26;\n                }\n                sb.Append((char) rem);\n            }\n        }\n        return sb.ToString();\n    }\n}",
+      "javascript": "function transformString(s) {\n  let sb = '';\n  for (let i = 0; i < s.length; i++) {\n    const ch = s[i];\n    if (ch === ' ') {\n      sb += ' ';\n    } else {\n      let rem = ch.charCodeAt(0) % 26;\n      if (rem === 0) {\n        rem = 26;\n      }\n      sb += String.fromCharCode(rem);\n    }\n  }\n  return sb;\n}"
+    }
+  },
+  {
     "id": "recent-fe-001",
     "track": "frontend",
     "dateTag": "10th Sept Shift 1",
@@ -2576,6 +2647,40 @@ export const recentQuestions = [
     "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n\nbody {\n    background-color: #0f172a;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.chat-container {\n    width: 380px;\n    background: #1e293b;\n    border-radius: 12px;\n    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.chat-header {\n    background: #4f46e5;\n    color: #ffffff;\n    padding: 16px;\n    text-align: center;\n    font-weight: 600;\n}\n\n.chat-box {\n    height: 380px;\n    padding: 16px;\n    overflow-y: auto;\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.message {\n    max-width: 78%;\n    padding: 10px 14px;\n    border-radius: 16px;\n    font-size: 14px;\n    line-height: 1.4;\n    word-wrap: break-word;\n}\n\n.user-message {\n    align-self: flex-end;\n    background-color: #4f46e5;\n    color: #ffffff;\n    border-bottom-right-radius: 2px;\n}\n\n.bot-message {\n    align-self: flex-start;\n    background-color: #334155;\n    color: #f1f5f9;\n    border-bottom-left-radius: 2px;\n}\n\n.chat-input-area {\n    display: flex;\n    padding: 12px;\n    border-top: 1px solid #334155;\n    background: #0f172a;\n    gap: 8px;\n}\n\n.chat-input-area input {\n    flex: 1;\n    padding: 10px 14px;\n    border: 1px solid #334155;\n    border-radius: 20px;\n    outline: none;\n    background: #1e293b;\n    color: #ffffff;\n}\n\n.chat-input-area button {\n    padding: 10px 18px;\n    background-color: #4f46e5;\n    color: white;\n    border: none;\n    border-radius: 20px;\n    cursor: pointer;\n}",
     "solutionJS": "/**\n * Sends user message and triggers bot dynamic echo response\n */\nfunction sendMessage() {\n    const input = document.getElementById(\"userInput\");\n    const message = input.value.trim();\n\n    // Prevent sending empty messages\n    if (!message) return;\n\n    // Append user message bubble\n    appendMessage(message, \"user-message\");\n\n    // Clear input field\n    input.value = \"\";\n\n    // Simulate bot response after 500ms delay\n    setTimeout(() => {\n        const botReply = `Thanks for reaching out! You said: \"${message}\"`;\n        appendMessage(botReply, \"bot-message\");\n    }, 500);\n}\n\n/**\n * Appends a message bubble into the chat window and scrolls down\n */\nfunction appendMessage(text, className) {\n    const chatBox = document.getElementById(\"chatBox\");\n    const messageElement = document.createElement(\"div\");\n\n    messageElement.classList.add(\"message\", className);\n    messageElement.innerText = text;\n\n    chatBox.appendChild(messageElement);\n\n    // Smooth scroll to bottom of chat\n    chatBox.scrollTop = chatBox.scrollHeight;\n}\n\n/**\n * Listens for \"Enter\" key press on input\n */\nfunction handleKeyPress(event) {\n    if (event.key === \"Enter\") {\n        sendMessage();\n    }\n}",
     "solutionExplanation": "### Solution Walkthrough: Interactive Chatbot UI Implementation (Accenture 17th Oct 2026 Shift 2)\n\n1. **Part 1 — HTML Tasks**:\n   - In `.chat-input-area`, add the text input element:\n     ```html\n     <input type=\"text\" id=\"userInput\" placeholder=\"Type a message...\" onkeypress=\"handleKeyPress(event)\">\n     ```\n   - Add `onclick=\"sendMessage()\"` to the Send button:\n     ```html\n     <button id=\"sendBtn\" onclick=\"sendMessage()\">Send ▸</button>\n     ```\n\n2. **Part 2 — CSS Task**:\n   - In `.chat-input-area input`, specify the border rule:\n     ```css\n     border: 1px solid #334155;\n     ```\n   - This renders the input border in the exact slate `#334155` accent.\n\n3. **Part 3 — JavaScript Task**:\n   - In `sendMessage()`:\n     - Retrieve `#userInput` and trim its value (`input.value.trim()`).\n     - Verify `if (!message) return;` to ignore empty inputs.\n     - Call `appendMessage(message, \"user-message\")` to render the user's bubble.\n     - Clear the input field: `input.value = \"\"`.\n     - Call `setTimeout()` with a 500ms delay, formatting the bot reply as: `Thanks for reaching out! You said: \"${message}\"`.\n     - Pass the bot reply to `appendMessage(botReply, \"bot-message\")`.\n     - The pre-provided `appendMessage` scrolls `#chatBox` automatically to the bottom (`chatBox.scrollTop = chatBox.scrollHeight`).",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-010",
+    "track": "frontend",
+    "dateTag": "28th Oct 2026 • Shift 1",
+    "examDate": "2026-10-28",
+    "shift": "Shift 1",
+    "title": "Interactive Checkbox Counter & Container Styling",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / CSS · Checkbox State & Container Styling",
+    "source": "Accenture Assessment 28th Oct 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are given an existing interface containing three checkboxes. Complete the implementation by adding a fourth checkbox, applying padding to the output container, and dynamically displaying the total number of checked checkboxes whenever their state changes.\n\n### Objectives\n1. **HTML**: Add a fourth checkbox labeled `Option 4: Azure DevOps` to the existing group inside `.checkbox-group` using the `option` class.\n2. **CSS**: Set the `padding` property of the output container (`#output`) to `15px`.\n3. **JavaScript**: Implement the logic in `updateCount()` to calculate and display the live count of checked checkboxes in `#count` whenever any checkbox is selected or deselected.\n\n### Constraints\n- Do not change existing `id` or `class` attributes.\n- Preserve the existing HTML structure.\n- The count must update immediately when any checkbox changes state.\n- All four checkboxes must be included in the count.",
+    "objectives": [
+      "HTML: Add a fourth checkbox labeled Option 4: Azure DevOps using the existing option class.",
+      "CSS: Set the output container's padding property to 15px inside #output.",
+      "JavaScript: Complete updateCount() to count all checked checkboxes and display the total in #count immediately on change."
+    ],
+    "constraints": [
+      "Do not change existing id or class attributes.",
+      "Preserve the existing HTML structure.",
+      "The count must update immediately when any checkbox changes state.",
+      "All four checkboxes must be included in the count."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Checkbox Counter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n\n    <div class=\"container\">\n        <h2>Select Options:</h2>\n\n        <div class=\"checkbox-group\">\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 1: Basic VPN\n            </label>\n\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 2: MS Office Cloud\n            </label>\n\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 3: AWS Hosting\n            </label>\n\n            <!-- TODO 1: Add the fourth checkbox -->\n        </div>\n\n        <div id=\"output\">\n            <p>Total Checked Items</p>\n            <span id=\"count\">0</span>\n        </div>\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "body {\n    font-family: Arial, sans-serif;\n    background: #f4f6f9;\n    color: #243247;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.container {\n    width: 420px;\n    background: white;\n    padding: 25px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #243247;\n}\n\nh2 {\n    margin-bottom: 20px;\n    color: #243247;\n}\n\n.checkbox-group {\n    display: flex;\n    flex-direction: column;\n    gap: 15px;\n    margin-bottom: 20px;\n}\n\n.checkbox-group label {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    cursor: pointer;\n    color: #334155;\n    font-size: 15px;\n    font-weight: 500;\n}\n\n.checkbox-group input[type=\"checkbox\"] {\n    width: 18px;\n    height: 18px;\n    accent-color: #2563eb;\n    cursor: pointer;\n}\n\n#output {\n    background: #e8f0fe;\n    border-radius: 6px;\n    color: #1e293b;\n\n    /* TODO 2: Add padding to the output container */\n\n    text-align: center;\n}\n\n#output p {\n    margin: 0;\n    color: #475569;\n    font-size: 14px;\n    font-weight: 600;\n}\n\n#count {\n    display: block;\n    font-size: 28px;\n    font-weight: bold;\n    color: #2563eb;\n    margin-top: 8px;\n}",
+    "starterJS": "const checkboxes = document.querySelectorAll(\".option\");\nconst countElement = document.getElementById(\"count\");\n\nfunction updateCount() {\n\n    // TODO 3: Calculate the number of checked checkboxes\n\n    // TODO 4: Display the count in countElement\n}\n\ncheckboxes.forEach(function (checkbox) {\n    checkbox.addEventListener(\"change\", updateCount);\n});\n\nupdateCount();",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Checkbox Counter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n\n    <div class=\"container\">\n        <h2>Select Options:</h2>\n\n        <div class=\"checkbox-group\">\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 1: Basic VPN\n            </label>\n\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 2: MS Office Cloud\n            </label>\n\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 3: AWS Hosting\n            </label>\n\n            <label>\n                <input type=\"checkbox\" class=\"option\">\n                Option 4: Azure DevOps\n            </label>\n        </div>\n\n        <div id=\"output\">\n            <p>Total Checked Items</p>\n            <span id=\"count\">0</span>\n        </div>\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "body {\n    font-family: Arial, sans-serif;\n    background: #f4f6f9;\n    color: #243247;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.container {\n    width: 420px;\n    background: white;\n    padding: 25px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #243247;\n}\n\nh2 {\n    margin-bottom: 20px;\n    color: #243247;\n}\n\n.checkbox-group {\n    display: flex;\n    flex-direction: column;\n    gap: 15px;\n    margin-bottom: 20px;\n}\n\n.checkbox-group label {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    cursor: pointer;\n    color: #334155;\n    font-size: 15px;\n    font-weight: 500;\n}\n\n.checkbox-group input[type=\"checkbox\"] {\n    width: 18px;\n    height: 18px;\n    accent-color: #2563eb;\n    cursor: pointer;\n}\n\n#output {\n    background: #e8f0fe;\n    border-radius: 6px;\n    padding: 15px;\n    text-align: center;\n    color: #1e293b;\n}\n\n#output p {\n    margin: 0;\n    color: #475569;\n    font-size: 14px;\n    font-weight: 600;\n}\n\n#count {\n    display: block;\n    font-size: 28px;\n    font-weight: bold;\n    color: #2563eb;\n    margin-top: 8px;\n}",
+    "solutionJS": "const checkboxes = document.querySelectorAll(\".option\");\nconst countElement = document.getElementById(\"count\");\n\nfunction updateCount() {\n    let checkedCount = 0;\n    checkboxes.forEach(function (checkbox) {\n        if (checkbox.checked) {\n            checkedCount++;\n        }\n    });\n    countElement.textContent = checkedCount;\n}\n\ncheckboxes.forEach(function (checkbox) {\n    checkbox.addEventListener(\"change\", updateCount);\n});\n\nupdateCount();",
+    "solutionExplanation": "### Solution Walkthrough: Interactive Checkbox Counter & Container Styling (Accenture 28th Oct 2026 Shift 1)\n\n1. **Part 1 — HTML Task**:\n   - Inside `.checkbox-group`, add a fourth `<label>` element wrapping an input checkbox with class `option` and label text:\n     ```html\n     <label>\n         <input type=\"checkbox\" class=\"option\">\n         Option 4: Azure DevOps\n     </label>\n     ```\n   - This gives a total of 4 selectable options with uniform class `option`.\n\n2. **Part 2 — CSS Task**:\n   - Set `padding: 15px;` inside the `#output` selector:\n     ```css\n     #output {\n         background: #e8f0fe;\n         border-radius: 6px;\n         padding: 15px;\n         text-align: center;\n     }\n     ```\n   - This gives the output box 15px of inner padding around the label and counter.\n\n3. **Part 3 — JavaScript Task**:\n   - Inside `updateCount()`:\n     - Iterate over `checkboxes` (or query `document.querySelectorAll('.option:checked').length`).\n     - Count how many checkboxes have `checkbox.checked === true`.\n     - Update `#count` via `countElement.textContent = checkedCount`.\n     - Since each checkbox has an event listener for `\"change\"`, any check/uncheck immediately updates the counter.",
     "liveSandbox": true
   },
   {
