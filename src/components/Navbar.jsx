@@ -204,7 +204,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
               </Link>
               <Link to="/sql-assessment" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Database size={14} className="text-orange-400" />
-                <span>SQL Engine Sandbox (30 PYQs)</span>
+                <span>SQL Engine Sandbox (40 PYQs)</span>
               </Link>
               <Link to="/daily-challenge" className="dropdown-link" style={{ padding: '8px 12px', borderRadius: '6px', color: '#f8fafc', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Flame size={14} className="text-orange-500" />
@@ -711,7 +711,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenSearch }) {
                     <span>Frontend Coding (12 Qs)</span>
                   </Link>
                   <Link to="/sql-assessment" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-                    <span>SQL Engine Sandbox (30 PYQs)</span>
+                    <span>SQL Engine Sandbox (40 PYQs)</span>
                   </Link>
                   <Link to="/daily-challenge" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
                     <span>Daily Challenge (+50 XP)</span>

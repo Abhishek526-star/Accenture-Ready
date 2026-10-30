@@ -18,9 +18,12 @@ import {
   Sparkles,
   Code2,
   X,
-  ChevronDown
+  ChevronDown,
+  GitFork
 } from 'lucide-react';
 import { sqlQuestions } from '../data/sqlQuestions.js';
+import { sqlViewSchemas } from '../data/sqlSchemas.js';
+import { sqlAssessmentRules } from '../data/sqlRules.js';
 import { runQueryOnDataset, runAssessmentTests } from '../utils/sqlEngine.js';
 import { sqlStorage } from '../utils/sqlStorage.js';
 import SQLQuestionPanel from '../components/sql/SQLQuestionPanel.jsx';
@@ -28,6 +31,7 @@ import SQLEditor from '../components/sql/SQLEditor.jsx';
 import SQLResultPanel from '../components/sql/SQLResultPanel.jsx';
 import SQLTestResults from '../components/sql/SQLTestResults.jsx';
 import SQLResultsModal from '../components/sql/SQLResultsModal.jsx';
+import SQLSchemaModal from '../components/sql/SQLSchemaModal.jsx';
 import { gamificationService } from '../services/gamificationService.js';
 import { mistakesStorage } from '../services/mistakesStorage.js';
 import { telemetryService } from '../services/telemetryService.js';
@@ -42,6 +46,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
 
   // Guide Modal State
   const [showGuideModal, setShowGuideModal] = useState(false);
+  const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false);
   const [openFnSection, setOpenFnSection] = useState(null);
   const toggleFnSection = (key) => setOpenFnSection(prev => prev === key ? null : key);
   const [examplePopup, setExamplePopup] = useState(null);
@@ -445,6 +450,7 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
             <SQLQuestionPanel
               question={currentQuestion}
               onApplySolution={handleCodeChange}
+              onOpenSchemaModal={() => setIsSchemaModalOpen(true)}
             />
           </div>
         )}
@@ -528,6 +534,17 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
                   </span>
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={() => setIsSchemaModalOpen(true)}
+                className="panel-tab-btn"
+                title="View Database Schema & Interactive ER Diagram"
+                style={{ marginLeft: 'auto', gap: '5px' }}
+              >
+                <GitFork size={13} className="text-amber-400" />
+                <span>View Schema</span>
+              </button>
             </div>
 
             {/* Tab Contents */}
@@ -554,6 +571,18 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
           setIsTimerPaused(false);
         }}
         onRetake={handleRetake}
+      />
+
+      {/* Floating Interactive Database Schema Modal */}
+      <SQLSchemaModal
+        isOpen={isSchemaModalOpen}
+        onClose={() => setIsSchemaModalOpen(false)}
+        schema={
+          currentQuestion.viewSchema ||
+          sqlViewSchemas[currentQuestion.numericId || parseInt(String(currentQuestion.id).replace(/\D+/g, ''), 10)] ||
+          currentQuestion
+        }
+        questionTitle={currentQuestion.title}
       />
 
       {/* Comprehensive Assessment Guide Modal */}
@@ -682,6 +711,35 @@ export default function SQLAssessmentPage({ theme = 'dark' }) {
                 <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#94a3b8', margin: 0 }}>
                   Utilize correlated subqueries and CTEs for modular logic. Deploy analytical window functions like <code style={{ color: '#c084fc' }}>ROW_NUMBER()</code>, <code style={{ color: '#c084fc' }}>RANK()</code>, and <code style={{ color: '#c084fc' }}>DENSE_RANK() OVER (PARTITION BY ... ORDER BY ...)</code>.
                 </p>
+              </div>
+            </div>
+
+            {/* ── Official Assessment Rules (RULE-01 to RULE-10) ── */}
+            <div style={{ marginBottom: '1.75rem', background: '#090e1d', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.9rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <FileCheck2 size={18} style={{ color: '#38bdf8' }} />
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+                    Official Assessment Rules & Guidelines (MySQL 8.0+)
+                  </h3>
+                </div>
+                <span style={{ fontSize: '0.75rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '2px 8px', borderRadius: '6px', fontWeight: 700 }}>
+                  10 Rules
+                </span>
+              </div>
+              <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
+                Strict compliance rules enforced during Accenture technical rounds (Mettl / Wheebox / HackerRank):
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
+                {sqlAssessmentRules.map((r) => (
+                  <div key={r.id} style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(51, 65, 85, 0.6)', borderRadius: '8px', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#38bdf8' }}>{r.id}: {r.title}</span>
+                      <span style={{ fontSize: '0.65rem', color: '#94a3b8', background: 'rgba(30, 41, 59, 0.8)', padding: '1px 6px', borderRadius: '4px' }}>{r.category}</span>
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: '#cbd5e1', lineHeight: 1.5 }}>{r.rule}</div>
+                  </div>
+                ))}
               </div>
             </div>
 

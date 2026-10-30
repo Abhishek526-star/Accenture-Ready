@@ -62,6 +62,47 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
   const handleZoomOut = () => setZoomLevel((prev) => Math.max(0.6, Math.round((prev - 0.1) * 10) / 10));
   const handleResetZoom = () => setZoomLevel(1);
 
+  // Check if schema has pre-oriented coordinates (Questions 31 to 40)
+  const isOrientedLayout = useMemo(() => {
+    if (!schema) return false;
+    const rawTables =
+      schema.tables ||
+      (schema.viewSchema && schema.viewSchema.tables) ||
+      (Array.isArray(schema) ? schema : []);
+    const hasCoordinates = Array.isArray(rawTables) && rawTables.length > 0 && typeof rawTables[0].x === 'number';
+    return Boolean(hasCoordinates || (schema.canvas && schema.connectionLines));
+  }, [schema]);
+
+  const canvasWidth = useMemo(() => {
+    return (schema?.canvas && schema.canvas.width) || 1380;
+  }, [schema]);
+
+  const canvasHeight = useMemo(() => {
+    return (schema?.canvas && schema.canvas.height) || 750;
+  }, [schema]);
+
+  // Precomputed Oriented Connections (Questions 31-40)
+  const orientedConnections = useMemo(() => {
+    if (!schema?.connectionLines) return [];
+    return schema.connectionLines.map((line, idx) => {
+      const colorIndex = idx % RELATIONSHIP_PALETTES.length;
+      return {
+        id: line.constraintName || `conn-${idx}`,
+        constraintName: line.constraintName || `fk_${idx + 1}`,
+        sourceTable: line.sourceTable,
+        sourceColumn: line.sourceColumn,
+        targetTable: line.targetTable,
+        targetColumn: line.targetColumn,
+        pathData: line.geometry?.pathData || '',
+        startPoint: line.geometry?.startPoint || { x: 0, y: 0 },
+        endPoint: line.geometry?.endPoint || { x: 0, y: 0 },
+        labelPosition: line.geometry?.labelPosition || null,
+        colorIndex,
+        palette: RELATIONSHIP_PALETTES[colorIndex]
+      };
+    });
+  }, [schema]);
+
   // 1. Normalize schema into consistent tables and columns structure
   const normalizedTables = useMemo(() => {
     if (!schema) return [];
@@ -82,13 +123,15 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
           return {
             name: c,
             type: inferDataType(c),
-            primaryKey: idx === 0 && (c.toUpperCase().endsWith('_ID') || c.toUpperCase() === 'ID' || c.toUpperCase() === 'TRANSNO' || c.toUpperCase() === `${tableName.toUpperCase()}_ID`)
+            primaryKey: idx === 0 && (c.toUpperCase().endsWith('_ID') || c.toUpperCase() === 'ID' || c.toUpperCase() === 'TRANSNO' || c.toUpperCase() === `${tableName.toUpperCase()}_ID`),
+            foreignKey: null
           };
         }
         return {
           name: c.name || String(c),
           type: c.type || inferDataType(c.name),
-          primaryKey: Boolean(c.primaryKey || c.isPk)
+          primaryKey: Boolean(c.primaryKey || c.isPk || c.pk),
+          foreignKey: c.foreignKey || c.fk || null
         };
       });
 
@@ -111,6 +154,11 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
 
       return {
         name: tableName,
+        label: t.label || tableName,
+        x: typeof t.x === 'number' ? t.x : undefined,
+        y: typeof t.y === 'number' ? t.y : undefined,
+        width: typeof t.width === 'number' ? t.width : 220,
+        height: typeof t.height === 'number' ? t.height : undefined,
         columns
       };
     });
@@ -119,9 +167,8 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
   // 2. Discover Foreign Keys and Entity-Relationships
   const { relationships, tableDataWithKeys } = useMemo(() => {
     const rels = [];
-    const pkMap = new Map(); // colNameUpper -> tableName
+    const pkMap = new Map();
 
-    // Register all Primary Keys
     normalizedTables.forEach((t) => {
       t.columns.forEach((col) => {
         if (col.primaryKey) {
@@ -130,20 +177,17 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       });
     });
 
-    // Tag foreign keys on tables and construct relationships
     const enrichedTables = normalizedTables.map((t) => {
       const enrichedCols = t.columns.map((col) => {
         const colUpper = col.name.toUpperCase();
-        let isFk = false;
-        let refTable = null;
+        let isFk = Boolean(col.foreignKey);
+        let refTable = typeof col.foreignKey === 'string' ? col.foreignKey.split('.')[0] : null;
 
-        // An FK is a non-PK column that matches another table's PK or follows table_id pattern
-        if (!col.primaryKey) {
+        if (!col.primaryKey && !isFk) {
           if (pkMap.has(colUpper) && pkMap.get(colUpper) !== t.name) {
             isFk = true;
             refTable = pkMap.get(colUpper);
           } else {
-            // Check if column name contains another table's name (e.g. driver_id -> driver)
             for (const otherTable of normalizedTables) {
               if (otherTable.name !== t.name) {
                 const otherPk = otherTable.columns.find((c) => c.primaryKey);
@@ -190,12 +234,19 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
     };
   }, [normalizedTables]);
 
-  // 3. Hub-and-Spoke 3-Column Layout Partitioning (Left Spoke, Center Hub, Right Spoke)
+  // 3. Hub-and-Spoke Layout Assignment (For legacy Questions 1 to 30)
   const { leftTables, centerTables, rightTables } = useMemo(() => {
-    const count = tableDataWithKeys.length;
-    if (count === 0) return { leftTables: [], centerTables: [], rightTables: [] };
-    if (count === 1) return { leftTables: [], centerTables: tableDataWithKeys, rightTables: [] };
-    if (count === 2) {
+    if (isOrientedLayout) {
+      return { leftTables: [], centerTables: [], rightTables: [] };
+    }
+
+    if (tableDataWithKeys.length === 0) {
+      return { leftTables: [], centerTables: [], rightTables: [] };
+    }
+    if (tableDataWithKeys.length === 1) {
+      return { leftTables: [], centerTables: [tableDataWithKeys[0]], rightTables: [] };
+    }
+    if (tableDataWithKeys.length === 2) {
       return {
         leftTables: [tableDataWithKeys[0]],
         centerTables: [],
@@ -203,7 +254,6 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       };
     }
 
-    // Calculate connectivity score for each table
     const scores = new Map();
     tableDataWithKeys.forEach((t) => scores.set(t.name, { degree: 0, outgoing: 0 }));
 
@@ -219,7 +269,6 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       }
     });
 
-    // Sort tables to find primary hub table (most relationships / joins)
     const sorted = [...tableDataWithKeys].sort((a, b) => {
       const sa = scores.get(a.name) || { degree: 0, outgoing: 0 };
       const sb = scores.get(b.name) || { degree: 0, outgoing: 0 };
@@ -229,8 +278,6 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
 
     const hubTable = sorted[0];
     const spokes = sorted.slice(1);
-
-    // Distribute spokes evenly into left and right wings
     const half = Math.ceil(spokes.length / 2);
     const left = spokes.slice(0, half);
     const right = spokes.slice(half);
@@ -240,12 +287,12 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       centerTables: [hubTable],
       rightTables: right
     };
-  }, [tableDataWithKeys, relationships]);
+  }, [tableDataWithKeys, relationships, isOrientedLayout]);
 
-  // 4. Calculate accurate SVG Bézier connection coordinates (scaled for zoom)
+  // 4. Calculate SVG Bézier connection coordinates for legacy Hub-and-Spoke layout
   const calculateConnections = useCallback(() => {
-    if (!canvasRef.current || relationships.length === 0) {
-      setConnections([]);
+    if (isOrientedLayout || !canvasRef.current || relationships.length === 0) {
+      if (!isOrientedLayout) setConnections([]);
       return;
     }
 
@@ -266,14 +313,12 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       const fromCardRect = fromCard.getBoundingClientRect();
       const toCardRect = toCard.getBoundingClientRect();
 
-      // Relative coordinates inside canvas, divided by scale factor so SVG coordinates match local space
       const fromCenterY = (fromRect.top + fromRect.height / 2 - canvasRect.top) / scale;
       const toCenterY = (toRect.top + toRect.height / 2 - canvasRect.top) / scale;
 
       let x1, x2;
       let isExitRight, isEnterRight;
 
-      // Determine exit and entry sides based on relative card positions
       const fromCardLeft = (fromCardRect.left - canvasRect.left) / scale;
       const fromCardRight = (fromCardRect.right - canvasRect.left) / scale;
       const toCardLeft = (toCardRect.left - canvasRect.left) / scale;
@@ -282,19 +327,16 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       const isSameColumn = Math.abs(fromCardLeft - toCardLeft) < 35;
 
       if (isSameColumn) {
-        // Stacked in the same column: loop around the right side with a generous arc
         x1 = fromCardRight;
         x2 = toCardRight;
         isExitRight = true;
         isEnterRight = true;
       } else if (fromCardLeft < toCardLeft) {
-        // Source is to the left of Target: exit right -> enter left
         x1 = fromCardRight;
         x2 = toCardLeft;
         isExitRight = true;
         isEnterRight = false;
       } else {
-        // Source is to the right of Target: exit left -> enter right
         x1 = fromCardLeft;
         x2 = toCardRight;
         isExitRight = false;
@@ -303,23 +345,20 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
 
       const y1 = fromCenterY;
       const y2 = toCenterY;
-
-      // Calculate cubic Bézier control points in the open channels between columns
-      const dx = Math.abs(x2 - x1);
-      const dy = Math.abs(y2 - y1);
-      
-      let curvature;
-      if (isSameColumn) {
-        curvature = Math.max(40, Math.min(dy * 0.35, 80));
-      } else {
-        curvature = Math.max(dx * 0.45, Math.min(dy * 0.25, 70), 50);
-      }
-
-      const cx1 = isExitRight ? x1 + curvature : x1 - curvature;
-      const cx2 = isEnterRight ? x2 + curvature : x2 - curvature;
-
-      const pathData = `M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}`;
       const colorIndex = idx % RELATIONSHIP_PALETTES.length;
+
+      let pathData;
+      if (isSameColumn) {
+        const loopOut = 45;
+        const cpX = Math.max(x1, x2) + loopOut;
+        pathData = `M ${x1} ${y1} C ${cpX} ${y1}, ${cpX} ${y2}, ${x2} ${y2}`;
+      } else {
+        const dx = Math.abs(x2 - x1);
+        const curveOffset = Math.max(40, dx * 0.45);
+        const cp1x = isExitRight ? x1 + curveOffset : x1 - curveOffset;
+        const cp2x = isEnterRight ? x2 + curveOffset : x2 - curveOffset;
+        pathData = `M ${x1} ${y1} C ${cp1x} ${y1}, ${cp2x} ${y2}, ${x2} ${y2}`;
+      }
 
       newConns.push({
         id: rel.id,
@@ -335,50 +374,68 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
     });
 
     setConnections(newConns);
-  }, [relationships, zoomLevel]);
+  }, [relationships, zoomLevel, isOrientedLayout]);
 
-  // Recalculate positions on mount, window resize, and layout changes
   useEffect(() => {
-    calculateConnections();
-    const timer = setTimeout(calculateConnections, 60);
+    if (!isOrientedLayout) {
+      calculateConnections();
+      const timer = setTimeout(calculateConnections, 60);
 
-    let resizeObserver = null;
-    if (window.ResizeObserver && canvasRef.current) {
-      resizeObserver = new ResizeObserver(() => {
-        calculateConnections();
-      });
-      resizeObserver.observe(canvasRef.current);
+      let resizeObserver = null;
+      if (window.ResizeObserver && canvasRef.current) {
+        resizeObserver = new ResizeObserver(() => {
+          calculateConnections();
+        });
+        resizeObserver.observe(canvasRef.current);
+      }
+
+      window.addEventListener('resize', calculateConnections);
+
+      return () => {
+        clearTimeout(timer);
+        if (resizeObserver) resizeObserver.disconnect();
+        window.removeEventListener('resize', calculateConnections);
+      };
     }
-
-    window.addEventListener('resize', calculateConnections);
-
-    return () => {
-      clearTimeout(timer);
-      if (resizeObserver) resizeObserver.disconnect();
-      window.removeEventListener('resize', calculateConnections);
-    };
-  }, [calculateConnections]);
+  }, [calculateConnections, isOrientedLayout]);
 
   if (tableDataWithKeys.length === 0) {
     return null;
   }
 
-  // Reusable Table Card Renderer
-  const renderTableCard = (table, isCenterHub = false) => {
+  // Reusable Table Card Renderer with Q30 Dark Modern Styling
+  const renderTableCard = (table, isCenterHub = false, isOriented = false) => {
     const isCardActive =
       activeTable === table.name ||
       (activeRel &&
-        (activeRel.startsWith(`${table.name}.`) || activeRel.includes(`->${table.name}.`)));
+        (activeRel.startsWith(`${table.name}.`) ||
+          activeRel.includes(`->${table.name}.`) ||
+          (orientedConnections &&
+            orientedConnections.some(
+              (c) =>
+                c.id === activeRel &&
+                (c.sourceTable === table.name || c.targetTable === table.name)
+            ))));
+
+    const cardStyle = isOriented && typeof table.x === 'number'
+      ? {
+          position: 'absolute',
+          left: `${table.x}px`,
+          top: `${table.y}px`,
+          width: `${table.width || 220}px`
+        }
+      : {};
 
     return (
       <div
         key={table.name}
         data-table-card={table.name}
-        className={`er-table-card ${isCardActive ? 'active-card' : ''} ${isCenterHub ? 'hub-card' : ''}`}
+        className={`er-table-card ${isCardActive ? 'active-card' : ''} ${isCenterHub ? 'hub-card' : ''} ${isOriented ? 'oriented-card' : ''}`}
+        style={cardStyle}
         onMouseEnter={() => setActiveTable(table.name)}
         onMouseLeave={() => setActiveTable(null)}
       >
-        {/* Tan/Orange Header with Bold White Name */}
+        {/* Rich Amber/Orange Header with Bold White Name and [table] tag */}
         <div className={`er-table-header ${isCenterHub ? 'hub-header' : ''}`}>
           <div className="er-header-left">
             <Database size={13} className="er-table-icon" />
@@ -386,7 +443,7 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
               {table.name}
             </span>
           </div>
-          <span className="er-col-count-badge">{table.columns.length} cols</span>
+          <span className="er-table-tag">[table]</span>
         </div>
 
         {/* Columns List */}
@@ -395,7 +452,15 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
             const colKey = `${table.name}.${col.name}`;
             const isColHighlighted =
               activeRel &&
-              (activeRel.startsWith(`${colKey}->`) || activeRel.endsWith(`->${colKey}`));
+              (activeRel.startsWith(`${colKey}->`) ||
+                activeRel.endsWith(`->${colKey}`) ||
+                (orientedConnections &&
+                  orientedConnections.some(
+                    (c) =>
+                      c.id === activeRel &&
+                      ((c.sourceTable === table.name && c.sourceColumn === col.name) ||
+                        (c.targetTable === table.name && c.targetColumn === col.name))
+                  )));
 
             return (
               <div
@@ -403,12 +468,21 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
                 data-col-key={colKey}
                 className={`er-col-row ${isColHighlighted ? 'highlighted-col' : ''}`}
                 onMouseEnter={() => {
-                  const matchingRel = relationships.find(
-                    (r) =>
-                      (r.fromTable === table.name && r.fromColumn === col.name) ||
-                      (r.toTable === table.name && r.toColumn === col.name)
-                  );
-                  if (matchingRel) setActiveRel(matchingRel.id);
+                  if (isOrientedLayout) {
+                    const matching = orientedConnections.find(
+                      (c) =>
+                        (c.sourceTable === table.name && c.sourceColumn === col.name) ||
+                        (c.targetTable === table.name && c.targetColumn === col.name)
+                    );
+                    if (matching) setActiveRel(matching.id);
+                  } else {
+                    const matchingRel = relationships.find(
+                      (r) =>
+                        (r.fromTable === table.name && r.fromColumn === col.name) ||
+                        (r.toTable === table.name && r.toColumn === col.name)
+                    );
+                    if (matchingRel) setActiveRel(matchingRel.id);
+                  }
                 }}
                 onMouseLeave={() => setActiveRel(null)}
               >
@@ -419,7 +493,7 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
                     </span>
                   )}
                   {col.foreignKey && (
-                    <span className="er-fk-pill" title={`Foreign Key -> ${col.referencedTable}`}>
+                    <span className="er-fk-pill" title={`Foreign Key -> ${col.referencedTable || ''}`}>
                       <Link2 size={10} /> FK
                     </span>
                   )}
@@ -431,7 +505,7 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
                   </span>
                 </div>
 
-                <span className="er-type-pill">{col.type}</span>
+                <span className="er-col-type">{col.type}</span>
               </div>
             );
           })}
@@ -439,6 +513,8 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
       </div>
     );
   };
+
+  const totalRelCount = isOrientedLayout ? orientedConnections.length : relationships.length;
 
   return (
     <div className="er-diagram-container">
@@ -487,7 +563,7 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
           <div className="er-diagram-stats">
             <span className="er-stat-pill accent">{tableDataWithKeys.length} Tables</span>
             <span className="er-stat-pill">
-              {relationships.length} {relationships.length === 1 ? 'Relationship' : 'Relationships'}
+              {totalRelCount} {totalRelCount === 1 ? 'Relationship' : 'Relationships'}
             </span>
           </div>
         </div>
@@ -499,100 +575,199 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
           className="er-diagram-zoom-stage"
           style={{
             transform: `scale(${zoomLevel})`,
-            transformOrigin: 'top center',
+            transformOrigin: 'top left',
             transition: 'transform 0.15s ease'
           }}
         >
-          {/* Main Canvas containing Hub-and-Spoke Columns and SVG Overlay */}
-          <div ref={canvasRef} className="er-diagram-canvas er-hub-canvas">
-            {/* SVG Overlay for Connections (elevated at z-index: 10) */}
-            <svg className="er-svg-overlay">
-              <defs>
-                <linearGradient id="erGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="100%" stopColor="#818cf8" />
-                </linearGradient>
-
-                {RELATIONSHIP_PALETTES.map((pal, idx) => (
-                  <linearGradient key={idx} id={`erGradPalette${idx}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor={pal.gradStart} />
-                    <stop offset="100%" stopColor={pal.gradEnd} />
+          {isOrientedLayout ? (
+            /* Oriented Absolute Coordinate Canvas (Questions 31 to 40) */
+            <div
+              ref={canvasRef}
+              className="er-diagram-canvas er-oriented-canvas"
+              style={{
+                width: `${canvasWidth}px`,
+                height: `${canvasHeight}px`,
+                minWidth: `${canvasWidth}px`,
+                minHeight: `${canvasHeight}px`,
+                position: 'relative'
+              }}
+            >
+              {/* SVG Overlay for Connections (elevated at z-index: 10) */}
+              <svg
+                className="er-svg-overlay"
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  width: `${canvasWidth}px`,
+                  height: `${canvasHeight}px`,
+                  overflow: 'visible',
+                  pointerEvents: 'none',
+                  zIndex: 10
+                }}
+              >
+                <defs>
+                  <linearGradient id="erGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#38bdf8" />
+                    <stop offset="100%" stopColor="#818cf8" />
                   </linearGradient>
-                ))}
-              </defs>
 
-              {connections.map((conn) => {
-                const isHighlighted =
-                  activeRel === conn.id ||
-                  activeTable === conn.rel.fromTable ||
-                  activeTable === conn.rel.toTable;
+                  {RELATIONSHIP_PALETTES.map((pal, idx) => (
+                    <linearGradient key={idx} id={`erGradPalette${idx}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={pal.gradStart} />
+                      <stop offset="100%" stopColor={pal.gradEnd} />
+                    </linearGradient>
+                  ))}
+                </defs>
 
-                const strokeUrl = isHighlighted
-                  ? 'url(#erGradientActive)'
-                  : `url(#erGradPalette${conn.colorIndex})`;
+                {orientedConnections.map((conn, idx) => {
+                  const isHighlighted =
+                    activeRel === conn.id ||
+                    activeTable === conn.sourceTable ||
+                    activeTable === conn.targetTable;
 
-                const dotColor = isHighlighted ? '#38bdf8' : conn.palette.dot;
+                  const strokeUrl = isHighlighted
+                    ? 'url(#erGradientActive)'
+                    : `url(#erGradPalette${conn.colorIndex})`;
 
-                return (
-                  <g
-                    key={conn.id}
-                    className="er-connection-group"
-                    onMouseEnter={() => setActiveRel(conn.id)}
-                    onMouseLeave={() => setActiveRel(null)}
-                  >
-                    {/* Visual curved path */}
-                    <path
-                      d={conn.pathData}
-                      className={`er-rel-path ${isHighlighted ? 'highlighted' : ''}`}
-                      stroke={strokeUrl}
-                    />
+                  const dotColor = isHighlighted ? '#38bdf8' : conn.palette.dot;
 
-                    {/* Source Dot (FK Column) */}
-                    <circle
-                      cx={conn.x1}
-                      cy={conn.y1}
-                      r={isHighlighted ? 4.8 : 3.6}
-                      fill={dotColor}
-                      className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
-                    />
+                  return (
+                    <g
+                      key={conn.id || idx}
+                      className={`er-connection-group ${isHighlighted ? 'highlighted' : ''}`}
+                      style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                      onMouseEnter={() => setActiveRel(conn.id)}
+                      onMouseLeave={() => setActiveRel(null)}
+                    >
+                      {/* Visual Curved Bézier Spline Wire */}
+                      <path
+                        d={conn.pathData}
+                        className={`er-rel-path ${isHighlighted ? 'highlighted' : ''}`}
+                        stroke={strokeUrl}
+                      />
 
-                    {/* Target Dot (PK Column) */}
-                    <circle
-                      cx={conn.x2}
-                      cy={conn.y2}
-                      r={isHighlighted ? 4.8 : 3.6}
-                      fill={dotColor}
-                      className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
+                      {/* Source Circular Port Ring o */}
+                      <circle
+                        cx={conn.startPoint.x}
+                        cy={conn.startPoint.y}
+                        r={isHighlighted ? 4.8 : 3.6}
+                        fill="#090e1a"
+                        stroke={dotColor}
+                        strokeWidth={2}
+                        className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
+                      />
 
-            {/* Hub-and-Spoke 3-Column Layout Container */}
-            <div className="er-hub-layout">
-              {/* Left Column (Spokes) */}
-              {leftTables.length > 0 && (
-                <div className="er-hub-column er-column-left">
-                  {leftTables.map((t) => renderTableCard(t, false))}
-                </div>
-              )}
+                      {/* Target Circular Port Ring o */}
+                      <circle
+                        cx={conn.endPoint.x}
+                        cy={conn.endPoint.y}
+                        r={isHighlighted ? 4.8 : 3.6}
+                        fill="#090e1a"
+                        stroke={dotColor}
+                        strokeWidth={2}
+                        className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
+                      />
 
-              {/* Center Column (Hub Table) */}
-              {centerTables.length > 0 && (
-                <div className="er-hub-column er-column-center">
-                  {centerTables.map((t) => renderTableCard(t, true))}
-                </div>
-              )}
+                      {/* Elevated Constraint Label */}
+                      {conn.labelPosition && (
+                        <text
+                          x={conn.labelPosition.x}
+                          y={conn.labelPosition.y}
+                          textAnchor={conn.labelPosition.anchor || 'middle'}
+                          className="er-constraint-label"
+                        >
+                          {conn.constraintName}
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+              </svg>
 
-              {/* Right Column (Spokes) */}
-              {rightTables.length > 0 && (
-                <div className="er-hub-column er-column-right">
-                  {rightTables.map((t) => renderTableCard(t, false))}
-                </div>
-              )}
+              {/* Absolute Positioned Table Cards */}
+              {tableDataWithKeys.map((table) => renderTableCard(table, false, true))}
             </div>
-          </div>
+          ) : (
+            /* Hub-and-Spoke 3-Column Layout (Legacy Questions 1 to 30) */
+            <div ref={canvasRef} className="er-diagram-canvas er-hub-canvas">
+              <svg className="er-svg-overlay">
+                <defs>
+                  <linearGradient id="erGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#38bdf8" />
+                    <stop offset="100%" stopColor="#818cf8" />
+                  </linearGradient>
+
+                  {RELATIONSHIP_PALETTES.map((pal, idx) => (
+                    <linearGradient key={idx} id={`erGradPalette${idx}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={pal.gradStart} />
+                      <stop offset="100%" stopColor={pal.gradEnd} />
+                    </linearGradient>
+                  ))}
+                </defs>
+
+                {connections.map((conn) => {
+                  const isHighlighted =
+                    activeRel === conn.id ||
+                    activeTable === conn.rel.fromTable ||
+                    activeTable === conn.rel.toTable;
+
+                  const strokeUrl = isHighlighted
+                    ? 'url(#erGradientActive)'
+                    : `url(#erGradPalette${conn.colorIndex})`;
+
+                  const dotColor = isHighlighted ? '#38bdf8' : conn.palette.dot;
+
+                  return (
+                    <g
+                      key={conn.id}
+                      className="er-connection-group"
+                      onMouseEnter={() => setActiveRel(conn.id)}
+                      onMouseLeave={() => setActiveRel(null)}
+                    >
+                      <path
+                        d={conn.pathData}
+                        className={`er-rel-path ${isHighlighted ? 'highlighted' : ''}`}
+                        stroke={strokeUrl}
+                      />
+                      <circle
+                        cx={conn.x1}
+                        cy={conn.y1}
+                        r={isHighlighted ? 4.8 : 3.6}
+                        fill={dotColor}
+                        className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
+                      />
+                      <circle
+                        cx={conn.x2}
+                        cy={conn.y2}
+                        r={isHighlighted ? 4.8 : 3.6}
+                        fill={dotColor}
+                        className={`er-rel-dot ${isHighlighted ? 'highlighted' : ''}`}
+                      />
+                    </g>
+                  );
+                })}
+              </svg>
+
+              <div className="er-hub-layout">
+                {leftTables.length > 0 && (
+                  <div className="er-hub-column er-column-left">
+                    {leftTables.map((t) => renderTableCard(t, false, false))}
+                  </div>
+                )}
+                {centerTables.length > 0 && (
+                  <div className="er-hub-column er-column-center">
+                    {centerTables.map((t) => renderTableCard(t, true, false))}
+                  </div>
+                )}
+                {rightTables.length > 0 && (
+                  <div className="er-hub-column er-column-right">
+                    {rightTables.map((t) => renderTableCard(t, false, false))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -616,10 +791,9 @@ export default function DatabaseERDiagram({ schema, title = 'Database Schema (ER
         </div>
         <div className="er-legend-item" style={{ marginLeft: 'auto', color: '#64748b' }}>
           <Sparkles size={12} className="text-amber-400" />
-          <span>Hub-and-Spoke schema view &bull; Hover to highlight</span>
+          <span>Hover to highlight &bull; Zoom and scroll to inspect</span>
         </div>
       </div>
     </div>
   );
 }
-

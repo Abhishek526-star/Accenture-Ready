@@ -7,8 +7,9 @@ import SQLSchemaModal from './SQLSchemaModal.jsx';
 import SqlRichText from './SqlRichText.jsx';
 import { sqlViewSchemas } from '../../data/sqlSchemas.js';
 import { parseProblemStatement, formatInlineMarkdown } from '../../utils/sqlMarkdown.js';
+import './SQLModernPanel.css';
 
-export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolution }) {
+export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolution, onOpenSchemaModal }) {
   const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false);
 
   if (!question) return null;
@@ -39,6 +40,143 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
     }
   };
 
+  const handleOpenSchemaModal = () => {
+    setIsSchemaModalOpen(true);
+    if (onOpenSchemaModal) {
+      onOpenSchemaModal();
+    }
+  };
+
+  // Modern Accenture Questions (31-40): Focused Image 1 layout with Q30 dark theme styling
+  const isModernAccenture = Boolean(
+    question.numericId >= 31 ||
+    question.connectionLines ||
+    question.diagramTables ||
+    (question.concepts && question.concepts.length > 0 && question.numericId > 30)
+  );
+
+  const renderHighlightedStatement = (text) => {
+    if (!text) return null;
+    const parts = [];
+    const regex = /'([^']+)'/g;
+    let lastIndex = 0;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index));
+      }
+      parts.push(
+        <span key={match.index} className="sql-literal-pill">
+          '{match[1]}'
+        </span>
+      );
+      lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+    return parts;
+  };
+
+  if (isModernAccenture) {
+    const rawStatement = question.statement || question.howToAttempt || question.problem || '';
+    const cleanStmt = rawStatement.replace(/^Write an SQL query to display:\s*/i, '');
+
+    return (
+      <div className="sql-question-panel sql-modern-panel">
+        {/* Domain & Difficulty Header */}
+        <div className="sql-modern-header">
+          <div className="sql-domain-kicker">
+            <Database size={15} />
+            <span>{question.domain ? question.domain.toUpperCase() : 'AEROGLOBAL AIRWAYS'}</span>
+          </div>
+          <div>{getDifficultyBadge(question.difficulty)}</div>
+        </div>
+
+        {/* Heading: How to Attempt? */}
+        <h2 className="sql-how-to-attempt-title">How to Attempt?</h2>
+
+        {/* Lead-in */}
+        <div className="sql-lead-in">Write an SQL query to display:</div>
+
+        {/* Statement with Quoted Literals Highlighted in Gold Pills */}
+        <div className="sql-modern-statement">
+          {renderHighlightedStatement(cleanStmt)}
+        </div>
+
+        {/* Boxed Output Column Section */}
+        {question.expectedColumns && question.expectedColumns.length > 0 && (
+          <div className="sql-output-columns-section">
+            <div className="sql-output-requirement-label">
+              Your output should have column as given below.
+            </div>
+            <div className="sql-boxed-output-table">
+              {question.expectedColumns.map((col, idx) => (
+                <div key={idx} className="sql-boxed-output-cell">
+                  {String(col).toUpperCase()}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Schema Directive Callout Box with View Schema Button */}
+        <div className="sql-schema-directive-box">
+          <div className="sql-schema-directive-content">
+            <Info size={16} className="sql-directive-info-icon" />
+            <p className="sql-directive-text">
+              You can view the database schema by clicking the <strong>View Schema</strong> tab at the bottom of the query window on the right-hand side of the screen.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleOpenSchemaModal}
+            className="sql-btn-view-schema"
+            title="Click to view database schema & ER diagram"
+          >
+            <GitFork size={13} />
+            <span>View Schema</span>
+          </button>
+        </div>
+
+        {/* CONCEPTS TESTED Section */}
+        {question.concepts && question.concepts.length > 0 && (
+          <div className="sql-concepts-section">
+            <div className="sql-concepts-title">CONCEPTS TESTED</div>
+            <div className="sql-concepts-pills-row">
+              {question.concepts.map((concept, idx) => (
+                <span key={idx} className="sql-concept-pill">
+                  {concept}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Solution Viewer Section */}
+        {question.solution && (
+          <div style={{ marginTop: '0.5rem' }}>
+            <SQLSolutionViewer
+              question={question}
+              onLoadSolution={onLoadSolution || onApplySolution}
+            />
+          </div>
+        )}
+
+        {/* Interactive Floating ER Diagram Modal */}
+        {effectiveSchema && (
+          <SQLSchemaModal
+            isOpen={isSchemaModalOpen}
+            onClose={() => setIsSchemaModalOpen(false)}
+            schema={effectiveSchema}
+            questionTitle={question.title}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Legacy Questions (1 to 30): Complete backwards compatibility
   return (
     <div className="sql-question-panel">
       {/* Header Info */}
@@ -188,7 +326,7 @@ export default function SQLQuestionPanel({ question, onApplySolution, onLoadSolu
               {/* View Schema Button: opens floating iFrame-style ER Diagram window */}
               <button
                 type="button"
-                onClick={() => setIsSchemaModalOpen(true)}
+                onClick={handleOpenSchemaModal}
                 className="btn btn-sm btn-outline"
                 style={{
                   display: 'inline-flex',

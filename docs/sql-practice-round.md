@@ -1,6 +1,6 @@
 # Accenture SQL Assessment Round — Practice Question Bank
 
-> **Extracted from:** `src/data/sqlQuestions.js` (30 questions, 90 test cases) + `src/data/sqlSchemas.js`
+> **Extracted from:** `src/data/sqlQuestions.js` (40 questions, 120 test cases) + `src/data/sqlSchemas.js` + `src/data/sqlRules.js`
 
 ---
 
@@ -38,17 +38,28 @@
 | 28 | `sql-028` | Highly rated drivers with non-cancelled bookings | Hard | 15 | JOINS & RELATIONAL QUERIES | driver, vehicle, booking |
 | 29 | `sql-029` | Count viewers sharing the same name | Medium | 15 | AGGREGATION & GROUPING | viewer |
 | 30 | `sql-030` | Contacts whose job title contains Engineer | Hard | 15 | JOINS & RELATIONAL QUERIES | users, contacts, jobs |
+| 31 | `sql-031` | Flight passenger meal preferences | Easy | 15 | MULTI-TABLE JOIN & FILTERING | passenger, booking, flight, airport, meal_preference |
+| 32 | `sql-032` | Student course registration & schedules | Easy | 15 | MULTI-TABLE RELATIONAL JOINS | student, registration, section, course, schedule, instructor |
+| 33 | `sql-033` | Customer transaction totals | Medium | 18 | AGGREGATION & HAVING FILTERING | customers, accounts, transactions |
+| 34 | `sql-034` | Project staffing workload | Medium | 20 | GROUP BY & DISTINCT AGGREGATION | employees, departments, assignments, projects |
+| 35 | `sql-035` | Department salary comparison | Medium | 20 | SUBQUERIES & ANALYTICAL WINDOWING | employees |
+| 36 | `sql-036` | Category-wise sales performance | Medium | 20 | FINANCIAL CALCULATIONS & PAGINATION | categories, products, order_items, orders |
+| 37 | `sql-037` | Subscriber billing patterns | Medium | 20 | STRING PREDICATES & BILLING AGGREGATION | customers, subscriptions, plans, invoices |
+| 38 | `sql-038` | Top customers within each city | Hard | 25 | DENSE RANKING & WINDOW PARTITIONS | cities, customers, orders, order_items |
+| 39 | `sql-039` | Invoice payment reconciliation | Hard | 25 | RECONCILIATION & NULL-SAFE AGGREGATION | invoices, invoice_items, payment_allocations, payments |
+| 40 | `sql-040` | Mandatory training coverage | Hard | 25 | RELATIONAL DIVISION & CURRICULUM COVERAGE | employees, departments, enrollments, courses |
 
-**Difficulty distribution:** Easy = 8 | Medium = 11 | Hard = 11
+**Difficulty distribution:** Easy = 10 | Medium = 16 | Hard = 14 (Total = 40 Questions, 120 Test Cases)
 
 **Category distribution:**
 
 | Category | Questions |
 |----------|-----------|
 | FILTERING & PREDICATES | 6 |
-| JOINS & RELATIONAL QUERIES | 17 |
-| PATTERN MATCHING & STRINGS | 3 |
-| AGGREGATION & GROUPING | 4 |
+| JOINS & RELATIONAL QUERIES | 19 |
+| PATTERN MATCHING & STRINGS | 4 |
+| AGGREGATION & GROUPING | 7 |
+| SUBQUERIES, WINDOWING & ANALYTICAL | 4 |
 
 ---
 

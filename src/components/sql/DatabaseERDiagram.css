@@ -2,7 +2,7 @@
 
 .er-diagram-container {
   width: 100%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(234, 88, 12, 0.08), transparent 75%), #090e1a;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.09) 1.2px, transparent 1.2px) 0 0 / 22px 22px, #090e1a;
   border: 1px solid rgba(249, 115, 22, 0.25);
   border-radius: 12px;
   padding: 0.75rem 1rem 1.25rem 1rem;
@@ -451,4 +451,71 @@
   border-radius: 2px;
   display: inline-block;
   box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+}
+
+/* ==========================================================================
+   Oriented Schema Canvas for Accenture Questions 31–40 (Matching Image 2 Orientation with Q30 Styling)
+   ========================================================================== */
+
+.er-oriented-canvas {
+  position: relative;
+  min-width: 1380px;
+  min-height: 750px;
+}
+
+.er-table-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-style: italic;
+  font-weight: 600;
+  color: #fef08a;
+  opacity: 0.88;
+  letter-spacing: 0.3px;
+}
+
+.er-col-type {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+/* Elevated Constraint Label Badge (e.g. section_ibfk_1) */
+.er-constraint-label {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-size: 10px;
+  font-weight: 700;
+  fill: #e2e8f0;
+  paint-order: stroke fill;
+  stroke: #090e1a;
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  user-select: none;
+  pointer-events: none;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.er-connection-group:hover .er-constraint-label,
+.er-connection-group.highlighted .er-constraint-label {
+  fill: #38bdf8;
+  stroke: #032b45;
+}
+
+.er-table-card.oriented-card {
+  z-index: 5;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+.er-table-card.oriented-card:hover {
+  z-index: 12;
+  border-color: rgba(249, 115, 22, 0.7);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.85), 0 0 16px rgba(245, 158, 11, 0.3);
+}
+
+.er-table-card.oriented-card.active-card {
+  z-index: 15;
+  border-color: #38bdf8;
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.4);
 }
