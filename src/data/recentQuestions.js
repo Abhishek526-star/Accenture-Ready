@@ -2200,7 +2200,7 @@ export const recentQuestions = [
   {
     "id": "recent-dsa-025",
     "track": "dsa",
-    "dateTag": "22nd Oct Shift 1",
+    "dateTag": "22nd Oct 2026 Shift 1",
     "examDate": "2026-10-22",
     "shift": "Shift 1",
     "title": "Find the Maximum Element at Prime Positions",
@@ -2279,7 +2279,7 @@ export const recentQuestions = [
   {
     "id": "recent-dsa-026",
     "track": "dsa",
-    "dateTag": "28th Oct Shift 1",
+    "dateTag": "28th Oct 2026 Shift 1",
     "examDate": "2026-10-28",
     "shift": "Shift 1 (On-Campus)",
     "title": "String ASCII Modulo 26 Transformation",
@@ -2345,6 +2345,88 @@ export const recentQuestions = [
       "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nstring transformString(string s) {\n    string sb = \"\";\n    for (char ch : s) {\n        if (ch == ' ') {\n            sb += ' ';\n        } else {\n            int rem = ((int) ch) % 26;\n            if (rem == 0) {\n                rem = 26;\n            }\n            sb += (char) rem;\n        }\n    }\n    return sb;\n}",
       "csharp": "using System;\nusing System.Text;\n\npublic class Solution {\n    public static string TransformString(string s) {\n        StringBuilder sb = new StringBuilder();\n        foreach (char ch in s) {\n            if (ch == ' ') {\n                sb.Append(' ');\n            } else {\n                int rem = ((int) ch) % 26;\n                if (rem == 0) {\n                    rem = 26;\n                }\n                sb.Append((char) rem);\n            }\n        }\n        return sb.ToString();\n    }\n}",
       "javascript": "function transformString(s) {\n  let sb = '';\n  for (let i = 0; i < s.length; i++) {\n    const ch = s[i];\n    if (ch === ' ') {\n      sb += ' ';\n    } else {\n      let rem = ch.charCodeAt(0) % 26;\n      if (rem === 0) {\n        rem = 26;\n      }\n      sb += String.fromCharCode(rem);\n    }\n  }\n  return sb;\n}"
+    }
+  },
+  {
+    "id": "recent-dsa-027",
+    "track": "dsa",
+    "dateTag": "2nd Nov 2026 Shift 1",
+    "examDate": "2026-11-02",
+    "shift": "Shift 1 (On-Campus)",
+    "title": "Balanced Digit Number",
+    "difficulty": "Easy",
+    "category": "Numbers · Digit Manipulation",
+    "source": "Accenture On-Campus 2nd November 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "description": "### 📝 Problem Statement\nA positive integer is defined as a **Balanced Digit Number** if the sum of its digits at even positions equals the sum of its digits at odd positions.\n\nDigits are indexed from the rightmost digit (least significant digit), starting at position 1 (1-indexed from right to left).\n\nYou are given a positive integer `n`. Determine whether it is a Balanced Digit Number.\n\nReturn `true` if the sum of digits at even positions equals the sum of digits at odd positions. Otherwise, return `false`.\n\n---\n\n### 📥 Input Specification\n- `n`: A positive integer whose digits are to be checked.\n\n### 📤 Output Specification\n- Return a boolean value:\n  - `true` if the odd-position digit sum equals the even-position digit sum.\n  - `false` otherwise.\n\n---\n\n### 📌 Given Examples\n\n#### Example 1\n**Input**: `n = 121`\n\n| Iteration | Digit | Position | Position Type | Odd Sum | Even Sum | Remaining `n` |\n| :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| 1 | 1 | 1 | Odd | 1 | 0 | 12 |\n| 2 | 2 | 2 | Even | 1 | 2 | 1 |\n| 3 | 1 | 3 | Odd | 2 | 2 | 0 |\n\n- **Odd Sum** = 1 + 1 = 2\n- **Even Sum** = 2\n- Since both sums are equal (2 == 2), the number is balanced.\n\n**Expected Output**: `true`\n\n#### Example 2\n**Input**: `n = 4518`\n\n| Iteration | Digit | Position | Position Type | Odd Sum | Even Sum | Remaining `n` |\n| :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| 1 | 8 | 1 | Odd | 8 | 0 | 451 |\n| 2 | 1 | 2 | Even | 8 | 1 | 45 |\n| 3 | 5 | 3 | Odd | 13 | 1 | 4 |\n| 4 | 4 | 4 | Even | 13 | 5 | 0 |\n\n- **Odd Sum** = 8 + 5 = 13\n- **Even Sum** = 1 + 4 = 5\n- Since the sums are not equal (13 != 5), the number is not balanced.\n\n**Expected Output**: `false`\n\n---\n\n### 💡 Core Logic\n1. Initialize `oddSum = 0` and `evenSum = 0`.\n2. Initialize `position = 1` (1-indexed from right).\n3. Extract the rightmost digit using `digit = n % 10`.\n4. If `position % 2 == 0`, add `digit` to `evenSum`.\n5. Otherwise, add `digit` to `oddSum`.\n6. Remove the rightmost digit using integer division (`n /= 10`).\n7. Increment `position` by 1.\n8. Repeat steps 3–7 until `n` becomes 0.\n9. Return `oddSum == evenSum`.\n\n---\n\n### ⚠️ Important Points\n- **1-Indexed from Right**: Position counting starts from the rightmost (least significant) digit: position 1 is odd, position 2 is even, position 3 is odd, etc.\n- **Single Digit Numbers**: A number with only 1 digit (e.g. `n = 7`) is not balanced because `oddSum = 7` and `evenSum = 0` (7 != 0).\n- **Zero Contribution**: The digit 0 contributes 0 to either sum.\n\n---\n\n### ⚡ Complexity Analysis\n- **Time Complexity**: $O(\\log_{10} n)$, because each iteration processes one decimal digit.\n- **Auxiliary Space Complexity**: $O(1)$, using only constant space variables (`oddSum`, `evenSum`, `position`).",
+    "rules": [
+      "1. Index digits from rightmost (least significant digit) starting at position 1.",
+      "2. Odd positions: 1, 3, 5, ...; Even positions: 2, 4, 6, ...",
+      "3. Return true if oddSum == evenSum, otherwise false."
+    ],
+    "constraints": [
+      "1 <= n <= 2 * 10^9",
+      "n is a positive integer",
+      "Time Complexity: O(log10 n)",
+      "Space Complexity: O(1)"
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "input": "n = 121",
+        "inputRaw": 121,
+        "expectedOutput": "true",
+        "explanation": "• Position 1 (odd): digit 1 -> oddSum = 1\n• Position 2 (even): digit 2 -> evenSum = 2\n• Position 3 (odd): digit 1 -> oddSum = 2\n• oddSum (2) == evenSum (2) -> true"
+      },
+      {
+        "id": "tc-2",
+        "input": "n = 4518",
+        "inputRaw": 4518,
+        "expectedOutput": "false",
+        "explanation": "• Position 1 (odd): 8 -> oddSum = 8\n• Position 2 (even): 1 -> evenSum = 1\n• Position 3 (odd): 5 -> oddSum = 13\n• Position 4 (even): 4 -> evenSum = 5\n• oddSum (13) != evenSum (5) -> false"
+      },
+      {
+        "id": "tc-3",
+        "input": "n = 123",
+        "inputRaw": 123,
+        "expectedOutput": "false",
+        "explanation": "• Position 1 (odd): 3 -> oddSum = 3\n• Position 2 (even): 2 -> evenSum = 2\n• Position 3 (odd): 1 -> oddSum = 4\n• oddSum (4) != evenSum (2) -> false"
+      },
+      {
+        "id": "tc-4",
+        "input": "n = 1234",
+        "inputRaw": 1234,
+        "expectedOutput": "false",
+        "explanation": "• Position 1 (odd): 4 -> oddSum = 4\n• Position 2 (even): 3 -> evenSum = 3\n• Position 3 (odd): 2 -> oddSum = 6\n• Position 4 (even): 1 -> evenSum = 4\n• oddSum (6) != evenSum (4) -> false"
+      },
+      {
+        "id": "tc-5",
+        "input": "n = 11",
+        "inputRaw": 11,
+        "expectedOutput": "true",
+        "explanation": "• Position 1 (odd): 1 -> oddSum = 1\n• Position 2 (even): 1 -> evenSum = 1\n• oddSum (1) == evenSum (1) -> true"
+      },
+      {
+        "id": "tc-6",
+        "input": "n = 7",
+        "inputRaw": 7,
+        "expectedOutput": "false",
+        "explanation": "• Position 1 (odd): 7 -> oddSum = 7\n• No even position digits -> evenSum = 0\n• oddSum (7) != evenSum (0) -> false"
+      }
+    ],
+    "starterCode": {
+      "python": "def is_balanced_number(n: int) -> bool:\n    # TODO: Determine whether sum of digits at even positions equals sum of digits at odd positions\n    return False\n",
+      "java": "public class Solution {\n    public static boolean isBalancedNumber(int n) {\n        // TODO: Determine whether sum of digits at even positions equals sum of digits at odd positions\n        return false;\n    }\n}\n",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nbool isBalancedNumber(int n) {\n    // TODO: Determine whether sum of digits at even positions equals sum of digits at odd positions\n    return false;\n}\n",
+      "csharp": "using System;\n\npublic class Solution {\n    public static bool IsBalancedNumber(int n) {\n        // TODO: Determine whether sum of digits at even positions equals sum of digits at odd positions\n        return false;\n    }\n}\n",
+      "javascript": "function isBalancedNumber(n) {\n  // TODO: Determine whether sum of digits at even positions equals sum of digits at odd positions\n  return false;\n}\n"
+    },
+    "solutions": {
+      "python": "def is_balanced_number(n: int) -> bool:\n    odd_sum = 0\n    even_sum = 0\n    position = 1\n    \n    while n > 0:\n        digit = n % 10\n        if position % 2 == 0:\n            even_sum += digit\n        else:\n            odd_sum += digit\n        n //= 10\n        position += 1\n        \n    return odd_sum == even_sum",
+      "java": "public class Solution {\n    public static boolean isBalancedNumber(int n) {\n        int oddSum = 0;\n        int evenSum = 0;\n        int position = 1; // 1-indexed from right\n\n        while (n > 0) {\n            int digit = n % 10; // Extract rightmost digit\n\n            if (position % 2 == 0) {\n                evenSum += digit;\n            } else {\n                oddSum += digit;\n            }\n\n            n /= 10;       // Remove rightmost digit\n            position++;    // Move to next position\n        }\n\n        return oddSum == evenSum;\n    }\n}",
+      "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nbool isBalancedNumber(int n) {\n    int oddSum = 0;\n    int evenSum = 0;\n    int position = 1;\n\n    while (n > 0) {\n        int digit = n % 10;\n        if (position % 2 == 0) {\n            evenSum += digit;\n        } else {\n            oddSum += digit;\n        }\n        n /= 10;\n        position++;\n    }\n\n    return oddSum == evenSum;\n}",
+      "csharp": "using System;\n\npublic class Solution {\n    public static bool IsBalancedNumber(int n) {\n        int oddSum = 0;\n        int evenSum = 0;\n        int position = 1;\n\n        while (n > 0) {\n            int digit = n % 10;\n            if (position % 2 == 0) {\n                evenSum += digit;\n            } else {\n                oddSum += digit;\n            }\n            n /= 10;\n            position++;\n        }\n\n        return oddSum == evenSum;\n    }\n}",
+      "javascript": "function isBalancedNumber(n) {\n  let oddSum = 0;\n  let evenSum = 0;\n  let position = 1;\n\n  while (n > 0) {\n    const digit = n % 10;\n    if (position % 2 === 0) {\n      evenSum += digit;\n    } else {\n      oddSum += digit;\n    }\n    n = Math.floor(n / 10);\n    position++;\n  }\n\n  return oddSum === evenSum;\n}"
     }
   },
   {
@@ -2681,6 +2763,42 @@ export const recentQuestions = [
     "solutionCSS": "body {\n    font-family: Arial, sans-serif;\n    background: #f4f6f9;\n    color: #243247;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.container {\n    width: 420px;\n    background: white;\n    padding: 25px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n    color: #243247;\n}\n\nh2 {\n    margin-bottom: 20px;\n    color: #243247;\n}\n\n.checkbox-group {\n    display: flex;\n    flex-direction: column;\n    gap: 15px;\n    margin-bottom: 20px;\n}\n\n.checkbox-group label {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    cursor: pointer;\n    color: #334155;\n    font-size: 15px;\n    font-weight: 500;\n}\n\n.checkbox-group input[type=\"checkbox\"] {\n    width: 18px;\n    height: 18px;\n    accent-color: #2563eb;\n    cursor: pointer;\n}\n\n#output {\n    background: #e8f0fe;\n    border-radius: 6px;\n    padding: 15px;\n    text-align: center;\n    color: #1e293b;\n}\n\n#output p {\n    margin: 0;\n    color: #475569;\n    font-size: 14px;\n    font-weight: 600;\n}\n\n#count {\n    display: block;\n    font-size: 28px;\n    font-weight: bold;\n    color: #2563eb;\n    margin-top: 8px;\n}",
     "solutionJS": "const checkboxes = document.querySelectorAll(\".option\");\nconst countElement = document.getElementById(\"count\");\n\nfunction updateCount() {\n    let checkedCount = 0;\n    checkboxes.forEach(function (checkbox) {\n        if (checkbox.checked) {\n            checkedCount++;\n        }\n    });\n    countElement.textContent = checkedCount;\n}\n\ncheckboxes.forEach(function (checkbox) {\n    checkbox.addEventListener(\"change\", updateCount);\n});\n\nupdateCount();",
     "solutionExplanation": "### Solution Walkthrough: Interactive Checkbox Counter & Container Styling (Accenture 28th Oct 2026 Shift 1)\n\n1. **Part 1 — HTML Task**:\n   - Inside `.checkbox-group`, add a fourth `<label>` element wrapping an input checkbox with class `option` and label text:\n     ```html\n     <label>\n         <input type=\"checkbox\" class=\"option\">\n         Option 4: Azure DevOps\n     </label>\n     ```\n   - This gives a total of 4 selectable options with uniform class `option`.\n\n2. **Part 2 — CSS Task**:\n   - Set `padding: 15px;` inside the `#output` selector:\n     ```css\n     #output {\n         background: #e8f0fe;\n         border-radius: 6px;\n         padding: 15px;\n         text-align: center;\n     }\n     ```\n   - This gives the output box 15px of inner padding around the label and counter.\n\n3. **Part 3 — JavaScript Task**:\n   - Inside `updateCount()`:\n     - Iterate over `checkboxes` (or query `document.querySelectorAll('.option:checked').length`).\n     - Count how many checkboxes have `checkbox.checked === true`.\n     - Update `#count` via `countElement.textContent = checkedCount`.\n     - Since each checkbox has an event listener for `\"change\"`, any check/uncheck immediately updates the counter.",
+    "liveSandbox": true
+  },
+  {
+    "id": "recent-fe-011",
+    "track": "frontend",
+    "dateTag": "2nd Oct 2026 • Shift 2",
+    "examDate": "2026-10-02",
+    "shift": "Shift 2 (On-Campus)",
+    "title": "Blank Field Counter Form",
+    "difficulty": "Easy",
+    "category": "DOM Manipulation / Form Handling · Blank Field Counter & Whitespace Detection",
+    "source": "Accenture Assessment 2nd Oct 2026 Shift 2 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 50,
+    "targetMins": 15,
+    "description": "You are given an existing HTML/CSS/JavaScript implementation of a simple form containing a submit button and a result container. Your task is to complete the implementation so that when the user clicks the Submit button, the number of blank fields is calculated and displayed.\n\n### Objectives\n1. **HTML**: Add three input text fields with class `form-input` and placeholders `Full Name`, `Email Address`, and `Phone Number` inside the existing form before the submit button.\n2. **CSS**: Set the `padding` of the form's result container (`#result`) to `15px`.\n3. **JavaScript**: Complete the submit event listener on `#userForm` to prevent page reload, count empty or whitespace-only input fields, and display the result in `#result` in the format:\n   `Form submitted. Number of blank fields: X out of 3.`\n\n### Constraints\n- Do not change any existing `id` or `class` attributes.\n- Do not modify the existing HTML structure or element relationships.\n- Make sure the form submission does not reload the page.\n- The blank field count should be calculated only after clicking the Submit button.\n- A field containing only whitespace should also be considered blank.\n- The result should display the number of blank fields out of 3.",
+    "objectives": [
+      "HTML: Add three text input fields with class form-input and placeholders Full Name, Email Address, and Phone Number inside #userForm.",
+      "CSS: Set the padding of the result container (#result) to 15px in style.css.",
+      "JavaScript: Prevent form submission reload, query .form-input, count empty/whitespace-only fields, and display the count in #result."
+    ],
+    "constraints": [
+      "Do not change any existing id or class attributes.",
+      "Do not modify the existing HTML structure or element relationships.",
+      "Make sure the form submission does not reload the page (use e.preventDefault()).",
+      "The blank field count should be calculated only after clicking the Submit button.",
+      "A field containing only whitespace should also be considered blank.",
+      "The result should display the number of blank fields out of 3."
+    ],
+    "starterHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Blank Field Counter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"form-container\">\n\n        <h2>Blank Field Counter Form</h2>\n\n        <form id=\"userForm\">\n\n            <!-- TODO 1: Add three input fields -->\n\n            <button type=\"submit\">\n                Submit Form\n            </button>\n\n        </form>\n\n        <div id=\"result\">\n            Form submitted. Number of blank fields: 0 out of 3.\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "starterCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    font-family: Arial, sans-serif;\n}\n\nbody {\n    background: #f1f5f9;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.form-container {\n    width: 400px;\n    background: #ffffff;\n    padding: 30px;\n    border-radius: 10px;\n    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);\n}\n\nh2 {\n    text-align: center;\n    margin-bottom: 25px;\n    color: #1e293b;\n}\n\nform {\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.form-input {\n    padding: 12px;\n    border: 1px solid #cbd5e1;\n    border-radius: 5px;\n    outline: none;\n}\n\n.form-input:focus {\n    border-color: #2563eb;\n}\n\nbutton {\n    margin-top: 10px;\n    padding: 12px;\n    background: #2563eb;\n    color: white;\n    border: none;\n    border-radius: 5px;\n    cursor: pointer;\n    font-size: 15px;\n}\n\nbutton:hover {\n    background: #1d4ed8;\n}\n\n#result {\n    margin-top: 20px;\n    background: #eff6ff;\n    color: #1e40af;\n    border-radius: 5px;\n    text-align: center;\n\n    /* TODO 2: Add padding to the result container */\n}",
+    "starterJS": "document.getElementById('userForm').addEventListener('submit', function(e) {\n\n    // TODO 3: Prevent the default form submission\n\n    // TODO 4: Select all input elements with class \"form-input\"\n\n    // TODO 5: Initialize blankCount to 0\n\n    // TODO 6: Count empty or whitespace-only input fields\n\n    // TODO 7: Display the result inside the result container\n\n});",
+    "solutionHTML": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Blank Field Counter</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n\n<body>\n\n    <div class=\"form-container\">\n\n        <h2>Blank Field Counter Form</h2>\n\n        <form id=\"userForm\">\n\n            <input type=\"text\" class=\"form-input\" placeholder=\"Full Name\">\n            <input type=\"text\" class=\"form-input\" placeholder=\"Email Address\">\n            <input type=\"text\" class=\"form-input\" placeholder=\"Phone Number\">\n\n            <button type=\"submit\">\n                Submit Form\n            </button>\n\n        </form>\n\n        <div id=\"result\">\n            Form submitted. Number of blank fields: 0 out of 3.\n        </div>\n\n    </div>\n\n    <script src=\"script.js\"></script>\n</body>\n</html>",
+    "solutionCSS": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    font-family: Arial, sans-serif;\n}\n\nbody {\n    background: #f1f5f9;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n}\n\n.form-container {\n    width: 400px;\n    background: #ffffff;\n    padding: 30px;\n    border-radius: 10px;\n    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);\n}\n\nh2 {\n    text-align: center;\n    margin-bottom: 25px;\n    color: #1e293b;\n}\n\nform {\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.form-input {\n    padding: 12px;\n    border: 1px solid #cbd5e1;\n    border-radius: 5px;\n    outline: none;\n}\n\n.form-input:focus {\n    border-color: #2563eb;\n}\n\nbutton {\n    margin-top: 10px;\n    padding: 12px;\n    background: #2563eb;\n    color: white;\n    border: none;\n    border-radius: 5px;\n    cursor: pointer;\n    font-size: 15px;\n}\n\nbutton:hover {\n    background: #1d4ed8;\n}\n\n#result {\n    margin-top: 20px;\n    background: #eff6ff;\n    color: #1e40af;\n    border-radius: 5px;\n    text-align: center;\n    padding: 15px;\n}",
+    "solutionJS": "document.getElementById('userForm').addEventListener('submit', function(e) {\n    e.preventDefault();\n\n    const inputs = document.querySelectorAll('.form-input');\n    let blankCount = 0;\n\n    inputs.forEach(function(input) {\n        if (input.value.trim() === '') {\n            blankCount++;\n        }\n    });\n\n    document.getElementById('result').textContent = `Form submitted. Number of blank fields: ${blankCount} out of 3.`;\n});",
+    "solutionExplanation": "### Solution Walkthrough: Blank Field Counter Form (Accenture 2nd Oct 2026 Shift 2)\n\n1. **Part 1 — HTML Task**:\n   - Inside `<form id=\"userForm\">`, add three text `<input>` fields with class `form-input` before the submit `<button>`:\n     ```html\n     <input type=\"text\" class=\"form-input\" placeholder=\"Full Name\">\n     <input type=\"text\" class=\"form-input\" placeholder=\"Email Address\">\n     <input type=\"text\" class=\"form-input\" placeholder=\"Phone Number\">\n     ```\n\n2. **Part 2 — CSS Task**:\n   - Set `padding: 15px;` inside `#result` in `style.css`:\n     ```css\n     #result {\n         margin-top: 20px;\n         background: #eff6ff;\n         color: #1e40af;\n         border-radius: 5px;\n         text-align: center;\n         padding: 15px;\n     }\n     ```\n\n3. **Part 3 — JavaScript Task**:\n   - Inside the submit event listener on `#userForm`:\n     - Call `e.preventDefault();` to prevent standard form postback / page reload.\n     - Query all input fields with class `.form-input` via `document.querySelectorAll('.form-input')`.\n     - Initialize a counter `blankCount = 0`.\n     - Iterate over each input using `forEach` and check if `input.value.trim() === ''` (handles both completely empty inputs and inputs containing only whitespace).\n     - If empty/whitespace-only, increment `blankCount++`.\n     - Set `#result.textContent` to ``Form submitted. Number of blank fields: ${blankCount} out of 3.``.",
     "liveSandbox": true
   },
   {
@@ -8184,6 +8302,462 @@ export const recentQuestions = [
           { "COURSE TITLE": "DSA", "CATEGORY NAME": "Computer Science", "PRICE": 2500 },
           { "COURSE TITLE": "Deep Learning", "CATEGORY NAME": "AI", "PRICE": 6000 }
         ]
+      }
+    ]
+  },
+  {
+    "id": "recent-sql-015",
+    "track": "sql",
+    "dateTag": "2nd Oct 2026 • Shift 1",
+    "examDate": "2026-10-02",
+    "shift": "Shift 1 (On-Campus)",
+    "title": "Enterprise E-Commerce Sales Analysis",
+    "difficulty": "Medium",
+    "category": "Multi-Table Aggregation / INNER JOIN, GROUP BY & HAVING",
+    "source": "Accenture Assessment 2nd Oct 2026 Shift 1 (Verified Exam Paper)",
+    "isVerified": true,
+    "rewardXp": 60,
+    "targetMins": 15,
+    "description": "Write an SQL query joining **Customers**, **Orders**, **Order_Items**, and **Products** to find customers whose total spending across all `'DELIVERED'` orders exceeds **50,000**.\n\nDisplay **Customer ID**, **Customer Name**, **Total Orders**, and **Total Spending**.\nOrder the results by **Total Spending in descending order**.\n\n---\n\n### 📝 Required Output Column Aliases:\n- `CUSTOMER_ID`\n- `CUSTOMER_NAME`\n- `TOTAL_ORDERS`\n- `TOTAL_SPENDING`\n\n---\n\n### 📌 Relational Schema & Key Relationships:\n- `Customers.customer_id` -> `Orders.customer_id`\n- `Orders.order_id` -> `Order_Items.order_id`\n- `Order_Items.product_id` -> `Products.product_id`\n- `Products.category_id` -> `Categories.category_id`\n- `Orders.order_id` -> `Payments.order_id`\n- `Orders.order_id` -> `Shipping.order_id`\n- `Customers.customer_id` -> `Reviews.customer_id`\n- `Products.product_id` -> `Reviews.product_id`\n- `Products.product_id` -> `Product_Suppliers.product_id`\n- `Suppliers.supplier_id` -> `Product_Suppliers.supplier_id`\n- `Products.product_id` -> `Inventory.product_id`\n- `Warehouses.warehouse_id` -> `Inventory.warehouse_id`\n- `Orders.order_id` -> `Order_Coupons.order_id`\n- `Coupons.coupon_id` -> `Order_Coupons.coupon_id`\n\n---\n\n### 💡 Query Construction Steps:\n1. **Join `Customers` to `Orders`** on `c.customer_id = o.customer_id`.\n2. **Join `Orders` to `Order_Items`** on `o.order_id = oi.order_id`.\n3. **Join `Order_Items` to `Products`** on `oi.product_id = p.product_id`.\n4. **Filter Delivered Orders:** `WHERE o.status = 'DELIVERED'` (other order statuses like `SHIPPED`, `CANCELLED`, or `PENDING` must not contribute to customer totals).\n5. **Calculate Spending:** Compute each line item spending as `oi.quantity * oi.unit_price`.\n6. **Group Records:** Group by `c.customer_id, c.name`.\n7. **Aggregate Metrics:**\n   - Count unique orders: `COUNT(DISTINCT o.order_id) AS total_orders`\n   - Sum total delivered expenditure: `SUM(oi.quantity * oi.unit_price) AS total_spending`\n8. **Filter Qualifying Customers:** `HAVING SUM(oi.quantity * oi.unit_price) > 50000` (strictly greater than 50,000; exactly 50,000 does not qualify).\n9. **Sort Results:** `ORDER BY total_spending DESC`.\n\n> **⚠️ Important Points**:\n> - An order containing multiple line items must only count as 1 order via `COUNT(DISTINCT o.order_id)`.\n> - Non-delivered orders (`CANCELLED`, `PENDING`, `SHIPPED`, `PROCESSING`, `RETURNED`) must be strictly excluded.\n> - The 10 additional enterprise tables (`Categories`, `Payments`, `Shipping`, `Reviews`, `Suppliers`, `Product_Suppliers`, `Warehouses`, `Inventory`, `Coupons`, `Order_Coupons`) provide schema context but are not required for this query.",
+    "rules": [
+      "1. Join Customers, Orders, Order_Items, and Products on their respective foreign keys.",
+      "2. Filter for orders having status = 'DELIVERED'.",
+      "3. Group by customer_id and customer name.",
+      "4. Calculate total_spending as SUM(oi.quantity * oi.unit_price).",
+      "5. Calculate total_orders as COUNT(DISTINCT o.order_id) to avoid inflating order counts across multiple items.",
+      "6. Use HAVING clause with strict inequality: SUM(oi.quantity * oi.unit_price) > 50000.",
+      "7. Order by total_spending in descending order.",
+      "8. Return the exact 4 required columns: CUSTOMER_ID, CUSTOMER_NAME, TOTAL_ORDERS, TOTAL_SPENDING."
+    ],
+    "concepts": [
+      "INNER JOIN",
+      "WHERE",
+      "GROUP BY",
+      "COUNT(DISTINCT)",
+      "SUM",
+      "HAVING",
+      "ORDER BY DESC"
+    ],
+    "expectedColumns": [
+      "CUSTOMER_ID",
+      "CUSTOMER_NAME",
+      "TOTAL_ORDERS",
+      "TOTAL_SPENDING"
+    ],
+    "orderSensitive": true,
+    "starterCode": "-- Write your SQL query below\n",
+    "solution": "SELECT c.customer_id, c.name AS customer_name, COUNT(DISTINCT o.order_id) AS total_orders, SUM(oi.quantity * oi.unit_price) AS total_spending FROM Customers c INNER JOIN Orders o ON c.customer_id = o.customer_id INNER JOIN Order_Items oi ON o.order_id = oi.order_id INNER JOIN Products p ON oi.product_id = p.product_id WHERE o.status = 'DELIVERED' GROUP BY c.customer_id, c.name HAVING SUM(oi.quantity * oi.unit_price) > 50000 ORDER BY total_spending DESC;",
+    "explanation": "Aggregate line-item spending for each customer across only delivered orders, count distinct order IDs, keep customers whose total delivered spending strictly exceeds 50,000, and return results sorted by total spending descending.",
+    "viewSchema": {
+      "title": "Database Schema Overview",
+      "tableCount": 14,
+      "tables": [
+        {
+          "name": "Customers",
+          "columns": ["customer_id", "name", "join_date", "email", "city"],
+          "requiredColumns": ["customer_id", "name"],
+          "extraColumns": ["join_date", "email", "city"]
+        },
+        {
+          "name": "Orders",
+          "columns": ["order_id", "customer_id", "order_date", "status", "shipping_address_id"],
+          "requiredColumns": ["order_id", "customer_id", "status"],
+          "extraColumns": ["order_date", "shipping_address_id"]
+        },
+        {
+          "name": "Order_Items",
+          "columns": ["item_id", "order_id", "product_id", "quantity", "unit_price", "discount"],
+          "requiredColumns": ["order_id", "product_id", "quantity", "unit_price"],
+          "extraColumns": ["item_id", "discount"]
+        },
+        {
+          "name": "Products",
+          "columns": ["product_id", "category_id", "product_name", "brand", "stock_quantity"],
+          "requiredColumns": ["product_id"],
+          "extraColumns": ["category_id", "product_name", "brand", "stock_quantity"]
+        },
+        {
+          "name": "Categories",
+          "columns": ["category_id", "category_name", "description", "is_active"],
+          "requiredColumns": [],
+          "extraColumns": ["category_id", "category_name", "description", "is_active"]
+        },
+        {
+          "name": "Payments",
+          "columns": ["payment_id", "order_id", "amount", "payment_mode", "payment_status"],
+          "requiredColumns": [],
+          "extraColumns": ["payment_id", "order_id", "amount", "payment_mode", "payment_status"]
+        },
+        {
+          "name": "Shipping",
+          "columns": ["shipping_id", "order_id", "tracking_code", "carrier", "shipped_date"],
+          "requiredColumns": [],
+          "extraColumns": ["shipping_id", "order_id", "tracking_code", "carrier", "shipped_date"]
+        },
+        {
+          "name": "Reviews",
+          "columns": ["review_id", "customer_id", "product_id", "rating", "review_date"],
+          "requiredColumns": [],
+          "extraColumns": ["review_id", "customer_id", "product_id", "rating", "review_date"]
+        },
+        {
+          "name": "Suppliers",
+          "columns": ["supplier_id", "supplier_name", "contact_email", "phone", "country"],
+          "requiredColumns": [],
+          "extraColumns": ["supplier_id", "supplier_name", "contact_email", "phone", "country"]
+        },
+        {
+          "name": "Product_Suppliers",
+          "columns": ["product_id", "supplier_id", "supply_cost", "lead_time_days", "is_primary_supplier"],
+          "requiredColumns": [],
+          "extraColumns": ["product_id", "supplier_id", "supply_cost", "lead_time_days", "is_primary_supplier"]
+        },
+        {
+          "name": "Warehouses",
+          "columns": ["warehouse_id", "warehouse_name", "city", "region", "capacity"],
+          "requiredColumns": [],
+          "extraColumns": ["warehouse_id", "warehouse_name", "city", "region", "capacity"]
+        },
+        {
+          "name": "Inventory",
+          "columns": ["inventory_id", "product_id", "warehouse_id", "available_quantity", "reorder_level", "last_updated"],
+          "requiredColumns": [],
+          "extraColumns": ["inventory_id", "product_id", "warehouse_id", "available_quantity", "reorder_level", "last_updated"]
+        },
+        {
+          "name": "Coupons",
+          "columns": ["coupon_id", "coupon_code", "discount_type", "discount_value", "valid_until"],
+          "requiredColumns": [],
+          "extraColumns": ["coupon_id", "coupon_code", "discount_type", "discount_value", "valid_until"]
+        },
+        {
+          "name": "Order_Coupons",
+          "columns": ["order_id", "coupon_id", "applied_amount", "applied_at", "coupon_status"],
+          "requiredColumns": [],
+          "extraColumns": ["order_id", "coupon_id", "applied_amount", "applied_at", "coupon_status"]
+        }
+      ],
+      "relationships": [
+        "Customers.customer_id -> Orders.customer_id",
+        "Orders.order_id -> Order_Items.order_id",
+        "Order_Items.product_id -> Products.product_id",
+        "Products.category_id -> Categories.category_id",
+        "Orders.order_id -> Payments.order_id",
+        "Orders.order_id -> Shipping.order_id",
+        "Customers.customer_id -> Reviews.customer_id",
+        "Products.product_id -> Reviews.product_id",
+        "Products.product_id -> Product_Suppliers.product_id",
+        "Suppliers.supplier_id -> Product_Suppliers.supplier_id",
+        "Products.product_id -> Inventory.product_id",
+        "Warehouses.warehouse_id -> Inventory.warehouse_id",
+        "Orders.order_id -> Order_Coupons.order_id",
+        "Coupons.coupon_id -> Order_Coupons.coupon_id"
+      ]
+    },
+    "tableSchema": [
+      {
+        "name": "Customers",
+        "columns": [
+          { "name": "customer_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "name", "type": "TEXT", "primaryKey": false },
+          { "name": "join_date", "type": "TEXT", "primaryKey": false },
+          { "name": "email", "type": "TEXT", "primaryKey": false },
+          { "name": "city", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Orders",
+        "columns": [
+          { "name": "order_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "customer_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "order_date", "type": "TEXT", "primaryKey": false },
+          { "name": "status", "type": "TEXT", "primaryKey": false },
+          { "name": "shipping_address_id", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Order_Items",
+        "columns": [
+          { "name": "item_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "order_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "product_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "quantity", "type": "INTEGER", "primaryKey": false },
+          { "name": "unit_price", "type": "REAL", "primaryKey": false },
+          { "name": "discount", "type": "REAL", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Products",
+        "columns": [
+          { "name": "product_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "category_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "product_name", "type": "TEXT", "primaryKey": false },
+          { "name": "brand", "type": "TEXT", "primaryKey": false },
+          { "name": "stock_quantity", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Categories",
+        "columns": [
+          { "name": "category_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "category_name", "type": "TEXT", "primaryKey": false },
+          { "name": "description", "type": "TEXT", "primaryKey": false },
+          { "name": "is_active", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Payments",
+        "columns": [
+          { "name": "payment_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "order_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "amount", "type": "REAL", "primaryKey": false },
+          { "name": "payment_mode", "type": "TEXT", "primaryKey": false },
+          { "name": "payment_status", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Shipping",
+        "columns": [
+          { "name": "shipping_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "order_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "tracking_code", "type": "TEXT", "primaryKey": false },
+          { "name": "carrier", "type": "TEXT", "primaryKey": false },
+          { "name": "shipped_date", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Reviews",
+        "columns": [
+          { "name": "review_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "customer_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "product_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "rating", "type": "INTEGER", "primaryKey": false },
+          { "name": "review_date", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Suppliers",
+        "columns": [
+          { "name": "supplier_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "supplier_name", "type": "TEXT", "primaryKey": false },
+          { "name": "contact_email", "type": "TEXT", "primaryKey": false },
+          { "name": "phone", "type": "TEXT", "primaryKey": false },
+          { "name": "country", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Product_Suppliers",
+        "columns": [
+          { "name": "product_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "supplier_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "supply_cost", "type": "REAL", "primaryKey": false },
+          { "name": "lead_time_days", "type": "INTEGER", "primaryKey": false },
+          { "name": "is_primary_supplier", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Warehouses",
+        "columns": [
+          { "name": "warehouse_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "warehouse_name", "type": "TEXT", "primaryKey": false },
+          { "name": "city", "type": "TEXT", "primaryKey": false },
+          { "name": "region", "type": "TEXT", "primaryKey": false },
+          { "name": "capacity", "type": "INTEGER", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Inventory",
+        "columns": [
+          { "name": "inventory_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "product_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "warehouse_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "available_quantity", "type": "INTEGER", "primaryKey": false },
+          { "name": "reorder_level", "type": "INTEGER", "primaryKey": false },
+          { "name": "last_updated", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Coupons",
+        "columns": [
+          { "name": "coupon_id", "type": "INTEGER", "primaryKey": true },
+          { "name": "coupon_code", "type": "TEXT", "primaryKey": false },
+          { "name": "discount_type", "type": "TEXT", "primaryKey": false },
+          { "name": "discount_value", "type": "REAL", "primaryKey": false },
+          { "name": "valid_until", "type": "TEXT", "primaryKey": false }
+        ]
+      },
+      {
+        "name": "Order_Coupons",
+        "columns": [
+          { "name": "order_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "coupon_id", "type": "INTEGER", "primaryKey": false },
+          { "name": "applied_amount", "type": "REAL", "primaryKey": false },
+          { "name": "applied_at", "type": "TEXT", "primaryKey": false },
+          { "name": "coupon_status", "type": "TEXT", "primaryKey": false }
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "Example 1 (Authentic Exam Input)",
+        "input": {
+          "Customers": [
+            { "customer_id": 1, "name": "Alice Johnson", "join_date": "2024-01-15", "email": "alice@example.com", "city": "Mumbai" },
+            { "customer_id": 2, "name": "Bob Smith", "join_date": "2024-02-20", "email": "bob@example.com", "city": "Delhi" },
+            { "customer_id": 3, "name": "Charlie Brown", "join_date": "2024-03-10", "email": "charlie@example.com", "city": "Bangalore" },
+            { "customer_id": 4, "name": "David Miller", "join_date": "2024-04-05", "email": "david@example.com", "city": "Pune" }
+          ],
+          "Orders": [
+            { "order_id": 1001, "customer_id": 2, "order_date": "2025-01-10", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 1002, "customer_id": 1, "order_date": "2025-01-15", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 1003, "customer_id": 1, "order_date": "2025-02-01", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 1004, "customer_id": 3, "order_date": "2025-02-10", "status": "DELIVERED", "shipping_address_id": 3 },
+            { "order_id": 1005, "customer_id": 4, "order_date": "2025-02-15", "status": "CANCELLED", "shipping_address_id": 4 }
+          ],
+          "Order_Items": [
+            { "item_id": 1, "order_id": 1001, "product_id": 101, "quantity": 1, "unit_price": 75000, "discount": 0 },
+            { "item_id": 2, "order_id": 1002, "product_id": 101, "quantity": 1, "unit_price": 40000, "discount": 0 },
+            { "item_id": 3, "order_id": 1003, "product_id": 103, "quantity": 1, "unit_price": 25000, "discount": 0 },
+            { "item_id": 4, "order_id": 1004, "product_id": 101, "quantity": 1, "unit_price": 50000, "discount": 0 },
+            { "item_id": 5, "order_id": 1005, "product_id": 101, "quantity": 1, "unit_price": 80000, "discount": 0 }
+          ],
+          "Products": [
+            { "product_id": 101, "category_id": 1, "product_name": "Gaming Laptop", "brand": "BrandX", "stock_quantity": 50 },
+            { "product_id": 102, "category_id": 1, "product_name": "Wireless Mouse", "brand": "BrandY", "stock_quantity": 200 },
+            { "product_id": 103, "category_id": 2, "product_name": "4K Monitor", "brand": "BrandZ", "stock_quantity": 80 }
+          ]
+        },
+        "output": [
+          { "CUSTOMER_ID": 2, "CUSTOMER_NAME": "Bob Smith", "TOTAL_ORDERS": 1, "TOTAL_SPENDING": 75000 },
+          { "CUSTOMER_ID": 1, "CUSTOMER_NAME": "Alice Johnson", "TOTAL_ORDERS": 2, "TOTAL_SPENDING": 65000 }
+        ],
+        "explanation": "Bob has 1 delivered order totaling 75,000 (> 50,000). Alice has 2 delivered orders totaling (40,000 + 25,000) = 65,000 (> 50,000). Charlie has delivered spending of exactly 50,000 which does not exceed 50,000 (excluded). David's order was CANCELLED (excluded). Ordered descending by total_spending."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "tc-1",
+        "name": "Visible Test Case 1 — Baseline Delivered Spending > 50000",
+        "isHidden": false,
+        "data": {
+          "Customers": [
+            { "customer_id": 1, "name": "Alice Johnson", "join_date": "2024-01-15", "email": "alice@example.com", "city": "Mumbai" },
+            { "customer_id": 2, "name": "Bob Smith", "join_date": "2024-02-20", "email": "bob@example.com", "city": "Delhi" },
+            { "customer_id": 3, "name": "Charlie Brown", "join_date": "2024-03-10", "email": "charlie@example.com", "city": "Bangalore" },
+            { "customer_id": 4, "name": "David Miller", "join_date": "2024-04-05", "email": "david@example.com", "city": "Pune" }
+          ],
+          "Orders": [
+            { "order_id": 1001, "customer_id": 2, "order_date": "2025-01-10", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 1002, "customer_id": 1, "order_date": "2025-01-15", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 1003, "customer_id": 1, "order_date": "2025-02-01", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 1004, "customer_id": 3, "order_date": "2025-02-10", "status": "DELIVERED", "shipping_address_id": 3 },
+            { "order_id": 1005, "customer_id": 4, "order_date": "2025-02-15", "status": "CANCELLED", "shipping_address_id": 4 }
+          ],
+          "Order_Items": [
+            { "item_id": 1, "order_id": 1001, "product_id": 101, "quantity": 1, "unit_price": 75000, "discount": 0 },
+            { "item_id": 2, "order_id": 1002, "product_id": 101, "quantity": 1, "unit_price": 40000, "discount": 0 },
+            { "item_id": 3, "order_id": 1003, "product_id": 103, "quantity": 1, "unit_price": 25000, "discount": 0 },
+            { "item_id": 4, "order_id": 1004, "product_id": 101, "quantity": 1, "unit_price": 50000, "discount": 0 },
+            { "item_id": 5, "order_id": 1005, "product_id": 101, "quantity": 1, "unit_price": 80000, "discount": 0 }
+          ],
+          "Products": [
+            { "product_id": 101, "category_id": 1, "product_name": "Gaming Laptop", "brand": "BrandX", "stock_quantity": 50 },
+            { "product_id": 102, "category_id": 1, "product_name": "Wireless Mouse", "brand": "BrandY", "stock_quantity": 200 },
+            { "product_id": 103, "category_id": 2, "product_name": "4K Monitor", "brand": "BrandZ", "stock_quantity": 80 }
+          ]
+        },
+        "expected": [
+          { "CUSTOMER_ID": 2, "CUSTOMER_NAME": "Bob Smith", "TOTAL_ORDERS": 1, "TOTAL_SPENDING": 75000 },
+          { "CUSTOMER_ID": 1, "CUSTOMER_NAME": "Alice Johnson", "TOTAL_ORDERS": 2, "TOTAL_SPENDING": 65000 }
+        ]
+      },
+      {
+        "id": "tc-2",
+        "name": "Visible Test Case 2 — Multiple Line Items Per Order & Status Filter",
+        "isHidden": false,
+        "data": {
+          "Customers": [
+            { "customer_id": 10, "name": "Emma Watson", "join_date": "2024-01-01", "email": "emma@example.com", "city": "London" },
+            { "customer_id": 11, "name": "George Clark", "join_date": "2024-01-05", "email": "george@example.com", "city": "Oxford" },
+            { "customer_id": 12, "name": "Hannah Abbott", "join_date": "2024-02-11", "email": "hannah@example.com", "city": "Bristol" },
+            { "customer_id": 13, "name": "Ian Malcolm", "join_date": "2024-03-14", "email": "ian@example.com", "city": "Manchester" }
+          ],
+          "Orders": [
+            { "order_id": 2001, "customer_id": 10, "order_date": "2025-01-10", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 2002, "customer_id": 10, "order_date": "2025-01-20", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 2003, "customer_id": 11, "order_date": "2025-01-15", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 2004, "customer_id": 12, "order_date": "2025-02-05", "status": "SHIPPED", "shipping_address_id": 3 },
+            { "order_id": 2005, "customer_id": 13, "order_date": "2025-02-10", "status": "RETURNED", "shipping_address_id": 4 }
+          ],
+          "Order_Items": [
+            { "item_id": 101, "order_id": 2001, "product_id": 301, "quantity": 2, "unit_price": 20000, "discount": 0 },
+            { "item_id": 102, "order_id": 2001, "product_id": 302, "quantity": 1, "unit_price": 15000, "discount": 0 },
+            { "item_id": 103, "order_id": 2002, "product_id": 303, "quantity": 1, "unit_price": 30000, "discount": 0 },
+            { "item_id": 104, "order_id": 2003, "product_id": 301, "quantity": 3, "unit_price": 18000, "discount": 0 },
+            { "item_id": 105, "order_id": 2004, "product_id": 303, "quantity": 2, "unit_price": 30000, "discount": 0 },
+            { "item_id": 106, "order_id": 2005, "product_id": 301, "quantity": 2, "unit_price": 35000, "discount": 0 }
+          ],
+          "Products": [
+            { "product_id": 301, "category_id": 10, "product_name": "Smart Tablet", "brand": "TechCorp", "stock_quantity": 100 },
+            { "product_id": 302, "category_id": 10, "product_name": "Keyboard Case", "brand": "TechCorp", "stock_quantity": 150 },
+            { "product_id": 303, "category_id": 11, "product_name": "Noise Cancelling Headphones", "brand": "AudioPro", "stock_quantity": 70 }
+          ]
+        },
+        "expected": [
+          { "CUSTOMER_ID": 10, "CUSTOMER_NAME": "Emma Watson", "TOTAL_ORDERS": 2, "TOTAL_SPENDING": 85000 },
+          { "CUSTOMER_ID": 11, "CUSTOMER_NAME": "George Clark", "TOTAL_ORDERS": 1, "TOTAL_SPENDING": 54000 }
+        ]
+      },
+      {
+        "id": "tc-3",
+        "name": "Hidden Test Case 3 — Strict Boundary Value Verification (50001 vs 50000 vs 49999)",
+        "isHidden": true,
+        "data": {
+          "Customers": [
+            { "customer_id": 21, "name": "Boundary Winner", "join_date": "2024-03-01", "email": "winner@test.com", "city": "Austin" },
+            { "customer_id": 22, "name": "Exact Boundary", "join_date": "2024-03-02", "email": "exact@test.com", "city": "Dallas" },
+            { "customer_id": 23, "name": "Under Boundary", "join_date": "2024-03-03", "email": "under@test.com", "city": "Houston" }
+          ],
+          "Orders": [
+            { "order_id": 3001, "customer_id": 21, "order_date": "2025-01-01", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 3002, "customer_id": 22, "order_date": "2025-01-02", "status": "DELIVERED", "shipping_address_id": 2 },
+            { "order_id": 3003, "customer_id": 23, "order_date": "2025-01-03", "status": "DELIVERED", "shipping_address_id": 3 }
+          ],
+          "Order_Items": [
+            { "item_id": 201, "order_id": 3001, "product_id": 401, "quantity": 1, "unit_price": 50001, "discount": 0 },
+            { "item_id": 202, "order_id": 3002, "product_id": 401, "quantity": 1, "unit_price": 50000, "discount": 0 },
+            { "item_id": 203, "order_id": 3003, "product_id": 401, "quantity": 1, "unit_price": 49999, "discount": 0 }
+          ],
+          "Products": [
+            { "product_id": 401, "category_id": 20, "product_name": "Enterprise Server Unit", "brand": "ServerPro", "stock_quantity": 25 }
+          ]
+        },
+        "expected": [
+          { "CUSTOMER_ID": 21, "CUSTOMER_NAME": "Boundary Winner", "TOTAL_ORDERS": 1, "TOTAL_SPENDING": 50001 }
+        ]
+      },
+      {
+        "id": "tc-4",
+        "name": "Hidden Test Case 4 — No Qualifying Customers (Empty Result Set)",
+        "isHidden": true,
+        "data": {
+          "Customers": [
+            { "customer_id": 31, "name": "Low Spender A", "join_date": "2024-04-01", "email": "lowa@test.com", "city": "Seattle" },
+            { "customer_id": 32, "name": "Low Spender B", "join_date": "2024-04-02", "email": "lowb@test.com", "city": "Denver" }
+          ],
+          "Orders": [
+            { "order_id": 4001, "customer_id": 31, "order_date": "2025-01-10", "status": "DELIVERED", "shipping_address_id": 1 },
+            { "order_id": 4002, "customer_id": 32, "order_date": "2025-01-15", "status": "PENDING", "shipping_address_id": 2 }
+          ],
+          "Order_Items": [
+            { "item_id": 301, "order_id": 4001, "product_id": 501, "quantity": 2, "unit_price": 12000, "discount": 0 },
+            { "item_id": 302, "order_id": 4002, "product_id": 501, "quantity": 5, "unit_price": 30000, "discount": 0 }
+          ],
+          "Products": [
+            { "product_id": 501, "category_id": 30, "product_name": "Office Chair", "brand": "ComfortSeat", "stock_quantity": 100 }
+          ]
+        },
+        "expected": []
       }
     ]
   }

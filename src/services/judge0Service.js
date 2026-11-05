@@ -559,6 +559,20 @@ for _s in _tests:
 `;
     }
 
+    if (questionId === 'recent-dsa-027') {
+      return `${cleanUserCode}
+
+import json
+_tests = [121, 4518, 123, 1234, 11, 7]
+for _n in _tests:
+    try:
+        fn = globals().get('isBalancedNumber') or globals().get('is_balanced_number') or (Solution().isBalancedNumber if 'Solution' in globals() else None)
+        print("TEST_RES:" + json.dumps(bool(fn(_n))))
+    except Exception as _e:
+        print("TEST_ERR:" + str(_e))
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1254,6 +1268,23 @@ except Exception as _e:
 `;
     }
 
+    if (questionId === 'recent-dsa-027') {
+      return `${cleanUserCode}
+
+    public static void main(String[] args) {
+        int[] tests = {121, 4518, 123, 1234, 11, 7};
+        for (int n : tests) {
+            try {
+                System.out.println("TEST_RES:" + isBalancedNumber(n));
+            } catch (Exception e) {
+                System.out.println("TEST_ERR:" + e.getMessage());
+            }
+        }
+    }
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -1863,6 +1894,23 @@ int main() {
 `;
     }
 
+    if (questionId === 'recent-dsa-027') {
+      return `${cleanUserCode}
+
+int main() {
+    std::vector<int> tests = {121, 4518, 123, 1234, 11, 7};
+    for (int n : tests) {
+        try {
+            std::cout << "TEST_RES:" << (isBalancedNumber(n) ? "true" : "false") << std::endl;
+        } catch (const std::exception& e) {
+            std::cout << "TEST_ERR:" << e.what() << std::endl;
+        }
+    }
+    return 0;
+}
+`;
+    }
+
     if (questionId === 'dc-01') {
       return `${cleanUserCode}
 
@@ -2426,6 +2474,23 @@ int main() {
                     codes.Add(((int)c).ToString());
                 }
                 Console.WriteLine("TEST_RES:[" + string.Join(", ", codes) + "]");
+            } catch (Exception e) {
+                Console.WriteLine("TEST_ERR:" + e.Message);
+            }
+        }
+    }
+}
+`;
+    }
+
+    if (questionId === 'recent-dsa-027') {
+      return `${cleanUserCode}
+
+    public static void Main() {
+        int[] tests = new int[] {121, 4518, 123, 1234, 11, 7};
+        foreach (int n in tests) {
+            try {
+                Console.WriteLine("TEST_RES:" + (IsBalancedNumber(n) ? "true" : "false"));
             } catch (Exception e) {
                 Console.WriteLine("TEST_ERR:" + e.Message);
             }
@@ -3010,6 +3075,21 @@ for (const _s of _tests) {
         const res = fn ? fn(_s) : '';
         const codes = Array.from(res).map(c => c.charCodeAt(0));
         console.log("TEST_RES:" + JSON.stringify(codes));
+    } catch(e) {
+        console.log("TEST_ERR:" + e.message);
+    }
+}
+`;
+  }
+
+  if (questionId === 'recent-dsa-027') {
+    return `${cleanUserCode}
+
+const _tests = [121, 4518, 123, 1234, 11, 7];
+for (const _n of _tests) {
+    try {
+        const fn = typeof isBalancedNumber === 'function' ? isBalancedNumber : (typeof Solution !== 'undefined' && Solution.isBalancedNumber ? Solution.isBalancedNumber : null);
+        console.log("TEST_RES:" + JSON.stringify(fn ? fn(_n) : false));
     } catch(e) {
         console.log("TEST_ERR:" + e.message);
     }

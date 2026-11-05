@@ -1340,7 +1340,7 @@ class Solution {
     };
   }
 
-  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023' || question.id === 'recent-dsa-024' || question.id === 'recent-dsa-025' || question.id === 'recent-dsa-026') {
+  if (question.id === 'recent-dsa-015' || question.id === 'recent-dsa-016' || question.id === 'recent-dsa-017' || question.id === 'recent-dsa-018' || question.id === 'recent-dsa-019' || question.id === 'recent-dsa-020' || question.id === 'recent-dsa-021' || question.id === 'recent-dsa-022' || question.id === 'recent-dsa-023' || question.id === 'recent-dsa-024' || question.id === 'recent-dsa-025' || question.id === 'recent-dsa-026' || question.id === 'recent-dsa-027') {
     if (question.starterCode) return question.starterCode;
   }
 
@@ -2224,6 +2224,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
       if (!hasModulo || !hasZeroCheck || !hasCharCast) {
         isAlgorithmicCorrect = false;
         simulatedFlaw = 'missing_modulo_26_or_zero_replacement_logic';
+      }
+    } else if (question.id === 'recent-dsa-027') {
+      const hasModulo = code.includes('% 10') || code.includes('%10');
+      const hasDivision = code.includes('/ 10') || code.includes('/10') || code.includes('//= 10') || code.includes('// 10') || code.includes('Math.floor');
+      const hasLoop = code.includes('while') || code.includes('for');
+      if (!hasModulo || (!hasDivision && !code.includes('pop')) || !hasLoop) {
+        isAlgorithmicCorrect = false;
+        simulatedFlaw = 'missing_digit_extraction_or_position_loop';
       }
     }
 
@@ -4026,6 +4034,110 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             latency: jTimeStr || t.latency
           };
         });
+      } else if (q.id === 'recent-dsa-027') {
+        const testInputs = [
+          {
+            id: 1,
+            name: 'Exam Example 1 (121 - Balanced palindrome)',
+            n: 121,
+            expected: true,
+            expStr: 'true',
+            latency: '1ms'
+          },
+          {
+            id: 2,
+            name: 'Exam Example 2 (4518 - Odd sum 13 != Even sum 5)',
+            n: 4518,
+            expected: false,
+            expStr: 'false',
+            latency: '1ms'
+          },
+          {
+            id: 3,
+            name: 'Exam Test Case 3 (123 - Odd sum 4 != Even sum 2)',
+            n: 123,
+            expected: false,
+            expStr: 'false',
+            latency: '1ms'
+          },
+          {
+            id: 4,
+            name: 'Exam Test Case 4 (1234 - Odd sum 4 != Even sum 6)',
+            n: 1234,
+            expected: false,
+            expStr: 'false',
+            latency: '1ms'
+          },
+          {
+            id: 5,
+            name: 'Exam Test Case 5 (11 - Odd sum 1 == Even sum 1)',
+            n: 11,
+            expected: true,
+            expStr: 'true',
+            latency: '1ms'
+          },
+          {
+            id: 6,
+            name: 'Single Digit Edge Case (7 - Odd sum 7 != Even sum 0)',
+            n: 7,
+            expected: false,
+            expStr: 'false',
+            latency: '1ms'
+          }
+        ];
+
+        const computeExpected = (num) => {
+          let oddSum = 0;
+          let evenSum = 0;
+          let pos = 1;
+          let temp = Math.abs(num);
+          while (temp > 0) {
+            const digit = temp % 10;
+            if (pos % 2 === 0) {
+              evenSum += digit;
+            } else {
+              oddSum += digit;
+            }
+            temp = Math.floor(temp / 10);
+            pos++;
+          }
+          return oddSum === evenSum;
+        };
+
+        results = testInputs.map((t, idx) => {
+          let actualStr = '';
+          let passed = false;
+
+          if (isJudge0Success) {
+            const out = jOutputs[idx];
+            if (out && typeof out === 'object' && out.error) {
+              actualStr = `Error: ${out.error}`;
+              passed = false;
+            } else {
+              const strVal = String(out ?? '').trim().toLowerCase();
+              const boolVal = strVal === 'true' || strVal === '1';
+              actualStr = boolVal ? 'true' : 'false';
+              passed = boolVal === t.expected;
+            }
+          } else if (sub.mode === 'flawed') {
+            actualStr = 'Error: Incomplete digit extraction or position parity check';
+            passed = false;
+          } else {
+            const computed = computeExpected(t.n);
+            actualStr = computed ? 'true' : 'false';
+            passed = computed === t.expected;
+          }
+
+          return {
+            id: t.id,
+            name: t.name,
+            input: `n = ${t.n}`,
+            expected: t.expStr,
+            actual: actualStr,
+            passed,
+            latency: jTimeStr || t.latency
+          };
+        });
       }
 
       const allPassed = results.length > 0 && results.every(r => r.passed);
@@ -4165,32 +4277,60 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
     setTimeout(() => setCopiedFeSolution(false), 2000);
   };
 
+  // Dynamic iframe height per question
+  const feIframeHeight = useMemo(() => {
+    if (activeFeQuestion?.id === 'recent-fe-011') return '520px';
+    if (activeFeQuestion?.id === 'recent-fe-009') return '440px';
+    if (activeFeQuestion?.id === 'recent-fe-006' || activeFeQuestion?.id === 'recent-fe-010') return '380px';
+    return '300px';
+  }, [activeFeQuestion?.id]);
+
   // Live Sandboxed Iframe HTML generator
   const feSandboxSrcDoc = useMemo(() => {
+    // Sanitize user HTML: remove external script.js and style.css tags so the browser doesn't try to fetch non-existent files
+    const cleanHtml = (feCode.html || '')
+      .replace(/<script\s+src=["']script\.js["']\s*><\/script>/gi, '')
+      .replace(/<link\s+rel=["']stylesheet["']\s+href=["']style\.css["']\s*\/?>/gi, '');
+
     return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
+    html, body {
       margin: 0;
-      padding: 24px;
+      padding: 0;
+      box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      padding: 20px 16px;
       background: #0f172a;
       color: #f8fafc;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 180px;
-      box-sizing: border-box;
+      align-items: flex-start;
+      min-height: 100%;
       position: relative;
     }
     ${feCode.css}
 
     /* Fallback legibility for light card containers */
     .price-filter, .price-filter h2, .price-values,
-    .container, .container label, .checkbox-group label, #output, #output p {
+    .container, .container label, .checkbox-group label, #output, #output p,
+    .form-container, .form-container h2, form, .form-input {
       color: #1e293b;
+    }
+
+    .form-input {
+      background-color: #ffffff;
+      color: #0f172a !important;
+    }
+
+    #result {
+      color: #1e40af !important;
+      font-weight: 600;
     }
 
     /* In-sandbox Visual Modal Alert Overlay */
@@ -4256,9 +4396,14 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
   </style>
 </head>
 <body>
-  ${feCode.html}
+  ${cleanHtml}
   <script>
     (function() {
+      // Intercept submit at capture phase to prevent browser frame reloading on unprevented form submissions
+      document.addEventListener('submit', function(e) {
+        e.preventDefault();
+      }, true);
+
       const _nativeAlert = window.alert;
       window.alert = function(msg) {
         try {
@@ -4461,6 +4606,210 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
             setSolvedSet(prev => {
               if (prev.includes('recent-fe-006')) {
                 const updated = prev.filter(id => id !== 'recent-fe-006');
+                localStorage.setItem('recent-solved', JSON.stringify(updated));
+                return updated;
+              }
+              return prev;
+            });
+          }
+          telemetryService.broadcastActivityUpdate();
+          return;
+        }
+
+        // Branch: Blank Field Counter Form (recent-fe-011)
+        if (activeFeQuestion?.id === 'recent-fe-011') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // 1. HTML Verification - Three text inputs with class "form-input" and required placeholders
+          const formInputs = doc.querySelectorAll('#userForm input.form-input, form input.form-input, input.form-input');
+          const hasThreeInputs = formInputs.length >= 3;
+          
+          let hasFullName = false;
+          let hasEmail = false;
+          let hasPhone = false;
+
+          formInputs.forEach(inp => {
+            const ph = (inp.getAttribute('placeholder') || '').toLowerCase();
+            if (ph.includes('full name') || ph.includes('name')) hasFullName = true;
+            if (ph.includes('email')) hasEmail = true;
+            if (ph.includes('phone') || ph.includes('number')) hasPhone = true;
+          });
+
+          const htmlTaskPassed = hasThreeInputs && hasFullName && hasEmail && hasPhone;
+
+          // 2. CSS Verification - #result padding: 15px
+          const cssClean = css.toLowerCase().replace(/\s+/g, '');
+          const hasResultPadding =
+            (cssClean.includes('#result{') && cssClean.includes('padding:15px')) ||
+            (cssClean.includes('#result') && (cssClean.includes('padding:15px') || cssClean.includes('padding:15px!important')));
+
+          // 3. JavaScript Execution Verification
+          let jsAllBlankPassed = false;
+          let jsAllBlankMsg = '';
+          let jsPartialWhitespacePassed = false;
+          let jsPartialWhitespaceMsg = '';
+          let jsAllFilledPassed = false;
+          let jsAllFilledMsg = '';
+          let jsPreventDefaultPassed = false;
+          let jsPreventDefaultMsg = '';
+
+          try {
+            const sandbox = document.createElement('div');
+            sandbox.innerHTML = html;
+
+            const formEl = sandbox.querySelector('#userForm') || sandbox.querySelector('form');
+            const resultEl = sandbox.querySelector('#result');
+            const inputs = sandbox.querySelectorAll('.form-input');
+
+            if (!formEl || !resultEl) {
+              jsAllBlankMsg = 'Missing #userForm or #result in HTML markup.';
+              jsPartialWhitespaceMsg = 'Missing #userForm or #result in HTML markup.';
+              jsAllFilledMsg = 'Missing #userForm or #result in HTML markup.';
+              jsPreventDefaultMsg = 'Missing #userForm or #result in HTML markup.';
+            } else if (inputs.length < 3) {
+              jsAllBlankMsg = `Expected at least 3 inputs with class .form-input, found ${inputs.length}.`;
+              jsPartialWhitespaceMsg = `Expected at least 3 inputs with class .form-input, found ${inputs.length}.`;
+              jsAllFilledMsg = `Expected at least 3 inputs with class .form-input, found ${inputs.length}.`;
+              jsPreventDefaultMsg = `Expected at least 3 inputs with class .form-input, found ${inputs.length}.`;
+            } else {
+              const mockDoc = {
+                getElementById: (id) => sandbox.querySelector('#' + id),
+                querySelector: (sel) => sandbox.querySelector(sel),
+                querySelectorAll: (sel) => sandbox.querySelectorAll(sel),
+                createElement: (tag) => document.createElement(tag)
+              };
+
+              const runFn = new Function('document', 'window', `
+                ${js}
+              `);
+              runFn(mockDoc, window);
+
+              // Helper to dispatch custom submit event and check preventDefault
+              let defaultPrevented = false;
+              const submitForm = () => {
+                defaultPrevented = false;
+                const event = new Event('submit', { bubbles: true, cancelable: true });
+                formEl.dispatchEvent(event);
+                if (event.defaultPrevented || js.includes('preventDefault')) {
+                  defaultPrevented = true;
+                }
+                // Also trigger click on button if user attached click listener
+                const btn = formEl.querySelector('button') || sandbox.querySelector('button');
+                if (btn) btn.click();
+              };
+
+              // Test 1: All 3 blank
+              inputs[0].value = '';
+              inputs[1].value = '';
+              inputs[2].value = '';
+              submitForm();
+              if (defaultPrevented) {
+                jsPreventDefaultPassed = true;
+                jsPreventDefaultMsg = 'e.preventDefault() called to stop form submission page reload.';
+              } else {
+                jsPreventDefaultMsg = 'e.preventDefault() was not called on form submission.';
+              }
+
+              const res1 = (resultEl.textContent || resultEl.innerText || '').trim();
+              if (res1.includes('3 out of 3') || (res1.includes('3') && res1.includes('blank'))) {
+                jsAllBlankPassed = true;
+                jsAllBlankMsg = 'Correctly counted 3 blank fields when all inputs are empty.';
+              } else {
+                jsAllBlankMsg = `Expected "Form submitted. Number of blank fields: 3 out of 3.", but got: "${res1}"`;
+              }
+
+              // Test 2: Whitespace and Partial (1 filled, 1 whitespace, 1 empty -> 2 blanks)
+              inputs[0].value = 'Alice Doe';
+              inputs[1].value = '   '; // whitespace only -> must count as blank
+              inputs[2].value = '';
+              submitForm();
+              const res2 = (resultEl.textContent || resultEl.innerText || '').trim();
+              if (res2.includes('2 out of 3') || (res2.includes('2') && res2.includes('blank'))) {
+                jsPartialWhitespacePassed = true;
+                jsPartialWhitespaceMsg = 'Correctly treated whitespace-only input as blank and counted 2 out of 3.';
+              } else {
+                jsPartialWhitespaceMsg = `Expected "Form submitted. Number of blank fields: 2 out of 3.", but got: "${res2}"`;
+              }
+
+              // Test 3: All 3 filled -> 0 blanks
+              inputs[0].value = 'Alice Doe';
+              inputs[1].value = 'alice@example.com';
+              inputs[2].value = '+1234567890';
+              submitForm();
+              const res3 = (resultEl.textContent || resultEl.innerText || '').trim();
+              if (res3.includes('0 out of 3') || (res3.includes('0') && res3.includes('blank'))) {
+                jsAllFilledPassed = true;
+                jsAllFilledMsg = 'Correctly counted 0 blank fields when all inputs are filled.';
+              } else {
+                jsAllFilledMsg = `Expected "Form submitted. Number of blank fields: 0 out of 3.", but got: "${res3}"`;
+              }
+            }
+          } catch (e) {
+            jsAllBlankMsg = `JavaScript Runtime Error: ${e.message}`;
+            jsPartialWhitespaceMsg = `JavaScript Runtime Error: ${e.message}`;
+            jsAllFilledMsg = `JavaScript Runtime Error: ${e.message}`;
+            jsPreventDefaultMsg = `JavaScript Runtime Error: ${e.message}`;
+          }
+
+          const results = [
+            {
+              id: 'fe-tc-1',
+              name: 'HTML Task: 3 Inputs with class "form-input" & Placeholders',
+              passed: htmlTaskPassed,
+              message: htmlTaskPassed
+                ? 'Three <input class="form-input"> elements found with Full Name, Email Address, and Phone Number placeholders.'
+                : 'Expected 3 input elements with class "form-input" and placeholders: Full Name, Email Address, Phone Number.'
+            },
+            {
+              id: 'fe-tc-2',
+              name: 'CSS Task: Result Container Padding (#result padding: 15px)',
+              passed: hasResultPadding,
+              message: hasResultPadding
+                ? 'Result container (#result) has padding: 15px.'
+                : 'Expected padding: 15px; inside #result in style.css.'
+            },
+            {
+              id: 'fe-tc-3',
+              name: 'JS Task: Prevent Default Form Reload (e.preventDefault())',
+              passed: jsPreventDefaultPassed,
+              message: jsPreventDefaultMsg
+            },
+            {
+              id: 'fe-tc-4',
+              name: 'JS Task: All Blank Fields (3 out of 3)',
+              passed: jsAllBlankPassed,
+              message: jsAllBlankMsg
+            },
+            {
+              id: 'fe-tc-5',
+              name: 'JS Task: Whitespace Trimming & All Filled (2 and 0 out of 3)',
+              passed: jsPartialWhitespacePassed && jsAllFilledPassed,
+              message: jsPartialWhitespacePassed && jsAllFilledPassed
+                ? 'Whitespace trimming validated: correctly returns 2 out of 3 on whitespace input, and 0 out of 3 when all fields are populated.'
+                : `${jsPartialWhitespaceMsg} | ${jsAllFilledMsg}`
+            }
+          ];
+
+          const allPassed = results.every(r => r.passed);
+          setFeTestResults({ allPassed, results });
+
+          telemetryService.recordProblemAttempt(
+            'recent-fe-011',
+            'coding',
+            allPassed,
+            { category: 'Recent Frontend' }
+          );
+
+          if (allPassed) {
+            if (!solvedSet.includes('recent-fe-011')) {
+              toggleSolved('recent-fe-011');
+              gamificationService.addXP(50, 'Solved Blank Field Counter Form');
+            }
+          } else {
+            setSolvedSet(prev => {
+              if (prev.includes('recent-fe-011')) {
+                const updated = prev.filter(id => id !== 'recent-fe-011');
                 localStorage.setItem('recent-solved', JSON.stringify(updated));
                 return updated;
               }
@@ -7686,7 +8035,16 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                     padding: '1rem 1.25rem',
                     marginBottom: '1.25rem'
                   }}>
-                    {activeFeQuestion.id === 'recent-fe-010' ? (
+                    {activeFeQuestion.id === 'recent-fe-011' ? (
+                      <div>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
+                          You are given an existing form implementation with a Submit button and a result container. Complete the implementation by adding three input fields (<strong style={{ color: '#f8fafc' }}>Full Name, Email Address, Phone Number</strong>) with class <code style={{ color: '#38bdf8' }}>form-input</code>, setting <code style={{ color: '#38bdf8' }}>#result</code> padding to <code style={{ color: '#38bdf8' }}>15px</code>, and computing the blank field count (accounting for whitespace) on form submission.
+                        </p>
+                        <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', border: '1px solid #334155', fontSize: '0.82rem', fontFamily: 'JetBrains Mono', color: '#38bdf8' }}>
+                          Part 1: HTML 3 .form-input fields • Part 2: CSS #result padding: 15px • Part 3: JS e.preventDefault() &amp; trim() blank counter
+                        </div>
+                      </div>
+                    ) : activeFeQuestion.id === 'recent-fe-010' ? (
                       <div>
                         <p style={{ color: '#e2e8f0', lineHeight: 1.7, fontSize: '0.92rem', margin: '0 0 0.6rem 0' }}>
                           You are given an interface with three checkboxes. Complete the implementation by adding a fourth checkbox (<strong style={{ color: '#f8fafc' }}>Option 4: Azure DevOps</strong>), setting the output container padding to <code style={{ color: '#38bdf8' }}>15px</code>, and updating the total checked count dynamically in <strong style={{ color: '#f8fafc' }}>#count</strong>.
@@ -7800,7 +8158,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>DOM Hierarchy & Elements</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                        {activeFeQuestion.id === 'recent-fe-011' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Add three <code style={{ color: '#fb923c' }}>&lt;input type="text" class="form-input"&gt;</code> elements inside <strong style={{ color: '#f8fafc' }}><code>#userForm</code></strong> before the button.</li>
+                            <li>Set placeholders to: <strong style={{ color: '#f8fafc' }}><code>"Full Name"</code></strong>, <strong style={{ color: '#f8fafc' }}><code>"Email Address"</code></strong>, and <strong style={{ color: '#f8fafc' }}><code>"Phone Number"</code></strong>.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-010' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Add a fourth checkbox labeled <code style={{ color: '#fb923c' }}>Option 4: Azure DevOps</code> inside <strong style={{ color: '#f8fafc' }}><code>.checkbox-group</code></strong>.</li>
                             <li>Use <code style={{ color: '#fb923c' }}>&lt;input type="checkbox" class="option"&gt;</code> wrapped inside a <strong style={{ color: '#f8fafc' }}><code>&lt;label&gt;</code></strong> tag.</li>
@@ -7876,7 +8239,12 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Styles & Overrides</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                        {activeFeQuestion.id === 'recent-fe-011' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Set the result container padding to <code style={{ color: '#4ade80' }}>padding: 15px;</code> inside <strong style={{ color: '#f8fafc' }}><code>#result</code></strong> in style.css.</li>
+                            <li>Preserve existing background, font color, border-radius, and text alignment.</li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-010' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Set the output container's padding to <code style={{ color: '#4ade80' }}>padding: 15px;</code> inside <strong style={{ color: '#f8fafc' }}><code>#output</code></strong>.</li>
                             <li>Preserve existing background, border-radius, and text alignment.</li>
@@ -7950,7 +8318,13 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                           </span>
                           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Event Handling & DOM Updates</span>
                         </div>
-                        {activeFeQuestion.id === 'recent-fe-010' ? (
+                        {activeFeQuestion.id === 'recent-fe-011' ? (
+                          <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                            <li>Invoke <strong style={{ color: '#f8fafc' }}><code>e.preventDefault()</code></strong> on form submission to prevent page reload.</li>
+                            <li>Query all <code style={{ color: '#facc15' }}>.form-input</code> fields and count those where <strong style={{ color: '#f8fafc' }}><code>input.value.trim() === ''</code></strong>.</li>
+                            <li>Display formatted text in <strong style={{ color: '#f8fafc' }}><code>#result</code></strong>: <code style={{ color: '#facc15' }}>Form submitted. Number of blank fields: X out of 3.</code></li>
+                          </ul>
+                        ) : activeFeQuestion.id === 'recent-fe-010' ? (
                           <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#cbd5e1', fontSize: '0.82rem', lineHeight: 1.6 }}>
                             <li>Complete <strong style={{ color: '#f8fafc' }}><code>updateCount()</code></strong> to count all currently checked checkboxes.</li>
                             <li>Display the live count inside <strong style={{ color: '#f8fafc' }}><code>#count</code></strong> on every checkbox state change.</li>
@@ -8021,7 +8395,15 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Automated & Manual Verification Criteria
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-010'
+                      {(activeFeQuestion.id === 'recent-fe-011'
+                        ? [
+                            { title: 'Three Form Inputs Added', desc: 'Full Name, Email Address, Phone Number inputs present with class form-input' },
+                            { title: 'CSS Result Box Padding', desc: '#result container has padding: 15px' },
+                            { title: 'Prevent Form Reload', desc: 'Submission event calls e.preventDefault() without reloading page' },
+                            { title: 'Whitespace Detection', desc: 'Fields with only spaces are correctly counted as blank using trim()' },
+                            { title: 'Formatted Output String', desc: 'Displays "Form submitted. Number of blank fields: X out of 3."' }
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-010'
                         ? [
                             { title: 'Fourth Checkbox Added', desc: 'Option 4: Azure DevOps checkbox present inside .checkbox-group' },
                             { title: 'CSS Output Padding', desc: '#output container has padding: 15px' },
@@ -8123,7 +8505,17 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                       Environment & Constraints
                     </h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {(activeFeQuestion.id === 'recent-fe-010'
+                      {(activeFeQuestion.id === 'recent-fe-011'
+                        ? [
+                            'HTML5 Forms',
+                            'CSS3 Box Model',
+                            'padding: 15px',
+                            'Vanilla ES6 JavaScript',
+                            'Submit Event Handling',
+                            'e.preventDefault()',
+                            'String.prototype.trim()'
+                          ]
+                        : activeFeQuestion.id === 'recent-fe-010'
                         ? [
                             'HTML5 Standard',
                             'CSS3 Box Model',
@@ -8498,20 +8890,22 @@ export default function RecentQuestionsPage({ theme = 'dark' }) {
                 <div style={{
                   border: '1px solid #334155',
                   borderRadius: '10px',
-                  overflow: 'hidden',
+                  overflowY: 'auto',
                   background: '#0f172a',
-                  minHeight: '220px'
+                  minHeight: '260px',
+                  maxHeight: '560px'
                 }}>
                   <iframe
-                    title="Live Quote Generator Sandbox"
+                    title="Live Frontend Assessment Sandbox"
                     srcDoc={feSandboxSrcDoc}
                     style={{
                       width: '100%',
-                      height: '240px',
+                      height: feIframeHeight,
+                      minHeight: feIframeHeight,
                       border: 'none',
                       display: 'block'
                     }}
-                    sandbox="allow-scripts allow-modals"
+                    sandbox="allow-scripts allow-modals allow-forms"
                   />
                 </div>
               </div>
