@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar.jsx';
 import Home from './pages/Home.jsx';
 import Practice from './pages/Practice.jsx';
@@ -210,6 +211,7 @@ export default function App() {
           },
         }}
       />
+      <Analytics />
     </BrowserRouter>
   );
 }
